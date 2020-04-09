@@ -17,7 +17,7 @@ extern void fixdateandtime(
 
 extern boolean inputln(FILE *f, boolean bypasseoln);
 
-extern int str_pool_init(void);
+extern int str_pool_init(void); // inipool.c
 
 extern void overflow(strnumber s, long n);
 extern strnumber makestring(void);

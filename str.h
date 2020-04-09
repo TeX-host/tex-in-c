@@ -1,15 +1,16 @@
 #pragma once
 #ifndef STR_H
 #define STR_H
-
 #include <stdio.h>
-#define maxstrings      300000
-#define stringvacancies  8000
-#define poolsize        3200000
+
+#define maxstrings          300000
+#define stringvacancies     8000
+#define poolsize            3200000
 
 typedef struct {long val;} str_poolpointer;
 typedef unsigned char strASCIIcode;
 typedef int strnumber;
+
 extern void f_pool(strnumber s);
 extern void slowprint(strnumber s);
 extern str_poolpointer str_mark(void);
