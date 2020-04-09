@@ -102,10 +102,18 @@ typedef uchar Char;
 #define nonstopmode     1
 #define scrollmode      2
 #define errorstopmode   3
-#define spotless        0
-#define warningissued   1
-#define errormessageissued  2
-#define fatalerrorstop  3
+
+enum _history { // history value @76
+    SPOTLESS = 0,         // nothing has been amiss yet
+    WARNING_ISSUED,       // begin_diagnostic has been called
+    ERROR_MESSAGE_ISSUED, // error has been called
+    FATAL_ERROR_STOP,     // termination was premature
+};
+// #define SPOTLESS         0 
+// #define WARNING_ISSUED   1 
+// #define ERROR_MESSAGE_ISSUED  2 
+// #define FATAL_ERROR_STOP 3    
+
 #define infbad          10000
 #define minquarterword  0
 #define maxquarterword  255
@@ -743,11 +751,11 @@ typedef uchar Char;
 #define endwritetoken   (cstokenflag + endwrite)
 
 #define poolname        "TeXformats:TEX.POOL                     "
-/*:11*/
+    /*:11*/
 
 
-/*18:*/
-typedef uchar ASCIIcode; /*:18*/
+    /*18:*/
+    typedef uchar ASCIIcode; /*:18*/
 /*25:*/
 typedef uchar eightbits; /*:25*/
 /*38:*/
@@ -755,7 +763,7 @@ typedef uchar packedASCIIcode; /*:38*/
 /*101:*/
 typedef long scaled;
 typedef long nonnegativeinteger;
-typedef char smallnumber;
+typedef char SmallNumber;
 /*:101*/
 
 /*109:*/

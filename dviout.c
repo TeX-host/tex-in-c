@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "global_const.h"
 #include "tex.h" 
 #include "str.h"
 #include "fonts.h"
 #include "dviout.h"
 #include "funcs.h"
-
-#define dvibufsize      800
 
 #define movementnodesize 3
 #define yhere           1
@@ -288,7 +287,7 @@ void move_v(long w) { movement(w, down1); }
 
 /*607:*/
 void movement(long w, eightbits o) {
-    smallnumber mstate;
+    SmallNumber mstate;
     move_pointer p;
     long k;
 

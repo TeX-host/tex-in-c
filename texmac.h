@@ -215,8 +215,8 @@
     } while (0)
 #define precedesbreak(x) (type(x) < mathnode)
 #define nondiscardable(x) (type(x) < mathnode)
-#define topenin() (termin = stdin)
-#define topenout() (termout = stdout)
+// #define topenin() (termin = stdin) // 33, 37
+// #define topenout() (termout = stdout) // 33, 1332
 #define global (a >= 4)
 #define define(x, y, z)                                                        \
     ((a >= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))

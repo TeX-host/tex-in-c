@@ -196,7 +196,7 @@ void fonts_dump(FILE* fmtfile) {
         printchar('s');
 }
 
-int fonts_undump(FILE* fmtfile, FILE* termout) {
+int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
     memoryword pppfmtfile;
     long k, x;
 
@@ -205,7 +205,7 @@ int fonts_undump(FILE* fmtfile, FILE* termout) {
     x = pppfmtfile.int_;
     if (x < 7) goto _Lbadfmt_;
     if (x > fontmemsize) {
-        fprintf(termout, "---! Must increase the font mem size\n");
+        fprintf(stdout, "---! Must increase the font mem size\n");
         goto _Lbadfmt_;
     }
     fmemptr = x;
@@ -217,7 +217,7 @@ int fonts_undump(FILE* fmtfile, FILE* termout) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > fontmax) {
-        fprintf(termout, "---! Must increase the font max\n");
+        fprintf(stdout, "---! Must increase the font max\n");
         goto _Lbadfmt_;
     }
     fontptr = x;

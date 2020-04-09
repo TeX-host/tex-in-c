@@ -8,7 +8,7 @@ extern int aopenin(FILE** f);
 extern int aopenout(FILE** f);
 extern int P_peek(FILE* f);
 extern int P_eoln(FILE* f);
-extern int open_fmt(FILE** fmt, FILE* termout);
+extern int open_fmt(FILE** fmt, FILE* _not_use_);
 
 extern void
 fixdateandtime(long* tex_time_p, long* day_p, long* month_p, long* year_p);

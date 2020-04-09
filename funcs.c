@@ -173,7 +173,7 @@ int PASCAL_MAIN(int argc, char** argv) {
 
 static int aopenin1(char* name, char** path_lst, FILE** f);
 
-int open_fmt(FILE** fmt, FILE* termout) {
+int open_fmt(FILE** fmt, FILE* _not_use_) {
     char* fmt_name;
     char name_buf[256] = "plain.fmt";
     fmt_name = format_name;
@@ -188,11 +188,11 @@ int open_fmt(FILE** fmt, FILE* termout) {
     if (aopenin1(fmt_name, format_path, fmt)) {
         return 1;
     } else {
-        fprintf(termout, "Sorry, I can't find that format; will try PLAIN.\n");
+        fprintf(stdout, "Sorry, I can't find that format; will try PLAIN.\n");
         if (aopenin1("plain.fmt", format_path, fmt)) {
             return 1;
         } else {
-            fprintf(termout, "I can't find the PLAIN format file!\n");
+            fprintf(stdout, "I can't find the PLAIN format file!\n");
             return 0;
         }
     }

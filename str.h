@@ -25,7 +25,7 @@ extern void str_room(long l);
 extern void str_set_init_ptrs(void);
 extern void str_print_stats(FILE* logfile);
 extern void str_dump(FILE* fmtfile);
-extern int str_undump(FILE* fmtfile, FILE* termout);
+extern int str_undump(FILE* fmtfile, FILE* _not_use_);
 extern void str_cur_map(void (*f)(strASCIIcode));
 extern void str_map(strnumber k, void (*f)(strASCIIcode));
 extern int get_cur_length(void);

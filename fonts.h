@@ -18,7 +18,7 @@ extern strnumber get_fontname(internalfontnumber x);
 extern void fonts_init(void);
 extern internalfontnumber
 readfontinfo(halfword u, strnumber nom, strnumber aire, long s);
-extern int fonts_undump(FILE* fmtfile, FILE* termout);
+extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);
 extern long get_hyphenchar(internalfontnumber x);
 extern void set_hyphenchar(internalfontnumber x, long c);

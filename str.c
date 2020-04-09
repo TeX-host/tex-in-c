@@ -75,7 +75,7 @@ void str_print_stats(FILE* logfile) {
             (long)(pool_top - initpoolptr));
 }
 
-int str_undump(FILE* fmtfile, FILE* termout) {
+int str_undump(FILE* fmtfile, FILE* _not_use_) {
     memoryword pppfmtfile;
     long x;
     /*:1308*/
@@ -83,7 +83,7 @@ int str_undump(FILE* fmtfile, FILE* termout) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > poolsize) {
-        fprintf(termout, "---! Must increase the string pool size\n");
+        fprintf(stdout, "---! Must increase the string pool size\n");
         goto _Lbadfmt_;
     }
     poolptr = (poolpointer)x;
@@ -91,7 +91,7 @@ int str_undump(FILE* fmtfile, FILE* termout) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > maxstrings) {
-        fprintf(termout, "---! Must increase the max strings\n");
+        fprintf(stdout, "---! Must increase the max strings\n");
         goto _Lbadfmt_;
     }
     strptr = x;

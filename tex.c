@@ -19,6 +19,7 @@
 #define character_ligchar(x) character(ligchar(x))
 #endif // #ifdef BIG_CHARNODE
 
+#include "global_const.h"
 #include "tex.h"
 #include "str.h"
 #include "texmac.h"
@@ -54,7 +55,6 @@ instaterecord curinput;
 jmp_buf _JLfinalend;
 ASCIIcode xord[256];
 /*13:*/
-Static long bad;
 Static scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
 
 /*:13*/
@@ -67,7 +67,7 @@ Static int namelength;
 /*30:*/
 /*:30*/
 /*32:*/
-Static FILE *termin = NULL, *termout = NULL;
+// Static FILE *termin = NULL, *termout = NULL;
 /*:32*/
 /*54:*/
 Static FILE *logfile = NULL;
@@ -83,7 +83,7 @@ Static char interaction;
 /*:73*/
 /*76:*/
 Static boolean deletionsallowed, setboxallowed;
-Static char history;
+Static enum _history history;
 Static schar errorcount;
 /*:76*/
 /*79:*/
@@ -205,7 +205,7 @@ Static long curval;
 Static char curvallevel;
 /*:410*/
 /*438:*/
-Static smallnumber radix;
+Static SmallNumber radix;
 /*:438*/
 /*447:*/
 Static glueord curorder;
@@ -217,7 +217,7 @@ Static char readopen[17];
 /*489:*/
 Static pointer condptr;
 Static char iflimit;
-Static smallnumber curif;
+Static SmallNumber curif;
 Static long ifline;
 /*:489*/
 /*493:*/
@@ -267,7 +267,7 @@ Static fourquarters nulldelimiter;
 /*:684*/
 /*719:*/
 Static pointer curmlist;
-Static smallnumber curstyle, cursize;
+Static SmallNumber curstyle, cursize;
 Static boolean mlistpenalties;
 /*:719*/
 /*724:*/
@@ -320,7 +320,7 @@ Static long actuallooseness, linediff;
 /*:872*/
 /*892:*/
 Static short hc[66];
-Static /* smallnumber */ int hn;
+Static /* SmallNumber */ int hn;
 Static internalfontnumber hf;
 Static short hu[64];
 Static long hyfchar;
@@ -333,7 +333,7 @@ Static char hyf[65];
 Static boolean initlig, initlft;
 /*:900*/
 /*905:*/
-Static smallnumber hyphenpassed;
+Static SmallNumber hyphenpassed;
 /*:905*/
 /*907:*/
 Static halfword curl, curr;
@@ -341,8 +341,8 @@ Static boolean ligaturepresent, lfthit, rthit;
 /*:907*/
 /*921:*/
 Static twohalves trie[triesize + 1];
-Static smallnumber hyfdistance[trieopsize];
-Static smallnumber hyfnum[trieopsize];
+Static SmallNumber hyfdistance[trieopsize];
+Static SmallNumber hyfnum[trieopsize];
 Static quarterword hyfnext[trieopsize];
 Static short opstart[256];
 /*:921*/
@@ -409,9 +409,6 @@ Static boolean longhelpseen;
 /*1305:*/
 Static FILE *fmtfile = NULL;
 /*:1305*/
-/*1331:*/
-Static long readyalready;
-/*:1331*/
 /*1342:*/
 Static FILE *writefile[16];
 Static boolean writeopen[18];
@@ -774,7 +771,7 @@ void println(void) {
     switch (selector) {
 
         case termandlog:
-            putc('\n', termout);
+            putc('\n', stdout);
             putc('\n', logfile);
             termoffset = 0;
             fileoffset = 0;
@@ -786,7 +783,7 @@ void println(void) {
             break;
 
         case termonly:
-            putc('\n', termout);
+            putc('\n', stdout);
             termoffset = 0;
             break;
 
@@ -815,12 +812,12 @@ void printchar(ASCIIcode s) {
     switch (selector) {
 
         case termandlog:
-            fwrite(&xchr[s], 1, 1, termout);
+            fwrite(&xchr[s], 1, 1, stdout);
             fwrite(&xchr[s], 1, 1, logfile);
             termoffset++;
             fileoffset++;
             if (termoffset == maxprintline) {
-                putc('\n', termout);
+                putc('\n', stdout);
                 termoffset = 0;
             }
             if (fileoffset == maxprintline) {
@@ -836,7 +833,7 @@ void printchar(ASCIIcode s) {
             break;
 
         case termonly:
-            fwrite(&xchr[s], 1, 1, termout);
+            fwrite(&xchr[s], 1, 1, stdout);
             termoffset++;
             if (termoffset == maxprintline) println();
             break;
@@ -1097,8 +1094,8 @@ Static void jumpout(void)
 void error(void)
 {
 
-  if (history < errormessageissued)
-    history = errormessageissued;
+  if (history < ERROR_MESSAGE_ISSUED)
+    history = ERROR_MESSAGE_ISSUED;
   printchar('.');
   showcontext();
   if (interaction == errorstopmode) {   /*83:*/
@@ -1228,7 +1225,7 @@ _Llabcontinue:
 	}
 	print(S(284));
 	println();
-	fflush(termout);
+	fflush(stdout);
 	goto _Lexit;
 	break;
 	/*:86*/
@@ -1252,7 +1249,7 @@ _Llabcontinue:
   errorcount++;
   if (errorcount == 100) {
     printnl(S(291));
-    history = fatalerrorstop;
+    history = FATAL_ERROR_STOP;
     jumpout();
   }  /*90:*/
   if (interaction > batchmode)
@@ -1289,7 +1286,7 @@ Static void fatalerror(strnumber s)
   if (interaction > batchmode)
     debughelp();
   /*_ENDDEBUG*/
-  history = fatalerrorstop;
+  history = FATAL_ERROR_STOP;
   jumpout();
 }
 /*:93*/
@@ -1313,7 +1310,7 @@ void overflow(strnumber s, long n)
   if (interaction > batchmode)
     debughelp();
   /*_ENDDEBUG*/
-  history = fatalerrorstop;
+  history = FATAL_ERROR_STOP;
   jumpout();
 }
 /*:94*/
@@ -1323,7 +1320,7 @@ void overflow(strnumber s, long n)
 Static void confusion(strnumber s)
 {
   normalizeselector();
-  if (history < errormessageissued) {
+  if (history < ERROR_MESSAGE_ISSUED) {
     printnl(S(292));
     print(S(297));
     print(s);
@@ -1342,7 +1339,7 @@ Static void confusion(strnumber s)
   if (interaction > batchmode)
     debughelp();
   /*_ENDDEBUG*/
-  history = fatalerrorstop;
+  history = FATAL_ERROR_STOP;
   jumpout();
 }
 /*:95*/
@@ -1368,17 +1365,17 @@ Static void wclose(FILE **f)
 /*37:*/
 Static boolean initterminal(void)
 {
-  topenin();
+    // topenin();
   if (initinc(1)) {
     loc = first;
     return true;
   }
   while (true) {
-    fprintf(termout, "**");
-    fflush(termout);
-    if (!inputln(termin, true)) {
-      putc('\n', termout);
-      fprintf(termout,"! End of file on the terminal... why?");
+    fprintf(stdout, "**");
+    fflush(stdout);
+    if (!inputln(stdin, true)) {
+      putc('\n', stdout);
+      fprintf(stdout,"! End of file on the terminal... why?");
       return false;
     }
     loc = first;
@@ -1387,7 +1384,7 @@ Static boolean initterminal(void)
     if (loc < last) {
       return true;
     }
-    fprintf(termout, "Please type the name of your input file.\n");
+    fprintf(stdout, "Please type the name of your input file.\n");
   }
 }
 /*:37*/
@@ -1460,8 +1457,8 @@ Static void terminput(void)
 {
   short k;
 
-  fflush(termout);
-  if (!inputln(termin, true))
+  fflush(stdout);
+  if (!inputln(stdin, true))
     fatalerror(S(302));
   termoffset = 0;
   selector--;
@@ -2081,7 +2078,7 @@ Static pointer newdisc(void)
 /*:145*/
 
 /*147:*/
-Static pointer newmath(long w, smallnumber s)
+Static pointer newmath(long w, SmallNumber s)
 {
   pointer p;
 
@@ -2109,7 +2106,7 @@ Static pointer newspec(pointer p)
 /*:151*/
 
 /*152:*/
-Static pointer newparamglue(smallnumber n)
+Static pointer newparamglue(SmallNumber n)
 {
   pointer p, q;
 
@@ -2141,7 +2138,7 @@ Static pointer newglue(pointer q)
 /*:153*/
 
 /*154:*/
-Static pointer newskipparam(smallnumber n)
+Static pointer newskipparam(SmallNumber n)
 {
   pointer p;
 
@@ -3589,8 +3586,8 @@ Static void begindiagnostic(void)
   if (tracingonline > 0 || selector != termandlog)
     return;
   selector--;
-  if (history == spotless)
-    history = warningissued;
+  if (history == SPOTLESS)
+    history = WARNING_ISSUED;
 }
 
 
@@ -4574,7 +4571,7 @@ _Lswitch__:
 	if (forceeof) {
 	  printchar(')');
 	  openparens--;
-	  fflush(termout);
+	  fflush(stdout);
 	  forceeof = false;
 	  endfilereading();
 	  cur_cs=checkoutervalidity(cur_cs);
@@ -5016,9 +5013,9 @@ Static void report_argument(halfword unbalance, int n, pointer * pstack)
 Static void macrocall(pointer refcount)
 {
   pointer r, p=0 /* XXXX */, s, t, u, v, rbraceptr=0 /* XXXX */, savewarningindex;
-  /* smallnumber */ int n;
+  /* SmallNumber */ int n;
   halfword unbalance, m=0 /* XXXX */;
-  smallnumber savescannerstatus;
+  SmallNumber savescannerstatus;
   ASCIIcode matchchr=0 /* XXXX */;
   pointer pstack[9];
 
@@ -5264,7 +5261,7 @@ Static void expand(void)
   pointer p, r, backupbackup;
   short j;
   long cvbackup;
-  smallnumber cvlbackup, radixbackup, cobackup, savescannerstatus;
+  SmallNumber cvlbackup, radixbackup, cobackup, savescannerstatus;
 
   cvbackup = curval;
   cvlbackup = curvallevel;
@@ -5720,7 +5717,7 @@ Static void findfontdimen(boolean writing)
 
 /*:409*/
 /*413:*/
-Static void scansomethinginternal(smallnumber level, boolean negative)
+Static void scansomethinginternal(SmallNumber level, boolean negative)
 {
   halfword m;
   /* char */ int p; /* INT */
@@ -6028,7 +6025,7 @@ Static void scanint(void)
 {
   boolean negative;
   long m;
-  smallnumber d;
+  SmallNumber d;
   boolean vacuous, OKsofar;
 
   radix = 0;
@@ -6140,7 +6137,7 @@ Static void scandimen(boolean mu, boolean inf, boolean shortcut)
   long f;
   /*450:*/
   long num, denom;
-  /* smallnumber */ int k, kk; /* INT */
+  /* SmallNumber */ int k, kk; /* INT */
   pointer p, q;
   scaled v;
   long savecurval;   /*:450*/
@@ -6373,7 +6370,7 @@ _Lattachsign_:
 /*:448*/
 
 /*461:*/
-Static void scanglue(smallnumber level)
+Static void scanglue(SmallNumber level)
 {
   boolean negative, mu;
   pointer q;
@@ -6550,7 +6547,7 @@ Static void convtoks(void)
 {
   char oldsetting;
   char c;
-  smallnumber savescannerstatus;
+  SmallNumber savescannerstatus;
   str_poolpointer b;
 
   c = curchr;   /*471:*/
@@ -6760,7 +6757,7 @@ Static void readtoks(long n, halfword r)
 {
   pointer p;
   long s;
-  /* smallnumber */ int m; /* INT */
+  /* SmallNumber */ int m; /* INT */
 
   scannerstatus = defining;
   warningindex = r;
@@ -6849,7 +6846,7 @@ _Ldone:   /*:483*/
 Static void passtext(void)
 {
   long l;
-  smallnumber savescannerstatus;
+  SmallNumber savescannerstatus;
 
   savescannerstatus = scannerstatus;
   scannerstatus = skipping;
@@ -6871,7 +6868,7 @@ _Ldone:
 /*:494*/
 
 /*497:*/
-Static void changeiflimit(smallnumber l, halfword p)
+Static void changeiflimit(SmallNumber l, halfword p)
 {
   pointer q;
 
@@ -6905,7 +6902,7 @@ Static void conditional(void)
   long r;
   long m, n;
   pointer p, q, savecondptr;
-  smallnumber savescannerstatus, thisif;
+  SmallNumber savescannerstatus, thisif;
 
   p = getnode(ifnodesize);
   link(p) = condptr;
@@ -7323,51 +7320,48 @@ _Ldone:
 /*:530*/
 
 /*534:*/
-Static void openlogfile(void)
-{
-  char oldsetting;
-  short k;
-  short l;
-  Char months[36];
-  short FORLIM;
+Static void openlogfile(void) {
+    char oldsetting;
+    short k;
+    short l;
+    Char months[36];
+    short FORLIM;
 
-  oldsetting = selector;
-  if (jobname == 0)
-    jobname = S(672);
-  packjobname(S(673));
-  while (!aopenout(&logfile)) {   /*535:*/
-    selector = termonly;
-    promptfilename(S(674), S(673));
-  }
-  /*:535*/
-  logname = amakenamestring();
-  selector = logonly;
-  logopened = true;
-  /*536:*/
-  fprintf(logfile,"%s",banner);
-  slowprint(formatident);
-  print(S(675));
-  printint(day);
-  printchar(' ');
-  memcpy(months, "JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", 36);
-  FORLIM = month * 3;
-  for (k = month * 3 - 3; k < FORLIM; k++)
-    fwrite(&months[k], 1, 1, logfile);
-  printchar(' ');
-  printint(year);
-  printchar(' ');
-  printtwo(tex_time / 60);
-  printchar(':');
-  printtwo(tex_time % 60);   /*:536*/
-  inputstack[inputptr] = curinput;
-  printnl(S(676));
-  l = inputstack[0].limitfield;
-  if (buffer[l] == endlinechar)
-    l--;
-  for (k = 1; k <= l; k++)
-    print(buffer[k]);
-  println();
-  selector = oldsetting + 2;
+    oldsetting = selector;
+    if (jobname == 0) jobname = S(672);
+    packjobname(S(673));
+    while (!aopenout(&logfile)) { /*535:*/
+        selector = termonly;
+        promptfilename(S(674), S(673));
+    }
+    /*:535*/
+    logname = amakenamestring();
+    selector = logonly;
+    logopened = true;
+    /*536:*/
+    fprintf(logfile, "%s", banner);
+    slowprint(formatident);
+    print(S(675));
+    printint(day);
+    printchar(' ');
+    memcpy(months, "JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", 36);
+    FORLIM = month * 3;
+    for (k = month * 3 - 3; k < FORLIM; k++)
+        fwrite(&months[k], 1, 1, logfile);
+    printchar(' ');
+    printint(year);
+    printchar(' ');
+    printtwo(tex_time / 60);
+    printchar(':');
+    printtwo(tex_time % 60); /*:536*/
+    inputstack[inputptr] = curinput;
+    printnl(S(676));
+    l = inputstack[0].limitfield;
+    if (buffer[l] == endlinechar) l--;
+    for (k = 1; k <= l; k++)
+        print(buffer[k]);
+    println();
+    selector = oldsetting + 2;
 }
 /*:534*/
 
@@ -7403,7 +7397,7 @@ _Ldone:
   printchar('(');
   openparens++;
   slowprint(name);
-  fflush(termout);
+  fflush(stdout);
   state = newline;
 #if 0
   if (name == strptr - 1) {   /*538:*/
@@ -7502,7 +7496,7 @@ Static void writeout(halfword p)
 {   /*1371:*/
   char oldsetting;
   long oldmode;
-  /* smallnumber */ int j; /* INT */
+  /* SmallNumber */ int j; /* INT */
   pointer q, r;
 
   q = getavail();
@@ -7552,7 +7546,7 @@ Static void writeout(halfword p)
 /*1373:*/
 Static void outwhat(halfword p)
 {
-  /* smallnumber */ int j; /* INT */
+  /* SmallNumber */ int j; /* INT */
 
   switch (subtype(p)) {
 
@@ -7988,7 +7982,7 @@ Static void shipout(halfword p)
     if (k < j)
       printchar('.');
   }
-  fflush(termout);
+  fflush(stdout);
   if (tracingoutput > 0) {   /*640:*/
     printchar(']');
     begindiagnostic();
@@ -8067,7 +8061,7 @@ _Ldone:   /*:640*/
   if (tracingoutput <= 0)
     printchar(']');
   deadcycles = 0;
-  fflush(termout);   /*639:*/
+  fflush(stdout);   /*639:*/
   /*_STAT*/
   if (tracingstats > 1) {   /*_ENDSTAT*/
     printnl(S(694));
@@ -8122,7 +8116,7 @@ _Lfound:
 /*:645*/
 
 /*649:*/
-Static halfword hpack(halfword p, long w, smallnumber m)
+Static halfword hpack(halfword p, long w, SmallNumber m)
 {
   pointer r, q, g;
   scaled h, d, x, s;
@@ -8371,7 +8365,7 @@ _Lexit:
 /*:649*/
 
 /*668:*/
-Static halfword vpackage(halfword p, long h, smallnumber m, long l)
+Static halfword vpackage(halfword p, long h, SmallNumber m, long l)
 {
   pointer r, g;
   scaled w, d, x, s;
@@ -8605,7 +8599,7 @@ Static halfword newnoad(void)
 /*:686*/
 
 /*688:*/
-Static halfword newstyle(smallnumber s)
+Static halfword newstyle(SmallNumber s)
 {
   pointer p;
 
@@ -8714,7 +8708,7 @@ Static long heightplusdepth(internalfontnumber f, quarterword c)
 }  /*:712*/
 
 
-Static halfword vardelimiter(halfword d, smallnumber s, long v)
+Static halfword vardelimiter(halfword d, SmallNumber s, long v)
 {
   pointer b;
   internalfontnumber f, g;
@@ -8724,7 +8718,7 @@ Static halfword vardelimiter(halfword d, smallnumber s, long v)
   fourquarters q;
   eightbits hd;
   fourquarters r;
-  smallnumber z;
+  SmallNumber z;
   boolean largeattempt;
 
   f = nullfont;
@@ -8933,10 +8927,10 @@ Static void flushmath(void)
 Static void mlisttohlist(void);
 
 
-Static halfword cleanbox(halfword p, smallnumber s)
+Static halfword cleanbox(halfword p, SmallNumber s)
 {
   pointer q, x, r;
-  smallnumber savestyle;
+  SmallNumber savestyle;
 
   switch (mathtype(p)) {
 
@@ -9464,7 +9458,7 @@ Static void makescripts(halfword q, long delta)
 {
   pointer p, x, y, z;
   scaled shiftup, shiftdown, clr;
-  smallnumber t;
+  SmallNumber t;
 
   p = newhlist(q);
   if (ischarnode(p)) {
@@ -9543,7 +9537,7 @@ Static void makescripts(halfword q, long delta)
 
 
 /*762:*/
-Static smallnumber makeleftright(halfword q, smallnumber style, long maxd,
+Static SmallNumber makeleftright(halfword q, SmallNumber style, long maxd,
 				 long maxh)
 {
   scaled delta, delta1, delta2;
@@ -9569,9 +9563,9 @@ Static void mlisttohlist(void)
 {
   pointer mlist, q, r, p=0 /* XXXX */, x=0 /* XXXX */, y, z;
   boolean penalties;
-  smallnumber style, savestyle, rtype, t;
+  SmallNumber style, savestyle, rtype, t;
   long pen;
-  smallnumber s;
+  SmallNumber s;
   scaled maxh, maxd, delta;
 
   mlist = curmlist;
@@ -10732,7 +10726,7 @@ Static halfword finiteshrink(halfword p)
 
 
 /*829:*/
-Static void trybreak(long pi, smallnumber breaktype)
+Static void trybreak(long pi, SmallNumber breaktype)
 {  /*831:*/
   pointer r, prevr;
   halfword oldl;
@@ -11381,7 +11375,7 @@ _Ldone1:
 
 /*895:*/
 /*906:*/
-Static smallnumber reconstitute(/* smallnumber */ int j, smallnumber n, halfword bchar,
+Static SmallNumber reconstitute(/* SmallNumber */ int j, SmallNumber n, halfword bchar,
 				halfword hchar)
 {
   pointer p, t;
@@ -11808,7 +11802,7 @@ _Lexit: ;
 
 /*942:*/
 /*944:*/
-Static quarterword newtrieop(smallnumber d, smallnumber n, quarterword v)
+Static quarterword newtrieop(SmallNumber d, SmallNumber n, quarterword v)
 {
   quarterword Result;
   short h;
@@ -12202,7 +12196,7 @@ Static void linebreak(long finalwidowpenalty)
   internalfontnumber f;
   /*:862*/
   /*893:*/
-  /* smallnumber */ int j; /* INT */
+  /* SmallNumber */ int j; /* INT */
   uchar c;   /*:893*/
 
   packbeginline = modeline;   /*816:*/
@@ -12880,7 +12874,7 @@ Static halfword vertbreak(halfword p, long h, long d)
   pointer prevp, q, r, bestplace=p /* XXXX */ ;
   long pi=0 /* XXXX */, b, leastcost;
   scaled prevdp;
-  smallnumber t;
+  SmallNumber t;
 
   prevp = p;
   leastcost = awfulbad;
@@ -13107,7 +13101,7 @@ Static void printtotals(void)
 /*:985*/
 
 /*987:*/
-Static void freezepagespecs(smallnumber s)
+Static void freezepagespecs(SmallNumber s)
 {
   pagecontents = s;
   pagegoal = vsize;
@@ -13798,7 +13792,7 @@ _Lexit:
 /*1060:*/
 Static void appendglue(void)
 {
-  smallnumber s;
+  SmallNumber s;
 
   s = curchr;
   switch (s) {
@@ -14150,7 +14144,7 @@ Static void scanbox(long boxcontext)
 /*:1084*/
 
 /*1086:*/
-Static void package(smallnumber c)
+Static void package(SmallNumber c)
 {
   scaled h, d;
   pointer p;
@@ -14180,7 +14174,7 @@ Static void package(smallnumber c)
 /*:1086*/
 
 /*1091:*/
-Static smallnumber normmin(long h)
+Static SmallNumber normmin(long h)
 {
   if (h <= 0)
     return 1;
@@ -15127,7 +15121,7 @@ _Lexit: ;
 /*1176:*/
 Static void subsup(void)
 {
-  smallnumber t;
+  SmallNumber t;
   pointer p;
 
   t = empty;
@@ -15170,7 +15164,7 @@ Static void subsup(void)
 /*1181:*/
 Static void mathfraction(void)
 {
-  smallnumber c;
+  SmallNumber c;
 
   c = curchr;
   if (incompleatnoad != 0) {   /*1183:*/
@@ -15224,7 +15218,7 @@ Static void mathfraction(void)
 /*1191:*/
 Static void mathleftright(void)
 {
-  smallnumber t;
+  SmallNumber t;
   pointer p;
 
   t = curchr;
@@ -15269,7 +15263,7 @@ Static void aftermath(void)
   /*1198:*/
   pointer b, r, t;   /*:1198*/
   scaled w, z, e, q, d, s;
-  smallnumber g1, g2;
+  SmallNumber g1, g2;
 
   danger = false;   /*1195:*/
   if ((fontparams[famfnt(textsize + 2) ] < totalmathsyparams) |
@@ -15540,7 +15534,7 @@ Static void trapzeroglue(void)
 /*:1229*/
 
 /*1236:*/
-Static void doregistercommand(smallnumber a)
+Static void doregistercommand(SmallNumber a)
 {
   pointer l=0 /* XXXX */, q, r, s;
   char p;
@@ -15754,7 +15748,7 @@ Static void alterinteger(void)
 /*1247:*/
 Static void alterboxdimen(void)
 {
-  smallnumber c;
+  SmallNumber c;
   eightbits b;
 
   c = curchr;
@@ -15768,7 +15762,7 @@ Static void alterboxdimen(void)
 /*:1247*/
 
 /*1257:*/
-Static void newfont(smallnumber a)
+Static void newfont(SmallNumber a)
 {
   pointer u;
   scaled s;
@@ -15876,7 +15870,7 @@ Static void newinteraction(void)
 
 Static void prefixedcommand(void)
 {
-  smallnumber a;
+  SmallNumber a;
   internalfontnumber f;
   halfword j;
   fontindex k;
@@ -16356,7 +16350,7 @@ Static void issuemessage(void)
     } else if (termoffset > 0 || fileoffset > 0)
       printchar(' ');
     slowprint(s);
-    fflush(termout);
+    fflush(stdout);
   } else  /*1283:*/
   {   /*:1283*/
     printnl(S(292));
@@ -16495,7 +16489,7 @@ Static void storefmtfile(void)
     if (interaction > batchmode)
       debughelp();
     /*_ENDDEBUG*/
-    history = fatalerrorstop;
+    history = FATAL_ERROR_STOP;
     jumpout();
   }
   /*:1304*/
@@ -16749,7 +16743,7 @@ _Ldone2:
 
 /*1348:*/
 /*1349:*/
-Static void newwhatsit(smallnumber s, smallnumber w)
+Static void newwhatsit(SmallNumber s, SmallNumber w)
 {
   pointer p;
 
@@ -16762,7 +16756,7 @@ Static void newwhatsit(smallnumber s, smallnumber w)
 /*:1349*/
 
 /*1350:*/
-Static void newwritewhatsit(smallnumber w)
+Static void newwritewhatsit(SmallNumber w)
 {
   newwhatsit(curchr, w);
   if (w != writenodesize)
@@ -17961,7 +17955,7 @@ Static void giveerrhelp(void)
 /*1303:*/
 Static boolean openfmtfile(void)
 {
-	return open_fmt(&fmtfile,termout);
+	return open_fmt(&fmtfile,stdout);
 }
 /*:524*/
 
@@ -17996,7 +17990,7 @@ Static boolean loadfmtfile(void)
   x = pppfmtfile.int_;
   if (x != hyphsize)   /*1310:*/
     goto _Lbadfmt_;  
-  if(!str_undump(fmtfile,termout)) goto _Lbadfmt_;
+  if(!str_undump(fmtfile,stdout)) goto _Lbadfmt_;
   /*1312:*/
   pget(pppfmtfile);
   x = pppfmtfile.int_;
@@ -18109,7 +18103,7 @@ Static boolean loadfmtfile(void)
   pget(pppfmtfile);
   cscount = pppfmtfile.int_;   /*:1319*/
   /*:1314*/
-  if(!fonts_undump(fmtfile,termout))
+  if(!fonts_undump(fmtfile,stdout))
 	goto _Lbadfmt_;
   /*1325:*/
   pget(pppfmtfile);
@@ -18139,7 +18133,7 @@ Static boolean loadfmtfile(void)
   if (x < 0)
     goto _Lbadfmt_;
   if (x > triesize) {
-    fprintf(termout, "---! Must increase the trie size\n");
+    fprintf(stdout, "---! Must increase the trie size\n");
     goto _Lbadfmt_;
   }
   j = x;
@@ -18153,7 +18147,7 @@ Static boolean loadfmtfile(void)
   if (x < 0)
     goto _Lbadfmt_;
   if (x > trieopsize) {
-    fprintf(termout, "---! Must increase the trie op size\n");
+    fprintf(stdout, "---! Must increase the trie op size\n");
     goto _Lbadfmt_;
   }
   j = x;
@@ -18211,7 +18205,7 @@ Static boolean loadfmtfile(void)
   Result = true;
   goto _Lexit;
 _Lbadfmt_:
-  fprintf(termout, "(Fatal format file error; I'm stymied)\n");
+  fprintf(stdout, "(Fatal format file error; I'm stymied)\n");
   Result = false;
 _Lexit:
   return Result;
@@ -18220,145 +18214,161 @@ _Lexit:
 
 /*1330:*/
 /*1333:*/
-Static void closefilesandterminate(void)
-{  /*1378:*/
-  long k;
-  for (k = 0; k <= 15; k++) {
-    if (writeopen[k])   /*:1378*/
-      aclose(&writefile[k]);
-  }
-  /*_STAT*/
-  if (tracingstats > 0) {   /*_ENDSTAT*/
-    /*1334:*/
-    if (logopened) {   /*:1334*/
-      fprintf(logfile, " \n");
-      fprintf(logfile, "Here is how much of TeX's memory you used:\n");
-	str_print_stats(logfile);
-      fprintf(logfile, " %ld words of memory out of %ld\n",
-	      lomemmax - memmin + memend - himemmin + 2L,
-	      memend - memmin + 1L);
-      fprintf(logfile, " %ld multiletter control sequences out of %ld\n",
-	      cscount, (long)hashsize);
-      fprintf(logfile, " %d words of font info for %d font",fmemptr,
-		fontptr);
-      if (fontptr !=  1) {
-	fprintf(logfile, "s");
-      }
-      fprintf(logfile, ", out of %ld for %ld\n",
-	      (long)fontmemsize, (long)(fontmax ));
-      fprintf(logfile, " %d hyphenation exception",hyphcount);
-      if (hyphcount != 1) {
-	fprintf(logfile, "s");
-      }
-      fprintf(logfile, " out of %ld\n", (long)hyphsize);
-      fprintf(logfile,
-	" %di,%dn,%ldp,%db,%ds stack positions out of %ldi,%ldn,%ldp,%ldb,%lds\n",
-	maxinstack, maxneststack, maxparamstack, maxbufstack + 1,
-	maxsavestack + 6, (long)stacksize, (long)nestsize, (long)paramsize,
-	(long)bufsize, (long)savesize);
+Static void closefilesandterminate(void) { /*1378:*/
+    long k;
+    for (k = 0; k <= 15; k++) {
+        if (writeopen[k]) /*:1378*/
+            aclose(&writefile[k]);
     }
-  }
-  /*642:*/
-  while (curs > -1) {
-    if (curs > 0) {
-	dvi_pop();
-    } else {
-	dvi_eop();
-      totalpages++;
+    /*_STAT*/
+    if (tracingstats > 0) { /*_ENDSTAT*/
+        /*1334:*/
+        if (logopened) { /*:1334*/
+            fprintf(logfile, " \n");
+            fprintf(logfile, "Here is how much of TeX's memory you used:\n");
+            str_print_stats(logfile);
+            fprintf(logfile,
+                    " %ld words of memory out of %ld\n",
+                    lomemmax - memmin + memend - himemmin + 2L,
+                    memend - memmin + 1L);
+            fprintf(logfile,
+                    " %ld multiletter control sequences out of %ld\n",
+                    cscount,
+                    (long)hashsize);
+            fprintf(logfile,
+                    " %d words of font info for %d font",
+                    fmemptr,
+                    fontptr);
+            if (fontptr != 1) {
+                fprintf(logfile, "s");
+            }
+            fprintf(logfile,
+                    ", out of %ld for %ld\n",
+                    (long)fontmemsize,
+                    (long)(fontmax));
+            fprintf(logfile, " %d hyphenation exception", hyphcount);
+            if (hyphcount != 1) {
+                fprintf(logfile, "s");
+            }
+            fprintf(logfile, " out of %ld\n", (long)hyphsize);
+            fprintf(logfile,
+                    " %di,%dn,%ldp,%db,%ds stack positions out of "
+                    "%ldi,%ldn,%ldp,%ldb,%lds\n",
+                    maxinstack,
+                    maxneststack,
+                    maxparamstack,
+                    maxbufstack + 1,
+                    maxsavestack + 6,
+                    (long)stacksize,
+                    (long)nestsize,
+                    (long)paramsize,
+                    (long)bufsize,
+                    (long)savesize);
+        }
     }
-    curs--;
-  }
-  if (totalpages == 0)
-    printnl(S(1013));
-  else {   /*:642*/
-    long total_dvi_bytes;
-    preparemag();
-    dvipost(25400000L,473628672L,mag,maxv,maxh,maxpush,totalpages,fontptr);
-    total_dvi_bytes=dviflush();
-    printnl(S(1014));
-    slowprint(outputfilename);
-    print(S(303));
-    printint(totalpages);
-    print(S(1015));
-    if (totalpages != 1)
-      printchar('s');
-    print(S(1016));
-    printint(total_dvi_bytes);
-    print(S(1017));
-  }
-  if (!logopened)
-    return;
-  putc('\n', logfile);
-  aclose(&logfile);
-  selector -= 2;
-  if (selector != termonly)
-    return;
-  printnl(S(1018));
-  slowprint(logname);
-  printchar('.');
-  println();
-}
+    /*642:*/
+    while (curs > -1) {
+        if (curs > 0) {
+            dvi_pop();
+        } else {
+            dvi_eop();
+            totalpages++;
+        }
+        curs--;
+    }
+    if (totalpages == 0) {
+        printnl(S(1013));
+    } else { /*:642*/
+        long total_dvi_bytes;
+        preparemag();
+        dvipost(25400000L,
+                473628672L,
+                mag,
+                maxv,
+                maxh,
+                maxpush,
+                totalpages,
+                fontptr);
+        total_dvi_bytes = dviflush();
+        printnl(S(1014));
+        slowprint(outputfilename);
+        print(S(303));
+        printint(totalpages);
+        print(S(1015));
+        if (totalpages != 1) printchar('s');
+        print(S(1016));
+        printint(total_dvi_bytes);
+        print(S(1017));
+    }
+    if (!logopened) return;
+    putc('\n', logfile);
+    aclose(&logfile);
+    selector -= 2;
+    if (selector != termonly) return;
+    printnl(S(1018));
+    slowprint(logname);
+    printchar('.');
+    println();
+} // void closefilesandterminate(void)
 /*:1333*/
 
 /*1335:*/
-Static void finalcleanup(void)
-{
-  smallnumber c;
+Static void finalcleanup(void) {
+    SmallNumber c;
 
-  c = curchr;
-  if (jobname == 0)
-    openlogfile();
-  while (inputptr > 0) {
-    if (state == tokenlist)
-      endtokenlist();
-    else
-      endfilereading();
-  }
-  while (openparens > 0) {
-    print(S(1019));
-    openparens--;
-  }
-  if (curlevel > levelone) {
-    printnl('(');
-    printesc(S(1020));
-    print(S(1021));
-    printint(curlevel - levelone);
-    printchar(')');
-  }
-  while (condptr != 0) {
-    printnl('(');
-    printesc(S(1020));
-    print(S(1022));
-    printcmdchr(iftest, curif);
-    if (ifline != 0) {
-      print(S(1023));
-      printint(ifline);
+    c = curchr;
+    if (jobname == 0) openlogfile();
+    while (inputptr > 0) {
+        if (state == tokenlist)
+            endtokenlist();
+        else
+            endfilereading();
     }
-    print(S(1024));
-    ifline = iflinefield(condptr);
-    curif = subtype(condptr);
-    tempptr = condptr;
-    condptr = link(condptr);
-    freenode(tempptr, ifnodesize);
-  }
-  if (history != spotless) {
-    if (history == warningissued || interaction < errorstopmode) {
-      if (selector == termandlog) {
-	selector = termonly;
-	printnl(S(1025));
-	selector = termandlog;
-      }
+    while (openparens > 0) {
+        print(S(1019));
+        openparens--;
     }
-  }
-  if (c == 1) {
-    for (c = topmarkcode; c <= splitbotmarkcode; c++) {
-      if (curmark[c - topmarkcode] != 0)
-	deletetokenref(curmark[c - topmarkcode]);
+    if (curlevel > levelone) {
+        printnl('(');
+        printesc(S(1020));
+        print(S(1021));
+        printint(curlevel - levelone);
+        printchar(')');
     }
-    storefmtfile();
-    goto _Lexit;
-  }
-_Lexit: ;
+    while (condptr != 0) {
+        printnl('(');
+        printesc(S(1020));
+        print(S(1022));
+        printcmdchr(iftest, curif);
+        if (ifline != 0) {
+            print(S(1023));
+            printint(ifline);
+        }
+        print(S(1024));
+        ifline = iflinefield(condptr);
+        curif = subtype(condptr);
+        tempptr = condptr;
+        condptr = link(condptr);
+        freenode(tempptr, ifnodesize);
+    }
+    if (history != SPOTLESS) {
+        if (history == WARNING_ISSUED || interaction < errorstopmode) {
+            if (selector == termandlog) {
+                selector = termonly;
+                printnl(S(1025));
+                selector = termandlog;
+            }
+        }
+    }
+    if (c == 1) {
+        for (c = topmarkcode; c <= splitbotmarkcode; c++) {
+            if (curmark[c - topmarkcode] != 0)
+                deletetokenref(curmark[c - topmarkcode]);
+        }
+        storefmtfile();
+        goto _Lexit;
+    }
+_Lexit:;
 }
 /*:1335*/
 
@@ -18771,8 +18781,8 @@ Static void debughelp(void)
 
   while (true) {
     printnl(S(1253));
-    fflush(termout);
-    fscanf(termin," %ld",&m);
+    fflush(stdout);
+    fscanf(stdin," %ld",&m);
     if (m < 0) {
       goto _Lexit;
       continue;
@@ -18783,7 +18793,7 @@ _Lbreakpoint_:
       m = 0;   /*'BREAKPOINT'*/
       continue;
     }
-    fscanf(termin," %ld",&n);
+    fscanf(stdin," %ld",&n);
     switch (m) {   /*1339:*/
 
     case 1:
@@ -18837,7 +18847,7 @@ _Lbreakpoint_:
       break;
 
     case 13:
-      fscanf(termin, " %ld", &l);
+      fscanf(stdin, " %ld", &l);
       printcmdchr(n, l);
       break;
 
@@ -18866,166 +18876,167 @@ _Lexit: ;
 /*:1338*/
 /*:1330*/
 
-/*1332:*/
-int main(int argc, char *argv[])
-{
+// 检查常量范围是否正确。
+// 有误则返回错误代码
+// Check the “constant” values for consistency
+// 14, 111, 290, 522, 1249, used in 1332
+int check_constant(void) {
+    /// bad: 13, 14, 111, 290, 522, 1249, 1332
+    int bad = 0;
 
-  PASCAL_MAIN(argc, argv);
-  if (setjmp(_JLendofTEX))
-    goto _LendofTEX;
-  if (setjmp(_JLfinalend))
-    goto _Lfinalend;
-  history = fatalerrorstop;
-  topenout();
-  if (readyalready == 314159L)   /*14:*/
-    goto _LstartofTEX;
-  bad = 0;
-  if (halferrorline < 30 || halferrorline > errorline - 15)
-    bad = 1;
-  if (maxprintline < 60)
-    bad = 2;
-/*  if ((dvibufsize & 7) != 0)
-    bad = 3; */
-  if (membot + 1100 > memtop)
-    bad = 4;
-  if (hashprime > hashsize)
-    bad = 5;
-  if (maxinopen >= 128)
-    bad = 6;
-  if (memtop < 267)   /*:14*/
-    bad = 7;
-  /*111:*/
-  if (memmin != membot || memmax != memtop)
-    bad = 10;
-  if (memmin > membot || memmax < memtop)
-    bad = 10;
-  if (minquarterword > 0 || maxquarterword < 127)
-    bad = 11;
-  if (maxhalfword < 32767)
-    bad = 12;
-  if (minquarterword < 0 || maxquarterword > maxhalfword)
-    bad = 13;
-  if (memmin < 0 || memmax >= maxhalfword || membot - memmin > maxhalfword + 1)
-    bad = 14;
-  if ( 0 < minquarterword || fontmax > maxquarterword)
-    bad = 15;
-  if (fontmax > 256)
-    bad = 16;
-  if (savesize > maxhalfword /* || maxstrings > maxhalfword */ )
-    bad = 17;
-  if (bufsize > maxhalfword)
-    bad = 18;
-  if (maxquarterword - minquarterword < 255)   /*:111*/
-    bad = 19;
-  /*290:*/
-  if (cstokenflag + undefinedcontrolsequence > maxhalfword)   /*:290*/
-    bad = 21;
-  /*522:*/
-  if (formatdefaultlength > filenamesize)
-    bad = 31;
-  /*:522*/
-  /*1249:*/
-  if (maxhalfword * 2 < memtop - memmin)   /*:1249*/
-    bad = 41;
-  if (bad > 0) {
-    fprintf(termout,
-	    "Ouch---my internal constants have been clobbered!---case %ld\n",
-	    bad);
-    goto _Lfinalend;
-  }
-  initialize();
-  if (!getstringsstarted())
-    goto _Lfinalend;
-  initprim();
-  str_set_init_ptrs();
-  fixdateandtime(&tex_time, &day, &month, &year);
-  readyalready = 314159L;
-_LstartofTEX:   /*55:*/
-  selector = termonly;
-  tally = 0;
-  termoffset = 0;
-  fileoffset = 0;
-  /*:55*/
-  /*61:*/
-  fprintf(termout,"%s",banner);
-  if (formatident == 0)
-    fprintf(termout, " (no format preloaded)\n");
-  else {
-    slowprint(formatident);
-    println();
-  }
-  fflush(termout);   /*:61*/
-  /*528:*/
-  jobname = 0;
-  nameinprogress = false;
-  logopened = false;   /*:528*/
-  /*533:*/
-  outputfilename = 0;   /*:533*/
-  /*1337:*/
-  /*331:*/
-  inputptr = 0;
-  maxinstack = 0;
-  inopen = 0;
-  openparens = 0;
-  maxbufstack = 0;
-  paramptr = 0;
-  maxparamstack = 0;
-  first = bufsize;
-  do {
-    buffer[first] = 0;
-    first--;
-  } while (first != 0);
-  scannerstatus = normal;
-  warningindex = 0;
-  first = 1;
-  state = newline;
-  start = 1;
-  iindex = 0;
-  line = 0;
-  name = 0;
-  forceeof = false;
-  alignstate = 1000000L;
-  if (!initterminal())
-    goto _Lfinalend;
-  limit = last;
-  first = last + 1;   /*:331*/
-  if ( need_to_load_format /* (formatident == 0) | (buffer[loc] == '&') */ ) {
-    if (formatident != 0)
-      initialize();
-    if (!openfmtfile())
-      goto _Lfinalend;
-    if (!loadfmtfile()) {
-      wclose(&fmtfile);
-      goto _Lfinalend;
+    /// #14
+    if (
+        halferrorline < 30 || 
+        halferrorline > (errorline - 15)
+    ) bad = 1;
+    if (maxprintline < 60) bad = 2;
+    if ((dvibufsize & 8) != 0) bad = 3;
+    if ((membot + 1100) > memtop) bad = 4;
+    if (hashprime > hashsize) bad = 5;
+    if (maxinopen >= 128) bad = 6;
+    if (memtop < (256 + 11)) bad = 7;
+
+    /// #111
+#ifdef tt_INIT
+    if (memmin != membot || memmax != memtop) bad = 10;
+#endif
+    if (memmin > membot || memmax < memtop) bad = 10;
+    if (minquarterword > 0 || maxquarterword < 127) bad = 11;
+    if (maxhalfword < 32767) bad = 12;
+    if (minquarterword < 0 || maxquarterword > maxhalfword) bad = 13;
+    if (
+        memmin < 0 || 
+        memmax >= maxhalfword ||
+        (membot - memmin) > (maxhalfword + 1)
+    ) bad = 14;
+    if (0 < minquarterword || fontmax > maxquarterword) bad = 15;
+    if (fontmax > 256+0) bad = 16;
+    if (savesize > maxhalfword || maxstrings > maxhalfword) bad = 17;
+    if (bufsize > maxhalfword) bad = 18;
+    if (maxquarterword - minquarterword < 255) bad = 19;
+
+    /// #290
+    if ((cstokenflag + undefinedcontrolsequence) > maxhalfword) bad = 21;
+    /// #522
+    if (formatdefaultlength > filenamesize) bad = 31;
+    /// 1249
+    if ((maxhalfword * 2) < (memtop - memmin)) bad = 41;
+
+    return bad;
+}
+
+/// 入口函数
+/// p466#1332: TeX starts and ends here.
+int main(int argc, char* argv[]) {
+    long ready_already = 0; /* 1331, 1332 */
+    int bad = 0;
+
+    PASCAL_MAIN(argc, argv);
+    if (setjmp(_JLendofTEX)) goto _L_end_of_TEX;
+    if (setjmp(_JLfinalend)) goto _L_final_end;
+
+    history = FATAL_ERROR_STOP;
+    if (ready_already == 314159L) goto _L_start_of_TEX;
+
+    // 常量范围检查
+    bad = check_constant();
+    if (bad > 0) {
+        fprintf(
+            stdout,
+            "Ouch---my internal constants have been clobbered!---case %d\n",
+            bad);
+        goto _L_final_end;
     }
-    wclose(&fmtfile);
-    while ((loc < limit) & (buffer[loc] == ' '))
-      loc++;
-  }
-  if (endlinecharinactive) {
-    limit--;
-  } else
-    buffer[limit] = endlinechar;
-  fixdateandtime(&tex_time, &day, &month, &year);   /*765:*/
-  /*75:*/
-  if (interaction == batchmode)
-    selector = noprint;
-  else {
+
+    initialize();
+    if (!getstringsstarted()) goto _L_final_end;
+    initprim();
+    str_set_init_ptrs();
+    fixdateandtime(&tex_time, &day, &month, &year);
+    ready_already = 314159L;
+
+_L_start_of_TEX: /*55:*/
     selector = termonly;
-    /*:75*/
-  }
-  if ((loc < limit) & (catcode(buffer[loc]) != escape))   /*:1337*/
-    startinput();
-  history = spotless;
-  maincontrol();
-  finalcleanup();
-_LendofTEX:
-  closefilesandterminate();
-_Lfinalend:
-  readyalready = 0;
-  exit(EXIT_SUCCESS);
-}  /*:1332*/
+    tally = 0;
+    termoffset = 0;
+    fileoffset = 0;
+    /*:55*/
+    /*61:*/
+    fprintf(stdout, "%s", banner);
+    if (formatident == 0)
+        fprintf(stdout, " (no format preloaded)\n");
+    else {
+        slowprint(formatident);
+        println();
+    }
+    fflush(stdout); /*:61*/
+    /*528:*/
+    jobname = 0;
+    nameinprogress = false;
+    logopened = false; /*:528*/
+    /*533:*/
+    outputfilename = 0; /*:533*/
+    /*1337:*/
+    /*331:*/
+    inputptr = 0;
+    maxinstack = 0;
+    inopen = 0;
+    openparens = 0;
+    maxbufstack = 0;
+    paramptr = 0;
+    maxparamstack = 0;
+    first = bufsize;
+    do {
+        buffer[first] = 0;
+        first--;
+    } while (first != 0);
+    scannerstatus = normal;
+    warningindex = 0;
+    first = 1;
+    state = newline;
+    start = 1;
+    iindex = 0;
+    line = 0;
+    name = 0;
+    forceeof = false;
+    alignstate = 1000000L;
+    if (!initterminal()) goto _L_final_end;
+    limit = last;
+    first = last + 1; /*:331*/
+    if (need_to_load_format /* (formatident == 0) | (buffer[loc] == '&') */) {
+        if (formatident != 0) initialize();
+        if (!openfmtfile()) goto _L_final_end;
+        if (!loadfmtfile()) {
+            wclose(&fmtfile);
+            goto _L_final_end;
+        }
+        wclose(&fmtfile);
+        while ((loc < limit) & (buffer[loc] == ' '))
+            loc++;
+    }
+    if (endlinecharinactive) {
+        limit--;
+    } else {
+        buffer[limit] = endlinechar;
+    }
+    fixdateandtime(&tex_time, &day, &month, &year); /*765:*/
+    /*75:*/
+    if (interaction == batchmode)
+        selector = noprint;
+    else {
+        selector = termonly; /*:75*/
+    }
+    if ((loc < limit) & (catcode(buffer[loc]) != escape)) /*:1337*/
+        startinput();
+    history = SPOTLESS;
+    maincontrol();
+    finalcleanup();
 
-
+_L_end_of_TEX:
+    closefilesandterminate();
+_L_final_end:
+    ready_already = 0;
+    exit(EXIT_SUCCESS);
+} // main
 
 /* End. */
