@@ -15,7 +15,7 @@ while(<>)
 	}
 }
 
-print "Making pool\n";
+print "[perl] Making pool\n";
 open(POOL,">pool_str.c1");
 print POOL "const char * const pool_strs[]={\n";
 for($i=1;$i<$k;$i++) {

@@ -30,3 +30,4 @@ while(<>) {
 	}
 	print $pr.$pl;
 }
+close(POOL);
