@@ -1,6 +1,6 @@
 #CC=/usr/bin/g++
 CC=gcc
-CFLAGS = -g -O -pedantic  -Wall -W
+CFLAGS = -g -O -pedantic -Wall -Wno-unused-result
 # -Wstrict-prototypes -Wmissing-prototypes
 #-Wstrict-prototypes
 #-Wmissing-prototypes

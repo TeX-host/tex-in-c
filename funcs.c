@@ -8,7 +8,7 @@
 #include "funcs.h"
 #include "global.h"
 
-static char my_buff[200];
+static char my_buff[256];
 
 int pos=0, in_c_flag=0;
 int need_to_load_format=0;
@@ -212,7 +212,7 @@ void trimspaces(void)
 	memcpy(my_buff,nameoffile,filenamesize);
 	my_buff[filenamesize]=0;
 	my_buff[(pp=strchr(my_buff,' '))?pp-my_buff:filenamesize]=0;
-	fprintf(stderr,my_buff);
+	fprintf(stderr, "%s", my_buff);
 }
 
 static int aopenin1(char * name, char * * path_lst, FILE **f)
