@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "tex.ppc"
+#line 1 "./ppc/tex.ppc"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>

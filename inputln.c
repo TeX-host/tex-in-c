@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "inputln.ppc"
+#line 1 "./ppc/inputln.ppc"
 #include <stdio.h>
 #include "tex.h"
 #include "str.h"

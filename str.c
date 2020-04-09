@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "str.ppc"
+#line 1 "./ppc/str.ppc"
 #include <stdio.h>
 #include <string.h>
 #include "tex.h" 

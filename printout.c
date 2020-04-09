@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "printout.ppc"
+#line 1 "./ppc/printout.ppc"
 #include "tex.h"
 #include "macros.h"
 #include "str.h"

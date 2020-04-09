@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "fonts.ppc"
+#line 1 "./ppc/fonts.ppc"
 #include <stdio.h>
 #include "tex.h"
 #include "macros.h"

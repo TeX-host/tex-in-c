@@ -1,5 +1,5 @@
 /* Do NOT edit - this is generated file */
-#line 1 "dviout.ppc"
+#line 1 "./ppc/dviout.ppc"
 #include <stdio.h>
 #include <stdlib.h>
 #include "tex.h" 
