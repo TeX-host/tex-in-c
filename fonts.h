@@ -1,3 +1,7 @@
+#pragma once
+#ifndef FONTS_H
+#define FONTS_H
+
 #include <stdio.h>
 typedef int fontindex;
 typedef unsigned short internalfontnumber;
@@ -19,10 +23,11 @@ extern long get_hyphenchar(internalfontnumber x);
 extern void set_hyphenchar(internalfontnumber x, long c);
 extern long get_skewchar(internalfontnumber x);
 extern void set_skewchar(internalfontnumber x, long c);
+
 #if 1
 #undef Static
 #define Static extern
-/* Dane, tymczasowo wspólne */
+
 Static fontindex fmemptr;
 Static internalfontnumber fontptr;
 Static memoryword fontinfo[fontmemsize + 1];
@@ -40,6 +45,9 @@ Static long ligkernbase[fontmax + 1];
 Static long extenbase[fontmax + 1];
 Static long parambase[fontmax + 1];
 /*555:*/
+
 #undef Static
 #define Static static
-#endif
+#endif // #if 1
+
+#endif // #ifndef FONTS_H

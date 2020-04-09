@@ -1,5 +1,7 @@
+#pragma once
 #ifndef STR_H
 #define STR_H
+
 #include <stdio.h>
 #define maxstrings      300000
 #define stringvacancies  8000
@@ -39,4 +41,5 @@ extern int str_bcmp(unsigned char * buffp, long l,strnumber s);
 extern int str_scmp(strnumber s,short * buffp);
 extern strnumber str_insert(unsigned char * buffp, long l);
 extern strnumber str_ins(short * buffp, long l);
-#endif
+
+#endif // #ifndef STR_H

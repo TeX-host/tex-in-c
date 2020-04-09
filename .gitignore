@@ -3,3 +3,6 @@
 ttex
 pool_str.c1
 deps.1
+
+# ide
+.vscode/

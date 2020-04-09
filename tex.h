@@ -1,3 +1,4 @@
+#pragma once
 #ifndef TEX_H
 #define TEX_H
 
@@ -586,6 +587,7 @@ typedef uchar Char;
 #define extraspacecode  7
 #define nonaddress      0
 #define badtfm          11
+
 #if 0
 #define movementnodesize  3
 #define yhere           1
@@ -597,7 +599,8 @@ typedef uchar Char;
 #define noneseen        0
 #define yseen           6
 #define zseen           12
-#endif
+#endif // #if 0
+
 #define movepast        13
 #define finrule         14
 #define nextp           15
@@ -844,4 +847,5 @@ typedef int triepointer;
 typedef short hyphpointer;
 
 /*:925*/
-#endif
+
+#endif // #ifndef TEX_H

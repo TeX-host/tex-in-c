@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 extern void bclose(FILE * *);
 extern void printchar(ASCIIcode s);

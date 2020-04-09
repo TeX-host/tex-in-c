@@ -4,7 +4,6 @@
 #include "str.h"
 #include "funcs.h"
 #include "global.h"
-
 #include "pool_str.c"
 
 int str_pool_init(void)

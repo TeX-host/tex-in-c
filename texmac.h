@@ -1,3 +1,4 @@
+#pragma once
 #undef labs
 
 /* P2C compatibility */
@@ -228,7 +229,7 @@
 		((x)>=himemmin))
 #endif
 /*
-#define ischarnode(x) (((((x)>=himemmin)!=mem[(x)].is_char_node)?fprintf(stderr,"Niezgodno¶æ dla mem[%d]\n",(x)):fprintf(stderr,"Zgodno¶æ ")),((x)>=himemmin))
+#define ischarnode(x) (((((x)>=himemmin)!=mem[(x)].is_char_node)?fprintf(stderr,"Niezgodnoï¿½ï¿½ dla mem[%d]\n",(x)):fprintf(stderr,"Zgodnoï¿½ï¿½ ")),((x)>=himemmin))
 */
 #define set_as_char_node(x) (type(x)=charnodetype) 
 #define unset_is_char_node(x) 0 /* (mem[(x)].is_char_node=0)*/
