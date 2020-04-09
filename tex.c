@@ -6,7 +6,7 @@
 #include <math.h>
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
-#define BIG_CHARNODE  
+#define BIG_CHARNODE
 #define BIG_NOAD
 
 #ifdef BIG_CHARNODE
@@ -58,6 +58,8 @@ ASCIIcode xord[256];
 Static scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
 
 /*:13*/
+
+
 /*20:*/
 Static Char xchr[256];
 /*:20*/
@@ -137,8 +139,8 @@ Static short shownmode;
 /*246:*/
 Static char diag_oldsetting;   /*:246*/
 /*253:*/
-Static memoryword eqtb[eqtbsize - activebase + 1]; 
-/* 
+Static memoryword eqtb[eqtbsize - activebase + 1];
+/*
 extern memoryword eqtb[];
 memoryword * eqtb_foo(void) { return eqtb;}
 */
@@ -351,27 +353,49 @@ Static strnumber hyphword[hyphsize + 1];
 Static pointer hyphlist[hyphsize + 1];
 Static hyphpointer hyphcount;
 /*:926*/
-/*943:*/
+
+
+/// #943, 947, 950
+#ifdef tt_INIT
+/// #943
+// trie op codes for quadruples
 Static short trieophash[trieopsize + trieopsize + 1];
+// largest opcode used so far for this language
 Static quarterword trieused[256];
+// language part of a hashed quadruple
 Static ASCIIcode trieoplang[trieopsize];
+// opcode corresponding to a hashed quadruple
 Static quarterword trieopval[trieopsize];
+// number of stored ops so far
 Static short trieopptr;
-/*:943*/
-/*947:*/
+
+/// #947
+// characters to match
 Static packedASCIIcode triec[triesize + 1];
+// operations to perform
 Static quarterword trieo[triesize + 1];
+// left subtrie links
 Static triepointer triel[triesize + 1];
+// right subtrie links
 Static triepointer trier[triesize + 1];
+// the number of nodes in the trie
 Static triepointer trieptr;
+// used to identify equivalent subtries
 Static triepointer triehash[triesize + 1];
-/*:947*/
-/*950:*/
+
+/// #950
+// does a family start here?
 Static uchar trietaken[(triesize + 7) / 8];
+// the first possible slot for each character
 Static triepointer triemin[256];
+// largest location used in trie
 Static triepointer triemax;
-Static boolean trienotready;
-/*:950*/
+// is the trie still in linked form?
+// xref: 891, [950], 951, 960, 966, 1324, 1325
+Static boolean trie_not_ready;
+#endif // #943,947,950: tt_INIT
+
+
 /*971:*/
 Static scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
 /*:971*/
@@ -461,7 +485,14 @@ Static void initialize(void) { /*:927*/
     /*927:*/
     hyphpointer z;
 
-    /*8:*/
+/// p5#8: Initialize whatever T E X might access
+
+/// p11#21 Set initial values of key variables
+{
+    /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
+    /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
+    /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
+    /// 1267, 1282, 1300, 1343.
     /*23:*/
     for (i = 0; i <= 255; i++)
         xchr[i] = (Char)i;
@@ -552,6 +583,11 @@ Static void initialize(void) { /*:927*/
     /*521:*/
     memcpy(TEXformatdefault, "TeXformats:plain.fmt", formatdefaultlength);
     /*:521*/
+    /*551:*/
+    for (int k = 0; k <= fontmax; k++) {
+        fontused[k] = false;
+    }
+    /*:551*/
     /*556:*/
     nullcharacter.b0 = minquarterword;
     nullcharacter.b1 = minquarterword;
@@ -609,74 +645,89 @@ Static void initialize(void) { /*:927*/
     /*1343:*/
     for (k = 0; k <= 17; k++) /*:1343*/
         writeopen[k] = false;
-    /*164:*/
+}
+
+/// p59#164: Initialize table entries (done by INITEX only)
+#ifdef tt_INIT
+    /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
     for (k = membot + 1; k <= lomemstatmax; k++)
-        mem[k - memmin].sc = 0;
+        mem[k - memmin].sc = 0; // all glue dimensions are zeroed
+
     k = membot;
     while (k <= lomemstatmax) {
+        // set first words of glue specifications
         gluerefcount(k) = 1;
         stretchorder(k) = normal;
         shrinkorder(k) = normal;
         k += gluespecsize;
     }
-    stretch(filglue) = unity;
-    stretchorder(filglue) = fil;
-    stretch(fillglue) = unity;
-    stretchorder(fillglue) = fill;
-    stretch(ssglue) = unity;
-    stretchorder(ssglue) = fil;
-    shrink(ssglue) = unity;
-    shrinkorder(ssglue) = fil;
-    stretch(filnegglue) = -unity;
-    stretchorder(filnegglue) = fil;
+
+    stretch(filglue)    =  unity; stretchorder(filglue)    = fil;
+    stretch(fillglue)   =  unity; stretchorder(fillglue)   = fill;
+    stretch(ssglue)     =  unity; stretchorder(ssglue)     = fil;
+    shrink(ssglue)      =  unity; shrinkorder(ssglue)      = fil;
+    stretch(filnegglue) = -unity; stretchorder(filnegglue) = fil;
+
+    // now initialize the dynamic memory
     rover = lomemstatmax + 1;
     link(rover) = emptyflag;
-    nodesize(rover) = 1000;
+
+    nodesize(rover) = 1000; // which is a 1000-word available node
     llink(rover) = rover;
     rlink(rover) = rover;
     lomemmax = rover + 1000;
     link(lomemmax) = 0;
     info(lomemmax) = 0;
-    for (k = himemstatmin; k <= memtop; k++) { /*790:*/
+
+    for (k = himemstatmin; k <= memtop; k++) {
+        // clear list heads
         mem[k - memmin].sc = 0;
         type(k) = charnodetype;
     }
-    info(omittemplate) = endtemplatetoken; /*:790*/
-    /*797:*/
-    link(endspan) = maxquarterword + 1;
-    info(endspan) = 0; /*:797*/
-    /*820:*/
-    type(lastactive) = hyphenated;
-    linenumber(lastactive) = maxhalfword;
-    subtype(lastactive) = 0;
-    /*:820*/
-    /*981:*/
-    subtype(pageinshead) = minquarterword + 255;
-    type(pageinshead) = splitup;
-    link(pageinshead) = pageinshead; /*:981*/
-    /*988:*/
-    type(pagehead) = gluenode;
-    subtype(pagehead) = normal;
-    /*:988*/
+
+    // Initialize the special list heads and constant nodes
+    {
+        /// #790
+        info(omittemplate) = endtemplatetoken; // ink(omit template) = null
+        /// #797
+        link(endspan) = maxquarterword + 1;
+        info(endspan) = 0;
+        /// #820
+        type(lastactive) = hyphenated;
+        linenumber(lastactive) = maxhalfword;
+        subtype(lastactive) = 0; // the subtype is never examined by the algorithm
+        /// #981
+        subtype(pageinshead) = minquarterword + 255;
+        type(pageinshead) = splitup;
+        link(pageinshead) = pageinshead;
+        /// #988
+        type(pagehead) = gluenode;
+        subtype(pagehead) = normal;
+    }
+
+    /// p59#164
     avail = 0;
     memend = memtop;
-    himemmin = himemstatmin;
+    himemmin = himemstatmin; // initialize the one-word memory
     varused = lomemstatmax - membot + 1;
-    dynused = himemstatusage; /*:164*/
-    /*222:*/
+    dynused = himemstatusage; // initialize statistics
+
+    /// p82#222
     eqtype(undefinedcontrolsequence) = undefinedcs;
     equiv(undefinedcontrolsequence) = 0;
     eqlevel(undefinedcontrolsequence) = levelzero;
-    for (k = activebase; k < undefinedcontrolsequence; k++) /*:222*/
+    for (k = activebase; k < undefinedcontrolsequence; k++)
         eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
-    /*228:*/
+
+    /// #228
     equiv(gluebase) = zeroglue;
     eqlevel(gluebase) = levelone;
     eqtype(gluebase) = glueref;
     for (k = gluebase + 1; k < localbase; k++)
         eqtb[k - activebase] = eqtb[gluebase - activebase];
-    gluerefcount(zeroglue) += localbase - gluebase; /*:228*/
-    /*232:*/
+    gluerefcount(zeroglue) += localbase - gluebase;
+
+    // #232
     parshapeptr = 0;
     eqtype(parshapeloc) = shaperef;
     eqlevel(parshapeloc) = levelone;
@@ -710,7 +761,7 @@ Static void initialize(void) { /*:927*/
     catcode(nullcode) = ignore;
     for (k = '0'; k <= '9'; k++)
         mathcode(k) = k + varcode;
-    for (k = 'A'; k <= 'Z'; k++) { /*:232*/
+    for (k = 'A'; k <= 'Z'; k++) {
         catcode(k) = letter;
         catcode(k + 'a' - 'A') = letter;
         mathcode(k) = k + varcode + 256;
@@ -721,7 +772,8 @@ Static void initialize(void) { /*:927*/
         uccode(k + 'a' - 'A') = k;
         sfcode(k) = 999;
     }
-    /*240:*/
+
+    // #240
     for (k = intbase; k < delcodebase; k++)
         eqtb[k - activebase].int_ = 0;
     mag = 1000;
@@ -732,38 +784,47 @@ Static void initialize(void) { /*:927*/
     endlinechar = carriagereturn;
     for (k = 0; k <= 255; k++)
         delcode(k) = -1;
-    delcode('.') = 0; /*:240*/
-    /*250:*/
-    for (k = dimenbase; k <= eqtbsize; k++) /*:250*/
+    delcode('.') = 0; // this null delimiter is used in error recovery
+
+    // #250
+    for (k = dimenbase; k <= eqtbsize; k++)
         eqtb[k - activebase].sc = 0;
-    /*258:*/
-    hashused = frozencontrolsequence;
+
+    // #258
+    hashused = frozencontrolsequence; // nothing is used
     cscount = 0;
     eqtype(frozendontexpand) = dontexpand;
-    text(frozendontexpand) = S(257); /*:258*/
+    text(frozendontexpand) = S(257);
+
+    // #552
     fonts_init();
-    /*946:*/
+
+    // #946
     for (k = -trieopsize; k <= trieopsize; k++)
         trieophash[k + trieopsize] = 0;
     for (k = 0; k <= 255; k++)
         trieused[k] = minquarterword;
-    trieopptr = 0; /*:946*/
-    /*951:*/
-    trienotready = true;
+    trieopptr = 0;
+
+    // #951
+    trie_not_ready = true;
     trieroot = 0;
     triec[0] = 0;
-    trieptr = 0; /*:951*/
-    /*1216:*/
-    text(frozenprotection) = S(258); /*:1216*/
-    /*1301:*/
-    formatident = S(259); /*:1301*/
-    /*1369:*/
+    trieptr = 0;
+
+    // #1216
+    text(frozenprotection) = S(258);
+    // #1301
+    formatident = S(259);
+    // #1369
     text(endwrite) = S(260);
     eqlevel(endwrite) = levelone;
     eqtype(endwrite) = outercall;
-    equiv(endwrite) = 0; /*:1369*/
-                         /*:8*/
-}
+    equiv(endwrite) = 0;
+
+
+#endif // #164: tt_INIT
+} // initialize
 
 
 /*57:*/
@@ -1424,7 +1485,7 @@ Static void printromanint(long n)
   nonnegativeinteger u, v;
   static char romstr[]="m2d5c2l5x2v5i";
 
-  j = 0 ; 
+  j = 0 ;
   v = 1000;
   while (true) {
     while (n >= v) {
@@ -1833,7 +1894,7 @@ Static pointer getavail(void)
   p = avail;
   if (p != 0)
     avail = link(avail);
-  else 
+  else
   if (memend + charnodesize <= memmax) {
 	p = memend+1;
 	memend += charnodesize;
@@ -1965,41 +2026,46 @@ Static void freenode(pointer p, halfword s)
 }
 /*:130*/
 
-/*131:*/
-Static void sortavail(void)
-{
-  pointer p, q, r, oldrover;
 
-  p = getnode(1073741824L);
-  p = rlink(rover);
-  rlink(rover) = maxhalfword;
-  oldrover = rover;
-  while (p != oldrover) {   /*132:*/
-    if (p < rover) {
-      q = p;
-      p = rlink(q);
-      rlink(q) = rover;
-      rover = q;
-      continue;
-    }
-    q = rover;
-    while (rlink(q) < p)
-      q = rlink(q);
-    r = rlink(p);
-    rlink(p) = rlink(q);
-    rlink(q) = p;
-    p = r;
-  }
-  p = rover;
-  while (rlink(p) != maxhalfword) {
-    llink(rlink(p)) = p;
-    p = rlink(p);
-  }
-  rlink(p) = rover;
-  llink(rover) = p;
+#ifdef tt_INIT // #131,132
+Static void sort_avail(void)
+{   // used at #1311
+    pointer p, q, r,  // indices into mem
+            oldrover; // initial rover setting
 
-  /*:132*/
-}  /*:131*/
+    p = getnode(1073741824L); // merge adjacent free areas
+    p = rlink(rover);
+    rlink(rover) = maxhalfword;
+    oldrover = rover;
+
+    while (p != oldrover) {
+        /// #132: Sort p into the list starting at rover
+        /// and advance p to rlink(p)
+        if (p < rover) {
+            q = p;
+            p = rlink(q);
+            rlink(q) = rover;
+            rover = q;
+        } else {
+            q = rover;
+            while (rlink(q) < p)
+                q = rlink(q);
+            r = rlink(p);
+            rlink(p) = rlink(q);
+            rlink(q) = p;
+            p = r;
+        } // if (p < rover) - else
+    } // while (p != oldrover)
+
+    p = rover;
+    while (rlink(p) != maxhalfword) {
+        llink(rlink(p)) = p;
+        p = rlink(p);
+    } // while (rlink(p) != maxhalfword)
+    rlink(p) = rover;
+    llink(rover) = p;
+} // sort_avail
+#endif // #131: tt_INIT
 
 
 /*136:*/
@@ -3773,7 +3839,7 @@ halfword idlookup_p(unsigned char * buffp, long l, int no_new)
   pointer p, k;
 
   h = buffp[0];
-  for (k = 1; k < l; k++) { 
+  for (k = 1; k < l; k++) {
 	h += h + buffp[k];
 	while (h >= hashprime)
 		h -= hashprime;
@@ -3811,21 +3877,24 @@ _Lfound:
 }
 /*:259*/
 
-/*264:*/
-Static void primitive(strnumber s, quarterword c, halfword o)
-{
-  if (s < 256)
-    curval = s + singlebase;
-  else {
-	curval = idlookup_s(s,false);
-    flushstring();
-    text(curval) = s;
-  }
-  eqlevel(curval) = levelone;
-  eqtype(curval) = c;
-  equiv(curval) = o;
-}
-/*:264*/
+/// p105#264
+#ifdef tt_INIT
+Static void primitive(strnumber s, quarterword c, halfword o) {
+    if (s < 256) {
+        curval = s + singlebase;
+    } else {
+        // TODO:
+        // k ← str start[s]; l ← str start[s + 1] − k;
+        // for j ← 0 to l − 1 do buffer[j] ← so(str pool[k + j]);
+        curval = idlookup_s(s, false);
+        flushstring();
+        text(curval) = s;
+    }
+    eqlevel(curval) = levelone;
+    eqtype(curval) = c;
+    equiv(curval) = o;
+} // #264: primitive
+#endif // #264: tt_INIT
 
 /*274:*/
 Static void newsavelevel(groupcode c)
@@ -4922,7 +4991,7 @@ _Lfound:
   /*342:*/
   if (cur_cmd <= carret) {
     if (cur_cmd >= tabmark) { /*789:*/
-      if (alignstate == 0) {   
+      if (alignstate == 0) {
 	if (scannerstatus == aligning)
 	  fatalerror(S(509));
 	cur_cmd = extrainfo(curalign);
@@ -5243,14 +5312,14 @@ Static void insthetoks(void);
 Static void skip_spaces(void)
 {  /*406:*/
     do {
-        getxtoken(); 
+        getxtoken();
     } while (curcmd == spacer); /*:406*/
 }
 
 Static void skip_spaces_or_relax(void)
 { /*404:*/
     do {
-        getxtoken();   
+        getxtoken();
     } while (curcmd == spacer || curcmd == relax); /*:404*/
 }
 
@@ -5506,7 +5575,7 @@ Static boolean scankeyword(strnumber s)
 #endif
 #if 0
   poolpointer k;
-#else 
+#else
   int k;
   int k_e;
 #endif
@@ -5544,7 +5613,7 @@ Static boolean scankeyword(strnumber s)
   Result = true;
 _Lexit:
 
-  freeavail(my_backup_head); 
+  freeavail(my_backup_head);
 
   return Result;
 }
@@ -6472,7 +6541,7 @@ Static halfword strtoks(str_poolpointer b)
   p = temphead;
   link(p) = 0;
   tex_global_p=p;
-  str_map_from_mark(b, strtoks_helper); 
+  str_map_from_mark(b, strtoks_helper);
   p=tex_global_p;
   return p;
 }
@@ -7183,7 +7252,7 @@ Static void endname(void)
   if (extdelimiter == 0) {
 	curext = S(385);
 	curname = makestring();
-  } else { 
+  } else {
 	curname = extdelimiter;
 	curext = makestring();
   }
@@ -7193,7 +7262,7 @@ long filename_k;
 Static void appendtoname(strASCIIcode x)
 {
 	filename_k++;
-	if (filename_k<=filenamesize) { 
+	if (filename_k<=filenamesize) {
            nameoffile[filename_k-1]=xchr[x];
 	}
 }
@@ -7404,7 +7473,7 @@ _Ldone:
     flushstring();
     name = curname;
   }
-#else 
+#else
    name = curname;
 #endif
   line = 1;
@@ -7482,7 +7551,7 @@ Static void specialout(halfword p)
     if (p_len< 256) {
 	dviout(xxx1);
 	dviout(p_len);
-    } else { 
+    } else {
 	dviout(xxx4);
 	dvifour(p_len);
     }
@@ -9115,10 +9184,10 @@ Static void makemathaccent(halfword q)
   if (mathtype(nucleus(q)) == mathchar) {
     fetch(nucleus(q));
     if (chartag(curi) == ligtag) {
-      a = ligkernstart(curf,curi); 
+      a = ligkernstart(curf,curi);
       curi = fontinfo[a].qqqq;
       if (skipbyte(curi) > stopflag) {
-	a = ligkernrestart(curf,curi); 
+	a = ligkernrestart(curf,curi);
 	curi = fontinfo[a].qqqq;
       }
       while (true) {
@@ -9376,11 +9445,11 @@ _Lrestart:
 		mathtype(nucleus(q)) = mathtextchar;
 		fetch(nucleus(q));
 		if (chartag(curi) == ligtag) {
-		  a = ligkernstart(curf,curi); 
+		  a = ligkernstart(curf,curi);
 		  curc = character(nucleus(p));
 		  curi = fontinfo[a].qqqq;
 		  if (skipbyte(curi) > stopflag) {
-		    a = ligkernrestart(curf,curi); 
+		    a = ligkernrestart(curf,curi);
 		    curi = fontinfo[a].qqqq;
 		  }
 		  while (true) {  /*753:*/
@@ -11585,7 +11654,7 @@ Static void hyphenate(void)   /*:929*/
 	{
         int ress=str_scmp(k,hc+1);
 	if(ress<0) goto _Lnotfound;
-	if(ress>0) goto _Ldone;	
+	if(ress>0) goto _Ldone;
 	}
       s = hyphlist[h];
       while (s != 0) {   /*:932*/
@@ -11800,83 +11869,82 @@ _Lexit: ;
 }
 /*:895*/
 
-/*942:*/
-/*944:*/
-Static quarterword newtrieop(SmallNumber d, SmallNumber n, quarterword v)
-{
-  quarterword Result;
-  short h;
-  quarterword u;
-  short l;
 
-  h = abs(n + d * 313 + v * 361 + curlang * 1009) % (trieopsize + trieopsize) -
-      trieopsize;
-  while (true) {
-    l = trieophash[h + trieopsize];
-    if (l == 0) {
-      if (trieopptr == trieopsize)
-	overflow(S(767), trieopsize);
-      u = trieused[curlang];
-      if (u == maxquarterword)
-	overflow(S(768),
-                 maxquarterword - minquarterword);
-      trieopptr++;
-      u++;
-      trieused[curlang] = u;
-      hyfdistance[trieopptr - 1] = d;
-      hyfnum[trieopptr - 1] = n;
-      hyfnext[trieopptr - 1] = v;
-      trieoplang[trieopptr - 1] = curlang;
-      trieophash[h + trieopsize] = trieopptr;
-      trieopval[trieopptr - 1] = u;
-      Result = u;
-      goto _Lexit;
-    }
-    if (hyfdistance[l - 1] == d && hyfnum[l - 1] == n &&
-	hyfnext[l - 1] == v && trieoplang[l - 1] == curlang) {
-      Result = trieopval[l - 1];
-      goto _Lexit;
-    }
-    if (h > -trieopsize)
-      h--;
-    else
-      h = trieopsize;
-  }
-_Lexit:
-  return Result;
-}  /*:944*/
+/// p350#942: 944, 948, 949, 953, 957, 959, 960, and 966.
+#ifdef tt_INIT
+
+/// p351#944: Declare procedures for preprocessing hyphenation patterns
+Static quarterword newtrieop(SmallNumber d, SmallNumber n, quarterword v) {
+    quarterword Result;
+    short h;
+    quarterword u;
+    short l;
+
+    h = abs(n + d * 313 + v * 361 + curlang * 1009) %
+            (trieopsize + trieopsize) - trieopsize;
+    while (true) {
+        l = trieophash[h + trieopsize];
+        if (l == 0) {
+            if (trieopptr == trieopsize) overflow(S(767), trieopsize);
+            u = trieused[curlang];
+            if (u == maxquarterword)
+                overflow(S(768), maxquarterword - minquarterword);
+            trieopptr++;
+            u++;
+            trieused[curlang] = u;
+            hyfdistance[trieopptr - 1] = d;
+            hyfnum[trieopptr - 1] = n;
+            hyfnext[trieopptr - 1] = v;
+            trieoplang[trieopptr - 1] = curlang;
+            trieophash[h + trieopsize] = trieopptr;
+            trieopval[trieopptr - 1] = u;
+            Result = u;
+            break;
+        }
+        if (hyfdistance[l - 1] == d && hyfnum[l - 1] == n &&
+            hyfnext[l - 1] == v && trieoplang[l - 1] == curlang) {
+            Result = trieopval[l - 1];
+            break;
+        }
+        if (h > -trieopsize)
+            h--;
+        else
+            h = trieopsize;
+    } // while (true)
+
+    return Result;
+} // newtrieop
 
 
-/*948:*/
-Static triepointer trienode(triepointer p)
-{
-  triepointer Result, h, q;
+/// #948: Declare procedures for preprocessing hyphenation patterns
+Static triepointer trienode(triepointer p) {
+    triepointer Result, h, q;
 
-  h = abs(triec[p] + trieo[p] * 1009 + triel[p] * 2718 + trier[p] * 3142) %
-      triesize;
-  while (true) {
-    q = triehash[h];
-    if (q == 0) {
-      triehash[h] = p;
-      Result = p;
-      goto _Lexit;
-    }
-    if (triec[q] == triec[p] && trieo[q] == trieo[p] &&
-	triel[q] == triel[p] && trier[q] == trier[p]) {
-      Result = q;
-      goto _Lexit;
-    }
-    if (h > 0)
-      h--;
-    else
-      h = triesize;
-  }
-_Lexit:
-  return Result;
-}
-/*:948*/
+    h = abs(triec[p] + trieo[p] * 1009 + triel[p] * 2718 + trier[p] * 3142) %
+        triesize;
+    while (true) {
+        q = triehash[h];
+        if (q == 0) {
+            triehash[h] = p;
+            Result = p;
+            break;
+        }
+        if (triec[q] == triec[p] && trieo[q] == trieo[p] &&
+            triel[q] == triel[p] && trier[q] == trier[p]) {
+            Result = q;
+            break;
+        }
+        if (h > 0)
+            h--;
+        else
+            h = triesize;
+    } // while (true)
 
-/*949:*/
+    return Result;
+} // trienode
+
+
+/// #949: Declare procedures for preprocessing hyphenation patterns
 Static triepointer compresstrie(triepointer p)
 {
   if (p == 0)
@@ -11886,10 +11954,9 @@ Static triepointer compresstrie(triepointer p)
     trier[p] = compresstrie(trier[p]);
     return (trienode(p));
   }
-}
-/*:949*/
+} // compresstrie
 
-/*953:*/
+/// #953: Declare procedures for preprocessing hyphenation patterns
 Static void firstfit(triepointer p)
 {
   triepointer h, z, q;
@@ -11946,10 +12013,10 @@ _Lfound:   /*956:*/
     }
     q = trier[q];   /*:956*/
   } while (q != 0);
-}
-/*:953*/
+} // firstfit
 
-/*957:*/
+
+/// #957: Declare procedures for preprocessing hyphenation patterns
 Static void triepack(triepointer p)
 {
   triepointer q;
@@ -11962,10 +12029,9 @@ Static void triepack(triepointer p)
     }
     p = trier[p];
   } while (p != 0);
-}
-/*:957*/
+} // triepack
 
-/*959:*/
+/// #959: Declare procedures for preprocessing hyphenation patterns
 Static void triefix(triepointer p)
 {
   triepointer q;
@@ -11983,11 +12049,9 @@ Static void triefix(triepointer p)
       triefix(q);
     p = trier[p];
   } while (p != 0);
-}
-/*:959*/
+} // triefix
 
-
-/*960:*/
+/// #960: Declare procedures for preprocessing hyphenation patterns
 Static void newpatterns(void)
 {
   unsigned char k, l; /* INT */
@@ -11997,7 +12061,7 @@ Static void newpatterns(void)
   boolean firstchild;
   ASCIIcode c;
 
-  if (trienotready) {
+  if (trie_not_ready) {
     setcurlang();
     scanleftbrace();
     /*961:*/
@@ -12119,10 +12183,9 @@ _Ldone:   /*:961*/
   flushlist(defref);
 
   /*:962*/
-}
-/*:960*/
+} // newpatterns
 
-/*966:*/
+/// 966: Declare procedures for preprocessing hyphenation patterns
 Static void inittrie(void)
 {   /*952:*/
   triepointer p;
@@ -12183,523 +12246,517 @@ Static void inittrie(void)
     } while (r <= triemax);
   }
   triechar(0) = '?';   /*:958*/
-  trienotready = false;
-}
-/*:966*/
+  trie_not_ready = false;
+} // inittrie
 
-/*:942*/
-Static void linebreak(long finalwidowpenalty)
-{
-  /*862:*/
-  boolean autobreaking;
-  pointer prevp, q, r, s, prevs;
-  internalfontnumber f;
-  /*:862*/
-  /*893:*/
-  /* SmallNumber */ int j; /* INT */
-  uchar c;   /*:893*/
+#endif // #942: tt_INIT
 
-  packbeginline = modeline;   /*816:*/
-  link(temphead) = link(head);
-  if (ischarnode(tail)) {
-    tailappend(newpenalty(infpenalty));
-  } else if (type(tail) != gluenode) {
-    tailappend(newpenalty(infpenalty));
-  } else {
-    type(tail) = penaltynode;
-    deleteglueref(glueptr(tail));
-    flushnodelist(leaderptr(tail));
-    penalty(tail) = infpenalty;
-  }
-  link(tail) = newparamglue(parfillskipcode);
-  initcurlang = prevgraf % 65536L;
-  initlhyf = prevgraf / 4194304L;
-  initrhyf = (prevgraf / 65536L) & 63;
-  popnest();   /*:816*/
-  /*827:*/
-  noshrinkerroryet = true;
-  checkshrinkage(leftskip);
-  checkshrinkage(rightskip);
-  q = leftskip;
-  r = rightskip;
-  background[0] = width(q) + width(r);
-  background[1] = 0;
-  background[2] = 0;
-  background[3] = 0;
-  background[4] = 0;
-  background[stretchorder(q) + 1] = stretch(q);
-  background[stretchorder(r) + 1] += stretch(r);
-  background[5] = shrink(q) + shrink(r);   /*:827*/
-  /*834:*/
-  minimumdemerits = awfulbad;
-  minimaldemerits[tightfit - veryloosefit] = awfulbad;
-  minimaldemerits[decentfit - veryloosefit] = awfulbad;
-  minimaldemerits[loosefit - veryloosefit] = awfulbad;
-  minimaldemerits[0] = awfulbad;   /*:834*/
-  /*848:*/
-  if (parshapeptr == 0) {
-    if (hangindent == 0) {
-      lastspecialline = 0;
-      secondwidth = hsize;
-      secondindent = 0;
-    } else  /*849:*/
-    {   /*:849*/
-      lastspecialline = labs(hangafter);
-      if (hangafter < 0) {
-	firstwidth = hsize - labs(hangindent);
-	if (hangindent >= 0)
-	  firstindent = hangindent;
-	else
-	  firstindent = 0;
-	secondwidth = hsize;
-	secondindent = 0;
-      } else {
-	firstwidth = hsize;
-	firstindent = 0;
-	secondwidth = hsize - labs(hangindent);
-	if (hangindent >= 0)
-	  secondindent = hangindent;
-	else
-	  secondindent = 0;
-      }
+
+Static void linebreak(long finalwidowpenalty) {
+    /*862:*/
+    boolean autobreaking;
+    pointer prevp, q, r, s, prevs;
+    internalfontnumber f;
+    /*:862*/
+    /*893:*/
+    /* SmallNumber */ int j; /* INT */
+    uchar c;                 /*:893*/
+
+    packbeginline = modeline; /*816:*/
+    link(temphead) = link(head);
+    if (ischarnode(tail)) {
+        tailappend(newpenalty(infpenalty));
+    } else if (type(tail) != gluenode) {
+        tailappend(newpenalty(infpenalty));
+    } else {
+        type(tail) = penaltynode;
+        deleteglueref(glueptr(tail));
+        flushnodelist(leaderptr(tail));
+        penalty(tail) = infpenalty;
     }
-  } else {
-    lastspecialline = info(parshapeptr) - 1;
-    secondwidth = mem[parshapeptr + (lastspecialline + 1) * 2 - memmin].sc;
-    secondindent = mem[parshapeptr + lastspecialline * 2 - memmin + 1].sc;
-  }
-  if (looseness == 0)
-    easyline = lastspecialline;
-  else {
-    easyline = maxhalfword;
-    /*:848*/
-  }
-  /*863:*/
-  threshold = pretolerance;
-  if (threshold >= 0) {  /*_STAT*/
-    if (tracingparagraphs > 0) {   /*_ENDSTAT*/
-      begindiagnostic();
-      printnl(S(777));
+    link(tail) = newparamglue(parfillskipcode);
+    initcurlang = prevgraf % 65536L;
+    initlhyf = prevgraf / 4194304L;
+    initrhyf = (prevgraf / 65536L) & 63;
+    popnest(); /*:816*/
+    /*827:*/
+    noshrinkerroryet = true;
+    checkshrinkage(leftskip);
+    checkshrinkage(rightskip);
+    q = leftskip;
+    r = rightskip;
+    background[0] = width(q) + width(r);
+    background[1] = 0;
+    background[2] = 0;
+    background[3] = 0;
+    background[4] = 0;
+    background[stretchorder(q) + 1] = stretch(q);
+    background[stretchorder(r) + 1] += stretch(r);
+    background[5] = shrink(q) + shrink(r); /*:827*/
+    /*834:*/
+    minimumdemerits = awfulbad;
+    minimaldemerits[tightfit - veryloosefit] = awfulbad;
+    minimaldemerits[decentfit - veryloosefit] = awfulbad;
+    minimaldemerits[loosefit - veryloosefit] = awfulbad;
+    minimaldemerits[0] = awfulbad; /*:834*/
+    /*848:*/
+    if (parshapeptr == 0) {
+        if (hangindent == 0) {
+            lastspecialline = 0;
+            secondwidth = hsize;
+            secondindent = 0;
+        } else /*849:*/
+        {      /*:849*/
+            lastspecialline = labs(hangafter);
+            if (hangafter < 0) {
+                firstwidth = hsize - labs(hangindent);
+                if (hangindent >= 0)
+                    firstindent = hangindent;
+                else
+                    firstindent = 0;
+                secondwidth = hsize;
+                secondindent = 0;
+            } else {
+                firstwidth = hsize;
+                firstindent = 0;
+                secondwidth = hsize - labs(hangindent);
+                if (hangindent >= 0)
+                    secondindent = hangindent;
+                else
+                    secondindent = 0;
+            }
+        }
+    } else {
+        lastspecialline = info(parshapeptr) - 1;
+        secondwidth = mem[parshapeptr + (lastspecialline + 1) * 2 - memmin].sc;
+        secondindent = mem[parshapeptr + lastspecialline * 2 - memmin + 1].sc;
     }
-    secondpass = false;
-    finalpass = false;
-  } else {
-    threshold = tolerance;
-    secondpass = true;
-    finalpass = (emergencystretch <= 0);   /*_STAT*/
-    if (tracingparagraphs > 0)   /*_ENDSTAT*/
-      begindiagnostic();
-  }
-  while (true) {
-    if (threshold > infbad)
-      threshold = infbad;
-    if (secondpass) {   /*891:*/
-      if (trienotready)
-	inittrie();
-      curlang = initcurlang;
-      lhyf = initlhyf;
-      rhyf = initrhyf;
+    if (looseness == 0)
+        easyline = lastspecialline;
+    else {
+        easyline = maxhalfword;
+        /*:848*/
     }
-    /*:891*/
-    /*864:*/
-    q = getnode(activenodesize);
-    type(q) = unhyphenated;
-    fitness(q) = decentfit;
-    link(q) = lastactive;
-    breaknode(q) = 0;
-    linenumber(q) = prevgraf + 1;
-    totaldemerits(q) = 0;
-    link(active) = q;
-    storebackground(1);
-    storebackground(2);
-    storebackground(3);
-    storebackground(4);
-    storebackground(5);
-    storebackground(6);
-    passive = 0;
-    printednode = temphead;
-    passnumber = 0;
-    fontinshortdisplay = nullfont;   /*:864*/
-    curp = link(temphead);
-    autobreaking = true;
-    prevp = curp;
-    while ((curp != 0) & (link(active) != lastactive)) {   /*866:*/
-      if (ischarnode(curp)) {   /*867:*/
-	prevp = curp;
-	do {
-	  f = font(curp);
-	  actwidth += charwidth(f, charinfo(f, character(curp)));
-	  curp = link(curp);
-	} while (ischarnode(curp));
-      }
-      /*:867*/
-      switch (type(curp)) {
-
-      case hlistnode:
-      case vlistnode:
-      case rulenode:
-	actwidth += width(curp);
-	break;
-
-      case whatsitnode:   /*1362:*/
-	advpast(curp);   /*:1362*/
-	break;
-
-      case gluenode:  /*868:*/
-	if (autobreaking) {
-	  if (ischarnode(prevp))
-	    trybreak(0, unhyphenated);
-	  else if (precedesbreak(prevp)) {
-	    trybreak(0, unhyphenated);
-	  } else if ((type(prevp) == kernnode) &
-		     (subtype(prevp) != explicit))
-	    trybreak(0, unhyphenated);
-	}
-	checkshrinkage(glueptr(curp));
-	q = glueptr(curp);
-	actwidth += width(q);
-	activewidth[stretchorder(q) + 1] += stretch(q);
-	activewidth[5] += shrink(q);   /*:868*/
-	if (secondpass && autobreaking) {   /*894:*/
-	  prevs = curp;
-	  s = link(prevs);
-	  if (s != 0) {  /*896:*/
-	    while (true) {
-	      if (ischarnode(s)) {
-		c = character(s) - minquarterword;
-		hf = font(s);
-	      } else if (type(s) == ligaturenode) {
-		if (ligptr(s) == 0)
-		  goto _Llabcontinue;
-		q = ligptr(s);
-		c = character(q) - minquarterword;
-		hf = font(q);
-	      } else if ((type(s) == kernnode) & (subtype(s) == normal))
-		goto _Llabcontinue;
-	      else if (type(s) == whatsitnode) {
-		advpast(s);   /*:1363*/
-		goto _Llabcontinue;
-	      } else
-		goto _Ldone1;
-	      if (lccode(c) != 0) {
-		if (lccode(c) == c || uchyph > 0)
-		  goto _Ldone2;
-		else
-		  goto _Ldone1;
-	      }
-_Llabcontinue:
-	      prevs = s;
-	      s = link(prevs);
-	    }
-_Ldone2:
-	    hyfchar = get_hyphenchar(hf);
-	    if (hyfchar < 0)
-	      goto _Ldone1;
-	    if (hyfchar > 255)
-	      goto _Ldone1;
-	    ha = prevs;   /*:896*/
-	    if (lhyf + rhyf > 63)   /*897:*/
-	      goto _Ldone1;
-	    hn = 0;
-	    while (true) {
-	      if (ischarnode(s)) {
-		if (font(s) != hf)
-		  goto _Ldone3;
-		hyfbchar = character(s);
-		c = hyfbchar - minquarterword;
-		if (lccode(c) == 0)
-		  goto _Ldone3;
-		if (hn == 63)
-		  goto _Ldone3;
-		hb = s;
-		hn++;
-		hu[hn] = c;
-		hc[hn] = lccode(c);
-		hyfbchar = nonchar;
-	      } else if (type(s) == ligaturenode) {
-		if (font_ligchar(s) != hf) {
-		  goto _Ldone3;
-		}
-		j = hn;
-		q = ligptr(s);
-		if (q > 0)
-		  hyfbchar = character(q);
-		while (q > 0) {
-		  c = character(q) - minquarterword;
-		  if (lccode(c) == 0)
-		    goto _Ldone3;
-		  if (j == 63)
-		    goto _Ldone3;
-		  j++;
-		  hu[j] = c;
-		  hc[j] = lccode(c);
-		  q = link(q);
-		}
-		hb = s;
-		hn = j;
-		if ((subtype(s)) & 1)
-		  hyfbchar = fontbchar[hf ];
-		else
-		  hyfbchar = nonchar;
-	      } else if ((type(s) == kernnode) & (subtype(s) == normal)) {
-		hb = s;
-		hyfbchar = fontbchar[hf ];
-	      } else
-		goto _Ldone3;
-	      s = link(s);
-	    }
-_Ldone3:   /*:897*/
-	    /*899:*/
-	    if (hn < lhyf + rhyf)
-	      goto _Ldone1;
-	    while (true) {
-	      if (!ischarnode(s)) {
-		switch (type(s)) {
-
-		case ligaturenode:
-		  /* blank case */
-		  break;
-
-		case kernnode:
-		  if (subtype(s) != normal)
-		    goto _Ldone4;
-		  break;
-
-		case whatsitnode:
-		case gluenode:
-		case penaltynode:
-		case insnode:
-		case adjustnode:
-		case marknode:
-		  goto _Ldone4;
-		  break;
-
-		default:
-		  goto _Ldone1;
-		  break;
-		}
-	      }
-	      s = link(s);
-	    }
-_Ldone4:   /*:899*/
-	    hyphenate();
-	  }
-_Ldone1: ;
-	}
-	/*:894*/
-	break;
-
-      case kernnode:
-	if (subtype(curp) == explicit) {
-	  kernbreak();
-	} else
-	  actwidth += width(curp);
-	break;
-
-      case ligaturenode:
-	f = font_ligchar(curp);
-	actwidth += charwidth(f,
-	    charinfo(f, character_ligchar(curp)));
-	break;
-
-      case discnode:   /*869:*/
-	s = prebreak(curp);
-	discwidth = 0;
-	if (s == 0)
-	  trybreak(exhyphenpenalty, hyphenated);
-	else {
-	  do {   /*870:*/
-	    if (ischarnode(s)) {
-	      f = font(s);
-	      discwidth += charwidth(f, charinfo(f, character(s)));
-	    } else {
-	      switch (type(s)) {   /*:870*/
-
-	      case ligaturenode:
-		f = font_ligchar(s);
-		discwidth += charwidth(f,
-		    charinfo(f, character_ligchar(s)));
-		break;
-
-	      case hlistnode:
-	      case vlistnode:
-	      case rulenode:
-	      case kernnode:
-		discwidth += width(s);
-		break;
-
-	      default:
-		confusion(S(778));
-		break;
-	      }
-	    }
-	    s = link(s);
-	  } while (s != 0);
-	  actwidth += discwidth;
-	  trybreak(hyphenpenalty, hyphenated);
-	  actwidth -= discwidth;
-	}
-	r = replacecount(curp);
-	s = link(curp);
-	while (r > 0) {  /*871:*/
-	  if (ischarnode(s)) {
-	    f = font(s);
-	    actwidth += charwidth(f, charinfo(f, character(s)));
-	  } else {
-	    switch (type(s)) {   /*:871*/
-
-	    case ligaturenode:
-	      f = font_ligchar(s);
-	      actwidth += charwidth(f,
-		  charinfo(f, character_ligchar(s)));
-	      break;
-
-	    case hlistnode:
-	    case vlistnode:
-	    case rulenode:
-	    case kernnode:
-	      actwidth += width(s);
-	      break;
-
-	    default:
-	      confusion(S(779));
-	      break;
-	    }
-	  }
-	  r--;
-	  s = link(s);
-	}
-	prevp = curp;
-	curp = s;
-	goto _Ldone5;
-	break;
-	/*:869*/
-
-      case mathnode:
-	autobreaking = (subtype(curp) == after);
-	kernbreak();
-	break;
-
-      case penaltynode:
-	trybreak(penalty(curp), unhyphenated);
-	break;
-
-      case marknode:
-      case insnode:
-      case adjustnode:
-	/* blank case */
-	break;
-
-      default:
-	confusion(S(780));
-	break;
-      }
-      prevp = curp;
-      curp = link(curp);
-_Ldone5: ;
+    /*863:*/
+    threshold = pretolerance;
+    if (threshold >= 0) {            /*_STAT*/
+        if (tracingparagraphs > 0) { /*_ENDSTAT*/
+            begindiagnostic();
+            printnl(S(777));
+        }
+        secondpass = false;
+        finalpass = false;
+    } else {
+        threshold = tolerance;
+        secondpass = true;
+        finalpass = (emergencystretch <= 0); /*_STAT*/
+        if (tracingparagraphs > 0)           /*_ENDSTAT*/
+            begindiagnostic();
     }
-    /*:866*/
-    if (curp == 0) {   /*873:*/
-      trybreak(ejectpenalty, hyphenated);
-      if (link(active) != lastactive) {   /*874:*/
-	r = link(active);
-	fewestdemerits = awfulbad;
-	do {
-	  if (type(r) != deltanode) {
-	    if (totaldemerits(r) < fewestdemerits) {
-	      fewestdemerits = totaldemerits(r);
-	      bestbet = r;
-	    }
-	  }
-	  r = link(r);
-	} while (r != lastactive);
-	bestline = linenumber(bestbet);   /*:874*/
-	if (looseness == 0)
-	  goto _Ldone;
-	/*875:*/
-	r = link(active);
-	actuallooseness = 0;
-	do {
-	  if (type(r) != deltanode) {
-	    linediff = linenumber(r) - bestline;
-	    if ( (linediff < actuallooseness && looseness <= linediff) ||
-		(linediff > actuallooseness && looseness >= linediff) ) {
-	      bestbet = r;
-	      actuallooseness = linediff;
-	      fewestdemerits = totaldemerits(r);
-	    } else if ((linediff == actuallooseness) &
-		       (totaldemerits(r) < fewestdemerits)) {
-	      bestbet = r;
-	      fewestdemerits = totaldemerits(r);
-	    }
-	  }
-	  r = link(r);
-	} while (r != lastactive);
-	bestline = linenumber(bestbet);   /*:875*/
-	if (actuallooseness == looseness || finalpass)
-	  goto _Ldone;
-      }
+    while (true) {
+        if (threshold > infbad) threshold = infbad;
+        if (secondpass) { /*891:*/
+#ifdef tt_INIT
+            if (trie_not_ready) inittrie();
+#endif // #891: tt_INIT
+            curlang = initcurlang;
+            lhyf = initlhyf;
+            rhyf = initrhyf;
+        }
+        /*:891*/
+        /*864:*/
+        q = getnode(activenodesize);
+        type(q) = unhyphenated;
+        fitness(q) = decentfit;
+        link(q) = lastactive;
+        breaknode(q) = 0;
+        linenumber(q) = prevgraf + 1;
+        totaldemerits(q) = 0;
+        link(active) = q;
+        storebackground(1);
+        storebackground(2);
+        storebackground(3);
+        storebackground(4);
+        storebackground(5);
+        storebackground(6);
+        passive = 0;
+        printednode = temphead;
+        passnumber = 0;
+        fontinshortdisplay = nullfont; /*:864*/
+        curp = link(temphead);
+        autobreaking = true;
+        prevp = curp;
+        while ((curp != 0) & (link(active) != lastactive)) { /*866:*/
+            if (ischarnode(curp)) {                          /*867:*/
+                prevp = curp;
+                do {
+                    f = font(curp);
+                    actwidth += charwidth(f, charinfo(f, character(curp)));
+                    curp = link(curp);
+                } while (ischarnode(curp));
+            }
+            /*:867*/
+            switch (type(curp)) {
+
+                case hlistnode:
+                case vlistnode:
+                case rulenode:
+                    actwidth += width(curp);
+                    break;
+
+                case whatsitnode:  /*1362:*/
+                    advpast(curp); /*:1362*/
+                    break;
+
+                case gluenode: /*868:*/
+                    if (autobreaking) {
+                        if (ischarnode(prevp))
+                            trybreak(0, unhyphenated);
+                        else if (precedesbreak(prevp)) {
+                            trybreak(0, unhyphenated);
+                        } else if ((type(prevp) == kernnode) &
+                                   (subtype(prevp) != explicit))
+                            trybreak(0, unhyphenated);
+                    }
+                    checkshrinkage(glueptr(curp));
+                    q = glueptr(curp);
+                    actwidth += width(q);
+                    activewidth[stretchorder(q) + 1] += stretch(q);
+                    activewidth[5] += shrink(q);      /*:868*/
+                    if (secondpass && autobreaking) { /*894:*/
+                        prevs = curp;
+                        s = link(prevs);
+                        if (s != 0) { /*896:*/
+                            while (true) {
+                                if (ischarnode(s)) {
+                                    c = character(s) - minquarterword;
+                                    hf = font(s);
+                                } else if (type(s) == ligaturenode) {
+                                    if (ligptr(s) == 0) goto _Llabcontinue;
+                                    q = ligptr(s);
+                                    c = character(q) - minquarterword;
+                                    hf = font(q);
+                                } else if ((type(s) == kernnode) &
+                                           (subtype(s) == normal))
+                                    goto _Llabcontinue;
+                                else if (type(s) == whatsitnode) {
+                                    advpast(s); /*:1363*/
+                                    goto _Llabcontinue;
+                                } else
+                                    goto _Ldone1;
+                                if (lccode(c) != 0) {
+                                    if (lccode(c) == c || uchyph > 0)
+                                        goto _Ldone2;
+                                    else
+                                        goto _Ldone1;
+                                }
+                            _Llabcontinue:
+                                prevs = s;
+                                s = link(prevs);
+                            }
+                        _Ldone2:
+                            hyfchar = get_hyphenchar(hf);
+                            if (hyfchar < 0) goto _Ldone1;
+                            if (hyfchar > 255) goto _Ldone1;
+                            ha = prevs;           /*:896*/
+                            if (lhyf + rhyf > 63) /*897:*/
+                                goto _Ldone1;
+                            hn = 0;
+                            while (true) {
+                                if (ischarnode(s)) {
+                                    if (font(s) != hf) goto _Ldone3;
+                                    hyfbchar = character(s);
+                                    c = hyfbchar - minquarterword;
+                                    if (lccode(c) == 0) goto _Ldone3;
+                                    if (hn == 63) goto _Ldone3;
+                                    hb = s;
+                                    hn++;
+                                    hu[hn] = c;
+                                    hc[hn] = lccode(c);
+                                    hyfbchar = nonchar;
+                                } else if (type(s) == ligaturenode) {
+                                    if (font_ligchar(s) != hf) {
+                                        goto _Ldone3;
+                                    }
+                                    j = hn;
+                                    q = ligptr(s);
+                                    if (q > 0) hyfbchar = character(q);
+                                    while (q > 0) {
+                                        c = character(q) - minquarterword;
+                                        if (lccode(c) == 0) goto _Ldone3;
+                                        if (j == 63) goto _Ldone3;
+                                        j++;
+                                        hu[j] = c;
+                                        hc[j] = lccode(c);
+                                        q = link(q);
+                                    }
+                                    hb = s;
+                                    hn = j;
+                                    if ((subtype(s)) & 1)
+                                        hyfbchar = fontbchar[hf];
+                                    else
+                                        hyfbchar = nonchar;
+                                } else if ((type(s) == kernnode) &
+                                           (subtype(s) == normal)) {
+                                    hb = s;
+                                    hyfbchar = fontbchar[hf];
+                                } else
+                                    goto _Ldone3;
+                                s = link(s);
+                            }
+                        _Ldone3: /*:897*/
+                            /*899:*/
+                            if (hn < lhyf + rhyf) goto _Ldone1;
+                            while (true) {
+                                if (!ischarnode(s)) {
+                                    switch (type(s)) {
+
+                                        case ligaturenode:
+                                            /* blank case */
+                                            break;
+
+                                        case kernnode:
+                                            if (subtype(s) != normal)
+                                                goto _Ldone4;
+                                            break;
+
+                                        case whatsitnode:
+                                        case gluenode:
+                                        case penaltynode:
+                                        case insnode:
+                                        case adjustnode:
+                                        case marknode:
+                                            goto _Ldone4;
+                                            break;
+
+                                        default:
+                                            goto _Ldone1;
+                                            break;
+                                    }
+                                }
+                                s = link(s);
+                            }
+                        _Ldone4: /*:899*/
+                            hyphenate();
+                        }
+                    _Ldone1:;
+                    }
+                    /*:894*/
+                    break;
+
+                case kernnode:
+                    if (subtype(curp) == explicit) {
+                        kernbreak();
+                    } else
+                        actwidth += width(curp);
+                    break;
+
+                case ligaturenode:
+                    f = font_ligchar(curp);
+                    actwidth +=
+                        charwidth(f, charinfo(f, character_ligchar(curp)));
+                    break;
+
+                case discnode: /*869:*/
+                    s = prebreak(curp);
+                    discwidth = 0;
+                    if (s == 0)
+                        trybreak(exhyphenpenalty, hyphenated);
+                    else {
+                        do { /*870:*/
+                            if (ischarnode(s)) {
+                                f = font(s);
+                                discwidth +=
+                                    charwidth(f, charinfo(f, character(s)));
+                            } else {
+                                switch (type(s)) { /*:870*/
+
+                                    case ligaturenode:
+                                        f = font_ligchar(s);
+                                        discwidth += charwidth(
+                                            f,
+                                            charinfo(f, character_ligchar(s)));
+                                        break;
+
+                                    case hlistnode:
+                                    case vlistnode:
+                                    case rulenode:
+                                    case kernnode:
+                                        discwidth += width(s);
+                                        break;
+
+                                    default:
+                                        confusion(S(778));
+                                        break;
+                                }
+                            }
+                            s = link(s);
+                        } while (s != 0);
+                        actwidth += discwidth;
+                        trybreak(hyphenpenalty, hyphenated);
+                        actwidth -= discwidth;
+                    }
+                    r = replacecount(curp);
+                    s = link(curp);
+                    while (r > 0) { /*871:*/
+                        if (ischarnode(s)) {
+                            f = font(s);
+                            actwidth += charwidth(f, charinfo(f, character(s)));
+                        } else {
+                            switch (type(s)) { /*:871*/
+
+                                case ligaturenode:
+                                    f = font_ligchar(s);
+                                    actwidth += charwidth(
+                                        f, charinfo(f, character_ligchar(s)));
+                                    break;
+
+                                case hlistnode:
+                                case vlistnode:
+                                case rulenode:
+                                case kernnode:
+                                    actwidth += width(s);
+                                    break;
+
+                                default:
+                                    confusion(S(779));
+                                    break;
+                            }
+                        }
+                        r--;
+                        s = link(s);
+                    }
+                    prevp = curp;
+                    curp = s;
+                    goto _Ldone5;
+                    break;
+                    /*:869*/
+
+                case mathnode:
+                    autobreaking = (subtype(curp) == after);
+                    kernbreak();
+                    break;
+
+                case penaltynode:
+                    trybreak(penalty(curp), unhyphenated);
+                    break;
+
+                case marknode:
+                case insnode:
+                case adjustnode:
+                    /* blank case */
+                    break;
+
+                default:
+                    confusion(S(780));
+                    break;
+            }
+            prevp = curp;
+            curp = link(curp);
+        _Ldone5:;
+        }
+        /*:866*/
+        if (curp == 0) { /*873:*/
+            trybreak(ejectpenalty, hyphenated);
+            if (link(active) != lastactive) { /*874:*/
+                r = link(active);
+                fewestdemerits = awfulbad;
+                do {
+                    if (type(r) != deltanode) {
+                        if (totaldemerits(r) < fewestdemerits) {
+                            fewestdemerits = totaldemerits(r);
+                            bestbet = r;
+                        }
+                    }
+                    r = link(r);
+                } while (r != lastactive);
+                bestline = linenumber(bestbet); /*:874*/
+                if (looseness == 0) goto _Ldone;
+                /*875:*/
+                r = link(active);
+                actuallooseness = 0;
+                do {
+                    if (type(r) != deltanode) {
+                        linediff = linenumber(r) - bestline;
+                        if ((linediff < actuallooseness &&
+                             looseness <= linediff) ||
+                            (linediff > actuallooseness &&
+                             looseness >= linediff)) {
+                            bestbet = r;
+                            actuallooseness = linediff;
+                            fewestdemerits = totaldemerits(r);
+                        } else if ((linediff == actuallooseness) &
+                                   (totaldemerits(r) < fewestdemerits)) {
+                            bestbet = r;
+                            fewestdemerits = totaldemerits(r);
+                        }
+                    }
+                    r = link(r);
+                } while (r != lastactive);
+                bestline = linenumber(bestbet); /*:875*/
+                if (actuallooseness == looseness || finalpass) goto _Ldone;
+            }
+        }
+        /*:873*/
+        /*865:*/
+        q = link(active);
+        while (q != lastactive) {
+            curp = link(q);
+            if (type(q) == deltanode)
+                freenode(q, deltanodesize);
+            else
+                freenode(q, activenodesize);
+            q = curp;
+        }
+        q = passive;
+        while (q != 0) { /*:865*/
+            curp = link(q);
+            freenode(q, passivenodesize);
+            q = curp;
+        }
+        if (secondpass) {              /*_STAT*/
+            if (tracingparagraphs > 0) /*_ENDSTAT*/
+                printnl(S(781));
+            background[1] += emergencystretch;
+            finalpass = true;
+            continue;
+        }
+        if (tracingparagraphs > 0) /*_ENDSTAT*/
+            printnl(S(782));
+        threshold = tolerance;
+        secondpass = true;
+        finalpass = (emergencystretch <= 0);
     }
-    /*:873*/
-    /*865:*/
+_Ldone:                          /*_STAT*/
+    if (tracingparagraphs > 0) { /*_ENDSTAT*/
+        enddiagnostic(true);
+        normalizeselector();
+    }
+    /*:863*/
+    /*876:*/
+    /*:876*/
+    postlinebreak(finalwidowpenalty); /*865:*/
     q = link(active);
     while (q != lastactive) {
-      curp = link(q);
-      if (type(q) == deltanode)
-	freenode(q, deltanodesize);
-      else
-	freenode(q, activenodesize);
-      q = curp;
+        curp = link(q);
+        if (type(q) == deltanode)
+            freenode(q, deltanodesize);
+        else
+            freenode(q, activenodesize);
+        q = curp;
     }
     q = passive;
-    while (q != 0) {   /*:865*/
-      curp = link(q);
-      freenode(q, passivenodesize);
-      q = curp;
+    while (q != 0) { /*:865*/
+        curp = link(q);
+        freenode(q, passivenodesize);
+        q = curp;
     }
-    if (secondpass) {  /*_STAT*/
-      if (tracingparagraphs > 0)   /*_ENDSTAT*/
-	printnl(S(781));
-      background[1] += emergencystretch;
-      finalpass = true;
-      continue;
-    }
-    if (tracingparagraphs > 0)   /*_ENDSTAT*/
-      printnl(S(782));
-    threshold = tolerance;
-    secondpass = true;
-    finalpass = (emergencystretch <= 0);
-  }
-_Ldone:   /*_STAT*/
-  if (tracingparagraphs > 0) {   /*_ENDSTAT*/
-    enddiagnostic(true);
-    normalizeselector();
-  }
-  /*:863*/
-  /*876:*/
-  /*:876*/
-  postlinebreak(finalwidowpenalty);   /*865:*/
-  q = link(active);
-  while (q != lastactive) {
-    curp = link(q);
-    if (type(q) == deltanode)
-      freenode(q, deltanodesize);
-    else
-      freenode(q, activenodesize);
-    q = curp;
-  }
-  q = passive;
-  while (q != 0) {   /*:865*/
-    curp = link(q);
-    freenode(q, passivenodesize);
-    q = curp;
-  }
-  packbeginline = 0;
+    packbeginline = 0;
 
-  /*1363:*/
-  /*898:*/
-  /*:898*/
-  /*_STAT*/
+    /*1363:*/
+    /*898:*/
+    /*:898*/
+    /*_STAT*/
 }
 /*:815*/
 
@@ -12779,7 +12836,7 @@ _Lreswitch:
 	{ int ress = str_cmp(k,s);
 	if(ress < 0) goto _Lfound;
 	if(ress > 0) goto _Lnotfound;
-	}	
+	}
 _Lfound:
 	  q = hyphlist[h];
 	  hyphlist[h] = p;
@@ -12798,7 +12855,7 @@ _Lnotfound:   /*:941*/
       }
       /*:939*/
       if (curcmd == rightbrace)
-	goto _Lexit;
+	        goto _Lexit;
       n = 0;
       p = 0;
       break;
@@ -14422,7 +14479,7 @@ Static void appenditaliccorrection(void)
 	c = character_ligchar(tail);
     } else
       goto _Lexit;
-/*    f = font(p); 
+/*    f = font(p);
     tailappend(newkern(charitalic(f, charinfo(f, character(p)))));
 */
 	tailappend(newkern(charitalic(f, charinfo(f,c))));
@@ -15130,7 +15187,7 @@ Static void subsup(void)
     if (scriptsallowed(tail)) {
 	if(curcmd == supmark) {
 		p = supscr(tail);
-	} else { 
+	} else {
 		p = subscr(tail);
 	}
       t = mathtype(p);
@@ -15138,9 +15195,9 @@ Static void subsup(void)
   }
   if (p == 0 || t != empty) {   /*1177:*/
     tailappend(newnoad());
-    if(curcmd == supmark) { 
+    if(curcmd == supmark) {
 	p = supscr(tail);
-    } else { 
+    } else {
 	p = subscr(tail);
     }
     if (t != empty) {
@@ -16226,12 +16283,14 @@ Static void prefixedcommand(void)
     }
     define(parshapeloc, shaperef, p);
     break;
-    /*1252:*/
 
-  case hyphdata:   /*:1252*/
+  case hyphdata:
     if (curchr == 1) {
-      newpatterns();
-      goto _Ldone;
+#ifdef tt_INIT
+        /// #1252
+        newpatterns();
+        goto _Ldone;
+#endif // #1252: tt_INIT
     } else {
       newhyphexceptions();
       goto _Ldone;
@@ -16472,274 +16531,274 @@ _Lcommonending:
 }
 /*:1293*/
 
-/*1302:*/
-Static void storefmtfile(void)
-{  /*1304:*/
-  long j, k, l, x;
-  pointer p, q;
-  memoryword pppfmtfile;
-  if (saveptr != 0) {
-    printnl(S(292));
-    print(S(988));
-    help1(S(989));
-    if (interaction == errorstopmode)
-      interaction = scrollmode;
-    if (logopened)   /*_DEBUG*/
-      error();
-    if (interaction > batchmode)
-      debughelp();
-    /*_ENDDEBUG*/
-    history = FATAL_ERROR_STOP;
-    jumpout();
-  }
-  /*:1304*/
-  /*1328:*/
-  selector = newstring;
-  print(S(990));
-  print(jobname);
-  printchar(' ');
-  printint(year % 100);
-  printchar('.');
-  printint(month);
-  printchar('.');
-  printint(day);
-  printchar(')');
-  if (interaction == batchmode)
-    selector = logonly;
-  else
-    selector = termandlog;
-  str_room(1);
-  formatident = makestring();
-  packjobname(formatextension);
-  while (!wopenout(&fmtfile))
-    promptfilename(S(991), formatextension);
-  printnl(S(992));
-  slowprint(wmakenamestring());
-  flushstring();
-  printnl(S(385));   /*:1328*/
-  slowprint(formatident);   /*1307:*/
-  pppfmtfile.int_ = 371982687L;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = membot;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = memtop;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = eqtbsize;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = hashprime;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = hyphsize;
-  pput(pppfmtfile);   /*:1307*/
-  str_dump(fmtfile);
-   /*1311:*/
-  sortavail();
-  varused = 0;
-  pppfmtfile.int_ = lomemmax;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = rover;
-  pput(pppfmtfile);
-  p = membot;
-  q = rover;
-  x = 0;
-  do {
-    for (k = p; k <= q + 1; k++) {
-      pppfmtfile = mem[k - memmin];
-      pput(pppfmtfile);
+
+/// 455#1302: Declare action procedures for use by main control
+#ifdef tt_INIT
+Static void storefmtfile(void) { /*1304:*/
+    long j, k, l, x;
+    pointer p, q;
+    memoryword pppfmtfile;
+    if (saveptr != 0) {
+        printnl(S(292));
+        print(S(988));
+        help1(S(989));
+        if (interaction == errorstopmode) interaction = scrollmode;
+        if (logopened) /*_DEBUG*/
+            error();
+        if (interaction > batchmode) debughelp();
+        /*_ENDDEBUG*/
+        history = FATAL_ERROR_STOP;
+        jumpout();
     }
-    x += q - p + 2;
-    varused += q - p;
-    p = q + nodesize(q);
-    q = rlink(q);
-  } while (q != rover);
-  varused += lomemmax - p;
-  dynused = memend - himemmin + 1;
-  for (k = p; k <= lomemmax ; k++) {
-    pppfmtfile = mem[k - memmin];
+    /*:1304*/
+    /*1328:*/
+    selector = newstring;
+    print(S(990));
+    print(jobname);
+    printchar(' ');
+    printint(year % 100);
+    printchar('.');
+    printint(month);
+    printchar('.');
+    printint(day);
+    printchar(')');
+    if (interaction == batchmode)
+        selector = logonly;
+    else
+        selector = termandlog;
+    str_room(1);
+    formatident = makestring();
+    packjobname(formatextension);
+    while (!wopenout(&fmtfile))
+        promptfilename(S(991), formatextension);
+    printnl(S(992));
+    slowprint(wmakenamestring());
+    flushstring();
+    printnl(S(385));        /*:1328*/
+    slowprint(formatident); /*1307:*/
+    pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
-  }
-  x += lomemmax - p + 1;
-  pppfmtfile.int_ = himemmin;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = avail;
-  pput(pppfmtfile);
-  for (k = himemmin; k <= memend; k++) {
-    pppfmtfile = mem[k - memmin];
+    pppfmtfile.int_ = membot;
     pput(pppfmtfile);
-  }
-  x += memend - himemmin + 1;
-  p = avail;
-  while (p != 0) {
-    dynused-=charnodesize;
-    p = link(p);
-  }
-  pppfmtfile.int_ = varused;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = dynused;
-  pput(pppfmtfile);
-  println();
-  printint(x);
-  print(S(993));
-  printint(varused);
-  printchar('&');   /*:1311*/
-  printint(dynused);   /*1313:*/
-  /*1315:*/
-  k = activebase;
-  do {   /*1316:*/
-    j = k;
-    while (j < intbase - 1) {
-      if ((equiv(j) == equiv(j + 1)) & (eqtype(j) ==
-	    eqtype(j + 1)) & (eqlevel(j) == eqlevel(j + 1)))
-	goto _Lfound1;
-      j++;
+    pppfmtfile.int_ = memtop;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = eqtbsize;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = hashprime;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = hyphsize;
+    pput(pppfmtfile); /*:1307*/
+    str_dump(fmtfile);
+
+    sort_avail(); // #131
+
+    varused = 0;
+    pppfmtfile.int_ = lomemmax;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = rover;
+    pput(pppfmtfile);
+    p = membot;
+    q = rover;
+    x = 0;
+    do {
+        for (k = p; k <= q + 1; k++) {
+            pppfmtfile = mem[k - memmin];
+            pput(pppfmtfile);
+        }
+        x += q - p + 2;
+        varused += q - p;
+        p = q + nodesize(q);
+        q = rlink(q);
+    } while (q != rover);
+    varused += lomemmax - p;
+    dynused = memend - himemmin + 1;
+    for (k = p; k <= lomemmax; k++) {
+        pppfmtfile = mem[k - memmin];
+        pput(pppfmtfile);
     }
-    l = intbase;
-    goto _Ldone1;
+    x += lomemmax - p + 1;
+    pppfmtfile.int_ = himemmin;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = avail;
+    pput(pppfmtfile);
+    for (k = himemmin; k <= memend; k++) {
+        pppfmtfile = mem[k - memmin];
+        pput(pppfmtfile);
+    }
+    x += memend - himemmin + 1;
+    p = avail;
+    while (p != 0) {
+        dynused -= charnodesize;
+        p = link(p);
+    }
+    pppfmtfile.int_ = varused;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = dynused;
+    pput(pppfmtfile);
+    println();
+    printint(x);
+    print(S(993));
+    printint(varused);
+    printchar('&');    /*:1311*/
+    printint(dynused); /*1313:*/
+    /*1315:*/
+    k = activebase;
+
+    do { /*1316:*/
+        j = k;
+        while (j < intbase - 1) {
+            if ((equiv(j) == equiv(j + 1)) & (eqtype(j) == eqtype(j + 1)) &
+                (eqlevel(j) == eqlevel(j + 1)))
+                goto _Lfound1;
+            j++;
+        }
+        l = intbase;
+        goto _Ldone1;
 _Lfound1:
-    j++;
-    l = j;
-    while (j < intbase - 1) {
-      if ((equiv(j) != equiv(j + 1)) | (eqtype(j) !=
-	    eqtype(j + 1)) | (eqlevel(j) != eqlevel(j + 1)))
-	goto _Ldone1;
-      j++;
-    }
+        j++;
+        l = j;
+        while (j < intbase - 1) {
+            if ((equiv(j) != equiv(j + 1)) | (eqtype(j) != eqtype(j + 1)) |
+                (eqlevel(j) != eqlevel(j + 1)))
+                goto _Ldone1;
+            j++;
+        }
 _Ldone1:
-    pppfmtfile.int_ = l - k;
-    pput(pppfmtfile);
-    while (k < l) {
-      pppfmtfile = eqtb[k - activebase];
-      pput(pppfmtfile);
-      k++;
-    }
-    k = j + 1;
-    pppfmtfile.int_ = k - l;
-    pput(pppfmtfile);   /*:1315*/
-  } while (k != intbase);
-  do {
-    j = k;
-    while (j < eqtbsize) {
-      if (eqtb[j - activebase].int_ == eqtb[j - activebase + 1].int_)
-	goto _Lfound2;
-      j++;
-    }
-    l = eqtbsize + 1;
-    goto _Ldone2;
+        pppfmtfile.int_ = l - k;
+        pput(pppfmtfile);
+        while (k < l) {
+            pppfmtfile = eqtb[k - activebase];
+            pput(pppfmtfile);
+            k++;
+        }
+        k = j + 1;
+        pppfmtfile.int_ = k - l;
+        pput(pppfmtfile); /*:1315*/
+    } while (k != intbase);
+    do {
+        j = k;
+        while (j < eqtbsize) {
+            if (eqtb[j - activebase].int_ == eqtb[j - activebase + 1].int_)
+                goto _Lfound2;
+            j++;
+        }
+        l = eqtbsize + 1;
+        goto _Ldone2;
 _Lfound2:
-    j++;
-    l = j;
-    while (j < eqtbsize) {
-      if (eqtb[j - activebase].int_ != eqtb[j - activebase + 1].int_)
-	goto _Ldone2;
-      j++;
-    }
+        j++;
+        l = j;
+        while (j < eqtbsize) {
+            if (eqtb[j - activebase].int_ != eqtb[j - activebase + 1].int_)
+                goto _Ldone2;
+            j++;
+        }
 _Ldone2:
-    pppfmtfile.int_ = l - k;
+        pppfmtfile.int_ = l - k;
+        pput(pppfmtfile);
+        while (k < l) {
+            pppfmtfile = eqtb[k - activebase];
+            pput(pppfmtfile);
+            k++;
+        }
+        k = j + 1;
+        pppfmtfile.int_ = k - l;
+        pput(pppfmtfile); /*:1316*/
+    } while (k <= eqtbsize);
+
+    pppfmtfile.int_ = parloc;
     pput(pppfmtfile);
-    while (k < l) {
-      pppfmtfile = eqtb[k - activebase];
-      pput(pppfmtfile);
-      k++;
+    pppfmtfile.int_ = writeloc;
+    pput(pppfmtfile); /*1318:*/
+    pppfmtfile.int_ = hashused;
+    pput(pppfmtfile);
+    cscount = frozencontrolsequence - hashused - 1;
+    for (p = hashbase; p <= hashused; p++) {
+        if (text(p) != 0) {
+            pppfmtfile.int_ = p;
+            pput(pppfmtfile);
+            pppfmtfile.hh = hash[p - hashbase];
+            pput(pppfmtfile);
+            cscount++;
+        }
     }
-    k = j + 1;
-    pppfmtfile.int_ = k - l;
-    pput(pppfmtfile);   /*:1316*/
-  } while (k <= eqtbsize);
-  pppfmtfile.int_ = parloc;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = writeloc;
-  pput(pppfmtfile);   /*1318:*/
-  pppfmtfile.int_ = hashused;
-  pput(pppfmtfile);
-  cscount = frozencontrolsequence - hashused - 1;
-  for (p = hashbase; p <= hashused; p++) {
-    if (text(p) != 0) {
-      pppfmtfile.int_ = p;
-      pput(pppfmtfile);
-      pppfmtfile.hh = hash[p - hashbase];
-      pput(pppfmtfile);
-      cscount++;
+    for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
+        pppfmtfile.hh = hash[p - hashbase];
+        pput(pppfmtfile);
     }
-  }
-  for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
-    pppfmtfile.hh = hash[p - hashbase];
+    pppfmtfile.int_ = cscount;
     pput(pppfmtfile);
-  }
-  pppfmtfile.int_ = cscount;
-  pput(pppfmtfile);
-  println();
-  printint(cscount);   /*:1318*/
-  /*:1313*/
-  print(S(994));   
-  fonts_dump(fmtfile);
-  /*1324:*/
-  pppfmtfile.int_ = hyphcount;
-  pput(pppfmtfile);
-  for (k = 0; k <= hyphsize; k++) {
-    if (hyphword[k] != 0) {
-      pppfmtfile.int_ = k;
-      pput(pppfmtfile);
-      pppfmtfile.int_ = hyphword[k];
-      pput(pppfmtfile);
-      pppfmtfile.int_ = hyphlist[k];
-      pput(pppfmtfile);
+    println();
+    printint(cscount); /*:1318*/
+    /*:1313*/
+    print(S(994));
+    fonts_dump(fmtfile);
+    /*1324:*/
+    pppfmtfile.int_ = hyphcount;
+    pput(pppfmtfile);
+    for (k = 0; k <= hyphsize; k++) {
+        if (hyphword[k] != 0) {
+            pppfmtfile.int_ = k;
+            pput(pppfmtfile);
+            pppfmtfile.int_ = hyphword[k];
+            pput(pppfmtfile);
+            pppfmtfile.int_ = hyphlist[k];
+            pput(pppfmtfile);
+        }
     }
-  }
-  println();
-  printint(hyphcount);
-  print(S(995));
-  if (hyphcount != 1)
-    printchar('s');
-  if (trienotready)
-    inittrie();
-  pppfmtfile.int_ = triemax;
-  pput(pppfmtfile);
-  for (k = 0; k <= triemax; k++) {
-    pppfmtfile.hh = trie[k];
+    println();
+    printint(hyphcount);
+    print(S(995));
+    if (hyphcount != 1) printchar('s');
+    if (trie_not_ready) inittrie();
+    pppfmtfile.int_ = triemax;
     pput(pppfmtfile);
-  }
-  pppfmtfile.int_ = trieopptr;
-  pput(pppfmtfile);
-  for (k = 0; k < trieopptr; k++) {
-    pppfmtfile.int_ = hyfdistance[k];
-    pput(pppfmtfile);
-    pppfmtfile.int_ = hyfnum[k];
-    pput(pppfmtfile);
-    pppfmtfile.int_ = hyfnext[k];
-    pput(pppfmtfile);
-  }
-  printnl(S(996));
-  printint(triemax);
-  print(S(997));
-  printint(trieopptr);
-  print(S(998));
-  if (trieopptr != 1)
-    printchar('s');
-  print(S(999));
-  printint(trieopsize);
-  for (k = 255; k >= 0; k--) {   /*1326:*/
-    if (trieused[k] > minquarterword) {   /*:1324*/
-      printnl(S(675));
-      printint(trieused[k] - minquarterword);
-      print(S(1000));
-      printint(k);
-      pppfmtfile.int_ = k;
-      pput(pppfmtfile);
-      pppfmtfile.int_ = trieused[k] - minquarterword;
-      pput(pppfmtfile);
+    for (k = 0; k <= triemax; k++) {
+        pppfmtfile.hh = trie[k];
+        pput(pppfmtfile);
     }
-  }
-  pppfmtfile.int_ = interaction;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = formatident;
-  pput(pppfmtfile);
-  pppfmtfile.int_ = 69069L;
-  pput(pppfmtfile);
-  tracingstats = 0;   /*:1326*/
-  /*1329:*/
-  /*:1329*/
-  wclose(&fmtfile);
-}
-/*:1302*/
+    pppfmtfile.int_ = trieopptr;
+    pput(pppfmtfile);
+    for (k = 0; k < trieopptr; k++) {
+        pppfmtfile.int_ = hyfdistance[k];
+        pput(pppfmtfile);
+        pppfmtfile.int_ = hyfnum[k];
+        pput(pppfmtfile);
+        pppfmtfile.int_ = hyfnext[k];
+        pput(pppfmtfile);
+    }
+    printnl(S(996));
+    printint(triemax);
+    print(S(997));
+    printint(trieopptr);
+    print(S(998));
+    if (trieopptr != 1) printchar('s');
+    print(S(999));
+    printint(trieopsize);
+    for (k = 255; k >= 0; k--) {            /*1326:*/
+        if (trieused[k] > minquarterword) { /*:1324*/
+            printnl(S(675));
+            printint(trieused[k] - minquarterword);
+            print(S(1000));
+            printint(k);
+            pppfmtfile.int_ = k;
+            pput(pppfmtfile);
+            pppfmtfile.int_ = trieused[k] - minquarterword;
+            pput(pppfmtfile);
+        }
+    }
+    pppfmtfile.int_ = interaction;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = formatident;
+    pput(pppfmtfile);
+    pppfmtfile.int_ = 69069L;
+    pput(pppfmtfile);
+    tracingstats = 0; /*:1326*/
+    /*1329:*/
+    /*:1329*/
+    wclose(&fmtfile);
+} // storefmtfile
+#endif // #1302: tt_INIT
+
 
 /*1348:*/
 /*1349:*/
@@ -17989,7 +18048,7 @@ Static boolean loadfmtfile(void)
   pget(pppfmtfile);
   x = pppfmtfile.int_;
   if (x != hyphsize)   /*1310:*/
-    goto _Lbadfmt_;  
+    goto _Lbadfmt_;
   if(!str_undump(fmtfile,stdout)) goto _Lbadfmt_;
   /*1312:*/
   pget(pppfmtfile);
@@ -18137,7 +18196,9 @@ Static boolean loadfmtfile(void)
     goto _Lbadfmt_;
   }
   j = x;
+#ifdef tt_INIT
   triemax = j;
+#endif // #1325.1: tt_INIT
   for (k = 0; k <= j; k++) {
     pget(pppfmtfile);
     trie[k] = pppfmtfile.hh;
@@ -18151,7 +18212,9 @@ Static boolean loadfmtfile(void)
     goto _Lbadfmt_;
   }
   j = x;
+#ifdef tt_INIT
   trieopptr = j;
+#endif // #1325.2: tt_INIT
   for (k = 1; k <= j; k++) {
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -18169,8 +18232,10 @@ Static boolean loadfmtfile(void)
       goto _Lbadfmt_;
     hyfnext[k - 1] = x;
   }
-  for (k = 0; k <= 255; k++)
-    trieused[k] = minquarterword;
+#ifdef tt_INIT
+    for (k = 0; k <= 255; k++)
+        trieused[k] = minquarterword;
+#endif // #1325.3: tt_INIT
   k = 256;
   while (j > 0) {
     pget(pppfmtfile);
@@ -18182,11 +18247,17 @@ Static boolean loadfmtfile(void)
     x = pppfmtfile.int_;
     if (x < 1 || x > j)
       goto _Lbadfmt_;
+#ifdef tt_INIT
     trieused[k] = x;
+#endif // #1325.4: tt_INIT
     j -= x;
     opstart[k] = j - minquarterword;
   }
-  trienotready = false;   /*:1325*/
+#ifdef tt_INIT
+    trie_not_ready = false;
+#endif // #1325.5: tt_INIT
+    /*:1325*/
+
   /*1327:*/
   pget(pppfmtfile);
   x = pppfmtfile.int_;
@@ -18312,7 +18383,7 @@ Static void closefilesandterminate(void) { /*1378:*/
 } // void closefilesandterminate(void)
 /*:1333*/
 
-/*1335:*/
+/// p468#1335: Last-minute procedures
 Static void finalcleanup(void) {
     SmallNumber c;
 
@@ -18361,417 +18432,411 @@ Static void finalcleanup(void) {
         }
     }
     if (c == 1) {
-        for (c = topmarkcode; c <= splitbotmarkcode; c++) {
-            if (curmark[c - topmarkcode] != 0)
-                deletetokenref(curmark[c - topmarkcode]);
+#ifdef tt_INIT
+        for (int i = topmarkcode; i <= splitbotmarkcode; i++) {
+            if (curmark[i] != 0) deletetokenref(curmark[i]);
         }
         storefmtfile();
-        goto _Lexit;
+#endif // #1335: tt_INIT
     }
-_Lexit:;
-}
-/*:1335*/
+} // #1335: finalcleanup
 
-/*1336:*/
-Static void initprim(void)
-{
- /*226:*/
-  primitive(S(341), assignglue, gluebase);
-  primitive(S(342), assignglue, gluebase + baselineskipcode);
-  primitive(S(343), assignglue, gluebase + parskipcode);
-  primitive(S(344), assignglue, gluebase + abovedisplayskipcode);
-  primitive(S(345), assignglue, gluebase + belowdisplayskipcode);
-  primitive(S(346), assignglue,
-	    gluebase + abovedisplayshortskipcode);
-  primitive(S(347), assignglue,
-	    gluebase + belowdisplayshortskipcode);
-  primitive(S(348), assignglue, gluebase + leftskipcode);
-  primitive(S(349), assignglue, gluebase + rightskipcode);
-  primitive(S(350), assignglue, gluebase + topskipcode);
-  primitive(S(351), assignglue, gluebase + splittopskipcode);
-  primitive(S(352), assignglue, gluebase + tabskipcode);
-  primitive(S(353), assignglue, gluebase + spaceskipcode);
-  primitive(S(354), assignglue, gluebase + xspaceskipcode);
-  primitive(S(355), assignglue, gluebase + parfillskipcode);
-  primitive(S(356), assignmuglue, gluebase + thinmuskipcode);
-  primitive(S(357), assignmuglue, gluebase + medmuskipcode);
-  primitive(S(358), assignmuglue, gluebase + thickmuskipcode);
-  /*:226*/
-  /*230:*/
-  primitive(S(1026), assigntoks, outputroutineloc);
-  primitive(S(1027), assigntoks, everyparloc);
-  primitive(S(1028), assigntoks, everymathloc);
-  primitive(S(1029), assigntoks, everydisplayloc);
-  primitive(S(1030), assigntoks, everyhboxloc);
-  primitive(S(1031), assigntoks, everyvboxloc);
-  primitive(S(1032), assigntoks, everyjobloc);
-  primitive(S(1033), assigntoks, everycrloc);
-  primitive(S(1034), assigntoks, errhelploc);   /*:230*/
-  /*238:*/
-  primitive(S(1035), assignint, intbase);
-  primitive(S(1036), assignint, intbase + tolerancecode);
-  primitive(S(1037), assignint, intbase + linepenaltycode);
-  primitive(S(1038), assignint, intbase + hyphenpenaltycode);
-  primitive(S(1039), assignint, intbase + exhyphenpenaltycode);
-  primitive(S(1040), assignint, intbase + clubpenaltycode);
-  primitive(S(1041), assignint, intbase + widowpenaltycode);
-  primitive(S(1042), assignint, intbase + displaywidowpenaltycode);
-  primitive(S(1043), assignint, intbase + brokenpenaltycode);
-  primitive(S(1044), assignint, intbase + binoppenaltycode);
-  primitive(S(1045), assignint, intbase + relpenaltycode);
-  primitive(S(1046), assignint, intbase + predisplaypenaltycode);
-  primitive(S(1047), assignint, intbase + postdisplaypenaltycode);
-  primitive(S(1048), assignint, intbase + interlinepenaltycode);
-  primitive(S(1049), assignint, intbase + doublehyphendemeritscode);
-  primitive(S(1050), assignint, intbase + finalhyphendemeritscode);
-  primitive(S(1051), assignint, intbase + adjdemeritscode);
-  primitive(S(1052), assignint, intbase + magcode);
-  primitive(S(1053), assignint, intbase + delimiterfactorcode);
-  primitive(S(1054), assignint, intbase + loosenesscode);
-  primitive(S(1055), assignint, intbase + timecode);
-  primitive(S(1056), assignint, intbase + daycode);
-  primitive(S(1057), assignint, intbase + monthcode);
-  primitive(S(1058), assignint, intbase + yearcode);
-  primitive(S(1059), assignint, intbase + showboxbreadthcode);
-  primitive(S(1060), assignint, intbase + showboxdepthcode);
-  primitive(S(1061), assignint, intbase + hbadnesscode);
-  primitive(S(1062), assignint, intbase + vbadnesscode);
-  primitive(S(1063), assignint, intbase + pausingcode);
-  primitive(S(1064), assignint, intbase + tracingonlinecode);
-  primitive(S(1065), assignint, intbase + tracingmacroscode);
-  primitive(S(1066), assignint, intbase + tracingstatscode);
-  primitive(S(1067), assignint, intbase + tracingparagraphscode);
-  primitive(S(1068), assignint, intbase + tracingpagescode);
-  primitive(S(1069), assignint, intbase + tracingoutputcode);
-  primitive(S(1070), assignint, intbase + tracinglostcharscode);
-  primitive(S(1071), assignint, intbase + tracingcommandscode);
-  primitive(S(1072), assignint, intbase + tracingrestorescode);
-  primitive(S(1073), assignint, intbase + uchyphcode);
-  primitive(S(1074), assignint, intbase + outputpenaltycode);
-  primitive(S(1075), assignint, intbase + maxdeadcyclescode);
-  primitive(S(1076), assignint, intbase + hangaftercode);
-  primitive(S(1077), assignint, intbase + floatingpenaltycode);
-  primitive(S(1078), assignint, intbase + globaldefscode);
-  primitive(S(333), assignint, intbase + curfamcode);
-  primitive(S(1079), assignint, intbase + escapecharcode);
-  primitive(S(1080), assignint, intbase + defaulthyphencharcode);
-  primitive(S(1081), assignint, intbase + defaultskewcharcode);
-  primitive(S(1082), assignint, intbase + endlinecharcode);
-  primitive(S(1083), assignint, intbase + newlinecharcode);
-  primitive(S(1084), assignint, intbase + languagecode);
-  primitive(S(1085), assignint, intbase + lefthyphenmincode);
-  primitive(S(1086), assignint, intbase + righthyphenmincode);
-  primitive(S(1087), assignint, intbase + holdinginsertscode);
-  primitive(S(1088), assignint, intbase + errorcontextlinescode);
-  /*:238*/
-  /*248:*/
-  primitive(S(1089), assigndimen, dimenbase);
-  primitive(S(1090), assigndimen, dimenbase + mathsurroundcode);
-  primitive(S(1091), assigndimen, dimenbase + lineskiplimitcode);
-  primitive(S(1092), assigndimen, dimenbase + hsizecode);
-  primitive(S(1093), assigndimen, dimenbase + vsizecode);
-  primitive(S(1094), assigndimen, dimenbase + maxdepthcode);
-  primitive(S(1095), assigndimen, dimenbase + splitmaxdepthcode);
-  primitive(S(1096), assigndimen, dimenbase + boxmaxdepthcode);
-  primitive(S(1097), assigndimen, dimenbase + hfuzzcode);
-  primitive(S(1098), assigndimen, dimenbase + vfuzzcode);
-  primitive(S(1099), assigndimen,
-	    dimenbase + delimitershortfallcode);
-  primitive(S(1100), assigndimen,
-	    dimenbase + nulldelimiterspacecode);
-  primitive(S(1101), assigndimen, dimenbase + scriptspacecode);
-  primitive(S(1102), assigndimen, dimenbase + predisplaysizecode);
-  primitive(S(1103), assigndimen, dimenbase + displaywidthcode);
-  primitive(S(1104), assigndimen, dimenbase + displayindentcode);
-  primitive(S(1105), assigndimen, dimenbase + overfullrulecode);
-  primitive(S(1106), assigndimen, dimenbase + hangindentcode);
-  primitive(S(1107), assigndimen, dimenbase + hoffsetcode);
-  primitive(S(1108), assigndimen, dimenbase + voffsetcode);
-  primitive(S(1109), assigndimen, dimenbase + emergencystretchcode);
-  /*:248*/
-  /*265:*/
-  primitive(' ', exspace, 0);
-  primitive('/', italcorr, 0);
-  primitive(S(417), accent, 0);
-  primitive(S(1110), advance, 0);
-  primitive(S(1111), afterassignment, 0);
-  primitive(S(1112), aftergroup, 0);
-  primitive(S(1113), begingroup, 0);
-  primitive(S(1114), charnum, 0);
-  primitive(S(262), csname, 0);
-  primitive(S(1115), delimnum, 0);
-  primitive(S(1116), divide, 0);
-  primitive(S(263), endcsname, 0);
-  primitive(S(836), endgroup, 0);
-  text(frozenendgroup) = S(836);
-  eqtb[frozenendgroup - activebase] = eqtb[curval - activebase];
-  primitive(S(1117), expandafter, 0);
-  primitive(S(1118), deffont, 0);
-  primitive(S(1119), assignfontdimen, 0);
-  primitive(S(724), halign, 0);
-  primitive(S(863), hrule, 0);
-  primitive(S(1120), ignorespaces, 0);
-  primitive(S(374), insert_, 0);
-  primitive(S(402), mark_, 0);
-  primitive(S(913), mathaccent, 0);
-  primitive(S(1121), mathcharnum, 0);
-  primitive(S(404), mathchoice, 0);
-  primitive(S(1122), multiply, 0);
-  primitive(S(897), noalign, 0);
-  primitive(S(1123), noboundary, 0);
-  primitive(S(1124), noexpand, 0);
-  primitive(S(388), nonscript, 0);
-  primitive(S(900), omit, 0);
-  primitive(S(462), setshape, 0);
-  primitive(S(761), breakpenalty, 0);
-  primitive(S(948), setprevgraf, 0);
-  primitive(S(416), radical, 0);
-  primitive(S(656), readtocs, 0);
-  primitive(S(1125), relax, 256);
-  text(frozenrelax) = S(1125);
-  eqtb[frozenrelax - activebase] = eqtb[curval - activebase];
-  primitive(S(970), setbox, 0);
-  primitive(S(604), the, 0);
-  primitive(S(463), toksregister, 0);
-  primitive(S(403), vadjust, 0);
-  primitive(S(1126), valign, 0);
-  primitive(S(415), vcenter, 0);
-  primitive(S(1127), vrule, 0);   /*:265*/
-  /*334:*/
-  primitive(S(760), parend, 256);
-  parloc = curval;
-  partoken = cstokenflag + parloc;   /*:334*/
-  /*376:*/
-  primitive(S(1128), input, 0);
-  primitive(S(1129), input, 1);   /*:376*/
-  /*384:*/
-  primitive(S(1130), topbotmark, topmarkcode);
-  primitive(S(1131), topbotmark, firstmarkcode);
-  primitive(S(1132), topbotmark, botmarkcode);
-  primitive(S(1133), topbotmark, splitfirstmarkcode);
-  primitive(S(1134), topbotmark, splitbotmarkcode);   /*:384*/
-  /*411:*/
-  primitive(S(472), register_, intval);
-  primitive(S(474), register_, dimenval);
-  primitive(S(460), register_, glueval);
-  primitive(S(461), register_, muval);   /*:411*/
-  /*416:*/
-  primitive(S(1135), setaux, hmode);
-  primitive(S(1136), setaux, vmode);
-  primitive(S(1137), setpageint, 0);
-  primitive(S(1138), setpageint, 1);
-  primitive(S(1139), setboxdimen, widthoffset);
-  primitive(S(1140), setboxdimen, heightoffset);
-  primitive(S(1141), setboxdimen, depthoffset);
-  primitive(S(1142), lastitem, intval);
-  primitive(S(1143), lastitem, dimenval);
-  primitive(S(1144), lastitem, glueval);
-  primitive(S(1145), lastitem, inputlinenocode);
-  primitive(S(1146), lastitem, badnesscode);   /*:416*/
-  /*468:*/
-  primitive(S(1147), convert, numbercode);
-  primitive(S(1148), convert, romannumeralcode);
-  primitive(S(1149), convert, stringcode);
-  primitive(S(1150), convert, meaningcode);
-  primitive(S(1151), convert, fontnamecode);
-  primitive(S(1152), convert, jobnamecode);   /*:468*/
-  /*487:*/
-  primitive(S(658), iftest, ifcharcode);
-  primitive(S(1153), iftest, ifcatcode);
-  primitive(S(1154), iftest, ifintcode);
-  primitive(S(1155), iftest, ifdimcode);
-  primitive(S(1156), iftest, ifoddcode);
-  primitive(S(1157), iftest, ifvmodecode);
-  primitive(S(1158), iftest, ifhmodecode);
-  primitive(S(1159), iftest, ifmmodecode);
-  primitive(S(1160), iftest, ifinnercode);
-  primitive(S(1161), iftest, ifvoidcode);
-  primitive(S(1162), iftest, ifhboxcode);
-  primitive(S(1163), iftest, ifvboxcode);
-  primitive(S(1164), iftest, ifxcode);
-  primitive(S(1165), iftest, ifeofcode);
-  primitive(S(1166), iftest, iftruecode);
-  primitive(S(1167), iftest, iffalsecode);
-  primitive(S(1168), iftest, ifcasecode);   /*:487*/
-  /*491:*/
-  primitive(S(1169), fiorelse, ficode);
-  text(frozenfi) = S(1169);
-  eqtb[frozenfi - activebase] = eqtb[curval - activebase];
-  primitive(S(664), fiorelse, orcode);
-  primitive(S(1170), fiorelse, elsecode);   /*:491*/
-  /*553:*/
-  primitive(S(1171), setfont, nullfont);
-  text(frozennullfont) = S(1171);
-  eqtb[frozennullfont - activebase] = eqtb[curval - activebase];   /*:553*/
-  /*780:*/
-  primitive(S(1172), tabmark, spancode);
-  primitive(S(737), carret, crcode);
-  text(frozencr) = S(737);
-  eqtb[frozencr - activebase] = eqtb[curval - activebase];
-  primitive(S(1173), carret, crcrcode);
-  text(frozenendtemplate) = S(1174);
-  text(frozenendv) = S(1174);
-  eqtype(frozenendv) = endv;
-  equiv(frozenendv) = nulllist;
-  eqlevel(frozenendv) = levelone;
-  eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
-  eqtype(frozenendtemplate) = endtemplate;   /*:780*/
-  /*983:*/
-  primitive(S(1175), setpagedimen, 0);
-  primitive(S(1176), setpagedimen, 1);
-  primitive(S(1177), setpagedimen, 2);
-  primitive(S(1178), setpagedimen, 3);
-  primitive(S(1179), setpagedimen, 4);
-  primitive(S(1180), setpagedimen, 5);
-  primitive(S(1181), setpagedimen, 6);
-  primitive(S(1182), setpagedimen, 7);   /*:983*/
-  /*1052:*/
-  primitive(S(1183), stop, 0);
-  primitive(S(1184), stop, 1);   /*:1052*/
-  /*1058:*/
-  primitive(S(1185), hskip, skipcode);
-  primitive(S(1186), hskip, filcode);
-  primitive(S(1187), hskip, fillcode);
-  primitive(S(1188), hskip, sscode);
-  primitive(S(1189), hskip, filnegcode);
-  primitive(S(1190), vskip, skipcode);
-  primitive(S(1191), vskip, filcode);
-  primitive(S(1192), vskip, fillcode);
-  primitive(S(1193), vskip, sscode);
-  primitive(S(1194), vskip, filnegcode);
-  primitive(S(389), mskip, mskipcode);
-  primitive(S(391), kern, explicit);
-  primitive(S(393), mkern, muglue);   /*:1058*/
-  /*1071:*/
-  primitive(S(1195), hmove, 1);
-  primitive(S(1196), hmove, 0);
-  primitive(S(1197), vmove, 1);
-  primitive(S(1198), vmove, 0);
-  primitive(S(464), makebox, boxcode);
-  primitive(S(1199), makebox, copycode);
-  primitive(S(1200), makebox, lastboxcode);
-  primitive(S(797), makebox, vsplitcode);
-  primitive(S(1201), makebox, vtopcode);
-  primitive(S(799), makebox, vtopcode + vmode);
-  primitive(S(1202), makebox, vtopcode + hmode);
-  primitive(S(1203), leadership, aleaders - 1);
-  primitive(S(1204), leadership, aleaders);
-  primitive(S(1205), leadership, cleaders);
-  primitive(S(1206), leadership, xleaders);   /*:1071*/
-  /*1088:*/
-  primitive(S(1207), startpar, 1);
-  primitive(S(1208), startpar, 0);   /*:1088*/
-  /*1107:*/
-  primitive(S(1209), removeitem, penaltynode);
-  primitive(S(1210), removeitem, kernnode);
-  primitive(S(1211), removeitem, gluenode);
-  primitive(S(1212), unhbox, boxcode);
-  primitive(S(1213), unhbox, copycode);
-  primitive(S(1214), unvbox, boxcode);
-  primitive(S(1215), unvbox, copycode);   /*:1107*/
-  /*1114:*/
-  primitive('-', discretionary, 1);
-  primitive(S(400), discretionary, 0);   /*:1114*/
-  /*1141:*/
-  primitive(S(1216), eqno, 0);
-  primitive(S(1217), eqno, 1);   /*:1141*/
-  /*1156:*/
-  primitive(S(405), mathcomp, ordnoad);
-  primitive(S(406), mathcomp, opnoad);
-  primitive(S(407), mathcomp, binnoad);
-  primitive(S(408), mathcomp, relnoad);
-  primitive(S(409), mathcomp, opennoad);
-  primitive(S(410), mathcomp, closenoad);
-  primitive(S(411), mathcomp, punctnoad);
-  primitive(S(412), mathcomp, innernoad);
-  primitive(S(414), mathcomp, undernoad);
-  primitive(S(413), mathcomp, overnoad);
-  primitive(S(1218), limitswitch, normal);
-  primitive(S(420), limitswitch, limits);
-  primitive(S(421), limitswitch, nolimits);   /*:1156*/
-  /*1169:*/
-  primitive(S(336), mathstyle, displaystyle);
-  primitive(S(337), mathstyle, textstyle);
-  primitive(S(338), mathstyle, scriptstyle);
-  primitive(S(339), mathstyle, scriptscriptstyle);   /*:1169*/
-  /*1178:*/
-  primitive(S(1219), above, abovecode);
-  primitive(S(1220), above, overcode);
-  primitive(S(1221), above, atopcode);
-  primitive(S(1222), above, delimitedcode);
-  primitive(S(1223), above, delimitedcode + overcode);
-  primitive(S(1224), above, delimitedcode + atopcode);   /*:1178*/
-  /*1188:*/
-  primitive(S(418), leftright, leftnoad);
-  primitive(S(419), leftright, rightnoad);
-  text(frozenright) = S(419);
-  eqtb[frozenright - activebase] = eqtb[curval - activebase];   /*:1188*/
-  /*1208:*/
-  primitive(S(959), prefix, 1);
-  primitive(S(961), prefix, 2);
-  primitive(S(1225), prefix, 4);
-  primitive(S(1226), def, 0);
-  primitive(S(1227), def, 1);
-  primitive(S(1228), def, 2);
-  primitive(S(1229), def, 3);
-  /*:1208*/
-  /*1219:*/
-  primitive(S(1230), let, normal);
-  primitive(S(1231), let, normal + 1);   /*:1219*/
-  /*1222:*/
-  primitive(S(1232), shorthanddef, chardefcode);
-  primitive(S(1233), shorthanddef, mathchardefcode);
-  primitive(S(1234), shorthanddef, countdefcode);
-  primitive(S(1235), shorthanddef, dimendefcode);
-  primitive(S(1236), shorthanddef, skipdefcode);
-  primitive(S(1237), shorthanddef, muskipdefcode);
-  primitive(S(1238), shorthanddef, toksdefcode);   /*:1222*/
-  /*1230:*/
-  primitive(S(467), defcode, catcodebase);
-  primitive(S(471), defcode, mathcodebase);
-  primitive(S(468), defcode, lccodebase);
-  primitive(S(469), defcode, uccodebase);
-  primitive(S(470), defcode, sfcodebase);
-  primitive(S(473), defcode, delcodebase);
-  primitive(S(266), deffamily, mathfontbase);
-  primitive(S(267), deffamily, mathfontbase + scriptsize);
-  primitive(S(268), deffamily, mathfontbase + scriptscriptsize);
-  /*:1230*/
-  /*1250:*/
-  primitive(S(787), hyphdata, 0);
-  primitive(S(774), hyphdata, 1);   /*:1250*/
-  /*1254:*/
-  primitive(S(1239), assignfontint, 0);
-  primitive(S(1240), assignfontint, 1);   /*:1254*/
-  /*1262:*/
-  primitive(S(281), setinteraction, batchmode);
-  primitive(S(282), setinteraction, nonstopmode);
-  primitive(S(283), setinteraction, scrollmode);
-  primitive(S(1241), setinteraction, errorstopmode);   /*:1262*/
-  /*1272:*/
-  primitive(S(1242), instream, 1);
-  primitive(S(1243), instream, 0);   /*:1272*/
-  /*1277:*/
-  primitive(S(1244), message, 0);
-  primitive(S(1245), message, 1);   /*:1277*/
-  /*1286:*/
-  primitive(S(1246), caseshift, lccodebase);
-  primitive(S(1247), caseshift, uccodebase);   /*:1286*/
-  /*1291:*/
-  primitive(S(1248), xray, showcode);
-  primitive(S(1249), xray, showboxcode);
-  primitive(S(1250), xray, showthecode);
-  primitive(S(1251), xray, showlists);   /*:1291*/
-  /*1344:*/
-  primitive(S(378), extension, opennode);
-  primitive(S(379), extension, writenode);
-  writeloc = curval;
-  primitive(S(380), extension, closenode);
-  primitive(S(381), extension, specialnode);
-  primitive(S(1252), extension, immediatecode);
-  primitive(S(382), extension, setlanguagecode);   /*:1344*/
-}
-/*:1336*/
+/// p468#1336: initialize all the primitives
+#ifdef tt_INIT
+Static void initprim(void) {
+    /*226:*/
+    primitive(S(341), assignglue, gluebase);
+    primitive(S(342), assignglue, gluebase + baselineskipcode);
+    primitive(S(343), assignglue, gluebase + parskipcode);
+    primitive(S(344), assignglue, gluebase + abovedisplayskipcode);
+    primitive(S(345), assignglue, gluebase + belowdisplayskipcode);
+    primitive(S(346), assignglue, gluebase + abovedisplayshortskipcode);
+    primitive(S(347), assignglue, gluebase + belowdisplayshortskipcode);
+    primitive(S(348), assignglue, gluebase + leftskipcode);
+    primitive(S(349), assignglue, gluebase + rightskipcode);
+    primitive(S(350), assignglue, gluebase + topskipcode);
+    primitive(S(351), assignglue, gluebase + splittopskipcode);
+    primitive(S(352), assignglue, gluebase + tabskipcode);
+    primitive(S(353), assignglue, gluebase + spaceskipcode);
+    primitive(S(354), assignglue, gluebase + xspaceskipcode);
+    primitive(S(355), assignglue, gluebase + parfillskipcode);
+    primitive(S(356), assignmuglue, gluebase + thinmuskipcode);
+    primitive(S(357), assignmuglue, gluebase + medmuskipcode);
+    primitive(S(358), assignmuglue, gluebase + thickmuskipcode);
+    /*:226*/
+    /*230:*/
+    primitive(S(1026), assigntoks, outputroutineloc);
+    primitive(S(1027), assigntoks, everyparloc);
+    primitive(S(1028), assigntoks, everymathloc);
+    primitive(S(1029), assigntoks, everydisplayloc);
+    primitive(S(1030), assigntoks, everyhboxloc);
+    primitive(S(1031), assigntoks, everyvboxloc);
+    primitive(S(1032), assigntoks, everyjobloc);
+    primitive(S(1033), assigntoks, everycrloc);
+    primitive(S(1034), assigntoks, errhelploc); /*:230*/
+    /*238:*/
+    primitive(S(1035), assignint, intbase);
+    primitive(S(1036), assignint, intbase + tolerancecode);
+    primitive(S(1037), assignint, intbase + linepenaltycode);
+    primitive(S(1038), assignint, intbase + hyphenpenaltycode);
+    primitive(S(1039), assignint, intbase + exhyphenpenaltycode);
+    primitive(S(1040), assignint, intbase + clubpenaltycode);
+    primitive(S(1041), assignint, intbase + widowpenaltycode);
+    primitive(S(1042), assignint, intbase + displaywidowpenaltycode);
+    primitive(S(1043), assignint, intbase + brokenpenaltycode);
+    primitive(S(1044), assignint, intbase + binoppenaltycode);
+    primitive(S(1045), assignint, intbase + relpenaltycode);
+    primitive(S(1046), assignint, intbase + predisplaypenaltycode);
+    primitive(S(1047), assignint, intbase + postdisplaypenaltycode);
+    primitive(S(1048), assignint, intbase + interlinepenaltycode);
+    primitive(S(1049), assignint, intbase + doublehyphendemeritscode);
+    primitive(S(1050), assignint, intbase + finalhyphendemeritscode);
+    primitive(S(1051), assignint, intbase + adjdemeritscode);
+    primitive(S(1052), assignint, intbase + magcode);
+    primitive(S(1053), assignint, intbase + delimiterfactorcode);
+    primitive(S(1054), assignint, intbase + loosenesscode);
+    primitive(S(1055), assignint, intbase + timecode);
+    primitive(S(1056), assignint, intbase + daycode);
+    primitive(S(1057), assignint, intbase + monthcode);
+    primitive(S(1058), assignint, intbase + yearcode);
+    primitive(S(1059), assignint, intbase + showboxbreadthcode);
+    primitive(S(1060), assignint, intbase + showboxdepthcode);
+    primitive(S(1061), assignint, intbase + hbadnesscode);
+    primitive(S(1062), assignint, intbase + vbadnesscode);
+    primitive(S(1063), assignint, intbase + pausingcode);
+    primitive(S(1064), assignint, intbase + tracingonlinecode);
+    primitive(S(1065), assignint, intbase + tracingmacroscode);
+    primitive(S(1066), assignint, intbase + tracingstatscode);
+    primitive(S(1067), assignint, intbase + tracingparagraphscode);
+    primitive(S(1068), assignint, intbase + tracingpagescode);
+    primitive(S(1069), assignint, intbase + tracingoutputcode);
+    primitive(S(1070), assignint, intbase + tracinglostcharscode);
+    primitive(S(1071), assignint, intbase + tracingcommandscode);
+    primitive(S(1072), assignint, intbase + tracingrestorescode);
+    primitive(S(1073), assignint, intbase + uchyphcode);
+    primitive(S(1074), assignint, intbase + outputpenaltycode);
+    primitive(S(1075), assignint, intbase + maxdeadcyclescode);
+    primitive(S(1076), assignint, intbase + hangaftercode);
+    primitive(S(1077), assignint, intbase + floatingpenaltycode);
+    primitive(S(1078), assignint, intbase + globaldefscode);
+    primitive(S(333), assignint, intbase + curfamcode);
+    primitive(S(1079), assignint, intbase + escapecharcode);
+    primitive(S(1080), assignint, intbase + defaulthyphencharcode);
+    primitive(S(1081), assignint, intbase + defaultskewcharcode);
+    primitive(S(1082), assignint, intbase + endlinecharcode);
+    primitive(S(1083), assignint, intbase + newlinecharcode);
+    primitive(S(1084), assignint, intbase + languagecode);
+    primitive(S(1085), assignint, intbase + lefthyphenmincode);
+    primitive(S(1086), assignint, intbase + righthyphenmincode);
+    primitive(S(1087), assignint, intbase + holdinginsertscode);
+    primitive(S(1088), assignint, intbase + errorcontextlinescode);
+    /*:238*/
+    /*248:*/
+    primitive(S(1089), assigndimen, dimenbase);
+    primitive(S(1090), assigndimen, dimenbase + mathsurroundcode);
+    primitive(S(1091), assigndimen, dimenbase + lineskiplimitcode);
+    primitive(S(1092), assigndimen, dimenbase + hsizecode);
+    primitive(S(1093), assigndimen, dimenbase + vsizecode);
+    primitive(S(1094), assigndimen, dimenbase + maxdepthcode);
+    primitive(S(1095), assigndimen, dimenbase + splitmaxdepthcode);
+    primitive(S(1096), assigndimen, dimenbase + boxmaxdepthcode);
+    primitive(S(1097), assigndimen, dimenbase + hfuzzcode);
+    primitive(S(1098), assigndimen, dimenbase + vfuzzcode);
+    primitive(S(1099), assigndimen, dimenbase + delimitershortfallcode);
+    primitive(S(1100), assigndimen, dimenbase + nulldelimiterspacecode);
+    primitive(S(1101), assigndimen, dimenbase + scriptspacecode);
+    primitive(S(1102), assigndimen, dimenbase + predisplaysizecode);
+    primitive(S(1103), assigndimen, dimenbase + displaywidthcode);
+    primitive(S(1104), assigndimen, dimenbase + displayindentcode);
+    primitive(S(1105), assigndimen, dimenbase + overfullrulecode);
+    primitive(S(1106), assigndimen, dimenbase + hangindentcode);
+    primitive(S(1107), assigndimen, dimenbase + hoffsetcode);
+    primitive(S(1108), assigndimen, dimenbase + voffsetcode);
+    primitive(S(1109), assigndimen, dimenbase + emergencystretchcode);
+    /*:248*/
+    /*265:*/
+    primitive(' ', exspace, 0);
+    primitive('/', italcorr, 0);
+    primitive(S(417), accent, 0);
+    primitive(S(1110), advance, 0);
+    primitive(S(1111), afterassignment, 0);
+    primitive(S(1112), aftergroup, 0);
+    primitive(S(1113), begingroup, 0);
+    primitive(S(1114), charnum, 0);
+    primitive(S(262), csname, 0);
+    primitive(S(1115), delimnum, 0);
+    primitive(S(1116), divide, 0);
+    primitive(S(263), endcsname, 0);
+    primitive(S(836), endgroup, 0);
+    text(frozenendgroup) = S(836);
+    eqtb[frozenendgroup - activebase] = eqtb[curval - activebase];
+    primitive(S(1117), expandafter, 0);
+    primitive(S(1118), deffont, 0);
+    primitive(S(1119), assignfontdimen, 0);
+    primitive(S(724), halign, 0);
+    primitive(S(863), hrule, 0);
+    primitive(S(1120), ignorespaces, 0);
+    primitive(S(374), insert_, 0);
+    primitive(S(402), mark_, 0);
+    primitive(S(913), mathaccent, 0);
+    primitive(S(1121), mathcharnum, 0);
+    primitive(S(404), mathchoice, 0);
+    primitive(S(1122), multiply, 0);
+    primitive(S(897), noalign, 0);
+    primitive(S(1123), noboundary, 0);
+    primitive(S(1124), noexpand, 0);
+    primitive(S(388), nonscript, 0);
+    primitive(S(900), omit, 0);
+    primitive(S(462), setshape, 0);
+    primitive(S(761), breakpenalty, 0);
+    primitive(S(948), setprevgraf, 0);
+    primitive(S(416), radical, 0);
+    primitive(S(656), readtocs, 0);
+    primitive(S(1125), relax, 256);
+    text(frozenrelax) = S(1125);
+    eqtb[frozenrelax - activebase] = eqtb[curval - activebase];
+    primitive(S(970), setbox, 0);
+    primitive(S(604), the, 0);
+    primitive(S(463), toksregister, 0);
+    primitive(S(403), vadjust, 0);
+    primitive(S(1126), valign, 0);
+    primitive(S(415), vcenter, 0);
+    primitive(S(1127), vrule, 0); /*:265*/
+    /*334:*/
+    primitive(S(760), parend, 256);
+    parloc = curval;
+    partoken = cstokenflag + parloc; /*:334*/
+    /*376:*/
+    primitive(S(1128), input, 0);
+    primitive(S(1129), input, 1); /*:376*/
+    /*384:*/
+    primitive(S(1130), topbotmark, topmarkcode);
+    primitive(S(1131), topbotmark, firstmarkcode);
+    primitive(S(1132), topbotmark, botmarkcode);
+    primitive(S(1133), topbotmark, splitfirstmarkcode);
+    primitive(S(1134), topbotmark, splitbotmarkcode); /*:384*/
+    /*411:*/
+    primitive(S(472), register_, intval);
+    primitive(S(474), register_, dimenval);
+    primitive(S(460), register_, glueval);
+    primitive(S(461), register_, muval); /*:411*/
+    /*416:*/
+    primitive(S(1135), setaux, hmode);
+    primitive(S(1136), setaux, vmode);
+    primitive(S(1137), setpageint, 0);
+    primitive(S(1138), setpageint, 1);
+    primitive(S(1139), setboxdimen, widthoffset);
+    primitive(S(1140), setboxdimen, heightoffset);
+    primitive(S(1141), setboxdimen, depthoffset);
+    primitive(S(1142), lastitem, intval);
+    primitive(S(1143), lastitem, dimenval);
+    primitive(S(1144), lastitem, glueval);
+    primitive(S(1145), lastitem, inputlinenocode);
+    primitive(S(1146), lastitem, badnesscode); /*:416*/
+    /*468:*/
+    primitive(S(1147), convert, numbercode);
+    primitive(S(1148), convert, romannumeralcode);
+    primitive(S(1149), convert, stringcode);
+    primitive(S(1150), convert, meaningcode);
+    primitive(S(1151), convert, fontnamecode);
+    primitive(S(1152), convert, jobnamecode); /*:468*/
+    /*487:*/
+    primitive(S(658), iftest, ifcharcode);
+    primitive(S(1153), iftest, ifcatcode);
+    primitive(S(1154), iftest, ifintcode);
+    primitive(S(1155), iftest, ifdimcode);
+    primitive(S(1156), iftest, ifoddcode);
+    primitive(S(1157), iftest, ifvmodecode);
+    primitive(S(1158), iftest, ifhmodecode);
+    primitive(S(1159), iftest, ifmmodecode);
+    primitive(S(1160), iftest, ifinnercode);
+    primitive(S(1161), iftest, ifvoidcode);
+    primitive(S(1162), iftest, ifhboxcode);
+    primitive(S(1163), iftest, ifvboxcode);
+    primitive(S(1164), iftest, ifxcode);
+    primitive(S(1165), iftest, ifeofcode);
+    primitive(S(1166), iftest, iftruecode);
+    primitive(S(1167), iftest, iffalsecode);
+    primitive(S(1168), iftest, ifcasecode); /*:487*/
+    /*491:*/
+    primitive(S(1169), fiorelse, ficode);
+    text(frozenfi) = S(1169);
+    eqtb[frozenfi - activebase] = eqtb[curval - activebase];
+    primitive(S(664), fiorelse, orcode);
+    primitive(S(1170), fiorelse, elsecode); /*:491*/
+    /*553:*/
+    primitive(S(1171), setfont, nullfont);
+    text(frozennullfont) = S(1171);
+    eqtb[frozennullfont - activebase] = eqtb[curval - activebase]; /*:553*/
+    /*780:*/
+    primitive(S(1172), tabmark, spancode);
+    primitive(S(737), carret, crcode);
+    text(frozencr) = S(737);
+    eqtb[frozencr - activebase] = eqtb[curval - activebase];
+    primitive(S(1173), carret, crcrcode);
+    text(frozenendtemplate) = S(1174);
+    text(frozenendv) = S(1174);
+    eqtype(frozenendv) = endv;
+    equiv(frozenendv) = nulllist;
+    eqlevel(frozenendv) = levelone;
+    eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
+    eqtype(frozenendtemplate) = endtemplate; /*:780*/
+    /*983:*/
+    primitive(S(1175), setpagedimen, 0);
+    primitive(S(1176), setpagedimen, 1);
+    primitive(S(1177), setpagedimen, 2);
+    primitive(S(1178), setpagedimen, 3);
+    primitive(S(1179), setpagedimen, 4);
+    primitive(S(1180), setpagedimen, 5);
+    primitive(S(1181), setpagedimen, 6);
+    primitive(S(1182), setpagedimen, 7); /*:983*/
+    /*1052:*/
+    primitive(S(1183), stop, 0);
+    primitive(S(1184), stop, 1); /*:1052*/
+    /*1058:*/
+    primitive(S(1185), hskip, skipcode);
+    primitive(S(1186), hskip, filcode);
+    primitive(S(1187), hskip, fillcode);
+    primitive(S(1188), hskip, sscode);
+    primitive(S(1189), hskip, filnegcode);
+    primitive(S(1190), vskip, skipcode);
+    primitive(S(1191), vskip, filcode);
+    primitive(S(1192), vskip, fillcode);
+    primitive(S(1193), vskip, sscode);
+    primitive(S(1194), vskip, filnegcode);
+    primitive(S(389), mskip, mskipcode);
+    primitive(S(391), kern, explicit);
+    primitive(S(393), mkern, muglue); /*:1058*/
+    /*1071:*/
+    primitive(S(1195), hmove, 1);
+    primitive(S(1196), hmove, 0);
+    primitive(S(1197), vmove, 1);
+    primitive(S(1198), vmove, 0);
+    primitive(S(464), makebox, boxcode);
+    primitive(S(1199), makebox, copycode);
+    primitive(S(1200), makebox, lastboxcode);
+    primitive(S(797), makebox, vsplitcode);
+    primitive(S(1201), makebox, vtopcode);
+    primitive(S(799), makebox, vtopcode + vmode);
+    primitive(S(1202), makebox, vtopcode + hmode);
+    primitive(S(1203), leadership, aleaders - 1);
+    primitive(S(1204), leadership, aleaders);
+    primitive(S(1205), leadership, cleaders);
+    primitive(S(1206), leadership, xleaders); /*:1071*/
+    /*1088:*/
+    primitive(S(1207), startpar, 1);
+    primitive(S(1208), startpar, 0); /*:1088*/
+    /*1107:*/
+    primitive(S(1209), removeitem, penaltynode);
+    primitive(S(1210), removeitem, kernnode);
+    primitive(S(1211), removeitem, gluenode);
+    primitive(S(1212), unhbox, boxcode);
+    primitive(S(1213), unhbox, copycode);
+    primitive(S(1214), unvbox, boxcode);
+    primitive(S(1215), unvbox, copycode); /*:1107*/
+    /*1114:*/
+    primitive('-', discretionary, 1);
+    primitive(S(400), discretionary, 0); /*:1114*/
+    /*1141:*/
+    primitive(S(1216), eqno, 0);
+    primitive(S(1217), eqno, 1); /*:1141*/
+    /*1156:*/
+    primitive(S(405), mathcomp, ordnoad);
+    primitive(S(406), mathcomp, opnoad);
+    primitive(S(407), mathcomp, binnoad);
+    primitive(S(408), mathcomp, relnoad);
+    primitive(S(409), mathcomp, opennoad);
+    primitive(S(410), mathcomp, closenoad);
+    primitive(S(411), mathcomp, punctnoad);
+    primitive(S(412), mathcomp, innernoad);
+    primitive(S(414), mathcomp, undernoad);
+    primitive(S(413), mathcomp, overnoad);
+    primitive(S(1218), limitswitch, normal);
+    primitive(S(420), limitswitch, limits);
+    primitive(S(421), limitswitch, nolimits); /*:1156*/
+    /*1169:*/
+    primitive(S(336), mathstyle, displaystyle);
+    primitive(S(337), mathstyle, textstyle);
+    primitive(S(338), mathstyle, scriptstyle);
+    primitive(S(339), mathstyle, scriptscriptstyle); /*:1169*/
+    /*1178:*/
+    primitive(S(1219), above, abovecode);
+    primitive(S(1220), above, overcode);
+    primitive(S(1221), above, atopcode);
+    primitive(S(1222), above, delimitedcode);
+    primitive(S(1223), above, delimitedcode + overcode);
+    primitive(S(1224), above, delimitedcode + atopcode); /*:1178*/
+    /*1188:*/
+    primitive(S(418), leftright, leftnoad);
+    primitive(S(419), leftright, rightnoad);
+    text(frozenright) = S(419);
+    eqtb[frozenright - activebase] = eqtb[curval - activebase]; /*:1188*/
+    /*1208:*/
+    primitive(S(959), prefix, 1);
+    primitive(S(961), prefix, 2);
+    primitive(S(1225), prefix, 4);
+    primitive(S(1226), def, 0);
+    primitive(S(1227), def, 1);
+    primitive(S(1228), def, 2);
+    primitive(S(1229), def, 3);
+    /*:1208*/
+    /*1219:*/
+    primitive(S(1230), let, normal);
+    primitive(S(1231), let, normal + 1); /*:1219*/
+    /*1222:*/
+    primitive(S(1232), shorthanddef, chardefcode);
+    primitive(S(1233), shorthanddef, mathchardefcode);
+    primitive(S(1234), shorthanddef, countdefcode);
+    primitive(S(1235), shorthanddef, dimendefcode);
+    primitive(S(1236), shorthanddef, skipdefcode);
+    primitive(S(1237), shorthanddef, muskipdefcode);
+    primitive(S(1238), shorthanddef, toksdefcode); /*:1222*/
+    /*1230:*/
+    primitive(S(467), defcode, catcodebase);
+    primitive(S(471), defcode, mathcodebase);
+    primitive(S(468), defcode, lccodebase);
+    primitive(S(469), defcode, uccodebase);
+    primitive(S(470), defcode, sfcodebase);
+    primitive(S(473), defcode, delcodebase);
+    primitive(S(266), deffamily, mathfontbase);
+    primitive(S(267), deffamily, mathfontbase + scriptsize);
+    primitive(S(268), deffamily, mathfontbase + scriptscriptsize);
+    /*:1230*/
+    /*1250:*/
+    primitive(S(787), hyphdata, 0);
+    primitive(S(774), hyphdata, 1); /*:1250*/
+    /*1254:*/
+    primitive(S(1239), assignfontint, 0);
+    primitive(S(1240), assignfontint, 1); /*:1254*/
+    /*1262:*/
+    primitive(S(281), setinteraction, batchmode);
+    primitive(S(282), setinteraction, nonstopmode);
+    primitive(S(283), setinteraction, scrollmode);
+    primitive(S(1241), setinteraction, errorstopmode); /*:1262*/
+    /*1272:*/
+    primitive(S(1242), instream, 1);
+    primitive(S(1243), instream, 0); /*:1272*/
+    /*1277:*/
+    primitive(S(1244), message, 0);
+    primitive(S(1245), message, 1); /*:1277*/
+    /*1286:*/
+    primitive(S(1246), caseshift, lccodebase);
+    primitive(S(1247), caseshift, uccodebase); /*:1286*/
+    /*1291:*/
+    primitive(S(1248), xray, showcode);
+    primitive(S(1249), xray, showboxcode);
+    primitive(S(1250), xray, showthecode);
+    primitive(S(1251), xray, showlists); /*:1291*/
+    /*1344:*/
+    primitive(S(378), extension, opennode);
+    primitive(S(379), extension, writenode);
+    writeloc = curval;
+    primitive(S(380), extension, closenode);
+    primitive(S(381), extension, specialnode);
+    primitive(S(1252), extension, immediatecode);
+    primitive(S(382), extension, setlanguagecode); /*:1344*/
+} // #1336: initprim
+#endif // #1336: tt_INIT
 
 /*1338:*/
 /*_DEBUG*/
@@ -18886,7 +18951,7 @@ int check_constant(void) {
 
     /// #14
     if (
-        halferrorline < 30 || 
+        halferrorline < 30 ||
         halferrorline > (errorline - 15)
     ) bad = 1;
     if (maxprintline < 60) bad = 2;
@@ -18899,13 +18964,13 @@ int check_constant(void) {
     /// #111
 #ifdef tt_INIT
     if (memmin != membot || memmax != memtop) bad = 10;
-#endif
+#endif // #111: tt_INIT
     if (memmin > membot || memmax < memtop) bad = 10;
     if (minquarterword > 0 || maxquarterword < 127) bad = 11;
     if (maxhalfword < 32767) bad = 12;
     if (minquarterword < 0 || maxquarterword > maxhalfword) bad = 13;
     if (
-        memmin < 0 || 
+        memmin < 0 ||
         memmax >= maxhalfword ||
         (membot - memmin) > (maxhalfword + 1)
     ) bad = 14;
@@ -18949,10 +19014,12 @@ int main(int argc, char* argv[]) {
     }
 
     initialize();
+#ifdef tt_INIT
     if (!getstringsstarted()) goto _L_final_end;
     initprim();
     str_set_init_ptrs();
     fixdateandtime(&tex_time, &day, &month, &year);
+#endif // #1332: tt_INIT
     ready_already = 314159L;
 
 _L_start_of_TEX: /*55:*/

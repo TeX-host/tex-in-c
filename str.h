@@ -7,6 +7,10 @@
 #define stringvacancies 8000
 #define poolsize 3200000
 
+#ifdef tt_INIT
+extern int getstringsstarted(void); // #47
+#endif // tt_INIT
+
 typedef struct {
     long val;
 } str_poolpointer;
@@ -17,7 +21,6 @@ extern void f_pool(strnumber s);
 extern void slowprint(strnumber s);
 extern str_poolpointer str_mark(void);
 extern int str_cmp(strnumber s, strnumber t);
-extern int getstringsstarted(void);
 extern int str_getc(strnumber s, int k);
 extern void str_map_from_mark(str_poolpointer b, void (*f)(strASCIIcode));
 extern long str_adjust_to_room(long l);

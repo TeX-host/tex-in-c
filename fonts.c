@@ -83,10 +83,6 @@ scaled charkern(internalfontnumber x, fourquarters y) {
 }
 
 void fonts_init(void) {
-    long k;
-    /*551:*/
-    for (k = 0; k <= fontmax; k++) /*:551*/
-        fontused[k] = false;
     /*552:*/
     fontptr = nullfont;
     fmemptr = 7;
@@ -112,7 +108,7 @@ void fonts_init(void) {
     fontglue[nullfont] = 0;
     fontparams[nullfont] = 7;
     parambase[nullfont] = -1;
-    for (k = 0; k <= 6; k++)
+    for (int k = 0; k <= 6; k++)
         fontinfo[k].sc = 0;
     /*:552*/
 }

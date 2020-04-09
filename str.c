@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "global_const.h"
 #include "tex.h"
 #include "macros.h"
 #include "str.h"
@@ -28,7 +29,7 @@ static strnumber initstrptr;
 
 #define str_end(x) (strstart[(x) + 1])
 
-
+#ifdef tt_INIT // #47
 int getstringsstarted(void) {
 #if POOLPOINTER_IS_POINTER
     poolptr = strpool;
@@ -39,6 +40,7 @@ int getstringsstarted(void) {
     strstart[0] = poolptr;
     return str_pool_init();
 }
+#endif // #47: tt_INIT
 
 int str_getc(strnumber s, int k) { return pool_elem(strstart[s], k); }
 
