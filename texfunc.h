@@ -1,11 +1,11 @@
 #pragma once
 #include <stdio.h>
-extern void bclose(FILE * *);
+extern void bclose(FILE**);
 extern void printchar(ASCIIcode s);
 extern void println(void);
 extern void print(strnumber s);
-extern halfword idlookup_p(unsigned char * buffp, long l, int no_new);
-extern void set_help(int k,...);
+extern halfword idlookup_p(unsigned char* buffp, long l, int no_new);
+extern void set_help(int k, ...);
 extern void printesc(strnumber s);
 extern void printhex(long n);
 extern void printint(long n);

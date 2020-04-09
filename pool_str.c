@@ -1,4 +1,4 @@
-const char * const pool_strs[]={
+const char * const pool_strs[] = {
 ".fmt",
 "notexpanded:",
 "inaccessible",

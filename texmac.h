@@ -2,9 +2,9 @@
 #undef labs
 
 /* P2C compatibility */
-#define P_clrbits_B(trie, idx , z, w) trie[(idx)>>3]&=~(1<<((idx)&7))
-#define P_getbits_UB(trie, h , z, w) (trie[(h)>>3]&(1<<((h)&7)))
-#define P_putbits_UB(trie, h , y, z, w) trie[(h)>>3]|=1<<((h)&7)
+#define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
+#define P_getbits_UB(trie, h, z, w) (trie[(h) >> 3] & (1 << ((h)&7)))
+#define P_putbits_UB(trie, h, y, z, w) trie[(h) >> 3] |= 1 << ((h)&7)
 /*
 #define help1(x1) set_help(1,x1)
 #define help2(x1,x2) set_help(2,x1,x2)
@@ -17,31 +17,36 @@
 #define wopenout aopenout
 
 #define link(x) (mem[(x)].hh.rh)
-#define info(x) (mem[(x)].hh.UU.lh) 
-
+#define info(x) (mem[(x)].hh.UU.lh)
 #define type(x) (mem[(x)].hh.UU.U2.b0)
 
 /*
 #define foocharinfo(x,y) (&fontinfo[charbase[x]+(y)].qqqq)
 */
-#define ligkernstart(x,y) (ligkernbase[(x)] + rembyte(y))
-#define ligkernrestart(x,y) (ligkernbase[(x)] +\
-	 opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
-#define  exteninfo(f,q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
+#define ligkernstart(x, y) (ligkernbase[(x)] + rembyte(y))
+#define ligkernrestart(x, y)                                                   \
+    (ligkernbase[(x)] + opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
+#define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
 
-#define freeavail(x) (mem[(x)].hh.rh=avail,avail=(x),dynused-=charnodesize)
-#define fastgetavail(x) do {if(((x)=avail)) { type(x)=charnodetype; \
-	 avail=link(x);\
-	 link(x)=0;dynused+=charnodesize;\
-	} else {\
-			(x)=getavail();\
-	} } while (0)
-#define isempty(x) (link(x)==emptyflag) 
+#define freeavail(x)                                                           \
+    (mem[(x)].hh.rh = avail, avail = (x), dynused -= charnodesize)
+#define fastgetavail(x)                                                        \
+    do {                                                                       \
+        if (((x) = avail)) {                                                   \
+            type(x) = charnodetype;                                            \
+            avail = link(x);                                                   \
+            link(x) = 0;                                                       \
+            dynused += charnodesize;                                           \
+        } else {                                                               \
+            (x) = getavail();                                                  \
+        }                                                                      \
+    } while (0)
+#define isempty(x) (link(x) == emptyflag)
 
-#define isrunning(x)  ((x)==nullflag) /* {tests for a running dimension} */
+#define isrunning(x) ((x) == nullflag) /* {tests for a running dimension} */
 
-#define hashisfull  (hashused==hashbase) 
-#define equiv(x) (eqtb[(x)-activebase].hh.rh) 
+#define hashisfull (hashused == hashbase)
+#define equiv(x) (eqtb[(x)-activebase].hh.rh)
 
 /* Glue parameters */
 #define gluepar(x)  equiv(gluebase+(x)) 
@@ -161,46 +166,64 @@
 #define curfont  equiv(curfontloc)
 /*
 */
-#define faminrange  ((curfam>=0)&&(curfam<16))
-#define setpagesofarzero(x)  (pagesofar[(x)]=0)
-#define setheightzero(x)  (activeheight[(x)-1]=0) \
-	/* {initialize the height to zero} */
-#define setcurlang()  ((language<=0)?(curlang=0):\
-		((language>255)?(curlang=0):(curlang=language)))
-#define storebackground(x)  (activewidth[(x)-1]=background[(x)-1])
-#define updateactive(x)  (activewidth[(x)-1] += mem[r+(x)].sc)
-#define copytocuractive(x)  (curactivewidth[(x)-1]=activewidth[(x)-1])
-#define updatewidth(x)  (curactivewidth[(x)-1] += mem[r+(x)].sc)
-#define setbreakwidthtobackground(x)  (breakwidth[(x)-1]=background[(x)-1])
-#define converttobreakwidth(x)  \
-  	(mem[prevr+(x)].sc += -curactivewidth[(x)-1]+breakwidth[(x)-1])
-#define storebreakwidth(x)  (activewidth[(x)-1]=breakwidth[(x)-1])
-#define newdeltatobreakwidth(x)  \
-	(mem[q+(x)].sc=breakwidth[(x)-1]-curactivewidth[(x)-1])
-#define newdeltafrombreakwidth(x)  \
-	(mem[q+(x)].sc=curactivewidth[(x)-1]-breakwidth[(x)-1])
-#define combinetwodeltas(x)  (mem[prevr+(x)].sc=mem[prevr+(x)].sc+mem[r+(x)].sc)
-#define downdatewidth(x)  (curactivewidth[(x)-1]-=mem[prevr+(x)].sc)
-#define checkshrinkage(x)  ((shrinkorder(x)!=normal)&&(shrink(x)!=0)? \
-   	(x)=finiteshrink(x):0)
-#define vetglue(x)   (gluetemp=(x), ((gluetemp>(1000000000.0))?\
-           (gluetemp=1000000000.0):\
-	   ((gluetemp<-1000000000.0)?\
-           (gluetemp=-1000000000.0):0)))
-#define scannormaldimen()  scandimen(false,false,false)
-#define endlinecharinactive    ((endlinechar<0)||(endlinechar>255))
-#define ishex(x)  ((((x)>='0')&&((x)<='9'))||(((x)>='a')&&((x)<='f')))
-#define storenewtoken(p,x)   { int q=getavail();link(p)=q,info(q)=(x),p=q;}
-#define faststorenewtoken(p,x)   do {int q; fastgetavail(q); \
-		link(p) = q; info(q) = (x); p = q;} while (0)
-#define precedesbreak(x)  (type(x)<mathnode)
-#define nondiscardable(x)  (type(x)<mathnode)
-#define topenin()  (termin=stdin)
-#define topenout()  (termout=stdout)
-#define global (a>=4)
-#define define(x,y,z)  ((a>=4)?geqdefine((x),(y),(z)):eqdefine((x),(y),(z)))
-#define worddefine(x,y)  ((a>=4)?geqworddefine((x),(y)):\
-	eqworddefine((x),(y)))
+#define faminrange ((curfam >= 0) && (curfam < 16))
+#define setpagesofarzero(x) (pagesofar[(x)] = 0)
+#define setheightzero(x)                                                       \
+    (activeheight[(x)-1] = 0) /* {initialize the height to zero} */
+#define setcurlang()                                                           \
+    ((language <= 0)                                                           \
+         ? (curlang = 0)                                                       \
+         : ((language > 255) ? (curlang = 0) : (curlang = language)))
+#define storebackground(x) (activewidth[(x)-1] = background[(x)-1])
+#define updateactive(x) (activewidth[(x)-1] += mem[r + (x)].sc)
+#define copytocuractive(x) (curactivewidth[(x)-1] = activewidth[(x)-1])
+#define updatewidth(x) (curactivewidth[(x)-1] += mem[r + (x)].sc)
+#define setbreakwidthtobackground(x) (breakwidth[(x)-1] = background[(x)-1])
+#define converttobreakwidth(x)                                                 \
+    (mem[prevr + (x)].sc += -curactivewidth[(x)-1] + breakwidth[(x)-1])
+#define storebreakwidth(x) (activewidth[(x)-1] = breakwidth[(x)-1])
+#define newdeltatobreakwidth(x)                                                \
+    (mem[q + (x)].sc = breakwidth[(x)-1] - curactivewidth[(x)-1])
+#define newdeltafrombreakwidth(x)                                              \
+    (mem[q + (x)].sc = curactivewidth[(x)-1] - breakwidth[(x)-1])
+#define combinetwodeltas(x)                                                    \
+    (mem[prevr + (x)].sc = mem[prevr + (x)].sc + mem[r + (x)].sc)
+#define downdatewidth(x) (curactivewidth[(x)-1] -= mem[prevr + (x)].sc)
+#define checkshrinkage(x)                                                      \
+    ((shrinkorder(x) != normal) && (shrink(x) != 0) ? (x) = finiteshrink(x) : 0)
+#define vetglue(x)                                                             \
+    (gluetemp = (x),                                                           \
+     ((gluetemp > (1000000000.0))                                              \
+          ? (gluetemp = 1000000000.0)                                          \
+          : ((gluetemp < -1000000000.0) ? (gluetemp = -1000000000.0) : 0)))
+#define scannormaldimen() scandimen(false, false, false)
+#define endlinecharinactive ((endlinechar < 0) || (endlinechar > 255))
+#define ishex(x)                                                               \
+    ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
+#define storenewtoken(p, x)                                                    \
+    {                                                                          \
+        int q = getavail();                                                    \
+        link(p) = q, info(q) = (x), p = q;                                     \
+    }
+#define faststorenewtoken(p, x)                                                \
+    do {                                                                       \
+        int q;                                                                 \
+        fastgetavail(q);                                                       \
+        link(p) = q;                                                           \
+        info(q) = (x);                                                         \
+        p = q;                                                                 \
+    } while (0)
+#define precedesbreak(x) (type(x) < mathnode)
+#define nondiscardable(x) (type(x) < mathnode)
+#define topenin() (termin = stdin)
+#define topenout() (termout = stdout)
+#define global (a >= 4)
+#define define(x, y, z)                                                        \
+    ((a >= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))
+#define worddefine(x, y)                                                       \
+    ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
+
+
 #define state  curinput.statefield /*{current scanner state}*/
 #define iindex  curinput.indexfield /*{reference for buffer information}*/
 #define loc curinput.locfield
@@ -222,12 +245,13 @@
 #define contribtail  (nest[0].tailfield) /*tail of the contribution list*/
 
 #if 0
-#define ischarnode(x)  ((x)>=himemmin)
+#define ischarnode(x) ((x) >= himemmin)
 #else
-#define ischarnode(x)  (((((x)>=himemmin)!=(type(x)==charnodetype))?\
-		niezgodnosc(x):0),\
-		((x)>=himemmin))
+#define ischarnode(x)                                                          \
+    (((((x) >= himemmin) != (type(x) == charnodetype)) ? niezgodnosc(x) : 0),  \
+     ((x) >= himemmin))
 #endif
+
 /*
 #define ischarnode(x) (((((x)>=himemmin)!=mem[(x)].is_char_node)?fprintf(stderr,"Niezgodno�� dla mem[%d]\n",(x)):fprintf(stderr,"Zgodno�� ")),((x)>=himemmin))
 */
@@ -239,11 +263,10 @@
 #define vpack(x,y,z)  vpackage((x),(y),(z),maxdimen) /* special case of unconstrained depth}*/
 
 #define scriptsallowed(x)  ((type(x)>=ordnoad)&&(type(x)<leftnoad))
-#if 0
-#define lig_kern_start(x)  (lig_kern_base[x]+rem_byte) /* {beginning of lig/kern program} */
-#endif
+// #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte) /* {beginning of lig/kern program} */
+
 #define ligchar(x)  ((x)+1) /* {the word where the ligature is to be found} */
-/* 
+/*
 #define charexists(x)  ((x).b0>minquarterword)
 #define chartag(x)  ((qo((x).b2)) % 4)
 */
@@ -306,7 +329,7 @@
 #define supdrop(x)  mathsy(18,x) /* superscript baseline below top of large box}*/
 #define subdrop(x)  mathsy(19,x) /* subscript baseline below bottom of large box}*/
 #define delim1(x)  mathsy(20,x) /* size of \.{\\atopwithdelims} delimiters*/
-  /* in display styles}*/
+/* in display styles}*/
 #define delim2(x)  mathsy(21,x) /* size of \.{\\atopwithdelims} delimiters in non-displays}*/
 #define axisheight(x)  mathsy(22,x) /* height of fraction lines above the baseline}*/
 
@@ -315,21 +338,25 @@
 #define llink(x)    info(x+1) /* left link in doubly-linked list of empty nodes}*/
 #define rlink(x)    link(x+1) /* right link in doubly-linked list of empty nodes}*/
 #define subtype(x)    mem[x].hh.UU.U2.b1 /* secondary identification in some cases}*/
-#ifdef BIG_CHARNODE 
+
+#ifdef BIG_CHARNODE
+
 #if 1
 /* #define font(x)	info(x+1) */
-#define font(x)	link(x+1)
+#define font(x) link(x + 1)
 /* #define character(x) link(x+1) */
 /* #define character(x)    info(x+1) */
-#define character(x)	subtype(x)
+#define character(x) subtype(x)
 #else
-#define font(x)	type(x)
-#define character(x)    subtype(x)
+#define font(x) type(x)
+#define character(x) subtype(x)
 #endif
+
 #else
-#define font(x)    type(x) /* the font code in a |charnode|}*/
-#define character(x)    subtype(x) /* the character code in a |charnode|}*/
-#endif
+#define font(x) type(x)         /* the font code in a |charnode|}*/
+#define character(x) subtype(x) /* the character code in a |charnode|}*/
+#endif // #ifdef BIG_CHARNODE
+
 #define width(x)    mem[x+widthoffset].sc /* width of the box, in sp}*/
 #define depth(x)    mem[x+depthoffset].sc /* depth of the box, in sp}*/
 #define height(x)    mem[x+heightoffset].sc /* height of the box, in sp}*/
@@ -338,7 +365,7 @@
 #define glueorder(x)    subtype(x+listoffset) /* applicable order of infinity}*/
 #define gluesign(x)    type(x+listoffset) /* stretching or shrinking}*/
 #define glueset(x)    mem[x+glueoffset].gr
-  /* a word of type |glueratio| for glue setting}*/
+/* a word of type |glueratio| for glue setting}*/
 #define floatcost(x)  mem[x+1].int_ /* the |floatingpenalty| to be used}*/
 #define insptr(x)  info(x+4) /* the vertical list to be inserted}*/
 #define splittopptr(x)  link(x+4) /* the |splittopskip| to be used}*/
@@ -369,13 +396,13 @@
 #define muskip(x)  equiv(muskipbase+x) /* |mem| location of math glue spec}*/
 #define toks(x)  equiv(toksbase+x)
 #define box(x)  equiv(boxbase+x)
-#define famfnt(x)  equiv(mathfontbase+x)
-#define catcode(x)  equiv(catcodebase+x)
-#define lccode(x)  equiv(lccodebase+x)
-#define uccode(x)  equiv(uccodebase+x)
-#define sfcode(x)  equiv(sfcodebase+x)
-#define mathcode(x)  equiv(mathcodebase+x)
-  /*  Note: |mathcode(c)| is the true math code plus |minhalfword|} */
+#define famfnt(x) equiv(mathfontbase + x)
+#define catcode(x) equiv(catcodebase + x)
+#define lccode(x) equiv(lccodebase + x)
+#define uccode(x) equiv(uccodebase + x)
+#define sfcode(x) equiv(sfcodebase + x)
+#define mathcode(x) equiv(mathcodebase + x)
+/*  Note: |mathcode(c)| is the true math code plus |minhalfword|} */
 #define delcode(x)  eqtb[delcodebase+x-activebase].int_
 #define count(x)  eqtb[countbase+x-activebase].int_
 #define dimen(x)  eqtb[scaledbase+x-activebase].sc
@@ -383,22 +410,23 @@
 #define text(x)    hash[x-hashbase].rh /* string number for control sequence name}*/
 #define savetype(x)  savestack[x].hh.UU.U2.b0 /* classifies a |savestack| entry}*/
 #define savelevel(x)  savestack[x].hh.UU.U2.b1
-  /* saved level for regions 5 and 6, or group code}*/
+/* saved level for regions 5 and 6, or group code}*/
 #define saveindex(x)  savestack[x].hh.rh
-  /* |eqtb| location or |savestack| location}*/
+/* |eqtb| location or |savestack| location}*/
 
 #define largechar(x)  mem[x].qqqq.b3 /* |character| for ``large'' delimiter}*/
-#if 0
-#define location(x)  mem[x+2].int_ /* \.{DVI} byte number for a movement command}*/
-#endif
-#define heightdepth(x)  qo(x.b1)
-#define saved(x)  savestack[saveptr+x].int_
-#define skipbyte(x)  x.b0
-#define nextchar(x)  x.b1
-#define exttop(x)  x.b0 /* |top| piece in a recipe}*/
-#define extmid(x)  x.b1 /* |mid| piece in a recipe}*/
-#define extbot(x)  x.b2 /* |bot| piece in a recipe}*/
-#define extrep(x)  x.b3 /* |rep| piece in a recipe}*/
+
+// #define location(x)  mem[x+2].int_ /* \.{DVI} byte number for a movement command}*/
+
+#define heightdepth(x) qo(x.b1)
+#define saved(x) savestack[saveptr + x].int_
+#define skipbyte(x) x.b0
+#define nextchar(x) x.b1
+#define exttop(x) x.b0 /* |top| piece in a recipe}*/
+#define extmid(x) x.b1 /* |mid| piece in a recipe}*/
+#define extbot(x) x.b2 /* |bot| piece in a recipe}*/
+#define extrep(x) x.b3 /* |rep| piece in a recipe}*/
+
 #if 1
 #define nucleus(x)  ((x)+charnodesize) /* the |nucleus| field of a noad}*/
 #define supscr(x)  (nucleus(x)+charnodesize) /* the |supscr| field of a noad}*/
@@ -414,6 +442,8 @@
 #define rightdelimiter(x)  ((x)+5) /* second delimiter field of a fraction noad}*/
 #define accentchr(x)  ((x)+4) /* the |accentchr| field of an accent noad}*/
 #endif
+
+
 #define mathtype  link /* a |halfword| in |mem|}*/
 #define fam(x)  type(x)
 #define smallfam(x)  mem[x].qqqq.b0 /* |fam| for ``small'' delimiter}*/
@@ -447,7 +477,7 @@
 #define triechar(x)  trie[x].UU.U2.b1 /* character matched at this trie location}*/
 #define trieop(x)  trie[x].UU.U2.b0 /* program for hyphenation at this trie location}*/
 #define brokenptr(x)  link(x+1)
-  /* an insertion for this class will break here if anywhere}*/
+/* an insertion for this class will break here if anywhere}*/
 #define trieback(x)  trie[x].UU.lh /* backward links in |trie| holes}*/
 #define brokenins(x)  info(x+1) /* this insertion might break at |brokenptr|}*/
 #define lastinsptr(x)  link(x+2) /* the most recent insertion for this |subtype|}*/
@@ -463,104 +493,171 @@
 #define openname(x)    link(x+1) /* string number of file name to open}*/
 #define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
 #define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
+#define nxplusy(n, x, y) (multandadd((n), (x), (y), 1073741823L))
 
-#define nxplusy(n,x,y) (multandadd((n),(x),(y),1073741823L))
-#define karmafastdeleteglueref(x) (gluerefcount(x)==0?(freenode((x),gluespecsize),0):\
-			gluerefcount(x)--)
+
+#define karmafastdeleteglueref(x)                                              \
+    (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0)                   \
+                          : gluerefcount(x)--)
 #define nodelistdisplay(x) (appendchar('.'), shownodelist(x), flushchar())
-   /* {|str_room| need not be checked; see |show_box| below} */
+/* {|str_room| need not be checked; see |show_box| below} */
 
-#define beginpseudoprint()  (l=tally, tally=0, selector=pseudo,\
-  trickcount=1000000)
+#define beginpseudoprint()                                                     \
+    (l = tally, tally = 0, selector = pseudo, trickcount = 1000000)
 
-#define settrickcount()  (firstcount=tally,\
-  trickcount=tally+1+errorline-halferrorline,\
-  ((trickcount<errorline)?trickcount=errorline:0))
+#define settrickcount()                                                        \
+    (firstcount = tally,                                                       \
+     trickcount = tally + 1 + errorline - halferrorline,                       \
+     ((trickcount < errorline) ? trickcount = errorline : 0))
 
-#define popinput()  /* leave an input level, re-enter the old */\
-  	(inputptr--, curinput=inputstack[inputptr])
-#define backlist(x)  begintokenlist((x),backedup) /* backs up a simple token list */
-#define inslist(x)  begintokenlist((x),inserted) /* inserts a simple token list */
+#define popinput() /* leave an input level, re-enter the old */                \
+    (inputptr--, curinput = inputstack[inputptr])
+#define backlist(x)                                                            \
+    begintokenlist((x), backedup) /* backs up a simple token list */
+#define inslist(x)                                                             \
+    begintokenlist((x), inserted) /* inserts a simple token list */
 
 #define null 0
 
-#define wrapup(x) \
-       if (curl < nonchar) {\
-         if (character(tail) == get_hyphenchar(mainf)) {\
-           if (link(curq) > 0)\
-             insdisc = true;\
-         }\
-         if (ligaturepresent) {\
-		packlig(x);\
-	 }\
-         if (insdisc) {\
-           insdisc = false;\
-           if (mode > 0) {\
-             tailappend(newdisc());\
-           }\
-         }\
-       }
-
-#define adjustspacefactor() { \
-  mains=sfcode(curchr);\
-  if (mains==1000 ) {spacefactor=1000;}\
-  else if ( mains<1000 ) {\
-    if (mains>0 ) {spacefactor=mains;}\
-    }\
-  else if ( spacefactor<1000 ) { spacefactor=1000;}\
-  else spacefactor=mains;\
-  }
-
-#define packlig(x)    { /*{the parameter is either |rthit| or |false|} */\
-  mainp=newligature(mainf,curl,link(curq));\
-  if (lfthit ) {\
-    subtype(mainp)=2; lfthit=false;\
-    }\
-  if ((x) && (ligstack==null)) {\
-    subtype(mainp)++; rthit=false;\
-    }\
-  link(curq)=mainp; tail=mainp; ligaturepresent=false;\
-  }
-
-#define kernbreak()  { if (! ischarnode(link(curp)) && ( autobreaking )) {\
-    if (type(link(curp))==gluenode ) trybreak(0,unhyphenated);}\
-    actwidth+=width(curp);\
-  }
-
-#define appendcharnodetot(x)   { link(t)=getavail(); t=link(t);\
-    font(t)=hf; character(t)=x; }\
-
-#define setcurr()  {if (j<n ) {curr=qi(hu[j+1]);}else { curr=bchar;}\
-    if (hyf[j]&1)  {currh=hchar;} else {currh=nonchar;}\
+#define wrapup(x)                                                              \
+    if (curl < nonchar) {                                                      \
+        if (character(tail) == get_hyphenchar(mainf)) {                        \
+            if (link(curq) > 0) insdisc = true;                                \
+        }                                                                      \
+        if (ligaturepresent) {                                                 \
+            packlig(x);                                                        \
+        }                                                                      \
+        if (insdisc) {                                                         \
+            insdisc = false;                                                   \
+            if (mode > 0) {                                                    \
+                tailappend(newdisc());                                         \
+            }                                                                  \
+        }                                                                      \
     }
 
-#define wraplig(x)  if (ligaturepresent ) {\
-    p=newligature(hf,curl,link(curq));\
-    if (lfthit ) {\
-      subtype(p)=2; lfthit=false;\
-      }\
-    if ( x ) if ( ligstack==0 ) {\
-      (subtype(p))++; rthit=false;\
-      }\
-    link(curq)=p; t=p; ligaturepresent=false;\
+#define adjustspacefactor()                                                    \
+    {                                                                          \
+        mains = sfcode(curchr);                                                \
+        if (mains == 1000) {                                                   \
+            spacefactor = 1000;                                                \
+        } else if (mains < 1000) {                                             \
+            if (mains > 0) {                                                   \
+                spacefactor = mains;                                           \
+            }                                                                  \
+        } else if (spacefactor < 1000) {                                       \
+            spacefactor = 1000;                                                \
+        } else                                                                 \
+            spacefactor = mains;                                               \
     }
 
-#define popligstack()  { if (ligptr(ligstack)>null ) {\
-    link(t)=ligptr(ligstack); /* this is a charnode for |hu[j+1]| */\
-    t=link(t); j++;\
-    }\
-  p=ligstack; ligstack=link(p); freenode(p,smallnodesize);\
-  if (ligstack==null ) {setcurr();} else { curr=character(ligstack);}\
-  } /* {if |ligstack| isn't |null| we have |currh=nonchar|} */
+#define packlig(x)                                                             \
+    { /*{the parameter is either |rthit| or |false|} */                        \
+        mainp = newligature(mainf, curl, link(curq));                          \
+        if (lfthit) {                                                          \
+            subtype(mainp) = 2;                                                \
+            lfthit = false;                                                    \
+        }                                                                      \
+        if ((x) && (ligstack == null)) {                                       \
+            subtype(mainp)++;                                                  \
+            rthit = false;                                                     \
+        }                                                                      \
+        link(curq) = mainp;                                                    \
+        tail = mainp;                                                          \
+        ligaturepresent = false;                                               \
+    }
 
-#define advancemajortail()  {majortail=link(majortail); rcount++;}
+#define kernbreak()                                                            \
+    {                                                                          \
+        if (!ischarnode(link(curp)) && (autobreaking)) {                       \
+            if (type(link(curp)) == gluenode) trybreak(0, unhyphenated);       \
+        }                                                                      \
+        actwidth += width(curp);                                               \
+    }
 
-#define synchh()   { if(curh!=dvih ) {\
-	move_h(curh-dvih); dvih=curh;}}
+#define appendcharnodetot(x)                                                   \
+    {                                                                          \
+        link(t) = getavail();                                                  \
+        t = link(t);                                                           \
+        font(t) = hf;                                                          \
+        character(t) = x;                                                      \
+    }
 
-#define synchv()   { if(curv!=dviv ) {\
-	move_v(curv-dviv); dviv=curv;}}
+#define setcurr()                                                              \
+    {                                                                          \
+        if (j < n) {                                                           \
+            curr = qi(hu[j + 1]);                                              \
+        } else {                                                               \
+            curr = bchar;                                                      \
+        }                                                                      \
+        if (hyf[j] & 1) {                                                      \
+            currh = hchar;                                                     \
+        } else {                                                               \
+            currh = nonchar;                                                   \
+        }                                                                      \
+    }
 
-#define advpast(x)  { if(subtype(x)==languagenode ) {\
-    curlang=whatlang(x); lhyf=whatlhm(x); rhyf=whatrhm(x);}}
+#define wraplig(x)                                                             \
+    if (ligaturepresent) {                                                     \
+        p = newligature(hf, curl, link(curq));                                 \
+        if (lfthit) {                                                          \
+            subtype(p) = 2;                                                    \
+            lfthit = false;                                                    \
+        }                                                                      \
+        if (x)                                                                 \
+            if (ligstack == 0) {                                               \
+                (subtype(p))++;                                                \
+                rthit = false;                                                 \
+            }                                                                  \
+        link(curq) = p;                                                        \
+        t = p;                                                                 \
+        ligaturepresent = false;                                               \
+    }
 
+#define popligstack()                                                          \
+    {                                                                          \
+        if (ligptr(ligstack) > null) {                                         \
+            /* this is a charnode for |hu[j+1]| */                             \
+            link(t) = ligptr(ligstack);                                        \
+            t = link(t);                                                       \
+            j++;                                                               \
+        }                                                                      \
+        p = ligstack;                                                          \
+        ligstack = link(p);                                                    \
+        freenode(p, smallnodesize);                                            \
+        if (ligstack == null) {                                                \
+            setcurr();                                                         \
+        } else {                                                               \
+            curr = character(ligstack);                                        \
+        }                                                                      \
+    } /* {if |ligstack| isn't |null| we have |currh=nonchar|} */
+
+#define advancemajortail()                                                     \
+    {                                                                          \
+        majortail = link(majortail);                                           \
+        rcount++;                                                              \
+    }
+
+#define synchh()                                                               \
+    {                                                                          \
+        if (curh != dvih) {                                                    \
+            move_h(curh - dvih);                                               \
+            dvih = curh;                                                       \
+        }                                                                      \
+    }
+
+#define synchv()                                                               \
+    {                                                                          \
+        if (curv != dviv) {                                                    \
+            move_v(curv - dviv);                                               \
+            dviv = curv;                                                       \
+        }                                                                      \
+    }
+
+#define advpast(x)                                                             \
+    {                                                                          \
+        if (subtype(x) == languagenode) {                                      \
+            curlang = whatlang(x);                                             \
+            lhyf = whatlhm(x);                                                 \
+            rhyf = whatrhm(x);                                                 \
+        }                                                                      \
+    }

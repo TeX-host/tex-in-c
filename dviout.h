@@ -4,8 +4,8 @@
 
 extern int dvi_openout(void);
 extern void dviout_init(void);
-extern void dvibop(long * counts);
-extern void dviout (int x);
+extern void dvibop(long* counts);
+extern void dviout(int x);
 extern long get_dvi_mark(void);
 extern void move_h(long w);
 extern void move_v(long w);
@@ -18,11 +18,14 @@ extern void dvipop(long l);
 #if 0
 extern void dvipost();
 #else
-extern void dvipost(
-    long num_, long den_, long mag_, 
-    long max_v, long max_h, int max_push, 
-    int totalpages, int fontptr
-);
+extern void dvipost(long num_,
+                    long den_,
+                    long mag_,
+                    long max_v,
+                    long max_h,
+                    int max_push,
+                    int totalpages,
+                    int fontptr);
 #endif // #if 0
 
 extern void dvi_putrule(long ruleht, long rulewd);

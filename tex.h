@@ -16,7 +16,7 @@ typedef uchar Char;
 /*:6*/
 /*11:*/
 
-#define dwa_do_8	((int)16*1024*1024)
+#define dwa_do_8  ((int)16*1024*1024)
 #define memmax          3000000
 #define memmin          0
 #define bufsize         5000
@@ -31,7 +31,7 @@ typedef uchar Char;
 #define nestsize        40
 /*
 #define maxstrings      300000
-#define stringvacancies  8000
+#define stringvacancies 8000
 #define poolsize        3200000
 */
 #define savesize        600
@@ -743,85 +743,67 @@ typedef uchar Char;
 #define endwritetoken   (cstokenflag + endwrite)
 
 #define poolname        "TeXformats:TEX.POOL                     "
-
-
 /*:11*/
 
+
 /*18:*/
-typedef uchar ASCIIcode;
-
-/*:18*/
+typedef uchar ASCIIcode; /*:18*/
 /*25:*/
-typedef uchar eightbits;
-
-/*:25*/
+typedef uchar eightbits; /*:25*/
 /*38:*/
-
-typedef uchar packedASCIIcode;
-
-/*:38*/
+typedef uchar packedASCIIcode; /*:38*/
 /*101:*/
 typedef long scaled;
-
 typedef long nonnegativeinteger;
-
 typedef char smallnumber;
-
 /*:101*/
-/*109:*/
-typedef double glueratio;
 
-/*:109*/
+/*109:*/
+typedef double glueratio; /*:109*/
 /*113:*/
 typedef unsigned short quarterword;
-
 typedef int halfword;
-
 typedef char twochoices;
-
 typedef char fourchoices;
-
 typedef struct twohalves {
-  halfword rh;
-  union {
-    halfword lh;
-    struct {
-      quarterword b0, b1;
-    } U2;
-  } UU;
+    halfword rh;
+    union {
+        halfword lh;
+        struct {
+            quarterword b0, b1;
+        } U2;
+    } UU;
 } twohalves;
 
 typedef struct fourquarters {
-  quarterword b0, b1, b2, b3;
+    quarterword b0, b1, b2, b3;
 } fourquarters;
 
 typedef char manychoices;
-
 typedef int pointer;
-
 typedef union memoryword {
-  long int_;
-  glueratio gr;
-  twohalves hh;
-  fourquarters qqqq;
-  long sc;
+    long int_;
+    glueratio gr;
+    twohalves hh;
+    fourquarters qqqq;
+    long sc;
 } memoryword;
 
-struct my_mem { 
-	char is_char_node;
-	memoryword mm;
+struct my_mem {
+    char is_char_node;
+    memoryword mm;
 };
 /*:113*/
 /*150:*/
 typedef char glueord;
-   /*:150*/
+/*:150*/
 /*212:*/
 
 typedef struct liststaterecord {
-  short modefield;
-  pointer headfield, tailfield;
-  long pgfield, mlfield;
-  memoryword auxfield;
+    short modefield;
+    pointer headfield, tailfield;
+    long pgfield, mlfield;
+    memoryword auxfield;
 } liststaterecord;
 
 /*:212*/
@@ -832,10 +814,10 @@ typedef char groupcode;
 /*300:*/
 
 typedef struct instaterecord {
-  quarterword statefield, indexfield;
-  halfword startfield, locfield, limitfield, namefield;
-  quarterword tok_type;
-  pointer tok_list, tok_loc, tok_name, tok_param;
+    quarterword statefield, indexfield;
+    halfword startfield, locfield, limitfield, namefield;
+    quarterword tok_type;
+    pointer tok_list, tok_loc, tok_name, tok_param;
 } instaterecord;
 
 /*:300*/
