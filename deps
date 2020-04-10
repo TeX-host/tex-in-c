@@ -1,5 +1,5 @@
-tex.o: tex.c global_const.h tex.h str.h texmac.h macros.h funcs.h \
- global.h printout.h fonts.h texfunc.h dviout.h
+tex.o: tex.c global_const.h tex_inc.h tex.h str.h texmac.h macros.h \
+ funcs.h global.h printout.h fonts.h texfunc.h dviout.h
 funcs.o: funcs.c tex.h str.h funcs.h global.h
 inipool.o: inipool.c tex.h str.h funcs.h global.h pool_str.c
 inputln.o: inputln.c tex.h str.h funcs.h global.h

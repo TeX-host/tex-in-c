@@ -20,6 +20,7 @@
 #endif // #ifdef BIG_CHARNODE
 
 #include "global_const.h"
+#include "tex_inc.h"
 #include "tex.h"
 #include "str.h"
 #include "texmac.h"
@@ -652,7 +653,7 @@ Static void initialize(void) { /*:927*/
     /*1343:*/
     for (k = 0; k <= 17; k++) /*:1343*/
         writeopen[k] = false;
-}
+} // end block p11#21
 
 /// p59#164: Initialize table entries (done by INITEX only)
 #ifdef tt_INIT
@@ -1843,148 +1844,144 @@ Static void runaway(void)
 /*:306*/
 /*:119*/
 
-/*120:*/
-Static pointer getavail(void)
-{
-  pointer p;
+/// p46#120: single-word node allocation
+Static pointer get_avail(void) {
+    pointer p;
 
-  p = avail;
-  if (p != 0)
-    avail = link(avail);
-  else
-  if (memend + charnodesize <= memmax) {
-	p = memend+1;
-	memend += charnodesize;
-  } else {
-	p = himemmin-1;
-	himemmin -= charnodesize;
-    if (himemmin <= lomemmax) {
-      runaway();
-      overflow(S(317), memmax - memmin + 1);
+    p = avail;
+    if (p != 0)
+        avail = link(avail);
+    else if (memend + charnodesize <= memmax) {
+        p = memend + 1;
+        memend += charnodesize;
+    } else {
+        p = himemmin - 1;
+        himemmin -= charnodesize;
+        if (himemmin <= lomemmax) {
+            runaway();
+            overflow(S(317), memmax - memmin + 1);
+        }
     }
-  }
-  set_as_char_node(p);
-  link(p) = 0;
-  /*_STAT*/
-  dynused += charnodesize;
-  /*_ENDSTAT*/
-  return p;
-}
-/*:120*/
+    set_as_char_node(p);
+    link(p) = 0;
+    #ifdef tt_STAT
+        dynused += charnodesize;
+    #endif // #120: tt_STAT
+    return p;
+} // #120: get_avail
 
-/*123:*/
-Static void flushlist(halfword p)
-{
-  pointer q, r;
+/// p46#123: makes list of single-word nodes available
+Static void flushlist(halfword p) {
+    pointer q, r;
 
-  if (p == 0)
-    return;
-  r = p;
-  do {
-    q = r;
-    r = link(r);   /*_STAT*/
-    dynused-=charnodesize;   /*_ENDSTAT*/
-  } while (r != 0);
-  link(q) = avail;
-  avail = p;
-}
-/*:123*/
+    if (p == 0) return;
+    r = p;
+    do {
+        q = r;
+        r = link(r);            
+        #ifdef tt_STAT
+            dynused -= charnodesize;
+        #endif // #123: tt_STAT
+    } while (r != 0);
+    link(q) = avail;
+    avail = p;
+} // #123: flushlist
 
-/*125:*/
-Static halfword getnode(long s)
-{
-  halfword Result;
-  pointer p, q;
-  long r, t;
+
+/// #125
+Static halfword getnode(long s) {
+    halfword Result;
+    pointer p, q;
+    long r, t;
 
 _Lrestart:
-  p = rover;
-  do {   /*127:*/
-    q = p + nodesize(p);
-    while (isempty(q)) {
-      t = rlink(q);
-      if (q == rover)
-	rover = t;
-      llink(t) = llink(q);
-      rlink(llink(q)) = t;
-      q += nodesize(q);
+    p = rover;
+    do { /*127:*/
+        q = p + nodesize(p);
+        while (isempty(q)) {
+            t = rlink(q);
+            if (q == rover) rover = t;
+            llink(t) = llink(q);
+            rlink(llink(q)) = t;
+            q += nodesize(q);
+        }
+        r = q - s;
+        if (r > p + 1) { /*128:*/
+            nodesize(p) = r - p;
+            rover = p;
+            goto _Lfound;
+        }
+        /*:128*/
+        if (r == p) {
+            if (rlink(p) != p) { /*129:*/
+                rover = rlink(p);
+                t = llink(p);
+                llink(rover) = t;
+                rlink(t) = rover;
+                goto _Lfound;
+            }
+            /*:129*/
+        }
+        nodesize(p) = q - p; /*:127*/
+        p = rlink(p);
+    } while (p != rover);
+    if (s == 1073741824L) {
+        Result = maxhalfword;
+        goto _Lexit;
     }
-    r = q - s;
-    if (r > p + 1) {   /*128:*/
-      nodesize(p) = r - p;
-      rover = p;
-      goto _Lfound;
+    if (lomemmax + 2 < himemmin) {
+        if (lomemmax + 2 <= membot + maxhalfword) { /*126:*/
+            if (himemmin - lomemmax >= 1998)
+                t = lomemmax + 1000;
+            else
+                t = lomemmax + (himemmin - lomemmax) / 2 + 1;
+            p = llink(rover);
+            q = lomemmax;
+            rlink(p) = q;
+            llink(rover) = q;
+            if (t > membot + maxhalfword) t = membot + maxhalfword;
+            rlink(q) = rover;
+            llink(q) = p;
+            link(q) = emptyflag;
+            nodesize(q) = t - lomemmax;
+            lomemmax = t;
+            link(lomemmax) = 0;
+            info(lomemmax) = 0;
+            rover = q;
+            goto _Lrestart;
+        }
+        /*:126*/
     }
-    /*:128*/
-    if (r == p) {
-      if (rlink(p) != p) {   /*129:*/
-	rover = rlink(p);
-	t = llink(p);
-	llink(rover) = t;
-	rlink(t) = rover;
-	goto _Lfound;
-      }
-      /*:129*/
-    }
-    nodesize(p) = q - p;   /*:127*/
-    p = rlink(p);
-  } while (p != rover);
-  if (s == 1073741824L) {
-    Result = maxhalfword;
-    goto _Lexit;
-  }
-  if (lomemmax + 2 < himemmin) {
-    if (lomemmax + 2 <= membot + maxhalfword) {   /*126:*/
-      if (himemmin - lomemmax >= 1998)
-	t = lomemmax + 1000;
-      else
-	t = lomemmax + (himemmin - lomemmax) / 2 + 1;
-      p = llink(rover);
-      q = lomemmax;
-      rlink(p) = q;
-      llink(rover) = q;
-      if (t > membot + maxhalfword)
-	t = membot + maxhalfword;
-      rlink(q) = rover;
-      llink(q) = p;
-      link(q) = emptyflag;
-      nodesize(q) = t - lomemmax;
-      lomemmax = t;
-      link(lomemmax) = 0;
-      info(lomemmax) = 0;
-      rover = q;
-      goto _Lrestart;
-    }
-    /*:126*/
-  }
-  overflow(S(317), memmax - memmin + 1);
+    overflow(S(317), memmax - memmin + 1);
 _Lfound:
-  link(r) = 0;   /*_STAT*/
-  varused += s;   /*_ENDSTAT*/
-  Result = r;
+    link(r) = 0;
+    #ifdef tt_STAT
+        varused += s;
+    #endif // #125: tt_STAT
+    Result = r;
 _Lexit:
-  return Result;
-}
-/*:125*/
+    return Result;
+} // #125: getnode
 
-/*130:*/
-Static void freenode(pointer p, halfword s)
-{
-  pointer q;
+/// p48#130: variable-size node liberation
+Static void freenode(pointer p, halfword s) {
+    pointer q;
 
-  nodesize(p) = s;
-  link(p) = emptyflag;
-  q = llink(rover);
-  llink(p) = q;
-  rlink(p) = rover;
-  llink(rover) = p;
-  rlink(q) = p;   /*_STAT*/
-  varused -= s;   /*_ENDSTAT*/
-}
-/*:130*/
+    nodesize(p) = s;
+    link(p) = emptyflag;
+    q = llink(rover);
+    llink(p) = q;
+    rlink(p) = rover;
+    llink(rover) = p;
+    rlink(q) = p;
+    #ifdef tt_STAT
+        varused -= s;
+    #endif // #130: tt_STAT
+} // #130: freenode
 
 
 #ifdef tt_INIT // #131,132
+/// p49#131: sorts the available variable-size nodes by location
 Static void sort_avail(void)
 {   // used at #1311
     pointer p, q, r,  // indices into mem
@@ -2900,12 +2897,12 @@ Static void shownodelist(long p)
       case ligaturenode:   /*193:*/
 #ifdef BIG_CHARNODE
 	{
-	pointer pp=getavail();
+	pointer pp=get_avail();
 	type(pp) = charnodetype;
 	font(pp) = font_ligchar(p);
 	character(pp) = character_ligchar(p);
 	printfontandchar(pp);
-	freeavail(pp);
+	FREE_AVAIL(pp);
 	}
 #else
 	printfontandchar(ligchar(p));
@@ -3147,7 +3144,7 @@ Static void flushnodelist(halfword p) {
     while (p != 0) {
         q = link(p);
         if (ischarnode(p)) {
-            freeavail(p);
+            FREE_AVAIL(p);
         } else {
             switch (type(p)) {
             case hlistnode:
@@ -3299,12 +3296,12 @@ Static halfword copynodelist(halfword p)
   pointer h, q, r=0 /* XXXX */;
   char words;
 
-  h = getavail();
+  h = get_avail();
   q = h;
   while (p != 0) {  /*205:*/
     words = 1;
     if (ischarnode(p)) {
-      r = getavail();
+      r = get_avail();
 #ifdef BIG_CHARNODE
 	words = charnodesize;
 #endif
@@ -3413,7 +3410,7 @@ Static halfword copynodelist(halfword p)
   }
   link(q) = 0;
   q = link(h);
-  freeavail(h);
+  FREE_AVAIL(h);
   return q;
 }
 /*:204*/
@@ -3468,7 +3465,7 @@ Static void pushnest(void)
   }
   nest[nestptr] = curlist;
   nestptr++;
-  head = getavail();
+  head = get_avail();
   tail = head;
   prevgraf = 0;
   modeline = line;
@@ -3478,7 +3475,7 @@ Static void pushnest(void)
 /*217:*/
 Static void popnest(void)
 {
-  freeavail(head);
+  FREE_AVAIL(head);
   nestptr--;
   curlist = nest[nestptr];
 }
@@ -3598,184 +3595,175 @@ Static void showactivities(void)
 /*:218*/
 
 /*245:*/
-Static void begindiagnostic(void)
-{
-  diag_oldsetting = selector;
-  if (tracingonline > 0 || selector != termandlog)
-    return;
-  selector--;
-  if (history == SPOTLESS)
-    history = WARNING_ISSUED;
+Static void begindiagnostic(void) {
+    diag_oldsetting = selector;
+    if (tracingonline > 0 || selector != termandlog) return;
+    selector--;
+    if (history == SPOTLESS) history = WARNING_ISSUED;
 }
 
-
-Static void enddiagnostic(boolean blankline)
-{
-  printnl(S(385));
-  if (blankline)
-    println();
-  selector = diag_oldsetting;
+Static void enddiagnostic(boolean blankline) {
+    printnl(S(385));
+    if (blankline) println();
+    selector = diag_oldsetting;
 }
 /*:245*/
 
-/*252:*/
-/*_STAT*/
-Static void showeqtb(halfword n)
-{
-  if (n < activebase) {
-    printchar('?');
-    return;
-  }
-  if (n < gluebase) {
-    /*223:*/
-    sprintcs(n);
+#ifdef tt_STAT
+/// #252:
+Static void showeqtb(halfword n) {
+    if (n < activebase) {
+        printchar('?');
+        return;
+    }
+    if (n < gluebase) {
+        /*223:*/
+        sprintcs(n);
+        printchar('=');
+        printcmdchr(eqtype(n), equiv(n));
+        if (eqtype(n) >= call) {
+            printchar(':');
+            showtokenlist(link(equiv(n)), 0, 32);
+        }
+        return;
+    }                    /*:223*/
+    if (n < localbase) { /*229:*/
+        if (n < skipbase) {
+            printskipparam(n - gluebase);
+            printchar('=');
+            if (n < gluebase + thinmuskipcode)
+                printspec(equiv(n), S(459));
+            else
+                printspec(equiv(n), S(390));
+            return;
+        }
+        if (n < muskipbase) {
+            printesc(S(460));
+            printint(n - skipbase);
+            printchar('=');
+            printspec(equiv(n), S(459));
+            return;
+        }
+        printesc(S(461));
+        printint(n - muskipbase);
+        printchar('=');
+        printspec(equiv(n), S(390));
+        return;
+    }
+    if (n < intbase) { /*233:*/
+        if (n == parshapeloc) {
+            printesc(S(462));
+            printchar('=');
+            if (parshapeptr == 0)
+                printchar('0');
+            else
+                printint(info(parshapeptr));
+            return;
+        }
+        if (n < toksbase) {
+            printcmdchr(assigntoks, n);
+            printchar('=');
+            if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
+            return;
+        }
+        if (n < boxbase) {
+            printesc(S(463));
+            printint(n - toksbase);
+            printchar('=');
+            if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
+            return;
+        }
+        if (n < curfontloc) {
+            printesc(S(464));
+            printint(n - boxbase);
+            printchar('=');
+            if (equiv(n) == 0) {
+                print(S(465));
+                return;
+            }
+            depththreshold = 0;
+            breadthmax = 1;
+            shownodelist(equiv(n));
+            return;
+        }
+        if (n < catcodebase) { /*234:*/
+            if (n == curfontloc)
+                print(S(466));
+            else if (n < mathfontbase + 16) {
+                printesc(S(266));
+                printint(n - mathfontbase);
+            } else if (n < mathfontbase + 32) {
+                printesc(S(267));
+                printint(n - mathfontbase - 16);
+            } else {
+                printesc(S(268));
+                printint(n - mathfontbase - 32);
+            }
+            printchar('=');
+            printesc(fontidtext(equiv(n)));
+            return;
+        }
+        /*:234*/
+        if (n < mathcodebase) {
+            if (n < lccodebase) {
+                printesc(S(467));
+                printint(n - catcodebase);
+            } else if (n < uccodebase) {
+                printesc(S(468));
+                printint(n - lccodebase);
+            } else if (n < sfcodebase) {
+                printesc(S(469));
+                printint(n - uccodebase);
+            } else {
+                printesc(S(470));
+                printint(n - sfcodebase);
+            }
+            printchar('=');
+            printint(equiv(n));
+            return;
+        }
+        printesc(S(471));
+        printint(n - mathcodebase);
+        printchar('=');
+        printint(equiv(n));
+        return;
+    }
+    if (n < dimenbase) { /*242:*/
+        if (n < countbase)
+            printparam(n - intbase);
+        else if (n < delcodebase) {
+            printesc(S(472));
+            printint(n - countbase);
+        } else {
+            printesc(S(473));
+            printint(n - delcodebase);
+        }
+        printchar('=');
+        printint(eqtb[n - activebase].int_);
+        return;
+    }                   /*:242*/
+    if (n > eqtbsize) { /*251:*/
+        printchar('?');
+        return;
+    }
+    /*:251*/
+    if (n < scaledbase)
+        printlengthparam(n - dimenbase);
+    else {
+        printesc(S(474));
+        printint(n - scaledbase);
+    }
     printchar('=');
-    printcmdchr(eqtype(n), equiv(n));
-    if (eqtype(n) >= call) {
-      printchar(':');
-      showtokenlist(link(equiv(n)), 0, 32);
-    }
-    return;
-  }  /*:223*/
-  if (n < localbase) {   /*229:*/
-    if (n < skipbase) {
-      printskipparam(n - gluebase);
-      printchar('=');
-      if (n < gluebase + thinmuskipcode)
-	printspec(equiv(n), S(459));
-      else
-	printspec(equiv(n), S(390));
-      return;
-    }
-    if (n < muskipbase) {
-      printesc(S(460));
-      printint(n - skipbase);
-      printchar('=');
-      printspec(equiv(n), S(459));
-      return;
-    }
-    printesc(S(461));
-    printint(n - muskipbase);
-    printchar('=');
-    printspec(equiv(n), S(390));
-    return;
-  }
-  if (n < intbase) {   /*233:*/
-    if (n == parshapeloc) {
-      printesc(S(462));
-      printchar('=');
-      if (parshapeptr == 0)
-	printchar('0');
-      else
-	printint(info(parshapeptr));
-      return;
-    }
-    if (n < toksbase) {
-      printcmdchr(assigntoks, n);
-      printchar('=');
-      if (equiv(n) != 0)
-	showtokenlist(link(equiv(n)), 0, 32);
-      return;
-    }
-    if (n < boxbase) {
-      printesc(S(463));
-      printint(n - toksbase);
-      printchar('=');
-      if (equiv(n) != 0)
-	showtokenlist(link(equiv(n)), 0, 32);
-      return;
-    }
-    if (n < curfontloc) {
-      printesc(S(464));
-      printint(n - boxbase);
-      printchar('=');
-      if (equiv(n) == 0) {
-	print(S(465));
-	return;
-      }
-      depththreshold = 0;
-      breadthmax = 1;
-      shownodelist(equiv(n));
-      return;
-    }
-    if (n < catcodebase) {   /*234:*/
-      if (n == curfontloc)
-	print(S(466));
-      else if (n < mathfontbase + 16) {
-	printesc(S(266));
-	printint(n - mathfontbase);
-      } else if (n < mathfontbase + 32) {
-	printesc(S(267));
-	printint(n - mathfontbase - 16);
-      } else {
-	printesc(S(268));
-	printint(n - mathfontbase - 32);
-      }
-      printchar('=');
-      printesc(fontidtext(equiv(n)));
-      return;
-    }
-    /*:234*/
-    if (n < mathcodebase) {
-      if (n < lccodebase) {
-	printesc(S(467));
-	printint(n - catcodebase);
-      } else if (n < uccodebase) {
-	printesc(S(468));
-	printint(n - lccodebase);
-      } else if (n < sfcodebase) {
-	printesc(S(469));
-	printint(n - uccodebase);
-      } else {
-	printesc(S(470));
-	printint(n - sfcodebase);
-      }
-      printchar('=');
-      printint(equiv(n));
-      return;
-    }
-    printesc(S(471));
-    printint(n - mathcodebase);
-    printchar('=');
-    printint(equiv(n));
-    return;
-  }
-  if (n < dimenbase) {   /*242:*/
-    if (n < countbase)
-      printparam(n - intbase);
-    else if (n < delcodebase) {
-      printesc(S(472));
-      printint(n - countbase);
-    } else {
-      printesc(S(473));
-      printint(n - delcodebase);
-    }
-    printchar('=');
-    printint(eqtb[n - activebase].int_);
-    return;
-  }  /*:242*/
-  if (n > eqtbsize) {   /*251:*/
-    printchar('?');
-    return;
-  }
-  /*:251*/
-  if (n < scaledbase)
-    printlengthparam(n - dimenbase);
-  else {
-    printesc(S(474));
-    printint(n - scaledbase);
-  }
-  printchar('=');
-  printscaled(eqtb[n - activebase].sc);
-  print(S(459));
+    printscaled(eqtb[n - activebase].sc);
+    print(S(459));
 
-  /*:229*/
-  /*235:*/
-  /*:235*/
-  /*:233*/
-}
-/*_ENDSTAT*/
-/*:252*/
+    /*:229*/
+    /*235:*/
+    /*:235*/
+    /*:233*/
+} // #252: showeqtb
+#endif // #252: tt_STAT
+
 
 /*
 Static halfword idlookup(long j, long l)
@@ -3785,47 +3773,48 @@ Static halfword idlookup(long j, long l)
 */
 
 /*259:*/
-halfword idlookup_p(unsigned char * buffp, long l, int no_new)
-{   /*261:*/
-  long h;
-  pointer p, k;
+halfword idlookup_p(unsigned char* buffp, long l, int no_new) {
+    /*261:*/
+    long h;
+    pointer p, k;
 
-  h = buffp[0];
-  for (k = 1; k < l; k++) {
-	h += h + buffp[k];
-	while (h >= hashprime)
-		h -= hashprime;
-  }
-  p = h + hashbase;
-  while (true) {
-    if (text(p) > 0) {
-	if (str_bcmp(buffp,l,text(p))) goto _Lfound;
+    h = buffp[0];
+    for (k = 1; k < l; k++) {
+        h += h + buffp[k];
+        while (h >= hashprime)
+            h -= hashprime;
     }
-    if (next(p) == 0) {
-      if (no_new)
-	p = undefinedcontrolsequence;
-      else  /*260:*/
-      {   /*:260*/
-	if (text(p) > 0) {
-	  do {
-	    if (hashisfull) {
-	      overflow(S(475), hashsize);
-	    }
-	    hashused--;
-	  } while (text(hashused) != 0);
-	  next(p) = hashused;
-	  p = hashused;
-	}
-	text(p) = str_insert(buffp,l);
-	/*_STAT*/
-	cscount++;   /*_ENDSTAT*/
-      }
-      goto _Lfound;
+    p = h + hashbase;
+    while (true) {
+        if (text(p) > 0) {
+            if (str_bcmp(buffp, l, text(p))) goto _Lfound;
+        }
+        if (next(p) == 0) {
+            if (no_new) {
+                p = undefinedcontrolsequence;
+            } else {   
+                if (text(p) > 0) {
+                    do {
+                        if (hashisfull) {
+                            overflow(S(475), hashsize);
+                        }
+                        hashused--;
+                    } while (text(hashused) != 0);
+                    next(p) = hashused;
+                    p = hashused;
+                }
+                text(p) = str_insert(buffp, l);
+
+                #ifdef tt_STAT
+                    cscount++;
+                #endif // #260: tt_STAT
+            }
+            goto _Lfound;
+        }
+        p = next(p);
     }
-    p = next(p);
-  }
 _Lfound:
-  return p;
+    return p;
 }
 /*:259*/
 
@@ -3979,20 +3968,19 @@ Static void saveforafter(halfword t)
 /*:280*/
 
 /*281:*/
-/*284:*/
-/*_STAT*/
-Static void restoretrace(halfword p, strnumber s)
-{
-  begindiagnostic();
-  printchar('{');
-  print(s);
-  printchar(' ');
-  showeqtb(p);
-  printchar('}');
-  enddiagnostic(false);
+#ifdef tt_STAT
+/// #284
+Static void restoretrace(halfword p, strnumber s) {
+    begindiagnostic();
+    printchar('{');
+    print(s);
+    printchar(' ');
+    showeqtb(p);
+    printchar('}');
+    enddiagnostic(false);
 }
-/*_ENDSTAT*/
-/*:284*/
+#endif // #284: tt_STAT
+
 
 Static void backinput(void);
 
@@ -4025,27 +4013,30 @@ Static void unsave(void) {
         }
         if (p < intbase) {
             if (eqlevel(p) == levelone) {
-                eqdestroy(savestack[saveptr]); /*_STAT*/
-                if (tracingrestores > 0)       /*_ENDSTAT*/
-                    restoretrace(p, S(479));
+                eqdestroy(savestack[saveptr]);
+                #ifdef tt_STAT
+                    if (tracingrestores > 0) restoretrace(p, S(479));
+                #endif // #283.1: tt_STAT
             } else {
                 eqdestroy(eqtb[p - activebase]);
-                eqtb[p - activebase] = savestack[saveptr]; /*_STAT*/
-                if (tracingrestores > 0)                   /*_ENDSTAT*/
-                    restoretrace(p, S(480));
+                eqtb[p - activebase] = savestack[saveptr];
+                #ifdef tt_STAT
+                    if (tracingrestores > 0) restoretrace(p, S(480));
+                #endif // #283.2: tt_STAT
             }
             continue;
         }
         if (xeqlevel[p - intbase] != levelone) {
             eqtb[p - activebase] = savestack[saveptr];
-            xeqlevel[p - intbase] = l; /*_STAT*/
-            if (tracingrestores > 0)   /*_ENDSTAT*/
-                restoretrace(p, S(480));
-            /*:283*/
+            xeqlevel[p - intbase] = l; 
+            #ifdef tt_STAT
+                if (tracingrestores > 0) restoretrace(p, S(480));
+            #endif // #283.3: tt_STAT
+                /*:283*/
         } else {                            
-            /*_STAT*/
-            if (tracingrestores > 0) /*_ENDSTAT*/
-                restoretrace(p, S(479));
+            #ifdef tt_STAT
+                if (tracingrestores > 0) restoretrace(p, S(479));
+            #endif // #283.4: tt_STAT
         }
     } // while (true)
 
@@ -4388,7 +4379,7 @@ Static void backinput(void)
 
   while (state == tokenlist && loc == 0)
     endtokenlist();
-  p = getavail();
+  p = get_avail();
   info(p) = curtok;
   if (curtok < rightbracelimit) {
     if (curtok < leftbracelimit)
@@ -4484,7 +4475,7 @@ Static int checkoutervalidity(int local_curcs)
   deletionsallowed = false;   /*337:*/
   if (local_curcs != 0) {   /*:337*/
     if (state == tokenlist || name < 1 || name > 17) {
-      p = getavail();
+      p = get_avail();
       info(p) = cstokenflag + local_curcs;
       backlist(p);
     }
@@ -4503,7 +4494,7 @@ Static int checkoutervalidity(int local_curcs)
       print(S(513));
     }
     print(S(514));   /*339:*/
-    p = getavail();
+    p = get_avail();
     switch (scannerstatus) {
 
     case defining:
@@ -4521,7 +4512,7 @@ Static int checkoutervalidity(int local_curcs)
       print(S(315));
       info(p) = rightbracetoken + '}';
       q = p;
-      p = getavail();
+      p = get_avail();
       link(p) = q;
       info(p) = cstokenflag + frozencr;
       alignstate = -1000000L;
@@ -5100,7 +5091,7 @@ _Llabcontinue:
 	/*:398*/
 	t = s;
 	do {
-	  storenewtoken(p,info(t));
+	  STORE_NEW_TOKEN(p,info(t));
 	  m++;
 	  u = link(t);
 	  v = s;
@@ -5133,7 +5124,7 @@ _Ldone:
 	if (curtok < leftbracelimit) {   /*399:*/
 	  unbalance = 1;
 	  while (true) {
-	    faststorenewtoken(p,curtok);
+	    FAST_STORE_NEW_TOKEN(p,curtok);
 	    gettoken();
 	    if (curtok == partoken) {
 	      if (longstate != longcall) {
@@ -5153,7 +5144,7 @@ _Ldone:
 	  }
 _Ldone1:
 	  rbraceptr = p;
-	  storenewtoken(p,curtok);
+	  STORE_NEW_TOKEN(p,curtok);
 	} else {   /*395:*/
 	  backinput();
 	  printnl(S(292));
@@ -5181,7 +5172,7 @@ _Ldone1:
 	      goto _Llabcontinue;
 	  }
 	}
-	storenewtoken(p,curtok);
+	STORE_NEW_TOKEN(p,curtok);
       }
       m++;
       if (info(r) > endmatchtoken)
@@ -5192,10 +5183,10 @@ _Lfound:
       if (s != 0) {   /*400:*/
 	if (((m == 1) & (info(p) < rightbracelimit)) && p != temphead) {
 	  link(rbraceptr) = 0;
-	  freeavail(p);
+	  FREE_AVAIL(p);
 	  p = link(temphead);
 	  pstack[n] = link(p);
-	  freeavail(p);
+	  FREE_AVAIL(p);
 	} else
 	  pstack[n] = link(temphead);
 	n++;
@@ -5323,7 +5314,7 @@ Static void expand(void)
       t = curtok;
       backinput();
       if (t >= cstokenflag) {
-	p = getavail();
+	p = get_avail();
 	info(p) = cstokenflag + frozendontexpand;
 	link(p) = loc;
 	start = p;
@@ -5333,12 +5324,12 @@ Static void expand(void)
       /*:369*/
 
     case csname:   /*372:*/
-      r = getavail();
+      r = get_avail();
       p = r;
       do {
 	getxtoken();
 	if (curcs == 0) {
-	  storenewtoken(p,curtok);
+	  STORE_NEW_TOKEN(p,curtok);
 	}
       } while (curcs == 0);
       if (curcmd != endcsname) {   /*373:*/
@@ -5517,7 +5508,7 @@ Static boolean scankeyword(strnumber s)
 {
   boolean Result;
 #if 1
-  pointer p = getavail();
+  pointer p = get_avail();
   pointer my_backup_head = p;
 #else
   pointer my_backup_head = backuphead;
@@ -5545,7 +5536,7 @@ Static boolean scankeyword(strnumber s)
     if ((curcs == 0) & ((curchr == str_c) |
                         (curchr == str_c - 'a' + 'A'))) {
 #endif
-      storenewtoken(p,curtok);
+      STORE_NEW_TOKEN(p,curtok);
       k++;
       continue;
     } else {
@@ -5563,7 +5554,7 @@ Static boolean scankeyword(strnumber s)
   Result = true;
 _Lexit:
 
-  freeavail(my_backup_head);
+  FREE_AVAIL(my_backup_head);
 
   return Result;
 }
@@ -6214,7 +6205,7 @@ Static void scandimen(boolean mu, boolean inf, boolean shortcut)
 	    goto _Ldone1;
 	  if (k >= 17)
 	    continue;
-	  q = getavail();
+	  q = get_avail();
 	  link(q) = p;
 	  info(q) = curtok - zerotoken;
 	  p = q;
@@ -6225,7 +6216,7 @@ _Ldone1:
 	  digs[kk] = info(p);
 	  q = p;
 	  p = link(p);
-	  freeavail(q);
+	  FREE_AVAIL(q);
 	}
 	f = rounddecimals(k,digs);
 	if (curcmd != spacer)
@@ -6480,7 +6471,7 @@ Static void strtoks_helper(strASCIIcode t)
       tt = spacetoken;
     else
       tt += othertoken;
-    faststorenewtoken(p,tt);
+    FAST_STORE_NEW_TOKEN(p,tt);
     tex_global_p=p;
 }
 
@@ -6509,14 +6500,14 @@ Static halfword thetoks(void)
     p = temphead;
     link(p) = 0;
     if (curvallevel == identval) {
-      storenewtoken(p,cstokenflag + curval);
+      STORE_NEW_TOKEN(p,cstokenflag + curval);
       return p;
     }
     if (curval == 0)
       return p;
     r = link(curval);
     while (r != 0) {
-      faststorenewtoken(p,info(r));
+      FAST_STORE_NEW_TOKEN(p,info(r));
       r = link(r);
     }
     return p;
@@ -6648,7 +6639,7 @@ Static halfword scantoks(boolean macrodef, boolean xpand)
   else
     scannerstatus = absorbing;
   warningindex = curcs;
-  defref = getavail();
+  defref = get_avail();
   tokenrefcount(defref) = 0;
   p = defref;
   hashbrace = 0;
@@ -6663,8 +6654,8 @@ Static halfword scantoks(boolean macrodef, boolean xpand)
 	gettoken();
 	if (curcmd == leftbrace) {
 	  hashbrace = curtok;
-	  storenewtoken(p,curtok);
-	  storenewtoken(p,endmatchtoken);
+	  STORE_NEW_TOKEN(p,curtok);
+	  STORE_NEW_TOKEN(p,endmatchtoken);
 	  goto _Ldone;
 	}
 	if (t == zerotoken + 9) {
@@ -6686,10 +6677,10 @@ Static halfword scantoks(boolean macrodef, boolean xpand)
 	}
       }
       /*:476*/
-      storenewtoken(p,curtok);
+      STORE_NEW_TOKEN(p,curtok);
     }
 _Ldone1:
-    storenewtoken(p,endmatchtoken);
+    STORE_NEW_TOKEN(p,endmatchtoken);
     if (curcmd == rightbrace) {   /*475:*/
       printnl(S(292));
       print(S(566));
@@ -6760,12 +6751,12 @@ _Ldone2:
       }
       /*:479*/
     }
-    storenewtoken(p,curtok);
+    STORE_NEW_TOKEN(p,curtok);
   }
 _Lfound:
   scannerstatus = normal;
   if (hashbrace != 0) {
-    storenewtoken(p,hashbrace);
+    STORE_NEW_TOKEN(p,hashbrace);
   }
   return p;
 }  /*:473*/
@@ -6779,10 +6770,10 @@ Static void readtoks(long n, halfword r) {
 
     scannerstatus = defining;
     warningindex = r;
-    defref = getavail();
+    defref = get_avail();
     tokenrefcount(defref) = 0;
     p = defref;
-    storenewtoken(p, endmatchtoken);
+    STORE_NEW_TOKEN(p, endmatchtoken);
     if ((unsigned long)n > 15)
         m = 16;
     else
@@ -6846,7 +6837,7 @@ Static void readtoks(long n, halfword r) {
                 alignstate = 1000000L;
                 goto _Ldone;
             }
-            storenewtoken(p, curtok);
+            STORE_NEW_TOKEN(p, curtok);
         }
 _Ldone: /*:483*/    
         endfilereading();
@@ -7443,7 +7434,7 @@ Static halfword newcharacter(internalfontnumber f, eightbits c) {
     if (fontbc[f] <= c) {
         if (fontec[f] >= c) {
             if (charexists(charinfo(f, c))) {
-                p = getavail();
+                p = get_avail();
                 font(p) = f;
                 character(p) = c;
                 Result = p;
@@ -7499,14 +7490,14 @@ Static void writeout(halfword p)
   /* SmallNumber */ int j; /* INT */
   pointer q, r;
 
-  q = getavail();
+  q = get_avail();
   info(q) = rightbracetoken + '}';
-  r = getavail();
+  r = get_avail();
   link(q) = r;
   info(r) = endwritetoken;
   inslist(q);
   begintokenlist(writetokens(p), writetext);
-  q = getavail();
+  q = get_avail();
   info(q) = leftbracetoken + '{';
   inslist(q);
   oldmode = mode;
@@ -8057,30 +8048,36 @@ Static void shipout(halfword p)
   dvi_eop();
   totalpages++;
   curs = -1;
-_Ldone:   /*:640*/
-  if (tracingoutput <= 0)
-    printchar(']');
-  deadcycles = 0;
-  fflush(stdout);   /*639:*/
-  /*_STAT*/
-  if (tracingstats > 1) {   /*_ENDSTAT*/
-    printnl(S(694));
-    printint(varused);
-    printchar('&');
-    printint(dynused);
-    printchar(';');
-  }
-  flushnodelist(p);   /*_STAT*/
-  if (tracingstats <= 1)   /*_ENDSTAT*/
-    return;
-  /*:639*/
-  print(S(695));
-  printint(varused);
-  printchar('&');
-  printint(dynused);
-  print(S(696));
-  printint(himemmin - lomemmax - 1);
-  println();
+
+_Ldone: /*:640*/
+    if (tracingoutput <= 0) printchar(']');
+    deadcycles = 0;
+    fflush(stdout);
+
+/// p236#639
+    #ifdef tt_STAT
+        if (tracingstats > 1) {
+            printnl(S(694));
+            printint(varused);
+            printchar('&');
+            printint(dynused);
+            printchar(';');
+        }
+    #endif // #639.1: tt_STAT
+
+    flushnodelist(p); 
+
+    #ifdef tt_STAT
+        if (tracingstats > 1) {
+            print(S(695));
+            printint(varused);
+            printchar('&');
+            printint(dynused);
+            print(S(696));
+            printint(himemmin - lomemmax - 1);
+            println();
+        }
+    #endif // #639.2: tt_STAT
 }  /*:638*/
 
 
@@ -8676,7 +8673,7 @@ Static halfword charbox(internalfontnumber f, quarterword c)
   width(b) = charwidth(f, q) + charitalic(f, q);
   height(b) = charheight(f, hd);
   depth(b) = chardepth(f, hd);
-  p = getavail();
+  p = get_avail();
   character(p) = c;
   font(p) = f;
   listptr(b) = p;
@@ -10012,7 +10009,7 @@ Static void pushalignment(void)
   info(p + 4) = curhead;
   link(p + 4) = curtail;
   alignptr = p;
-  curhead = getavail();
+  curhead = get_avail();
 }
 
 
@@ -10020,7 +10017,7 @@ Static void popalignment(void)
 {
   pointer p;
 
-  freeavail(curhead);
+  FREE_AVAIL(curhead);
   p = alignptr;
   curtail = link(p + 4);
   curhead = info(p + 4);
@@ -10127,7 +10124,7 @@ Static void initalign(void)
 	}
       } else {
 	if (curcmd != spacer || p != holdhead) {
-	  link(p) = getavail();
+	  link(p) = get_avail();
 	  p = link(p);
 	  info(p) = curtok;
 	}
@@ -10156,12 +10153,12 @@ _Llabcontinue:
 	error();
 	goto _Llabcontinue;
       }
-      link(p) = getavail();
+      link(p) = get_avail();
       p = link(p);
       info(p) = curtok;
     }
 _Ldone2:
-    link(p) = getavail();
+    link(p) = get_avail();
     p = link(p);
     info(p) = endtemplatetoken;   /*:784*/
     vpart(curalign) = link(holdhead);   /*:779*/
@@ -10247,7 +10244,7 @@ Static boolean fincol(void)
       q = holdhead;
       r = upart(curloop);
       while (r != 0) {
-	link(q) = getavail();
+	link(q) = get_avail();
 	q = link(q);
 	info(q) = info(r);
 	r = link(r);
@@ -10257,7 +10254,7 @@ Static boolean fincol(void)
       q = holdhead;
       r = vpart(curloop);
       while (r != 0) {
-	link(q) = getavail();
+	link(q) = get_avail();
 	q = link(q);
 	info(q) = info(r);
 	r = link(r);
@@ -10725,487 +10722,489 @@ Static halfword finiteshrink(halfword p)
 }  /*:826*/
 
 
-/*829:*/
-Static void trybreak(long pi, SmallNumber breaktype)
-{  /*831:*/
-  pointer r, prevr;
-  halfword oldl;
-  boolean nobreakyet;
-  /*830:*/
-  pointer prevprevr=0 /* XXXXX */, s, q, v, savelink;
-  long t;
-  internalfontnumber f;
-  halfword l;
-  boolean noderstaysactive;
-  scaled linewidth=0 /* XXXX */, shortfall;   /*:830*/
-  char fitclass;
-  halfword b;
-  long d;
-  boolean artificialdemerits;
+/// p308#829
+Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
+    pointer r, prevr;
+    halfword oldl;
+    boolean nobreakyet;
+    /*830:*/
+    pointer prevprevr = 0 /* XXXXX */, s, q, v, savelink;
+    long t;
+    internalfontnumber f;
+    halfword l;
+    boolean noderstaysactive;
+    scaled linewidth = 0 /* XXXX */, shortfall; /*:830*/
+    char fitclass;
+    halfword b;
+    long d;
+    boolean artificialdemerits;
 
-  if (labs(pi) >= infpenalty) {
-    if (pi > 0)
-      goto _Lexit;
-    pi = ejectpenalty;
-    /*:831*/
-  }
-  nobreakyet = true;
-  prevr = active;
-  oldl = 0;
-  copytocuractive(1);
-  copytocuractive(2);
-  copytocuractive(3);
-  copytocuractive(4);
-  copytocuractive(5);
-  copytocuractive(6);
-  while (true) {
-_Llabcontinue:
-    r = link(prevr);   /*832:*/
-    if (type(r) == deltanode) {   /*:832*/
-      updatewidth(1);
-      updatewidth(2);
-      updatewidth(3);
-      updatewidth(4);
-      updatewidth(5);
-      updatewidth(6);
-      prevprevr = prevr;
-      prevr = r;
-      goto _Llabcontinue;
+    if (labs(pi) >= infpenalty) {
+        if (pi > 0) goto _Lexit;
+        pi = ejectpenalty;
+        /*:831*/
     }
-    /*835:*/
-    l = linenumber(r);
-    if (l > oldl) {   /*:835*/
-      if (minimumdemerits < awfulbad && (oldl != easyline || r == lastactive))
-      {   /*836:*/
-	if (nobreakyet) {   /*837:*/
-	  nobreakyet = false;
-	  setbreakwidthtobackground(1);
-	  setbreakwidthtobackground(2);
-	  setbreakwidthtobackground(3);
-	  setbreakwidthtobackground(4);
-	  setbreakwidthtobackground(5);
-	  setbreakwidthtobackground(6);
-	  s = curp;
-	  if (breaktype > unhyphenated) {
-	    if (curp != 0) {   /*840:*/
-	      t = replacecount(curp);
-	      v = curp;
-	      s = postbreak(curp);
-	      while (t > 0) {
-		t--;
-		v = link(v);   /*841:*/
-		if (ischarnode(v)) {
-		  f = font(v);
-		  breakwidth[0] -= charwidth(f,
-		      charinfo(f, character(v)));
-		  continue;
-		}
-		switch (type(v)) {   /*:841*/
 
-		case ligaturenode:
-		  f = font_ligchar(v);
-		  breakwidth[0] -= charwidth(f,
-		      charinfo(f, character_ligchar(v)));
-		  break;
+    nobreakyet = true;
+    prevr = active;
+    oldl = 0;
+    copytocuractive(1);
+    copytocuractive(2);
+    copytocuractive(3);
+    copytocuractive(4);
+    copytocuractive(5);
+    copytocuractive(6);
 
-		case hlistnode:
-		case vlistnode:
-		case rulenode:
-		case kernnode:
-		  breakwidth[0] -= width(v);
-		  break;
+    while (true) {
+    _Llabcontinue:
+        r = link(prevr);            /*832:*/
+        if (type(r) == deltanode) { /*:832*/
+            updatewidth(1);
+            updatewidth(2);
+            updatewidth(3);
+            updatewidth(4);
+            updatewidth(5);
+            updatewidth(6);
+            prevprevr = prevr;
+            prevr = r;
+            goto _Llabcontinue;
+        }
+        /*835:*/
+        l = linenumber(r);
+        if (l > oldl) { /*:835*/
+            if (minimumdemerits < awfulbad &&
+                (oldl != easyline || r == lastactive) ) { /*836:*/
+                if (nobreakyet) {                        /*837:*/
+                    nobreakyet = false;
+                    setbreakwidthtobackground(1);
+                    setbreakwidthtobackground(2);
+                    setbreakwidthtobackground(3);
+                    setbreakwidthtobackground(4);
+                    setbreakwidthtobackground(5);
+                    setbreakwidthtobackground(6);
+                    s = curp;
+                    if (breaktype > unhyphenated) {
+                        if (curp != 0) { /*840:*/
+                            t = replacecount(curp);
+                            v = curp;
+                            s = postbreak(curp);
+                            while (t > 0) {
+                                t--;
+                                v = link(v); /*841:*/
+                                if (ischarnode(v)) {
+                                    f = font(v);
+                                    breakwidth[0] -=
+                                        charwidth(f, charinfo(f, character(v)));
+                                    continue;
+                                }
+                                switch (type(v)) { /*:841*/
 
-		default:
-		  confusion(S(754));
-		  break;
-		}
-	      }
-	      while (s != 0) {   /*842:*/
-		if (ischarnode(s)) {
-		  f = font(s);
-		  breakwidth[0] += charwidth(f,
-		      charinfo(f, character(s)));
-		} else {
-		  switch (type(s)) {   /*:842*/
+                                    case ligaturenode:
+                                        f = font_ligchar(v);
+                                        breakwidth[0] -= charwidth(
+                                            f,
+                                            charinfo(f, character_ligchar(v)));
+                                        break;
 
-		  case ligaturenode:
-		    f = font_ligchar(s);
-		    breakwidth[0] += charwidth(f,
-			charinfo(f, character_ligchar(s)));
-		    break;
+                                    case hlistnode:
+                                    case vlistnode:
+                                    case rulenode:
+                                    case kernnode:
+                                        breakwidth[0] -= width(v);
+                                        break;
 
-		  case hlistnode:
-		  case vlistnode:
-		  case rulenode:
-		  case kernnode:
-		    breakwidth[0] += width(s);
-		    break;
+                                    default:
+                                        confusion(S(754));
+                                        break;
+                                }
+                            }
+                            while (s != 0) { /*842:*/
+                                if (ischarnode(s)) {
+                                    f = font(s);
+                                    breakwidth[0] +=
+                                        charwidth(f, charinfo(f, character(s)));
+                                } else {
+                                    switch (type(s)) { /*:842*/
 
-		  default:
-		    confusion(S(755));
-		    break;
-		  }
-		}
-		s = link(s);
-	      }
-	      breakwidth[0] += discwidth;
-	      if (postbreak(curp) == 0)
-		s = link(v);
-	    }
-	    /*:840*/
-	  }
-	  while (s != 0) {
-	    if (ischarnode(s))
-	      goto _Ldone;
-	    switch (type(s)) {
+                                        case ligaturenode:
+                                            f = font_ligchar(s);
+                                            breakwidth[0] += charwidth(
+                                                f,
+                                                charinfo(f,
+                                                         character_ligchar(s)));
+                                            break;
 
-	    case gluenode:   /*838:*/
-	      v = glueptr(s);
-	      breakwidth[0] -= width(v);
-	      breakwidth[stretchorder(v) + 1] -= stretch(v);
-	      breakwidth[5] -= shrink(v);
-	      break;
-	      /*:838*/
+                                        case hlistnode:
+                                        case vlistnode:
+                                        case rulenode:
+                                        case kernnode:
+                                            breakwidth[0] += width(s);
+                                            break;
 
-	    case penaltynode:
-	      /* blank case */
-	      break;
+                                        default:
+                                            confusion(S(755));
+                                            break;
+                                    }
+                                }
+                                s = link(s);
+                            }
+                            breakwidth[0] += discwidth;
+                            if (postbreak(curp) == 0) s = link(v);
+                        }
+                        /*:840*/
+                    }
+                    while (s != 0) {
+                        if (ischarnode(s)) goto _Ldone;
+                        switch (type(s)) {
 
-	    case mathnode:
-	      breakwidth[0] -= width(s);
-	      break;
+                            case gluenode: /*838:*/
+                                v = glueptr(s);
+                                breakwidth[0] -= width(v);
+                                breakwidth[stretchorder(v) + 1] -= stretch(v);
+                                breakwidth[5] -= shrink(v);
+                                break;
+                                /*:838*/
 
-	    case kernnode:
-	      if (subtype(s) != explicit)
-		goto _Ldone;
-	      breakwidth[0] -= width(s);
-	      break;
+                            case penaltynode:
+                                /* blank case */
+                                break;
 
-	    default:
-	      goto _Ldone;
-	      break;
-	    }
-	    s = link(s);
-	  }
-_Ldone: ;
-	}
-	/*:837*/
-	/*843:*/
-	if (type(prevr) == deltanode) {
-	  converttobreakwidth(1);
-	  converttobreakwidth(2);
-	  converttobreakwidth(3);
-	  converttobreakwidth(4);
-	  converttobreakwidth(5);
-	  converttobreakwidth(6);
-	} else if (prevr == active) {
-	  storebreakwidth(1);
-	  storebreakwidth(2);
-	  storebreakwidth(3);
-	  storebreakwidth(4);
-	  storebreakwidth(5);
-	  storebreakwidth(6);
-	} else {
-	  q = getnode(deltanodesize);
-	  link(q) = r;
-	  type(q) = deltanode;
-	  subtype(q) = 0;
-	  newdeltatobreakwidth(1);
-	  newdeltatobreakwidth(2);
-	  newdeltatobreakwidth(3);
-	  newdeltatobreakwidth(4);
-	  newdeltatobreakwidth(5);
-	  newdeltatobreakwidth(6);
-	  link(prevr) = q;
-	  prevprevr = prevr;
-	  prevr = q;
-	}
-	if (labs(adjdemerits) >= awfulbad - minimumdemerits)
-	  minimumdemerits = awfulbad - 1;
-	else
-	  minimumdemerits += labs(adjdemerits);
-	for (fitclass = veryloosefit; fitclass <= tightfit; fitclass++) {
-	  if (minimaldemerits[fitclass - veryloosefit] <= minimumdemerits)
-	  {   /*845:*/
-	    q = getnode(passivenodesize);
-	    link(q) = passive;
-	    passive = q;
-	    curbreak(q) = curp;   /*_STAT*/
-	    passnumber++;
-	    serial(q) = passnumber;   /*_ENDSTAT*/
-	    prevbreak(q) = bestplace[fitclass - veryloosefit];
-	    q = getnode(activenodesize);
-	    breaknode(q) = passive;
-	    linenumber(q) = bestplline[fitclass - veryloosefit] + 1;
-	    fitness(q) = fitclass;
-	    type(q) = breaktype;
-	    totaldemerits(q) = minimaldemerits[fitclass - veryloosefit];
-	    link(q) = r;
-	    link(prevr) = q;
-	    prevr = q;   /*_STAT*/
-	    if (tracingparagraphs > 0) {   /*846:*/
-	      printnl(S(756));
-	      printint(serial(passive));
-	      print(S(757));
-	      printint(linenumber(q) - 1);
-	      printchar('.');
-	      printint(fitclass);
-	      if (breaktype == hyphenated)
-		printchar('-');
-	      print(S(758));
-	      printint(totaldemerits(q));
-	      print(S(759));
-	      if (prevbreak(passive) == 0)
-		printchar('0');
-	      else
-		printint(serial(prevbreak(passive)));
-	    }
-	    /*:846*/
-	    /*_ENDSTAT*/
-	  }
-	  /*:845*/
-	  minimaldemerits[fitclass - veryloosefit] = awfulbad;
-	}
-	minimumdemerits = awfulbad;   /*844:*/
-	if (r != lastactive) {   /*:844*/
-	  q = getnode(deltanodesize);
-	  link(q) = r;
-	  type(q) = deltanode;
-	  subtype(q) = 0;
-	  newdeltafrombreakwidth(1);
-	  newdeltafrombreakwidth(2);
-	  newdeltafrombreakwidth(3);
-	  newdeltafrombreakwidth(4);
-	  newdeltafrombreakwidth(5);
-	  newdeltafrombreakwidth(6);
-	  link(prevr) = q;
-	  prevprevr = prevr;
-	  prevr = q;
-	}
-      }
-      /*:836*/
-      if (r == lastactive)   /*850:*/
-	goto _Lexit;
-      if (l > easyline) {
-	linewidth = secondwidth;
-	oldl = maxhalfword - 1;
-      } else {   /*:850*/
-	oldl = l;
-	if (l > lastspecialline)
-	  linewidth = secondwidth;
-	else if (parshapeptr == 0)
-	  linewidth = firstwidth;
-	else
-	  linewidth = mem[parshapeptr + l * 2 - memmin].sc;
-      }
-    }
-    /*851:*/
-    artificialdemerits = false;
-    shortfall = linewidth - curactivewidth[0];
-    if (shortfall > 0) {   /*852:*/
-      if (curactivewidth[2] != 0 || curactivewidth[3] != 0 ||
-	  curactivewidth[4] != 0) {
-	b = 0;
-	fitclass = decentfit;
-      } else {   /*:852*/
-	if (shortfall > 7230584L) {
-	  if (curactivewidth[1] < 1663497L) {
-	    b = infbad;
-	    fitclass = veryloosefit;
-	    goto _Ldone1;
-	  }
-	}
-	b = badness(shortfall, curactivewidth[1]);
-	if (b > 12) {
-	  if (b > 99)
-	    fitclass = veryloosefit;
-	  else
-	    fitclass = loosefit;
-	} else
-	  fitclass = decentfit;
-_Ldone1: ;
-      }
-    } else  /*853:*/
-    {   /*:853*/
-      if (-shortfall > curactivewidth[5])
-	b = infbad + 1;
-      else
-	b = badness(-shortfall, curactivewidth[5]);
-      if (b > 12)
-	fitclass = tightfit;
-      else
-	fitclass = decentfit;
-    }
-    if (b > infbad || pi == ejectpenalty) {   /*854:*/
-      if (((finalpass && minimumdemerits == awfulbad) &
-	   (link(r) == lastactive)) && prevr == active)
-	artificialdemerits = true;
-      else if (b > threshold)
-	goto _Ldeactivate_;
-      noderstaysactive = false;
-    }  /*:854*/
-    else {
-      prevr = r;
-      if (b > threshold)
-	goto _Llabcontinue;
-      noderstaysactive = true;
-    }  /*855:*/
-    if (artificialdemerits)
-      d = 0;
-    else {   /*859:*/
-      d = linepenalty + b;
-      if (labs(d) >= 10000)
-	d = 100000000L;
-      else
-	d *= d;
-      if (pi != 0) {
-	if (pi > 0)
-	  d += pi * pi;
-	else if (pi > ejectpenalty)
-	  d -= pi * pi;
-      }
-      if ((breaktype == hyphenated) & (type(r) == hyphenated)) {
-	if (curp != 0)
-	  d += doublehyphendemerits;
-	else
-	  d += finalhyphendemerits;
-      }
-      if (labs(fitclass - fitness(r)) > 1)
-	d += adjdemerits;
-    }
-    /*_STAT*/
-    if (tracingparagraphs > 0) {   /*:856*/
-      /*856:*/
-      if (printednode != curp) {   /*857:*/
-	printnl(S(385));
-	if (curp == 0)
-	  shortdisplay(link(printednode));
-	else {
-	  savelink = link(curp);
-	  link(curp) = 0;
-	  printnl(S(385));
-	  shortdisplay(link(printednode));
-	  link(curp) = savelink;
-	}
-	printednode = curp;
-      }
-      /*:857*/
-      printnl('@');
-      if (curp == 0)
-	printesc(S(760));
-      else if (type(curp) != gluenode) {
-	if (type(curp) == penaltynode)
-	  printesc(S(761));
-	else if (type(curp) == discnode)
-	  printesc(S(400));
-	else if (type(curp) == kernnode)
-	  printesc(S(391));
-	else
-	  printesc(S(394));
-      }
-      print(S(762));
-      if (breaknode(r) == 0)
-	printchar('0');
-      else
-	printint(serial(breaknode(r)));
-      print(S(763));
-      if (b > infbad)
-	printchar('*');
-      else
-	printint(b);
-      print(S(764));
-      printint(pi);
-      print(S(765));
-      if (artificialdemerits)
-	printchar('*');
-      else
-	printint(d);
-    }
-    /*_ENDSTAT*/
-    d += totaldemerits(r);
-    if (d <= minimaldemerits[fitclass - veryloosefit]) {   /*:855*/
-      minimaldemerits[fitclass - veryloosefit] = d;
-      bestplace[fitclass - veryloosefit] = breaknode(r);
-      bestplline[fitclass - veryloosefit] = l;
-      if (d < minimumdemerits)
-	minimumdemerits = d;
-    }
-    if (noderstaysactive)
-      goto _Llabcontinue;
-_Ldeactivate_:   /*860:*/
-    link(prevr) = link(r);
-    freenode(r, activenodesize);
-    if (prevr == active) {   /*861:*/
-      r = link(active);
-      if (type(r) != deltanode)
-	continue;
-      updateactive(1);
-      updateactive(2);
-      updateactive(3);
-      updateactive(4);
-      updateactive(5);
-      updateactive(6);
-      copytocuractive(1);
-      copytocuractive(2);
-      copytocuractive(3);
-      copytocuractive(4);
-      copytocuractive(5);
-      copytocuractive(6);
-      link(active) = link(r);
-      freenode(r, deltanodesize);
-      continue;
-    }  /*:861*/
-    /*:851*/
-    if (type(prevr) != deltanode)   /*:860*/
-      continue;
-    r = link(prevr);
-    if (r == lastactive) {
-      downdatewidth(1);
-      downdatewidth(2);
-      downdatewidth(3);
-      downdatewidth(4);
-      downdatewidth(5);
-      downdatewidth(6);
-      link(prevprevr) = lastactive;
-      freenode(prevr, deltanodesize);
-      prevr = prevprevr;
-      continue;
-    }
-    if (type(r) != deltanode)
-      continue;
-    updatewidth(1);
-    updatewidth(2);
-    updatewidth(3);
-    updatewidth(4);
-    updatewidth(5);
-    updatewidth(6);
-    combinetwodeltas(1);
-    combinetwodeltas(2);
-    combinetwodeltas(3);
-    combinetwodeltas(4);
-    combinetwodeltas(5);
-    combinetwodeltas(6);
-    link(prevr) = link(r);
-    freenode(r, deltanodesize);
-  }
-_Lexit:   /*_STAT*/
-  /*858:*/
-  if (curp != printednode)
+                            case mathnode:
+                                breakwidth[0] -= width(s);
+                                break;
+
+                            case kernnode:
+                                if (subtype(s) != explicit) goto _Ldone;
+                                breakwidth[0] -= width(s);
+                                break;
+
+                            default:
+                                goto _Ldone;
+                                break;
+                        }
+                        s = link(s);
+                    }
+                _Ldone:;
+                }
+                /*:837*/
+                /*843:*/
+                if (type(prevr) == deltanode) {
+                    converttobreakwidth(1);
+                    converttobreakwidth(2);
+                    converttobreakwidth(3);
+                    converttobreakwidth(4);
+                    converttobreakwidth(5);
+                    converttobreakwidth(6);
+                } else if (prevr == active) {
+                    storebreakwidth(1);
+                    storebreakwidth(2);
+                    storebreakwidth(3);
+                    storebreakwidth(4);
+                    storebreakwidth(5);
+                    storebreakwidth(6);
+                } else {
+                    q = getnode(deltanodesize);
+                    link(q) = r;
+                    type(q) = deltanode;
+                    subtype(q) = 0;
+                    newdeltatobreakwidth(1);
+                    newdeltatobreakwidth(2);
+                    newdeltatobreakwidth(3);
+                    newdeltatobreakwidth(4);
+                    newdeltatobreakwidth(5);
+                    newdeltatobreakwidth(6);
+                    link(prevr) = q;
+                    prevprevr = prevr;
+                    prevr = q;
+                }
+                if (labs(adjdemerits) >= awfulbad - minimumdemerits)
+                    minimumdemerits = awfulbad - 1;
+                else
+                    minimumdemerits += labs(adjdemerits);
+                for (fitclass = veryloosefit; fitclass <= tightfit;
+                     fitclass++) {
+                    if (minimaldemerits[fitclass - veryloosefit] <=
+                        minimumdemerits) {
+                        /// p313#845: Insert a new active node from best
+                        /// place[fit class] to cur p
+                        q = getnode(passivenodesize);
+                        link(q) = passive;
+                        passive = q;
+                        curbreak(q) = curp;
+                        #ifdef tt_STAT
+                            passnumber++;
+                            serial(q) = passnumber;
+                        #endif // #845.1: tt_STAT
+                        prevbreak(q) = bestplace[fitclass - veryloosefit];
+                        q = getnode(activenodesize);
+                        breaknode(q) = passive;
+                        linenumber(q) = bestplline[fitclass - veryloosefit] + 1;
+                        fitness(q) = fitclass;
+                        type(q) = breaktype;
+                        totaldemerits(q) =
+                            minimaldemerits[fitclass - veryloosefit];
+                        link(q) = r;
+                        link(prevr) = q;
+                        prevr = q; 
+                        #ifdef tt_STAT
+                            if (tracingparagraphs > 0) { /*846:*/
+                                printnl(S(756));
+                                printint(serial(passive));
+                                print(S(757));
+                                printint(linenumber(q) - 1);
+                                printchar('.');
+                                printint(fitclass);
+                                if (breaktype == hyphenated) printchar('-');
+                                print(S(758));
+                                printint(totaldemerits(q));
+                                print(S(759));
+                                if (prevbreak(passive) == 0)
+                                    printchar('0');
+                                else
+                                    printint(serial(prevbreak(passive)));
+                            }
+                            /*:846*/
+                        #endif // #845: tt_STAT
+                    }
+                    /*:845*/
+                    minimaldemerits[fitclass - veryloosefit] = awfulbad;
+                }
+                minimumdemerits = awfulbad; /*844:*/
+                if (r != lastactive) {      /*:844*/
+                    q = getnode(deltanodesize);
+                    link(q) = r;
+                    type(q) = deltanode;
+                    subtype(q) = 0;
+                    newdeltafrombreakwidth(1);
+                    newdeltafrombreakwidth(2);
+                    newdeltafrombreakwidth(3);
+                    newdeltafrombreakwidth(4);
+                    newdeltafrombreakwidth(5);
+                    newdeltafrombreakwidth(6);
+                    link(prevr) = q;
+                    prevprevr = prevr;
+                    prevr = q;
+                }
+            } // if (minimumdemerits < awfulbad && (oldl != easyline || r == lastactive)
+            /*:836*/
+            if (r == lastactive) goto _Lexit; /*850:*/
+            if (l > easyline) {
+                linewidth = secondwidth;
+                oldl = maxhalfword - 1;
+            } else { /*:850*/
+                oldl = l;
+                if (l > lastspecialline)
+                    linewidth = secondwidth;
+                else if (parshapeptr == 0)
+                    linewidth = firstwidth;
+                else
+                    linewidth = mem[parshapeptr + l * 2 - memmin].sc;
+            } // if (l > easyline) - else
+        } // if (l > oldl)
+
+        /*851:*/
+        artificialdemerits = false;
+        shortfall = linewidth - curactivewidth[0];
+        if (shortfall > 0) { /*852:*/
+            if (curactivewidth[2] != 0 || curactivewidth[3] != 0 ||
+                curactivewidth[4] != 0) {
+                b = 0;
+                fitclass = decentfit;
+            } else { /*:852*/
+                if (shortfall > 7230584L) {
+                    if (curactivewidth[1] < 1663497L) {
+                        b = infbad;
+                        fitclass = veryloosefit;
+                        goto _Ldone1;
+                    }
+                }
+                b = badness(shortfall, curactivewidth[1]);
+                if (b > 12) {
+                    if (b > 99)
+                        fitclass = veryloosefit;
+                    else
+                        fitclass = loosefit;
+                } else
+                    fitclass = decentfit;
+            _Ldone1:;
+            }
+        } else /*853:*/
+        {      /*:853*/
+            if (-shortfall > curactivewidth[5])
+                b = infbad + 1;
+            else
+                b = badness(-shortfall, curactivewidth[5]);
+            if (b > 12)
+                fitclass = tightfit;
+            else
+                fitclass = decentfit;
+        }
+        if (b > infbad || pi == ejectpenalty) { /*854:*/
+            if (((finalpass && minimumdemerits == awfulbad) &
+                 (link(r) == lastactive)) &&
+                prevr == active)
+                artificialdemerits = true;
+            else if (b > threshold)
+                goto _Ldeactivate_;
+            noderstaysactive = false;
+        } /*:854*/
+        else {
+            prevr = r;
+            if (b > threshold) goto _Llabcontinue;
+            noderstaysactive = true;
+        } /*855:*/
+        if (artificialdemerits)
+            d = 0;
+        else { /*859:*/
+            d = linepenalty + b;
+            if (labs(d) >= 10000)
+                d = 100000000L;
+            else
+                d *= d;
+            if (pi != 0) {
+                if (pi > 0)
+                    d += pi * pi;
+                else if (pi > ejectpenalty)
+                    d -= pi * pi;
+            }
+            if ((breaktype == hyphenated) & (type(r) == hyphenated)) {
+                if (curp != 0)
+                    d += doublehyphendemerits;
+                else
+                    d += finalhyphendemerits;
+            }
+            if (labs(fitclass - fitness(r)) > 1) d += adjdemerits;
+        }
+
+        #ifdef tt_STAT
+            if (tracingparagraphs > 0) { /*:856*/
+                /*856:*/
+                if (printednode != curp) { /*857:*/
+                    printnl(S(385));
+                    if (curp == 0)
+                        shortdisplay(link(printednode));
+                    else {
+                        savelink = link(curp);
+                        link(curp) = 0;
+                        printnl(S(385));
+                        shortdisplay(link(printednode));
+                        link(curp) = savelink;
+                    }
+                    printednode = curp;
+                }
+                /*:857*/
+                printnl('@');
+                if (curp == 0)
+                    printesc(S(760));
+                else if (type(curp) != gluenode) {
+                    if (type(curp) == penaltynode)
+                        printesc(S(761));
+                    else if (type(curp) == discnode)
+                        printesc(S(400));
+                    else if (type(curp) == kernnode)
+                        printesc(S(391));
+                    else
+                        printesc(S(394));
+                }
+                print(S(762));
+                if (breaknode(r) == 0)
+                    printchar('0');
+                else
+                    printint(serial(breaknode(r)));
+                print(S(763));
+                if (b > infbad)
+                    printchar('*');
+                else
+                    printint(b);
+                print(S(764));
+                printint(pi);
+                print(S(765));
+                if (artificialdemerits)
+                    printchar('*');
+                else
+                    printint(d);
+            }
+        #endif // #855: tt_STAT
+
+        d += totaldemerits(r);
+        if (d <= minimaldemerits[fitclass - veryloosefit]) { /*:855*/
+            minimaldemerits[fitclass - veryloosefit] = d;
+            bestplace[fitclass - veryloosefit] = breaknode(r);
+            bestplline[fitclass - veryloosefit] = l;
+            if (d < minimumdemerits) minimumdemerits = d;
+        }
+        if (noderstaysactive) goto _Llabcontinue;
+    _Ldeactivate_: /*860:*/
+        link(prevr) = link(r);
+        freenode(r, activenodesize);
+        if (prevr == active) { /*861:*/
+            r = link(active);
+            if (type(r) != deltanode) continue;
+            updateactive(1);
+            updateactive(2);
+            updateactive(3);
+            updateactive(4);
+            updateactive(5);
+            updateactive(6);
+            copytocuractive(1);
+            copytocuractive(2);
+            copytocuractive(3);
+            copytocuractive(4);
+            copytocuractive(5);
+            copytocuractive(6);
+            link(active) = link(r);
+            freenode(r, deltanodesize);
+            continue;
+        } /*:861*/
+        /*:851*/
+        if (type(prevr) != deltanode) /*:860*/
+            continue;
+        r = link(prevr);
+        if (r == lastactive) {
+            downdatewidth(1);
+            downdatewidth(2);
+            downdatewidth(3);
+            downdatewidth(4);
+            downdatewidth(5);
+            downdatewidth(6);
+            link(prevprevr) = lastactive;
+            freenode(prevr, deltanodesize);
+            prevr = prevprevr;
+            continue;
+        }
+        if (type(r) != deltanode) continue;
+        updatewidth(1);
+        updatewidth(2);
+        updatewidth(3);
+        updatewidth(4);
+        updatewidth(5);
+        updatewidth(6);
+        combinetwodeltas(1);
+        combinetwodeltas(2);
+        combinetwodeltas(3);
+        combinetwodeltas(4);
+        combinetwodeltas(5);
+        combinetwodeltas(6);
+        link(prevr) = link(r);
+        freenode(r, deltanodesize);
+    } // while (true)
+
+    _Lexit:
+    /// p317#858: Update the value of printed node for symbolic displays
+    #ifdef tt_STAT
+        if (curp != printednode) return;
+        if (curp == 0) return;
+        if (type(curp) != discnode) return;
+        t = replacecount(curp);
+        while (t > 0) {
+            t--;
+            printednode = link(printednode);
+        }
+    #endif // #829: tt_STAT
+       /*:843*/
+       /*:859*/
     return;
-  if (curp == 0)
-    return;
-  if (type(curp) != discnode)   /*:858*/
-    return;
-  /*_ENDSTAT*/
-  t = replacecount(curp);
-  while (t > 0) {
-    t--;
-    printednode = link(printednode);
-  }
-
-  /*:843*/
-  /*:859*/
-}  /*:829*/
+} // #829: trybreak
 
 
 /*877:*/
@@ -11467,7 +11466,7 @@ _Llabcontinue:   /*909:*/
 		if (j == n)
 		  bchar = nonchar;
 		else {
-		  p = getavail();
+		  p = get_avail();
 		  ligptr(ligstack) = p;
 		  character(p) = hu[j + 1];
 		  font(p) = hf;
@@ -11723,7 +11722,7 @@ _Lcommonending:
 	  i++;
 	  c = hu[i];
 	  hu[i] = hyfchar;
-	  freeavail(hyfnode);
+	  FREE_AVAIL(hyfnode);
 	}
 	while (l <= i) {
 	  l = reconstitute(l, i, fontbchar[hf ], nonchar) + 1;
@@ -12263,19 +12262,22 @@ Static void linebreak(long finalwidowpenalty) {
     }
     /*863:*/
     threshold = pretolerance;
-    if (threshold >= 0) {            /*_STAT*/
-        if (tracingparagraphs > 0) { /*_ENDSTAT*/
-            begindiagnostic();
-            printnl(S(777));
-        }
+    if (threshold >= 0) {           
+        #ifdef tt_STAT
+            if (tracingparagraphs > 0) {
+                begindiagnostic();
+                printnl(S(777));
+            }
+        #endif // #863.1: tt_STAT
         secondpass = false;
         finalpass = false;
     } else {
         threshold = tolerance;
         secondpass = true;
-        finalpass = (emergencystretch <= 0); /*_STAT*/
-        if (tracingparagraphs > 0)           /*_ENDSTAT*/
-            begindiagnostic();
+        finalpass = (emergencystretch <= 0);
+        #ifdef tt_STAT
+            if (tracingparagraphs > 0) begindiagnostic();
+        #endif // #863.2: tt_STAT
     }
     while (true) {
         if (threshold > infbad) threshold = infbad;
@@ -12638,24 +12640,29 @@ Static void linebreak(long finalwidowpenalty) {
             freenode(q, passivenodesize);
             q = curp;
         }
-        if (secondpass) {              /*_STAT*/
-            if (tracingparagraphs > 0) /*_ENDSTAT*/
-                printnl(S(781));
+        if (secondpass) {
+            #ifdef tt_STAT
+                if (tracingparagraphs > 0) printnl(S(781));
+            #endif // #863.3: tt_STAT
             background[1] += emergencystretch;
             finalpass = true;
             continue;
         }
-        if (tracingparagraphs > 0) /*_ENDSTAT*/
-            printnl(S(782));
+        #ifdef tt_STAT
+            if (tracingparagraphs > 0) printnl(S(782));
+        #endif // #863.4: tt_STAT
+
         threshold = tolerance;
         secondpass = true;
         finalpass = (emergencystretch <= 0);
     }
-_Ldone:                          /*_STAT*/
-    if (tracingparagraphs > 0) { /*_ENDSTAT*/
-        enddiagnostic(true);
-        normalizeselector();
-    }
+_Ldone:
+    #ifdef tt_STAT
+        if (tracingparagraphs > 0) {
+            enddiagnostic(true);
+            normalizeselector();
+        }
+    #endif // #863.5: tt_STAT
     /*:863*/
     /*876:*/
     /*:876*/
@@ -12680,7 +12687,6 @@ _Ldone:                          /*_STAT*/
     /*1363:*/
     /*898:*/
     /*:898*/
-    /*_STAT*/
 }
 /*:815*/
 
@@ -12709,7 +12715,7 @@ _Lreswitch:
     case chargiven:   /*937:*/
       if (cur_chr == '-') {   /*938:*/
 	if (n < 63) {
-	  q = getavail();
+	  q = get_avail();
 	  link(q) = p;
 	  info(q) = n;
 	  p = q;
@@ -13080,28 +13086,28 @@ Static void printtotals(void)
 /*:985*/
 
 /*987:*/
-Static void freezepagespecs(SmallNumber s)
-{
-  pagecontents = s;
-  pagegoal = vsize;
-  pagemaxdepth = maxdepth;
-  pagedepth = 0;
-  setpagesofarzero(1);
-  setpagesofarzero(2);
-  setpagesofarzero(3);
-  setpagesofarzero(4);
-  setpagesofarzero(5);
-  setpagesofarzero(6);
-  leastpagecost = awfulbad;   /*_STAT*/
-  if (tracingpages <= 0)   /*_ENDSTAT*/
-    return;
-  begindiagnostic();
-  printnl(S(804));
-  printscaled(pagegoal);
-  print(S(805));
-  printscaled(pagemaxdepth);
-  enddiagnostic(false);
-}  /*:987*/
+Static void freezepagespecs(SmallNumber s) {
+    pagecontents = s;
+    pagegoal = vsize;
+    pagemaxdepth = maxdepth;
+    pagedepth = 0;
+    setpagesofarzero(1);
+    setpagesofarzero(2);
+    setpagesofarzero(3);
+    setpagesofarzero(4);
+    setpagesofarzero(5);
+    setpagesofarzero(6);
+    leastpagecost = awfulbad;
+    #ifdef tt_STAT
+        if (tracingpages <= 0) return;
+    #endif // #987: tt_STAT
+    begindiagnostic();
+    printnl(S(804));
+    printscaled(pagegoal);
+    print(S(805));
+    printscaled(pagemaxdepth);
+    enddiagnostic(false);
+} /*:987*/
 
 
 /*992:*/
@@ -13347,311 +13353,299 @@ _Lexit: ;
 }
 /*:1012*/
 
-Static void buildpage(void)
-{
-  pointer p, q, r;
-  long b, c, pi=0 /* XXXX */;
-  uchar n;
-  scaled delta, h, w;
+Static void buildpage(void) {
+    pointer p, q, r;
+    long b, c, pi = 0 /* XXXX */;
+    uchar n;
+    scaled delta, h, w;
 
-  if (link(contribhead) == 0 || outputactive)
-    goto _Lexit;
-  do {
-_Llabcontinue:
-    p = link(contribhead);   /*996:*/
-    if (lastglue != maxhalfword)
-      deleteglueref(lastglue);
-    lastpenalty = 0;
-    lastkern = 0;
-    if (type(p) == gluenode) {   /*997:*/
-      lastglue = glueptr(p);
-      addglueref(lastglue);
-    } else {   /*:996*/
-      lastglue = maxhalfword;
-      if (type(p) == penaltynode)
-	lastpenalty = penalty(p);
-      else if (type(p) == kernnode)
-	lastkern = width(p);
-    }
-    /*1000:*/
-    switch (type(p)) {   /*:1000*/
+    if (link(contribhead) == 0 || outputactive) goto _Lexit;
+    do {
+    _Llabcontinue:
+        p = link(contribhead); /*996:*/
+        if (lastglue != maxhalfword) deleteglueref(lastglue);
+        lastpenalty = 0;
+        lastkern = 0;
+        if (type(p) == gluenode) { /*997:*/
+            lastglue = glueptr(p);
+            addglueref(lastglue);
+        } else { /*:996*/
+            lastglue = maxhalfword;
+            if (type(p) == penaltynode)
+                lastpenalty = penalty(p);
+            else if (type(p) == kernnode)
+                lastkern = width(p);
+        }
+        /*1000:*/
+        switch (type(p)) { /*:1000*/
 
-    case hlistnode:
-    case vlistnode:
-    case rulenode:
-      if (pagecontents < boxthere) {   /*1001:*/
-	if (pagecontents == empty)
-	  freezepagespecs(boxthere);
-	else
-	  pagecontents = boxthere;
-	q = newskipparam(topskipcode);
-	if (width(tempptr) > height(p))
-	  width(tempptr) -= height(p);
-	else
-	  width(tempptr) = 0;
-	link(q) = p;
-	link(contribhead) = q;
-	goto _Llabcontinue;
-      } else  /*1002:*/
-      {   /*:1002*/
-	pagetotal += pagedepth + height(p);
-	pagedepth = depth(p);
-	goto _Lcontribute_;
-      }
-      /*:1001*/
-      break;
+            case hlistnode:
+            case vlistnode:
+            case rulenode:
+                if (pagecontents < boxthere) { /*1001:*/
+                    if (pagecontents == empty)
+                        freezepagespecs(boxthere);
+                    else
+                        pagecontents = boxthere;
+                    q = newskipparam(topskipcode);
+                    if (width(tempptr) > height(p))
+                        width(tempptr) -= height(p);
+                    else
+                        width(tempptr) = 0;
+                    link(q) = p;
+                    link(contribhead) = q;
+                    goto _Llabcontinue;
+                } else /*1002:*/
+                {      /*:1002*/
+                    pagetotal += pagedepth + height(p);
+                    pagedepth = depth(p);
+                    goto _Lcontribute_;
+                }
+                /*:1001*/
+                break;
 
-    case whatsitnode:   /*1364:*/
-      goto _Lcontribute_;   /*:1364*/
-      break;
+            case whatsitnode:       /*1364:*/
+                goto _Lcontribute_; /*:1364*/
+                break;
 
-    case gluenode:
-      if (pagecontents < boxthere)
-	goto _Ldone1;
-      if (!precedesbreak(pagetail))
-	goto _Lupdateheights_;
-      pi = 0;
-      break;
+            case gluenode:
+                if (pagecontents < boxthere) goto _Ldone1;
+                if (!precedesbreak(pagetail)) goto _Lupdateheights_;
+                pi = 0;
+                break;
 
-    case kernnode:
-      if (pagecontents < boxthere)
-	goto _Ldone1;
-      if (link(p) == 0)
-	goto _Lexit;
-      if (type(link(p)) != gluenode)
-	goto _Lupdateheights_;
-      pi = 0;
-      break;
+            case kernnode:
+                if (pagecontents < boxthere) goto _Ldone1;
+                if (link(p) == 0) goto _Lexit;
+                if (type(link(p)) != gluenode) goto _Lupdateheights_;
+                pi = 0;
+                break;
 
-    case penaltynode:
-      if (pagecontents < boxthere)
-	goto _Ldone1;
-      pi = penalty(p);
-      break;
+            case penaltynode:
+                if (pagecontents < boxthere) goto _Ldone1;
+                pi = penalty(p);
+                break;
 
-    case marknode:
-      goto _Lcontribute_;
-      break;
+            case marknode:
+                goto _Lcontribute_;
+                break;
 
-    case insnode:   /*1008:*/
-      if (pagecontents == empty)
-	freezepagespecs(insertsonly);
-      n = subtype(p);
-      r = pageinshead;
-      while (n >= subtype(link(r)))
-	r = link(r);
-      n -= minquarterword;
-      if (subtype(r) != n) {   /*1009:*/
-	q = getnode(pageinsnodesize);
-	link(q) = link(r);
-	link(r) = q;
-	r = q;
-	subtype(r) = n;
-	type(r) = inserting;
-	ensurevbox(n);
-	if (box(n) == 0)
-	  height(r) = 0;
-	else
-	  height(r) = height(box(n)) + depth(box(n));
-	bestinsptr(r) = 0;
-	q = skip(n);
-	if (count(n) == 1000)
-	  h = height(r);
-	else
-	  h = xovern(height(r), 1000) * count(n);
-	pagegoal += -h - width(q);
-	pagesofar[stretchorder(q) + 2] += stretch(q);
-	pageshrink += shrink(q);
-	if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
-	  printnl(S(292));
-	  print(S(817));
-	  printesc(S(460));
-	  printint(n);
-	  help3(S(818),
-                S(819),
-                S(753));
-	  error();
-	}
-      }
-      /*:1009*/
-      if (type(r) == splitup)
-	insertpenalties += floatcost(p);
-      else {
-	lastinsptr(r) = p;
-	delta = pagegoal - pagetotal - pagedepth + pageshrink;
-	if (count(n) == 1000)
-	  h = height(p);
-	else
-	  h = xovern(height(p), 1000) * count(n);
-	if ((h <= 0 || h <= delta) & (height(p) + height(r) <=
-				      dimen(n))) {
-	  pagegoal -= h;
-	  height(r) += height(p);
-	} else  /*1010:*/
-	{   /*:1010*/
-	  if (count(n) <= 0)
-	    w = maxdimen;
-	  else {
-	    w = pagegoal - pagetotal - pagedepth;
-	    if (count(n) != 1000)
-	      w = xovern(w, count(n)) * 1000;
-	  }
-	  if (w > dimen(n) - height(r))
-	    w = dimen(n) - height(r);
-	  q = vertbreak(insptr(p), w, depth(p));
-	  height(r) += bestheightplusdepth;   /*_STAT*/
-	  if (tracingpages > 0) {   /*1011:*/
-	    begindiagnostic();
-	    printnl(S(820));
-	    printint(n);
-	    print(S(821));
-	    printscaled(w);
-	    printchar(',');
-	    printscaled(bestheightplusdepth);
-	    print(S(764));
-	    if (q == 0)
-	      printint(ejectpenalty);
-	    else if (type(q) == penaltynode)
-	      printint(penalty(q));
-	    else
-	      printchar('0');
-	    enddiagnostic(false);
-	  }
-	  /*:1011*/
-	  /*_ENDSTAT*/
-	  if (count(n) != 1000)
-	    bestheightplusdepth = xovern(bestheightplusdepth, 1000) * count(n);
-	  pagegoal -= bestheightplusdepth;
-	  type(r) = splitup;
-	  brokenptr(r) = q;
-	  brokenins(r) = p;
-	  if (q == 0)
-	    insertpenalties += ejectpenalty;
-	  else if (type(q) == penaltynode)
-	    insertpenalties += penalty(q);
-	}
-      }
-      goto _Lcontribute_;
-      break;
-      /*:1008*/
+            case insnode: /*1008:*/
+                if (pagecontents == empty) freezepagespecs(insertsonly);
+                n = subtype(p);
+                r = pageinshead;
+                while (n >= subtype(link(r)))
+                    r = link(r);
+                n -= minquarterword;
+                if (subtype(r) != n) { /*1009:*/
+                    q = getnode(pageinsnodesize);
+                    link(q) = link(r);
+                    link(r) = q;
+                    r = q;
+                    subtype(r) = n;
+                    type(r) = inserting;
+                    ensurevbox(n);
+                    if (box(n) == 0)
+                        height(r) = 0;
+                    else
+                        height(r) = height(box(n)) + depth(box(n));
+                    bestinsptr(r) = 0;
+                    q = skip(n);
+                    if (count(n) == 1000)
+                        h = height(r);
+                    else
+                        h = xovern(height(r), 1000) * count(n);
+                    pagegoal += -h - width(q);
+                    pagesofar[stretchorder(q) + 2] += stretch(q);
+                    pageshrink += shrink(q);
+                    if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
+                        printnl(S(292));
+                        print(S(817));
+                        printesc(S(460));
+                        printint(n);
+                        help3(S(818), S(819), S(753));
+                        error();
+                    }
+                }
+                /*:1009*/
+                if (type(r) == splitup)
+                    insertpenalties += floatcost(p);
+                else {
+                    lastinsptr(r) = p;
+                    delta = pagegoal - pagetotal - pagedepth + pageshrink;
+                    if (count(n) == 1000)
+                        h = height(p);
+                    else
+                        h = xovern(height(p), 1000) * count(n);
+                    if ((h <= 0 || h <= delta) &
+                        (height(p) + height(r) <= dimen(n))) {
+                        pagegoal -= h;
+                        height(r) += height(p);
+                    } else /*1010:*/
+                    {      /*:1010*/
+                        if (count(n) <= 0)
+                            w = maxdimen;
+                        else {
+                            w = pagegoal - pagetotal - pagedepth;
+                            if (count(n) != 1000)
+                                w = xovern(w, count(n)) * 1000;
+                        }
+                        if (w > dimen(n) - height(r)) w = dimen(n) - height(r);
+                        q = vertbreak(insptr(p), w, depth(p));
+                        height(r) += bestheightplusdepth;
 
-    default:
-      confusion(S(822));
-      break;
-    }
-    /*1005:*/
-    if (pi < infpenalty)   /*:1005*/
-    {  /*1007:*/
-      if (pagetotal < pagegoal) {
-	if (pagesofar[3] != 0 || pagesofar[4] != 0 || pagesofar[5] != 0)
-	  b = 0;
-	else
-	  b = badness(pagegoal - pagetotal, pagesofar[2]);
-      } else if (pagetotal - pagegoal > pageshrink)
-	b = awfulbad;
-      else
-	b = badness(pagetotal - pagegoal, pageshrink);   /*:1007*/
-      if (b < awfulbad) {
-	if (pi <= ejectpenalty)
-	  c = pi;
-	else if (b < infbad)
-	  c = b + pi + insertpenalties;
-	else
-	  c = deplorable;
-      } else
-	c = b;
-      if (insertpenalties >= 10000)   /*_STAT*/
-	c = awfulbad;
-      if (tracingpages > 0) {   /*1006:*/
-	begindiagnostic();
-	printnl('%');
-	print(S(758));
-	printtotals();
-	print(S(823));
-	printscaled(pagegoal);
-	print(S(763));
-	if (b == awfulbad)
-	  printchar('*');
-	else
-	  printint(b);
-	print(S(764));
-	printint(pi);
-	print(S(824));
-	if (c == awfulbad)
-	  printchar('*');
-	else
-	  printint(c);
-	if (c <= leastpagecost)
-	  printchar('#');
-	enddiagnostic(false);
-      }
-      /*:1006*/
-      /*_ENDSTAT*/
-      if (c <= leastpagecost) {
-	bestpagebreak = p;
-	bestsize = pagegoal;
-	leastpagecost = c;
-	r = link(pageinshead);
-	while (r != pageinshead) {
-	  bestinsptr(r) = lastinsptr(r);
-	  r = link(r);
-	}
-      }
-      if (c == awfulbad || pi <= ejectpenalty) {
-	fireup(p);
-	if (outputactive)
-	  goto _Lexit;
-	goto _Ldone;
-      }
-    }
-    if ((type(p) < gluenode) | (type(p) > kernnode))
-      goto _Lcontribute_;
-_Lupdateheights_:   /*1004:*/
-    if (type(p) == kernnode)
-      q = p;
-    else {
-      q = glueptr(p);
-      pagesofar[stretchorder(q) + 2] += stretch(q);
-      pageshrink += shrink(q);
-      if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
-	printnl(S(292));
-	print(S(825));
-	help4(S(826),
-              S(795),
-              S(796),
-              S(753));
-	error();
-	r = newspec(q);
-	shrinkorder(r) = normal;
-	deleteglueref(q);
-	glueptr(p) = r;
-	q = r;
-      }
-    }
-    pagetotal += pagedepth + width(q);
-    pagedepth = 0;   /*:1004*/
-_Lcontribute_:   /*1003:*/
-    if (pagedepth > pagemaxdepth) {   /*:1003*/
-      pagetotal += pagedepth - pagemaxdepth;
-      pagedepth = pagemaxdepth;
-    }
-    /*998:*/
-    link(pagetail) = p;
-    pagetail = p;
-    link(contribhead) = link(p);
-    link(p) = 0;
-    goto _Ldone;   /*:998*/
-_Ldone1:   /*999:*/
-    link(contribhead) = link(p);
-    link(p) = 0;   /*:999*/
-    flushnodelist(p);
-_Ldone: ;   /*:997*/
-  } while (link(contribhead) != 0);   /*995:*/
-  if (nestptr == 0)
-    tail = contribhead;
-  else
-    contribtail = contribhead;   /*:995*/
-_Lexit: ;
+                        #ifdef tt_STAT
+                            if (tracingpages > 0) {
+                                /*1011:*/
+                                begindiagnostic();
+                                printnl(S(820));
+                                printint(n);
+                                print(S(821));
+                                printscaled(w);
+                                printchar(',');
+                                printscaled(bestheightplusdepth);
+                                print(S(764));
+                                if (q == 0)
+                                    printint(ejectpenalty);
+                                else if (type(q) == penaltynode)
+                                    printint(penalty(q));
+                                else
+                                    printchar('0');
+                                enddiagnostic(false);
+                            } /*:1011*/
+                        #endif // #1010: tt_STAT
+
+                        if (count(n) != 1000)
+                            bestheightplusdepth =
+                                xovern(bestheightplusdepth, 1000) * count(n);
+                        pagegoal -= bestheightplusdepth;
+                        type(r) = splitup;
+                        brokenptr(r) = q;
+                        brokenins(r) = p;
+                        if (q == 0)
+                            insertpenalties += ejectpenalty;
+                        else if (type(q) == penaltynode)
+                            insertpenalties += penalty(q);
+                    }
+                }
+                goto _Lcontribute_;
+                break;
+                /*:1008*/
+
+            default:
+                confusion(S(822));
+                break;
+        }
+        /*1005:*/
+        if (pi < infpenalty) /*:1005*/
+        {                    /*1007:*/
+            if (pagetotal < pagegoal) {
+                if (pagesofar[3] != 0 || pagesofar[4] != 0 || pagesofar[5] != 0)
+                    b = 0;
+                else
+                    b = badness(pagegoal - pagetotal, pagesofar[2]);
+            } else if (pagetotal - pagegoal > pageshrink)
+                b = awfulbad;
+            else
+                b = badness(pagetotal - pagegoal, pageshrink); /*:1007*/
+            if (b < awfulbad) {
+                if (pi <= ejectpenalty)
+                    c = pi;
+                else if (b < infbad)
+                    c = b + pi + insertpenalties;
+                else
+                    c = deplorable;
+            } else
+                c = b;
+            if (insertpenalties >= 10000)
+                c = awfulbad;
+
+            #ifdef tt_STAT
+                if (tracingpages > 0) { /*1006:*/
+                    begindiagnostic();
+                    printnl('%');
+                    print(S(758));
+                    printtotals();
+                    print(S(823));
+                    printscaled(pagegoal);
+                    print(S(763));
+                    if (b == awfulbad)
+                        printchar('*');
+                    else
+                        printint(b);
+                    print(S(764));
+                    printint(pi);
+                    print(S(824));
+                    if (c == awfulbad)
+                        printchar('*');
+                    else
+                        printint(c);
+                    if (c <= leastpagecost) printchar('#');
+                    enddiagnostic(false);
+                }
+            #endif // #1005: tt_STAT
+            /*:1006*/
+
+            if (c <= leastpagecost) {
+                bestpagebreak = p;
+                bestsize = pagegoal;
+                leastpagecost = c;
+                r = link(pageinshead);
+                while (r != pageinshead) {
+                    bestinsptr(r) = lastinsptr(r);
+                    r = link(r);
+                }
+            }
+            if (c == awfulbad || pi <= ejectpenalty) {
+                fireup(p);
+                if (outputactive) goto _Lexit;
+                goto _Ldone;
+            }
+        }
+        if ((type(p) < gluenode) | (type(p) > kernnode)) goto _Lcontribute_;
+    _Lupdateheights_: /*1004:*/
+        if (type(p) == kernnode)
+            q = p;
+        else {
+            q = glueptr(p);
+            pagesofar[stretchorder(q) + 2] += stretch(q);
+            pageshrink += shrink(q);
+            if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
+                printnl(S(292));
+                print(S(825));
+                help4(S(826), S(795), S(796), S(753));
+                error();
+                r = newspec(q);
+                shrinkorder(r) = normal;
+                deleteglueref(q);
+                glueptr(p) = r;
+                q = r;
+            }
+        }
+        pagetotal += pagedepth + width(q);
+        pagedepth = 0;                  /*:1004*/
+    _Lcontribute_:                      /*1003:*/
+        if (pagedepth > pagemaxdepth) { /*:1003*/
+            pagetotal += pagedepth - pagemaxdepth;
+            pagedepth = pagemaxdepth;
+        }
+        /*998:*/
+        link(pagetail) = p;
+        pagetail = p;
+        link(contribhead) = link(p);
+        link(p) = 0;
+        goto _Ldone; /*:998*/
+    _Ldone1:         /*999:*/
+        link(contribhead) = link(p);
+        link(p) = 0; /*:999*/
+        flushnodelist(p);
+    _Ldone:;                          /*:997*/
+    } while (link(contribhead) != 0); /*995:*/
+    if (nestptr == 0)
+        tail = contribhead;
+    else
+        contribtail = contribhead; /*:995*/
+_Lexit:;
 }
 /*:994*/
 
@@ -13830,7 +13824,7 @@ Static void offsave(void)
     return;
   }  /*:1066*/
   backinput();
-  p = getavail();
+  p = get_avail();
   link(temphead) = p;
   printnl(S(292));
   print(S(554));   /*1065:*/
@@ -13848,7 +13842,7 @@ Static void offsave(void)
 
   case mathleftgroup:
     info(p) = cstokenflag + frozenright;
-    link(p) = getavail();
+    link(p) = get_avail();
     p = link(p);
     info(p) = othertoken + '.';
     printesc(S(837));
@@ -16005,13 +15999,13 @@ Static void prefixedcommand(void)
     q = scantoks(false, false);
     if (link(defref) == 0) {
       define(p, undefinedcs, 0);
-      freeavail(defref);
+      FREE_AVAIL(defref);
     } else {
       if (p == outputroutineloc) {
-	link(q) = getavail();
+	link(q) = get_avail();
 	q = link(q);
 	info(q) = rightbracetoken + '}';
-	q = getavail();
+	q = get_avail();
 	info(q) = leftbracetoken + '{';
 	link(q) = link(defref);
 	link(defref) = q;
@@ -16322,7 +16316,7 @@ Static void shiftcase(void) {
         p = link(p);
     }
     backlist(link(defref));
-    freeavail(defref);
+    FREE_AVAIL(defref);
 }
 /*:1288*/
 
@@ -17634,7 +17628,7 @@ _Lmainloop:
     if (mode > 0) {
         if (language != clang) fixlanguage();
     }
-    fastgetavail(ligstack);
+    FAST_GET_AVAIL(ligstack);
     font(ligstack) = mainf;
     curl = curchr;
     character(ligstack) = curl;
@@ -17659,13 +17653,13 @@ _Lmainloopmove1:
 _Lmainloopmove2:
     if (curchr < fontbc[mainf] || curchr > fontec[mainf]) {
         charwarning(mainf, curchr);
-        freeavail(ligstack);
+        FREE_AVAIL(ligstack);
         goto _Lbigswitch_;
     }
     maini = charinfo(mainf, curl);
     if (!charexists(maini)) {
         charwarning(mainf, curchr);
-        freeavail(ligstack);
+        FREE_AVAIL(ligstack);
         goto _Lbigswitch_;
     }
     tailappend(ligstack); /*:1036*/
@@ -17689,7 +17683,7 @@ _Lmainlooplookahead:      /*1038:*/
     goto _Lmainligloop;
 _Lmainlooplookahead1:
     adjustspacefactor();
-    fastgetavail(ligstack);
+    FAST_GET_AVAIL(ligstack);
     font(ligstack) = mainf;
     curr = curchr;
     character(ligstack) = curr;
@@ -18074,52 +18068,55 @@ Static void closefilesandterminate(void) { /*1378:*/
         if (writeopen[k]) /*:1378*/
             aclose(&writefile[k]);
     }
-    /*_STAT*/
-    if (tracingstats > 0) { /*_ENDSTAT*/
-        /*1334:*/
-        if (logopened) { /*:1334*/
-            fprintf(logfile, " \n");
-            fprintf(logfile, "Here is how much of TeX's memory you used:\n");
-            str_print_stats(logfile);
-            fprintf(logfile,
-                    " %ld words of memory out of %ld\n",
-                    lomemmax - memmin + memend - himemmin + 2L,
-                    memend - memmin + 1L);
-            fprintf(logfile,
-                    " %ld multiletter control sequences out of %ld\n",
-                    cscount,
-                    (long)hashsize);
-            fprintf(logfile,
-                    " %d words of font info for %d font",
-                    fmemptr,
-                    fontptr);
-            if (fontptr != 1) {
-                fprintf(logfile, "s");
+
+    #ifdef tt_STAT
+        if (tracingstats > 0) {
+            /*1334:*/
+            if (logopened) { /*:1334*/
+                fprintf(logfile, " \n");
+                fprintf(logfile, "Here is how much of TeX's memory you used:\n");
+                str_print_stats(logfile);
+                fprintf(logfile,
+                        " %ld words of memory out of %ld\n",
+                        lomemmax - memmin + memend - himemmin + 2L,
+                        memend - memmin + 1L);
+                fprintf(logfile,
+                        " %ld multiletter control sequences out of %ld\n",
+                        cscount,
+                        (long)hashsize);
+                fprintf(logfile,
+                        " %d words of font info for %d font",
+                        fmemptr,
+                        fontptr);
+                if (fontptr != 1) {
+                    fprintf(logfile, "s");
+                }
+                fprintf(logfile,
+                        ", out of %ld for %ld\n",
+                        (long)fontmemsize,
+                        (long)(fontmax));
+                fprintf(logfile, " %d hyphenation exception", hyphcount);
+                if (hyphcount != 1) {
+                    fprintf(logfile, "s");
+                }
+                fprintf(logfile, " out of %ld\n", (long)hyphsize);
+                fprintf(logfile,
+                        " %di,%dn,%ldp,%db,%ds stack positions out of "
+                        "%ldi,%ldn,%ldp,%ldb,%lds\n",
+                        maxinstack,
+                        maxneststack,
+                        maxparamstack,
+                        maxbufstack + 1,
+                        maxsavestack + 6,
+                        (long)stacksize,
+                        (long)nestsize,
+                        (long)paramsize,
+                        (long)bufsize,
+                        (long)savesize);
             }
-            fprintf(logfile,
-                    ", out of %ld for %ld\n",
-                    (long)fontmemsize,
-                    (long)(fontmax));
-            fprintf(logfile, " %d hyphenation exception", hyphcount);
-            if (hyphcount != 1) {
-                fprintf(logfile, "s");
-            }
-            fprintf(logfile, " out of %ld\n", (long)hyphsize);
-            fprintf(logfile,
-                    " %di,%dn,%ldp,%db,%ds stack positions out of "
-                    "%ldi,%ldn,%ldp,%ldb,%lds\n",
-                    maxinstack,
-                    maxneststack,
-                    maxparamstack,
-                    maxbufstack + 1,
-                    maxsavestack + 6,
-                    (long)stacksize,
-                    (long)nestsize,
-                    (long)paramsize,
-                    (long)bufsize,
-                    (long)savesize);
-        }
-    }
+        }  // if (tracingstats > 0)
+#endif // #1333: tt_STAT
+
     /*642:*/
     while (curs > -1) {
         if (curs > 0) {

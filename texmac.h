@@ -28,19 +28,6 @@
     (ligkernbase[(x)] + opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
 #define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
 
-#define freeavail(x)                                                           \
-    (mem[(x)].hh.rh = avail, avail = (x), dynused -= charnodesize)
-#define fastgetavail(x)                                                        \
-    do {                                                                       \
-        if (((x) = avail)) {                                                   \
-            type(x) = charnodetype;                                            \
-            avail = link(x);                                                   \
-            link(x) = 0;                                                       \
-            dynused += charnodesize;                                           \
-        } else {                                                               \
-            (x) = getavail();                                                  \
-        }                                                                      \
-    } while (0)
 #define isempty(x) (link(x) == emptyflag)
 
 #define isrunning(x) ((x) == nullflag) /* {tests for a running dimension} */
@@ -200,19 +187,8 @@
 #define endlinecharinactive ((endlinechar < 0) || (endlinechar > 255))
 #define ishex(x)                                                               \
     ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
-#define storenewtoken(p, x)                                                    \
-    {                                                                          \
-        int q = getavail();                                                    \
-        link(p) = q, info(q) = (x), p = q;                                     \
-    }
-#define faststorenewtoken(p, x)                                                \
-    do {                                                                       \
-        int q;                                                                 \
-        fastgetavail(q);                                                       \
-        link(p) = q;                                                           \
-        info(q) = (x);                                                         \
-        p = q;                                                                 \
-    } while (0)
+
+
 #define precedesbreak(x) (type(x) < mathnode)
 #define nondiscardable(x) (type(x) < mathnode)
 // #define topenin() (termin = stdin) // 33, 37
@@ -576,7 +552,7 @@
 
 #define appendcharnodetot(x)                                                   \
     {                                                                          \
-        link(t) = getavail();                                                  \
+        link(t) = get_avail();                                                  \
         t = link(t);                                                           \
         font(t) = hf;                                                          \
         character(t) = x;                                                      \
