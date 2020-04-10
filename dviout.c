@@ -94,9 +94,7 @@ Static move_pointer get_move_node(void) {
 Static move_pointer downptr, rightptr;
 
 void dvi_push(void) { dviout(push); }
-
 void dvi_pop(void) { dviout(pop); }
-
 void dvi_eop(void) { dviout(eop); }
 
 void dvi_set_font(int f) {
@@ -239,8 +237,8 @@ void dviout(int x) {
     dviptr++;
     if (dviptr == dvilimit) dviswap();
 }
-
 /*:598*/
+
 /*600:*/
 void dvifour(unsigned long x) {
     dviout(x >> 24);
@@ -279,10 +277,9 @@ void dvifontdef(internalfontnumber f) {
     str_map(fnm, dviout_helper);
 }
 /*:602*/
+
 void movement(long w, eightbits o);
-
 void move_h(long w) { movement(w, right1); }
-
 void move_v(long w) { movement(w, down1); }
 
 /*607:*/
@@ -306,7 +303,6 @@ void movement(long w, eightbits o) {
     while (p != 0) {
         if (width(p) == w) { /*612:*/
             switch (mstate + info(p)) {
-
                 case noneseen + yzOK:
                 case noneseen + yOK:
                 case zseen + yzOK:
@@ -346,7 +342,6 @@ void movement(long w, eightbits o) {
             } /*:612*/
         } else {
             switch (mstate + info(p)) {
-
                 case noneseen + yhere:
                     mstate = yseen;
                     break;
@@ -363,7 +358,10 @@ void movement(long w, eightbits o) {
         }
         p = link(p);
     }
-_Lnotfound: /*:611*/
+
+_Lnotfound:
+/*:611*/
+
     /*610:*/
     info(q) = yzOK;
     if (labs(w) >= 8388608L) {
@@ -390,15 +388,17 @@ _L2:
     dviout(w / 256);
 _L1:
     dviout(w & 255);
-    goto _Lexit; /*:610*/
-_Lfound:         /*609:*/
+    goto _Lexit;
+/*:610*/
+
+_Lfound:
+/*609:*/
     info(q) = info(p);
     if (info(q) == yhere) {
         dviout(o + y0_ - down1);
         while (link(q) != p) {
             q = link(q);
             switch (info(q)) {
-
                 case yzOK:
                     info(q) = zOK;
                     break;
@@ -413,7 +413,6 @@ _Lfound:         /*609:*/
         while (link(q) != p) {
             q = link(q);
             switch (info(q)) {
-
                 case yzOK:
                     info(q) = yOK;
                     break;
@@ -425,8 +424,7 @@ _Lfound:         /*609:*/
         }
     }
 _Lexit:;
-
-    /*:614*/
+/*:614*/
 }
 /*:607*/
 
@@ -435,18 +433,17 @@ void prunemovements(long l) {
     move_pointer p;
 
     while (downptr != 0) {
-        if (location(downptr) < l) goto _Ldone;
+        if (location(downptr) < l) break;
         p = downptr;
         downptr = link(p);
         freenode(p, movementnodesize);
     }
-_Ldone:
+
     while (rightptr != 0) {
-        if (location(rightptr) < l) goto _Lexit;
+        if (location(rightptr) < l) break;
         p = rightptr;
         rightptr = link(p);
         freenode(p, movementnodesize);
     }
-_Lexit:;
 }
 /*:615*/

@@ -867,11 +867,11 @@ void printchar(ASCIIcode s) {
     if (s == newlinechar) { /*:244*/
         if (selector < pseudo) {
             println();
-            goto _Lexit;
+            return;
         }
     }
-    switch (selector) {
 
+    switch (selector) {
         case termandlog:
             fwrite(&xchr[s], 1, 1, stdout);
             fwrite(&xchr[s], 1, 1, logfile);
@@ -918,7 +918,6 @@ void printchar(ASCIIcode s) {
             break;
     }
     tally++;
-_Lexit:;
 }
 /*:58*/
 
@@ -930,12 +929,12 @@ void print(strnumber s) {
         if (s >= 0) {
             if (selector > pseudo) {
                 printchar(s);
-                goto _Lexit;
+                return;
             }
             if (s == newlinechar) { /*244:*/
                 if (selector < pseudo) {
                     println();
-                    goto _Lexit;
+                    return;
                 }
             }
             /*:244*/
@@ -943,12 +942,11 @@ void print(strnumber s) {
             newlinechar = -1;
             str_print(s);
             newlinechar = nl;
-            goto _Lexit;
+            return;
         }
         s = S(261);
     }
     str_print(s);
-_Lexit:;
 }
 /*:59*/
 
@@ -1479,36 +1477,33 @@ void printhex(long n)
 
 
 /*69:*/
-Static void printromanint(long n)
-{
-  int j, k;
-  nonnegativeinteger u, v;
-  static char romstr[]="m2d5c2l5x2v5i";
+Static void printromanint(long n) {
+    int j, k;
+    nonnegativeinteger u, v;
+    static char romstr[] = "m2d5c2l5x2v5i";
 
-  j = 0 ;
-  v = 1000;
-  while (true) {
-    while (n >= v) {
-      printchar(romstr[j]);
-      n -= v;
+    j = 0;
+    v = 1000;
+    while (true) {
+        while (n >= v) {
+            printchar(romstr[j]);
+            n -= v;
+        }
+        if (n <= 0) return;
+        k = j + 2;
+        u = v / (romstr[k - 1] - '0');
+        if (romstr[k - 1] == '2') {
+            k += 2;
+            u /= romstr[k - 1] - '0';
+        }
+        if (n + u >= v) {
+            printchar(romstr[k]);
+            n += u;
+        } else {
+            j += 2;
+            v /= romstr[j - 1] - '0';
+        }
     }
-    if (n <= 0)
-      goto _Lexit;
-    k = j + 2;
-    u = v / (romstr[k - 1] - '0');
-    if (romstr[k - 1] == '2') {
-      k += 2;
-      u /= romstr[k - 1] - '0';
-    }
-    if (n + u >= v) {
-      printchar(romstr[k]);
-      n += u;
-    } else {
-      j += 2;
-      v /= romstr[j - 1] - '0';
-    }
-  }
-_Lexit: ;
 }
 /*:69*/
 
@@ -3186,158 +3181,155 @@ Static void deleteglueref(halfword p)
 /*:201*/
 
 /*202:*/
-Static void flushnodelist(halfword p)
-{
-  pointer q;
+Static void flushnodelist(halfword p) {
+    pointer q;
 
-  while (p != 0) {
-    q = link(p);
-    if (ischarnode(p)) {
-      freeavail(p);
-    } else {
-      switch (type(p)) {
+    while (p != 0) {
+        q = link(p);
+        if (ischarnode(p)) {
+            freeavail(p);
+        } else {
+            switch (type(p)) {
+            case hlistnode:
+            case vlistnode:
+            case unsetnode:
+                flushnodelist(listptr(p));
+                freenode(p, boxnodesize);
+                goto _Ldone;
+                break;
 
-      case hlistnode:
-      case vlistnode:
-      case unsetnode:
-	flushnodelist(listptr(p));
-	freenode(p, boxnodesize);
-	goto _Ldone;
-	break;
+            case rulenode:
+                freenode(p, rulenodesize);
+                goto _Ldone;
+                break;
 
-      case rulenode:
-	freenode(p, rulenodesize);
-	goto _Ldone;
-	break;
+            case insnode:
+                flushnodelist(insptr(p));
+                deleteglueref(splittopptr(p));
+                freenode(p, insnodesize);
+                goto _Ldone;
+                break;
 
-      case insnode:
-	flushnodelist(insptr(p));
-	deleteglueref(splittopptr(p));
-	freenode(p, insnodesize);
-	goto _Ldone;
-	break;
+            case whatsitnode: /*1358:*/
+                switch (subtype(p)) {
 
-      case whatsitnode:   /*1358:*/
-	switch (subtype(p)) {
+                    case opennode:
+                        freenode(p, opennodesize);
+                        break;
 
-	case opennode:
-	  freenode(p, opennodesize);
-	  break;
+                    case writenode:
+                    case specialnode:
+                        deletetokenref(writetokens(p));
+                        freenode(p, writenodesize);
+                        goto _Ldone;
+                        break;
 
-	case writenode:
-	case specialnode:
-	  deletetokenref(writetokens(p));
-	  freenode(p, writenodesize);
-	  goto _Ldone;
-	  break;
+                    case closenode:
+                    case languagenode:
+                        freenode(p, smallnodesize);
+                        break;
 
-	case closenode:
-	case languagenode:
-	  freenode(p, smallnodesize);
-	  break;
+                    default:
+                        confusion(S(427));
+                        break;
+                }
+                goto _Ldone;
+                break;
+                /*:1358*/
 
-	default:
-	  confusion(S(427));
-	  break;
-	}
-	goto _Ldone;
-	break;
-	/*:1358*/
+            case gluenode:
+                karmafastdeleteglueref(glueptr(p));
+                if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
+                break;
 
-      case gluenode:
-	karmafastdeleteglueref(glueptr(p));
-	if (leaderptr(p) != 0)
-	  flushnodelist(leaderptr(p));
-	break;
+            case kernnode:
+            case mathnode:
+            case penaltynode:
+                /* blank case */
+                break;
 
-      case kernnode:
-      case mathnode:
-      case penaltynode:
-	/* blank case */
-	break;
+            case ligaturenode:
+                flushnodelist(ligptr(p));
+                break;
 
-      case ligaturenode:
-	flushnodelist(ligptr(p));
-	break;
+            case marknode:
+                deletetokenref(markptr(p));
+                break;
 
-      case marknode:
-	deletetokenref(markptr(p));
-	break;
+            case discnode:
+                flushnodelist(prebreak(p));
+                flushnodelist(postbreak(p));
+                break;
 
-      case discnode:
-	flushnodelist(prebreak(p));
-	flushnodelist(postbreak(p));
-	break;
+            case adjustnode: /*698:*/
+                flushnodelist(adjustptr(p));
+                break;
 
-      case adjustnode:   /*698:*/
-	flushnodelist(adjustptr(p));
-	break;
+            case stylenode:
+                freenode(p, stylenodesize);
+                goto _Ldone;
+                break;
 
-      case stylenode:
-	freenode(p, stylenodesize);
-	goto _Ldone;
-	break;
+            case choicenode:
+                flushnodelist(displaymlist(p));
+                flushnodelist(textmlist(p));
+                flushnodelist(scriptmlist(p));
+                flushnodelist(scriptscriptmlist(p));
+                freenode(p, stylenodesize);
+                goto _Ldone;
+                break;
 
-      case choicenode:
-	flushnodelist(displaymlist(p));
-	flushnodelist(textmlist(p));
-	flushnodelist(scriptmlist(p));
-	flushnodelist(scriptscriptmlist(p));
-	freenode(p, stylenodesize);
-	goto _Ldone;
-	break;
+            case ordnoad:
+            case opnoad:
+            case binnoad:
+            case relnoad:
+            case opennoad:
+            case closenoad:
+            case punctnoad:
+            case innernoad:
+            case radicalnoad:
+            case overnoad:
+            case undernoad:
+            case vcenternoad:
+            case accentnoad:
+                if (mathtype(nucleus(p)) >= subbox)
+                    flushnodelist(info(nucleus(p)));
+                if (mathtype(supscr(p)) >= subbox)
+                    flushnodelist(info(supscr(p)));
+                if (mathtype(subscr(p)) >= subbox)
+                    flushnodelist(info(subscr(p)));
+                if (type(p) == radicalnoad)
+                    freenode(p, radicalnoadsize);
+                else if (type(p) == accentnoad)
+                    freenode(p, accentnoadsize);
+                else
+                    freenode(p, noadsize);
+                goto _Ldone;
+                break;
 
-      case ordnoad:
-      case opnoad:
-      case binnoad:
-      case relnoad:
-      case opennoad:
-      case closenoad:
-      case punctnoad:
-      case innernoad:
-      case radicalnoad:
-      case overnoad:
-      case undernoad:
-      case vcenternoad:
-      case accentnoad:
-	if (mathtype(nucleus(p)) >= subbox)
-	  flushnodelist(info(nucleus(p)));
-	if (mathtype(supscr(p)) >= subbox)
-	  flushnodelist(info(supscr(p)));
-	if (mathtype(subscr(p)) >= subbox)
-	  flushnodelist(info(subscr(p)));
-	if (type(p) == radicalnoad)
-	  freenode(p, radicalnoadsize);
-	else if (type(p) == accentnoad)
-	  freenode(p, accentnoadsize);
-	else
-	  freenode(p, noadsize);
-	goto _Ldone;
-	break;
+            case leftnoad:
+            case rightnoad:
+                freenode(p, noadsize);
+                goto _Ldone;
+                break;
 
-      case leftnoad:
-      case rightnoad:
-	freenode(p, noadsize);
-	goto _Ldone;
-	break;
+            case fractionnoad:
+                flushnodelist(info(numerator(p)));
+                flushnodelist(info(denominator(p)));
+                freenode(p, fractionnoadsize);
+                goto _Ldone;
+                break;
+                /*:698*/
 
-      case fractionnoad:
-	flushnodelist(info(numerator(p)));
-	flushnodelist(info(denominator(p)));
-	freenode(p, fractionnoadsize);
-	goto _Ldone;
-	break;
-	/*:698*/
-
-      default:
-	confusion(S(428));
-	break;
-      }
-      freenode(p, smallnodesize);
-_Ldone: ;
-    }
-    p = q;
-  }
+            default:
+                confusion(S(428));
+                break;
+            }
+            freenode(p, smallnodesize);
+_Ldone:;
+        }
+        p = q;
+    } // while (p != 0)
 }
 /*:202*/
 
@@ -4045,60 +4037,60 @@ Static void restoretrace(halfword p, strnumber s)
 Static void backinput(void);
 
 
-Static void unsave(void)
-{
-  pointer p;
-  quarterword l=0 /* XXXX */;
+Static void unsave(void) {
+    pointer p;
+    quarterword l = 0 /* XXXX */;
 
-  if (curlevel <= levelone) {
-    confusion(S(478));
-    return;
-  }
-  curlevel--;   /*282:*/
-  while (true) {
-    saveptr--;
-    if (savetype(saveptr) == levelboundary)
-      goto _Ldone;
-    p = saveindex(saveptr);
-    if (savetype(saveptr) == inserttoken) {   /*326:*/
-      halfword t = curtok;
-      curtok = p;
-      backinput();
-      curtok = t;
-      continue;
-    }  /*:326*/
-    if (savetype(saveptr) == restoreoldvalue) {   /*283:*/
-      l = savelevel(saveptr);
-      saveptr--;
-    } else
-      savestack[saveptr] = eqtb[undefinedcontrolsequence - activebase];
-    if (p < intbase) {
-      if (eqlevel(p) == levelone) {
-	eqdestroy(savestack[saveptr]);   /*_STAT*/
-	if (tracingrestores > 0)   /*_ENDSTAT*/
-	  restoretrace(p, S(479));
-      } else {
-	eqdestroy(eqtb[p - activebase]);
-	eqtb[p - activebase] = savestack[saveptr];   /*_STAT*/
-	if (tracingrestores > 0)   /*_ENDSTAT*/
-	  restoretrace(p, S(480));
-      }
-      continue;
+    if (curlevel <= levelone) {
+        confusion(S(478));
+        return;
     }
-    if (xeqlevel[p - intbase] != levelone) {
-      eqtb[p - activebase] = savestack[saveptr];
-      xeqlevel[p - intbase] = l;   /*_STAT*/
-      if (tracingrestores > 0)   /*_ENDSTAT*/
-	restoretrace(p, S(480));
-    } else   /*:283*/
-    {  /*_STAT*/
-      if (tracingrestores > 0)   /*_ENDSTAT*/
-	restoretrace(p, S(479));
-    }
-  }
-_Ldone:
-  curgroup = savelevel(saveptr);
-  curboundary = saveindex(saveptr);   /*:282*/
+    curlevel--; /*282:*/
+    while (true) {
+        saveptr--;
+        if (savetype(saveptr) == levelboundary) break;
+        p = saveindex(saveptr);
+        if (savetype(saveptr) == inserttoken) { /*326:*/
+            halfword t = curtok;
+            curtok = p;
+            backinput();
+            curtok = t;
+            continue;
+        }                                           /*:326*/
+        if (savetype(saveptr) == restoreoldvalue) { /*283:*/
+            l = savelevel(saveptr);
+            saveptr--;
+        } else {
+            savestack[saveptr] = eqtb[undefinedcontrolsequence - activebase];
+        }
+        if (p < intbase) {
+            if (eqlevel(p) == levelone) {
+                eqdestroy(savestack[saveptr]); /*_STAT*/
+                if (tracingrestores > 0)       /*_ENDSTAT*/
+                    restoretrace(p, S(479));
+            } else {
+                eqdestroy(eqtb[p - activebase]);
+                eqtb[p - activebase] = savestack[saveptr]; /*_STAT*/
+                if (tracingrestores > 0)                   /*_ENDSTAT*/
+                    restoretrace(p, S(480));
+            }
+            continue;
+        }
+        if (xeqlevel[p - intbase] != levelone) {
+            eqtb[p - activebase] = savestack[saveptr];
+            xeqlevel[p - intbase] = l; /*_STAT*/
+            if (tracingrestores > 0)   /*_ENDSTAT*/
+                restoretrace(p, S(480));
+            /*:283*/
+        } else {                            
+            /*_STAT*/
+            if (tracingrestores > 0) /*_ENDSTAT*/
+                restoretrace(p, S(479));
+        }
+    } // while (true)
+
+    curgroup = savelevel(saveptr);
+    curboundary = saveindex(saveptr); /*:282*/
 }
 /*:281*/
 
@@ -5501,24 +5493,22 @@ Static void expand(void)
 /*:366*/
 
 /*380:*/
-Static void getxtoken(void)
-{
+Static void getxtoken(void) {
 _Lrestart:
-  getnext();
-  if (curcmd <= maxcommand)
-    goto _Ldone;
-  if (curcmd >= call) {
-    if (curcmd >= endtemplate) {
-      curcs = frozenendv;
-      curcmd = endv;
-      goto _Ldone;
-    }
-    macrocall(curchr);
-  } else
-    expand();
-  goto _Lrestart;
+    getnext();
+    if (curcmd <= maxcommand) goto _Ldone;
+    if (curcmd >= call) {
+        if (curcmd >= endtemplate) {
+            curcs = frozenendv;
+            curcmd = endv;
+            goto _Ldone;
+        }
+        macrocall(curchr);
+    } else
+        expand();
+    goto _Lrestart;
 _Ldone:
-  curtok=pack_tok(curcs,curcmd,curchr);
+    curtok = pack_tok(curcs, curcmd, curchr);
 }
 /*:380*/
 
@@ -6822,148 +6812,142 @@ _Lfound:
 
 
 /*482:*/
-Static void readtoks(long n, halfword r)
-{
-  pointer p;
-  long s;
-  /* SmallNumber */ int m; /* INT */
+Static void readtoks(long n, halfword r) {
+    pointer p;
+    long s;
+    /* SmallNumber */ int m; /* INT */
 
-  scannerstatus = defining;
-  warningindex = r;
-  defref = getavail();
-  tokenrefcount(defref) = 0;
-  p = defref;
-  storenewtoken(p,endmatchtoken);
-  if ((unsigned long)n > 15)
-    m = 16;
-  else
-    m = n;
-  s = alignstate;
-  alignstate = 1000000L;
-  do {   /*483:*/
-    beginfilereading();
-    name = m + 1;
-    if (readopen[m] == closed) {   /*484:*/
-      if (interaction > nonstopmode) {
-	if (n < 0) {
-	  print(S(385));
-	  terminput();
-	} else {
-	  println();
-	  sprintcs(r);
-	  print('=');
-	  terminput();
-	  n = -1;
-	}
-      } else   /*:484*/
-	fatalerror(S(654));
-    } else if (readopen[m] == justopen) {
-      if (inputln(readfile[m], false))
-	readopen[m] = normal;
-      else {   /*:485*/
-	aclose(&readfile[m]);
-	readopen[m] = closed;
-      }
-    } else {
-      if (!inputln(readfile[m], true)) {
-	aclose(&readfile[m]);
-	readopen[m] = closed;
-	if (alignstate != 1000000L) {
-	  runaway();
-	  printnl(S(292));
-	  print(S(655));
-	  printesc(S(656));
-	  help1(S(657));
-	  alignstate = 1000000L;
-	  error();
-	}
-      }
-    }
-    limit = last;
-    if (endlinecharinactive) {
-      limit--;
-    } else
-      buffer[limit] = endlinechar;
-    first = limit + 1;
-    loc = start;
-    state = newline;
-    while (true) {
-      gettoken();
-      if (curtok == 0)
-	goto _Ldone;
-      if (alignstate < 1000000L) {
-	do {
-	  gettoken();
-	} while (curtok != 0);
-	alignstate = 1000000L;
-	goto _Ldone;
-      }
-      storenewtoken(p,curtok);
-    }
-_Ldone:   /*:483*/
-    endfilereading();
-  } while (alignstate != 1000000L);
-  curval = defref;
-  scannerstatus = normal;
-  alignstate = s;
+    scannerstatus = defining;
+    warningindex = r;
+    defref = getavail();
+    tokenrefcount(defref) = 0;
+    p = defref;
+    storenewtoken(p, endmatchtoken);
+    if ((unsigned long)n > 15)
+        m = 16;
+    else
+        m = n;
+    s = alignstate;
+    alignstate = 1000000L;
+    do { /*483:*/
+        beginfilereading();
+        name = m + 1;
+        if (readopen[m] == closed) { /*484:*/
+            if (interaction > nonstopmode) {
+                if (n < 0) {
+                    print(S(385));
+                    terminput();
+                } else {
+                    println();
+                    sprintcs(r);
+                    print('=');
+                    terminput();
+                    n = -1;
+                }
+            } else /*:484*/
+                fatalerror(S(654));
+        } else if (readopen[m] == justopen) {
+            if (inputln(readfile[m], false))
+                readopen[m] = normal;
+            else { /*:485*/
+                aclose(&readfile[m]);
+                readopen[m] = closed;
+            }
+        } else {
+            if (!inputln(readfile[m], true)) {
+                aclose(&readfile[m]);
+                readopen[m] = closed;
+                if (alignstate != 1000000L) {
+                    runaway();
+                    printnl(S(292));
+                    print(S(655));
+                    printesc(S(656));
+                    help1(S(657));
+                    alignstate = 1000000L;
+                    error();
+                }
+            }
+        }
+        limit = last;
+        if (endlinecharinactive) {
+            limit--;
+        } else
+            buffer[limit] = endlinechar;
+        first = limit + 1;
+        loc = start;
+        state = newline;
+        while (true) {
+            gettoken();
+            if (curtok == 0) goto _Ldone;
+            if (alignstate < 1000000L) {
+                do {
+                    gettoken();
+                } while (curtok != 0);
+                alignstate = 1000000L;
+                goto _Ldone;
+            }
+            storenewtoken(p, curtok);
+        }
+_Ldone: /*:483*/    
+        endfilereading();
+    } while (alignstate != 1000000L);
+    curval = defref;
+    scannerstatus = normal;
+    alignstate = s;
 
-  /*485:*/
+    /*485:*/
 }
 /*:482*/
 
 /*494:*/
-Static void passtext(void)
-{
-  long l;
-  SmallNumber savescannerstatus;
+Static void passtext(void) {
+    long l;
+    SmallNumber savescannerstatus;
 
-  savescannerstatus = scannerstatus;
-  scannerstatus = skipping;
-  l = 0;
-  skipline = line;
-  while (true) {
-    getnext();
-    if (curcmd == fiorelse) {
-      if (l == 0)
-	goto _Ldone;
-      if (curchr == ficode)
-	l--;
-    } else if (curcmd == iftest)
-      l++;
-  }
-_Ldone:
-  scannerstatus = savescannerstatus;
+    savescannerstatus = scannerstatus;
+    scannerstatus = skipping;
+    l = 0;
+    skipline = line;
+    while (true) {
+        getnext();
+        if (curcmd == fiorelse) {
+            if (l == 0) break;
+            if (curchr == ficode) l--;
+        } else if (curcmd == iftest) {
+            l++;
+        }
+    }
+    scannerstatus = savescannerstatus;
 }
 /*:494*/
 
 /*497:*/
-Static void changeiflimit(SmallNumber l, halfword p)
-{
-  pointer q;
+Static void changeiflimit(SmallNumber l, halfword p) {
+    pointer q;
 
-  if (p == condptr)
-    iflimit = l;
-  else {
-    q = condptr;
-    while (true) {
-      if (q == 0)
-	confusion(S(658));
-      if (link(q) == p) {
-	type(q) = l;
-	goto _Lexit;
-      }
-      q = link(q);
+    if (p == condptr)
+        iflimit = l;
+    else {
+        q = condptr;
+        while (true) {
+            if (q == 0) confusion(S(658));
+            if (link(q) == p) {
+                type(q) = l;
+                return;
+            }
+            q = link(q);
+        }
     }
-  }
-_Lexit: ;
 }
 
-#define getxtokenoractivechar() (getxtoken(), \
-        ((curcmd==relax)&& (curchr==noexpandflag))?\
-     (curcmd=activechar, cur_chr=curtok-cstokenflag-activebase):\
-     (cur_chr=curchr))
+#define getxtokenoractivechar()                                                \
+    (getxtoken(),                                                              \
+     ((curcmd == relax) && (curchr == noexpandflag))                           \
+         ? (curcmd = activechar, cur_chr = curtok - cstokenflag - activebase)  \
+         : (cur_chr = curchr))
 
 /*:497*/
+
 /*498:*/
 Static void conditional(void)
 {  /*495:*/
@@ -7317,23 +7301,20 @@ Static strnumber wmakenamestring()
 /*:525*/
 
 /*526:*/
-Static void scanfilename(void)
-{
-  nameinprogress = true;
-  beginname();
-  skip_spaces();
-  while (true) {
-    if (curcmd > otherchar || curchr > 255) {
-      backinput();
-      goto _Ldone;
+Static void scanfilename(void) {
+    nameinprogress = true;
+    beginname();
+    skip_spaces();
+    while (true) {
+        if (curcmd > otherchar || curchr > 255) {
+            backinput();
+            break;
+        }
+        if (!morename(curchr)) break;
+        getxtoken();
     }
-    if (!morename(curchr))
-      goto _Ldone;
-    getxtoken();
-  }
-_Ldone:
-  endname();
-  nameinprogress = false;
+    endname();
+    nameinprogress = false;
 }
 /*:526*/
 
@@ -7348,43 +7329,36 @@ Static void packjobname(strnumber s)
 /*:529*/
 
 /*530:*/
-Static void promptfilename(strnumber s, strnumber e)
-{
-  short k;
+Static void promptfilename(strnumber s, strnumber e) {
+    short k;
 
-  if (s == S(665)) {
-    printnl(S(292));
-    print(S(666));
-  } else {
-    printnl(S(292));
-    print(S(667));
-  }
-  printfilename(curname, curarea, curext);
-  print(S(668));
-  if (e == S(669))
-    showcontext();
-  printnl(S(670));
-  print(s);
-  if (interaction < scrollmode)
-    fatalerror(S(671));
-  print(S(488));
-  terminput();   /*531:*/
-  beginname();
-  k = first;
-  while (buffer[k] == ' ' && k < last)
-    k++;
-  while (true) {
-    if (k == last)
-      goto _Ldone;
-    if (!morename(buffer[k]))
-      goto _Ldone;
-    k++;
-  }
-_Ldone:
-  endname();   /*:531*/
-  if (curext == S(385))
-    curext = e;
-  packfilename(curname,curarea,curext);
+    if (s == S(665)) {
+        printnl(S(292));
+        print(S(666));
+    } else {
+        printnl(S(292));
+        print(S(667));
+    }
+    printfilename(curname, curarea, curext);
+    print(S(668));
+    if (e == S(669)) showcontext();
+    printnl(S(670));
+    print(s);
+    if (interaction < scrollmode) fatalerror(S(671));
+    print(S(488));
+    terminput(); /*531:*/
+    beginname();
+    k = first;
+    while (buffer[k] == ' ' && k < last)
+        k++;
+    while (true) {
+        if (k == last) break;
+        if (!morename(buffer[k])) break;
+        k++;
+    }
+    endname(); /*:531*/
+    if (curext == S(385)) curext = e;
+    packfilename(curname, curarea, curext);
 }
 /*:530*/
 
@@ -7435,56 +7409,54 @@ Static void openlogfile(void) {
 /*:534*/
 
 /*537:*/
-Static void startinput(void)
-{
-  scanfilename();
-  if (curext == S(385))
-    curext = S(669);
-  packfilename(curname,curarea,curext);
-  while (true) {
-    beginfilereading();
-    if (aopenin(&curfile))
-      goto _Ldone;
-    if (curarea == S(385)) {
-      packfilename(curname, S(677), curext);
-      if (aopenin(&curfile))
-	goto _Ldone;
+Static void startinput(void) {
+    scanfilename();
+    if (curext == S(385)) curext = S(669);
+    packfilename(curname, curarea, curext);
+    while (true) {
+        beginfilereading();
+        if (aopenin(&curfile)) break;
+        if (curarea == S(385)) {
+            packfilename(curname, S(677), curext);
+            if (aopenin(&curfile)) break;
+        }
+        endfilereading();
+        promptfilename(S(665), S(669));
     }
-    endfilereading();
-    promptfilename(S(665), S(669));
-  }
-_Ldone:
-  name = amakenamestring();
-  if (jobname == 0) {
-    jobname = curname;
-    openlogfile();
-  }
-  if (termoffset + flength(name) > maxprintline - 2) {
-    println();
-  } else if (termoffset > 0 || fileoffset > 0)
-    printchar(' ');
-  printchar('(');
-  openparens++;
-  slowprint(name);
-  fflush(stdout);
-  state = newline;
+
+    name = amakenamestring();
+    if (jobname == 0) {
+        jobname = curname;
+        openlogfile();
+    }
+    if (termoffset + flength(name) > maxprintline - 2) {
+        println();
+    } else if (termoffset > 0 || fileoffset > 0)
+        printchar(' ');
+    printchar('(');
+    openparens++;
+    slowprint(name);
+    fflush(stdout);
+    state = newline;
+
 #if 0
   if (name == strptr - 1) {   /*538:*/
     flushstring();
     name = curname;
   }
 #else
-   name = curname;
+    name = curname;
 #endif
-  line = 1;
-  inputln(curfile, false);
-  firmuptheline();
-  if (endlinecharinactive) {
-    limit--;
-  } else
-    buffer[limit] = endlinechar;
-  first = limit + 1;
-  loc = start;   /*:538*/
+
+    line = 1;
+    inputln(curfile, false);
+    firmuptheline();
+    if (endlinecharinactive) {
+        limit--;
+    } else
+        buffer[limit] = endlinechar;
+    first = limit + 1;
+    loc = start; /*:538*/
 }
 /*:537*/
 
@@ -7504,26 +7476,25 @@ Static void charwarning(internalfontnumber f, eightbits c)
 /*:581*/
 
 /*582:*/
-Static halfword newcharacter(internalfontnumber f, eightbits c)
-{
-  halfword Result;
-  pointer p;
+Static halfword newcharacter(internalfontnumber f, eightbits c) {
+    halfword Result;
+    pointer p;
 
-  if (fontbc[f ] <= c) {
-    if (fontec[f ] >= c) {
-      if (charexists(charinfo(f, c))) {
-	p = getavail();
-	font(p) = f;
-	character(p) = c;
-	Result = p;
-	goto _Lexit;
-      }
+    if (fontbc[f] <= c) {
+        if (fontec[f] >= c) {
+            if (charexists(charinfo(f, c))) {
+                p = getavail();
+                font(p) = f;
+                character(p) = c;
+                Result = p;
+                goto _Lexit;
+            }
+        }
     }
-  }
-  charwarning(f, c);
-  Result = 0;
+    charwarning(f, c);
+    Result = 0;
 _Lexit:
-  return Result;
+    return Result;
 }
 /*:582*/
 
@@ -12052,137 +12023,130 @@ Static void triefix(triepointer p)
 } // triefix
 
 /// #960: Declare procedures for preprocessing hyphenation patterns
-Static void newpatterns(void)
-{
-  unsigned char k, l; /* INT */
-  boolean digitsensed;
-  quarterword v;
-  triepointer p, q;
-  boolean firstchild;
-  ASCIIcode c;
+Static void newpatterns(void) {
+    unsigned char k, l; /* INT */
+    boolean digitsensed;
+    quarterword v;
+    triepointer p, q;
+    boolean firstchild;
+    ASCIIcode c;
 
-  if (trie_not_ready) {
-    setcurlang();
-    scanleftbrace();
-    /*961:*/
-    k = 0;
-    hyf[0] = 0;
-    digitsensed = false;
-    while (true) {
-      getxtoken();
-      switch (curcmd) {
+    if (trie_not_ready) {
+        setcurlang();
+        scanleftbrace();
+        /*961:*/
+        k = 0;
+        hyf[0] = 0;
+        digitsensed = false;
+        while (true) {
+            getxtoken();
+            switch (curcmd) {
 
-      case letter:
-      case otherchar:   /*962:*/
-	if (digitsensed | (curchr < '0') | (curchr > '9')) {
-          int cur_chr;
-	  if (curchr == '.')
-	    cur_chr = 0;
-	  else {
-	    cur_chr = lccode(curchr);
-	    if (cur_chr == 0) {
-	      printnl(S(292));
-	      print(S(770));
-	      help1(S(771));
-	      error();
-	    }
-	  }
-	  if (k < 63) {
-	    k++;
-	    hc[k] = cur_chr;
-	    hyf[k] = 0;
-	    digitsensed = false;
-	  }
-	} else if (k < 63) {
-	  hyf[k] = curchr - '0';
-	  digitsensed = true;
-	}
-	break;
+                case letter:
+                case otherchar: /*962:*/
+                    if (digitsensed | (curchr < '0') | (curchr > '9')) {
+                        int cur_chr;
+                        if (curchr == '.')
+                            cur_chr = 0;
+                        else {
+                            cur_chr = lccode(curchr);
+                            if (cur_chr == 0) {
+                                printnl(S(292));
+                                print(S(770));
+                                help1(S(771));
+                                error();
+                            }
+                        }
+                        if (k < 63) {
+                            k++;
+                            hc[k] = cur_chr;
+                            hyf[k] = 0;
+                            digitsensed = false;
+                        }
+                    } else if (k < 63) {
+                        hyf[k] = curchr - '0';
+                        digitsensed = true;
+                    }
+                    break;
 
-      case spacer:
-      case rightbrace:
-	if (k > 0) {   /*963:*/
-	  if (hc[1] == 0)
-	    hyf[0] = 0;
-	  if (hc[k] == 0)
-	    hyf[k] = 0;
-	  l = k;
-	  v = minquarterword;
-	  while (true) {
-	    if (hyf[l] != 0)
-	      v = newtrieop(k - l, hyf[l], v);
-	    if (l <= 0)
-	      goto _Ldone1;
-	    l--;
-	  }
-_Ldone1:   /*:965*/
-	  q = 0;
-	  hc[0] = curlang;
-	  while (l <= k) {
-	    c = hc[l];
-	    l++;
-	    p = triel[q];
-	    firstchild = true;
-	    while (p > 0 && c > triec[p]) {
-	      q = p;
-	      p = trier[q];
-	      firstchild = false;
-	    }
-	    if (p == 0 || c < triec[p]) {   /*964:*/
-	      if (trieptr == triesize)
-		overflow(S(769), triesize);
-	      trieptr++;
-	      trier[trieptr] = p;
-	      p = trieptr;
-	      triel[p] = 0;
-	      if (firstchild)
-		triel[q] = p;
-	      else
-		trier[q] = p;
-	      triec[p] = c;
-	      trieo[p] = minquarterword;
-	    }
-	    /*:964*/
-	    q = p;
-	  }
-	  if (trieo[q] != minquarterword) {
-	    printnl(S(292));
-	    print(S(772));
-	    help1(S(771));
-	    error();
-	  }
-	  trieo[q] = v;
-	}
-	/*965:*/
-	/*:963*/
-	if (curcmd == rightbrace)
-	  goto _Ldone;
-	k = 0;
-	hyf[0] = 0;
-	digitsensed = false;
-	break;
+                case spacer:
+                case rightbrace:
+                    if (k > 0) { /*963:*/
+                        if (hc[1] == 0) hyf[0] = 0;
+                        if (hc[k] == 0) hyf[k] = 0;
+                        l = k;
+                        v = minquarterword;
+                        while (true) {
+                            if (hyf[l] != 0) v = newtrieop(k - l, hyf[l], v);
+                            if (l <= 0) goto _Ldone1;
+                            l--;
+                        }
+_Ldone1: /*:965*/
+                        q = 0;
+                        hc[0] = curlang;
+                        while (l <= k) {
+                            c = hc[l];
+                            l++;
+                            p = triel[q];
+                            firstchild = true;
+                            while (p > 0 && c > triec[p]) {
+                                q = p;
+                                p = trier[q];
+                                firstchild = false;
+                            }
+                            if (p == 0 || c < triec[p]) { /*964:*/
+                                if (trieptr == triesize)
+                                    overflow(S(769), triesize);
+                                trieptr++;
+                                trier[trieptr] = p;
+                                p = trieptr;
+                                triel[p] = 0;
+                                if (firstchild)
+                                    triel[q] = p;
+                                else
+                                    trier[q] = p;
+                                triec[p] = c;
+                                trieo[p] = minquarterword;
+                            }
+                            /*:964*/
+                            q = p;
+                        }
+                        if (trieo[q] != minquarterword) {
+                            printnl(S(292));
+                            print(S(772));
+                            help1(S(771));
+                            error();
+                        }
+                        trieo[q] = v;
+                    }
+                    /*965:*/
+                    /*:963*/
+                    if (curcmd == rightbrace) goto _Ldone;
+                    k = 0;
+                    hyf[0] = 0;
+                    digitsensed = false;
+                    break;
 
-      default:
-	printnl(S(292));
-	print(S(773));
-	printesc(S(774));
-	help1(S(771));
-	error();
-	break;
-      }
+                default:
+                    printnl(S(292));
+                    print(S(773));
+                    printesc(S(774));
+                    help1(S(771));
+                    error();
+                    break;
+            }
+        }
+_Ldone: /*:961*/
+        return;
     }
-_Ldone:   /*:961*/
-    return;
-  }
-  printnl(S(292));
-  print(S(775));
-  printesc(S(774));
-  help1(S(776));
-  error();
-  link(garbage) = scantoks(false, false);
-  flushlist(defref);
-
-  /*:962*/
+    printnl(S(292));
+    print(S(775));
+    printesc(S(774));
+    help1(S(776));
+    error();
+    link(garbage) = scantoks(false, false);
+    flushlist(defref);
+    /*:962*/
 } // newpatterns
 
 /// 966: Declare procedures for preprocessing hyphenation patterns
@@ -13058,71 +13022,69 @@ _Ldone:
 /*:970*/
 
 /*977:*/
-Static halfword vsplit(eightbits n, long h)
-{
-  halfword Result;
-  pointer v, p, q;
+Static halfword vsplit(eightbits n, long h) {
+    halfword Result;
+    pointer v, p, q;
 
-  v = box(n);
-  if (splitfirstmark != 0) {
-    deletetokenref(splitfirstmark);
-    splitfirstmark = 0;
-    deletetokenref(splitbotmark);
-    splitbotmark = 0;
-  }
-  /*978:*/
-  if (v == 0) {
-    Result = 0;
-    goto _Lexit;
-  }
-  if (type(v) != vlistnode) {   /*:978*/
-    printnl(S(292));
-    print(S(385));
-    printesc(S(797));
-    print(S(798));
-    printesc(S(799));
-    help2(S(800),
-          S(801));
-    error();
-    Result = 0;
-    goto _Lexit;
-  }
-  q = vertbreak(listptr(v), h, splitmaxdepth);   /*979:*/
-  p = listptr(v);
-  if (p == q)
-    listptr(v) = 0;
-  else {
-    while (true) {
-      if (type(p) == marknode) {
-	if (splitfirstmark == 0) {
-	  splitfirstmark = markptr(p);
-	  splitbotmark = splitfirstmark;
-	  tokenrefcount(splitfirstmark) += 2;
-	} else {
-	  deletetokenref(splitbotmark);
-	  splitbotmark = markptr(p);
-	  addtokenref(splitbotmark);
-	}
-      }
-      if (link(p) == q) {
-	link(p) = 0;
-	goto _Ldone;
-      }
-      p = link(p);
+    v = box(n);
+    if (splitfirstmark != 0) {
+        deletetokenref(splitfirstmark);
+        splitfirstmark = 0;
+        deletetokenref(splitbotmark);
+        splitbotmark = 0;
     }
-  }
-_Ldone:   /*:979*/
-  q = prunepagetop(q);
-  p = listptr(v);
-  freenode(v, boxnodesize);
-  if (q == 0)
-    box(n) = 0;
-  else {
-    box(n) = vpack(q, 0, additional);
-  }
-  Result = vpackage(p, h, exactly, splitmaxdepth);
+    /*978:*/
+    if (v == 0) {
+        Result = 0;
+        goto _Lexit;
+    }
+    if (type(v) != vlistnode) { /*:978*/
+        printnl(S(292));
+        print(S(385));
+        printesc(S(797));
+        print(S(798));
+        printesc(S(799));
+        help2(S(800), S(801));
+        error();
+        Result = 0;
+        goto _Lexit;
+    }
+    q = vertbreak(listptr(v), h, splitmaxdepth); /*979:*/
+    p = listptr(v);
+    if (p == q)
+        listptr(v) = 0;
+    else {
+        while (true) {
+            if (type(p) == marknode) {
+                if (splitfirstmark == 0) {
+                    splitfirstmark = markptr(p);
+                    splitbotmark = splitfirstmark;
+                    tokenrefcount(splitfirstmark) += 2;
+                } else {
+                    deletetokenref(splitbotmark);
+                    splitbotmark = markptr(p);
+                    addtokenref(splitbotmark);
+                }
+            }
+            if (link(p) == q) {
+                link(p) = 0;
+                goto _Ldone;
+            }
+            p = link(p);
+        }
+    }
+_Ldone: /*:979*/
+    q = prunepagetop(q);
+    p = listptr(v);
+    freenode(v, boxnodesize);
+    if (q == 0)
+        box(n) = 0;
+    else {
+        box(n) = vpack(q, 0, additional);
+    }
+    Result = vpackage(p, h, exactly, splitmaxdepth);
 _Lexit:
-  return Result;
+    return Result;
 }
 /*:977*/
 
@@ -13824,25 +13786,20 @@ Static boolean privileged(void)
 /*:1051*/
 
 /*1054:*/
-Static boolean itsallover(void)
-{
-  boolean Result;
-
-  if (privileged()) {
-    if (pagehead == pagetail && head == tail && deadcycles == 0) {
-      Result = true;
-      goto _Lexit;
+Static boolean itsallover(void) {
+    if (privileged()) {
+        if (pagehead == pagetail && head == tail && deadcycles == 0) {
+            return true;
+        }
+        backinput();
+        tailappend(newnullbox());
+        width(tail) = hsize;
+        tailappend(newglue(fillglue));
+        tailappend(newpenalty(-1073741824L));
+        buildpage();
     }
-    backinput();
-    tailappend(newnullbox());
-    width(tail) = hsize;
-    tailappend(newglue(fillglue));
-    tailappend(newpenalty(-1073741824L));
-    buildpage();
-  }
-  Result = false;
-_Lexit:
-  return Result;
+
+    return false;
 }
 /*:1054*/
 
@@ -14065,116 +14022,112 @@ Static void boxend(long boxcontext)
 /*:1075*/
 
 /*1079:*/
-Static void beginbox(long boxcontext)
-{
-  pointer p, q;
-  quarterword m;
-  halfword k;
-  eightbits n;
+Static void beginbox(long boxcontext) {
+    pointer p, q;
+    quarterword m;
+    halfword k;
+    eightbits n;
 
-  switch (curchr) {
+    switch (curchr) {
 
-  case boxcode:
-    scaneightbitint();
-    curbox = box(curval);
-    box(curval) = 0;
-    break;
+    case boxcode:
+        scaneightbitint();
+        curbox = box(curval);
+        box(curval) = 0;
+        break;
 
-  case copycode:
-    scaneightbitint();
-    curbox = copynodelist(box(curval));
-    break;
+    case copycode:
+        scaneightbitint();
+        curbox = copynodelist(box(curval));
+        break;
 
-  case lastboxcode:   /*1080:*/
-    curbox = 0;
-    if (labs(mode) == mmode) {
-      youcant();
-      help1(S(853));
-      error();
-    } else if (mode == vmode && head == tail) {
-      youcant();
-      help2(S(854),
-            S(855));
-      error();
-    } else {
-      if (!ischarnode(tail)) {
-	if ((type(tail) == hlistnode) | (type(tail) == vlistnode))
-	{   /*1081:*/
-	  q = head;
-	  do {
-	    p = q;
-	    if (!ischarnode(q)) {
-	      if (type(q) == discnode) {
-		quarterword FORLIM = replacecount(q);
-		for (m = 1; m <= FORLIM; m++)
-		  p = link(p);
-		if (p == tail)
-		  goto _Ldone;
-	      }
-	    }
-	    q = link(p);
-	  } while (q != tail);
-	  curbox = tail;
-	  shiftamount(curbox) = 0;
-	  tail = p;
-	  link(p) = 0;
-_Ldone: ;
-	}
-	/*:1081*/
-      }
+    case lastboxcode: /*1080:*/
+        curbox = 0;
+        if (labs(mode) == mmode) {
+            youcant();
+            help1(S(853));
+            error();
+        } else if (mode == vmode && head == tail) {
+            youcant();
+            help2(S(854), S(855));
+            error();
+        } else {
+            if (!ischarnode(tail)) {
+                if ((type(tail) == hlistnode) |
+                    (type(tail) == vlistnode)) { /*1081:*/
+                    q = head;
+                    do {
+                        p = q;
+                        if (!ischarnode(q)) {
+                            if (type(q) == discnode) {
+                                quarterword FORLIM = replacecount(q);
+                                for (m = 1; m <= FORLIM; m++)
+                                    p = link(p);
+                                if (p == tail) goto _Ldone;
+                            }
+                        }
+                        q = link(p);
+                    } while (q != tail);
+                    curbox = tail;
+                    shiftamount(curbox) = 0;
+                    tail = p;
+                    link(p) = 0;
+_Ldone:;
+                }
+                /*:1081*/
+            }
+        }
+        break;
+        /*:1080*/
+
+    case vsplitcode: /*1082:*/
+        scaneightbitint();
+        n = curval;
+        if (!scankeyword(S(697))) {
+            printnl(S(292));
+            print(S(856));
+            help2(S(857), S(858));
+            error();
+        }
+        scannormaldimen();
+        curbox = vsplit(n, curval);
+        break;
+        /*:1082*/
+        /*1083:*/
+
+    default:
+        k = curchr - vtopcode;
+        saved(0) = boxcontext;
+        if (k == hmode) {
+            if (boxcontext < boxflag && labs(mode) == vmode)
+                scanspec(adjustedhboxgroup, true);
+            else
+                scanspec(hboxgroup, true);
+        } else {
+            if (k == vmode)
+                scanspec(vboxgroup, true);
+            else {
+                scanspec(vtopgroup, true);
+                k = vmode;
+            }
+            normalparagraph();
+        }
+        pushnest();
+        mode = -k;
+        if (k == vmode) {
+            prevdepth = ignoredepth;
+            if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
+        } else {
+            spacefactor = 1000;
+            if (everyhbox != 0) begintokenlist(everyhbox, everyhboxtext);
+        }
+        goto _Lexit; 
+
+        /*:1083*/
+        break;
     }
-    break;
-    /*:1080*/
-
-  case vsplitcode:   /*1082:*/
-    scaneightbitint();
-    n = curval;
-    if (!scankeyword(S(697))) {
-      printnl(S(292));
-      print(S(856));
-      help2(S(857),
-            S(858));
-      error();
-    }
-    scannormaldimen();
-    curbox = vsplit(n, curval);
-    break;
-    /*:1082*/
-    /*1083:*/
-
-  default:
-    k = curchr - vtopcode;
-    saved(0) = boxcontext;
-    if (k == hmode) {
-      if (boxcontext < boxflag && labs(mode) == vmode)
-	scanspec(adjustedhboxgroup, true);
-      else
-	scanspec(hboxgroup, true);
-    } else {
-      if (k == vmode)
-	scanspec(vboxgroup, true);
-      else {
-	scanspec(vtopgroup, true);
-	k = vmode;
-      }
-      normalparagraph();
-    }
-    pushnest();
-    mode = -k;
-    if (k == vmode) {
-      prevdepth = ignoredepth;
-      if (everyvbox != 0)
-	begintokenlist(everyvbox, everyvboxtext);
-    } else {
-      spacefactor = 1000;
-      if (everyhbox != 0)
-	begintokenlist(everyhbox, everyhboxtext);
-    }
-    goto _Lexit;   /*:1083*/
-    break;
-  }
-  boxend(boxcontext);
-_Lexit: ;
+    boxend(boxcontext);
+_Lexit:;
 }
 /*:1079*/
 
@@ -14381,111 +14334,102 @@ Static void appendpenalty(void)
 /*:1103*/
 
 /*1105:*/
-Static void deletelast(void)
-{
-  pointer p, q;
+Static void deletelast(void) {
+    pointer p, q;
 
-  if (mode == vmode && tail == head) {   /*1106:*/
+    if (mode == vmode && tail == head) { /*1106:*/
     if (curchr != gluenode || lastglue != maxhalfword) {
-      youcant();
-      help2(S(854),
-            S(869));
-      if (curchr == kernnode)
-	helpline[0] = S(870);
-      else if (curchr != gluenode)
-	helpline[0] = S(871);
-      error();
+        youcant();
+        help2(S(854), S(869));
+        if (curchr == kernnode)
+            helpline[0] = S(870);
+        else if (curchr != gluenode)
+            helpline[0] = S(871);
+        error();
     }
-  }  /*:1106*/
-  else {
-    if (!ischarnode(tail)) {
-      if (type(tail) == curchr) {
-	q = head;
-	do {
-	  p = q;
-	  if (!ischarnode(q)) {
-	    if (type(q) == discnode) {
-	      quarterword FORLIM = replacecount(q);
-              quarterword m;
-	      for (m = 1; m <= FORLIM; m++)
-		p = link(p);
-	      if (p == tail)
-		goto _Lexit;
-	    }
-	  }
-	  q = link(p);
-	} while (q != tail);
-	link(p) = 0;
-	flushnodelist(tail);
-	tail = p;
-      }
+    } /*:1106*/
+    else {
+        if (!ischarnode(tail)) {
+        if (type(tail) == curchr) {
+            q = head;
+            do {
+                p = q;
+                if (!ischarnode(q)) {
+                if (type(q) == discnode) {
+                    quarterword FORLIM = replacecount(q);
+                    quarterword m;
+                    for (m = 1; m <= FORLIM; m++)
+                        p = link(p);
+                    if (p == tail) return;
+                }
+                }
+                q = link(p);
+            } while (q != tail);
+            link(p) = 0;
+            flushnodelist(tail);
+            tail = p;
+        }
+        }
     }
-  }
-_Lexit: ;
 }
 /*:1105*/
 
 /*1110:*/
-Static void unpackage(void)
-{
-  pointer p;
-  char c;
+Static void unpackage(void) {
+    pointer p;
+    char c;
 
-  c = curchr;
-  scaneightbitint();
-  p = box(curval);
-  if (p == 0)
-    goto _Lexit;
-  if ((labs(mode) == mmode) |
-      ((labs(mode) == vmode) & (type(p) != vlistnode)) |
-      ((labs(mode) == hmode) & (type(p) != hlistnode))) {
-    printnl(S(292));
-    print(S(872));
-    help3(S(873),
-          S(874),
-          S(875));
-    error();
-    goto _Lexit;
-  }
-  if (c == copycode)
-    link(tail) = copynodelist(listptr(p));
-  else {
-    link(tail) = listptr(p);
-    box(curval) = 0;
-    freenode(p, boxnodesize);
-  }
-  while (link(tail) != 0)
-    tail = link(tail);
-_Lexit: ;
+    c = curchr;
+    scaneightbitint();
+    p = box(curval);
+    if (p == 0) return;
+    if ( (labs(mode) == mmode) |
+        ((labs(mode) == vmode) & (type(p) != vlistnode)) |
+        ((labs(mode) == hmode) & (type(p) != hlistnode))) {
+        printnl(S(292));
+        print(S(872));
+        help3(S(873), S(874), S(875));
+        error();
+        return;
+    }
+
+    if (c == copycode)
+        link(tail) = copynodelist(listptr(p));
+    else {
+        link(tail) = listptr(p);
+        box(curval) = 0;
+        freenode(p, boxnodesize);
+    }
+    while (link(tail) != 0)
+        tail = link(tail);
 }
 /*:1110*/
 
 /*1113:*/
-Static void appenditaliccorrection(void)
-{
-  pointer p;
-  internalfontnumber f;
-  int c;
+Static void appenditaliccorrection(void) {
+    pointer p;
+    internalfontnumber f;
+    int c;
 
-  if (tail != head) {
-    if (ischarnode(tail)) {
-      p = tail;
-	f = font(p);
-	c = character(p);
+    if (tail != head) {
+        if (ischarnode(tail)) {
+            p = tail;
+            f = font(p);
+            c = character(p);
+        } else if (type(tail) == ligaturenode) {
+            p = ligchar(tail);
+            f = font_ligchar(tail);
+            c = character_ligchar(tail);
+        } else {
+            return;
+        }
+        /*   
+            f = font(p);
+            tailappend(newkern(charitalic(f, charinfo(f, character(p)))));
+        */
+        tailappend(newkern(charitalic(f, charinfo(f, c))));
+        subtype(tail) = explicit;
     }
-    else if (type(tail) == ligaturenode) {
-      p = ligchar(tail);
-	f = font_ligchar(tail);
-	c = character_ligchar(tail);
-    } else
-      goto _Lexit;
-/*    f = font(p);
-    tailappend(newkern(charitalic(f, charinfo(f, character(p)))));
-*/
-	tailappend(newkern(charitalic(f, charinfo(f,c))));
-    subtype(tail) = explicit;
-  }
-_Lexit: ;
 }
 /*:1113*/
 
@@ -14514,87 +14458,85 @@ Static void appenddiscretionary(void)
 /*:1117*/
 
 /*1119:*/
-Static void builddiscretionary(void)
-{
-  pointer p, q;
-  long n;
+Static void builddiscretionary(void) {
+    pointer p, q;
+    long n;
 
-  unsave();   /*1121:*/
-  q = head;
-  p = link(q);
-  n = 0;
-  while (p != 0) {
-    if (!ischarnode(p)) {
-      if (type(p) > rulenode) {
-	if (type(p) != kernnode) {
-	  if (type(p) != ligaturenode) {
-	    printnl(S(292));
-	    print(S(876));
-	    help1(S(877));
-	    error();
-	    begindiagnostic();
-	    printnl(S(878));
-	    showbox(p);
-	    enddiagnostic(true);
-	    flushnodelist(p);
-	    link(q) = 0;
-	    goto _Ldone;
-	  }
-	}
-      }
-    }
-    q = p;
+    unsave(); /*1121:*/
+    q = head;
     p = link(q);
-    n++;
-  }
-_Ldone:   /*:1121*/
-  p = link(head);
-  popnest();
-  switch (saved(-1)) {
+    n = 0;
 
-  case 0:
-    prebreak(tail) = p;
-    break;
-
-  case 1:
-    postbreak(tail) = p;
-    break;
-
-  case 2:   /*1120:*/
-    if (n > 0 && labs(mode) == mmode) {
-      printnl(S(292));
-      print(S(879));
-      printesc(S(400));
-      help2(S(880),
-            S(881));
-      flushnodelist(p);
-      n = 0;
-      error();
-    } else
-      link(tail) = p;
-    if (n <= maxquarterword)
-      replacecount(tail) = n;
-    else {
-      printnl(S(292));
-      print(S(882));
-      help2(S(883),
-            S(884));
-      error();
+    while (p != 0) {
+        if (!ischarnode(p)) {
+            if (type(p) > rulenode) {
+                if (type(p) != kernnode) {
+                    if (type(p) != ligaturenode) {
+                        printnl(S(292));
+                        print(S(876));
+                        help1(S(877));
+                        error();
+                        begindiagnostic();
+                        printnl(S(878));
+                        showbox(p);
+                        enddiagnostic(true);
+                        flushnodelist(p);
+                        link(q) = 0;
+                        break;
+                    }
+                }
+            }
+        }
+        q = p;
+        p = link(q);
+        n++;
     }
-    if (n > 0)
-      tail = q;
-    saveptr--;
-    goto _Lexit;
-    break;
-    /*:1120*/
-  }
-  (saved(-1))++;
-  newsavelevel(discgroup);
-  scanleftbrace();
-  pushnest();
-  mode = -hmode;
-  spacefactor = 1000;
-_Lexit: ;
+/*:1121*/
+
+    p = link(head);
+    popnest();
+    switch (saved(-1)) {
+
+        case 0:
+            prebreak(tail) = p;
+            break;
+
+        case 1:
+            postbreak(tail) = p;
+            break;
+
+        case 2: /*1120:*/
+            if (n > 0 && labs(mode) == mmode) {
+                printnl(S(292));
+                print(S(879));
+                printesc(S(400));
+                help2(S(880), S(881));
+                flushnodelist(p);
+                n = 0;
+                error();
+            } else
+                link(tail) = p;
+            if (n <= maxquarterword)
+                replacecount(tail) = n;
+            else {
+                printnl(S(292));
+                print(S(882));
+                help2(S(883), S(884));
+                error();
+            }
+            if (n > 0) tail = q;
+            saveptr--;
+            goto _Lexit;
+            break;
+            /*:1120*/
+    }
+    (saved(-1))++;
+    newsavelevel(discgroup);
+    scanleftbrace();
+    pushnest();
+    mode = -hmode;
+    spacefactor = 1000;
+_Lexit:;
 }
 /*:1119*/
 
@@ -14887,78 +14829,78 @@ _Ldone: ;   /*:1146*/
 /*:1138*/
 
 /*1142:*/
-Static void starteqno(void)
-{
-  saved(0) = curchr;
-  saveptr++;   /*1139:*/
-  pushmath(mathshiftgroup);
-  eqworddefine(intbase + curfamcode, -1);
-  if (everymath != 0)   /*:1139*/
-    begintokenlist(everymath, everymathtext);
+Static void starteqno(void) {
+    saved(0) = curchr;
+    saveptr++; /*1139:*/
+    pushmath(mathshiftgroup);
+    eqworddefine(intbase + curfamcode, -1);
+    if (everymath != 0) /*:1139*/
+        begintokenlist(everymath, everymathtext);
 }
 /*:1142*/
 
 /*1151:*/
-Static void scanmath(halfword p)
-{
-  long c;
+Static void scanmath(halfword p) {
+    long c;
 
 _Lrestart:
-  skip_spaces_or_relax();
+    skip_spaces_or_relax();
 _Lreswitch:
-  switch (curcmd) {
+    switch (curcmd) {
 
-  case letter:
-  case otherchar:
-  case chargiven:
-    c = mathcode(curchr);
-    if (c == 32768L) {   /*1152:*/
-      curcs = curchr + activebase;
-      curcmd = eqtype(curcs);
-      curchr = equiv(curcs);
-      xtoken();
-      backinput();   /*:1152*/
-      goto _Lrestart;
+        case letter:
+        case otherchar:
+        case chargiven:
+            c = mathcode(curchr);
+            if (c == 32768L) { /*1152:*/
+                curcs = curchr + activebase;
+                curcmd = eqtype(curcs);
+                curchr = equiv(curcs);
+                xtoken();
+                backinput(); /*:1152*/
+                goto _Lrestart;
+            }
+            break;
+
+        case charnum:
+            scancharnum();
+            curchr = curval;
+            curcmd = chargiven;
+            goto _Lreswitch;
+            break;
+
+        case mathcharnum:
+            scanfifteenbitint();
+            c = curval;
+            break;
+
+        case mathgiven:
+            c = curchr;
+            break;
+
+        case delimnum: /*1153:*/
+            scantwentysevenbitint();
+            c = curval / 4096;
+            break;
+
+        default:
+            backinput();
+            scanleftbrace();
+            saved(0) = p;
+            saveptr++;
+            pushmath(mathgroup);
+            goto _Lexit;
+            /*:1153*/
+            break;
     }
-    break;
-
-  case charnum:
-    scancharnum();
-    curchr = curval;
-    curcmd = chargiven;
-    goto _Lreswitch;
-    break;
-
-  case mathcharnum:
-    scanfifteenbitint();
-    c = curval;
-    break;
-
-  case mathgiven:
-    c = curchr;
-    break;
-
-  case delimnum:   /*1153:*/
-    scantwentysevenbitint();
-    c = curval / 4096;
-    break;
-
-  default:
-    backinput();
-    scanleftbrace();
-    saved(0) = p;
-    saveptr++;
-    pushmath(mathgroup);
-    goto _Lexit;   /*:1153*/
-    break;
-  }
-  mathtype(p) = mathchar;
-  character(p) = c & 255;
-  if (c >= varcode && faminrange) {
-    fam(p) = curfam;
-  } else
-    fam(p) = (c / 256) & 15;
-_Lexit: ;
+    mathtype(p) = mathchar;
+    character(p) = c & 255;
+    if (c >= varcode && faminrange) {
+        fam(p) = curfam;
+    } else {
+        fam(p) = (c / 256) & 15;
+    }
+_Lexit:;
 }
 /*:1151*/
 
@@ -14992,19 +14934,17 @@ Static void setmathchar(long c)
 /*:1155*/
 
 /*1159:*/
-Static void mathlimitswitch(void)
-{
-  if (head != tail) {
+Static void mathlimitswitch(void) {
+    if (head != tail) {
     if (type(tail) == opnoad) {
-      subtype(tail) = curchr;
-      goto _Lexit;
+        subtype(tail) = curchr;
+        return;
     }
-  }
-  printnl(S(292));
-  print(S(903));
-  help1(S(904));
-  error();
-_Lexit: ;
+    }
+    printnl(S(292));
+    print(S(903));
+    help1(S(904));
+    error();
 }
 /*:1159*/
 
@@ -15142,36 +15082,33 @@ Static halfword finmlist(halfword p)
 }
 /*:1184*/
 
-Static void buildchoices(void)
-{
-  pointer p;
+Static void buildchoices(void) {
+    pointer p;
 
-  unsave();
-  p = finmlist(0);
-  switch (saved(-1)) {
+    unsave();
+    p = finmlist(0);
+    switch (saved(-1)) {
+        case 0:
+            displaymlist(tail) = p;
+            break;
 
-  case 0:
-    displaymlist(tail) = p;
-    break;
+        case 1:
+            textmlist(tail) = p;
+            break;
 
-  case 1:
-    textmlist(tail) = p;
-    break;
+        case 2:
+            scriptmlist(tail) = p;
+            break;
 
-  case 2:
-    scriptmlist(tail) = p;
-    break;
-
-  case 3:
-    scriptscriptmlist(tail) = p;
-    saveptr--;
-    goto _Lexit;
-    break;
-  }
-  (saved(-1))++;
-  pushmath(mathchoicegroup);
-  scanleftbrace();
-_Lexit: ;
+        case 3:
+            scriptscriptmlist(tail) = p;
+            saveptr--;
+            return;
+            break;
+    }
+    (saved(-1))++;
+    pushmath(mathchoicegroup);
+    scanleftbrace();
 }
 /*:1174*/
 
@@ -16344,21 +16281,17 @@ _Ldone:
   }
 _Lexit: ;
 }
-
-
 /*:1211*/
+
 /*1270:*/
-Static void doassignments(void)
-{
-  while (true) {
-    skip_spaces_or_relax();
-    if (curcmd <= maxnonprefixedcommand)
-      goto _Lexit;
-    setboxallowed = false;
-    prefixedcommand();
-    setboxallowed = true;
-  }
-_Lexit: ;
+Static void doassignments(void) {
+    while (true) {
+        skip_spaces_or_relax();
+        if (curcmd <= maxnonprefixedcommand) break;
+        setboxallowed = false;
+        prefixedcommand();
+        setboxallowed = true;
+    }
 }
 /*:1270*/
 
@@ -18838,108 +18771,106 @@ Static void initprim(void) {
 } // #1336: initprim
 #endif // #1336: tt_INIT
 
+
 /*1338:*/
 /*_DEBUG*/
-Static void debughelp(void)
-{
-  long k, l, m, n;
+Static void debughelp(void) {
+    long k, l, m, n;
 
-  while (true) {
-    printnl(S(1253));
-    fflush(stdout);
-    fscanf(stdin," %ld",&m);
-    if (m < 0) {
-      goto _Lexit;
-      continue;
-    }
-    if (m == 0) {
-      goto _Lbreakpoint_;
+    while (true) {
+        printnl(S(1253));
+        fflush(stdout);
+        fscanf(stdin, " %ld", &m);
+        if (m < 0) {
+            return;
+        }
+        if (m == 0) {
+            goto _Lbreakpoint_;
 _Lbreakpoint_:
-      m = 0;   /*'BREAKPOINT'*/
-      continue;
+            m = 0; /*'BREAKPOINT'*/
+            continue;
+        }
+        fscanf(stdin, " %ld", &n);
+        switch (m) { /*1339:*/
+            case 1:
+                printword(mem[n - memmin]);
+                break;
+
+            case 2:
+                printint(info(n));
+                break;
+
+            case 3:
+                printint(link(n));
+                break;
+
+            case 4:
+                printword(eqtb[n - activebase]);
+                break;
+
+            case 5:
+                printword(fontinfo[n]);
+                break;
+
+            case 6:
+                printword(savestack[n]);
+                break;
+
+            case 7:
+                showbox(n);
+                break;
+
+            case 8:
+                breadthmax = 10000;
+                depththreshold = str_adjust_to_room(poolsize) - 10;
+                shownodelist(n);
+                break;
+
+            case 9:
+                showtokenlist(n, 0, 1000);
+                break;
+
+            case 10:
+                slowprint(n);
+                break;
+
+            case 11:
+                checkmem(n > 0);
+                break;
+
+            case 12:
+                searchmem(n);
+                break;
+
+            case 13:
+                fscanf(stdin, " %ld", &l);
+                printcmdchr(n, l);
+                break;
+
+            case 14:
+                for (k = 0; k <= n; k++)
+                    print(buffer[k]);
+                break;
+
+            case 15:
+                fontinshortdisplay = nullfont;
+                shortdisplay(n);
+                break;
+
+            case 16: /*:1339*/
+                panicking = !panicking;
+                break;
+
+            default:
+                print('?');
+                break;
+        }
     }
-    fscanf(stdin," %ld",&n);
-    switch (m) {   /*1339:*/
-
-    case 1:
-      printword(mem[n - memmin]);
-      break;
-
-    case 2:
-      printint(info(n));
-      break;
-
-    case 3:
-      printint(link(n));
-      break;
-
-    case 4:
-      printword(eqtb[n - activebase]);
-      break;
-
-    case 5:
-      printword(fontinfo[n]);
-      break;
-
-    case 6:
-      printword(savestack[n]);
-      break;
-
-    case 7:
-      showbox(n);
-      break;
-
-    case 8:
-      breadthmax = 10000;
-	depththreshold = str_adjust_to_room(poolsize) - 10;
-      shownodelist(n);
-      break;
-
-    case 9:
-      showtokenlist(n, 0, 1000);
-      break;
-
-    case 10:
-      slowprint(n);
-      break;
-
-    case 11:
-      checkmem(n > 0);
-      break;
-
-    case 12:
-      searchmem(n);
-      break;
-
-    case 13:
-      fscanf(stdin, " %ld", &l);
-      printcmdchr(n, l);
-      break;
-
-    case 14:
-      for (k = 0; k <= n; k++)
-	print(buffer[k]);
-      break;
-
-    case 15:
-      fontinshortdisplay = nullfont;
-      shortdisplay(n);
-      break;
-
-    case 16:   /*:1339*/
-      panicking = !panicking;
-      break;
-
-    default:
-      print('?');
-      break;
-    }
-  }
-_Lexit: ;
 }
 /*_ENDDEBUG*/
 /*:1338*/
 /*:1330*/
+
 
 // 检查常量范围是否正确。
 // 有误则返回错误代码
