@@ -1,10 +1,6 @@
-#CC=/usr/bin/g++
-CC=gcc
-CFLAGS = -g -pedantic -Wall -Wno-unused-result
-# -Wstrict-prototypes -Wmissing-prototypes
-#-Wstrict-prototypes
-#-Wmissing-prototypes
-#-fprofile-arcs -ftest-coverage
+CFLAGS = -g -O0 -I.
+CFLAGS += -pedantic -Wall -Wno-unused-result
+CFLAGS += --coverage -ftest-coverage -fprofile-arcs
 
 OBJS=tex.o funcs.o inipool.o inputln.o printout.o str.o fonts.o dviout.o
 CSRCS=$(OBJS:.o=.c)
@@ -12,11 +8,14 @@ CSRCS=$(OBJS:.o=.c)
 
 all: ttex
 ttex: ${OBJS}
-	${CC} -o ttex ${OBJS} -lm
+	${CC} -o ttex ${OBJS} -lm ${CFLAGS}
 
-.PHONY: clean deps
-clean: 
+
+.PHONY: clean deps test
+clean:
 	-rm -f ttex ${OBJS}
+	-rm -f test/*.dvi test/*.log
+	-rm -f *.gcno *.gcda *.gcov
 
 deps: ${CSRCS}
 	-rm -f deps.1
@@ -24,5 +23,9 @@ deps: ${CSRCS}
 		$(CC) -MM $$A >> deps.1 ; \
 	done
 	cmp deps deps.1 || mv deps.1 deps
+
+test: ttex
+	./ttex test/helloworld
+	gcov tex.c
 
 include deps
