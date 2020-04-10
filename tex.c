@@ -34,8 +34,7 @@
 #include "texfunc.h" // [export]
 
 #define formatextension  S(256)
-#define checkinterrupt()  ((interrupt!=0)?(pauseforinstructions(),0):0)
-
+#define checkinterrupt() ((interrupt != 0) ? (pauseforinstructions(), 0) : 0)
 
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
@@ -5680,51 +5679,47 @@ Static void scanfontident(void)
 /*:577*/
 
 /*578:*/
-Static void findfontdimen(Boolean writing)
-{
-  InternalFontNumber f;
-  long n;
+Static void findfontdimen(Boolean writing) {
+    InternalFontNumber f;
+    long n;
 
-  scanint();
-  n = curval;
-  scanfontident();
-  f = curval;
-  if (n <= 0)
-    curval = fmemptr;
-  else {
-    if (writing && n <= spaceshrinkcode && n >= spacecode &&
-	fontglue[f ] != 0) {
-      deleteglueref(fontglue[f ]);
-      fontglue[f ] = 0;
-    }
-    if (n > fontparams[f ]) {
-      if (f < fontptr)
-	curval = fmemptr;
-      else  /*580:*/
-      {   /*:580*/
-	do {
-	  if (fmemptr == fontmemsize)
-	    overflow(S(587), fontmemsize);
-	  fontinfo[fmemptr].sc = 0;
-	  fmemptr++;
-	  fontparams[f ]++;
-	} while (n != fontparams[f ]);
-	curval = fmemptr - 1;
-      }
-    } else
-      curval = n + parambase[f ];
-  }  /*579:*/
-  if (curval != fmemptr)   /*:579*/
-    return;
-  printnl(S(292));
-  print(S(588));
-  printesc(fontidtext(f));
-  print(S(589));
-  printint(fontparams[f ]);
-  print(S(590));
-  help2(S(591),
-        S(592));
-  error();
+    scanint();
+    n = curval;
+    scanfontident();
+    f = curval;
+    if (n <= 0) {
+        curval = fmemptr;
+    } else {
+        if (writing && n <= spaceshrinkcode && n >= spacecode &&
+            fontglue[f] != 0) {
+            deleteglueref(fontglue[f]);
+            fontglue[f] = 0;
+        }
+        if (n > fontparams[f]) {
+            if (f < fontptr) {
+                curval = fmemptr;
+            } else { /*:580*/
+                do {
+                    if (fmemptr == fontmemsize) overflow(S(587), fontmemsize);
+                    fontinfo[fmemptr].sc = 0;
+                    fmemptr++;
+                    fontparams[f]++;
+                } while (n != fontparams[f]);
+                curval = fmemptr - 1;
+            }
+        } else {
+            curval = n + parambase[f];
+        }
+    } /*579:*/
+    if (curval != fmemptr) return; /*:579*/
+    printnl(S(292));
+    print(S(588));
+    printesc(fontidtext(f));
+    print(S(589));
+    printint(fontparams[f]);
+    print(S(590));
+    help2(S(591), S(592));
+    error();
 }
 /*:578*/
 
@@ -15701,93 +15696,93 @@ Static void alterboxdimen(void) {
 /*:1247*/
 
 /*1257:*/
-Static void newfont(SmallNumber a)
-{
-  Pointer u;
-  Scaled s;
-  InternalFontNumber f;
-  StrNumber t;
-  enum Selector old_setting;
-/* XXXX  StrNumber flushablestring; */
+Static void newfont(SmallNumber a) {
+    Pointer u;
+    Scaled s;
+    InternalFontNumber f;
+    StrNumber t;
+    enum Selector old_setting;
+    /* XXXX  StrNumber flushablestring; */
 
-  if (jobname == 0)
-    openlogfile();
-  getrtoken();
-  u = curcs;
-  if (u >= hashbase)
-    t = text(u);
-  else if (u >= singlebase) {
-    if (u == nullcs)
-      t = S(950);
-    else
-      t = u - singlebase;
-  } else {
-    old_setting = selector;
-    selector = NEW_STRING;
-    print(S(950));
-    print(u - activebase);
-    selector = old_setting;
-    str_room(1);
-    t = makestring();
-  }
-  define(u, setfont, nullfont);
-  scanoptionalequals();
-  scanfilename();   /*1258:*/
-  nameinprogress = true;
-  if (scankeyword(S(951))) {   /*1259:*/
-    scannormaldimen();
-    s = curval;
-    if (s <= 0 || s >= 134217728L) {
-      printnl(S(292));
-      print(S(952));
-      printscaled(s);
-      print(S(953));
-      help2(S(954),
-            S(955));
-      error();
-      s = unity * 10;
+    if (jobname == 0) openlogfile();
+    getrtoken();
+    u = curcs;
+    if (u >= hashbase) {
+        t = text(u);
+    } else if (u >= singlebase) {
+        if (u == nullcs)
+            t = S(950);
+        else
+            t = u - singlebase;
+    } else {
+        old_setting = selector;
+        selector = NEW_STRING;
+        print(S(950));
+        print(u - activebase);
+        selector = old_setting;
+        str_room(1);
+        t = makestring();
     }
-  }  /*:1259*/
-  else if (scankeyword(S(956))) {
-    scanint();
-    s = -curval;
-    if (curval <= 0 || curval > 32768L) {
-      printnl(S(292));
-      print(S(486));
-      help1(S(487));
-      interror(curval);
-      s = -1000;
+    define(u, setfont, nullfont);
+    scanoptionalequals();
+    scanfilename(); /*1258:*/
+    nameinprogress = true;
+    if (scankeyword(S(951))) { /*1259:*/
+        scannormaldimen();
+        s = curval;
+        if (s <= 0 || s >= 134217728L) {
+            printnl(S(292));
+            print(S(952));
+            printscaled(s);
+            print(S(953));
+            help2(S(954), S(955));
+            error();
+            s = unity * 10;
+        }
+        /*:1259*/
+    } else if (scankeyword(S(956))) {
+        scanint();
+        s = -curval;
+        if (curval <= 0 || curval > 32768L) {
+            printnl(S(292));
+            print(S(486));
+            help1(S(487));
+            interror(curval);
+            s = -1000;
+        }
+    } else {
+        s = -1000;
     }
-  } else
-    s = -1000;
-  nameinprogress = false;   /*:1258*/
-  /*1260:*/
-#if 0
-  flushablestring = strptr - 1;
-#endif
-  for (f = 1; f <= fontptr; f++) {
-    if (streqstr(get_fontname(f), curname) /* &
-	streqstr(fontarea[f ], curarea) */ )
-    {   /*:1260*/
-#if 0
-      if (curname == flushablestring) {
-	flushstring();
-	curname = fontname[f ];
-      }
-#endif
-      if (s > 0) {
-	if (s == get_fontsize(f ))
-	  goto _Lcommonending;
-      } else if (get_fontsize(f) ==
-		 xnoverd(get_fontdsize(f), -s, 1000))
-	goto _Lcommonending;
-    }
-  }
-  f = readfontinfo(u, curname, curarea, s);
+    nameinprogress = false;
+    /*:1258*/
+
+    /*1260:*/
+    #if 0
+        flushablestring = strptr - 1;
+    #endif
+    for (f = 1; f <= fontptr; f++) {
+        if (streqstr(get_fontname(f), curname) /* &
+	        streqstr(fontarea[f ], curarea) */ ) {   
+            /*:1260*/
+            #if 0
+                if (curname == flushablestring) {
+                    flushstring();
+                    curname = fontname[f ];
+                }
+            #endif
+            if (s > 0) {
+                if (s == get_fontsize(f)) goto _Lcommonending;
+            } else if (get_fontsize(f) == xnoverd(get_fontdsize(f), -s, 1000)) {
+                goto _Lcommonending;
+            }
+        } // if(streqstr(...))
+    } // for (f = 1; f <= fontptr; f++)
+    f = readfontinfo(u, curname, curarea, s);
+
 _Lcommonending:
-  equiv(u) = f;
-  eqtb[fontidbase + f - activebase] = eqtb[u - activebase];
-  set_fontidtext(f,t);
+    equiv(u) = f;
+    eqtb[fontidbase + f - activebase] = eqtb[u - activebase];
+    set_fontidtext(f, t);
 }
 /*:1257*/
 
