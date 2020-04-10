@@ -5,7 +5,8 @@ compiler:
 
 script:
     - make clean && make
-    - ./ttex
+    - cd test/
+    - ../ttex helloworld.tex
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

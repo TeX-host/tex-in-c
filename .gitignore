@@ -4,5 +4,10 @@ ttex
 pool_str.c1
 deps.1
 
+# tex
+*.log
+*.dvi
+*.pdf
+
 # ide
 .vscode/
