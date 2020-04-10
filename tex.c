@@ -35,6 +35,9 @@
 
 #define checkinterrupt()  ((interrupt!=0)?(pauseforinstructions(),0):0)
 
+
+
+
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
 int pack_tok(int cs, int cmd, int chr) {
@@ -113,16 +116,18 @@ Static long varused, dynused;
 Static pointer avail, memend;
 /*:118*/
 /*124:*/
-Static pointer rover, wasmemend, waslomax, washimin, hashused, curcs,
-    warningindex, defref;
+Static pointer rover, hashused, curcs, warningindex, defref;
 /*:124*/
-/*165:*/
-/*_DEBUG*/
-Static uchar free_[(memmax - memmin + 8) / 8];
-Static uchar wasfree[(memmax - memmin + 8) / 8];
-Static boolean panicking;
-/*_ENDDEBUG*/
-/*:165*/
+
+/// p95#165
+#ifdef tt_DEBUG
+Static uchar   free_[(memmax - memmin + 8) / 8]; // free cells
+Static uchar wasfree[(memmax - memmin + 8) / 8]; // previously free cells
+// previous mem end, lo mem max, and hi mem min
+Static pointer wasmemend, waslomax, washimin;
+Static boolean panicking; // do we want to check memory constantly?
+#endif // #165: tt_DEBUG
+
 /*173:*/
 Static long fontinshortdisplay;
 /*:173*/
@@ -516,13 +521,15 @@ Static void initialize(void) { /*:927*/
     /*97:*/
     interrupt = 0;
     OKtointerrupt = true; /*:97*/
-    /*166:*/
-    /*_DEBUG*/
+
+    /// p#95: 166
+#ifdef tt_DEBUG
     wasmemend = memmin;
     waslomax = memmin;
     washimin = memmax;
-    panicking = false; /*_ENDDEBUG*/
-    /*:166*/
+    panicking = false;
+#endif // #166: tt_DEBUG
+
     /*215:*/
     nestptr = 0;
     maxneststack = 0;
@@ -1086,320 +1093,279 @@ void printfilename(strnumber n, strnumber a, strnumber e)
 /*:518*/
 
 /*699:*/
-void printsize(long s)
-{
-  if (s == 0) {
-    printesc(S(266));
-    return;
-  }
-  if (s == scriptsize)
-    printesc(S(267));
-  else
-    printesc(S(268));
-}  /*:699*/
+void printsize(long s) {
+    if (s == 0) {
+        printesc(S(266));
+        return;
+    }
+    if (s == scriptsize)
+        printesc(S(267));
+    else
+        printesc(S(268));
+} /*:699*/
 
 
 /*1355:*/
-Static void printwritewhatsit(strnumber s, halfword p)
-{
-  printesc(s);
-  if (writestream(p) < 16) {
-    printint(writestream(p));
-    return;
-  }
-  if (writestream(p) == 16)
-    printchar('*');
-  else
-    printchar('-');
+Static void printwritewhatsit(strnumber s, halfword p) {
+    printesc(s);
+    if (writestream(p) < 16) {
+        printint(writestream(p));
+        return;
+    }
+    if (writestream(p) == 16)
+        printchar('*');
+    else
+        printchar('-');
 }
 /*:1355*/
 
-/*78:*/
+/// p31#78
 Static void normalizeselector(void);
-
 Static void gettoken(void);
-
 Static void terminput(void);
-
 Static void showcontext(void);
-
 Static void beginfilereading(void);
-
 Static void openlogfile(void);
-
 Static void closefilesandterminate(void);
-
 Static void clearforerrorprompt(void);
-
 Static void giveerrhelp(void);
 
-/*_DEBUG*/
+#ifdef tt_DEBUG
 Static void debughelp(void);
-
+#endif // 78: tt_DEBUG
 Static jmp_buf _JLendofTEX;
-
-
-/*_ENDDEBUG*/
 /*:78*/
 
 /*81:*/
-Static void jumpout(void)
-{
-  longjmp(_JLendofTEX, 1);
-}
+Static void jumpout(void) { longjmp(_JLendofTEX, 1); }
 /*:81*/
 
 /*82:*/
-void error(void)
-{
-
-  if (history < ERROR_MESSAGE_ISSUED)
-    history = ERROR_MESSAGE_ISSUED;
-  printchar('.');
-  showcontext();
-  if (interaction == errorstopmode) {   /*83:*/
-    while (true) {   /*:83*/
-      ASCIIcode c;
+void error(void) {
+    if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
+    printchar('.');
+    showcontext();
+    if (interaction == errorstopmode) { /*83:*/
+        while (true) {                  /*:83*/
+            ASCIIcode c;
 _Llabcontinue:
-      clearforerrorprompt();
-      print(S(269));
-      terminput();
-      if (last == first)
-	goto _Lexit;
-      c = buffer[first];
-      if (c >= 'a')   /*84:*/
-	c += 'A' - 'a';
-      switch (c) {
+            clearforerrorprompt();
+            print(S(269));
+            terminput();
+            if (last == first) goto _Lexit;
+            c = buffer[first];
+            /*84:*/
+            if (c >= 'a') c += 'A' - 'a';
+            switch (c) {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    if (deletionsallowed) { /*88:*/
+                        long s1 = curtok;
+                        long s2 = curcmd;
+                        long s3 = curchr;
+                        long s4 = alignstate;
+                        alignstate = 1000000L;
+                        OKtointerrupt = false;
+                        if ((last > first + 1) & (buffer[first + 1] >= '0') &
+                            (buffer[first + 1] <= '9'))
+                            c = c * 10 + buffer[first + 1] - '0' * 11;
+                        else
+                            c -= '0';
+                        while (c > 0) {
+                            gettoken();
+                            c--;
+                        }
+                        curtok = s1;
+                        curcmd = s2;
+                        curchr = s3;
+                        alignstate = s4;
+                        OKtointerrupt = true;
+                        help2(S(270), S(271));
+                        showcontext();
+                        goto _Llabcontinue;
+                    }
+                    /*:88*/
+                    break;
 
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':   /*_DEBUG*/
-	if (deletionsallowed) {   /*88:*/
-	  long s1 = curtok;
-	  long s2 = curcmd;
-	  long s3 = curchr;
-	  long s4 = alignstate;
-	  alignstate = 1000000L;
-	  OKtointerrupt = false;
-	  if ((last > first + 1) & (buffer[first + 1] >= '0') &
-	      (buffer[first + 1] <= '9'))
-	    c = c * 10 + buffer[first + 1] - '0' * 11;
-	  else
-	    c -= '0';
-	  while (c > 0) {
-	    gettoken();
-	    c--;
-	  }
-	  curtok = s1;
-	  curcmd = s2;
-	  curchr = s3;
-	  alignstate = s4;
-	  OKtointerrupt = true;
-	  help2(S(270),S(271));
-	  showcontext();
-	  goto _Llabcontinue;
-	}
-	/*:88*/
-	break;
+                case 'D':
+#ifdef tt_DEBUG
+                    debughelp();
+                    goto _Llabcontinue;
+#endif // #84: tt_DEBUG
+                    break;
 
-      case 'D':
-	debughelp();
-	goto _Llabcontinue;
-	break;
-	/*_ENDDEBUG*/
+                case 'E':
+                    if (baseptr > 0) {
+                        printnl(S(272));
+                        slowprint(inputstack[baseptr].namefield);
+                        print(S(273));
+                        printint(line);
+                        interaction = scrollmode;
+                        jumpout();
+                    }
+                    break;
 
-      case 'E':
-	if (baseptr > 0) {
-	  printnl(S(272));
-	  slowprint(inputstack[baseptr].namefield);
-	  print(S(273));
-	  printint(line);
-	  interaction = scrollmode;
-	  jumpout();
-	}
-	break;
+                case 'H': /*89:*/
+                    if (useerrhelp) {
+                        giveerrhelp();
+                        useerrhelp = false;
+                    } else {
+                        if (helpptr == 0) {
+                            help2(S(274), S(275));
+                        }
+                        do {
+                            helpptr--;
+                            print(helpline[helpptr]);
+                            println();
+                        } while (helpptr != 0);
+                    }
+                    help4(S(276), S(275), S(277), S(278));
+                    goto _Llabcontinue;
+                    break;
+                    /*:89*/
 
-      case 'H':   /*89:*/
-	if (useerrhelp) {
-	  giveerrhelp();
-	  useerrhelp = false;
-	} else {
-	  if (helpptr == 0) {
-	    help2(S(274),S(275));
-	  }
-	  do {
-	    helpptr--;
-	    print(helpline[helpptr]);
-	    println();
-	  } while (helpptr != 0);
-	}
-	help4(S(276),S(275),S(277),S(278));
-	goto _Llabcontinue;
-	break;
-	/*:89*/
+                case 'I': /*87:*/
+                    beginfilereading();
+                    if (last > first + 1) {
+                        loc = first + 1;
+                        buffer[first] = ' ';
+                    } else {
+                        print(S(279));
+                        terminput();
+                        loc = first;
+                    }
+                    first = last;
+                    curinput.limitfield = last - 1;
+                    goto _Lexit;
+                    break;
+                    /*:87*/
 
-      case 'I':   /*87:*/
-	beginfilereading();
-	if (last > first + 1) {
-	  loc = first + 1;
-	  buffer[first] = ' ';
-	} else {
-	  print(S(279));
-	  terminput();
-	  loc = first;
-	}
-	first = last;
-	curinput.limitfield = last - 1;
-	goto _Lexit;
-	break;
-	/*:87*/
+                case 'Q':
+                case 'R':
+                case 'S': /*86:*/
+                    errorcount = 0;
+                    interaction = batchmode + c - 'Q';
+                    print(S(280));
+                    switch (c) {
+                        case 'Q':
+                            printesc(S(281));
+                            selector--;
+                            break;
 
-      case 'Q':
-      case 'R':
-      case 'S':   /*86:*/
-	errorcount = 0;
-	interaction = batchmode + c - 'Q';
-	print(S(280));
-	switch (c) {
+                        case 'R':
+                            printesc(S(282));
+                            break;
 
-	case 'Q':
-	  printesc(S(281));
-	  selector--;
-	  break;
+                        case 'S':
+                            printesc(S(283));
+                            break;
+                    }
+                    print(S(284));
+                    println();
+                    fflush(stdout);
+                    goto _Lexit;
+                    break;
+                    /*:86*/
 
-	case 'R':
-	  printesc(S(282));
-	  break;
-
-	case 'S':
-	  printesc(S(283));
-	  break;
-	}
-	print(S(284));
-	println();
-	fflush(stdout);
-	goto _Lexit;
-	break;
-	/*:86*/
-
-      case 'X':
-	interaction = scrollmode;
-	jumpout();
-	break;
-      }/*85:*/
-      print(S(285));
-      printnl(S(286));
-      printnl(S(287));
-      if (baseptr > 0)
-	print(S(288));
-      if (deletionsallowed)
-	printnl(S(289));
-      printnl(S(290));   /*:85*/
-      /*:84*/
+                case 'X':
+                    interaction = scrollmode;
+                    jumpout();
+                    break;
+            } /*85:*/
+            print(S(285));
+            printnl(S(286));
+            printnl(S(287));
+            if (baseptr > 0) print(S(288));
+            if (deletionsallowed) printnl(S(289));
+            printnl(S(290)); /*:85*/
+            /*:84*/
+        }
     }
-  }
-  errorcount++;
-  if (errorcount == 100) {
-    printnl(S(291));
-    history = FATAL_ERROR_STOP;
-    jumpout();
-  }  /*90:*/
-  if (interaction > batchmode)
-    selector--;
-  if (useerrhelp) {
+    errorcount++;
+    if (errorcount == 100) {
+        printnl(S(291));
+        history = FATAL_ERROR_STOP;
+        jumpout();
+    } /*90:*/
+    if (interaction > batchmode) selector--;
+    if (useerrhelp) {
+        println();
+        giveerrhelp();
+    } else {
+        while (helpptr > 0) {
+            helpptr--;
+            printnl(helpline[helpptr]);
+        }
+    }
     println();
-    giveerrhelp();
-  } else {
-    while (helpptr > 0) {
-      helpptr--;
-      printnl(helpline[helpptr]);
-    }
-  }
-  println();
-  if (interaction > batchmode)   /*:90*/
-    selector++;
-  println();
-_Lexit: ;
+    if (interaction > batchmode) /*:90*/
+        selector++;
+    println();
+_Lexit:;
 }
 /*:82*/
 
-/*93:*/
-Static void fatalerror(strnumber s)
-{
-  normalizeselector();
-  printnl(S(292));
-  print(S(293));
-  helpptr = 1;
-  helpline[0] = s;
-  if (interaction == errorstopmode)
-    interaction = scrollmode;
-  if (logopened)   /*_DEBUG*/
-    error();
-  if (interaction > batchmode)
-    debughelp();
-  /*_ENDDEBUG*/
-  history = FATAL_ERROR_STOP;
-  jumpout();
+/// p36#93: Error handling procedures
+/// xref: 93, 94, 95, 1304
+Static void succumb(void) {
+    if (interaction == errorstopmode) interaction = scrollmode;
+    if (logopened) error();
+#ifdef tt_DEBUG
+    if (interaction > batchmode) debughelp();
+#endif // #93: tt_DEBUG
+    history = FATAL_ERROR_STOP;
+    jumpout();
 }
-/*:93*/
+
+/// p36#93: 
+Static void fatalerror(strnumber s) {
+    normalizeselector();
+    printnl(S(292));
+    print(S(293));
+    helpptr = 1;
+    helpline[0] = s;
+    succumb();
+}
+
 
 /*94:*/
-void overflow(strnumber s, long n)
-{
-  normalizeselector();
-  printnl(S(292));
-  print(S(294));
-  print(s);
-  printchar('=');
-  printint(n);
-  printchar(']');
-  help2(S(295),
-        S(296));
-  if (interaction == errorstopmode)
-    interaction = scrollmode;
-  if (logopened)   /*_DEBUG*/
-    error();
-  if (interaction > batchmode)
-    debughelp();
-  /*_ENDDEBUG*/
-  history = FATAL_ERROR_STOP;
-  jumpout();
+void overflow(strnumber s, long n) {
+    normalizeselector();
+    printnl(S(292));
+    print(S(294));
+    print(s);
+    printchar('=');
+    printint(n);
+    printchar(']');
+    help2(S(295), S(296));
+    succumb();
 }
 /*:94*/
 
 
 /*95:*/
-Static void confusion(strnumber s)
-{
-  normalizeselector();
-  if (history < ERROR_MESSAGE_ISSUED) {
-    printnl(S(292));
-    print(S(297));
-    print(s);
-    printchar(')');
-    help1(S(298));
-  } else {
-    printnl(S(292));
-    print(S(299));
-    help2(S(300),
-          S(301));
-  }
-  if (interaction == errorstopmode)
-    interaction = scrollmode;
-  if (logopened)   /*_DEBUG*/
-    error();
-  if (interaction > batchmode)
-    debughelp();
-  /*_ENDDEBUG*/
-  history = FATAL_ERROR_STOP;
-  jumpout();
+Static void confusion(strnumber s) {
+    normalizeselector();
+    if (history < ERROR_MESSAGE_ISSUED) {
+        printnl(S(292));
+        print(S(297));
+        print(s);
+        printchar(')');
+        help1(S(298));
+    } else {
+        printnl(S(292));
+        print(S(299));
+        help2(S(300), S(301));
+    }
+    succumb();
 }
 /*:95*/
 
@@ -1730,36 +1696,32 @@ Static halfword badness(long t, long s)
 }
 /*:108*/
 
-/*114:*/
-/*_DEBUG*/
-Static void printword(memoryword w)
-{
-  printint(w.int_);
-  printchar(' ');
-  printscaled(w.sc);
-  printchar(' ');
-  printscaled((long)floor(unity * w.gr + 0.5));
-  println();
-  printint(w.hh.UU.lh);
-  printchar('=');
-  printint(w.hh.UU.U2.b0);
-  printchar(':');
-  printint(w.hh.UU.U2.b1);
-  printchar(';');
-  printint(w.hh.rh);
-  printchar(' ');
-  printint(w.qqqq.b0);
-  printchar(':');
-  printint(w.qqqq.b1);
-  printchar(':');
-  printint(w.qqqq.b2);
-  printchar(':');
-  printint(w.qqqq.b3);
+/// p43#114
+#ifdef tt_DEBUG
+Static void printword(memoryword w) {
+    printint(w.int_);
+    printchar(' ');
+    printscaled(w.sc);
+    printchar(' ');
+    printscaled( (long)floor(unity * w.gr + 0.5) );
+    println();
+    printint(w.hh.UU.lh);
+    printchar('=');
+    printint(w.hh.UU.U2.b0);
+    printchar(':');
+    printint(w.hh.UU.U2.b1);
+    printchar(';');
+    printint(w.hh.rh);
+    printchar(' ');
+    printint(w.qqqq.b0);
+    printchar(':');
+    printint(w.qqqq.b1);
+    printchar(':');
+    printint(w.qqqq.b2);
+    printchar(':');
+    printint(w.qqqq.b3);
 }
-
-
-/*_ENDDEBUG*/
-/*:114*/
+#endif // #114: tt_DEBUG
 
 /*119:*/
 /*292:*/
@@ -2238,172 +2200,170 @@ Static pointer newpenalty(long m)
 }
 /*:158*/
 
-/*167:*/
-/*_DEBUG*/
-Static void checkmem(boolean printlocs)
-{
-  pointer p, q;
-  boolean clobbered;
-  halfword FORLIM;
+/// p60#167
+#ifdef tt_DEBUG
+Static void checkmem(boolean printlocs) {
+    pointer p, q;
+    boolean clobbered;
+    halfword FORLIM;
 
-  for (p = memmin; p <= lomemmax; p++)
-    P_clrbits_B(free_, p - memmin, 0, 3);
-  for (p = himemmin; p <= memend; p++)   /*168:*/
-    P_clrbits_B(free_, p - memmin, 0, 3);
-  p = avail;
-  q = 0;
-  clobbered = false;
-  while (p != 0) {
-    if (p > memend || p < himemmin)
-      clobbered = true;
-    else {
-      if (P_getbits_UB(free_, p - memmin, 0, 3))
-	clobbered = true;
+    for (p = memmin; p <= lomemmax; p++)
+        P_clrbits_B(free_, p - memmin, 0, 3);
+    for (p = himemmin; p <= memend; p++) /*168:*/
+        P_clrbits_B(free_, p - memmin, 0, 3);
+    p = avail;
+    q = 0;
+    clobbered = false;
+    while (p != 0) {
+        if (p > memend || p < himemmin)
+            clobbered = true;
+        else {
+            if (P_getbits_UB(free_, p - memmin, 0, 3)) clobbered = true;
+        }
+        if (clobbered) {
+            printnl(S(318));
+            printint(q);
+            goto _Ldone1;
+        }
+        P_putbits_UB(free_, p - memmin, 1, 0, 3);
+        q = p;
+        p = link(q);
     }
-    if (clobbered) {
-      printnl(S(318));
-      printint(q);
-      goto _Ldone1;
+
+_Ldone1: /*:168*/
+    /*169:*/
+    p = rover;
+    q = 0;
+    clobbered = false;
+    do {
+        if (p >= lomemmax || p < memmin)
+            clobbered = true;
+        else if ((rlink(p) >= lomemmax) | (rlink(p) < memmin))
+            clobbered = true;
+        else if ((!isempty(p)) | (nodesize(p) < 2) |
+                 (p + nodesize(p) > lomemmax) | (llink(rlink(p)) != p)) {
+            clobbered = true;
+        }
+        if (clobbered) {
+            printnl(S(319));
+            printint(q);
+            goto _Ldone2;
+        }
+        FORLIM = p + nodesize(p);
+        for (q = p; q < FORLIM; q++) {
+            if (P_getbits_UB(free_, q - memmin, 0, 3)) {
+                printnl(S(320));
+                printint(q);
+                goto _Ldone2;
+            }
+            P_putbits_UB(free_, q - memmin, 1, 0, 3);
+        }
+        q = p;
+        p = rlink(p);
+    } while (p != rover);
+
+_Ldone2: /*:169*/
+    /*170:*/
+    p = memmin;
+    while (p <= lomemmax) { /*:170*/
+        if (isempty(p)) {
+            printnl(S(321));
+            printint(p);
+        }
+        while ((p <= lomemmax) & (!P_getbits_UB(free_, p - memmin, 0, 3)))
+            p++;
+        while ((p <= lomemmax) &   P_getbits_UB(free_, p - memmin, 0, 3))
+            p++;
     }
-    P_putbits_UB(free_, p - memmin, 1, 0, 3);
-    q = p;
-    p = link(q);
-  }
-_Ldone1:   /*:168*/
-  /*169:*/
-  p = rover;
-  q = 0;
-  clobbered = false;
-  do {
-    if (p >= lomemmax || p < memmin)
-      clobbered = true;
-    else if ((rlink(p) >= lomemmax) | (rlink(p) < memmin))
-      clobbered = true;
-    else if ((!isempty(p)) | (nodesize(p) < 2) | (p + nodesize(p) >
-	       lomemmax) | (llink(rlink(p)) != p)) {
-      clobbered = true;
+    if (printlocs) { /*171:*/
+        printnl(S(322));
+        FORLIM = lomemmax;
+        for (p = memmin; p <= lomemmax; p++) {
+            if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
+                ((p > waslomax) | P_getbits_UB(wasfree, p - memmin, 0, 3))) {
+                printchar(' ');
+                printint(p);
+            }
+        }
+        for (p = himemmin; p <= memend; p++) {
+            if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
+                ((p < washimin || p > wasmemend) |
+                 P_getbits_UB(wasfree, p - memmin, 0, 3))) {
+                printchar(' ');
+                printint(p);
+            }
+        }
     }
-    if (clobbered) {
-      printnl(S(319));
-      printint(q);
-      goto _Ldone2;
-    }
-    FORLIM = p + nodesize(p);
-    for (q = p; q < FORLIM; q++) {
-      if (P_getbits_UB(free_, q - memmin, 0, 3)) {
-	printnl(S(320));
-	printint(q);
-	goto _Ldone2;
-      }
-      P_putbits_UB(free_, q - memmin, 1, 0, 3);
-    }
-    q = p;
-    p = rlink(p);
-  } while (p != rover);
-_Ldone2:   /*:169*/
-  /*170:*/
-  p = memmin;
-  while (p <= lomemmax) {   /*:170*/
-    if (isempty(p)) {
-      printnl(S(321));
-      printint(p);
-    }
-    while ((p <= lomemmax) & (!P_getbits_UB(free_, p - memmin, 0, 3)))
-      p++;
-    while ((p <= lomemmax) & P_getbits_UB(free_, p - memmin, 0, 3))
-      p++;
-  }
-  if (printlocs) {   /*171:*/
-    printnl(S(322));
-    FORLIM = lomemmax;
+    /*:171*/
     for (p = memmin; p <= lomemmax; p++) {
-      if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
-	  ((p > waslomax) | P_getbits_UB(wasfree, p - memmin, 0, 3))) {
-	printchar(' ');
-	printint(p);
-      }
+        P_clrbits_B(wasfree, p - memmin, 0, 3);
+        P_putbits_UB(wasfree,
+            p - memmin, P_getbits_UB(free_, p - memmin, 0, 3), 0, 3);
     }
-    for (p = himemmin; p <= memend ; p++) {
-      if ((!P_getbits_UB(free_, p - memmin, 0, 3)) & ((p < washimin ||
-	      p > wasmemend) | P_getbits_UB(wasfree, p - memmin, 0, 3))) {
-	printchar(' ');
-	printint(p);
-      }
+    for (p = himemmin; p <= memend; p++) {
+        P_clrbits_B(wasfree, p - memmin, 0, 3);
+        P_putbits_UB(wasfree, 
+            p - memmin, P_getbits_UB(free_, p - memmin, 0, 3), 0, 3);
     }
-  }
-  /*:171*/
-  for (p = memmin; p <= lomemmax; p++) {
-    P_clrbits_B(wasfree, p - memmin, 0, 3);
-    P_putbits_UB(wasfree, p - memmin, P_getbits_UB(free_, p - memmin, 0, 3),
-		 0, 3);
-  }
-  for (p = himemmin; p <= memend; p++) {
-    P_clrbits_B(wasfree, p - memmin, 0, 3);
-    P_putbits_UB(wasfree, p - memmin, P_getbits_UB(free_, p - memmin, 0, 3),
-		 0, 3);
-  }
-  wasmemend = memend;
-  waslomax = lomemmax;
-  washimin = himemmin;
-}
-/*:167*/
+    wasmemend = memend;
+    waslomax = lomemmax;
+    washimin = himemmin;
+} // #164: checkmem
 
-/*172:*/
-Static void searchmem(pointer p)
-{
-  long q;
+/// p61#172
+Static void searchmem(pointer p) {
+    long q;
 
-  for (q = memmin; q <= lomemmax; q++) {
-    if (link(q) == p) {
-      printnl(S(323));
-      printint(q);
-      printchar(')');
+    for (q = memmin; q <= lomemmax; q++) {
+        if (link(q) == p) {
+            printnl(S(323));
+            printint(q);
+            printchar(')');
+        }
+        if (info(q) == p) {
+            printnl(S(324));
+            printint(q);
+            printchar(')');
+        }
     }
-    if (info(q) == p) {
-      printnl(S(324));
-      printint(q);
-      printchar(')');
+    for (q = himemmin; q <= memend; q++) {
+        if (link(q) == p) {
+            printnl(S(323));
+            printint(q);
+            printchar(')');
+        }
+        if (info(q) == p) {
+            printnl(S(324));
+            printint(q);
+            printchar(')');
+        }
+    }                                               /*255:*/
+    for (q = activebase; q <= boxbase + 255; q++) { /*:255*/
+        if (equiv(q) == p) {
+            printnl(S(325));
+            printint(q);
+            printchar(')');
+        }
     }
-  }
-  for (q = himemmin; q <= memend; q++) {
-    if (link(q) == p) {
-      printnl(S(323));
-      printint(q);
-      printchar(')');
+    /*285:*/
+    if (saveptr > 0) {                  /*933:*/
+        for (q = 0; q < saveptr; q++) { /*:285*/
+            if (equivfield(savestack[q]) == p) {
+                printnl(S(326));
+                printint(q);
+                printchar(')');
+            }
+        }
     }
-    if (info(q) == p) {
-      printnl(S(324));
-      printint(q);
-      printchar(')');
+    for (q = 0; q <= hyphsize; q++) { /*:933*/
+        if (hyphlist[q] == p) {
+            printnl(S(327));
+            printint(q);
+            printchar(')');
+        }
     }
-  }  /*255:*/
-  for (q = activebase; q <= boxbase + 255; q++) {   /*:255*/
-    if (equiv(q) == p) {
-      printnl(S(325));
-      printint(q);
-      printchar(')');
-    }
-  }
-  /*285:*/
-  if (saveptr > 0) {   /*933:*/
-    for (q = 0; q < saveptr; q++) {   /*:285*/
-      if (equivfield(savestack[q]) == p) {
-	printnl(S(326));
-	printint(q);
-	printchar(')');
-      }
-    }
-  }
-  for (q = 0; q <= hyphsize; q++) {   /*:933*/
-    if (hyphlist[q] == p) {
-      printnl(S(327));
-      printint(q);
-      printchar(')');
-    }
-  }
-}
-/*_ENDDEBUG*/
-/*:172*/
+} // #172: searchmem
+#endif // #167,172: tt_DEBUG
 
 /*174:*/
 Static void shortdisplay(pointer p)
@@ -15516,242 +15476,230 @@ _Lrestart:
 /*:1215*/
 
 /*1229:*/
-Static void trapzeroglue(void)
-{
-  if (!((width(curval) == 0) & (stretch(curval) == 0) &
-	(shrink(curval) == 0)))
-    return;
-  addglueref(zeroglue);
-  deleteglueref(curval);
-  curval = zeroglue;
+Static void trapzeroglue(void) {
+    if (!((width(curval) == 0) & (stretch(curval) == 0) &
+          (shrink(curval) == 0)))
+        return;
+    addglueref(zeroglue);
+    deleteglueref(curval);
+    curval = zeroglue;
 }
 /*:1229*/
 
 /*1236:*/
-Static void doregistercommand(SmallNumber a)
-{
-  pointer l=0 /* XXXX */, q, r, s;
-  char p;
+Static void doregistercommand(SmallNumber a) {
+    pointer l = 0 /* XXXX */, q, r, s;
+    char p;
 
-  q = curcmd;   /*1237:*/
-  if (q != register_) {
-    getxtoken();
-    if (curcmd >= assignint && curcmd <= assignmuglue) {
-      l = curchr;
-      p = curcmd - assignint;
-      goto _Lfound;
+    q = curcmd; /*1237:*/
+    if (q != register_) {
+        getxtoken();
+        if (curcmd >= assignint && curcmd <= assignmuglue) {
+            l = curchr;
+            p = curcmd - assignint;
+            goto _Lfound;
+        }
+        if (curcmd != register_) {
+            printnl(S(292));
+            print(S(602));
+            printcmdchr(curcmd, curchr);
+            print(S(603));
+            printcmdchr(q, 0);
+            help1(S(941));
+            error();
+            goto _Lexit;
+        }
     }
-    if (curcmd != register_) {
-      printnl(S(292));
-      print(S(602));
-      printcmdchr(curcmd, curchr);
-      print(S(603));
-      printcmdchr(q, 0);
-      help1(S(941));
-      error();
-      goto _Lexit;
+    p = curchr;
+    scaneightbitint();
+    switch (p) {
+
+        case intval:
+            l = curval + countbase;
+            break;
+
+        case dimenval:
+            l = curval + scaledbase;
+            break;
+
+        case glueval:
+            l = curval + skipbase;
+            break;
+
+        case muval:
+            l = curval + muskipbase;
+            break;
     }
-  }
-  p = curchr;
-  scaneightbitint();
-  switch (p) {
-
-  case intval:
-    l = curval + countbase;
-    break;
-
-  case dimenval:
-    l = curval + scaledbase;
-    break;
-
-  case glueval:
-    l = curval + skipbase;
-    break;
-
-  case muval:
-    l = curval + muskipbase;
-    break;
-  }
-_Lfound:   /*:1237*/
-  if (q == register_)
-    scanoptionalequals();
-  else
-    scankeyword(S(942));
-  aritherror = false;
-  if (q < multiply) {   /*1238:*/
+_Lfound: /*:1237*/
+    if (q == register_)
+        scanoptionalequals();
+    else
+        scankeyword(S(942));
+    aritherror = false;
+    if (q < multiply) { /*1238:*/
+        if (p < glueval) {
+            if (p == intval)
+                scanint();
+            else {
+                scannormaldimen();
+            }
+            if (q == advance) curval += eqtb[l - activebase].int_;
+        } else { /*:1238*/
+            scanglue(p);
+            if (q == advance) { /*1239:*/
+                q = newspec(curval);
+                r = equiv(l);
+                deleteglueref(curval);
+                width(q) += width(r);
+                if (stretch(q) == 0) stretchorder(q) = normal;
+                if (stretchorder(q) == stretchorder(r))
+                    stretch(q) += stretch(r);
+                else if ((stretchorder(q) < stretchorder(r)) &
+                         (stretch(r) != 0)) {
+                    stretch(q) = stretch(r);
+                    stretchorder(q) = stretchorder(r);
+                }
+                if (shrink(q) == 0) shrinkorder(q) = normal;
+                if (shrinkorder(q) == shrinkorder(r))
+                    shrink(q) += shrink(r);
+                else if ((shrinkorder(q) < shrinkorder(r)) & (shrink(r) != 0)) {
+                    shrink(q) = shrink(r);
+                    shrinkorder(q) = shrinkorder(r);
+                }
+                curval = q;
+            }
+            /*:1239*/
+        }
+    } else { /*1240:*/
+        scanint();
+        if (p < glueval) {
+            if (q == multiply) {
+                if (p == intval)
+                    curval = multandadd(
+                        eqtb[l - activebase].int_, curval, 0, 2147483647L);
+                else
+                    curval = multandadd(
+                        eqtb[l - activebase].int_, curval, 0, 1073741823L);
+            } else
+                curval = xovern(eqtb[l - activebase].int_, curval);
+        } else {
+            s = equiv(l);
+            r = newspec(s);
+            if (q == multiply) {
+                width(r) = multandadd(width(s), curval, 0, 1073741823L);
+                stretch(r) = multandadd(stretch(s), curval, 0, 1073741823L);
+                shrink(r) = multandadd(shrink(s), curval, 0, 1073741823L);
+            } else {
+                width(r) = xovern(width(s), curval);
+                stretch(r) = xovern(stretch(s), curval);
+                shrink(r) = xovern(shrink(s), curval);
+            }
+            curval = r;
+        }
+    } /*:1240*/
+    if (aritherror) {
+        printnl(S(292));
+        print(S(943));
+        help2(S(944), S(945));
+        error();
+        goto _Lexit;
+    }
     if (p < glueval) {
-      if (p == intval)
-	scanint();
-      else {
-	scannormaldimen();
-      }
-      if (q == advance)
-	curval += eqtb[l - activebase].int_;
-    } else {   /*:1238*/
-      scanglue(p);
-      if (q == advance) {   /*1239:*/
-	q = newspec(curval);
-	r = equiv(l);
-	deleteglueref(curval);
-	width(q) += width(r);
-	if (stretch(q) == 0)
-	  stretchorder(q) = normal;
-	if (stretchorder(q) == stretchorder(r))
-	  stretch(q) += stretch(r);
-	else if ((stretchorder(q) < stretchorder(r)) &
-		 (stretch(r) != 0)) {
-	  stretch(q) = stretch(r);
-	  stretchorder(q) = stretchorder(r);
-	}
-	if (shrink(q) == 0)
-	  shrinkorder(q) = normal;
-	if (shrinkorder(q) == shrinkorder(r))
-	  shrink(q) += shrink(r);
-	else if ((shrinkorder(q) < shrinkorder(r)) & (shrink(r) != 0)) {
-	  shrink(q) = shrink(r);
-	  shrinkorder(q) = shrinkorder(r);
-	}
-	curval = q;
-      }
-      /*:1239*/
-    }
-  } else {   /*1240:*/
-    scanint();
-    if (p < glueval) {
-      if (q == multiply) {
-	if (p == intval)
-	  curval = multandadd(eqtb[l - activebase].int_, curval, 0,
-			      2147483647L);
-	else
-	  curval = multandadd(eqtb[l - activebase].int_, curval, 0,
-			      1073741823L);
-      } else
-	curval = xovern(eqtb[l - activebase].int_, curval);
+        worddefine(l, curval);
     } else {
-      s = equiv(l);
-      r = newspec(s);
-      if (q == multiply) {
-	width(r) = multandadd(width(s), curval, 0, 1073741823L);
-	stretch(r) = multandadd(stretch(s), curval, 0, 1073741823L);
-	shrink(r) = multandadd(shrink(s), curval, 0, 1073741823L);
-      } else {
-	width(r) = xovern(width(s), curval);
-	stretch(r) = xovern(stretch(s), curval);
-	shrink(r) = xovern(shrink(s), curval);
-      }
-      curval = r;
+        trapzeroglue();
+        define(l, glueref, curval);
     }
-  }  /*:1240*/
-  if (aritherror) {
-    printnl(S(292));
-    print(S(943));
-    help2(S(944),
-          S(945));
-    error();
-    goto _Lexit;
-  }
-  if (p < glueval) {
-    worddefine(l, curval);
-  } else {
-    trapzeroglue();
-    define(l, glueref, curval);
-  }
-_Lexit: ;
+_Lexit:;
 }
 /*:1236*/
 
 /*1243:*/
-Static void alteraux(void)
-{
-  halfword c;
+Static void alteraux(void) {
+    halfword c;
 
-  if (curchr != labs(mode)) {
-    reportillegalcase();
-    return;
-  }
-  c = curchr;
-  scanoptionalequals();
-  if (c == vmode) {
-    scannormaldimen();
-    prevdepth = curval;
-    return;
-  }
-  scanint();
-  if (curval > 0 && curval <= 32767) {
-    spacefactor = curval;
-    return;
-  }
-  printnl(S(292));
-  print(S(946));
-  help1(S(947));
-  interror(curval);
+    if (curchr != labs(mode)) {
+        reportillegalcase();
+        return;
+    }
+    c = curchr;
+    scanoptionalequals();
+    if (c == vmode) {
+        scannormaldimen();
+        prevdepth = curval;
+        return;
+    }
+    scanint();
+    if (curval > 0 && curval <= 32767) {
+        spacefactor = curval;
+        return;
+    }
+    printnl(S(292));
+    print(S(946));
+    help1(S(947));
+    interror(curval);
 }
 /*:1243*/
 
 /*1244:*/
-Static void alterprevgraf(void)
-{
-  int p;
+Static void alterprevgraf(void) {
+    int p;
 
-  nest[nestptr] = curlist;
-  p = nestptr;
-  while (abs(nest[p].modefield) != vmode)
-    p--;
-  scanoptionalequals();
-  scanint();
-  if (curval >= 0) {
-    nest[p].pgfield = curval;
-    curlist = nest[nestptr];
-    return;
-  }
-  printnl(S(292));
-  print(S(773));
-  printesc(S(948));
-  help1(S(949));
-  interror(curval);
+    nest[nestptr] = curlist;
+    p = nestptr;
+    while (abs(nest[p].modefield) != vmode)
+        p--;
+    scanoptionalequals();
+    scanint();
+    if (curval >= 0) {
+        nest[p].pgfield = curval;
+        curlist = nest[nestptr];
+        return;
+    }
+    printnl(S(292));
+    print(S(773));
+    printesc(S(948));
+    help1(S(949));
+    interror(curval);
 }
 /*:1244*/
 
 /*1245:*/
-Static void alterpagesofar(void)
-{
-  int c;
+Static void alterpagesofar(void) {
+    int c;
 
-  c = curchr;
-  scanoptionalequals();
-  scannormaldimen();
-  pagesofar[c] = curval;
-}  /*:1245*/
+    c = curchr;
+    scanoptionalequals();
+    scannormaldimen();
+    pagesofar[c] = curval;
+} /*:1245*/
 
 
 /*1246:*/
-Static void alterinteger(void)
-{
-  char c;
+Static void alterinteger(void) {
+    char c;
 
-  c = curchr;
-  scanoptionalequals();
-  scanint();
-  if (c == 0)
-    deadcycles = curval;
-  else
-    insertpenalties = curval;
-}  /*:1246*/
+    c = curchr;
+    scanoptionalequals();
+    scanint();
+    if (c == 0)
+        deadcycles = curval;
+    else
+        insertpenalties = curval;
+} /*:1246*/
 
 
 /*1247:*/
-Static void alterboxdimen(void)
-{
-  SmallNumber c;
-  eightbits b;
+Static void alterboxdimen(void) {
+    SmallNumber c;
+    eightbits b;
 
-  c = curchr;
-  scaneightbitint();
-  b = curval;
-  scanoptionalequals();
-  scannormaldimen();
-  if (box(b) != 0)
-    mem[box(b) + c - memmin].sc = curval;
+    c = curchr;
+    scaneightbitint();
+    b = curval;
+    scanoptionalequals();
+    scannormaldimen();
+    if (box(b) != 0) mem[box(b) + c - memmin].sc = curval;
 }
 /*:1247*/
 
@@ -15847,19 +15795,17 @@ _Lcommonending:
 /*:1257*/
 
 /*1265:*/
-Static void newinteraction(void)
-{
-  println();
-  interaction = curchr;   /*75:*/
-  if (interaction == batchmode)
-    selector = noprint;
-  else {
-    selector = termonly;
-    /*:75*/
-  }
-  if (logopened)
-    selector += 2;
-}  /*:1265*/
+Static void newinteraction(void) {
+    println();
+    interaction = curchr; /*75:*/
+    if (interaction == batchmode)
+        selector = noprint;
+    else {
+        selector = termonly;
+        /*:75*/
+    }
+    if (logopened) selector += 2;
+} /*:1265*/
 
 
 Static void prefixedcommand(void)
@@ -16296,177 +16242,158 @@ Static void doassignments(void) {
 /*:1270*/
 
 /*1275:*/
-Static void openorclosein(void)
-{
-  int c;
-  int n;
+Static void openorclosein(void) {
+    int c;
+    int n;
 
-  c = curchr;
-  scanfourbitint();
-  n = curval;
-  if (readopen[n] != closed) {
-    aclose(&readfile[n]);
-    readopen[n] = closed;
-  }
-  if (c == 0)
-    return;
-  scanoptionalequals();
-  scanfilename();
-  if (curext == S(385))
-    curext = S(669);
-  packfilename(curname,S(677),curext);
-  if (aopenin(&readfile[n]))
-    readopen[n] = justopen;
+    c = curchr;
+    scanfourbitint();
+    n = curval;
+    if (readopen[n] != closed) {
+        aclose(&readfile[n]);
+        readopen[n] = closed;
+    }
+    if (c == 0) return;
+    scanoptionalequals();
+    scanfilename();
+    if (curext == S(385)) curext = S(669);
+    packfilename(curname, S(677), curext);
+    if (aopenin(&readfile[n])) readopen[n] = justopen;
 }
 /*:1275*/
 
 /*1279:*/
-Static void issuemessage(void)
-{
-  char oldsetting;
-  char c;
-  strnumber s;
+Static void issuemessage(void) {
+    char oldsetting;
+    char c;
+    strnumber s;
 
-  c = curchr;
-  link(garbage) = scantoks(false, true);
-  oldsetting = selector;
-  selector = newstring;
-  tokenshow(defref);
-  selector = oldsetting;
-  flushlist(defref);
-  str_room(1);
-  s = makestring();
-  if (c == 0) {   /*1280:*/
-    if (termoffset + flength(s) > maxprintline - 2) {
-      println();
-    } else if (termoffset > 0 || fileoffset > 0)
-      printchar(' ');
-    slowprint(s);
-    fflush(stdout);
-  } else  /*1283:*/
-  {   /*:1283*/
-    printnl(S(292));
-    print(S(385));
-    slowprint(s);
-    if (errhelp != 0)
-      useerrhelp = true;
-    else if (longhelpseen) {
-      help1(S(974));
-    } else {
-      if (interaction < errorstopmode)
-	longhelpseen = true;
-      help4(S(975),
-            S(976),
-            S(977),
-            S(978));
+    c = curchr;
+    link(garbage) = scantoks(false, true);
+    oldsetting = selector;
+    selector = newstring;
+    tokenshow(defref);
+    selector = oldsetting;
+    flushlist(defref);
+    str_room(1);
+    s = makestring();
+    if (c == 0) { /*1280:*/
+        if (termoffset + flength(s) > maxprintline - 2) {
+            println();
+        } else if (termoffset > 0 || fileoffset > 0)
+            printchar(' ');
+        slowprint(s);
+        fflush(stdout);
+        /*1283:*/
+    } else {      /*:1283*/
+        printnl(S(292));
+        print(S(385));
+        slowprint(s);
+        if (errhelp != 0)
+            useerrhelp = true;
+        else if (longhelpseen) {
+            help1(S(974));
+        } else {
+            if (interaction < errorstopmode) longhelpseen = true;
+            help4(S(975), S(976), S(977), S(978));
+        }
+        error();
+        useerrhelp = false;
     }
-    error();
-    useerrhelp = false;
-  }
-  /*:1280*/
-  flushstring();
+    /*:1280*/
+    flushstring();
 }
 /*:1279*/
 
 /*1288:*/
-Static void shiftcase(void)
-{
-  pointer b, p;
-  eightbits c;
+Static void shiftcase(void) {
+    pointer b, p;
+    eightbits c;
 
-  b = curchr;
-  p = scantoks(false, false);
-  p = link(defref);
-  while (p != 0) {  /*1289:*/
-    halfword t = info(p);
-    if (t < cstokenflag + singlebase) {   /*:1289*/
-      c = t & (dwa_do_8-1);
-      if (equiv(b + c) != 0)
-	info(p) = t - c + equiv(b + c);
+    b = curchr;
+    p = scantoks(false, false);
+    p = link(defref);
+    while (p != 0) { /*1289:*/
+        halfword t = info(p);
+        if (t < cstokenflag + singlebase) { /*:1289*/
+            c = t & (dwa_do_8 - 1);
+            if (equiv(b + c) != 0) info(p) = t - c + equiv(b + c);
+        }
+        p = link(p);
     }
-    p = link(p);
-  }
-  backlist(link(defref));
-  freeavail(defref);
+    backlist(link(defref));
+    freeavail(defref);
 }
 /*:1288*/
 
 /*1293:*/
-Static void showwhatever(void)
-{
-  switch (curchr) {
+Static void showwhatever(void) {
+    switch (curchr) {
+        case showlists:
+            begindiagnostic();
+            showactivities();
+            break;
 
-  case showlists:
-    begindiagnostic();
-    showactivities();
-    break;
+        case showboxcode: /*1296:*/
+            scaneightbitint();
+            begindiagnostic();
+            printnl(S(979));
+            printint(curval);
+            printchar('=');
+            if (box(curval) == 0)
+                print(S(465));
+            else
+                showbox(box(curval));
+            break;
+            /*:1296*/
 
-  case showboxcode:   /*1296:*/
-    scaneightbitint();
-    begindiagnostic();
-    printnl(S(979));
-    printint(curval);
-    printchar('=');
-    if (box(curval) == 0)
-      print(S(465));
-    else
-      showbox(box(curval));
-    break;
-    /*:1296*/
+        case showcode: /*1294:*/
+            gettoken();
+            printnl(S(980));
+            if (curcs != 0) {
+                sprintcs(curcs);
+                printchar('=');
+            }
+            printmeaning(curchr, curcmd);
+            goto _Lcommonending;
+            break;
+            /*:1294*/
+            /*1297:*/
 
-  case showcode:   /*1294:*/
-    gettoken();
-    printnl(S(980));
-    if (curcs != 0) {
-      sprintcs(curcs);
-      printchar('=');
+        default:
+            (void)thetoks();
+            printnl(S(980));
+            tokenshow(temphead);
+            flushlist(link(temphead));
+            goto _Lcommonending; /*:1297*/
+            break;
+    } /*1298:*/
+    enddiagnostic(true);
+    printnl(S(292));
+    print(S(981));
+    if (selector == termandlog) {
+        if (tracingonline <= 0) { /*:1298*/
+            selector = termonly;
+            print(S(982));
+            selector = termandlog;
+        }
     }
-    printmeaning(curchr, curcmd);
-    goto _Lcommonending;
-    break;
-    /*:1294*/
-    /*1297:*/
-
-  default:
-    (void)thetoks();
-    printnl(S(980));
-    tokenshow(temphead);
-    flushlist(link(temphead));
-    goto _Lcommonending;   /*:1297*/
-    break;
-  }/*1298:*/
-  enddiagnostic(true);
-  printnl(S(292));
-  print(S(981));
-  if (selector == termandlog) {
-    if (tracingonline <= 0) {   /*:1298*/
-      selector = termonly;
-      print(S(982));
-      selector = termandlog;
-    }
-  }
 _Lcommonending:
-  if (interaction < errorstopmode) {
-    helpptr = 0;
-    errorcount--;
-  } else if (tracingonline > 0) {
-    help3(S(983),
-          S(984),
-          S(985));
-  } else {
-    help5(S(983),
-          S(984),
-          S(985),
-          S(986),
-          S(987));
-  }
-  error();
+    if (interaction < errorstopmode) {
+        helpptr = 0;
+        errorcount--;
+    } else if (tracingonline > 0) {
+        help3(S(983), S(984), S(985));
+    } else {
+        help5(S(983), S(984), S(985), S(986), S(987));
+    }
+    error();
 }
 /*:1293*/
 
 
-/// 455#1302: Declare action procedures for use by main control
 #ifdef tt_INIT
+/// 455#1302: Declare action procedures for use by main control
 Static void storefmtfile(void) { /*1304:*/
     long j, k, l, x;
     pointer p, q;
@@ -16475,13 +16402,7 @@ Static void storefmtfile(void) { /*1304:*/
         printnl(S(292));
         print(S(988));
         help1(S(989));
-        if (interaction == errorstopmode) interaction = scrollmode;
-        if (logopened) /*_DEBUG*/
-            error();
-        if (interaction > batchmode) debughelp();
-        /*_ENDDEBUG*/
-        history = FATAL_ERROR_STOP;
-        jumpout();
+        succumb();
     }
     /*:1304*/
     /*1328:*/
@@ -16735,32 +16656,30 @@ _Ldone2:
 
 /*1348:*/
 /*1349:*/
-Static void newwhatsit(SmallNumber s, SmallNumber w)
-{
-  pointer p;
+Static void newwhatsit(SmallNumber s, SmallNumber w) {
+    pointer p;
 
-  p = getnode(w);
-  type(p) = whatsitnode;
-  subtype(p) = s;
-  link(tail) = p;
-  tail = p;
+    p = getnode(w);
+    type(p) = whatsitnode;
+    subtype(p) = s;
+    link(tail) = p;
+    tail = p;
 }
 /*:1349*/
 
 /*1350:*/
-Static void newwritewhatsit(SmallNumber w)
-{
-  newwhatsit(curchr, w);
-  if (w != writenodesize)
-    scanfourbitint();
-  else {
-    scanint();
-    if (curval < 0)
-      curval = 17;
-    else if (curval > 15)
-      curval = 16;
-  }
-  writestream(tail) = curval;
+Static void newwritewhatsit(SmallNumber w) {
+    newwhatsit(curchr, w);
+    if (w != writenodesize)
+        scanfourbitint();
+    else {
+        scanint();
+        if (curval < 0)
+            curval = 17;
+        else if (curval > 15)
+            curval = 16;
+    }
+    writestream(tail) = curval;
 }
 /*:1350*/
 
@@ -16844,1375 +16763,1306 @@ Static void doextension(void)
 /*:1348*/
 
 /*1376:*/
-Static void fixlanguage(void)
-{
-  ASCIIcode l;
+Static void fixlanguage(void) {
+    ASCIIcode l;
 
-  if (language <= 0)
-    l = 0;
-  else if (language > 255)
-    l = 0;
-  else
-    l = language;
-  if (l == clang)
-    return;
-  newwhatsit(languagenode, smallnodesize);
-  whatlang(tail) = l;
-  clang = l;
-  whatlhm(tail) = normmin(lefthyphenmin);
-  whatrhm(tail) = normmin(righthyphenmin);
+    if (language <= 0)
+        l = 0;
+    else if (language > 255)
+        l = 0;
+    else
+        l = language;
+    if (l == clang) return;
+    newwhatsit(languagenode, smallnodesize);
+    whatlang(tail) = l;
+    clang = l;
+    whatlhm(tail) = normmin(lefthyphenmin);
+    whatrhm(tail) = normmin(righthyphenmin);
 }
 /*:1376*/
 
 /*1068:*/
-Static void handlerightbrace(void)
-{
-  pointer p, q;
-  scaled d;
-  long f;
+Static void handlerightbrace(void) {
+    pointer p, q;
+    scaled d;
+    long f;
 
-  switch (curgroup) {
+    switch (curgroup) {
 
-  case simplegroup:
-    unsave();
-    break;
+        case simplegroup:
+            unsave();
+            break;
 
-  case bottomlevel:
-    printnl(S(292));
-    print(S(1002));
-    help2(S(1003),
-          S(1004));
-    error();
-    break;
+        case bottomlevel:
+            printnl(S(292));
+            print(S(1002));
+            help2(S(1003), S(1004));
+            error();
+            break;
 
-  case semisimplegroup:
-  case mathshiftgroup:
-  case mathleftgroup:
-    extrarightbrace();
-    break;
+        case semisimplegroup:
+        case mathshiftgroup:
+        case mathleftgroup:
+            extrarightbrace();
+            break;
 
-  /*1085:*/
-  case hboxgroup:
-    package(0);
-    break;
+        /*1085:*/
+        case hboxgroup:
+            package(0);
+            break;
 
-  case adjustedhboxgroup:
-    adjusttail = adjusthead;
-    package(0);
-    break;
+        case adjustedhboxgroup:
+            adjusttail = adjusthead;
+            package(0);
+            break;
 
-  case vboxgroup:
-    endgraf();
-    package(0);
-    break;
+        case vboxgroup:
+            endgraf();
+            package(0);
+            break;
 
-  case vtopgroup:   /*:1085*/
-    endgraf();
-    package(vtopcode);
-    break;
-    /*1100:*/
+        case vtopgroup: /*:1085*/
+            endgraf();
+            package(vtopcode);
+            break;
+            /*1100:*/
 
-  case insertgroup:
-    endgraf();
-    q = splittopskip;
-    addglueref(q);
-    d = splitmaxdepth;
-    f = floatingpenalty;
-    unsave();
-    saveptr--;
-    p = vpack(link(head), 0, additional);
-    popnest();
-    if (saved(0) < 255) {
-      tailappend(getnode(insnodesize));
-      type(tail) = insnode;
-      subtype(tail) = saved(0);
-      height(tail) = height(p) + depth(p);
-      insptr(tail) = listptr(p);
-      splittopptr(tail) = q;
-      depth(tail) = d;
-      floatcost(tail) = f;
-    } else {
-      tailappend(getnode(smallnodesize));
-      type(tail) = adjustnode;
-      subtype(tail) = 0;
-      adjustptr(tail) = listptr(p);
-      deleteglueref(q);
+        case insertgroup:
+            endgraf();
+            q = splittopskip;
+            addglueref(q);
+            d = splitmaxdepth;
+            f = floatingpenalty;
+            unsave();
+            saveptr--;
+            p = vpack(link(head), 0, additional);
+            popnest();
+            if (saved(0) < 255) {
+                tailappend(getnode(insnodesize));
+                type(tail) = insnode;
+                subtype(tail) = saved(0);
+                height(tail) = height(p) + depth(p);
+                insptr(tail) = listptr(p);
+                splittopptr(tail) = q;
+                depth(tail) = d;
+                floatcost(tail) = f;
+            } else {
+                tailappend(getnode(smallnodesize));
+                type(tail) = adjustnode;
+                subtype(tail) = 0;
+                adjustptr(tail) = listptr(p);
+                deleteglueref(q);
+            }
+            freenode(p, boxnodesize);
+            if (nestptr == 0) buildpage();
+            break;
+
+        case outputgroup: /*1026:*/
+            if (loc != 0 ||
+                (tokentype != outputtext && tokentype != backedup)) { /*:1027*/
+                printnl(S(292));
+                print(S(1005));
+                help2(S(1006), S(682));
+                error();
+                do {
+                    gettoken();
+                } while (loc != 0);
+            }
+            endtokenlist();
+            endgraf();
+            unsave();
+            outputactive = false;
+            insertpenalties = 0; /*1028:*/
+            if (box(255) != 0) { /*:1028*/
+                printnl(S(292));
+                print(S(1007));
+                printesc(S(464));
+                printint(255);
+                help3(S(1008), S(1009), S(1010));
+                boxerror(255);
+            }
+            if (tail != head) {
+                link(pagetail) = link(head);
+                pagetail = tail;
+            }
+            if (link(pagehead) != 0) {
+                if (link(contribhead) == 0) contribtail = pagetail;
+                link(pagetail) = link(contribhead);
+                link(contribhead) = link(pagehead);
+                link(pagehead) = 0;
+                pagetail = pagehead;
+            }
+            popnest();
+            buildpage();
+            break;
+            /*:1026*/
+            /*:1100*/
+            /*1118:*/
+
+        case discgroup: /*:1118*/
+            builddiscretionary();
+            break;
+            /*1132:*/
+
+        case aligngroup: /*:1132*/
+            backinput();
+            curtok = cstokenflag + frozencr;
+            printnl(S(292));
+            print(S(554));
+            printesc(S(737));
+            print(S(555));
+            help1(S(1011));
+            inserror();
+            break;
+            /*1133:*/
+
+        case noaligngroup: /*:1133*/
+            endgraf();
+            unsave();
+            alignpeek();
+            break;
+            /*1168:*/
+
+        case vcentergroup: /*:1168*/
+            endgraf();
+            unsave();
+            saveptr -= 2;
+            p = vpack(link(head), saved(1), saved(0));
+            popnest();
+            tailappend(newnoad());
+            type(tail) = vcenternoad;
+            mathtype(nucleus(tail)) = subbox;
+            info(nucleus(tail)) = p;
+            break;
+            /*1173:*/
+
+        case mathchoicegroup: /*:1173*/
+            buildchoices();
+            break;
+            /*1186:*/
+
+        case mathgroup:
+            unsave();
+            saveptr--;
+            mathtype(saved(0)) = submlist;
+            p = finmlist(0);
+            info(saved(0)) = p;
+            if (p != 0) {
+                if (link(p) == 0) {
+                    if (type(p) == ordnoad) {
+                        if (mathtype(subscr(p)) == empty) {
+                            if (mathtype(supscr(p)) == empty) {
+                                mem[saved(0) - memmin].hh =
+                                    mem[nucleus(p) - memmin].hh;
+                                freenode(p, noadsize);
+                            }
+                        }
+                    } else if (type(p) == accentnoad) {
+                        if (saved(0) == nucleus(tail)) {
+                            if (type(tail) == ordnoad) { /*1187:*/
+                                q = head;
+                                while (link(q) != tail)
+                                    q = link(q);
+                                link(q) = p;
+                                freenode(tail, noadsize);
+                                tail = p;
+                            }
+                            /*:1187*/
+                        }
+                    }
+                }
+            }
+            break;
+            /*:1186*/
+
+        default:
+            confusion(S(1012));
+            break;
     }
-    freenode(p, boxnodesize);
-    if (nestptr == 0)
-      buildpage();
-    break;
 
-  case outputgroup:   /*1026:*/
-    if (loc != 0 || (tokentype != outputtext && tokentype != backedup) )
-    {   /*:1027*/
-      printnl(S(292));
-      print(S(1005));
-      help2(S(1006),
-            S(682));
-      error();
-      do {
-	gettoken();
-      } while (loc != 0);
-    }
-    endtokenlist();
-    endgraf();
-    unsave();
-    outputactive = false;
-    insertpenalties = 0;   /*1028:*/
-    if (box(255) != 0) {   /*:1028*/
-      printnl(S(292));
-      print(S(1007));
-      printesc(S(464));
-      printint(255);
-      help3(S(1008),
-            S(1009),
-            S(1010));
-      boxerror(255);
-    }
-    if (tail != head) {
-      link(pagetail) = link(head);
-      pagetail = tail;
-    }
-    if (link(pagehead) != 0) {
-      if (link(contribhead) == 0)
-	contribtail = pagetail;
-      link(pagetail) = link(contribhead);
-      link(contribhead) = link(pagehead);
-      link(pagehead) = 0;
-      pagetail = pagehead;
-    }
-    popnest();
-    buildpage();
-    break;
-    /*:1026*/
-    /*:1100*/
-    /*1118:*/
-
-  case discgroup:   /*:1118*/
-    builddiscretionary();
-    break;
-    /*1132:*/
-
-  case aligngroup:   /*:1132*/
-    backinput();
-    curtok = cstokenflag + frozencr;
-    printnl(S(292));
-    print(S(554));
-    printesc(S(737));
-    print(S(555));
-    help1(S(1011));
-    inserror();
-    break;
-    /*1133:*/
-
-  case noaligngroup:   /*:1133*/
-    endgraf();
-    unsave();
-    alignpeek();
-    break;
-    /*1168:*/
-
-  case vcentergroup:   /*:1168*/
-    endgraf();
-    unsave();
-    saveptr -= 2;
-    p = vpack(link(head), saved(1), saved(0));
-    popnest();
-    tailappend(newnoad());
-    type(tail) = vcenternoad;
-    mathtype(nucleus(tail)) = subbox;
-    info(nucleus(tail)) = p;
-    break;
-    /*1173:*/
-
-  case mathchoicegroup:   /*:1173*/
-    buildchoices();
-    break;
-    /*1186:*/
-
-  case mathgroup:
-    unsave();
-    saveptr--;
-    mathtype(saved(0)) = submlist;
-    p = finmlist(0);
-    info(saved(0)) = p;
-    if (p != 0) {
-      if (link(p) == 0) {
-	if (type(p) == ordnoad) {
-	  if (mathtype(subscr(p)) == empty) {
-	    if (mathtype(supscr(p)) == empty) {
-	      mem[saved(0) - memmin].hh = mem[nucleus(p) - memmin].hh;
-	      freenode(p, noadsize);
-	    }
-	  }
-	} else if (type(p) == accentnoad) {
-	  if (saved(0) == nucleus(tail)) {
-	    if (type(tail) == ordnoad) {   /*1187:*/
-	      q = head;
-	      while (link(q) != tail)
-		q = link(q);
-	      link(q) = p;
-	      freenode(tail, noadsize);
-	      tail = p;
-	    }
-	    /*:1187*/
-	  }
-	}
-      }
-    }
-    break;
-    /*:1186*/
-
-  default:
-    confusion(S(1012));
-    break;
-  }
-
-  /*1027:*/
-}  /*:1068*/
+    /*1027:*/
+} /*:1068*/
 
 
-Static void maincontrol(void)
-{
-  long t;
+Static void maincontrol(void) {
+    long t;
 
-  if (everyjob != 0)
-    begintokenlist(everyjob, everyjobtext);
+    if (everyjob != 0) begintokenlist(everyjob, everyjobtext);
 _Lbigswitch_:
-  getxtoken();
-_Lreswitch:   /*1031:*/
-  if (interrupt != 0) {
-    if (OKtointerrupt) {
-      backinput();
-      checkinterrupt();
-      goto _Lbigswitch_;
-    }  /*_DEBUG*/
-  }
-  if (panicking)   /*_ENDDEBUG*/
-    checkmem(false);
-  if (tracingcommands > 0)   /*:1031*/
-    showcurcmdchr();
-  switch (labs(mode) + curcmd) {
-
-  case hmode + letter:
-  case hmode + otherchar:
-  case hmode + chargiven:
-    goto _Lmainloop;
-    break;
-
-  case hmode + charnum:
-    scancharnum();
-    curchr = curval;
-    goto _Lmainloop;
-    break;
-
-  case hmode + noboundary:
     getxtoken();
-    if (curcmd == letter || curcmd == otherchar || curcmd == chargiven ||
-	curcmd == charnum)
-      cancelboundary = true;
-    goto _Lreswitch;
-    break;
-
-  case hmode + spacer:
-    if (spacefactor == 1000)
-      goto _Lappendnormalspace_;
-    appspace();
-    break;
-
-  case hmode + exspace:
-  case mmode + exspace:   /*1045:*/
-    goto _Lappendnormalspace_;
-    break;
-
-  case vmode:
-  case hmode:
-  case mmode:
-  case vmode + spacer:
-  case mmode + spacer:
-  case mmode + noboundary:
-    /* blank case */
-    break;
-
-  case vmode + ignorespaces:
-  case hmode + ignorespaces:
-  case mmode + ignorespaces:
-    skip_spaces();
-    goto _Lreswitch;
-    break;
-
-  case vmode + stop:   /*1048:*/
-    if (itsallover())
-      goto _Lexit;
-    break;
-
-  case vmode + vmove:
-  case hmode + hmove:
-  case mmode + hmove:
-  case vmode + lastitem:
-  case hmode + lastitem:
-  case mmode + lastitem:
-  case vmode + vadjust:
-  case vmode + italcorr:
-  case vmode + eqno:
-  case hmode + eqno:
-  case vmode + macparam:
-  case hmode + macparam:
-  case mmode + macparam:   /*:1048*/
-    reportillegalcase();
-    break;
-    /*1046:*/
-
-  case vmode + supmark:
-  case hmode + supmark:
-  case vmode + submark:
-  case hmode + submark:
-  case vmode + mathcharnum:
-  case hmode + mathcharnum:
-  case vmode + mathgiven:
-  case hmode + mathgiven:
-  case vmode + mathcomp:
-  case hmode + mathcomp:
-  case vmode + delimnum:
-  case hmode + delimnum:
-  case vmode + leftright:
-  case hmode + leftright:
-  case vmode + above:
-  case hmode + above:
-  case vmode + radical:
-  case hmode + radical:
-  case vmode + mathstyle:
-  case hmode + mathstyle:
-  case vmode + mathchoice:
-  case hmode + mathchoice:
-  case vmode + vcenter:
-  case hmode + vcenter:
-  case vmode + nonscript:
-  case hmode + nonscript:
-  case vmode + mkern:
-  case hmode + mkern:
-  case vmode + limitswitch:
-  case hmode + limitswitch:
-  case vmode + mskip:
-  case hmode + mskip:
-  case vmode + mathaccent:
-  case hmode + mathaccent:
-  case mmode + endv:
-  case mmode + parend:
-  case mmode + stop:
-  case mmode + vskip:
-  case mmode + unvbox:
-  case mmode + valign:
-  case mmode + hrule:   /*:1046*/
-    insertdollarsign();
-    break;
-
-  /*1056:*/
-  case vmode + hrule:
-  case hmode + vrule:
-  case mmode + vrule:   /*:1056*/
-    tailappend(scanrulespec());
-    if (labs(mode) == vmode)
-      prevdepth = ignoredepth;
-    else if (labs(mode) == hmode)
-      spacefactor = 1000;
-    break;
-    /*1057:*/
-
-  case vmode + vskip:
-  case hmode + hskip:
-  case mmode + hskip:
-  case mmode + mskip:
-    appendglue();
-    break;
-
-  case vmode + kern:
-  case hmode + kern:
-  case mmode + kern:
-  case mmode + mkern:   /*:1057*/
-    appendkern();
-    break;
-    /*1063:*/
-
-  case vmode + leftbrace:
-  case hmode + leftbrace:
-    newsavelevel(simplegroup);
-    break;
-
-  case vmode + begingroup:
-  case hmode + begingroup:
-  case mmode + begingroup:
-    newsavelevel(semisimplegroup);
-    break;
-
-  case vmode + endgroup:
-  case hmode + endgroup:
-  case mmode + endgroup:   /*:1063*/
-    if (curgroup == semisimplegroup)
-      unsave();
-    else
-      offsave();
-    break;
-    /*1067:*/
-
-  case vmode + rightbrace:
-  case hmode + rightbrace:
-  case mmode + rightbrace:
-    handlerightbrace();
-    break;
-
-  /*:1067*/
-  /*1073:*/
-  case vmode + hmove:
-  case hmode + vmove:
-  case mmode + vmove:
-    t = curchr;
-    scannormaldimen();
-    if (t == 0)
-      scanbox(curval);
-    else
-      scanbox(-curval);
-    break;
-
-  case vmode + leadership:
-  case hmode + leadership:
-  case mmode + leadership:
-    scanbox(leaderflag - aleaders + curchr);
-    break;
-
-  case vmode + makebox:
-  case hmode + makebox:
-  case mmode + makebox:
-    beginbox(0);
-    break;
-
-  /*:1073*/
-  /*1090:*/
-  case vmode + startpar:
-    newgraf(curchr > 0);
-    break;
-
-  case vmode + letter:
-  case vmode + otherchar:
-  case vmode + charnum:
-  case vmode + chargiven:
-  case vmode + mathshift:
-  case vmode + unhbox:
-  case vmode + vrule:
-  case vmode + accent:
-  case vmode + discretionary:
-  case vmode + hskip:
-  case vmode + valign:
-  case vmode + exspace:
-  case vmode + noboundary:   /*:1090*/
-    backinput();
-    newgraf(true);
-    break;
-    /*1092:*/
-
-  case hmode + startpar:
-  case mmode + startpar:   /*:1092*/
-    indentinhmode();
-    break;
-    /*1094:*/
-
-  case vmode + parend:
-    normalparagraph();
-    if (mode > 0)
-      buildpage();
-    break;
-
-  case hmode + parend:
-    if (alignstate < 0)
-      offsave();
-    endgraf();
-    if (mode == vmode)
-      buildpage();
-    break;
-
-  case hmode + stop:
-  case hmode + vskip:
-  case hmode + hrule:
-  case hmode + unvbox:
-  case hmode + halign:   /*:1094*/
-    headforvmode();
-    break;
-    /*1097:*/
-
-  case vmode + insert_:
-  case hmode + insert_:
-  case mmode + insert_:
-  case hmode + vadjust:
-  case mmode + vadjust:
-    begininsertoradjust();
-    break;
-
-  case vmode + mark_:
-  case hmode + mark_:
-  case mmode + mark_:   /*:1097*/
-    makemark();
-    break;
-
-  /*1102:*/
-  case vmode + breakpenalty:
-  case hmode + breakpenalty:
-  case mmode + breakpenalty:
-    appendpenalty();
-    break;
-
-  /*:1102*/
-  /*1104:*/
-  case vmode + removeitem:
-  case hmode + removeitem:
-  case mmode + removeitem:   /*:1104*/
-    deletelast();
-    break;
-
-  /*1109:*/
-  case vmode + unvbox:
-  case hmode + unhbox:
-  case mmode + unhbox:
-    unpackage();
-    break;
-
-  /*:1109*/
-  /*1112:*/
-  case hmode + italcorr:
-    appenditaliccorrection();
-    break;
-
-  case mmode + italcorr:   /*:1112*/
-    tailappend(newkern(0));
-    break;
-    /*1116:*/
-
-  case hmode + discretionary:
-  case mmode + discretionary:   /*:1116*/
-    appenddiscretionary();
-    break;
-
-  /*1122:*/
-  case hmode + accent:
-    makeaccent();
-    break;
-
-  /*:1122*/
-  /*1126:*/
-  case vmode + carret:
-  case hmode + carret:
-  case mmode + carret:
-  case vmode + tabmark:
-  case hmode + tabmark:
-  case mmode + tabmark:
-    alignerror();
-    break;
-
-  case vmode + noalign:
-  case hmode + noalign:
-  case mmode + noalign:
-    noalignerror();
-    break;
-
-  case vmode + omit:
-  case hmode + omit:
-  case mmode + omit:   /*:1126*/
-    omiterror();
-    break;
-    /*1130:*/
-
-  case vmode + halign:
-  case hmode + valign:
-    initalign();
-    break;
-
-  case mmode + halign:
-    if (privileged()) {
-      if (curgroup == mathshiftgroup)
-	initalign();
-      else
-	offsave();
+_Lreswitch: /*1031:*/
+    if (interrupt != 0) {
+        if (OKtointerrupt) {
+            backinput();
+            checkinterrupt();
+            goto _Lbigswitch_;
+        }
     }
-    break;
+#ifdef tt_DEBUG
+    if (panicking) checkmem(false);
+#endif // #1031: tt_DEBUG
+    if (tracingcommands > 0) /*:1031*/
+        showcurcmdchr();
+    switch (labs(mode) + curcmd) {
+        case hmode + letter:
+        case hmode + otherchar:
+        case hmode + chargiven:
+            goto _Lmainloop;
+            break;
 
-  case vmode + endv:
-  case hmode + endv:   /*:1130*/
-    doendv();
-    break;
-    /*1134:*/
+        case hmode + charnum:
+            scancharnum();
+            curchr = curval;
+            goto _Lmainloop;
+            break;
 
-  case vmode + endcsname:
-  case hmode + endcsname:
-  case mmode + endcsname:   /*:1134*/
-    cserror();
-    break;
-    /*1137:*/
+        case hmode + noboundary:
+            getxtoken();
+            if (curcmd == letter || curcmd == otherchar ||
+                curcmd == chargiven || curcmd == charnum)
+                cancelboundary = true;
+            goto _Lreswitch;
+            break;
 
-  case hmode + mathshift:   /*:1137*/
-    initmath();
-    break;
-    /*1140:*/
+        case hmode + spacer:
+            if (spacefactor == 1000) goto _Lappendnormalspace_;
+            appspace();
+            break;
 
-  case mmode + eqno:   /*:1140*/
-    if (privileged()) {
-      if (curgroup == mathshiftgroup)
-	starteqno();
-      else
-	offsave();
+        case hmode + exspace:
+        case mmode + exspace: /*1045:*/
+            goto _Lappendnormalspace_;
+            break;
+
+        case vmode:
+        case hmode:
+        case mmode:
+        case vmode + spacer:
+        case mmode + spacer:
+        case mmode + noboundary:
+            /* blank case */
+            break;
+
+        case vmode + ignorespaces:
+        case hmode + ignorespaces:
+        case mmode + ignorespaces:
+            skip_spaces();
+            goto _Lreswitch;
+            break;
+
+        case vmode + stop: /*1048:*/
+            if (itsallover()) goto _Lexit;
+            break;
+
+        case vmode + vmove:
+        case hmode + hmove:
+        case mmode + hmove:
+        case vmode + lastitem:
+        case hmode + lastitem:
+        case mmode + lastitem:
+        case vmode + vadjust:
+        case vmode + italcorr:
+        case vmode + eqno:
+        case hmode + eqno:
+        case vmode + macparam:
+        case hmode + macparam:
+        case mmode + macparam: /*:1048*/
+            reportillegalcase();
+            break;
+            /*1046:*/
+
+        case vmode + supmark:
+        case hmode + supmark:
+        case vmode + submark:
+        case hmode + submark:
+        case vmode + mathcharnum:
+        case hmode + mathcharnum:
+        case vmode + mathgiven:
+        case hmode + mathgiven:
+        case vmode + mathcomp:
+        case hmode + mathcomp:
+        case vmode + delimnum:
+        case hmode + delimnum:
+        case vmode + leftright:
+        case hmode + leftright:
+        case vmode + above:
+        case hmode + above:
+        case vmode + radical:
+        case hmode + radical:
+        case vmode + mathstyle:
+        case hmode + mathstyle:
+        case vmode + mathchoice:
+        case hmode + mathchoice:
+        case vmode + vcenter:
+        case hmode + vcenter:
+        case vmode + nonscript:
+        case hmode + nonscript:
+        case vmode + mkern:
+        case hmode + mkern:
+        case vmode + limitswitch:
+        case hmode + limitswitch:
+        case vmode + mskip:
+        case hmode + mskip:
+        case vmode + mathaccent:
+        case hmode + mathaccent:
+        case mmode + endv:
+        case mmode + parend:
+        case mmode + stop:
+        case mmode + vskip:
+        case mmode + unvbox:
+        case mmode + valign:
+        case mmode + hrule: /*:1046*/
+            insertdollarsign();
+            break;
+
+        /*1056:*/
+        case vmode + hrule:
+        case hmode + vrule:
+        case mmode + vrule: /*:1056*/
+            tailappend(scanrulespec());
+            if (labs(mode) == vmode)
+                prevdepth = ignoredepth;
+            else if (labs(mode) == hmode)
+                spacefactor = 1000;
+            break;
+            /*1057:*/
+
+        case vmode + vskip:
+        case hmode + hskip:
+        case mmode + hskip:
+        case mmode + mskip:
+            appendglue();
+            break;
+
+        case vmode + kern:
+        case hmode + kern:
+        case mmode + kern:
+        case mmode + mkern: /*:1057*/
+            appendkern();
+            break;
+            /*1063:*/
+
+        case vmode + leftbrace:
+        case hmode + leftbrace:
+            newsavelevel(simplegroup);
+            break;
+
+        case vmode + begingroup:
+        case hmode + begingroup:
+        case mmode + begingroup:
+            newsavelevel(semisimplegroup);
+            break;
+
+        case vmode + endgroup:
+        case hmode + endgroup:
+        case mmode + endgroup: /*:1063*/
+            if (curgroup == semisimplegroup)
+                unsave();
+            else
+                offsave();
+            break;
+            /*1067:*/
+
+        case vmode + rightbrace:
+        case hmode + rightbrace:
+        case mmode + rightbrace:
+            handlerightbrace();
+            break;
+
+        /*:1067*/
+        /*1073:*/
+        case vmode + hmove:
+        case hmode + vmove:
+        case mmode + vmove:
+            t = curchr;
+            scannormaldimen();
+            if (t == 0)
+                scanbox(curval);
+            else
+                scanbox(-curval);
+            break;
+
+        case vmode + leadership:
+        case hmode + leadership:
+        case mmode + leadership:
+            scanbox(leaderflag - aleaders + curchr);
+            break;
+
+        case vmode + makebox:
+        case hmode + makebox:
+        case mmode + makebox:
+            beginbox(0);
+            break;
+
+        /*:1073*/
+        /*1090:*/
+        case vmode + startpar:
+            newgraf(curchr > 0);
+            break;
+
+        case vmode + letter:
+        case vmode + otherchar:
+        case vmode + charnum:
+        case vmode + chargiven:
+        case vmode + mathshift:
+        case vmode + unhbox:
+        case vmode + vrule:
+        case vmode + accent:
+        case vmode + discretionary:
+        case vmode + hskip:
+        case vmode + valign:
+        case vmode + exspace:
+        case vmode + noboundary: /*:1090*/
+            backinput();
+            newgraf(true);
+            break;
+            /*1092:*/
+
+        case hmode + startpar:
+        case mmode + startpar: /*:1092*/
+            indentinhmode();
+            break;
+            /*1094:*/
+
+        case vmode + parend:
+            normalparagraph();
+            if (mode > 0) buildpage();
+            break;
+
+        case hmode + parend:
+            if (alignstate < 0) offsave();
+            endgraf();
+            if (mode == vmode) buildpage();
+            break;
+
+        case hmode + stop:
+        case hmode + vskip:
+        case hmode + hrule:
+        case hmode + unvbox:
+        case hmode + halign: /*:1094*/
+            headforvmode();
+            break;
+            /*1097:*/
+
+        case vmode + insert_:
+        case hmode + insert_:
+        case mmode + insert_:
+        case hmode + vadjust:
+        case mmode + vadjust:
+            begininsertoradjust();
+            break;
+
+        case vmode + mark_:
+        case hmode + mark_:
+        case mmode + mark_: /*:1097*/
+            makemark();
+            break;
+
+        /*1102:*/
+        case vmode + breakpenalty:
+        case hmode + breakpenalty:
+        case mmode + breakpenalty:
+            appendpenalty();
+            break;
+
+        /*:1102*/
+        /*1104:*/
+        case vmode + removeitem:
+        case hmode + removeitem:
+        case mmode + removeitem: /*:1104*/
+            deletelast();
+            break;
+
+        /*1109:*/
+        case vmode + unvbox:
+        case hmode + unhbox:
+        case mmode + unhbox:
+            unpackage();
+            break;
+
+        /*:1109*/
+        /*1112:*/
+        case hmode + italcorr:
+            appenditaliccorrection();
+            break;
+
+        case mmode + italcorr: /*:1112*/
+            tailappend(newkern(0));
+            break;
+            /*1116:*/
+
+        case hmode + discretionary:
+        case mmode + discretionary: /*:1116*/
+            appenddiscretionary();
+            break;
+
+        /*1122:*/
+        case hmode + accent:
+            makeaccent();
+            break;
+
+        /*:1122*/
+        /*1126:*/
+        case vmode + carret:
+        case hmode + carret:
+        case mmode + carret:
+        case vmode + tabmark:
+        case hmode + tabmark:
+        case mmode + tabmark:
+            alignerror();
+            break;
+
+        case vmode + noalign:
+        case hmode + noalign:
+        case mmode + noalign:
+            noalignerror();
+            break;
+
+        case vmode + omit:
+        case hmode + omit:
+        case mmode + omit: /*:1126*/
+            omiterror();
+            break;
+            /*1130:*/
+
+        case vmode + halign:
+        case hmode + valign:
+            initalign();
+            break;
+
+        case mmode + halign:
+            if (privileged()) {
+                if (curgroup == mathshiftgroup)
+                    initalign();
+                else
+                    offsave();
+            }
+            break;
+
+        case vmode + endv:
+        case hmode + endv: /*:1130*/
+            doendv();
+            break;
+            /*1134:*/
+
+        case vmode + endcsname:
+        case hmode + endcsname:
+        case mmode + endcsname: /*:1134*/
+            cserror();
+            break;
+            /*1137:*/
+
+        case hmode + mathshift: /*:1137*/
+            initmath();
+            break;
+            /*1140:*/
+
+        case mmode + eqno: /*:1140*/
+            if (privileged()) {
+                if (curgroup == mathshiftgroup)
+                    starteqno();
+                else
+                    offsave();
+            }
+            break;
+            /*1150:*/
+
+        case mmode + leftbrace: /*:1150*/
+            tailappend(newnoad());
+            backinput();
+            scanmath(nucleus(tail));
+            break;
+            /*1154:*/
+
+        case mmode + letter:
+        case mmode + otherchar:
+        case mmode + chargiven:
+            setmathchar(mathcode(curchr));
+            break;
+
+        case mmode + charnum:
+            scancharnum();
+            curchr = curval;
+            setmathchar(mathcode(curchr));
+            break;
+
+        case mmode + mathcharnum:
+            scanfifteenbitint();
+            setmathchar(curval);
+            break;
+
+        case mmode + mathgiven:
+            setmathchar(curchr);
+            break;
+
+        case mmode + delimnum: /*:1154*/
+            scantwentysevenbitint();
+            setmathchar(curval / 4096);
+            break;
+            /*1158:*/
+
+        case mmode + mathcomp:
+            tailappend(newnoad());
+            type(tail) = curchr;
+            scanmath(nucleus(tail));
+            break;
+
+        case mmode + limitswitch: /*:1158*/
+            mathlimitswitch();
+            break;
+            /*1162:*/
+
+        case mmode + radical: /*:1162*/
+            mathradical();
+            break;
+            /*1164:*/
+
+        case mmode + accent:
+        case mmode + mathaccent: /*:1164*/
+            mathac();
+            break;
+            /*1167:*/
+
+        case mmode + vcenter:
+            scanspec(vcentergroup, false);
+            normalparagraph();
+            pushnest();
+            mode = -vmode;
+            prevdepth = ignoredepth;
+            if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
+            break;
+            /*:1167*/
+
+        /*1171:*/
+        case mmode + mathstyle:
+            tailappend(newstyle(curchr));
+            break;
+
+        case mmode + nonscript:
+            tailappend(newglue(zeroglue));
+            subtype(tail) = condmathglue;
+            break;
+
+        case mmode + mathchoice:
+            appendchoices();
+            break;
+
+        /*:1171*/
+        /*1175:*/
+        case mmode + submark:
+        case mmode + supmark:
+            subsup();
+            break;
+
+        /*:1175*/
+        /*1180:*/
+        case mmode + above: /*:1180*/
+            mathfraction();
+            break;
+            /*1190:*/
+
+        case mmode + leftright:
+            mathleftright();
+            break;
+
+        /*:1190*/
+        /*1193:*/
+        case mmode + mathshift:
+            if (curgroup == mathshiftgroup)
+                aftermath();
+            else
+                offsave();
+            break;
+
+        /*:1193*/
+        /*1210:*/
+        case vmode + toksregister:
+        case hmode + toksregister:
+        case mmode + toksregister:
+        case vmode + assigntoks:
+        case hmode + assigntoks:
+        case mmode + assigntoks:
+        case vmode + assignint:
+        case hmode + assignint:
+        case mmode + assignint:
+        case vmode + assigndimen:
+        case hmode + assigndimen:
+        case mmode + assigndimen:
+        case vmode + assignglue:
+        case hmode + assignglue:
+        case mmode + assignglue:
+        case vmode + assignmuglue:
+        case hmode + assignmuglue:
+        case mmode + assignmuglue:
+        case vmode + assignfontdimen:
+        case hmode + assignfontdimen:
+        case mmode + assignfontdimen:
+        case vmode + assignfontint:
+        case hmode + assignfontint:
+        case mmode + assignfontint:
+        case vmode + setaux:
+        case hmode + setaux:
+        case mmode + setaux:
+        case vmode + setprevgraf:
+        case hmode + setprevgraf:
+        case mmode + setprevgraf:
+        case vmode + setpagedimen:
+        case hmode + setpagedimen:
+        case mmode + setpagedimen:
+        case vmode + setpageint:
+        case hmode + setpageint:
+        case mmode + setpageint:
+        case vmode + setboxdimen:
+        case hmode + setboxdimen:
+        case mmode + setboxdimen:
+        case vmode + setshape:
+        case hmode + setshape:
+        case mmode + setshape:
+        case vmode + defcode:
+        case hmode + defcode:
+        case mmode + defcode:
+        case vmode + deffamily:
+        case hmode + deffamily:
+        case mmode + deffamily:
+        case vmode + setfont:
+        case hmode + setfont:
+        case mmode + setfont:
+        case vmode + deffont:
+        case hmode + deffont:
+        case mmode + deffont:
+        case vmode + register_:
+        case hmode + register_:
+        case mmode + register_:
+        case vmode + advance:
+        case hmode + advance:
+        case mmode + advance:
+        case vmode + multiply:
+        case hmode + multiply:
+        case mmode + multiply:
+        case vmode + divide:
+        case hmode + divide:
+        case mmode + divide:
+        case vmode + prefix:
+        case hmode + prefix:
+        case mmode + prefix:
+        case vmode + let:
+        case hmode + let:
+        case mmode + let:
+        case vmode + shorthanddef:
+        case hmode + shorthanddef:
+        case mmode + shorthanddef:
+        case vmode + readtocs:
+        case hmode + readtocs:
+        case mmode + readtocs:
+        case vmode + def:
+        case hmode + def:
+        case mmode + def:
+        case vmode + setbox:
+        case hmode + setbox:
+        case mmode + setbox:
+        case vmode + hyphdata:
+        case hmode + hyphdata:
+        case mmode + hyphdata:
+        case vmode + setinteraction:
+        case hmode + setinteraction:
+        case mmode + setinteraction: /*:1210*/
+            prefixedcommand();
+            break;
+            /*1268:*/
+
+        case vmode + afterassignment:
+        case hmode + afterassignment:
+        case mmode + afterassignment: /*:1268*/
+            gettoken();
+            aftertoken = curtok;
+            break;
+            /*1271:*/
+
+        case vmode + aftergroup:
+        case hmode + aftergroup:
+        case mmode + aftergroup: /*:1271*/
+            gettoken();
+            saveforafter(curtok);
+            break;
+            /*1274:*/
+
+        case vmode + instream:
+        case hmode + instream:
+        case mmode + instream: /*:1274*/
+            openorclosein();
+            break;
+
+        /*1276:*/
+        case vmode + message:
+        case hmode + message:
+        case mmode + message:
+            issuemessage();
+            break;
+
+        /*:1276*/
+        /*1285:*/
+        case vmode + caseshift:
+        case hmode + caseshift:
+        case mmode + caseshift:
+            shiftcase();
+            break;
+
+        /*:1285*/
+        /*1290:*/
+        case vmode + xray:
+        case hmode + xray:
+        case mmode + xray:
+            showwhatever();
+            break;
+
+        /*:1290*/
+        /*1347:*/
+        case vmode + extension:
+        case hmode + extension:
+        case mmode + extension: /*:1347*/
+            doextension();
+            break;
+            /*:1045*/
     }
-    break;
-    /*1150:*/
-
-  case mmode + leftbrace:   /*:1150*/
-    tailappend(newnoad());
-    backinput();
-    scanmath(nucleus(tail));
-    break;
-    /*1154:*/
-
-  case mmode + letter:
-  case mmode + otherchar:
-  case mmode + chargiven:
-    setmathchar(mathcode(curchr));
-    break;
-
-  case mmode + charnum:
-    scancharnum();
-    curchr = curval;
-    setmathchar(mathcode(curchr));
-    break;
-
-  case mmode + mathcharnum:
-    scanfifteenbitint();
-    setmathchar(curval);
-    break;
-
-  case mmode + mathgiven:
-    setmathchar(curchr);
-    break;
-
-  case mmode + delimnum:   /*:1154*/
-    scantwentysevenbitint();
-    setmathchar(curval / 4096);
-    break;
-    /*1158:*/
-
-  case mmode + mathcomp:
-    tailappend(newnoad());
-    type(tail) = curchr;
-    scanmath(nucleus(tail));
-    break;
-
-  case mmode + limitswitch:   /*:1158*/
-    mathlimitswitch();
-    break;
-    /*1162:*/
-
-  case mmode + radical:   /*:1162*/
-    mathradical();
-    break;
-    /*1164:*/
-
-  case mmode + accent:
-  case mmode + mathaccent:   /*:1164*/
-    mathac();
-    break;
-    /*1167:*/
-
-  case mmode + vcenter:
-    scanspec(vcentergroup, false);
-    normalparagraph();
-    pushnest();
-    mode = -vmode;
-    prevdepth = ignoredepth;
-    if (everyvbox != 0)
-      begintokenlist(everyvbox, everyvboxtext);
-    break;
-    /*:1167*/
-
-  /*1171:*/
-  case mmode + mathstyle:
-    tailappend(newstyle(curchr));
-    break;
-
-  case mmode + nonscript:
-    tailappend(newglue(zeroglue));
-    subtype(tail) = condmathglue;
-    break;
-
-  case mmode + mathchoice:
-    appendchoices();
-    break;
-
-  /*:1171*/
-  /*1175:*/
-  case mmode + submark:
-  case mmode + supmark:
-    subsup();
-    break;
-
-  /*:1175*/
-  /*1180:*/
-  case mmode + above:   /*:1180*/
-    mathfraction();
-    break;
-    /*1190:*/
-
-  case mmode + leftright:
-    mathleftright();
-    break;
-
-  /*:1190*/
-  /*1193:*/
-  case mmode + mathshift:
-    if (curgroup == mathshiftgroup)
-      aftermath();
-    else
-      offsave();
-    break;
-
-  /*:1193*/
-  /*1210:*/
-  case vmode + toksregister:
-  case hmode + toksregister:
-  case mmode + toksregister:
-  case vmode + assigntoks:
-  case hmode + assigntoks:
-  case mmode + assigntoks:
-  case vmode + assignint:
-  case hmode + assignint:
-  case mmode + assignint:
-  case vmode + assigndimen:
-  case hmode + assigndimen:
-  case mmode + assigndimen:
-  case vmode + assignglue:
-  case hmode + assignglue:
-  case mmode + assignglue:
-  case vmode + assignmuglue:
-  case hmode + assignmuglue:
-  case mmode + assignmuglue:
-  case vmode + assignfontdimen:
-  case hmode + assignfontdimen:
-  case mmode + assignfontdimen:
-  case vmode + assignfontint:
-  case hmode + assignfontint:
-  case mmode + assignfontint:
-  case vmode + setaux:
-  case hmode + setaux:
-  case mmode + setaux:
-  case vmode + setprevgraf:
-  case hmode + setprevgraf:
-  case mmode + setprevgraf:
-  case vmode + setpagedimen:
-  case hmode + setpagedimen:
-  case mmode + setpagedimen:
-  case vmode + setpageint:
-  case hmode + setpageint:
-  case mmode + setpageint:
-  case vmode + setboxdimen:
-  case hmode + setboxdimen:
-  case mmode + setboxdimen:
-  case vmode + setshape:
-  case hmode + setshape:
-  case mmode + setshape:
-  case vmode + defcode:
-  case hmode + defcode:
-  case mmode + defcode:
-  case vmode + deffamily:
-  case hmode + deffamily:
-  case mmode + deffamily:
-  case vmode + setfont:
-  case hmode + setfont:
-  case mmode + setfont:
-  case vmode + deffont:
-  case hmode + deffont:
-  case mmode + deffont:
-  case vmode + register_:
-  case hmode + register_:
-  case mmode + register_:
-  case vmode + advance:
-  case hmode + advance:
-  case mmode + advance:
-  case vmode + multiply:
-  case hmode + multiply:
-  case mmode + multiply:
-  case vmode + divide:
-  case hmode + divide:
-  case mmode + divide:
-  case vmode + prefix:
-  case hmode + prefix:
-  case mmode + prefix:
-  case vmode + let:
-  case hmode + let:
-  case mmode + let:
-  case vmode + shorthanddef:
-  case hmode + shorthanddef:
-  case mmode + shorthanddef:
-  case vmode + readtocs:
-  case hmode + readtocs:
-  case mmode + readtocs:
-  case vmode + def:
-  case hmode + def:
-  case mmode + def:
-  case vmode + setbox:
-  case hmode + setbox:
-  case mmode + setbox:
-  case vmode + hyphdata:
-  case hmode + hyphdata:
-  case mmode + hyphdata:
-  case vmode + setinteraction:
-  case hmode + setinteraction:
-  case mmode + setinteraction:   /*:1210*/
-    prefixedcommand();
-    break;
-    /*1268:*/
-
-  case vmode + afterassignment:
-  case hmode + afterassignment:
-  case mmode + afterassignment:   /*:1268*/
-    gettoken();
-    aftertoken = curtok;
-    break;
-    /*1271:*/
-
-  case vmode + aftergroup:
-  case hmode + aftergroup:
-  case mmode + aftergroup:   /*:1271*/
-    gettoken();
-    saveforafter(curtok);
-    break;
-    /*1274:*/
-
-  case vmode + instream:
-  case hmode + instream:
-  case mmode + instream:   /*:1274*/
-    openorclosein();
-    break;
-
-  /*1276:*/
-  case vmode + message:
-  case hmode + message:
-  case mmode + message:
-    issuemessage();
-    break;
-
-  /*:1276*/
-  /*1285:*/
-  case vmode + caseshift:
-  case hmode + caseshift:
-  case mmode + caseshift:
-    shiftcase();
-    break;
-
-  /*:1285*/
-  /*1290:*/
-  case vmode + xray:
-  case hmode + xray:
-  case mmode + xray:
-    showwhatever();
-    break;
-
-  /*:1290*/
-  /*1347:*/
-  case vmode + extension:
-  case hmode + extension:
-  case mmode + extension:   /*:1347*/
-    doextension();
-    break;
-    /*:1045*/
-  }
-  goto _Lbigswitch_;
+    goto _Lbigswitch_;
 _Lmainloop:
-  /*1034:*/
-  adjustspacefactor();
-  mainf = curfont;
-  bchar = fontbchar[mainf ];
-  falsebchar = fontfalsebchar[mainf ];
-  if (mode > 0) {
-    if (language != clang)
-      fixlanguage();
-  }
-  fastgetavail(ligstack);
-  font(ligstack) = mainf;
-  curl = curchr;
-  character(ligstack) = curl;
-  curq = tail;
-  if (cancelboundary) {
-    cancelboundary = false;
-    maink = nonaddress;
-  } else
-    maink = bcharlabel[mainf ];
-  if (maink == nonaddress)
-    goto _Lmainloopmove2;
-  curr = curl;
-  curl = nonchar;
-  goto _Lmainligloop1;
-_Lmainloopwrapup:   /*1035:*/
-  wrapup(rthit);   /*:1035*/
-_Lmainloopmove:   /*1036:*/
-  if (ligstack == 0)
-    goto _Lreswitch;
-  curq = tail;
-  curl = character(ligstack);
+    /*1034:*/
+    adjustspacefactor();
+    mainf = curfont;
+    bchar = fontbchar[mainf];
+    falsebchar = fontfalsebchar[mainf];
+    if (mode > 0) {
+        if (language != clang) fixlanguage();
+    }
+    fastgetavail(ligstack);
+    font(ligstack) = mainf;
+    curl = curchr;
+    character(ligstack) = curl;
+    curq = tail;
+    if (cancelboundary) {
+        cancelboundary = false;
+        maink = nonaddress;
+    } else
+        maink = bcharlabel[mainf];
+    if (maink == nonaddress) goto _Lmainloopmove2;
+    curr = curl;
+    curl = nonchar;
+    goto _Lmainligloop1;
+_Lmainloopwrapup:  /*1035:*/
+    wrapup(rthit); /*:1035*/
+_Lmainloopmove:    /*1036:*/
+    if (ligstack == 0) goto _Lreswitch;
+    curq = tail;
+    curl = character(ligstack);
 _Lmainloopmove1:
-  if (!ischarnode(ligstack))
-    goto _Lmainloopmovelig;
+    if (!ischarnode(ligstack)) goto _Lmainloopmovelig;
 _Lmainloopmove2:
-  if (curchr < fontbc[mainf ] || curchr > fontec[mainf ]) {
-    charwarning(mainf, curchr);
-    freeavail(ligstack);
-    goto _Lbigswitch_;
-  }
-  maini = charinfo(mainf, curl);
-  if (!charexists(maini)) {
-    charwarning(mainf, curchr);
-    freeavail(ligstack);
-    goto _Lbigswitch_;
-  }
-  tailappend(ligstack);   /*:1036*/
-_Lmainlooplookahead:   /*1038:*/
-  getnext();
-  if (curcmd == letter)
-    goto _Lmainlooplookahead1;
-  if (curcmd == otherchar)
-    goto _Lmainlooplookahead1;
-  if (curcmd == chargiven)
-    goto _Lmainlooplookahead1;
-  xtoken();
-  if (curcmd == letter)
-    goto _Lmainlooplookahead1;
-  if (curcmd == otherchar)
-    goto _Lmainlooplookahead1;
-  if (curcmd == chargiven)
-    goto _Lmainlooplookahead1;
-  if (curcmd == charnum) {
-    scancharnum();
-    curchr = curval;
-    goto _Lmainlooplookahead1;
-  }
-  if (curcmd == noboundary)
-    bchar = nonchar;
-  curr = bchar;
-  ligstack = 0;
-  goto _Lmainligloop;
-_Lmainlooplookahead1:
-  adjustspacefactor();
-  fastgetavail(ligstack);
-  font(ligstack) = mainf;
-  curr = curchr;
-  character(ligstack) = curr;
-  if (curr == falsebchar)
-    curr = nonchar;   /*:1038*/
-_Lmainligloop:   /*1039:*/
-  if (chartag(maini) != ligtag) {
-    goto _Lmainloopwrapup;
-  }
-  maink = ligkernstart(mainf,maini);
-  mainj = fontinfo[maink].qqqq;
-  if (skipbyte(mainj) <= stopflag)
-    goto _Lmainligloop2;
-  maink = ligkernrestart(mainf,mainj);
-_Lmainligloop1:
-  mainj = fontinfo[maink].qqqq;
-_Lmainligloop2:
-  if (nextchar(mainj) == curr) {
-    if (skipbyte(mainj) <= stopflag) {   /*1040:*/
-      if (opbyte(mainj) >= kernflag) {
-	wrapup(rthit);
-	tailappend(newkern(charkern(mainf, mainj)));
-	goto _Lmainloopmove;
-      }
-      if (curl == nonchar)
-	lfthit = true;
-      else if (ligstack == 0)
-	rthit = true;
-      checkinterrupt();
-      switch (opbyte(mainj)) {
-
-      case minquarterword + 1:
-      case minquarterword + 5:
-	curl = rembyte(mainj);
-	maini = charinfo(mainf, curl);
-	ligaturepresent = true;
-	break;
-
-      case minquarterword + 2:
-      case minquarterword + 6:
-	curr = rembyte(mainj);
-	if (ligstack == 0) {
-	  ligstack = newligitem(curr);
-	  bchar = nonchar;
-	} else if (ischarnode(ligstack)) {
-	  mainp = ligstack;
-	  ligstack = newligitem(curr);
-	  ligptr(ligstack) = mainp;
-	} else
-	  character(ligstack) = curr;
-	break;
-
-      case minquarterword + 3:
-	curr = rembyte(mainj);
-	mainp = ligstack;
-	ligstack = newligitem(curr);
-	link(ligstack) = mainp;
-	break;
-
-      case minquarterword + 7:
-      case minquarterword + 11:
-	wrapup(false);
-	curq = tail;
-	curl = rembyte(mainj);
-	maini = charinfo(mainf, curl);
-	ligaturepresent = true;
-	break;
-
-      default:
-	curl = rembyte(mainj);
-	ligaturepresent = true;
-	if (ligstack == 0)
-	  goto _Lmainloopwrapup;
-	else
-	  goto _Lmainloopmove1;
-	break;
-      }
-      if (opbyte(mainj) > minquarterword + 4) {
-	if (opbyte(mainj) != minquarterword + 7)
-	  goto _Lmainloopwrapup;
-      }
-      if (curl < nonchar)
-	goto _Lmainligloop;
-      maink = bcharlabel[mainf ];
-      goto _Lmainligloop1;
+    if (curchr < fontbc[mainf] || curchr > fontec[mainf]) {
+        charwarning(mainf, curchr);
+        freeavail(ligstack);
+        goto _Lbigswitch_;
     }
-    /*:1040*/
-  }
-  if (skipbyte(mainj) == minquarterword)
-    maink++;
-  else {
-    if (skipbyte(mainj) >= stopflag)
-      goto _Lmainloopwrapup;
-    maink += skipbyte(mainj) - minquarterword + 1;
-  }
-  goto _Lmainligloop1;   /*:1039*/
-_Lmainloopmovelig:   /*1037:*/
-  mainp = ligptr(ligstack);
-  if (mainp > 0) {
-    tailappend(mainp);
-  }
-  tempptr = ligstack;
-  ligstack = link(tempptr);
-  freenode(tempptr, smallnodesize);
-  maini = charinfo(mainf, curl);
-  ligaturepresent = true;
-  if (ligstack == 0) {
-    if (mainp > 0)
-      goto _Lmainlooplookahead;
+    maini = charinfo(mainf, curl);
+    if (!charexists(maini)) {
+        charwarning(mainf, curchr);
+        freeavail(ligstack);
+        goto _Lbigswitch_;
+    }
+    tailappend(ligstack); /*:1036*/
+_Lmainlooplookahead:      /*1038:*/
+    getnext();
+    if (curcmd == letter) goto _Lmainlooplookahead1;
+    if (curcmd == otherchar) goto _Lmainlooplookahead1;
+    if (curcmd == chargiven) goto _Lmainlooplookahead1;
+    xtoken();
+    if (curcmd == letter) goto _Lmainlooplookahead1;
+    if (curcmd == otherchar) goto _Lmainlooplookahead1;
+    if (curcmd == chargiven) goto _Lmainlooplookahead1;
+    if (curcmd == charnum) {
+        scancharnum();
+        curchr = curval;
+        goto _Lmainlooplookahead1;
+    }
+    if (curcmd == noboundary) bchar = nonchar;
     curr = bchar;
-  } else
-    curr = character(ligstack);
-  goto _Lmainligloop;   /*:1037*/
-  /*:1034*/
-_Lappendnormalspace_:   /*1041:*/
-  if (spaceskip == zeroglue) {  /*1042:*/
-    mainp = fontglue[curfont ];
-    if (mainp == 0) {   /*:1042*/
-      fontindex mmaink;
-      mainp = newspec(zeroglue);
-      mmaink = parambase[curfont ] + spacecode;
-#if 1
-	maink = mmaink;
-#endif
-      width(mainp) = fontinfo[mmaink].sc;
-      stretch(mainp) = fontinfo[mmaink + 1].sc;
-      shrink(mainp) = fontinfo[mmaink + 2].sc;
-      fontglue[curfont ] = mainp;
+    ligstack = 0;
+    goto _Lmainligloop;
+_Lmainlooplookahead1:
+    adjustspacefactor();
+    fastgetavail(ligstack);
+    font(ligstack) = mainf;
+    curr = curchr;
+    character(ligstack) = curr;
+    if (curr == falsebchar) curr = nonchar; /*:1038*/
+_Lmainligloop:                              /*1039:*/
+    if (chartag(maini) != ligtag) {
+        goto _Lmainloopwrapup;
     }
-    tempptr = newglue(mainp);
-  } else
-    tempptr = newparamglue(spaceskipcode);
-  link(tail) = tempptr;
-  tail = tempptr;
-  goto _Lbigswitch_;   /*:1041*/
-_Lexit: ;
+    maink = ligkernstart(mainf, maini);
+    mainj = fontinfo[maink].qqqq;
+    if (skipbyte(mainj) <= stopflag) goto _Lmainligloop2;
+    maink = ligkernrestart(mainf, mainj);
+_Lmainligloop1:
+    mainj = fontinfo[maink].qqqq;
+_Lmainligloop2:
+    if (nextchar(mainj) == curr) {
+        if (skipbyte(mainj) <= stopflag) { /*1040:*/
+            if (opbyte(mainj) >= kernflag) {
+                wrapup(rthit);
+                tailappend(newkern(charkern(mainf, mainj)));
+                goto _Lmainloopmove;
+            }
+            if (curl == nonchar)
+                lfthit = true;
+            else if (ligstack == 0)
+                rthit = true;
+            checkinterrupt();
+            switch (opbyte(mainj)) {
+
+                case minquarterword + 1:
+                case minquarterword + 5:
+                    curl = rembyte(mainj);
+                    maini = charinfo(mainf, curl);
+                    ligaturepresent = true;
+                    break;
+
+                case minquarterword + 2:
+                case minquarterword + 6:
+                    curr = rembyte(mainj);
+                    if (ligstack == 0) {
+                        ligstack = newligitem(curr);
+                        bchar = nonchar;
+                    } else if (ischarnode(ligstack)) {
+                        mainp = ligstack;
+                        ligstack = newligitem(curr);
+                        ligptr(ligstack) = mainp;
+                    } else
+                        character(ligstack) = curr;
+                    break;
+
+                case minquarterword + 3:
+                    curr = rembyte(mainj);
+                    mainp = ligstack;
+                    ligstack = newligitem(curr);
+                    link(ligstack) = mainp;
+                    break;
+
+                case minquarterword + 7:
+                case minquarterword + 11:
+                    wrapup(false);
+                    curq = tail;
+                    curl = rembyte(mainj);
+                    maini = charinfo(mainf, curl);
+                    ligaturepresent = true;
+                    break;
+
+                default:
+                    curl = rembyte(mainj);
+                    ligaturepresent = true;
+                    if (ligstack == 0)
+                        goto _Lmainloopwrapup;
+                    else
+                        goto _Lmainloopmove1;
+                    break;
+            }
+            if (opbyte(mainj) > minquarterword + 4) {
+                if (opbyte(mainj) != minquarterword + 7) goto _Lmainloopwrapup;
+            }
+            if (curl < nonchar) goto _Lmainligloop;
+            maink = bcharlabel[mainf];
+            goto _Lmainligloop1;
+        }
+        /*:1040*/
+    }
+    if (skipbyte(mainj) == minquarterword)
+        maink++;
+    else {
+        if (skipbyte(mainj) >= stopflag) goto _Lmainloopwrapup;
+        maink += skipbyte(mainj) - minquarterword + 1;
+    }
+    goto _Lmainligloop1; /*:1039*/
+_Lmainloopmovelig:       /*1037:*/
+    mainp = ligptr(ligstack);
+    if (mainp > 0) {
+        tailappend(mainp);
+    }
+    tempptr = ligstack;
+    ligstack = link(tempptr);
+    freenode(tempptr, smallnodesize);
+    maini = charinfo(mainf, curl);
+    ligaturepresent = true;
+    if (ligstack == 0) {
+        if (mainp > 0) goto _Lmainlooplookahead;
+        curr = bchar;
+    } else
+        curr = character(ligstack);
+    goto _Lmainligloop;          /*:1037*/
+                                 /*:1034*/
+_Lappendnormalspace_:            /*1041:*/
+    if (spaceskip == zeroglue) { /*1042:*/
+        mainp = fontglue[curfont];
+        if (mainp == 0) { /*:1042*/
+            fontindex mmaink;
+            mainp = newspec(zeroglue);
+            mmaink = parambase[curfont] + spacecode;
+#if 1
+            maink = mmaink;
+#endif
+            width(mainp) = fontinfo[mmaink].sc;
+            stretch(mainp) = fontinfo[mmaink + 1].sc;
+            shrink(mainp) = fontinfo[mmaink + 2].sc;
+            fontglue[curfont] = mainp;
+        }
+        tempptr = newglue(mainp);
+    } else
+        tempptr = newparamglue(spaceskipcode);
+    link(tail) = tempptr;
+    tail = tempptr;
+    goto _Lbigswitch_; /*:1041*/
+_Lexit:;
 }
 /*:1030*/
 
 /*1284:*/
-Static void giveerrhelp(void)
-{
-  tokenshow(errhelp);
-}
+Static void giveerrhelp(void) { tokenshow(errhelp); }
 /*:1284*/
 
 /*1303:*/
-Static boolean openfmtfile(void)
-{
-	return open_fmt(&fmtfile,stdout);
-}
+Static boolean openfmtfile(void) { return open_fmt(&fmtfile, stdout); }
 /*:524*/
 
-Static boolean loadfmtfile(void)
-{  /*1308:*/
-  boolean Result;
-  long j, k, x;
-  pointer p, q;
-  /* fourquarters w; */
-  memoryword pppfmtfile;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != 371982687L)
-    goto _Lbadfmt_;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != membot)
-    goto _Lbadfmt_;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != memtop)
-    goto _Lbadfmt_;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != eqtbsize)
-    goto _Lbadfmt_;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != hashprime)
-    goto _Lbadfmt_;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x != hyphsize)   /*1310:*/
-    goto _Lbadfmt_;
-  if(!str_undump(fmtfile,stdout)) goto _Lbadfmt_;
-  /*1312:*/
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < lomemstatmax + 1000 || x >= himemstatmin)
-    goto _Lbadfmt_;
-  lomemmax = x;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x <= lomemstatmax || x > lomemmax)
-    goto _Lbadfmt_;
-  rover = x;
-  p = membot;
-  q = rover;
-  do {
-    for (k = p; k <= q + 1; k++) {
-      pget(pppfmtfile);
-      mem[k - memmin] = pppfmtfile;
+Static boolean loadfmtfile(void) { /*1308:*/
+    boolean Result;
+    long j, k, x;
+    pointer p, q;
+    /* fourquarters w; */
+    memoryword pppfmtfile;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != 371982687L) goto _Lbadfmt_;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != membot) goto _Lbadfmt_;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != memtop) goto _Lbadfmt_;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != eqtbsize) goto _Lbadfmt_;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != hashprime) goto _Lbadfmt_;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x != hyphsize) /*1310:*/
+        goto _Lbadfmt_;
+    if (!str_undump(fmtfile, stdout)) goto _Lbadfmt_;
+    /*1312:*/
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x < lomemstatmax + 1000 || x >= himemstatmin) goto _Lbadfmt_;
+    lomemmax = x;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x <= lomemstatmax || x > lomemmax) goto _Lbadfmt_;
+    rover = x;
+    p = membot;
+    q = rover;
+    do {
+        for (k = p; k <= q + 1; k++) {
+            pget(pppfmtfile);
+            mem[k - memmin] = pppfmtfile;
+        }
+        p = q + nodesize(q);
+        if ((p > lomemmax) | ((q >= rlink(q)) & (rlink(q) != rover)))
+            goto _Lbadfmt_;
+        q = rlink(q);
+    } while (q != rover);
+    for (k = p; k <= lomemmax; k++) {
+        pget(pppfmtfile);
+        mem[k - memmin] = pppfmtfile;
     }
-    p = q + nodesize(q);
-    if ((p > lomemmax) | ((q >= rlink(q)) & (rlink(q) != rover)))
-      goto _Lbadfmt_;
-    q = rlink(q);
-  } while (q != rover);
-  for (k = p; k <= lomemmax; k++) {
-    pget(pppfmtfile);
-    mem[k - memmin] = pppfmtfile;
-  }
-  if (memmin < membot - 2) {
-    p = llink(rover);
-    q = memmin + 1;
-    link(memmin) = 0;
-    info(memmin) = 0;
-    rlink(p) = q;
-    llink(rover) = q;
-    rlink(q) = rover;
-    llink(q) = p;
-    link(q) = emptyflag;
-    nodesize(q) = membot - q;
-  }
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x <= lomemmax || x > himemstatmin)
-    goto _Lbadfmt_;
-  himemmin = x;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if ((unsigned long)x > memtop)
-    goto _Lbadfmt_;
-  avail = x;
-  memend = memtop;
-  for (k = himemmin; k <= memend ; k++) {
-    pget(pppfmtfile);
-    mem[k - memmin] = pppfmtfile;
-  }
-  pget(pppfmtfile);
-  varused = pppfmtfile.int_;
-  pget(pppfmtfile);
-  dynused = pppfmtfile.int_;   /*:1312*/
-  /*1314:*/
-  /*1317:*/
-  k = activebase;
-  do {
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if (x < 1 || k + x > eqtbsize + 1)
-      goto _Lbadfmt_;
-    for (j = k; j < k + x; j++) {
-      pget(pppfmtfile);
-      eqtb[j - activebase] = pppfmtfile;
+    if (memmin < membot - 2) {
+        p = llink(rover);
+        q = memmin + 1;
+        link(memmin) = 0;
+        info(memmin) = 0;
+        rlink(p) = q;
+        llink(rover) = q;
+        rlink(q) = rover;
+        llink(q) = p;
+        link(q) = emptyflag;
+        nodesize(q) = membot - q;
     }
-    k += x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < 0 || k + x > eqtbsize + 1)
-      goto _Lbadfmt_;
-    for (j = k; j < k + x; j++)
-      eqtb[j - activebase] = eqtb[k - activebase - 1];
-    k += x;   /*:1317*/
-  } while (k <= eqtbsize);
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < hashbase || x > frozencontrolsequence)
-    goto _Lbadfmt_;
-  parloc = x;
-  partoken = cstokenflag + parloc;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < hashbase || x > frozencontrolsequence)   /*1319:*/
-    goto _Lbadfmt_;
-  writeloc = x;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < hashbase || x > frozencontrolsequence)
-    goto _Lbadfmt_;
-  hashused = x;
-  p = hashbase - 1;
-  do {
+    if (x <= lomemmax || x > himemstatmin) goto _Lbadfmt_;
+    himemmin = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x <= p || x > hashused)
-      goto _Lbadfmt_;
-    p = x;
+    if ((unsigned long)x > memtop) goto _Lbadfmt_;
+    avail = x;
+    memend = memtop;
+    for (k = himemmin; k <= memend; k++) {
+        pget(pppfmtfile);
+        mem[k - memmin] = pppfmtfile;
+    }
     pget(pppfmtfile);
-    hash[p - hashbase] = pppfmtfile.hh;
-  } while (p != hashused);
-  for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
+    varused = pppfmtfile.int_;
     pget(pppfmtfile);
-    hash[p - hashbase] = pppfmtfile.hh;
-  }
-  pget(pppfmtfile);
-  cscount = pppfmtfile.int_;   /*:1319*/
-  /*:1314*/
-  if(!fonts_undump(fmtfile,stdout))
-	goto _Lbadfmt_;
-  /*1325:*/
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if ((unsigned long)x > hyphsize)
-    goto _Lbadfmt_;
-  hyphcount = x;
-  for (k = 1; k <= hyphcount; k++) {
+    dynused = pppfmtfile.int_; /*:1312*/
+    /*1314:*/
+    /*1317:*/
+    k = activebase;
+    do {
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (x < 1 || k + x > eqtbsize + 1) goto _Lbadfmt_;
+        for (j = k; j < k + x; j++) {
+            pget(pppfmtfile);
+            eqtb[j - activebase] = pppfmtfile;
+        }
+        k += x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (x < 0 || k + x > eqtbsize + 1) goto _Lbadfmt_;
+        for (j = k; j < k + x; j++)
+            eqtb[j - activebase] = eqtb[k - activebase - 1];
+        k += x; /*:1317*/
+    } while (k <= eqtbsize);
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if ((unsigned long)x > hyphsize)
-      goto _Lbadfmt_;
+    if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
+    parloc = x;
+    partoken = cstokenflag + parloc;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x < hashbase || x > frozencontrolsequence) /*1319:*/
+        goto _Lbadfmt_;
+    writeloc = x;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
+    hashused = x;
+    p = hashbase - 1;
+    do {
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (x <= p || x > hashused) goto _Lbadfmt_;
+        p = x;
+        pget(pppfmtfile);
+        hash[p - hashbase] = pppfmtfile.hh;
+    } while (p != hashused);
+    for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
+        pget(pppfmtfile);
+        hash[p - hashbase] = pppfmtfile.hh;
+    }
+    pget(pppfmtfile);
+    cscount = pppfmtfile.int_; /*:1319*/
+    /*:1314*/
+    if (!fonts_undump(fmtfile, stdout)) goto _Lbadfmt_;
+    /*1325:*/
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if ((unsigned long)x > hyphsize) goto _Lbadfmt_;
+    hyphcount = x;
+    for (k = 1; k <= hyphcount; k++) {
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if ((unsigned long)x > hyphsize) goto _Lbadfmt_;
+        j = x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (!str_valid(x)) goto _Lbadfmt_;
+        hyphword[j] = x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if ((unsigned long)x > maxhalfword) goto _Lbadfmt_;
+        hyphlist[j] = x;
+    }
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (x < 0) goto _Lbadfmt_;
+    if (x > triesize) {
+        fprintf(stdout, "---! Must increase the trie size\n");
+        goto _Lbadfmt_;
+    }
     j = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if (!str_valid(x))
-      goto _Lbadfmt_;
-    hyphword[j] = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if ((unsigned long)x > maxhalfword)
-      goto _Lbadfmt_;
-    hyphlist[j] = x;
-  }
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < 0)
-    goto _Lbadfmt_;
-  if (x > triesize) {
-    fprintf(stdout, "---! Must increase the trie size\n");
-    goto _Lbadfmt_;
-  }
-  j = x;
 #ifdef tt_INIT
-  triemax = j;
+    triemax = j;
 #endif // #1325.1: tt_INIT
-  for (k = 0; k <= j; k++) {
+    for (k = 0; k <= j; k++) {
+        pget(pppfmtfile);
+        trie[k] = pppfmtfile.hh;
+    }
     pget(pppfmtfile);
-    trie[k] = pppfmtfile.hh;
-  }
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if (x < 0)
-    goto _Lbadfmt_;
-  if (x > trieopsize) {
-    fprintf(stdout, "---! Must increase the trie op size\n");
-    goto _Lbadfmt_;
-  }
-  j = x;
+    x = pppfmtfile.int_;
+    if (x < 0) goto _Lbadfmt_;
+    if (x > trieopsize) {
+        fprintf(stdout, "---! Must increase the trie op size\n");
+        goto _Lbadfmt_;
+    }
+    j = x;
 #ifdef tt_INIT
-  trieopptr = j;
+    trieopptr = j;
 #endif // #1325.2: tt_INIT
-  for (k = 1; k <= j; k++) {
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if ((unsigned long)x > 63)
-      goto _Lbadfmt_;
-    hyfdistance[k - 1] = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if ((unsigned long)x > 63)
-      goto _Lbadfmt_;
-    hyfnum[k - 1] = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if ((unsigned long)x > maxquarterword)
-      goto _Lbadfmt_;
-    hyfnext[k - 1] = x;
-  }
+    for (k = 1; k <= j; k++) {
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if ((unsigned long)x > 63) goto _Lbadfmt_;
+        hyfdistance[k - 1] = x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if ((unsigned long)x > 63) goto _Lbadfmt_;
+        hyfnum[k - 1] = x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if ((unsigned long)x > maxquarterword) goto _Lbadfmt_;
+        hyfnext[k - 1] = x;
+    }
 #ifdef tt_INIT
     for (k = 0; k <= 255; k++)
         trieused[k] = minquarterword;
 #endif // #1325.3: tt_INIT
-  k = 256;
-  while (j > 0) {
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if ( x >= k)
-      goto _Lbadfmt_;
-    k = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
-    if (x < 1 || x > j)
-      goto _Lbadfmt_;
+    k = 256;
+    while (j > 0) {
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (x >= k) goto _Lbadfmt_;
+        k = x;
+        pget(pppfmtfile);
+        x = pppfmtfile.int_;
+        if (x < 1 || x > j) goto _Lbadfmt_;
 #ifdef tt_INIT
-    trieused[k] = x;
+        trieused[k] = x;
 #endif // #1325.4: tt_INIT
-    j -= x;
-    opstart[k] = j - minquarterword;
-  }
+        j -= x;
+        opstart[k] = j - minquarterword;
+    }
 #ifdef tt_INIT
     trie_not_ready = false;
 #endif // #1325.5: tt_INIT
-    /*:1325*/
+       /*:1325*/
 
-  /*1327:*/
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if ((unsigned long)x > errorstopmode)
-    goto _Lbadfmt_;
-  interaction = x;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-    if (!str_valid(x))
-      goto _Lbadfmt_;
-  formatident = x;
-  pget(pppfmtfile);
-  x = pppfmtfile.int_;
-  if ((x != 69069L) | feof(fmtfile))
-    goto _Lbadfmt_;   /*:1327*/
-  Result = true;
-  goto _Lexit;
+    /*1327:*/
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if ((unsigned long)x > errorstopmode) goto _Lbadfmt_;
+    interaction = x;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if (!str_valid(x)) goto _Lbadfmt_;
+    formatident = x;
+    pget(pppfmtfile);
+    x = pppfmtfile.int_;
+    if ((x != 69069L) | feof(fmtfile)) goto _Lbadfmt_; /*:1327*/
+    Result = true;
+    goto _Lexit;
 _Lbadfmt_:
-  fprintf(stdout, "(Fatal format file error; I'm stymied)\n");
-  Result = false;
+    fprintf(stdout, "(Fatal format file error; I'm stymied)\n");
+    Result = false;
 _Lexit:
-  return Result;
+    return Result;
 }
 /*:1303*/
 
@@ -18365,17 +18215,18 @@ Static void finalcleanup(void) {
         }
     }
     if (c == 1) {
-#ifdef tt_INIT
-        for (int i = topmarkcode; i <= splitbotmarkcode; i++) {
-            if (curmark[i] != 0) deletetokenref(curmark[i]);
-        }
-        storefmtfile();
-#endif // #1335: tt_INIT
+    #ifdef tt_INIT
+            for (int i = topmarkcode; i <= splitbotmarkcode; i++) {
+                if (curmark[i] != 0) deletetokenref(curmark[i]);
+            }
+            storefmtfile();
+    #endif // #1335: tt_INIT
     }
 } // #1335: finalcleanup
 
-/// p468#1336: initialize all the primitives
 #ifdef tt_INIT
+// TeX 原语定义
+/// p468#1336: initialize all the primitives
 Static void initprim(void) {
     /*226:*/
     primitive(S(341), assignglue, gluebase);
@@ -18771,106 +18622,75 @@ Static void initprim(void) {
 } // #1336: initprim
 #endif // #1336: tt_INIT
 
-
-/*1338:*/
-/*_DEBUG*/
+#ifdef tt_DEBUG
+// 交互式 debug 环境
+/// p470#1338
 Static void debughelp(void) {
     long k, l, m, n;
 
     while (true) {
-        printnl(S(1253));
+        printnl(S(1253)); // "debug # (−1 to exit):"
         fflush(stdout);
+
         fscanf(stdin, " %ld", &m);
         if (m < 0) {
             return;
         }
         if (m == 0) {
             goto _Lbreakpoint_;
-_Lbreakpoint_:
-            m = 0; /*'BREAKPOINT'*/
+        _Lbreakpoint_:
+            m = 0;
             continue;
         }
+
         fscanf(stdin, " %ld", &n);
-        switch (m) { /*1339:*/
-            case 1:
-                printword(mem[n - memmin]);
-                break;
-
-            case 2:
-                printint(info(n));
-                break;
-
-            case 3:
-                printint(link(n));
-                break;
-
-            case 4:
-                printword(eqtb[n - activebase]);
-                break;
-
-            case 5:
-                printword(fontinfo[n]);
-                break;
-
-            case 6:
-                printword(savestack[n]);
-                break;
-
-            case 7:
-                showbox(n);
-                break;
-
-            case 8:
+        switch (m) {
+            /// #1339
+            // display mem[n] in all forms
+            case 1: printword(mem[n - memmin]); break;
+            case 2: printint(info(n)); break;
+            case 3: printint(link(n)); break;
+            case 4: printword(eqtb[n - activebase]); break;
+            case 5: printword(fontinfo[n]); break;
+            case 6: printword(savestack[n]); break;
+            // show a box, abbreviated by show box depth and show box breadth
+            case 7: showbox(n); break;
+            case 8: {
                 breadthmax = 10000;
                 depththreshold = str_adjust_to_room(poolsize) - 10;
                 shownodelist(n);
                 break;
-
-            case 9:
-                showtokenlist(n, 0, 1000);
-                break;
-
-            case 10:
-                slowprint(n);
-                break;
-
-            case 11:
-                checkmem(n > 0);
-                break;
-
-            case 12:
-                searchmem(n);
-                break;
-
-            case 13:
+            }
+            case 9: showtokenlist(n, 0, 1000); break;
+            case 10: slowprint(n); break;
+            // check wellformedness; print new busy locations if n > 0
+            case 11: checkmem(n > 0); break;
+            // look for pointers to n
+            case 12: searchmem(n); break;
+            case 13: {
                 fscanf(stdin, " %ld", &l);
                 printcmdchr(n, l);
                 break;
-
-            case 14:
+            }
+            case 14: {
                 for (k = 0; k <= n; k++)
                     print(buffer[k]);
                 break;
-
-            case 15:
+            }
+            case 15: {
                 fontinshortdisplay = nullfont;
                 shortdisplay(n);
                 break;
-
-            case 16: /*:1339*/
-                panicking = !panicking;
-                break;
+            }
+            case 16: panicking = !panicking; break;
 
             default:
                 print('?');
                 break;
-        }
-    }
-}
-/*_ENDDEBUG*/
-/*:1338*/
-/*:1330*/
-
+        } // switch (m)
+    } // while (true)
+} // #1338: debughelp
+#endif // #1338: tt_DEBUG
 
 // 检查常量范围是否正确。
 // 有误则返回错误代码
@@ -18893,9 +18713,9 @@ int check_constant(void) {
     if (memtop < (256 + 11)) bad = 7;
 
     /// #111
-#ifdef tt_INIT
-    if (memmin != membot || memmax != memtop) bad = 10;
-#endif // #111: tt_INIT
+    #ifdef tt_INIT
+        if (memmin != membot || memmax != memtop) bad = 10;
+    #endif // #111: tt_INIT
     if (memmin > membot || memmax < memtop) bad = 10;
     if (minquarterword > 0 || maxquarterword < 127) bad = 11;
     if (maxhalfword < 32767) bad = 12;

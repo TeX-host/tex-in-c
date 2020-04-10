@@ -5,12 +5,17 @@
 #define dvibufsize 800
 
 /// #7
+//  MSVC debug mode || not in (GCC -O3 mode)
 #if defined(_DEBUG) || !defined(__OPTIMIZE__)
 // debug mode
+/// 95#7: debug...gubed;
+/// xref[10]:
+///      78,  84,  93,  114,  165, 
+///     166, 167, 172, 1031, 1338
 #define tt_DEBUG
 #define tt_STAT
-/// p5#8: init xref[16]:
-///      111,
+/// p5#8: init...tini;
+/// xref[16]:  111,
 ///       47,   50,  131,  264,  891,
 ///      942,  943,  947,  950, 1252,
 ///     1302, 1325, 1332, 1335, 1336
