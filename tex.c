@@ -31,6 +31,7 @@
 #include "fonts.h"
 #include "texfunc.h"
 #include "dviout.h"
+#include "inputln.h" // inputln
 
 #define formatextension  S(256)
 
@@ -65,6 +66,7 @@ Static scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
 
 
 /*20:*/
+
 Static Char xchr[256];
 /*:20*/
 /*26:*/
@@ -75,15 +77,21 @@ Static int namelength;
 /*32:*/
 // Static FILE *termin = NULL, *termout = NULL;
 /*:32*/
-/*54:*/
-Static FILE *logfile = NULL;
-Static unsigned char selector; /* INT */
-Static long tally;
-Static char termoffset;
-Static char fileoffset;
-Static ASCIIcode trickbuf[errorline + 1];
-Static long trickcount, firstcount;
-/*:54*/
+
+/// p24#54: On-line and off-line printing
+/// Global variables: in tex.c only
+Static FILE* logfile = NULL;   // transcript of T E X session
+// Static unsigned char selector; // where to print a message
+Static enum Selector selector; // where to print a message
+// ? dig[23] // digits in a number being output
+Static long tally; // the number of characters recently printed
+Static char termoffset; // the number of characters on the current terminal line
+Static char fileoffset; // the number of characters on the current file line
+Static ASCIIcode trickbuf[errorline + 1]; // circular buffer for pseudoprinting
+Static long trickcount, // threshold for pseudoprinting, explained later
+            firstcount; // another variable for pseudoprinting
+
+
 /*73:*/
 Static char interaction;
 /*:73*/
@@ -838,27 +846,26 @@ Static void initialize(void) { /*:927*/
 /*57:*/
 void println(void) {
     switch (selector) {
-
-        case termandlog:
+        case TERM_AND_LOG:
             putc('\n', stdout);
             putc('\n', logfile);
             termoffset = 0;
             fileoffset = 0;
             break;
 
-        case logonly:
+        case LOG_ONLY:
             putc('\n', logfile);
             fileoffset = 0;
             break;
 
-        case termonly:
+        case TERM_ONLY:
             putc('\n', stdout);
             termoffset = 0;
             break;
 
-        case noprint:
-        case pseudo:
-        case newstring:
+        case NO_PRINT:
+        case PSEUDO:
+        case NEW_STRING:
             /* blank case */
             break;
 
@@ -873,14 +880,14 @@ void println(void) {
 void printchar(ASCIIcode s) {
     /*244:*/
     if (s == newlinechar) { /*:244*/
-        if (selector < pseudo) {
+        if (selector < PSEUDO) {
             println();
             return;
         }
     }
 
     switch (selector) {
-        case termandlog:
+        case TERM_AND_LOG:
             fwrite(&xchr[s], 1, 1, stdout);
             fwrite(&xchr[s], 1, 1, logfile);
             termoffset++;
@@ -895,29 +902,29 @@ void printchar(ASCIIcode s) {
             }
             break;
 
-        case logonly:
+        case LOG_ONLY:
             fwrite(&xchr[s], 1, 1, logfile);
             fileoffset++;
             if (fileoffset == maxprintline) println();
             break;
 
-        case termonly:
+        case TERM_ONLY:
             fwrite(&xchr[s], 1, 1, stdout);
             termoffset++;
             if (termoffset == maxprintline) println();
             break;
 
-        case noprint:
+        case NO_PRINT:
             /* blank case */
             break;
 
-        case pseudo:
+        case PSEUDO:
             if (tally < trickcount) {
                 trickbuf[tally % errorline] = s;
             }
             break;
 
-        case newstring:
+        case NEW_STRING:
             str_appendchar(s);
             break;
 
@@ -929,41 +936,39 @@ void printchar(ASCIIcode s) {
 }
 /*:58*/
 
-/*59:*/
+/// p26#59: prints string s
 void print(strnumber s) {
-    long nl;
+    long nl; // new-line character to restore
 
-    if (s < 256) {
-        if (s >= 0) {
-            if (selector > pseudo) {
-                printchar(s);
-                return;
-            }
-            if (s == newlinechar) { /*244:*/
-                if (selector < pseudo) {
-                    println();
-                    return;
-                }
-            }
-            /*:244*/
-            nl = newlinechar;
-            newlinechar = -1;
-            str_print(s);
-            newlinechar = nl;
+    if (0 <= s && s <= 255) {
+        if (selector > PSEUDO) {
+            printchar(s); // internal strings are not expanded
             return;
         }
-        s = S(261);
-    }
-    str_print(s);
-}
-/*:59*/
+        if (s == newlinechar) { /// #244
+            if (selector < PSEUDO) {
+                println();
+                return;
+            }
+        }
 
+        // temporarily disable new-line character
+        nl = newlinechar;
+        newlinechar = -1;
+        str_print(s);
+        newlinechar = nl;
+        return;
+    } else {
+        // this can’t happen
+        str_print(s);
+    } // if (0 <= s && s <= 255) - else
+} // #59: print
 
 /*62:*/
 void printnl(strnumber s)
 {
   if ( (termoffset > 0 && (selector & 1)) ||
-      (fileoffset > 0 && selector >= logonly))
+      (fileoffset > 0 && selector >= LOG_ONLY))
     println();
   print(s);
 }
@@ -1510,9 +1515,9 @@ Static void interror(long n)
 Static void normalizeselector(void)
 {
   if (logopened)
-    selector = termandlog;
+    selector = TERM_AND_LOG;
   else
-    selector = termonly;
+    selector = TERM_ONLY;
   if (jobname == 0)
     openlogfile();
   if (interaction == batchmode)
@@ -1527,7 +1532,7 @@ Static void pauseforinstructions(void)
   if (!OKtointerrupt)
     return;
   interaction = errorstopmode;
-  if (selector == logonly || selector == noprint)
+  if (selector == LOG_ONLY || selector == NO_PRINT)
     selector++;
   printnl(S(292));
   print(S(304));
@@ -3597,7 +3602,7 @@ Static void showactivities(void)
 /*245:*/
 Static void begindiagnostic(void) {
     diag_oldsetting = selector;
-    if (tracingonline > 0 || selector != termandlog) return;
+    if (tracingonline > 0 || selector != TERM_AND_LOG) return;
     selector--;
     if (history == SPOTLESS) history = WARNING_ISSUED;
 }
@@ -4114,7 +4119,7 @@ Static void showcurcmdchr(void)
 /*311:*/
 Static void showcontext(void)
 {   /*:315*/
-  char oldsetting;
+  enum Selector old_setting;
   long nn;
   boolean bottomline;   /*315:*/
   short i;
@@ -4139,7 +4144,7 @@ Static void showcontext(void)
 	    if (baseptr == inputptr || state != tokenlist ||
 		tokentype != backedup || loc != 0) {
 	tally = 0;
-	oldsetting = selector;
+	old_setting = selector;
 	if (state != tokenlist) {  /*313:*/
 	  if (name <= 17) {   /*:313*/
 	    if (terminalinput) {
@@ -4252,7 +4257,7 @@ Static void showcontext(void)
 	  else   /*:319*/
 	    showtokenlist(link(start), loc, 100000L);
 	}
-	selector = oldsetting;   /*317:*/
+	selector = old_setting;   /*317:*/
 	if (trickcount == 1000000L) {
 	  settrickcount();
 	}
@@ -4606,7 +4611,7 @@ _Lswitch__:
 	  endfilereading();
 	  goto _Lrestart;
 	}
-	if (selector < logonly)
+	if (selector < LOG_ONLY)
 	  openlogfile();
 	if (interaction > nonstopmode) {
 	  if (endlinecharinactive) {
@@ -6491,7 +6496,7 @@ Static halfword strtoks(str_poolpointer b)
 /*465:*/
 Static halfword thetoks(void)
 {
-  char oldsetting;
+  enum Selector old_setting;
   pointer p, r;
 
   getxtoken();
@@ -6513,8 +6518,8 @@ Static halfword thetoks(void)
     return p;
   } else {
     str_poolpointer b = str_mark();
-    oldsetting = selector;
-    selector = newstring;
+    old_setting = selector;
+    selector = NEW_STRING;
     switch (curvallevel) {
 
     case intval:
@@ -6536,7 +6541,7 @@ Static halfword thetoks(void)
       deleteglueref(curval);
       break;
     }
-    selector = oldsetting;
+    selector = old_setting;
 /*	fprintf(stderr,"(%d %d)",bb-b,poolptr-b); */
     return (strtoks(b));
   }
@@ -6555,7 +6560,7 @@ Static void insthetoks(void)
 /*470:*/
 Static void convtoks(void)
 {
-  char oldsetting;
+  enum Selector old_setting;
   char c;
   SmallNumber savescannerstatus;
   str_poolpointer b;
@@ -6585,8 +6590,8 @@ Static void convtoks(void)
       openlogfile();
     break;
   }
-  oldsetting = selector;
-  selector = newstring;
+  old_setting = selector;
+  selector = NEW_STRING;
   b = str_mark();
   /*472:*/
   switch (c) {   /*:472*/
@@ -6623,7 +6628,7 @@ Static void convtoks(void)
     print(jobname);
     break;
   }
-  selector = oldsetting;
+  selector = old_setting;
   link(garbage) = strtoks(b);
   inslist(link(temphead));
 }  /*:470*/
@@ -7315,22 +7320,22 @@ Static void promptfilename(strnumber s, strnumber e) {
 
 /*534:*/
 Static void openlogfile(void) {
-    char oldsetting;
+    enum Selector old_setting;
     short k;
     short l;
     Char months[36];
     short FORLIM;
 
-    oldsetting = selector;
+    old_setting = selector;
     if (jobname == 0) jobname = S(672);
     packjobname(S(673));
     while (!aopenout(&logfile)) { /*535:*/
-        selector = termonly;
+        selector = TERM_ONLY;
         promptfilename(S(674), S(673));
     }
     /*:535*/
     logname = amakenamestring();
-    selector = logonly;
+    selector = LOG_ONLY;
     logopened = true;
     /*536:*/
     fprintf(logfile, "%s", banner);
@@ -7355,7 +7360,7 @@ Static void openlogfile(void) {
     for (k = 1; k <= l; k++)
         print(buffer[k]);
     println();
-    selector = oldsetting + 2;
+    selector = old_setting + 2;
 }
 /*:534*/
 
@@ -7457,14 +7462,14 @@ Static void vlistout(void);
 /*1368:*/
 Static void specialout(halfword p)
 {
-  char oldsetting;
+  enum Selector old_setting;
 
   synchh();
   synchv();
-  oldsetting = selector;
-  selector = newstring;
+  old_setting = selector;
+  selector = NEW_STRING;
   showtokenlist(link(writetokens(p)), 0, poolsize /* - poolptr */ );
-  selector = oldsetting;
+  selector = old_setting;
   str_room(1);
   { int p_len=get_cur_length(); /* XXXX - Assumes byte=strASCIIcode */
 #define xxx1            239
@@ -7485,7 +7490,7 @@ Static void specialout(halfword p)
 /*1370:*/
 Static void writeout(halfword p)
 {   /*1371:*/
-  char oldsetting;
+  enum Selector old_setting;
   long oldmode;
   /* SmallNumber */ int j; /* INT */
   pointer q, r;
@@ -7518,19 +7523,19 @@ Static void writeout(halfword p)
   /*:1372*/
   mode = oldmode;   /*:1371*/
   endtokenlist();
-  oldsetting = selector;
+  old_setting = selector;
   j = writestream(p);
   if (writeopen[j])
     selector = j;
   else {
-    if (j == 17 && selector == termandlog)
-      selector = logonly;
+    if (j == 17 && selector == TERM_AND_LOG)
+      selector = LOG_ONLY;
     printnl(S(385));
   }
   tokenshow(defref);
   println();
   flushlist(defref);
-  selector = oldsetting;
+  selector = old_setting;
 }
 /*:1370*/
 
@@ -7953,7 +7958,7 @@ _Lnextp_:
 Static void shipout(halfword p)
 {
   int j, k;
-  char oldsetting;
+  enum Selector old_setting;
 
   if (tracingoutput > 0) {
     printnl(S(385));
@@ -8017,8 +8022,8 @@ Static void shipout(halfword p)
   if (totalpages == 0) {   /*:617*/
     preparemag();
     dvi_pre(25400000L, 473628672L, mag);
-    oldsetting = selector;
-    selector = newstring;
+    old_setting = selector;
+    selector = NEW_STRING;
     print(S(693));
     printint(year);
     printchar('.');
@@ -8028,7 +8033,7 @@ Static void shipout(halfword p)
     printchar(':');
     printtwo(tex_time / 60);
     printtwo(tex_time % 60);
-    selector = oldsetting;
+    selector = old_setting;
     dviout(get_cur_length()); /* XXXX */
     str_cur_map(dviout_helper);
   }
@@ -15704,7 +15709,7 @@ Static void newfont(SmallNumber a)
   scaled s;
   internalfontnumber f;
   strnumber t;
-  char oldsetting;
+  enum Selector old_setting;
 /* XXXX  strnumber flushablestring; */
 
   if (jobname == 0)
@@ -15719,11 +15724,11 @@ Static void newfont(SmallNumber a)
     else
       t = u - singlebase;
   } else {
-    oldsetting = selector;
-    selector = newstring;
+    old_setting = selector;
+    selector = NEW_STRING;
     print(S(950));
     print(u - activebase);
-    selector = oldsetting;
+    selector = old_setting;
     str_room(1);
     t = makestring();
   }
@@ -15793,9 +15798,9 @@ Static void newinteraction(void) {
     println();
     interaction = curchr; /*75:*/
     if (interaction == batchmode)
-        selector = noprint;
+        selector = NO_PRINT;
     else {
-        selector = termonly;
+        selector = TERM_ONLY;
         /*:75*/
     }
     if (logopened) selector += 2;
@@ -16258,16 +16263,16 @@ Static void openorclosein(void) {
 
 /*1279:*/
 Static void issuemessage(void) {
-    char oldsetting;
+    enum Selector old_setting;
     char c;
     strnumber s;
 
     c = curchr;
     link(garbage) = scantoks(false, true);
-    oldsetting = selector;
-    selector = newstring;
+    old_setting = selector;
+    selector = NEW_STRING;
     tokenshow(defref);
-    selector = oldsetting;
+    selector = old_setting;
     flushlist(defref);
     str_room(1);
     s = makestring();
@@ -16365,11 +16370,11 @@ Static void showwhatever(void) {
     enddiagnostic(true);
     printnl(S(292));
     print(S(981));
-    if (selector == termandlog) {
+    if (selector == TERM_AND_LOG) {
         if (tracingonline <= 0) { /*:1298*/
-            selector = termonly;
+            selector = TERM_ONLY;
             print(S(982));
-            selector = termandlog;
+            selector = TERM_AND_LOG;
         }
     }
 _Lcommonending:
@@ -16400,7 +16405,7 @@ Static void storefmtfile(void) { /*1304:*/
     }
     /*:1304*/
     /*1328:*/
-    selector = newstring;
+    selector = NEW_STRING;
     print(S(990));
     print(jobname);
     printchar(' ');
@@ -16411,9 +16416,9 @@ Static void storefmtfile(void) { /*1304:*/
     printint(day);
     printchar(')');
     if (interaction == batchmode)
-        selector = logonly;
+        selector = LOG_ONLY;
     else
-        selector = termandlog;
+        selector = TERM_AND_LOG;
     str_room(1);
     formatident = makestring();
     packjobname(formatextension);
@@ -18155,7 +18160,7 @@ Static void closefilesandterminate(void) { /*1378:*/
     putc('\n', logfile);
     aclose(&logfile);
     selector -= 2;
-    if (selector != termonly) return;
+    if (selector != TERM_ONLY) return;
     printnl(S(1018));
     slowprint(logname);
     printchar('.');
@@ -18204,10 +18209,10 @@ Static void finalcleanup(void) {
     }
     if (history != SPOTLESS) {
         if (history == WARNING_ISSUED || interaction < errorstopmode) {
-            if (selector == termandlog) {
-                selector = termonly;
+            if (selector == TERM_AND_LOG) {
+                selector = TERM_ONLY;
                 printnl(S(1025));
-                selector = termandlog;
+                selector = TERM_AND_LOG;
             }
         }
     }
@@ -18771,7 +18776,7 @@ int main(int argc, char* argv[]) {
     ready_already = 314159L;
 
 _L_start_of_TEX: /*55:*/
-    selector = termonly;
+    selector = TERM_ONLY;
     tally = 0;
     termoffset = 0;
     fileoffset = 0;
@@ -18837,9 +18842,9 @@ _L_start_of_TEX: /*55:*/
     fixdateandtime(&tex_time, &day, &month, &year); /*765:*/
     /*75:*/
     if (interaction == batchmode)
-        selector = noprint;
+        selector = NO_PRINT;
     else {
-        selector = termonly; /*:75*/
+        selector = TERM_ONLY; /*:75*/
     }
     if ((loc < limit) & (catcode(buffer[loc]) != escape)) /*:1337*/
         startinput();

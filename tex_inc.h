@@ -4,6 +4,23 @@
 #ifndef _INC_TEX_ONLY
 #define _INC_TEX_ONLY
 
+/// p24#54: On-line and off-line printing
+//     use by `selector`
+enum Selector {
+    NO_PRINT = 16, // doesn’t print at all
+    TERM_ONLY,     // prints only on the terminal
+    LOG_ONLY,      // prints only on the transcript file
+    TERM_AND_LOG,  // normal `selector` setting
+    // puts output into a cyclic buffer that is used by the show context routine
+    PSEUDO,
+    // appends the output to the current string in the string pool
+    NEW_STRING,    
+};
+// highest selector setting
+// NOTE: _not_use_
+#define MAX_SELECTOR NEW_STRING 
+
+
 #ifdef tt_STAT
 /// #121
 #define FREE_AVAIL(x)                                                          \

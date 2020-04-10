@@ -5,14 +5,6 @@
 #define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
 #define P_getbits_UB(trie, h, z, w) (trie[(h) >> 3] & (1 << ((h)&7)))
 #define P_putbits_UB(trie, h, y, z, w) trie[(h) >> 3] |= 1 << ((h)&7)
-/*
-#define help1(x1) set_help(1,x1)
-#define help2(x1,x2) set_help(2,x1,x2)
-#define help3(x1,x2,x3) set_help(3,x1,x2,x3)
-#define help4(x1,x2,x3,x4) set_help(4,x1,x2,x3,x4)
-#define help5(x1,x2,x3,x4,x5) set_help(5,x1,x2,x3,x4,x5)
-#define help6(x1,x2,x3,x4,x5,x6) set_help(6,x1,x2,x3,x4,x5,x6)
-*/
 
 #define wopenout aopenout
 
@@ -476,10 +468,9 @@
     (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0)                   \
                           : gluerefcount(x)--)
 #define nodelistdisplay(x) (appendchar('.'), shownodelist(x), flushchar())
-/* {|str_room| need not be checked; see |show_box| below} */
 
 #define beginpseudoprint()                                                     \
-    (l = tally, tally = 0, selector = pseudo, trickcount = 1000000)
+    (l = tally, tally = 0, selector = PSEUDO, trickcount = 1000000)
 
 #define settrickcount()                                                        \
     (firstcount = tally,                                                       \

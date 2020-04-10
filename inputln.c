@@ -3,6 +3,7 @@
 #include "str.h"
 #include "funcs.h"
 #include "global.h"
+#include "inputln.h"
 
 
 boolean inputln(FILE* f, boolean bypasseoln) {

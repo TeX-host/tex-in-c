@@ -64,14 +64,13 @@ void str_map_from_mark(str_poolpointer b, void (*f)(strASCIIcode)) {
     poolptr = (poolpointer)b.val;
 }
 
-void str_print_stats(FILE* logfile) {
-
-    fprintf(logfile, " %d string", strptr - initstrptr);
+void str_print_stats(FILE* f_log_file) {
+    fprintf(f_log_file, " %d string", strptr - initstrptr);
     if (strptr != initstrptr + 1) {
-        fprintf(logfile, "s");
+        fprintf(f_log_file, "s");
     }
-    fprintf(logfile, " out of %ld\n", (long)(maxstrings - initstrptr));
-    fprintf(logfile,
+    fprintf(f_log_file, " out of %ld\n", (long)(maxstrings - initstrptr));
+    fprintf(f_log_file,
             " %ld string characters out of %ld\n",
             (long)(poolptr - initpoolptr),
             (long)(pool_top - initpoolptr));

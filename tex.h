@@ -29,11 +29,7 @@ typedef uchar Char;
 #define fontmemsize     200000
 #define paramsize       60
 #define nestsize        40
-/*
-#define maxstrings      300000
-#define stringvacancies 8000
-#define poolsize        3200000
-*/
+
 #define savesize        600
 #define triesize        131000
 #define trieopsize      5000
@@ -91,13 +87,7 @@ typedef uchar Char;
 #define nullcode        0
 #define carriagereturn  13
 #define invalidcode     127
-#define noprint         16
-#define termonly        17
-#define logonly         18
-#define termandlog      19
-#define pseudo          20
-#define newstring       21
-#define maxselector     21
+
 #define batchmode       0
 #define nonstopmode     1
 #define scrollmode      2
