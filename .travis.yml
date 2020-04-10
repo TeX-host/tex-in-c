@@ -6,3 +6,7 @@ compiler:
 script:
     - make clean && make
     - ./ttex
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
+  
