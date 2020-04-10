@@ -16,3 +16,7 @@ deps.1
 
 # ide
 .vscode/
+
+# local test
+# load plain.tex, *.tmf
+_test/
