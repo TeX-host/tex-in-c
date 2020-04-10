@@ -6,73 +6,165 @@
 #include "texfunc.h"
 #include "str.h"    // [export]
 
-#define maxstrings 300000
+#define MAX_STRINGS 300000
 #define POOLPOINTER_IS_POINTER 1
 #if POOLPOINTER_IS_POINTER
 typedef StrASCIICode* PoolPtr;
-#define pool_top (strpool + poolsize)
+#define POOL_TOP (str_pool + POOL_SIZE)
 #define pool_elem(x, y) ((x)[(y)])
 #else
 typedef int PoolPtr;
-#define pool_top poolsize
-#define pool_elem(x, y) (strpool[(x) + (y)])
+#define POOL_TOP POOL_SIZE
+#define pool_elem(x, y) (str_pool[(x) + (y)])
 #endif
 
-static StrASCIICode strpool[poolsize + 1];
-static PoolPtr strstart[maxstrings + 1];
-static PoolPtr poolptr;
-static StrNumber strptr;
-static PoolPtr initpoolptr;
-static StrNumber initstrptr;
+/// #39
+static StrASCIICode str_pool[POOL_SIZE + 1];    // the characters
+static PoolPtr      str_start[MAX_STRINGS + 1]; // the starting pointers
+static PoolPtr      pool_ptr;   // first unused position in str pool 
+static StrNumber    str_ptr;    // number of the current string being created
+static PoolPtr      init_pool_ptr;  // the starting value of pool ptr
+static StrNumber    init_str_ptr;   // the starting value of str ptr
 
-#define str_end(x) (strstart[(x) + 1])
+#define str_end(x) (str_start[(x) + 1])
 
+/*
+    #38. String handling.
+*/
 
-#ifdef tt_INIT // #47
-int getstringsstarted(void) {
-#if POOLPOINTER_IS_POINTER
-    poolptr = strpool;
-#else
-    poolptr = 0;
-#endif
-    strptr = 0;
-    strstart[0] = poolptr;
+/// #40: the number of characters in string number x
+int str_length(StrNumber x) { return str_start[(x) + 1] - str_start[(x)]; }
+
+/// #41: The length of the current string
+int cur_length() { return pool_ptr - str_start[str_ptr]; }
+
+/// #42: put ASCII code s at the end of str pool
+void append_char(StrASCIICode s) {
+    str_room(1);
+    pool_elem(pool_ptr, 0) = s;
+    pool_ptr++;
+}
+// forget the last character in the pool
+void flush_char(void) { pool_ptr--; }
+// make sure that the pool hasn’t overflowed
+void str_room(long l) {
+    if ((pool_ptr + l) > POOL_TOP) overflow(S(1276), POOL_TOP - init_pool_ptr);
+}
+
+/// #43: current string enters the pool
+StrNumber makestring(void) {
+    if (str_ptr == MAX_STRINGS) overflow(S(1277), MAX_STRINGS - init_str_ptr);
+    str_ptr++;
+    str_start[str_ptr] = pool_ptr;
+    return (str_ptr - 1);
+} // #43: makestring
+/// #44:  destroy the most recently made string
+void flush_string(void) {
+    str_ptr--;
+    pool_ptr = str_start[str_ptr];
+} // #44: flush_string
+
+int str_cmp(StrNumber s, StrNumber t) {
+    PoolPtr j = str_start[s];
+    PoolPtr k = str_start[t];
+    int l = 0, dif;
+    while (l < str_length(s) && l < str_length(t)) {
+        dif = pool_elem(j, l) - pool_elem(k, l);
+        if (dif) {
+            return dif;
+        }
+        l++;
+    }
+    return str_length(s) - str_length(t);
+}
+/// p21#46:
+Boolean str_eq_str(StrNumber s, StrNumber t) {
+    if (str_length(s) != str_length(t)) {
+        return false;
+    }
+    return !str_cmp(s, t);
+} // #46: str_eq_str
+
+#ifdef tt_INIT
+/// #47: initializes the string pool, but returns false if something goes wrong
+int get_strings_started(void) {
+    #if POOLPOINTER_IS_POINTER
+        pool_ptr = str_pool;
+    #else
+        pool_ptr = 0;
+    #endif
+    str_ptr = 0;
+    str_start[0] = pool_ptr;
     return str_pool_init();
 }
 #endif // #47: tt_INIT
 
-int str_getc(StrNumber s, int k) { return pool_elem(strstart[s], k); }
+/// #48~53
+
+
+/*
+# Basic printing procedures:
+    57, 58, 59, [60], 62, 
+    63, 64, 65, 262, 263, 
+    518, 699, 1355.
+    slow_print, 
+*/
+/// #60: prints string s
+void slow_print(StrNumber s) {
+    if (s >= str_ptr || s < 256) {
+        print(s);
+        return;
+    } else {
+        for (PoolPtr j = str_start[s]; j < str_end(s); j++) {
+            print(pool_elem(j, 0));
+        }
+    }
+} // #60: slow_print
+
+/// #70
+void printcurrentstring(void) {
+    PoolPtr j;
+
+    j = str_start[str_ptr];
+    while (j < pool_ptr) {
+        print_char(pool_elem(j, 0));
+        j++;
+    }
+}
+
+
+int str_getc(StrNumber s, int k) { return pool_elem(str_start[s], k); }
 
 void str_set_init_ptrs(void) {
-    initstrptr = strptr;
-    initpoolptr = poolptr;
+    init_str_ptr = str_ptr;
+    init_pool_ptr = pool_ptr;
 }
 
 StrPoolPtr str_mark(void) {
     StrPoolPtr res;
-    res.val = (long)poolptr;
+    res.val = (long)pool_ptr;
     return res;
 }
 
 void str_map_from_mark(StrPoolPtr b, void (*f)(StrASCIICode)) {
     PoolPtr k = (PoolPtr)b.val;
-    while (k < poolptr) {
+    while (k < pool_ptr) {
         f(pool_elem(k, 0));
         k++;
     }
-    poolptr = (PoolPtr)b.val;
+    pool_ptr = (PoolPtr)b.val;
 }
 
 void str_print_stats(FILE* f_log_file) {
-    fprintf(f_log_file, " %d string", strptr - initstrptr);
-    if (strptr != initstrptr + 1) {
+    fprintf(f_log_file, " %d string", str_ptr - init_str_ptr);
+    if (str_ptr != init_str_ptr + 1) {
         fprintf(f_log_file, "s");
     }
-    fprintf(f_log_file, " out of %ld\n", (long)(maxstrings - initstrptr));
+    fprintf(f_log_file, " out of %ld\n", (long)(MAX_STRINGS - init_str_ptr));
     fprintf(f_log_file,
             " %ld string characters out of %ld\n",
-            (long)(poolptr - initpoolptr),
-            (long)(pool_top - initpoolptr));
+            (long)(pool_ptr - init_pool_ptr),
+            (long)(POOL_TOP - init_pool_ptr));
 }
 
 int str_undump(FILE* fmtfile, FILE* _not_use_) {
@@ -82,29 +174,29 @@ int str_undump(FILE* fmtfile, FILE* _not_use_) {
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
-    if (x > poolsize) {
+    if (x > POOL_SIZE) {
         fprintf(stdout, "---! Must increase the string pool size\n");
         goto _Lbadfmt_;
     }
-    poolptr = (PoolPtr)x;
+    pool_ptr = (PoolPtr)x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
-    if (x > maxstrings) {
+    if (x > MAX_STRINGS) {
         fprintf(stdout, "---! Must increase the max strings\n");
         goto _Lbadfmt_;
     }
-    strptr = x;
-    fread(strstart, 1, sizeof(strstart[0]) * (strptr + 1), fmtfile);
-    fread(strpool, 1, sizeof(strpool[0]) * (long)poolptr, fmtfile);
-    initstrptr = strptr;
+    str_ptr = x;
+    fread(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmtfile);
+    fread(str_pool, 1, sizeof(str_pool[0]) * (long)pool_ptr, fmtfile);
+    init_str_ptr = str_ptr;
 #if POOLPOINTER_IS_POINTER
-    for (x = 0; x <= strptr; x++) {
-        strstart[x] = strpool + (long)strstart[x];
+    for (x = 0; x <= str_ptr; x++) {
+        str_start[x] = str_pool + (long)str_start[x];
     }
-    poolptr = strpool + (long)poolptr;
+    pool_ptr = str_pool + (long)pool_ptr;
 #endif
-    initpoolptr = poolptr; /*:1310*/
+    init_pool_ptr = pool_ptr; /*:1310*/
     return 1;
 _Lbadfmt_:
     return 0;
@@ -116,175 +208,89 @@ void str_dump(FILE* fmtfile) {
 #if POOLPOINTER_IS_POINTER
     /* Convert for dumping */
     long x;
-    for (x = 0; x <= strptr; x++) {
-        strstart[x] = (PoolPtr)(strstart[x] - strpool);
+    for (x = 0; x <= str_ptr; x++) {
+        str_start[x] = (PoolPtr)(str_start[x] - str_pool);
     }
-    poolused = poolptr - strpool;
+    poolused = pool_ptr - str_pool;
 #else
-    poolused = poolptr;
+    poolused = pool_ptr;
 #endif
 
     pppfmtfile.int_ = poolused;
     pput(pppfmtfile);
-    pppfmtfile.int_ = strptr;
+    pppfmtfile.int_ = str_ptr;
     pput(pppfmtfile);
-    fwrite(strstart, 1, sizeof(strstart[0]) * (strptr + 1), fmtfile);
-    fwrite(strpool, 1, sizeof(strpool[0]) * poolused, fmtfile);
+    fwrite(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmtfile);
+    fwrite(str_pool, 1, sizeof(str_pool[0]) * poolused, fmtfile);
 #if POOLPOINTER_IS_POINTER
     /* Pool is still in use, need to convert back */
-    for (x = 0; x <= strptr; x++) {
-        strstart[x] = (PoolPtr)(strpool + (long)strstart[x]);
+    for (x = 0; x <= str_ptr; x++) {
+        str_start[x] = (PoolPtr)(str_pool + (long)str_start[x]);
     }
 #endif
     println();
-    printint(strptr);
+    print_int(str_ptr);
     print(S(1275));
-    printint(poolused);
+    print_int(poolused);
     /*:1309*/
 }
 
-void str_room(long l) {
-    if (poolptr + l > pool_top) overflow(S(1276), pool_top - initpoolptr);
-}
-
 long str_adjust_to_room(long l) {
-    if (poolptr + l > pool_top) {
-        return pool_top - poolptr;
+    if (pool_ptr + l > POOL_TOP) {
+        return POOL_TOP - pool_ptr;
     } else {
         return l;
     }
 }
 
-
-int flength(StrNumber x) { return strstart[x + 1] - strstart[x]; }
-
-void flushstring(void) {
-    strptr--;
-    poolptr = strstart[strptr];
-}
-
-void flushchar(void) { poolptr--; }
-
-int get_cur_length() { return poolptr - strstart[strptr]; }
-
 void str_cur_map(void (*f)(StrASCIICode)) {
     PoolPtr s;
-    for (s = strstart[strptr]; s < poolptr; s++) {
+    for (s = str_start[str_ptr]; s < pool_ptr; s++) {
         f(pool_elem(s, 0));
     }
-    poolptr = strstart[strptr];
+    pool_ptr = str_start[str_ptr];
 }
 
 void str_map(StrNumber k, void (*f)(StrASCIICode)) {
     PoolPtr s;
-    PoolPtr s_end = strstart[k] + flength(k);
-    for (s = strstart[k]; s < s_end; s++) {
+    PoolPtr s_end = str_start[k] + str_length(k);
+    for (s = str_start[k]; s < s_end; s++) {
         f(pool_elem(s, 0));
     }
 }
 
-void printchar_helper(StrASCIICode c) { printchar(c); }
+// void print_char_helper(StrASCIICode c) { print_char(c); } // _not_use_
 
 void str_print(StrNumber k) {
-    if (k >= strptr) k = S(261);
-    str_map(k, printchar);
+    if (k >= str_ptr) k = S(261);
+    str_map(k, print_char);
 }
 
 static void f_pool_helper(ASCIICode c) { fputc(c, stderr); }
 
 void f_pool(StrNumber s) {
-    if (s >= strptr || s < 0) s = 274;
+    if (s >= str_ptr || s < 0) s = 274;
     str_map(s, f_pool_helper);
     fputc('\n', stderr);
     fflush(stderr);
 }
 
 StrNumber idlookup_s(StrNumber s, int nonew) {
-    PoolPtr k = strstart[s];
-    int l = flength(s);
+    PoolPtr k = str_start[s];
+    int l = str_length(s);
     return idlookup_p(&pool_elem(k, 0), l, nonew);
 }
 
-/*70:*/
-void printcurrentstring(void) {
-    PoolPtr j;
-
-    j = strstart[strptr];
-    while (j < poolptr) {
-        printchar(pool_elem(j, 0));
-        j++;
-    }
-}
-/*:70*/
 
 
-/*43:*/
-StrNumber makestring(void) {
-    if (strptr == maxstrings) overflow(S(1277), maxstrings - initstrptr);
-    strptr++;
-    strstart[strptr] = poolptr;
-    return (strptr - 1);
-}
-/*:43*/
 
-/*46:*/
-int str_cmp(StrNumber s, StrNumber t) {
-    PoolPtr j = strstart[s];
-    PoolPtr k = strstart[t];
-    int l = 0;
-    while (l < flength(s) && l < flength(t)) {
-        int dif = pool_elem(j, l) - pool_elem(k, l);
-        if (dif) {
-            return dif;
-        }
-        l++;
-    }
-    return flength(s) - flength(t);
-}
+int str_valid(StrNumber s) { return ((s >= 0) && (s < str_ptr)); }
 
-Boolean streqstr(StrNumber s, StrNumber t) {
-    if (flength(s) != flength(t)) {
-        return false;
-    }
-    return !str_cmp(s, t);
-}
-/*:46*/
 
-void str_appendchar(StrASCIICode s) {
-    if (poolptr < pool_top) {
-        pool_elem(poolptr, 0) = s;
-        poolptr++;
-    }
-}
-
-void appendchar(StrASCIICode s) {
-    if (poolptr < pool_top) {
-        str_appendchar(s);
-    } else {
-        overflow(S(1276), pool_top - initpoolptr);
-    }
-}
-
-int str_valid(StrNumber s) { return ((s >= 0) && (s < strptr)); }
-
-/*60:*/
-void slowprint(StrNumber s) {
-    PoolPtr j;
-
-    if (s >= strptr || s < 256) {
-        print(s);
-        return;
-    }
-    j = strstart[s];
-    while (j < str_end(s)) {
-        print(pool_elem(j, 0));
-        j++;
-    }
-} /*:60*/
 
 int str_scmp(StrNumber s, short* buffp) {
-    PoolPtr u = strstart[s];
-    int hn = flength(s);
+    PoolPtr u = str_start[s];
+    int hn = str_length(s);
     int j = 0;
     do {
         if (pool_elem(u, j) < buffp[j]) return -1;
@@ -295,17 +301,17 @@ int str_scmp(StrNumber s, short* buffp) {
 }
 
 int str_bcmp(unsigned char* buffp, long l, StrNumber s) {
-    if (flength(s) == l) {
-        if (!memcmp(&pool_elem(strstart[s], 0), buffp, l)) return 1;
+    if (str_length(s) == l) {
+        if (!memcmp(&pool_elem(str_start[s], 0), buffp, l)) return 1;
     }
     return 0;
 }
 
 StrNumber str_ins(short* buffp, long l) {
     int k;
-    if (poolptr + l > pool_top) overflow(S(1276), pool_top - initpoolptr);
+    str_room(l);
     for (k = 0; k < l; k++) {
-        appendchar(buffp[k]);
+        append_char(buffp[k]);
     }
     return makestring();
 }
@@ -313,16 +319,16 @@ StrNumber str_ins(short* buffp, long l) {
 StrNumber str_insert(unsigned char* buffp, long l) {
     int d, k;
     StrNumber result;
-    if (poolptr + l > pool_top) overflow(S(1276), pool_top - initpoolptr);
-    d = get_cur_length();
-    while (poolptr > strstart[strptr]) {
-        poolptr--;
-        pool_elem(poolptr, l) = pool_elem(poolptr, 0);
+    str_room(l);
+    d = cur_length();
+    while (pool_ptr > str_start[str_ptr]) {
+        pool_ptr--;
+        pool_elem(pool_ptr, l) = pool_elem(pool_ptr, 0);
     }
     for (k = 0; k < l; k++) {
-        appendchar(buffp[k]);
+        append_char(buffp[k]);
     }
     result = makestring();
-    poolptr += d;
+    pool_ptr += d;
     return result;
 }

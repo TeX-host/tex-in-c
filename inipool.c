@@ -2,54 +2,54 @@
 #include <string.h> // strlen
 #include "tex.h" // true, false
 #include "str.h" // [export] str_pool_init
-    // [macro] stringvacancies,
+    // [macro] STRING_VACANCIES,
     // [func] str_adjust_to_room, makestring
 #include "pool_str.c" // [var] pool_strs
 
-int str_pool_init(void) {
-    int k, l;
+/// $48
+static void app_lc_hex(int l) {
+    if (l < 10) {
+        append_char(l + '0');
+    } else {
+        append_char(l - 10 + 'a');
+    }
+}
 
+int str_pool_init(void) {
+    int l;
     /* Make strings corresponding to single chars */
-    for (k = 0; k < 256; k++) {
-        if ((k < ' ') | (k > '~')) {
-            appendchar('^');
-            appendchar('^');
+    /// #48
+    for (int k = 0; k < 256; k++) {
+        if ((k < ' ') || (k > '~')) {
+            // Character k cannot be printed
+            // 不可见字符，需要转义
+            append_char('^');
+            append_char('^');
             if (k < 64) {
-                appendchar(k + 64);
+                append_char(k + 64);
             } else if (k < 128) {
-                appendchar(k - 64);
+                append_char(k - 64);
             } else {
-                l = k / 16;
-                if (l < 10) {
-                    appendchar(l + 48);
-                } else {
-                    appendchar(l + 87);
-                }
-                l = k & 15;
-                if (l < 10) {
-                    appendchar(l + 48);
-                } else {
-                    appendchar(l + 87);
-                }
+                app_lc_hex(k / 16);
+                app_lc_hex(k % 16);
             }
         } else {
-            appendchar(k);
+            // 可见字符
+            append_char(k);
         }
         makestring();
-    }
+    } // for (k = 0; k < 256; k++)
 
     /* Copy strings from 'pool_strs' to the pool */
-    for (k = 0; k < (int)(sizeof(pool_strs) / sizeof(char*)); k++) {
+    for (int k = 0; k < (int)(sizeof(pool_strs) / sizeof(char*)); k++) {
         const char* const sp = pool_strs[k];
-        int i;
-
         l = strlen(sp);
-        if (l + stringvacancies != str_adjust_to_room(l + stringvacancies)) {
+        if (l + STRING_VACANCIES != str_adjust_to_room(l + STRING_VACANCIES)) {
             fprintf(stderr, "! You have to increase POOLSIZE.\n");
             return false;
         }
-        for (i = 0; i < l; i++) {
-            appendchar(sp[i]);
+        for (int i = 0; i < l; i++) {
+            append_char(sp[i]);
         }
         makestring();
     }

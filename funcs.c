@@ -171,7 +171,7 @@ int PASCAL_MAIN(int argc, char** argv) {
     return 0;
 }
 
-static int aopenin1(char* name, char** path_lst, FILE** f);
+static int a_open_in1(char* name, char** path_lst, FILE** f);
 
 int open_fmt(FILE** fmt, FILE* _not_use_) {
     char* fmt_name;
@@ -185,11 +185,11 @@ int open_fmt(FILE** fmt, FILE* _not_use_) {
             fmt_name = name_buf;
         }
     }
-    if (aopenin1(fmt_name, format_path, fmt)) {
+    if (a_open_in1(fmt_name, format_path, fmt)) {
         return 1;
     } else {
         fprintf(stdout, "Sorry, I can't find that format; will try PLAIN.\n");
-        if (aopenin1("plain.fmt", format_path, fmt)) {
+        if (a_open_in1("plain.fmt", format_path, fmt)) {
             return 1;
         } else {
             fprintf(stdout, "I can't find the PLAIN format file!\n");
@@ -206,7 +206,7 @@ void trimspaces(void) {
     fprintf(stderr, "%s", my_buff);
 }
 
-static int aopenin1(char* name, char** path_lst, FILE** f) {
+static int a_open_in1(char* name, char** path_lst, FILE** f) {
     /* XXXX Fixed buffer size */
     char path_buff[512];
     char* path_dir;
@@ -229,8 +229,8 @@ static int aopenin1(char* name, char** path_lst, FILE** f) {
     return *f != 0;
 }
 
-
-int aopenin(FILE** f) {
+/// #51
+int a_open_in(FILE** f) {
     char** path_lst;
     char* name;
     trimspaces();
@@ -247,10 +247,10 @@ int aopenin(FILE** f) {
         name = my_buff;
         path_lst = p_path;
     }
-    return aopenin1(name, path_lst, f);
+    return a_open_in1(name, path_lst, f);
 }
 
-int aopenout(FILE** f) {
+int a_open_out(FILE** f) {
     trimspaces();
     if (!*f)
         *f = fopen(my_buff, "wb");

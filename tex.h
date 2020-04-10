@@ -17,9 +17,9 @@ typedef UChar Char;
 #define memmax          3000000
 #define memmin          0
 #define bufsize         5000
-#define errorline       72
-#define halferrorline   42
-#define maxprintline    79
+#define ERROR_LINE       72
+#define halfERROR_LINE   42
+#define MAX_PRINT_LINE    79
 #define stacksize       200
 #define maxinopen       6
 #define fontmax         75
@@ -71,9 +71,10 @@ typedef UChar Char;
 #define awfulbad        1073741823L
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
-#define unity           65536L
+// #101
+#define UNITY           65536L  // 2^16, rep 1.00000
+#define TWO             131072L // 2^17, rep 2.00000
 
-#define two             131072
 #define membot          0
 #define hashsize        210000
 #define hashprime       171553
@@ -101,7 +102,7 @@ enum History { // history value @76
 // #define ERROR_MESSAGE_ISSUED  2 
 // #define FATAL_ERROR_STOP 3    
 
-#define infbad          10000
+#define INF_BAD          10000
 #define minquarterword  0
 #define maxquarterword  255
 #define hlistnode       0
@@ -142,7 +143,7 @@ enum History { // history value @76
 #define explicit        1
 #define acckern         2
 #define penaltynode     12
-#define infpenalty      infbad
+#define infpenalty      INF_BAD
 #define ejectpenalty    (-infpenalty)
 #define unsetnode       13
 #define himemstatusage  14
@@ -291,26 +292,26 @@ enum History { // history value @76
 
 #define levelone        (levelzero + 1)
 
-#define activebase      1
-
-#define singlebase      (activebase + 256)
-#define nullcs          (singlebase + 256)
-#define hashbase        (nullcs + 1)
-#define frozencontrolsequence  (hashbase + hashsize)
-#define frozenprotection  frozencontrolsequence
-#define frozencr        (frozencontrolsequence + 1)
-#define frozenendgroup  (frozencontrolsequence + 2)
-#define frozenright     (frozencontrolsequence + 3)
-#define frozenfi        (frozencontrolsequence + 4)
-#define frozenendtemplate  (frozencontrolsequence + 5)
-#define frozenendv      (frozencontrolsequence + 6)
-#define frozenrelax     (frozencontrolsequence + 7)
-#define endwrite        (frozencontrolsequence + 8)
-#define frozendontexpand  (frozencontrolsequence + 9)
-#define frozennullfont  (frozencontrolsequence + 10)
-#define fontidbase      (frozennullfont)
-#define undefinedcontrolsequence  (frozennullfont + 257)
-#define gluebase        (undefinedcontrolsequence + 1)
+/// p82#222
+#define activebase                  1
+#define singlebase                  (activebase + 256)
+#define nullcs                      (singlebase + 256)
+#define hashbase                    (nullcs + 1)
+#define frozencontrolsequence       (hashbase + hashsize)
+#define frozenprotection            frozencontrolsequence
+#define frozencr                    (frozencontrolsequence + 1)
+#define frozenendgroup              (frozencontrolsequence + 2)
+#define frozenright                 (frozencontrolsequence + 3)
+#define frozenfi                    (frozencontrolsequence + 4)
+#define frozenendtemplate           (frozencontrolsequence + 5)
+#define frozenendv                  (frozencontrolsequence + 6)
+#define frozenrelax                 (frozencontrolsequence + 7)
+#define endwrite                    (frozencontrolsequence + 8)
+#define frozendontexpand            (frozencontrolsequence + 9)
+#define frozennullfont              (frozencontrolsequence + 10)
+#define fontidbase                  (frozennullfont)
+#define undefinedcontrolsequence    (frozennullfont + 257)
+#define gluebase                    (undefinedcontrolsequence + 1)
 
 #define lineskipcode    0
 #define baselineskipcode  1
@@ -401,7 +402,7 @@ enum History { // history value @76
 #define floatingpenaltycode  42
 #define globaldefscode  43
 #define curfamcode      44
-#define escapecharcode  45
+#define ESCAPE_CHARcode  45
 #define defaulthyphencharcode  46
 #define defaultskewcharcode  47
 #define endlinecharcode  48
@@ -632,9 +633,14 @@ enum History { // history value @76
 
 #define choicenode      (unsetnode + 2)
 
-#define textsize        0
-#define scriptsize      16
-#define scriptscriptsize  32
+/// p258#699: Subroutines for math mode
+// size code for the largest size in a family
+#define TEXT_SIZE           0
+// size code for the medium size in a family
+#define SCRIPT_SIZE         16
+// size code for the smallest size in a family
+#define SCRIPT_SCRIPT_SIZE  32
+
 #define totalmathsyparams  22
 #define totalmathexparams  13
 #define donewithnoad    80

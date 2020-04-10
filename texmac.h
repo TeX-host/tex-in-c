@@ -6,7 +6,7 @@
 #define P_getbits_UB(trie, h, z, w) (trie[(h) >> 3] & (1 << ((h)&7)))
 #define P_putbits_UB(trie, h, y, z, w) trie[(h) >> 3] |= 1 << ((h)&7)
 
-#define wopenout aopenout
+#define wopenout a_open_out
 
 #define link(x) (mem[(x)].hh.rh)
 #define info(x) (mem[(x)].hh.UU.lh)
@@ -95,7 +95,7 @@
 #define floatingpenalty  intpar(floatingpenaltycode)
 #define globaldefs  intpar(globaldefscode)
 #define curfam  intpar(curfamcode)
-#define escapechar  intpar(escapecharcode)
+#define ESCAPE_CHAR  intpar(ESCAPE_CHARcode)
 #define defaulthyphenchar  intpar(defaulthyphencharcode)
 #define defaultskewchar  intpar(defaultskewcharcode)
 #define endlinechar  intpar(endlinecharcode)
@@ -461,21 +461,21 @@
 #define openname(x)    link(x+1) /* string number of file name to open}*/
 #define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
 #define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
-#define nxplusy(n, x, y) (multandadd((n), (x), (y), 1073741823L))
+#define nxplusy(n, x, y) (mult_and_add((n), (x), (y), 1073741823L))
 
 
 #define karmafastdeleteglueref(x)                                              \
     (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0)                   \
                           : gluerefcount(x)--)
-#define nodelistdisplay(x) (appendchar('.'), shownodelist(x), flushchar())
+#define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
 #define beginpseudoprint()                                                     \
     (l = tally, tally = 0, selector = PSEUDO, trickcount = 1000000)
 
 #define settrickcount()                                                        \
     (firstcount = tally,                                                       \
-     trickcount = tally + 1 + errorline - halferrorline,                       \
-     ((trickcount < errorline) ? trickcount = errorline : 0))
+     trickcount = tally + 1 + ERROR_LINE - halfERROR_LINE,                       \
+     ((trickcount < ERROR_LINE) ? trickcount = ERROR_LINE : 0))
 
 #define popinput() /* leave an input level, re-enter the old */                \
     (inputptr--, curinput = inputstack[inputptr])

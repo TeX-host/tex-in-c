@@ -34,7 +34,7 @@
 #include "texfunc.h" // [export]
 
 #define formatextension  S(256)
-#define checkinterrupt() ((interrupt != 0) ? (pauseforinstructions(), 0) : 0)
+#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
@@ -57,7 +57,7 @@ InStateRecord curinput;
 jmp_buf _JLfinalend;
 ASCIICode xord[256];
 /*13:*/
-Static Scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
+Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
 
 /*:13*/
 
@@ -77,14 +77,14 @@ Static int namelength;
 
 /// p24#54: On-line and off-line printing
 /// Global variables: in tex.c only
-Static FILE* logfile = NULL;   // transcript of T E X session
+Static FILE* log_file = NULL;   // transcript of T E X session
 // Static unsigned char selector; // where to print a message
 Static enum Selector selector; // where to print a message
 // ? dig[23] // digits in a number being output
 Static long tally; // the number of characters recently printed
-Static char termoffset; // the number of characters on the current terminal line
-Static char fileoffset; // the number of characters on the current file line
-Static ASCIICode trickbuf[errorline + 1]; // circular buffer for pseudoprinting
+Static char term_offset; // the number of characters on the current terminal line
+Static char file_offset; // the number of characters on the current file line
+Static ASCIICode trickbuf[ERROR_LINE + 1]; // circular buffer for pseudoprinting
 Static long trickcount, // threshold for pseudoprinting, explained later
             firstcount; // another variable for pseudoprinting
 
@@ -106,9 +106,12 @@ Static Boolean useerrhelp;
 Static long interrupt;
 Static Boolean OKtointerrupt;
 /*:96*/
-/*104:*/
-Static Boolean aritherror;
-/*:104*/
+
+/// #104
+// has arithmetic overflow occurred recently?
+Static Boolean arith_error = false;
+Static Scaled tex_remainder = 0; // amount subtracted to get an exact division
+
 /*115:*/
 Static Pointer tempptr, lomemmax, himemmin;
 /*:115*/
@@ -445,7 +448,7 @@ Static Boolean longhelpseen;
 Static FILE *fmtfile = NULL;
 /*:1305*/
 /*1342:*/
-Static FILE *writefile[16];
+Static FILE *write_file[16];
 Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/
@@ -675,11 +678,11 @@ Static void initialize(void) { /*:927*/
         k += gluespecsize;
     }
 
-    stretch(filglue)    =  unity; stretchorder(filglue)    = fil;
-    stretch(fillglue)   =  unity; stretchorder(fillglue)   = fill;
-    stretch(ssglue)     =  unity; stretchorder(ssglue)     = fil;
-    shrink(ssglue)      =  unity; shrinkorder(ssglue)      = fil;
-    stretch(filnegglue) = -unity; stretchorder(filnegglue) = fil;
+    stretch(filglue)    =  UNITY; stretchorder(filglue)    = fil;
+    stretch(fillglue)   =  UNITY; stretchorder(fillglue)   = fill;
+    stretch(ssglue)     =  UNITY; stretchorder(ssglue)     = fil;
+    shrink(ssglue)      =  UNITY; shrinkorder(ssglue)      = fil;
+    stretch(filnegglue) = -UNITY; stretchorder(filnegglue) = fil;
 
     // now initialize the dynamic memory
     rover = lomemstatmax + 1;
@@ -793,7 +796,7 @@ Static void initialize(void) { /*:927*/
     tolerance = 10000;
     hangafter = 1;
     maxdeadcycles = 25;
-    escapechar = '\\';
+    ESCAPE_CHAR = '\\';
     endlinechar = carriagereturn;
     for (k = 0; k <= 255; k++)
         delcode(k) = -1;
@@ -840,24 +843,35 @@ Static void initialize(void) { /*:927*/
 } // initialize
 
 
-/*57:*/
+/*
+    #54. On-line and off-line printing.
+
+# Basic printing procedures:
+    [57], [58], [59],   60,   [62],
+    [63], [64], [65], [262], [263],
+    [518], [699], 1355.
+    println,  printchar,      print,               printnl,
+    printesc, print_the_digs, print_int, print_cs, sprint_cs,
+    print_file_name, print_size, print_write_whatsit
+*/
+/// #57
 void println(void) {
     switch (selector) {
         case TERM_AND_LOG:
             putc('\n', stdout);
-            putc('\n', logfile);
-            termoffset = 0;
-            fileoffset = 0;
+            putc('\n', log_file);
+            term_offset = 0;
+            file_offset = 0;
             break;
 
         case LOG_ONLY:
-            putc('\n', logfile);
-            fileoffset = 0;
+            putc('\n', log_file);
+            file_offset = 0;
             break;
 
         case TERM_ONLY:
             putc('\n', stdout);
-            termoffset = 0;
+            term_offset = 0;
             break;
 
         case NO_PRINT:
@@ -867,16 +881,14 @@ void println(void) {
             break;
 
         default:
-            putc('\n', writefile[selector]);
+            putc('\n', write_file[selector]);
             break;
-    }
-}
-/*:57*/
+    } // switch (selector)
+} // #57: println
 
-/*58:*/
-void printchar(ASCIICode s) {
-    /*244:*/
-    if (s == newlinechar) { /*:244*/
+/// #58
+void print_char(ASCIICode s) {
+    if (s == newlinechar) {
         if (selector < PSEUDO) {
             println();
             return;
@@ -886,29 +898,29 @@ void printchar(ASCIICode s) {
     switch (selector) {
         case TERM_AND_LOG:
             fwrite(&xchr[s], 1, 1, stdout);
-            fwrite(&xchr[s], 1, 1, logfile);
-            termoffset++;
-            fileoffset++;
-            if (termoffset == maxprintline) {
+            fwrite(&xchr[s], 1, 1, log_file);
+            term_offset++;
+            file_offset++;
+            if (term_offset == MAX_PRINT_LINE) {
                 putc('\n', stdout);
-                termoffset = 0;
+                term_offset = 0;
             }
-            if (fileoffset == maxprintline) {
-                putc('\n', logfile);
-                fileoffset = 0;
+            if (file_offset == MAX_PRINT_LINE) {
+                putc('\n', log_file);
+                file_offset = 0;
             }
             break;
 
         case LOG_ONLY:
-            fwrite(&xchr[s], 1, 1, logfile);
-            fileoffset++;
-            if (fileoffset == maxprintline) println();
+            fwrite(&xchr[s], 1, 1, log_file);
+            file_offset++;
+            if (file_offset == MAX_PRINT_LINE) println();
             break;
 
         case TERM_ONLY:
             fwrite(&xchr[s], 1, 1, stdout);
-            termoffset++;
-            if (termoffset == maxprintline) println();
+            term_offset++;
+            if (term_offset == MAX_PRINT_LINE) println();
             break;
 
         case NO_PRINT:
@@ -917,21 +929,20 @@ void printchar(ASCIICode s) {
 
         case PSEUDO:
             if (tally < trickcount) {
-                trickbuf[tally % errorline] = s;
+                trickbuf[tally % ERROR_LINE] = s;
             }
             break;
 
         case NEW_STRING:
-            str_appendchar(s);
+            append_char(s);
             break;
 
         default:
-            fwrite(&xchr[s], 1, 1, writefile[selector]);
+            fwrite(&xchr[s], 1, 1, write_file[selector]);
             break;
     }
     tally++;
-}
-/*:58*/
+} // #58: print_char
 
 /// p26#59: prints string s
 void print(StrNumber s) {
@@ -939,7 +950,7 @@ void print(StrNumber s) {
 
     if (0 <= s && s <= 255) {
         if (selector > PSEUDO) {
-            printchar(s); // internal strings are not expanded
+            print_char(s); // internal strings are not expanded
             return;
         }
         if (s == newlinechar) { /// #244
@@ -961,171 +972,154 @@ void print(StrNumber s) {
     } // if (0 <= s && s <= 255) - else
 } // #59: print
 
-/*62:*/
-void printnl(StrNumber s)
-{
-  if ( (termoffset > 0 && (selector & 1)) ||
-      (fileoffset > 0 && selector >= LOG_ONLY))
-    println();
-  print(s);
-}
-/*:62*/
+/// #62: prints string s at beginning of line
+void printnl(StrNumber s) {
+    if ((term_offset > 0 && (selector & 1)) ||
+        (file_offset > 0 && selector >= LOG_ONLY))
+        println();
+    print(s);
+} // #62: printnl
 
-/*63:*/
-void printesc(StrNumber s)
-{  /*243:*/
-  long c;
+/// #63: prints escape character
+void print_esc(StrNumber s) {
+    long c;
 
-  c = escapechar;   /*:243*/
-  if (c >= 0) {
-    if (c < 256)
-      print(c);
-  }
-  slowprint(s);
-}
-/*:63*/
+    c = ESCAPE_CHAR;
+    if (0 <= c && c <= 255) {
+        print(c);
+    }
+    slow_print(s);
+} // #63: print_esc
 
-/*64:*/
-Static void printthedigs(EightBits k, char * dig)
-{
-  while (k > 0) {
-    k--;
-    if (dig[k] < 10)
-      printchar('0' + dig[k]);
-    else
-      printchar('A' + dig[k] - 10);
-  }
-}
-/*:64*/
+/// #64: prints dig[k − 1]...dig[0]
+Static void print_the_digs(EightBits k, char dig[]) {
+    while (k > 0) {
+        k--;
+        if (dig[k] < 10) {
+            print_char('0' + dig[k]);
+        } else {
+            print_char('A' + dig[k] - 10);
+        }
+    } // while (k > 0)
+} // #64: print_the_digs
 
-/*65:*/
-void printint(long n)
-{
-  int k;
-  long m;
-  char dig[23];
+/// #65: prints an integer in decimal form
+void print_int(long n) {
+    int k = 0; // index to current digit; we assume that n < 10^23
+    long m; // used to negate n in possibly dangerous cases
+    char dig[23];
 
-  k = 0;
-  if (n < 0) {
-    printchar('-');
-    if (n > -100000000L)
-      n = -n;
+    if (n < 0) {
+        print_char('-');
+        if (n > -100000000L) {
+            n = -n;
+        } else {
+            m = -n - 1;
+            n = m / 10;
+            m = (m % 10) + 1;
+            k = 1;
+            if (m < 10) {
+                dig[0] = m;
+            } else {
+                dig[0] = 0;
+                n++;
+            }
+        } // if (n > -100000000L) - else
+    } // if (n < 0)
+
+    do {
+        dig[k] = n % 10;
+        n /= 10;
+        k++;
+    } while (n != 0);
+    print_the_digs(k, dig);
+} // #65: print_int
+
+/// #262: prints a purported control sequence
+Static void print_cs(long p) {
+    if (p < hashbase) {
+        if (p >= singlebase) {
+            if (p == nullcs) {
+                print_esc(S(262));
+                print_esc(S(263));
+                return;
+            }
+            print_esc(p - singlebase);
+            if (catcode(p - singlebase) == letter) print_char(' ');
+            return;
+        }
+        if (p < activebase)
+            print_esc(S(264));
+        else
+            print(p - activebase);
+        return;
+    }
+    if (p >= undefinedcontrolsequence) {
+        print_esc(S(264));
+        return;
+    }
+    if (!str_valid(text(p)))
+        print_esc(S(265));
     else {
-      m = -n - 1;
-      n = m / 10;
-      m = m % 10 + 1;
-      k = 1;
-      if (m < 10)
-	dig[0] = m;
-      else {
-	dig[0] = 0;
-	n++;
-      }
+        print_esc(text(p));
+        print_char(' ');
     }
-  }
-  do {
-    dig[k] = n % 10;
-    n /= 10;
-    k++;
-  } while (n != 0);
-  printthedigs(k,dig);
-}
-/*:65*/
+} // #262: print_cs
 
-/*262:*/
-Static void printcs(long p)
-{
-  if (p < hashbase) {
-    if (p >= singlebase) {
-      if (p == nullcs) {
-	printesc(S(262));
-	printesc(S(263));
-	return;
-      }
-      printesc(p - singlebase);
-      if (catcode(p - singlebase) == letter)
-	printchar(' ');
-      return;
-    }
-    if (p < activebase)
-      printesc(S(264));
-    else
-      print(p - activebase);
-    return;
-  }
-  if (p >= undefinedcontrolsequence) {
-    printesc(S(264));
-    return;
-  }
-  if ( !str_valid(text(p)))
-    printesc(S(265));
-  else {
-    printesc(text(p));
-    printchar(' ');
-  }
-}
-/*:262*/
-
-/*263:*/
-void sprintcs(HalfWord p)
-{
-  if (p >= hashbase) {
-    printesc(text(p));
-    return;
-  }
-  if (p < singlebase) {
-    print(p - activebase);
-    return;
-  }
-  if (p < nullcs)
-    printesc(p - singlebase);
-  else {
-    printesc(S(262));
-    printesc(S(263));
-  }
-}  /*:263*/
-
-
-/*518:*/
-void printfilename(StrNumber n, StrNumber a, StrNumber e)
-{
-  slowprint(a);
-  slowprint(n);
-  slowprint(e);
-}
-/*:518*/
-
-/*699:*/
-void printsize(long s) {
-    if (s == 0) {
-        printesc(S(266));
+/// #263: prints a control sequence
+void sprint_cs(HalfWord p) {
+    if (p >= hashbase) {
+        print_esc(text(p));
         return;
     }
-    if (s == scriptsize)
-        printesc(S(267));
+    if (p < singlebase) {
+        print(p - activebase);
+        return;
+    }
+    if (p < nullcs)
+        print_esc(p - singlebase);
+    else {
+        print_esc(S(262));
+        print_esc(S(263));
+    }
+} // #263: sprint_cs
+
+/// #518
+void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
+    slow_print(a);
+    slow_print(n);
+    slow_print(e);
+} // #518: print_file_name
+
+/// #699
+void print_size(long s) {
+    if (s == TEXT_SIZE) {
+        print_esc(S(266));
+        return;
+    }
+    if (s == SCRIPT_SIZE)
+        print_esc(S(267));
     else
-        printesc(S(268));
-} /*:699*/
+        print_esc(S(268));
+} // #699: print_size
 
-
-/*1355:*/
-Static void printwritewhatsit(StrNumber s, HalfWord p) {
-    printesc(s);
+/// #1355
+Static void print_write_whatsit(StrNumber s, HalfWord p) {
+    print_esc(s);
     if (writestream(p) < 16) {
-        printint(writestream(p));
-        return;
+        print_int(writestream(p));
+    } else if (writestream(p) == 16) {
+        print_char('*');
+    } else {
+        print_char('-');
     }
-    if (writestream(p) == 16)
-        printchar('*');
-    else
-        printchar('-');
-}
-/*:1355*/
+} // #1355: print_write_whatsit
+
 
 /// p31#78
-Static void normalizeselector(void);
+Static void normalize_selector(void);
 Static void gettoken(void);
-Static void terminput(void);
+Static void term_input(void);
 Static void showcontext(void);
 Static void beginfilereading(void);
 Static void openlogfile(void);
@@ -1146,7 +1140,7 @@ Static void jumpout(void) { longjmp(_JLendofTEX, 1); }
 /*82:*/
 void error(void) {
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
-    printchar('.');
+    print_char('.');
     showcontext();
     if (interaction == errorstopmode) { /*83:*/
         while (true) {                  /*:83*/
@@ -1154,7 +1148,7 @@ void error(void) {
 _Llabcontinue:
             clearforerrorprompt();
             print(S(269));
-            terminput();
+            term_input();
             if (last == first) goto _Lexit;
             c = buffer[first];
             /*84:*/
@@ -1208,9 +1202,9 @@ _Llabcontinue:
                 case 'E':
                     if (baseptr > 0) {
                         printnl(S(272));
-                        slowprint(inputstack[baseptr].namefield);
+                        slow_print(inputstack[baseptr].namefield);
                         print(S(273));
-                        printint(line);
+                        print_int(line);
                         interaction = scrollmode;
                         jumpout();
                     }
@@ -1242,7 +1236,7 @@ _Llabcontinue:
                         buffer[first] = ' ';
                     } else {
                         print(S(279));
-                        terminput();
+                        term_input();
                         loc = first;
                     }
                     first = last;
@@ -1259,16 +1253,16 @@ _Llabcontinue:
                     print(S(280));
                     switch (c) {
                         case 'Q':
-                            printesc(S(281));
+                            print_esc(S(281));
                             selector--;
                             break;
 
                         case 'R':
-                            printesc(S(282));
+                            print_esc(S(282));
                             break;
 
                         case 'S':
-                            printesc(S(283));
+                            print_esc(S(283));
                             break;
                     }
                     print(S(284));
@@ -1330,7 +1324,7 @@ Static void succumb(void) {
 
 /// p36#93: 
 Static void fatalerror(StrNumber s) {
-    normalizeselector();
+    normalize_selector();
     printnl(S(292));
     print(S(293));
     helpptr = 1;
@@ -1341,13 +1335,13 @@ Static void fatalerror(StrNumber s) {
 
 /*94:*/
 void overflow(StrNumber s, long n) {
-    normalizeselector();
+    normalize_selector();
     printnl(S(292));
     print(S(294));
     print(s);
-    printchar('=');
-    printint(n);
-    printchar(']');
+    print_char('=');
+    print_int(n);
+    print_char(']');
     help2(S(295), S(296));
     succumb();
 }
@@ -1356,12 +1350,12 @@ void overflow(StrNumber s, long n) {
 
 /*95:*/
 Static void confusion(StrNumber s) {
-    normalizeselector();
+    normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
         printnl(S(292));
         print(S(297));
         print(s);
-        printchar(')');
+        print_char(')');
         help1(S(298));
     } else {
         printnl(S(292));
@@ -1417,36 +1411,31 @@ Static Boolean initterminal(void)
 }
 /*:37*/
 
-/*66:*/
-Static void printtwo(long n)
-{
-  n = labs(n) % 100;
-  printchar('0' + n / 10);
-  printchar('0' + n % 10);
+
+/// #66
+Static void print_two(long n) {
+    n = labs(n) % 100;
+    print_char('0' + n / 10);
+    print_char('0' + n % 10);
 }
-/*:66*/
 
+/// #67
+void print_hex(long n) {
+    int k;
+    char digs[23];
 
-/*67:*/
-void printhex(long n)
-{
-  int k;
-  char digs[23];
-
-  k = 0;
-  printchar('"');
-  do {
-    digs[k] = n & 15;
-    n /= 16;
-    k++;
-  } while (n != 0);
-  printthedigs(k,digs);
+    k = 0;
+    print_char('"');
+    do {
+        digs[k] = n & 15;
+        n /= 16;
+        k++;
+    } while (n != 0);
+    print_the_digs(k, digs);
 }
-/*:67*/
 
-
-/*69:*/
-Static void printromanint(long n) {
+/// #69
+Static void print_roman_int(long n) {
     int j, k;
     NonNegativeInteger u, v;
     static char romstr[] = "m2d5c2l5x2v5i";
@@ -1455,7 +1444,7 @@ Static void printromanint(long n) {
     v = 1000;
     while (true) {
         while (n >= v) {
-            printchar(romstr[j]);
+            print_char(romstr[j]);
             n -= v;
         }
         if (n <= 0) return;
@@ -1466,7 +1455,7 @@ Static void printromanint(long n) {
             u /= romstr[k - 1] - '0';
         }
         if (n + u >= v) {
-            printchar(romstr[k]);
+            print_char(romstr[k]);
             n += u;
         } else {
             j += 2;
@@ -1474,255 +1463,242 @@ Static void printromanint(long n) {
         }
     }
 }
-/*:69*/
 
+/// #71: gets a line from the terminal
+Static void term_input(void) {
+    short k;
 
-/*71:*/
-Static void terminput(void)
-{
-  short k;
-
-  fflush(stdout);
-  if (!inputln(stdin, true))
-    fatalerror(S(302));
-  termoffset = 0;
-  selector--;
-  if (last != first) {
-    for (k = first; k < last; k++)
-      print(buffer[k]);
-  }
-  println();
-  selector++;
-}
-/*:71*/
-
-
-/*91:*/
-Static void interror(long n)
-{
-  print(S(303));
-  printint(n);
-  printchar(')');
-  error();
-}
-/*:91*/
-
-
-/*92:*/
-Static void normalizeselector(void)
-{
-  if (logopened)
-    selector = TERM_AND_LOG;
-  else
-    selector = TERM_ONLY;
-  if (jobname == 0)
-    openlogfile();
-  if (interaction == batchmode)
+    fflush(stdout);
+    if (!inputln(stdin, true)) fatalerror(S(302));
+    term_offset = 0;
     selector--;
-}
-/*:92*/
-
-
-/*98:*/
-Static void pauseforinstructions(void)
-{
-  if (!OKtointerrupt)
-    return;
-  interaction = errorstopmode;
-  if (selector == LOG_ONLY || selector == NO_PRINT)
+    if (last != first) {
+        for (k = first; k < last; k++)
+            print(buffer[k]);
+    }
+    println();
     selector++;
-  printnl(S(292));
-  print(S(304));
-  help3(S(305),
-        S(306),
-        S(307));
-  deletionsallowed = false;
-  error();
-  deletionsallowed = true;
-  interrupt = 0;
 }
-/*:98*/
 
 
-/*100:*/
-Static long half(long x)
-{
-  if (x & 1)
-    return ((x + 1) / 2);
-  else
-    return (x / 2);
+/*
+    #72~98. Reporting errors.
+*/
+/// #91
+Static void int_error(long n) {
+    print(S(303));
+    print_int(n);
+    print_char(')');
+    error();
 }
-/*:100*/
-
-
-/*102:*/
-Static long rounddecimals(int k, char * digs )
-{
-  long a;
-
-  a = 0;
-  while (k > 0) {
-    k--;
-    a = (a + digs[k] * two) / 10;
-  }
-  return ((a + 1) / 2);
+/// #92
+Static void normalize_selector(void) {
+    if (logopened)
+        selector = TERM_AND_LOG;
+    else
+        selector = TERM_ONLY;
+    if (jobname == 0) openlogfile();
+    if (interaction == batchmode) selector--;
 }
-/*:102*/
-
-
-/*103:*/
-void printscaled(long s)
-{
-  Scaled delta;
-
-  if (s < 0) {
-    printchar('-');
-    s = -s;
-  }
-  printint(s / unity);
-  printchar('.');
-  s = (s & (unity - 1)) * 10 + 5;
-  delta = 10;
-  do {
-    if (delta > unity)
-      s -= 17232;
-    printchar('0' + s / unity);
-    s = (s & (unity - 1)) * 10;
-    delta *= 10;
-  } while (s > delta);
+/// #98
+Static void pause_for_instructions(void) {
+    if (!OKtointerrupt) return;
+    interaction = errorstopmode;
+    if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
+    printnl(S(292));
+    print(S(304));
+    help3(S(305), S(306), S(307));
+    deletionsallowed = false;
+    error();
+    deletionsallowed = true;
+    interrupt = 0;
 }
-/*:103*/
 
+/*
+    #99: Arithmetic with scaled dimensions.
 
-/*105:*/
-Static long multandadd(long n, long x, long y, long maxanswer)
-{
-  if (n < 0) {
-    x = -x;
-    n = -n;
-  }
-  if (n == 0)
-    return y;
-  else if (x <= (maxanswer - y) / n && -x <= (maxanswer + y) / n)
-    return (n * x + y);
-  else {
-    aritherror = true;
-    return 0;
-  }
-}
-/*:105*/
+export:
+    + void print_scaled(Scaled s)
+    + Scaled xn_over_d(Scaled x, long n, long d)
+others:
+    - Static long half(Scaled x)
+    - Static Scaled round_decimals(int k, char digs[])
+    - Static Scaled mult_and_add(long n, Scaled x, Scaled y, Scaled max_ans)
+    - Static Scaled x_over_n(Scaled x, Scaled n)
+    - Static HalfWord badness(Scaled t, Scaled s)
 
+*/
+/// #100
+Static long half(Scaled x) {
+    if (x & 1)
+        return ((x + 1) / 2);
+    else
+        return (x / 2);
+} // #100: half
 
-/*106:*/
-Static long xovern(long x, long n)
-{
-  long Result;
-  Boolean negative;
+/// #102
+Static Scaled round_decimals(int k, char digs[]) {
+    Scaled a = 0;
 
-  negative = false;
-  if (n == 0) {
-    aritherror = true;
-    Result = 0;
-    texremainder = x;
-  } else {
+    while (k > 0) {
+        k--;
+        a = (a + digs[k] * TWO) / 10;
+    }
+    return ((a + 1) / 2);
+} // #102: round_decimals
+
+/// #103: prints scaled real, rounded to five digits
+void print_scaled(Scaled s) {
+    Scaled delta;
+
+    if (s < 0) {
+        // print the sign, if negative
+        print_char('-');
+        s = -s;
+    }
+    print_int(s / UNITY); // print the integer part
+    print_char('.');
+    // s = (s & (UNITY - 1)) * 10 + 5;
+    s = 10 * (s % UNITY) + 5;
+    delta = 10;
+    do {
+        if (delta > UNITY) s -= 17232; // 2^15 - 50000, round the last digit
+        print_char('0' + s / UNITY);
+        // s = (s & (UNITY - 1)) * 10;
+        s = 10 * (s % UNITY) + 5;
+        delta *= 10;
+    } while (s > delta);
+} // #103: print_scaled
+
+/// #105: return `nx + y`
+Static Scaled mult_and_add(long n, Scaled x, Scaled y, Scaled max_ans) {
     if (n < 0) {
-      x = -x;
-      n = -n;
-      negative = true;
+        x = -x;
+        n = -n;
     }
-    if (x >= 0) {
-      Result = x / n;
-      texremainder = x % n;
+    if (n == 0) {
+        return y;
+    } else { // n > 0
+        if (x <= (max_ans - y) / n && -x <= (max_ans + y) / n) {
+            return (n * x + y);
+        } else {
+            arith_error = true;
+            return 0;
+        }
+    } // if (n <> 0)
+} // #105: mult_and_add
+
+/// #106: `x / n`
+Static Scaled x_over_n(Scaled x, Scaled n) {
+    Scaled result;
+    Boolean negative = false;
+
+    if (n == 0) {
+        // 除 0 错误
+        arith_error = true;
+        result = 0;
+        tex_remainder = x;
     } else {
-      Result = -(-x / n);
-      texremainder = -(-x % n);
+        if (n < 0) {
+            x = -x;
+            n = -n;
+            negative = true;
+        }
+        // n > 0
+        if (x >= 0) {
+            result = x / n;
+            tex_remainder = x % n;
+        } else {
+            result = -(-x / n);
+            tex_remainder = -(-x % n);
+        }
     }
-  }
-  if (negative)
-    texremainder = -texremainder;
-  return Result;
-}
-/*:106*/
+    if (negative) tex_remainder = -tex_remainder;
+    return result;
+} // #106: x_over_n
 
-/*107:*/
-long xnoverd(long x, long n, long d)
-{
-  long Result;
-  Boolean positive;
-  NonNegativeInteger t, u, v;
+/// #107: `x * (n / d)`
+Scaled xn_over_d(Scaled x, long n, long d) {
+    Scaled result;
+    Boolean positive; // was x >= 0?
+    NonNegativeInteger t, u, v;
 
-  if (x >= 0)
-    positive = true;
-  else {
-    x = -x;
-    positive = false;
-  }
-  t = x % 32768L * n;
-  u = x / 32768L * n + t / 32768L;
-  v = u % d * 32768L + t % 32768L;
-  if (u / d >= 32768L)
-    aritherror = true;
-  else
-    u = u / d * 32768L + v / d;
-  if (positive) {
-    Result = u;
-    texremainder = v % d;
-  } else {
-    Result = -u;
-    texremainder = -(v % d);
-  }
-  return Result;
-}
-/*:107*/
+    if (x >= 0) {
+        positive = true;
+    } else {
+        x = -x;
+        positive = false;
+    }
+    t = (x % 32768L) * n;
+    u = (x / 32768L) * n + (t / 32768L);
+    v = (u % d) * 32768L + (t % 32768L);
+    if ((u / d) >= 32768L) {
+        arith_error = true;
+    } else {
+        u = (u / d) * 32768L + (v / d);
+    }
+    if (positive) {
+        result = u;
+        tex_remainder = (v % d);
+    } else {
+        result = -u;
+        tex_remainder = -(v % d);
+    }
+    return result;
+} // #107: xn_over_d
 
-/*108:*/
-Static HalfWord badness(long t, long s)
-{
-  long r;
+/// #108: compute the “badness” of glue, , given t >= 0
+// when a total t is supposed to be made from amounts that sum to s
+// badness = 100 * (t/s)^3
+// badness(t + 1,s) ≥ badness(t,s) ≥ badness(t,s + 1)
+Static HalfWord badness(Scaled t, Scaled s) {
+    Scaled r; // approximation to α*t/s, where α^3 ≈ 100 * 2^18
 
-  if (t == 0)
-    return 0;
-  else if (s <= 0)
-    return infbad;
-  else {
-    if (t <= 7230584L)
-      r = t * 297 / s;
-    else if (s >= 1663497L)
-      r = t / (s / 297);
-    else
-      r = t;
-    if (r > 1290)
-      return infbad;
-    else
-      return ((r * r * r + 131072L) / 262144L);
-  }
-}
-/*:108*/
+    if (t == 0) {
+        return 0;
+    } else if (s <= 0) {
+        return INF_BAD;
+    } else {
+        if (t <= 7230584L) {
+            r = t * 297 / s; // 297^3 = 99.94 * 2^18
+        } else if (s >= 1663497L) {
+            r = t / (s / 297);
+        } else {
+            r = t;
+        }
+        if (r > 1290) { // 1290^3 < 2^31 < 1291^3
+            return INF_BAD;
+        } else {
+            return ((r * r * r + 131072L) / 262144L);
+        }
+    }
+} // #108:badness
+
 
 /// p43#114
 #ifdef tt_DEBUG
 Static void printword(MemoryWord w) {
-    printint(w.int_);
-    printchar(' ');
-    printscaled(w.sc);
-    printchar(' ');
-    printscaled( (long)floor(unity * w.gr + 0.5) );
+    print_int(w.int_);
+    print_char(' ');
+    print_scaled(w.sc);
+    print_char(' ');
+    print_scaled( (long)floor(UNITY * w.gr + 0.5) );
     println();
-    printint(w.hh.UU.lh);
-    printchar('=');
-    printint(w.hh.UU.U2.b0);
-    printchar(':');
-    printint(w.hh.UU.U2.b1);
-    printchar(';');
-    printint(w.hh.rh);
-    printchar(' ');
-    printint(w.qqqq.b0);
-    printchar(':');
-    printint(w.qqqq.b1);
-    printchar(':');
-    printint(w.qqqq.b2);
-    printchar(':');
-    printint(w.qqqq.b3);
+    print_int(w.hh.UU.lh);
+    print_char('=');
+    print_int(w.hh.UU.U2.b0);
+    print_char(':');
+    print_int(w.hh.UU.U2.b1);
+    print_char(';');
+    print_int(w.hh.rh);
+    print_char(' ');
+    print_int(w.qqqq.b0);
+    print_char(':');
+    print_int(w.qqqq.b1);
+    print_char(':');
+    print_int(w.qqqq.b2);
+    print_char(':');
+    print_int(w.qqqq.b3);
 }
 #endif // #114: tt_DEBUG
 
@@ -1743,16 +1719,16 @@ Static void showtokenlist(long p, long q, long l)
     /*:320*/
     /*293:*/
     if (p < himemmin || p > memend) {
-      printesc(S(308));
+      print_esc(S(308));
       goto _Lexit;
     }
     if (info(p) >= cstokenflag) {
-      printcs(info(p) - cstokenflag);
+      print_cs(info(p) - cstokenflag);
     } else {   /*:293*/
       m = info(p) / dwa_do_8;
       c = (info(p)) & (dwa_do_8-1);
       if (info(p) < 0) {
-	printesc(S(309));
+	print_esc(S(309));
       } else {  /*294:*/
 	switch (m) {   /*:294*/
 
@@ -1776,17 +1752,17 @@ Static void showtokenlist(long p, long q, long l)
 	case outparam:
 	  print(matchchr);
 	  if (c > 9) {
-	    printchar('!');
+	    print_char('!');
 	    goto _Lexit;
 	  }
-	  printchar(c + '0');
+	  print_char(c + '0');
 	  break;
 
 	case match:
 	  matchchr = c;
 	  print(c);
 	  n++;
-	  printchar(n);
+	  print_char(n);
 	  if (n > '9')
 	    goto _Lexit;
 	  break;
@@ -1796,7 +1772,7 @@ Static void showtokenlist(long p, long q, long l)
 	  break;
 
 	default:
-	  printesc(S(309));
+	  print_esc(S(309));
 	  break;
 	}
       }
@@ -1804,7 +1780,7 @@ Static void showtokenlist(long p, long q, long l)
     p = link(p);
   }
   if (p != 0)
-    printesc(S(311));
+    print_esc(S(311));
 _Lexit: ;
 }
 /*:292*/
@@ -1839,9 +1815,9 @@ Static void runaway(void)
     p = defref;
     break;
   }
-  printchar('?');
+  print_char('?');
   println();
-  showtokenlist(link(p), 0, errorline - 10);
+  showtokenlist(link(p), 0, ERROR_LINE - 10);
 }
 /*:306*/
 /*:119*/
@@ -2221,7 +2197,7 @@ Static void checkmem(Boolean printlocs) {
         }
         if (clobbered) {
             printnl(S(318));
-            printint(q);
+            print_int(q);
             goto _Ldone1;
         }
         P_putbits_UB(free_, p - memmin, 1, 0, 3);
@@ -2245,14 +2221,14 @@ _Ldone1: /*:168*/
         }
         if (clobbered) {
             printnl(S(319));
-            printint(q);
+            print_int(q);
             goto _Ldone2;
         }
         FORLIM = p + nodesize(p);
         for (q = p; q < FORLIM; q++) {
             if (P_getbits_UB(free_, q - memmin, 0, 3)) {
                 printnl(S(320));
-                printint(q);
+                print_int(q);
                 goto _Ldone2;
             }
             P_putbits_UB(free_, q - memmin, 1, 0, 3);
@@ -2267,7 +2243,7 @@ _Ldone2: /*:169*/
     while (p <= lomemmax) { /*:170*/
         if (isempty(p)) {
             printnl(S(321));
-            printint(p);
+            print_int(p);
         }
         while ((p <= lomemmax) & (!P_getbits_UB(free_, p - memmin, 0, 3)))
             p++;
@@ -2280,16 +2256,16 @@ _Ldone2: /*:169*/
         for (p = memmin; p <= lomemmax; p++) {
             if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
                 ((p > waslomax) | P_getbits_UB(wasfree, p - memmin, 0, 3))) {
-                printchar(' ');
-                printint(p);
+                print_char(' ');
+                print_int(p);
             }
         }
         for (p = himemmin; p <= memend; p++) {
             if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
                 ((p < washimin || p > wasmemend) |
                  P_getbits_UB(wasfree, p - memmin, 0, 3))) {
-                printchar(' ');
-                printint(p);
+                print_char(' ');
+                print_int(p);
             }
         }
     }
@@ -2316,32 +2292,32 @@ Static void searchmem(Pointer p) {
     for (q = memmin; q <= lomemmax; q++) {
         if (link(q) == p) {
             printnl(S(323));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
         if (info(q) == p) {
             printnl(S(324));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
     }
     for (q = himemmin; q <= memend; q++) {
         if (link(q) == p) {
             printnl(S(323));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
         if (info(q) == p) {
             printnl(S(324));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
     }                                               /*255:*/
     for (q = activebase; q <= boxbase + 255; q++) { /*:255*/
         if (equiv(q) == p) {
             printnl(S(325));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
     }
     /*285:*/
@@ -2349,16 +2325,16 @@ Static void searchmem(Pointer p) {
         for (q = 0; q < saveptr; q++) { /*:285*/
             if (equivfield(savestack[q]) == p) {
                 printnl(S(326));
-                printint(q);
-                printchar(')');
+                print_int(q);
+                print_char(')');
             }
         }
     }
     for (q = 0; q <= hyphsize; q++) { /*:933*/
         if (hyphlist[q] == p) {
             printnl(S(327));
-            printint(q);
-            printchar(')');
+            print_int(q);
+            print_char(')');
         }
     }
 } // #172: searchmem
@@ -2374,11 +2350,11 @@ Static void shortdisplay(Pointer p)
       if (p <= memend) {
 	if (font(p) != fontinshortdisplay) {
 	  if ( /* (font(p) < 0 ) | */ (font(p) > fontmax))
-	    printchar('*');
+	    print_char('*');
 	  else  /*267:*/
 		/*:267*/
-		  printesc(fontidtext(font(p)));
-	  printchar(' ');
+		  print_esc(fontidtext(font(p)));
+	  print_char(' ');
 	  fontinshortdisplay = font(p);
 	}
 	print(character(p) - minquarterword);
@@ -2397,16 +2373,16 @@ Static void shortdisplay(Pointer p)
 	break;
 
       case rulenode:
-	printchar('|');
+	print_char('|');
 	break;
 
       case gluenode:
 	if (glueptr(p) != zeroglue)
-	  printchar(' ');
+	  print_char(' ');
 	break;
 
       case mathnode:
-	printchar('$');
+	print_char('$');
 	break;
 
       case ligaturenode:
@@ -2434,43 +2410,43 @@ Static void shortdisplay(Pointer p)
 Static void printfontandchar(Pointer p)
 {
   if (p > memend) {
-    printesc(S(308));
+    print_esc(S(308));
     return;
   }
   if ((font(p) > fontmax))
-    printchar('*');
+    print_char('*');
   else  /*267:*/
 	/*:267*/
-	  printesc(fontidtext(font(p)));
-  printchar(' ');
+	  print_esc(fontidtext(font(p)));
+  print_char(' ');
   print(character(p) - minquarterword);
 }
 
 
 Static void printmark(long p)
 {
-  printchar('{');
+  print_char('{');
   if (p < himemmin || p > memend)
-    printesc(S(308));
+    print_esc(S(308));
   else
-    showtokenlist(link(p), 0, maxprintline - 10);
-  printchar('}');
+    showtokenlist(link(p), 0, MAX_PRINT_LINE - 10);
+  print_char('}');
 }
 
 
 Static void printruledimen(long d)
 {
   if (isrunning(d)) {
-    printchar('*');
+    print_char('*');
   } else
-    printscaled(d);
+    print_scaled(d);
 }
 /*:176*/
 
 /*177:*/
 Static void printglue(long d, long order, StrNumber s)
 {
-  printscaled(d);
+  print_scaled(d);
   if ((unsigned long)order > filll) {
     print(S(329));
     return;
@@ -2482,7 +2458,7 @@ Static void printglue(long d, long order, StrNumber s)
   }
   print(S(330));
   while (order > fil) {
-    printchar('l');
+    print_char('l');
     order--;
   }
 }
@@ -2492,10 +2468,10 @@ Static void printglue(long d, long order, StrNumber s)
 Static void printspec(long p, StrNumber s)
 {
   if ( p >= lomemmax) {
-    printchar('*');
+    print_char('*');
     return;
   }
-  printscaled(width(p));
+  print_scaled(width(p));
   if (s != 0)
     print(s);
   if (stretch(p) != 0) {
@@ -2512,9 +2488,9 @@ Static void printspec(long p, StrNumber s)
 /*691:*/
 Static void printfamandchar(HalfWord p)
 {
-  printesc(S(333));
-  printint(fam(p));
-  printchar(' ');
+  print_esc(S(333));
+  print_int(fam(p));
+  print_char(' ');
   print(character(p) - minquarterword);
 }
 
@@ -2526,9 +2502,9 @@ Static void printdelimiter(HalfWord p)
   a = smallfam(p) * 256 + smallchar(p) - minquarterword;
   a = a * 4096 + largefam(p) * 256 + largechar(p) - minquarterword;
   if (a < 0)
-    printint(a);
+    print_int(a);
   else
-    printhex(a);
+    print_hex(a);
 }
 /*:691*/
 
@@ -2538,12 +2514,12 @@ Static void showinfo(void);
 
 Static void printsubsidiarydata(HalfWord p, ASCIICode c)
 {
-  if (get_cur_length() >= depththreshold) {
+  if (cur_length() >= depththreshold) {
     if (mathtype(p) != empty)
       print(S(334));
     return;
   }
-  appendchar(c);
+  append_char(c);
   tempptr = p;
   switch (mathtype(p)) {
 
@@ -2566,7 +2542,7 @@ Static void printsubsidiarydata(HalfWord p, ASCIICode c)
       showinfo();
     break;
   }
-  flushchar();
+  flush_char();
 }
 /*:692*/
 
@@ -2576,19 +2552,19 @@ void printstyle(long c)
   switch (c / 2) {
 
   case 0:
-    printesc(S(336));
+    print_esc(S(336));
     break;
 
   case 1:
-    printesc(S(337));
+    print_esc(S(337));
     break;
 
   case 2:
-    printesc(S(338));
+    print_esc(S(338));
     break;
 
   case 3:
-    printesc(S(339));
+    print_esc(S(339));
     break;
 
   default:
@@ -2604,75 +2580,75 @@ void printskipparam(long n)
   switch (n) {
 
   case lineskipcode:
-    printesc(S(341));
+    print_esc(S(341));
     break;
 
   case baselineskipcode:
-    printesc(S(342));
+    print_esc(S(342));
     break;
 
   case parskipcode:
-    printesc(S(343));
+    print_esc(S(343));
     break;
 
   case abovedisplayskipcode:
-    printesc(S(344));
+    print_esc(S(344));
     break;
 
   case belowdisplayskipcode:
-    printesc(S(345));
+    print_esc(S(345));
     break;
 
   case abovedisplayshortskipcode:
-    printesc(S(346));
+    print_esc(S(346));
     break;
 
   case belowdisplayshortskipcode:
-    printesc(S(347));
+    print_esc(S(347));
     break;
 
   case leftskipcode:
-    printesc(S(348));
+    print_esc(S(348));
     break;
 
   case rightskipcode:
-    printesc(S(349));
+    print_esc(S(349));
     break;
 
   case topskipcode:
-    printesc(S(350));
+    print_esc(S(350));
     break;
 
   case splittopskipcode:
-    printesc(S(351));
+    print_esc(S(351));
     break;
 
   case tabskipcode:
-    printesc(S(352));
+    print_esc(S(352));
     break;
 
   case spaceskipcode:
-    printesc(S(353));
+    print_esc(S(353));
     break;
 
   case xspaceskipcode:
-    printesc(S(354));
+    print_esc(S(354));
     break;
 
   case parfillskipcode:
-    printesc(S(355));
+    print_esc(S(355));
     break;
 
   case thinmuskipcode:
-    printesc(S(356));
+    print_esc(S(356));
     break;
 
   case medmuskipcode:
-    printesc(S(357));
+    print_esc(S(357));
     break;
 
   case thickmuskipcode:
-    printesc(S(358));
+    print_esc(S(358));
     break;
 
   default:
@@ -2688,7 +2664,7 @@ Static void shownodelist(long p)
   long n;
   double g;
 
-  if (get_cur_length() > depththreshold) {
+  if (cur_length() > depththreshold) {
     if (p > 0)
       print(S(334));
     goto _Lexit;
@@ -2715,21 +2691,21 @@ Static void shownodelist(long p)
       case vlistnode:
       case unsetnode:   /*184:*/
 	if (type(p) == hlistnode)
-	  printesc('h');
+	  print_esc('h');
 	else if (type(p) == vlistnode)
-	  printesc('v');
+	  print_esc('v');
 	else
-	  printesc(S(362));
+	  print_esc(S(362));
 	print(S(363));
-	printscaled(height(p));
-	printchar('+');
-	printscaled(depth(p));
+	print_scaled(height(p));
+	print_char('+');
+	print_scaled(depth(p));
 	print(S(364));
-	printscaled(width(p));
+	print_scaled(width(p));
 	if (type(p) == unsetnode) {   /*185:*/
 	  if (spancount(p) != minquarterword) {
 	    print(S(303));
-	    printint(spancount(p) - minquarterword + 1);
+	    print_int(spancount(p) - minquarterword + 1);
 	    print(S(365));
 	  }
 	  if (gluestretch(p) != 0) {
@@ -2752,17 +2728,17 @@ Static void shownodelist(long p)
 	    else {
 	      if (fabs(g) > 20000.0) {
 		if (g > 0.0)
-		  printchar('>');
+		  print_char('>');
 		else
 		  print(S(371));
-		printglue(unity * 20000, glueorder(p), 0);
+		printglue(UNITY * 20000, glueorder(p), 0);
 	      } else
-		printglue((long)floor(unity * g + 0.5), glueorder(p), 0);
+		printglue((long)floor(UNITY * g + 0.5), glueorder(p), 0);
 	    }
 	  }
 	  if (shiftamount(p) != 0) {
 	    print(S(372));
-	    printscaled(shiftamount(p));
+	    print_scaled(shiftamount(p));
 	  }
 	}
 	nodelistdisplay(listptr(p));
@@ -2770,9 +2746,9 @@ Static void shownodelist(long p)
 	/*:184*/
 
       case rulenode:   /*187:*/
-	printesc(S(373));
+	print_esc(S(373));
 	printruledimen(height(p));
-	printchar('+');
+	print_char('+');
 	printruledimen(depth(p));
 	print(S(364));
 	printruledimen(width(p));
@@ -2780,16 +2756,16 @@ Static void shownodelist(long p)
 	/*:187*/
 
       case insnode:   /*188:*/
-	printesc(S(374));
-	printint(subtype(p) - minquarterword);
+	print_esc(S(374));
+	print_int(subtype(p) - minquarterword);
 	print(S(375));
-	printscaled(height(p));
+	print_scaled(height(p));
 	print(S(376));
 	printspec(splittopptr(p), 0);
-	printchar(',');
-	printscaled(depth(p));
+	print_char(',');
+	print_scaled(depth(p));
 	print(S(377));
-	printint(floatcost(p));
+	print_int(floatcost(p));
 	nodelistdisplay(insptr(p));
 	break;
 	/*:188*/
@@ -2798,33 +2774,33 @@ Static void shownodelist(long p)
 	switch (subtype(p)) {   /*:1356*/
 
 	case opennode:
-	  printwritewhatsit(S(378), p);
-	  printchar('=');
-	  printfilename(openname(p), openarea(p), openext(p));
+	  print_write_whatsit(S(378), p);
+	  print_char('=');
+	  print_file_name(openname(p), openarea(p), openext(p));
 	  break;
 
 	case writenode:
-	  printwritewhatsit(S(379), p);
+	  print_write_whatsit(S(379), p);
 	  printmark(writetokens(p));
 	  break;
 
 	case closenode:
-	  printwritewhatsit(S(380), p);
+	  print_write_whatsit(S(380), p);
 	  break;
 
 	case specialnode:
-	  printesc(S(381));
+	  print_esc(S(381));
 	  printmark(writetokens(p));
 	  break;
 
 	case languagenode:
-	  printesc(S(382));
-	  printint(whatlang(p));
+	  print_esc(S(382));
+	  print_int(whatlang(p));
 	  print(S(383));
-	  printint(whatlhm(p));
-	  printchar(',');
-	  printint(whatrhm(p));
-	  printchar(')');
+	  print_int(whatlhm(p));
+	  print_char(',');
+	  print_int(whatrhm(p));
+	  print_char(')');
 	  break;
 
 	default:
@@ -2835,31 +2811,31 @@ Static void shownodelist(long p)
 
       case gluenode:   /*189:*/
 	if (subtype(p) >= aleaders) {   /*190:*/
-	  printesc(S(385));
+	  print_esc(S(385));
 	  if (subtype(p) == cleaders)
-	    printchar('c');
+	    print_char('c');
 	  else if (subtype(p) == xleaders)
-	    printchar('x');
+	    print_char('x');
 	  print(S(386));
 	  printspec(glueptr(p), 0);
 	  nodelistdisplay(leaderptr(p));
 	}  /*:190*/
 	else {   /*:189*/
-	  printesc(S(387));
+	  print_esc(S(387));
 	  if (subtype(p) != normal) {
-	    printchar('(');
+	    print_char('(');
 	    if (subtype(p) < condmathglue)
 	      printskipparam(subtype(p) - 1);
 	    else {
 	      if (subtype(p) == condmathglue)
-		printesc(S(388));
+		print_esc(S(388));
 	      else
-		printesc(S(389));
+		print_esc(S(389));
 	    }
-	    printchar(')');
+	    print_char(')');
 	  }
 	  if (subtype(p) != condmathglue) {
-	    printchar(' ');
+	    print_char(' ');
 	    if (subtype(p) < condmathglue)
 	      printspec(glueptr(p), 0);
 	    else
@@ -2870,28 +2846,28 @@ Static void shownodelist(long p)
 
       case kernnode:   /*191:*/
 	if (subtype(p) != muglue) {
-	  printesc(S(391));
+	  print_esc(S(391));
 	  if (subtype(p) != normal)
-	    printchar(' ');
-	  printscaled(width(p));
+	    print_char(' ');
+	  print_scaled(width(p));
 	  if (subtype(p) == acckern)
 	    print(S(392));
 	} else {   /*:191*/
-	  printesc(S(393));
-	  printscaled(width(p));
+	  print_esc(S(393));
+	  print_scaled(width(p));
 	  print(S(390));
 	}
 	break;
 
       case mathnode:   /*192:*/
-	printesc(S(394));
+	print_esc(S(394));
 	if (subtype(p) == before)
 	  print(S(395));
 	else
 	  print(S(396));
 	if (width(p) != 0) {
 	  print(S(397));
-	  printscaled(width(p));
+	  print_scaled(width(p));
 	}
 	break;
 	/*:192*/
@@ -2911,42 +2887,42 @@ Static void shownodelist(long p)
 #endif
 	print(S(398));
 	if (subtype(p) > 1)
-	  printchar('|');
+	  print_char('|');
 	fontinshortdisplay = font_ligchar(p);
 	shortdisplay(ligptr(p));
 	if ((subtype(p)) & 1)
-	  printchar('|');
-	printchar(')');
+	  print_char('|');
+	print_char(')');
 	break;
 	/*:193*/
 
       case penaltynode:   /*194:*/
-	printesc(S(399));
-	printint(penalty(p));
+	print_esc(S(399));
+	print_int(penalty(p));
 	break;
 	/*:194*/
 
       case discnode:   /*195:*/
-	printesc(S(400));
+	print_esc(S(400));
 	if (replacecount(p) > 0) {
 	  print(S(401));
-	  printint(replacecount(p));
+	  print_int(replacecount(p));
 	}
 	nodelistdisplay(prebreak(p));
-	appendchar('|');
+	append_char('|');
 	shownodelist(postbreak(p));
-	flushchar();
+	flush_char();
 	break;
 	/*:195*/
 
       case marknode:   /*196:*/
-	printesc(S(402));
+	print_esc(S(402));
 	printmark(markptr(p));
 	break;
 	/*:196*/
 
       case adjustnode:   /*197:*/
-	printesc(S(403));
+	print_esc(S(403));
 	nodelistdisplay(adjustptr(p));
 	break;
 	/*:197*/
@@ -2957,19 +2933,19 @@ Static void shownodelist(long p)
 	break;
 
       case choicenode:   /*695:*/
-	printesc(S(404));
-	appendchar('D');
+	print_esc(S(404));
+	append_char('D');
 	shownodelist(displaymlist(p));
-	flushchar();
-	appendchar('T');
+	flush_char();
+	append_char('T');
 	shownodelist(textmlist(p));
-	flushchar();
-	appendchar('S');
+	flush_char();
+	append_char('S');
 	shownodelist(scriptmlist(p));
-	flushchar();
-	appendchar('s');
+	flush_char();
+	append_char('s');
 	shownodelist(scriptscriptmlist(p));
-	flushchar();
+	flush_char();
 	break;
 	/*:695*/
 
@@ -2991,74 +2967,74 @@ Static void shownodelist(long p)
 	switch (type(p)) {
 
 	case ordnoad:
-	  printesc(S(405));
+	  print_esc(S(405));
 	  break;
 
 	case opnoad:
-	  printesc(S(406));
+	  print_esc(S(406));
 	  break;
 
 	case binnoad:
-	  printesc(S(407));
+	  print_esc(S(407));
 	  break;
 
 	case relnoad:
-	  printesc(S(408));
+	  print_esc(S(408));
 	  break;
 
 	case opennoad:
-	  printesc(S(409));
+	  print_esc(S(409));
 	  break;
 
 	case closenoad:
-	  printesc(S(410));
+	  print_esc(S(410));
 	  break;
 
 	case punctnoad:
-	  printesc(S(411));
+	  print_esc(S(411));
 	  break;
 
 	case innernoad:
-	  printesc(S(412));
+	  print_esc(S(412));
 	  break;
 
 	case overnoad:
-	  printesc(S(413));
+	  print_esc(S(413));
 	  break;
 
 	case undernoad:
-	  printesc(S(414));
+	  print_esc(S(414));
 	  break;
 
 	case vcenternoad:
-	  printesc(S(415));
+	  print_esc(S(415));
 	  break;
 
 	case radicalnoad:
-	  printesc(S(416));
+	  print_esc(S(416));
 	  printdelimiter(leftdelimiter(p));
 	  break;
 
 	case accentnoad:
-	  printesc(S(417));
+	  print_esc(S(417));
 	  printfamandchar(accentchr(p));
 	  break;
 
 	case leftnoad:
-	  printesc(S(418));
+	  print_esc(S(418));
 	  printdelimiter(nucleus(p));
 	  break;
 
 	case rightnoad:
-	  printesc(S(419));
+	  print_esc(S(419));
 	  printdelimiter(nucleus(p));
 	  break;
 	}
 	if (subtype(p) != normal) {
 	  if (subtype(p) == limits)
-	    printesc(S(420));
+	    print_esc(S(420));
 	  else
-	    printesc(S(421));
+	    print_esc(S(421));
 	}
 	if (type(p) < leftnoad)
 	  printsubsidiarydata(nucleus(p), '.');
@@ -3068,11 +3044,11 @@ Static void shownodelist(long p)
 	/*:696*/
 
       case fractionnoad:   /*697:*/
-	printesc(S(422));
+	print_esc(S(422));
 	if (thickness(p) == defaultcode)
 	  print(S(423));
 	else
-	  printscaled(thickness(p));
+	  print_scaled(thickness(p));
 	if ((smallfam(leftdelimiter(p)) != 0) |
 	    (smallchar(leftdelimiter(p)) != minquarterword) |
 	    (largefam(leftdelimiter(p)) != 0) |
@@ -3112,8 +3088,8 @@ Static void showbox(HalfWord p)
   if (breadthmax <= 0)
     breadthmax = 5;
 #if 0
-  if (poolptr + depththreshold >= poolsize)
-    depththreshold = poolsize - poolptr - 1;
+  if (pool_ptr + depththreshold >= POOL_SIZE)
+    depththreshold = POOL_SIZE - pool_ptr - 1;
 #else
 	depththreshold = str_adjust_to_room(depththreshold);
 #endif
@@ -3503,16 +3479,16 @@ Static void showactivities(void)
     printnl(S(439));
     printmode(m);
     print(S(440));
-    printint(labs(nest[p].mlfield));
+    print_int(labs(nest[p].mlfield));
     if (m == hmode) {
       if (nest[p].pgfield != 8585216L) {
 	print(S(441));
-	printint(nest[p].pgfield % 65536L);
+	print_int(nest[p].pgfield % 65536L);
 	print(S(442));
-	printint(nest[p].pgfield / 4194304L);
-	printchar(',');
-	printint((nest[p].pgfield / 65536L) & 63);
-	printchar(')');
+	print_int(nest[p].pgfield / 4194304L);
+	print_char(',');
+	print_int((nest[p].pgfield / 65536L) & 63);
+	print_char(')');
       }
     }
     if (nest[p].mlfield < 0)
@@ -3527,16 +3503,16 @@ Static void showactivities(void)
 	  printnl(S(446));
 	  printtotals();
 	  printnl(S(447));
-	  printscaled(pagegoal);
+	  print_scaled(pagegoal);
 	  r = link(pageinshead);
 	  while (r != pageinshead) {
 	    println();
-	    printesc(S(374));
+	    print_esc(S(374));
 	    t = subtype(r) - minquarterword;
-	    printint(t);
+	    print_int(t);
 	    print(S(448));
-	    t = xovern(height(r), 1000) * count(t);
-	    printscaled(t);
+	    t = x_over_n(height(r), 1000) * count(t);
+	    print_scaled(t);
 	    if (type(r) == splitup) {
 	      q = pagehead;
 	      t = 0;
@@ -3546,7 +3522,7 @@ Static void showactivities(void)
 		  t++;
 	      } while (q != brokenins(r));
 	      print(S(449));
-	      printint(t);
+	      print_int(t);
 	      print(S(450));
 	    }
 	    r = link(r);
@@ -3564,23 +3540,23 @@ Static void showactivities(void)
       if (a.sc <= ignoredepth)
 	print(S(453));
       else
-	printscaled(a.sc);
+	print_scaled(a.sc);
       if (nest[p].pgfield != 0) {
 	print(S(454));
-	printint(nest[p].pgfield);
+	print_int(nest[p].pgfield);
 	print(S(455));
 	if (nest[p].pgfield != 1)
-	  printchar('s');
+	  print_char('s');
       }
       break;
 
     case 1:
       printnl(S(456));
-      printint(a.hh.UU.lh);
+      print_int(a.hh.UU.lh);
       if (m > 0) {
 	if (a.hh.rh > 0) {
 	  print(S(457));
-	  printint(a.hh.rh);
+	  print_int(a.hh.rh);
 	}
       }
       break;
@@ -3615,16 +3591,16 @@ Static void enddiagnostic(Boolean blankline) {
 /// #252:
 Static void showeqtb(HalfWord n) {
     if (n < activebase) {
-        printchar('?');
+        print_char('?');
         return;
     }
     if (n < gluebase) {
         /*223:*/
-        sprintcs(n);
-        printchar('=');
+        sprint_cs(n);
+        print_char('=');
         printcmdchr(eqtype(n), equiv(n));
         if (eqtype(n) >= call) {
-            printchar(':');
+            print_char(':');
             showtokenlist(link(equiv(n)), 0, 32);
         }
         return;
@@ -3632,7 +3608,7 @@ Static void showeqtb(HalfWord n) {
     if (n < localbase) { /*229:*/
         if (n < skipbase) {
             printskipparam(n - gluebase);
-            printchar('=');
+            print_char('=');
             if (n < gluebase + thinmuskipcode)
                 printspec(equiv(n), S(459));
             else
@@ -3640,45 +3616,45 @@ Static void showeqtb(HalfWord n) {
             return;
         }
         if (n < muskipbase) {
-            printesc(S(460));
-            printint(n - skipbase);
-            printchar('=');
+            print_esc(S(460));
+            print_int(n - skipbase);
+            print_char('=');
             printspec(equiv(n), S(459));
             return;
         }
-        printesc(S(461));
-        printint(n - muskipbase);
-        printchar('=');
+        print_esc(S(461));
+        print_int(n - muskipbase);
+        print_char('=');
         printspec(equiv(n), S(390));
         return;
     }
     if (n < intbase) { /*233:*/
         if (n == parshapeloc) {
-            printesc(S(462));
-            printchar('=');
+            print_esc(S(462));
+            print_char('=');
             if (parshapeptr == 0)
-                printchar('0');
+                print_char('0');
             else
-                printint(info(parshapeptr));
+                print_int(info(parshapeptr));
             return;
         }
         if (n < toksbase) {
             printcmdchr(assigntoks, n);
-            printchar('=');
+            print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
         if (n < boxbase) {
-            printesc(S(463));
-            printint(n - toksbase);
-            printchar('=');
+            print_esc(S(463));
+            print_int(n - toksbase);
+            print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
         if (n < curfontloc) {
-            printesc(S(464));
-            printint(n - boxbase);
-            printchar('=');
+            print_esc(S(464));
+            print_int(n - boxbase);
+            print_char('=');
             if (equiv(n) == 0) {
                 print(S(465));
                 return;
@@ -3692,71 +3668,71 @@ Static void showeqtb(HalfWord n) {
             if (n == curfontloc)
                 print(S(466));
             else if (n < mathfontbase + 16) {
-                printesc(S(266));
-                printint(n - mathfontbase);
+                print_esc(S(266));
+                print_int(n - mathfontbase);
             } else if (n < mathfontbase + 32) {
-                printesc(S(267));
-                printint(n - mathfontbase - 16);
+                print_esc(S(267));
+                print_int(n - mathfontbase - 16);
             } else {
-                printesc(S(268));
-                printint(n - mathfontbase - 32);
+                print_esc(S(268));
+                print_int(n - mathfontbase - 32);
             }
-            printchar('=');
-            printesc(fontidtext(equiv(n)));
+            print_char('=');
+            print_esc(fontidtext(equiv(n)));
             return;
         }
         /*:234*/
         if (n < mathcodebase) {
             if (n < lccodebase) {
-                printesc(S(467));
-                printint(n - catcodebase);
+                print_esc(S(467));
+                print_int(n - catcodebase);
             } else if (n < uccodebase) {
-                printesc(S(468));
-                printint(n - lccodebase);
+                print_esc(S(468));
+                print_int(n - lccodebase);
             } else if (n < sfcodebase) {
-                printesc(S(469));
-                printint(n - uccodebase);
+                print_esc(S(469));
+                print_int(n - uccodebase);
             } else {
-                printesc(S(470));
-                printint(n - sfcodebase);
+                print_esc(S(470));
+                print_int(n - sfcodebase);
             }
-            printchar('=');
-            printint(equiv(n));
+            print_char('=');
+            print_int(equiv(n));
             return;
         }
-        printesc(S(471));
-        printint(n - mathcodebase);
-        printchar('=');
-        printint(equiv(n));
+        print_esc(S(471));
+        print_int(n - mathcodebase);
+        print_char('=');
+        print_int(equiv(n));
         return;
     }
     if (n < dimenbase) { /*242:*/
         if (n < countbase)
             printparam(n - intbase);
         else if (n < delcodebase) {
-            printesc(S(472));
-            printint(n - countbase);
+            print_esc(S(472));
+            print_int(n - countbase);
         } else {
-            printesc(S(473));
-            printint(n - delcodebase);
+            print_esc(S(473));
+            print_int(n - delcodebase);
         }
-        printchar('=');
-        printint(eqtb[n - activebase].int_);
+        print_char('=');
+        print_int(eqtb[n - activebase].int_);
         return;
     }                   /*:242*/
     if (n > eqtbsize) { /*251:*/
-        printchar('?');
+        print_char('?');
         return;
     }
     /*:251*/
     if (n < scaledbase)
         printlengthparam(n - dimenbase);
     else {
-        printesc(S(474));
-        printint(n - scaledbase);
+        print_esc(S(474));
+        print_int(n - scaledbase);
     }
-    printchar('=');
-    printscaled(eqtb[n - activebase].sc);
+    print_char('=');
+    print_scaled(eqtb[n - activebase].sc);
     print(S(459));
 
     /*:229*/
@@ -3830,7 +3806,7 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
         // k ← str start[s]; l ← str start[s + 1] − k;
         // for j ← 0 to l − 1 do buffer[j] ← so(str pool[k + j]);
         curval = idlookup_s(s, false);
-        flushstring();
+        flush_string();
         text(curval) = s;
     }
     eqlevel(curval) = levelone;
@@ -3974,11 +3950,11 @@ Static void saveforafter(HalfWord t)
 /// #284
 Static void restoretrace(HalfWord p, StrNumber s) {
     begindiagnostic();
-    printchar('{');
+    print_char('{');
     print(s);
-    printchar(' ');
+    print_char(' ');
     showeqtb(p);
-    printchar('}');
+    print_char('}');
     enddiagnostic(false);
 }
 #endif // #284: tt_STAT
@@ -4053,18 +4029,18 @@ Static void preparemag(void)
   if (magset > 0 && mag != magset) {
     printnl(S(292));
     print(S(481));
-    printint(mag);
+    print_int(mag);
     print(S(482));
     printnl(S(483));
     help2(S(484),S(485));
-    interror(magset);
+    int_error(magset);
     geqworddefine(intbase + magcode, magset);
   }
   if (mag <= 0 || mag > 32768L) {
     printnl(S(292));
     print(S(486));
     help1(S(487));
-    interror(mag);
+    int_error(mag);
     geqworddefine(intbase + magcode, 1000);
   }
   magset = mag;
@@ -4084,14 +4060,14 @@ Static void printmeaning(int cur_chr, int cur_cmd)
 {
   printcmdchr(cur_cmd, cur_chr);
   if (cur_cmd >= call) {
-    printchar(':');
+    print_char(':');
     println();
     tokenshow(cur_chr);
     return;
   }
   if (cur_cmd != topbotmark)
     return;
-  printchar(':');
+  print_char(':');
   println();
   tokenshow(curmark[cur_chr - topmarkcode]);
 }
@@ -4108,7 +4084,7 @@ Static void showcurcmdchr(void)
     shownmode = mode;
   }
   printcmdchr(curcmd, curchr);
-  printchar('}');
+  print_char('}');
   enddiagnostic(false);
 }
 /*:299*/
@@ -4152,16 +4128,16 @@ Static void showcontext(void)
 	    } else {
 	      printnl(S(491));
 	      if (name == 17)
-		printchar('*');
+		print_char('*');
 	      else
-		printint(name - 1);
-	      printchar('>');
+		print_int(name - 1);
+	      print_char('>');
 	    }
 	  } else {
 	    printnl(S(492));
-	    printint(line);
+	    print_int(line);
 	  }
-	  printchar(' ');   /*318:*/
+	  print_char(' ');   /*318:*/
 	  beginpseudoprint();
 	  if (buffer[limit] == endlinechar)
 	    j = limit;
@@ -4200,7 +4176,7 @@ Static void showcontext(void)
 
 	  case macro:
 	    println();
-	    printcs(name);
+	    print_cs(name);
 	    break;
 
 	  case outputtext:
@@ -4262,28 +4238,28 @@ Static void showcontext(void)
 	  m = tally - firstcount;
 	else
 	  m = trickcount - firstcount;
-	if (l + firstcount <= halferrorline) {
+	if (l + firstcount <= halfERROR_LINE) {
 	  p = 0;
 	  n = l + firstcount;
 	} else {
 	  print(S(284));
-	  p = l + firstcount - halferrorline + 3;
-	  n = halferrorline;
+	  p = l + firstcount - halfERROR_LINE + 3;
+	  n = halfERROR_LINE;
 	}
 	for (q = p; q < firstcount; q++) {
-	  printchar(trickbuf[q % errorline]);
+	  print_char(trickbuf[q % ERROR_LINE]);
 	}
 	println();
 	for (q = 1; q <= n; q++)
-	  printchar(' ');
-	if (m + n <= errorline)
+	  print_char(' ');
+	if (m + n <= ERROR_LINE)
 	  p = firstcount + m;
 	else
-	  p = firstcount + errorline - n - 3;
+	  p = firstcount + ERROR_LINE - n - 3;
 	for (q = firstcount; q < p; q++) {
-	  printchar(trickbuf[q % errorline]);
+	  print_char(trickbuf[q % ERROR_LINE]);
 	}
-	if (m + n > errorline)   /*:317*/
+	if (m + n > ERROR_LINE)   /*:317*/
 	  print(S(284));
 	nn++;
       }
@@ -4331,11 +4307,11 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
   switch (t) {
 
   case marktext:
-    printesc(S(402));
+    print_esc(S(402));
     break;
 
   case writetext:
-    printesc(S(379));
+    print_esc(S(379));
     break;
 
   default:
@@ -4527,7 +4503,7 @@ Static int checkoutervalidity(int local_curcs)
     }
     inslist(p);   /*:339*/
     print(S(516));
-    sprintcs(warningindex);
+    sprint_cs(warningindex);
     help4(S(517),
           S(518),
           S(519),
@@ -4538,7 +4514,7 @@ Static int checkoutervalidity(int local_curcs)
     print(S(521));
     printcmdchr(iftest, curif);
     print(S(522));
-    printint(skipline);
+    print_int(skipline);
     help3(S(523),
           S(524),
           S(525));
@@ -4583,7 +4559,7 @@ _Lswitch__:
 	    forceeof = true;
 	}
 	if (forceeof) {
-	  printchar(')');
+	  print_char(')');
 	  openparens--;
 	  fflush(stdout);
 	  forceeof = false;
@@ -4619,7 +4595,7 @@ _Lswitch__:
 	  println();
 	  first = start;
 	  print('*');
-	  terminput();
+	  term_input();
 	  limit = last;
 	  if (endlinecharinactive) {
 	    limit--;
@@ -4983,7 +4959,7 @@ Static void firmuptheline(void)
   }
   first = limit;
   print(S(532));
-  terminput();
+  term_input();
   if (last <= first)
     return;
   for (k = first; k < last; k++)
@@ -5008,7 +4984,7 @@ Static void report_argument(HalfWord unbalance, int n, Pointer * pstack)
         runaway();
         printnl(S(292));
         print(S(533));
-        sprintcs(warningindex);
+        sprint_cs(warningindex);
         print(S(534));
         help3(S(535),
               S(536),
@@ -5041,7 +5017,7 @@ Static void macrocall(Pointer refcount)
   if (tracingmacros > 0) {   /*401:*/
     begindiagnostic();
     println();
-    printcs(warningindex);
+    print_cs(warningindex);
     tokenshow(refcount);
     enddiagnostic(false);
   }
@@ -5081,7 +5057,7 @@ _Llabcontinue:
 	if (s == 0) {   /*398:*/
 	  printnl(S(292));
 	  print(S(538));
-	  sprintcs(warningindex);
+	  sprint_cs(warningindex);
 	  print(S(539));
 	  help4(S(540),
                 S(541),
@@ -5151,7 +5127,7 @@ _Ldone1:
 	  backinput();
 	  printnl(S(292));
 	  print(S(544));
-	  sprintcs(warningindex);
+	  sprint_cs(warningindex);
 	  print(S(545));
 	  help6(
             S(546),
@@ -5195,7 +5171,7 @@ _Lfound:
 	if (tracingmacros > 0) {
 	  begindiagnostic();
 	  printnl(matchchr);
-	  printint(n);
+	  print_int(n);
 	  print(S(552));
 	  showtokenlist(pstack[n - 1], 0, 1000);
 	  enddiagnostic(false);
@@ -5337,7 +5313,7 @@ Static void expand(void)
       if (curcmd != endcsname) {   /*373:*/
 	printnl(S(292));
 	print(S(554));
-	printesc(S(263));
+	print_esc(S(263));
 	print(S(555));
 	help2(S(556),
               S(557));
@@ -5524,14 +5500,14 @@ Static Boolean scankeyword(StrNumber s)
 #endif
   link(p) = 0;
 #if 0
-  k = strstart[s];
+  k = str_start[s];
   while (k < str_end(s) ) {
     getxtoken();
-    if ((curcs == 0) & ((curchr == strpool[k]) |
-			(curchr == strpool[k] - 'a' + 'A'))) {
+    if ((curcs == 0) & ((curchr == str_pool[k]) |
+			(curchr == str_pool[k] - 'a' + 'A'))) {
 #else
   k=0;
-  k_e=flength(s);
+  k_e=str_length(s);
   while(k<k_e) {
     int str_c = str_getc(s,k);
     getxtoken();
@@ -5586,7 +5562,7 @@ Static void scaneightbitint(void)
   print(S(573));
   help2(S(574),
         S(575));
-  interror(curval);
+  int_error(curval);
   curval = 0;
 }
 /*:433*/
@@ -5601,7 +5577,7 @@ Static void scancharnum(void)
   print(S(576));
   help2(S(577),
         S(575));
-  interror(curval);
+  int_error(curval);
   curval = 0;
 }
 /*:434*/
@@ -5616,7 +5592,7 @@ Static void scanfourbitint(void)
   print(S(578));
   help2(S(579),
         S(575));
-  interror(curval);
+  int_error(curval);
   curval = 0;
 }
 /*:435*/
@@ -5631,7 +5607,7 @@ Static void scanfifteenbitint(void)
   print(S(580));
   help2(S(581),
         S(575));
-  interror(curval);
+  int_error(curval);
   curval = 0;
 }
 /*:436*/
@@ -5646,7 +5622,7 @@ Static void scantwentysevenbitint(void)
   print(S(582));
   help2(S(583),
         S(575));
-  interror(curval);
+  int_error(curval);
   curval = 0;
 }
 /*:437*/
@@ -5714,9 +5690,9 @@ Static void findfontdimen(Boolean writing) {
     if (curval != fmemptr) return; /*:579*/
     printnl(S(292));
     print(S(588));
-    printesc(fontidtext(f));
+    print_esc(fontidtext(f));
     print(S(589));
-    printint(fontparams[f]);
+    print_int(fontparams[f]);
     print(S(590));
     help2(S(591), S(592));
     error();
@@ -5987,7 +5963,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
     print(S(602));
     printcmdchr(curcmd, curchr);
     print(S(603));
-    printesc(S(604));
+    print_esc(S(604));
     help1(S(601));
     error();
     if (level != tokval) {   /*:428*/
@@ -6152,7 +6128,7 @@ Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
   char digs[23];
 
   f = 0;
-  aritherror = false;
+  arith_error = false;
   curorder = normal;
   negative = false;
   if (!shortcut) {   /*441:*/
@@ -6216,7 +6192,7 @@ _Ldone1:
 	  p = link(p);
 	  FREE_AVAIL(q);
 	}
-	f = rounddecimals(k,digs);
+	f = round_decimals(k,digs);
 	if (curcmd != spacer)
 	  backinput();
       }
@@ -6277,7 +6253,7 @@ _Ldone1:
   if (curcmd != spacer)   /*:443*/
     backinput();
 _Lfound:
-  curval = multandadd(savecurval, v, xnoverd(v, f, 65536L), 1073741823L);
+  curval = mult_and_add(savecurval, v, xn_over_d(v, f, 65536L), 1073741823L);
   goto _Lattachsign_;
 _Lnotfound:   /*:455*/
   if (mu) {   /*456:*/
@@ -6298,8 +6274,8 @@ _Lnotfound:   /*:455*/
   if (scankeyword(S(621))) {   /*457:*/
     preparemag();
     if (mag != 1000) {
-      curval = xnoverd(curval, 1000, mag);
-      f = (f * 1000 + texremainder * 65536L) / mag;
+      curval = xn_over_d(curval, 1000, mag);
+      f = (f * 1000 + tex_remainder * 65536L) / mag;
       curval += f / 65536L;
       f %= 65536L;
     }
@@ -6343,30 +6319,30 @@ _Lnotfound:   /*:455*/
     error();
     goto _Ldone2;
   }
-  curval = xnoverd(curval, num, denom);
-  f = (num * f + texremainder * 65536L) / denom;
+  curval = xn_over_d(curval, num, denom);
+  f = (num * f + tex_remainder * 65536L) / denom;
   curval += f / 65536L;
   f %= 65536L;
 _Ldone2:   /*:458*/
 _Lattachfraction_:
   if (curval >= 16384)
-    aritherror = true;
+    arith_error = true;
   else
-    curval = curval * unity + f;
+    curval = curval * UNITY + f;
 _Ldone:   /*:453*/
   /*443:*/
   getxtoken();
   if (curcmd != spacer)   /*:443*/
     backinput();
 _Lattachsign_:
-  if (aritherror || labs(curval) >= 1073741824L) {   /*460:*/
+  if (arith_error || labs(curval) >= 1073741824L) {   /*460:*/
     printnl(S(292));
     print(S(634));
     help2(S(635),
           S(636));
     error();
     curval = maxdimen;
-    aritherror = false;
+    arith_error = false;
   }
   /*:460*/
   if (negative)
@@ -6516,11 +6492,11 @@ Static HalfWord thetoks(void)
     switch (curvallevel) {
 
     case intval:
-      printint(curval);
+      print_int(curval);
       break;
 
     case dimenval:
-      printscaled(curval);
+      print_scaled(curval);
       print(S(459));
       break;
 
@@ -6535,7 +6511,7 @@ Static HalfWord thetoks(void)
       break;
     }
     selector = old_setting;
-/*	fprintf(stderr,"(%d %d)",bb-b,poolptr-b); */
+/*	fprintf(stderr,"(%d %d)",bb-b,pool_ptr-b); */
     return (strtoks(b));
   }
   /*:466*/
@@ -6590,18 +6566,18 @@ Static void convtoks(void)
   switch (c) {   /*:472*/
 
   case numbercode:
-    printint(curval);
+    print_int(curval);
     break;
 
   case romannumeralcode:
-    printromanint(curval);
+    print_roman_int(curval);
     break;
 
   case stringcode:
     if (curcs != 0)
-      sprintcs(curcs);
+      sprint_cs(curcs);
     else
-      printchar(curchr);
+      print_char(curchr);
     break;
 
   case meaningcode:
@@ -6612,7 +6588,7 @@ Static void convtoks(void)
     print(get_fontname(curval));
     if (get_fontsize(curval) != get_fontdsize(curval)) {
       print(S(642));
-      printscaled(get_fontsize(curval));
+      print_scaled(get_fontsize(curval));
       print(S(459));
     }
     break;
@@ -6736,7 +6712,7 @@ _Ldone2:
 	  if (curtok <= zerotoken || curtok > t) {
 	    printnl(S(292));
 	    print(S(650));
-	    sprintcs(warningindex);
+	    sprint_cs(warningindex);
 	    help3(
               S(651),
               S(652),
@@ -6785,12 +6761,12 @@ Static void readtoks(long n, HalfWord r) {
             if (interaction > nonstopmode) {
                 if (n < 0) {
                     print(S(385));
-                    terminput();
+                    term_input();
                 } else {
                     println();
-                    sprintcs(r);
+                    sprint_cs(r);
                     print('=');
-                    terminput();
+                    term_input();
                     n = -1;
                 }
             } else /*:484*/
@@ -6810,7 +6786,7 @@ Static void readtoks(long n, HalfWord r) {
                     runaway();
                     printnl(S(292));
                     print(S(655));
-                    printesc(S(656));
+                    print_esc(S(656));
                     help1(S(657));
                     alignstate = 1000000L;
                     error();
@@ -7076,8 +7052,8 @@ Static void conditional(void)
     if (tracingcommands > 1) {
       begindiagnostic();
       print(S(661));
-      printint(n);
-      printchar('}');
+      print_int(n);
+      print_char('}');
       enddiagnostic(false);
     }
     while (n != 0) {
@@ -7123,7 +7099,7 @@ Static void conditional(void)
 	goto _Lcommonending;
       printnl(S(292));
       print(S(558));
-      printesc(S(664));
+      print_esc(S(664));
       help1(S(559));
       error();
       continue;
@@ -7172,7 +7148,7 @@ Static Boolean morename(ASCIICode c)
     if (c == '.' && extdelimiter == 0) {
 	extdelimiter = makestring();
     }
-    appendchar(c);
+    append_char(c);
     return true;
   }
 }
@@ -7225,7 +7201,7 @@ Static StrNumber makenamestring(void)
 {
     int k;
     for (k = 0; k < namelength; k++) {
-        appendchar(xord[nameoffile[k]]);
+        append_char(xord[nameoffile[k]]);
     }
     return (makestring());
 }
@@ -7288,14 +7264,14 @@ Static void promptfilename(StrNumber s, StrNumber e) {
         printnl(S(292));
         print(S(667));
     }
-    printfilename(curname, curarea, curext);
+    print_file_name(curname, curarea, curext);
     print(S(668));
     if (e == S(669)) showcontext();
     printnl(S(670));
     print(s);
     if (interaction < scrollmode) fatalerror(S(671));
     print(S(488));
-    terminput(); /*531:*/
+    term_input(); /*531:*/
     beginname();
     k = first;
     while (buffer[k] == ' ' && k < last)
@@ -7322,7 +7298,7 @@ Static void openlogfile(void) {
     old_setting = selector;
     if (jobname == 0) jobname = S(672);
     packjobname(S(673));
-    while (!aopenout(&logfile)) { /*535:*/
+    while (!a_open_out(&log_file)) { /*535:*/
         selector = TERM_ONLY;
         promptfilename(S(674), S(673));
     }
@@ -7331,21 +7307,21 @@ Static void openlogfile(void) {
     selector = LOG_ONLY;
     logopened = true;
     /*536:*/
-    fprintf(logfile, "%s", banner);
-    slowprint(formatident);
+    fprintf(log_file, "%s", banner);
+    slow_print(formatident);
     print(S(675));
-    printint(day);
-    printchar(' ');
+    print_int(day);
+    print_char(' ');
     memcpy(months, "JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", 36);
     FORLIM = month * 3;
     for (k = month * 3 - 3; k < FORLIM; k++)
-        fwrite(&months[k], 1, 1, logfile);
-    printchar(' ');
-    printint(year);
-    printchar(' ');
-    printtwo(tex_time / 60);
-    printchar(':');
-    printtwo(tex_time % 60); /*:536*/
+        fwrite(&months[k], 1, 1, log_file);
+    print_char(' ');
+    print_int(year);
+    print_char(' ');
+    print_two(tex_time / 60);
+    print_char(':');
+    print_two(tex_time % 60); /*:536*/
     inputstack[inputptr] = curinput;
     printnl(S(676));
     l = inputstack[0].limitfield;
@@ -7364,10 +7340,10 @@ Static void startinput(void) {
     packfilename(curname, curarea, curext);
     while (true) {
         beginfilereading();
-        if (aopenin(&curfile)) break;
+        if (a_open_in(&curfile)) break;
         if (curarea == S(385)) {
             packfilename(curname, S(677), curext);
-            if (aopenin(&curfile)) break;
+            if (a_open_in(&curfile)) break;
         }
         endfilereading();
         promptfilename(S(665), S(669));
@@ -7378,19 +7354,19 @@ Static void startinput(void) {
         jobname = curname;
         openlogfile();
     }
-    if (termoffset + flength(name) > maxprintline - 2) {
+    if (term_offset + str_length(name) > MAX_PRINT_LINE - 2) {
         println();
-    } else if (termoffset > 0 || fileoffset > 0)
-        printchar(' ');
-    printchar('(');
+    } else if (term_offset > 0 || file_offset > 0)
+        print_char(' ');
+    print_char('(');
     openparens++;
-    slowprint(name);
+    slow_print(name);
     fflush(stdout);
     state = newline;
 
 #if 0
-  if (name == strptr - 1) {   /*538:*/
-    flushstring();
+  if (name == str_ptr - 1) {   /*538:*/
+    flush_string();
     name = curname;
   }
 #else
@@ -7418,8 +7394,8 @@ Static void charwarning(InternalFontNumber f, EightBits c)
   printnl(S(678));
   print(c);
   print(S(679));
-  slowprint(get_fontname(f));
-  printchar('!');
+  slow_print(get_fontname(f));
+  print_char('!');
   enddiagnostic(false);
 }
 /*:581*/
@@ -7461,10 +7437,10 @@ Static void specialout(HalfWord p)
   synchv();
   old_setting = selector;
   selector = NEW_STRING;
-  showtokenlist(link(writetokens(p)), 0, poolsize /* - poolptr */ );
+  showtokenlist(link(writetokens(p)), 0, POOL_SIZE /* - pool_ptr */ );
   selector = old_setting;
   str_room(1);
-  { int p_len=get_cur_length(); /* XXXX - Assumes byte=StrASCIICode */
+  { int p_len=cur_length(); /* XXXX - Assumes byte=StrASCIICode */
 #define xxx1            239
 #define xxx4            242
 
@@ -7548,7 +7524,7 @@ Static void outwhat(HalfWord p)
 	writeout(p);
       else {
 	if (writeopen[j])
-	  aclose(&writefile[j]);
+	  aclose(&write_file[j]);
 	if (subtype(p) == closenode)
 	  writeopen[j] = false;
 	else if (j < 16) {
@@ -7558,7 +7534,7 @@ Static void outwhat(HalfWord p)
 	  if (curext == S(385))
 	    curext = S(669);
 	packfilename(curname,curarea,curext);
-	  while (!aopenout(&writefile[j]))
+	  while (!a_open_out(&write_file[j]))
 	    promptfilename(S(683), S(669));
 	  writeopen[j] = true;
 	}
@@ -7958,22 +7934,22 @@ Static void shipout(HalfWord p)
     println();
     print(S(686));
   }
-  if (termoffset > maxprintline - 9)
+  if (term_offset > MAX_PRINT_LINE - 9)
     println();
-  else if (termoffset > 0 || fileoffset > 0)
-    printchar(' ');
-  printchar('[');
+  else if (term_offset > 0 || file_offset > 0)
+    print_char(' ');
+  print_char('[');
   j = 9;
   while (count(j) == 0 && j > 0)
     j--;
   for (k = 0; k <= j; k++) {
-    printint(count(k));
+    print_int(count(k));
     if (k < j)
-      printchar('.');
+      print_char('.');
   }
   fflush(stdout);
   if (tracingoutput > 0) {   /*640:*/
-    printchar(']');
+    print_char(']');
     begindiagnostic();
     showbox(p);
     enddiagnostic(true);
@@ -8018,16 +7994,16 @@ Static void shipout(HalfWord p)
     old_setting = selector;
     selector = NEW_STRING;
     print(S(693));
-    printint(year);
-    printchar('.');
-    printtwo(month);
-    printchar('.');
-    printtwo(day);
-    printchar(':');
-    printtwo(tex_time / 60);
-    printtwo(tex_time % 60);
+    print_int(year);
+    print_char('.');
+    print_two(month);
+    print_char('.');
+    print_two(day);
+    print_char(':');
+    print_two(tex_time / 60);
+    print_two(tex_time % 60);
     selector = old_setting;
-    dviout(get_cur_length()); /* XXXX */
+    dviout(cur_length()); /* XXXX */
     str_cur_map(dviout_helper);
   }
   {
@@ -8048,7 +8024,7 @@ Static void shipout(HalfWord p)
   curs = -1;
 
 _Ldone: /*:640*/
-    if (tracingoutput <= 0) printchar(']');
+    if (tracingoutput <= 0) print_char(']');
     deadcycles = 0;
     fflush(stdout);
 
@@ -8056,10 +8032,10 @@ _Ldone: /*:640*/
     #ifdef tt_STAT
         if (tracingstats > 1) {
             printnl(S(694));
-            printint(varused);
-            printchar('&');
-            printint(dynused);
-            printchar(';');
+            print_int(varused);
+            print_char('&');
+            print_int(dynused);
+            print_char(';');
         }
     #endif // #639.1: tt_STAT
 
@@ -8068,11 +8044,11 @@ _Ldone: /*:640*/
     #ifdef tt_STAT
         if (tracingstats > 1) {
             print(S(695));
-            printint(varused);
-            printchar('&');
-            printint(dynused);
+            print_int(varused);
+            print_char('&');
+            print_int(dynused);
             print(S(696));
-            printint(himemmin - lomemmax - 1);
+            print_int(himemmin - lomemmax - 1);
             println();
         }
     #endif // #639.2: tt_STAT
@@ -8276,7 +8252,7 @@ _Lreswitch:
 	  else
 	    printnl(S(700));
 	  print(S(701));
-	  printint(lastbadness);
+	  print_int(lastbadness);
 	  goto _Lcommonending;
 	}
       }
@@ -8312,7 +8288,7 @@ _Lreswitch:
 	}
 	println();
 	printnl(S(702));
-	printscaled(-x - totalshrink[0]);
+	print_scaled(-x - totalshrink[0]);
 	print(S(703));
 	goto _Lcommonending;
       }
@@ -8322,7 +8298,7 @@ _Lreswitch:
 	if (lastbadness > hbadness) {
 	  println();
 	  printnl(S(704));
-	  printint(lastbadness);
+	  print_int(lastbadness);
 	  goto _Lcommonending;
 	}
       }
@@ -8339,11 +8315,11 @@ _Lcommonending:   /*663:*/
 	print(S(706));
       else
 	print(S(707));
-      printint(labs(packbeginline));
+      print_int(labs(packbeginline));
       print(S(708));
     } else
       print(S(709));
-    printint(line);
+    print_int(line);
   }
   println();
   fontinshortdisplay = nullfont;
@@ -8478,7 +8454,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 	  else
 	    printnl(S(700));
 	  print(S(711));
-	  printint(lastbadness);
+	  print_int(lastbadness);
 	  goto _Lcommonending;
 	}
       }
@@ -8508,7 +8484,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
       if (-x - totalshrink[0] > vfuzz || vbadness < 100) {   /*:677*/
 	println();
 	printnl(S(712));
-	printscaled(-x - totalshrink[0]);
+	print_scaled(-x - totalshrink[0]);
 	print(S(713));
 	goto _Lcommonending;
       }
@@ -8518,7 +8494,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 	if (lastbadness > vbadness) {
 	  println();
 	  printnl(S(714));
-	  printint(lastbadness);
+	  print_int(lastbadness);
 	  goto _Lcommonending;
 	}
       }
@@ -8532,11 +8508,11 @@ _Lcommonending:   /*675:*/
   else {
     if (packbeginline != 0) {
       print(S(707));
-      printint(labs(packbeginline));
+      print_int(labs(packbeginline));
       print(S(708));
     } else
       print(S(709));
-    printint(line);
+    print_int(line);
     println();
   }
   begindiagnostic();
@@ -8861,25 +8837,25 @@ Static HalfWord mathglue(HalfWord g, long m)
   long n;
   Scaled f;
 
-  n = xovern(m, 65536L);
-  f = texremainder;
+  n = x_over_n(m, 65536L);
+  f = tex_remainder;
   if (f < 0) {
     n--;
     f += 65536L;
   }
   p = getnode(gluespecsize);
-  width(p) = multandadd(n, width(g), xnoverd(width(g), f, 65536L),
+  width(p) = mult_and_add(n, width(g), xn_over_d(width(g), f, 65536L),
 			    1073741823L);
   stretchorder(p) = stretchorder(g);
   if (stretchorder(p) == normal)
-    stretch(p) = multandadd(n, stretch(g),
-	xnoverd(stretch(g), f, 65536L), 1073741823L);
+    stretch(p) = mult_and_add(n, stretch(g),
+	xn_over_d(stretch(g), f, 65536L), 1073741823L);
   else
     stretch(p) = stretch(g);
   shrinkorder(p) = shrinkorder(g);
   if (shrinkorder(p) == normal)
-    shrink(p) = multandadd(n, shrink(g),
-			       xnoverd(shrink(g), f, 65536L),
+    shrink(p) = mult_and_add(n, shrink(g),
+			       xn_over_d(shrink(g), f, 65536L),
 			       1073741823L);
   else
     shrink(p) = shrink(g);
@@ -8895,13 +8871,13 @@ Static void mathkern(HalfWord p, long m)
 
   if (subtype(p) != muglue)
     return;
-  n = xovern(m, 65536L);
-  f = texremainder;
+  n = x_over_n(m, 65536L);
+  f = tex_remainder;
   if (f < 0) {
     n--;
     f += 65536L;
   }
-  width(p) = multandadd(n, width(p), xnoverd(width(p), f, 65536L),
+  width(p) = mult_and_add(n, width(p), xn_over_d(width(p), f, 65536L),
 			    1073741823L);
   subtype(p) = explicit;
 }
@@ -8955,10 +8931,10 @@ Static HalfWord cleanbox(HalfWord p, SmallNumber s)
   q = link(temphead);
   curstyle = savestyle;   /*703:*/
   if (curstyle < scriptstyle)
-    cursize = textsize;
+    cursize = TEXT_SIZE;
   else
     cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = xovern(mathquad(cursize), 18);   /*:703*/
+  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
 _Lfound:
   if (ischarnode(q) || q == 0)   /*721:*/
     x = hpack(q, 0, additional);
@@ -8993,12 +8969,12 @@ Static void fetch(HalfWord a)
   if (curf == nullfont) {   /*723:*/
     printnl(S(292));
     print(S(385));
-    printsize(cursize);
-    printchar(' ');
-    printint(fam(a));
+    print_size(cursize);
+    print_char(' ');
+    print_int(fam(a));
     print(S(715));
     print(curc - minquarterword);
-    printchar(')');
+    print_char(')');
     help4(S(716),
           S(717),
           S(718),
@@ -9462,9 +9438,9 @@ Static void makescripts(HalfWord q, long delta)
   } else {
     z = hpack(p, 0, additional);
     if (curstyle < scriptstyle)
-      t = scriptsize;
+      t = SCRIPT_SIZE;
     else
-      t = scriptscriptsize;
+      t = SCRIPT_SCRIPT_SIZE;
     shiftup = height(z) - supdrop(t);
     shiftdown = depth(z) + subdrop(t);
     freenode(z, boxnodesize);
@@ -9538,7 +9514,7 @@ Static SmallNumber makeleftright(HalfWord q, SmallNumber style, long maxd,
   Scaled delta, delta1, delta2;
 
   if (style < scriptstyle)
-    cursize = textsize;
+    cursize = TEXT_SIZE;
   else
     cursize = (style - textstyle) / 2 * 16;
   delta2 = maxd + axisheight(cursize);
@@ -9572,10 +9548,10 @@ Static void mlisttohlist(void)
   maxh = 0;
   maxd = 0;   /*703:*/
   if (curstyle < scriptstyle)
-    cursize = textsize;
+    cursize = TEXT_SIZE;
   else
     cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = xovern(mathquad(cursize), 18);   /*:703*/
+  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
   while (q != 0) {   /*727:*/
 _Lreswitch:
     delta = 0;
@@ -9655,10 +9631,10 @@ _Lreswitch:
     case stylenode:
       curstyle = subtype(q);   /*703:*/
       if (curstyle < scriptstyle)
-	cursize = textsize;
+	cursize = TEXT_SIZE;
       else
 	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = xovern(mathquad(cursize), 18);   /*:703*/
+      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
       goto _Ldonewithnode_;
       break;
 
@@ -9728,7 +9704,7 @@ _Lreswitch:
 	deleteglueref(x);
 	glueptr(q) = y;
 	subtype(q) = normal;
-      } else if ((cursize != textsize) & (subtype(q) == condmathglue)) {
+      } else if ((cursize != TEXT_SIZE) & (subtype(q) == condmathglue)) {
 	p = link(q);
 	if (p != 0) {
 	  if ((type(p) == gluenode) | (type(p) == kernnode)) {
@@ -9785,10 +9761,10 @@ _Lreswitch:
       mlisttohlist();
       curstyle = savestyle;   /*703:*/
       if (curstyle < scriptstyle)
-	cursize = textsize;
+	cursize = TEXT_SIZE;
       else
 	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = xovern(mathquad(cursize), 18);   /*:703*/
+      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
       p = hpack(link(temphead), 0, additional);
       break;
 
@@ -9827,10 +9803,10 @@ _Ldonewithnode_:
   rtype = 0;
   curstyle = style;   /*703:*/
   if (curstyle < scriptstyle)
-    cursize = textsize;
+    cursize = TEXT_SIZE;
   else
     cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = xovern(mathquad(cursize), 18);   /*:703*/
+  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
   while (q != 0) {   /*761:*/
     t = ordnoad;
     s = noadsize;
@@ -9884,10 +9860,10 @@ _Ldonewithnode_:
       curstyle = subtype(q);
       s = stylenodesize;   /*703:*/
       if (curstyle < scriptstyle)
-	cursize = textsize;
+	cursize = TEXT_SIZE;
       else
 	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = xovern(mathquad(cursize), 18);   /*:703*/
+      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
       goto _Ldeleteq_;
       break;
       /*:763*/
@@ -10071,7 +10047,7 @@ Static void initalign(void)
   if (mode == mmode && (tail != head || incompleatnoad != 0)) {   /*:776*/
     printnl(S(292));
     print(S(597));
-    printesc(S(724));
+    print_esc(S(724));
     print(S(725));
     help3(S(726),
           S(727),
@@ -10264,7 +10240,7 @@ Static Boolean fincol(void)
     } else {   /*:792*/
       printnl(S(292));
       print(S(736));
-      printesc(S(737));
+      print_esc(S(737));
       help3(S(738),
             S(739),
             S(740));
@@ -10947,19 +10923,19 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                         #ifdef tt_STAT
                             if (tracingparagraphs > 0) { /*846:*/
                                 printnl(S(756));
-                                printint(serial(passive));
+                                print_int(serial(passive));
                                 print(S(757));
-                                printint(linenumber(q) - 1);
-                                printchar('.');
-                                printint(fitclass);
-                                if (breaktype == hyphenated) printchar('-');
+                                print_int(linenumber(q) - 1);
+                                print_char('.');
+                                print_int(fitclass);
+                                if (breaktype == hyphenated) print_char('-');
                                 print(S(758));
-                                printint(totaldemerits(q));
+                                print_int(totaldemerits(q));
                                 print(S(759));
                                 if (prevbreak(passive) == 0)
-                                    printchar('0');
+                                    print_char('0');
                                 else
-                                    printint(serial(prevbreak(passive)));
+                                    print_int(serial(prevbreak(passive)));
                             }
                             /*:846*/
                         #endif // #845: tt_STAT
@@ -11011,7 +10987,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             } else { /*:852*/
                 if (shortfall > 7230584L) {
                     if (curactivewidth[1] < 1663497L) {
-                        b = infbad;
+                        b = INF_BAD;
                         fitclass = veryloosefit;
                         goto _Ldone1;
                     }
@@ -11029,7 +11005,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
         } else /*853:*/
         {      /*:853*/
             if (-shortfall > curactivewidth[5])
-                b = infbad + 1;
+                b = INF_BAD + 1;
             else
                 b = badness(-shortfall, curactivewidth[5]);
             if (b > 12)
@@ -11037,7 +11013,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             else
                 fitclass = decentfit;
         }
-        if (b > infbad || pi == ejectpenalty) { /*854:*/
+        if (b > INF_BAD || pi == ejectpenalty) { /*854:*/
             if (((finalpass && minimumdemerits == awfulbad) &
                  (link(r) == lastactive)) &&
                 prevr == active)
@@ -11093,34 +11069,34 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                 /*:857*/
                 printnl('@');
                 if (curp == 0)
-                    printesc(S(760));
+                    print_esc(S(760));
                 else if (type(curp) != gluenode) {
                     if (type(curp) == penaltynode)
-                        printesc(S(761));
+                        print_esc(S(761));
                     else if (type(curp) == discnode)
-                        printesc(S(400));
+                        print_esc(S(400));
                     else if (type(curp) == kernnode)
-                        printesc(S(391));
+                        print_esc(S(391));
                     else
-                        printesc(S(394));
+                        print_esc(S(394));
                 }
                 print(S(762));
                 if (breaknode(r) == 0)
-                    printchar('0');
+                    print_char('0');
                 else
-                    printint(serial(breaknode(r)));
+                    print_int(serial(breaknode(r)));
                 print(S(763));
-                if (b > infbad)
-                    printchar('*');
+                if (b > INF_BAD)
+                    print_char('*');
                 else
-                    printint(b);
+                    print_int(b);
                 print(S(764));
-                printint(pi);
+                print_int(pi);
                 print(S(765));
                 if (artificialdemerits)
-                    printchar('*');
+                    print_char('*');
                 else
-                    printint(d);
+                    print_int(d);
             }
         #endif // #855: tt_STAT
 
@@ -11575,10 +11551,10 @@ Static void hyphenate(void)   /*:929*/
     k = hyphword[h];
     if (k == 0)
       goto _Lnotfound;
-    if (flength(k) < hn) {
+    if (str_length(k) < hn) {
       goto _Lnotfound;
     }
-    if (flength(k) == hn) {
+    if (str_length(k) == hn) {
 	{
         int ress=str_scmp(k,hc+1);
 	if(ress<0) goto _Lnotfound;
@@ -12087,7 +12063,7 @@ _Ldone1: /*:965*/
                 default:
                     printnl(S(292));
                     print(S(773));
-                    printesc(S(774));
+                    print_esc(S(774));
                     help1(S(771));
                     error();
                     break;
@@ -12098,7 +12074,7 @@ _Ldone: /*:961*/
     }
     printnl(S(292));
     print(S(775));
-    printesc(S(774));
+    print_esc(S(774));
     help1(S(776));
     error();
     link(garbage) = scantoks(false, false);
@@ -12278,7 +12254,7 @@ Static void linebreak(long finalwidowpenalty) {
         #endif // #863.2: tt_STAT
     }
     while (true) {
-        if (threshold > infbad) threshold = infbad;
+        if (threshold > INF_BAD) threshold = INF_BAD;
         if (secondpass) { /*891:*/
 #ifdef tt_INIT
             if (trie_not_ready) inittrie();
@@ -12658,7 +12634,7 @@ _Ldone:
     #ifdef tt_STAT
         if (tracingparagraphs > 0) {
             enddiagnostic(true);
-            normalizeselector();
+            normalize_selector();
         }
     #endif // #863.5: tt_STAT
     /*:863*/
@@ -12755,10 +12731,10 @@ _Lreswitch:
 	hyphcount++;
 	while (hyphword[h] != 0) {  /*941:*/
 	  k = hyphword[h];
-	  if (flength(k) < flength(s)) {
+	  if (str_length(k) < str_length(s)) {
 	    goto _Lfound;
 	  }
-	  if (flength(k) > flength(s)) {
+	  if (str_length(k) > str_length(s)) {
 	    goto _Lnotfound;
 	  }
 	{ int ress = str_cmp(k,s);
@@ -12791,7 +12767,7 @@ _Lnotfound:   /*:941*/
     default:
       printnl(S(292));
       print(S(597));
-      printesc(S(787));
+      print_esc(S(787));
       print(S(788));
       help2(S(789),
             S(790));
@@ -12933,7 +12909,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
       if (b < awfulbad) {
 	if (pi <= ejectpenalty)
 	  b = pi;
-	else if (b < infbad)
+	else if (b < INF_BAD)
 	  b += pi;
 	else
 	  b = deplorable;
@@ -13005,9 +12981,9 @@ Static HalfWord vsplit(EightBits n, long h) {
     if (type(v) != vlistnode) { /*:978*/
         printnl(S(292));
         print(S(385));
-        printesc(S(797));
+        print_esc(S(797));
         print(S(798));
-        printesc(S(799));
+        print_esc(S(799));
         help2(S(800), S(801));
         error();
         Result = 0;
@@ -13055,30 +13031,30 @@ _Lexit:
 /*985:*/
 Static void printtotals(void)
 {
-  printscaled(pagetotal);
+  print_scaled(pagetotal);
   if (pagesofar[2] != 0) {
     print(S(331));
-    printscaled(pagesofar[2]);
+    print_scaled(pagesofar[2]);
     print(S(385));
   }
   if (pagesofar[3] != 0) {
     print(S(331));
-    printscaled(pagesofar[3]);
+    print_scaled(pagesofar[3]);
     print(S(330));
   }
   if (pagesofar[4] != 0) {
     print(S(331));
-    printscaled(pagesofar[4]);
+    print_scaled(pagesofar[4]);
     print(S(802));
   }
   if (pagesofar[5] != 0) {
     print(S(331));
-    printscaled(pagesofar[5]);
+    print_scaled(pagesofar[5]);
     print(S(803));
   }
   if (pageshrink != 0) {
     print(S(332));
-    printscaled(pageshrink);
+    print_scaled(pageshrink);
   }
 }
 /*:985*/
@@ -13101,9 +13077,9 @@ Static void freezepagespecs(SmallNumber s) {
     #endif // #987: tt_STAT
     begindiagnostic();
     printnl(S(804));
-    printscaled(pagegoal);
+    print_scaled(pagegoal);
     print(S(805));
-    printscaled(pagemaxdepth);
+    print_scaled(pagemaxdepth);
     enddiagnostic(false);
 } /*:987*/
 
@@ -13168,7 +13144,7 @@ Static void fireup(HalfWord c)
   if (box(255) != 0) {   /*:1015*/
     printnl(S(292));
     print(S(385));
-    printesc(S(464));
+    print_esc(S(464));
     print(S(810));
     help2(S(811),
           S(809));
@@ -13276,7 +13252,7 @@ Static void fireup(HalfWord c)
     link(prevp) = 0;
   }
   savevbadness = vbadness;
-  vbadness = infbad;
+  vbadness = INF_BAD;
   savevfuzz = vfuzz;
   vfuzz = maxdimen;
   box(255) = vpackage(link(pagehead), bestsize, exactly, pagemaxdepth);
@@ -13326,7 +13302,7 @@ Static void fireup(HalfWord c)
     /*:1024*/
     printnl(S(292));
     print(S(812));
-    printint(deadcycles);
+    print_int(deadcycles);
     print(S(813));
     help3(S(814),
           S(815),
@@ -13452,15 +13428,15 @@ Static void buildpage(void) {
                     if (count(n) == 1000)
                         h = height(r);
                     else
-                        h = xovern(height(r), 1000) * count(n);
+                        h = x_over_n(height(r), 1000) * count(n);
                     pagegoal += -h - width(q);
                     pagesofar[stretchorder(q) + 2] += stretch(q);
                     pageshrink += shrink(q);
                     if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
                         printnl(S(292));
                         print(S(817));
-                        printesc(S(460));
-                        printint(n);
+                        print_esc(S(460));
+                        print_int(n);
                         help3(S(818), S(819), S(753));
                         error();
                     }
@@ -13474,7 +13450,7 @@ Static void buildpage(void) {
                     if (count(n) == 1000)
                         h = height(p);
                     else
-                        h = xovern(height(p), 1000) * count(n);
+                        h = x_over_n(height(p), 1000) * count(n);
                     if ((h <= 0 || h <= delta) &
                         (height(p) + height(r) <= dimen(n))) {
                         pagegoal -= h;
@@ -13486,7 +13462,7 @@ Static void buildpage(void) {
                         else {
                             w = pagegoal - pagetotal - pagedepth;
                             if (count(n) != 1000)
-                                w = xovern(w, count(n)) * 1000;
+                                w = x_over_n(w, count(n)) * 1000;
                         }
                         if (w > dimen(n) - height(r)) w = dimen(n) - height(r);
                         q = vertbreak(insptr(p), w, depth(p));
@@ -13497,25 +13473,25 @@ Static void buildpage(void) {
                                 /*1011:*/
                                 begindiagnostic();
                                 printnl(S(820));
-                                printint(n);
+                                print_int(n);
                                 print(S(821));
-                                printscaled(w);
-                                printchar(',');
-                                printscaled(bestheightplusdepth);
+                                print_scaled(w);
+                                print_char(',');
+                                print_scaled(bestheightplusdepth);
                                 print(S(764));
                                 if (q == 0)
-                                    printint(ejectpenalty);
+                                    print_int(ejectpenalty);
                                 else if (type(q) == penaltynode)
-                                    printint(penalty(q));
+                                    print_int(penalty(q));
                                 else
-                                    printchar('0');
+                                    print_char('0');
                                 enddiagnostic(false);
                             } /*:1011*/
                         #endif // #1010: tt_STAT
 
                         if (count(n) != 1000)
                             bestheightplusdepth =
-                                xovern(bestheightplusdepth, 1000) * count(n);
+                                x_over_n(bestheightplusdepth, 1000) * count(n);
                         pagegoal -= bestheightplusdepth;
                         type(r) = splitup;
                         brokenptr(r) = q;
@@ -13549,7 +13525,7 @@ Static void buildpage(void) {
             if (b < awfulbad) {
                 if (pi <= ejectpenalty)
                     c = pi;
-                else if (b < infbad)
+                else if (b < INF_BAD)
                     c = b + pi + insertpenalties;
                 else
                     c = deplorable;
@@ -13565,20 +13541,20 @@ Static void buildpage(void) {
                     print(S(758));
                     printtotals();
                     print(S(823));
-                    printscaled(pagegoal);
+                    print_scaled(pagegoal);
                     print(S(763));
                     if (b == awfulbad)
-                        printchar('*');
+                        print_char('*');
                     else
-                        printint(b);
+                        print_int(b);
                     print(S(764));
-                    printint(pi);
+                    print_int(pi);
                     print(S(824));
                     if (c == awfulbad)
-                        printchar('*');
+                        print_char('*');
                     else
-                        printint(c);
-                    if (c <= leastpagecost) printchar('#');
+                        print_int(c);
+                    if (c <= leastpagecost) print_char('#');
                     enddiagnostic(false);
                 }
             #endif // #1005: tt_STAT
@@ -13676,8 +13652,8 @@ Static void appspace(void)
     mainp = newspec(mainp);   /*1044:*/
     if (spacefactor >= 2000)
       width(mainp) += extraspace(curfont);
-    stretch(mainp) = xnoverd(stretch(mainp), spacefactor, 1000);
-    shrink(mainp) = xnoverd(shrink(mainp), 1000, spacefactor);
+    stretch(mainp) = xn_over_d(stretch(mainp), spacefactor, 1000);
+    shrink(mainp) = xn_over_d(shrink(mainp), 1000, spacefactor);
 	/*:1044*/
     q = newglue(mainp);
     gluerefcount(mainp) = 0;
@@ -13830,12 +13806,12 @@ Static void offsave(void)
 
   case semisimplegroup:
     info(p) = cstokenflag + frozenendgroup;
-    printesc(S(836));
+    print_esc(S(836));
     break;
 
   case mathshiftgroup:
     info(p) = mathshifttoken + '$';
-    printchar('$');
+    print_char('$');
     break;
 
   case mathleftgroup:
@@ -13843,12 +13819,12 @@ Static void offsave(void)
     link(p) = get_avail();
     p = link(p);
     info(p) = othertoken + '.';
-    printesc(S(837));
+    print_esc(S(837));
     break;
 
   default:
     info(p) = rightbracetoken + '}';
-    printchar('}');
+    print_char('}');
     break;
   }
   print(S(555));
@@ -13870,15 +13846,15 @@ Static void extrarightbrace(void)
   switch (curgroup) {
 
   case semisimplegroup:
-    printesc(S(836));
+    print_esc(S(836));
     break;
 
   case mathshiftgroup:
-    printchar('$');
+    print_char('$');
     break;
 
   case mathleftgroup:
-    printesc(S(419));
+    print_esc(S(419));
     break;
   }
   help5(S(844),
@@ -14203,7 +14179,7 @@ Static void headforvmode(void)
     }
     printnl(S(292));
     print(S(602));
-    printesc(S(863));
+    print_esc(S(863));
     print(S(864));
     help2(S(865),
           S(866));
@@ -14241,8 +14217,8 @@ Static void begininsertoradjust(void)
     if (curval == 255) {
       printnl(S(292));
       print(S(867));
-      printesc(S(374));
-      printint(255);
+      print_esc(S(374));
+      print_int(255);
       help1(S(868));
       error();
       curval = 0;
@@ -14461,7 +14437,7 @@ Static void builddiscretionary(void) {
             if (n > 0 && labs(mode) == mmode) {
                 printnl(S(292));
                 print(S(879));
-                printesc(S(400));
+                print_esc(S(400));
                 help2(S(880), S(881));
                 flushnodelist(p);
                 n = 0;
@@ -14596,7 +14572,7 @@ Static void noalignerror(void)
 {
   printnl(S(292));
   print(S(885));
-  printesc(S(897));
+  print_esc(S(897));
   help2(S(898),
         S(899));
   error();
@@ -14607,7 +14583,7 @@ Static void omiterror(void)
 {
   printnl(S(292));
   print(S(885));
-  printesc(S(900));
+  print_esc(S(900));
   help2(S(901),
         S(899));
   error();
@@ -14632,7 +14608,7 @@ Static void cserror(void)
 {
   printnl(S(292));
   print(S(558));
-  printesc(S(263));
+  print_esc(S(263));
   help1(S(902));
   error();
 }  /*:1135*/
@@ -14970,7 +14946,7 @@ Static void mathac(void)
   if (curcmd == accent) {   /*1166:*/
     printnl(S(292));
     print(S(912));
-    printesc(S(913));
+    print_esc(S(913));
     print(S(914));
     help2(S(915),
           S(916));
@@ -15176,7 +15152,7 @@ Static void mathleftright(void)
     scandelimiter(garbage, false);
     printnl(S(292));
     print(S(558));
-    printesc(S(419));
+    print_esc(S(419));
     help1(S(925));
     error();
     return;
@@ -15212,9 +15188,9 @@ Static void aftermath(void)
   SmallNumber g1, g2;
 
   danger = false;   /*1195:*/
-  if ((fontparams[famfnt(textsize + 2) ] < totalmathsyparams) |
-      (fontparams[famfnt(scriptsize + 2) ] < totalmathsyparams) |
-      (fontparams[famfnt(scriptscriptsize + 2) ] <
+  if ((fontparams[famfnt(TEXT_SIZE + 2) ] < totalmathsyparams) |
+      (fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
+      (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
        totalmathsyparams)) {
     printnl(S(292));
     print(S(926));
@@ -15224,11 +15200,11 @@ Static void aftermath(void)
     error();
     flushmath();
     danger = true;
-  } else if ((fontparams[famfnt(textsize + 3) ] <
+  } else if ((fontparams[famfnt(TEXT_SIZE + 3) ] <
 	      totalmathexparams) |
-	     (fontparams[famfnt(scriptsize + 3) ] <
+	     (fontparams[famfnt(SCRIPT_SIZE + 3) ] <
 	      totalmathexparams) |
-	     (fontparams[famfnt(scriptscriptsize + 3) ] <
+	     (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
 	      totalmathexparams)) {
     printnl(S(292));
     print(S(930));
@@ -15261,9 +15237,9 @@ Static void aftermath(void)
     if (saved(0) == 1)
       l = true;
     danger = false;   /*1195:*/
-    if ((fontparams[famfnt(textsize + 2) ] < totalmathsyparams) |
-	(fontparams[famfnt(scriptsize + 2) ] < totalmathsyparams) |
-	(fontparams[famfnt(scriptscriptsize + 2) ] <
+    if ((fontparams[famfnt(TEXT_SIZE + 2) ] < totalmathsyparams) |
+	(fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
+	(fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
 	 totalmathsyparams)) {
       printnl(S(292));
       print(S(926));
@@ -15273,11 +15249,11 @@ Static void aftermath(void)
       error();
       flushmath();
       danger = true;
-    } else if ((fontparams[famfnt(textsize + 3) ] <
+    } else if ((fontparams[famfnt(TEXT_SIZE + 3) ] <
 		totalmathexparams) |
-	       (fontparams[famfnt(scriptsize + 3) ] <
+	       (fontparams[famfnt(SCRIPT_SIZE + 3) ] <
 		totalmathexparams) |
-	       (fontparams[famfnt(scriptscriptsize + 3) ] <
+	       (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
 		totalmathexparams)) {
       printnl(S(292));
       print(S(930));
@@ -15337,7 +15313,7 @@ Static void aftermath(void)
     q = 0;
   } else {
     e = width(a);
-    q = e + mathquad(textsize);
+    q = e + mathquad(TEXT_SIZE);
   }
   if (w + q > z) {   /*1201:*/
     if (e != 0 && (w - totalshrink[0] + q <= z ||
@@ -15527,7 +15503,7 @@ _Lfound: /*:1237*/
         scanoptionalequals();
     else
         scankeyword(S(942));
-    aritherror = false;
+    arith_error = false;
     if (q < multiply) { /*1238:*/
         if (p < glueval) {
             if (p == intval)
@@ -15567,29 +15543,29 @@ _Lfound: /*:1237*/
         if (p < glueval) {
             if (q == multiply) {
                 if (p == intval)
-                    curval = multandadd(
+                    curval = mult_and_add(
                         eqtb[l - activebase].int_, curval, 0, 2147483647L);
                 else
-                    curval = multandadd(
+                    curval = mult_and_add(
                         eqtb[l - activebase].int_, curval, 0, 1073741823L);
             } else
-                curval = xovern(eqtb[l - activebase].int_, curval);
+                curval = x_over_n(eqtb[l - activebase].int_, curval);
         } else {
             s = equiv(l);
             r = newspec(s);
             if (q == multiply) {
-                width(r) = multandadd(width(s), curval, 0, 1073741823L);
-                stretch(r) = multandadd(stretch(s), curval, 0, 1073741823L);
-                shrink(r) = multandadd(shrink(s), curval, 0, 1073741823L);
+                width(r) = mult_and_add(width(s), curval, 0, 1073741823L);
+                stretch(r) = mult_and_add(stretch(s), curval, 0, 1073741823L);
+                shrink(r) = mult_and_add(shrink(s), curval, 0, 1073741823L);
             } else {
-                width(r) = xovern(width(s), curval);
-                stretch(r) = xovern(stretch(s), curval);
-                shrink(r) = xovern(shrink(s), curval);
+                width(r) = x_over_n(width(s), curval);
+                stretch(r) = x_over_n(stretch(s), curval);
+                shrink(r) = x_over_n(shrink(s), curval);
             }
             curval = r;
         }
     } /*:1240*/
-    if (aritherror) {
+    if (arith_error) {
         printnl(S(292));
         print(S(943));
         help2(S(944), S(945));
@@ -15629,7 +15605,7 @@ Static void alteraux(void) {
     printnl(S(292));
     print(S(946));
     help1(S(947));
-    interror(curval);
+    int_error(curval);
 }
 /*:1243*/
 
@@ -15650,9 +15626,9 @@ Static void alterprevgraf(void) {
     }
     printnl(S(292));
     print(S(773));
-    printesc(S(948));
+    print_esc(S(948));
     help1(S(949));
-    interror(curval);
+    int_error(curval);
 }
 /*:1244*/
 
@@ -15733,11 +15709,11 @@ Static void newfont(SmallNumber a) {
         if (s <= 0 || s >= 134217728L) {
             printnl(S(292));
             print(S(952));
-            printscaled(s);
+            print_scaled(s);
             print(S(953));
             help2(S(954), S(955));
             error();
-            s = unity * 10;
+            s = UNITY * 10;
         }
         /*:1259*/
     } else if (scankeyword(S(956))) {
@@ -15747,7 +15723,7 @@ Static void newfont(SmallNumber a) {
             printnl(S(292));
             print(S(486));
             help1(S(487));
-            interror(curval);
+            int_error(curval);
             s = -1000;
         }
     } else {
@@ -15758,24 +15734,24 @@ Static void newfont(SmallNumber a) {
 
     /*1260:*/
     #if 0
-        flushablestring = strptr - 1;
+        flushablestring = str_ptr - 1;
     #endif
     for (f = 1; f <= fontptr; f++) {
-        if (streqstr(get_fontname(f), curname) /* &
-	        streqstr(fontarea[f ], curarea) */ ) {   
+        if (str_eq_str(get_fontname(f), curname) /* &
+	        str_eq_str(fontarea[f ], curarea) */ ) {   
             /*:1260*/
             #if 0
                 if (curname == flushablestring) {
-                    flushstring();
+                    flush_string();
                     curname = fontname[f ];
                 }
             #endif
             if (s > 0) {
                 if (s == get_fontsize(f)) goto _Lcommonending;
-            } else if (get_fontsize(f) == xnoverd(get_fontdsize(f), -s, 1000)) {
+            } else if (get_fontsize(f) == xn_over_d(get_fontdsize(f), -s, 1000)) {
                 goto _Lcommonending;
             }
-        } // if(streqstr(...))
+        } // if(str_eq_str(...))
     } // for (f = 1; f <= fontptr; f++)
     f = readfontinfo(u, curname, curarea, s);
 
@@ -15821,7 +15797,7 @@ Static void prefixedcommand(void)
     printnl(S(292));
     print(S(957));
     printcmdchr(curcmd, curchr);
-    printchar('\'');
+    print_char('\'');
     help1(S(958));
     backerror();
     goto _Lexit;
@@ -15829,12 +15805,12 @@ Static void prefixedcommand(void)
   if (curcmd != def && (a & 3) != 0) {   /*:1213*/
     printnl(S(292));
     print(S(602));
-    printesc(S(959));
+    print_esc(S(959));
     print(S(960));
-    printesc(S(961));
+    print_esc(S(961));
     print(S(962));
     printcmdchr(curcmd, curchr);
-    printchar('\'');
+    print_char('\'');
     help1(S(963));
     error();
   }
@@ -16061,12 +16037,12 @@ Static void prefixedcommand(void)
     if ( (curval < 0 && p < delcodebase) || curval > n) {
       printnl(S(292));
       print(S(966));
-      printint(curval);
+      print_int(curval);
       if (p < delcodebase)
 	print(S(967));
       else
 	print(S(968));
-      printint(n);
+      print_int(n);
       help1(S(969));
       error();
       curval = 0;
@@ -16111,7 +16087,7 @@ Static void prefixedcommand(void)
     else {
       printnl(S(292));
       print(S(597));
-      printesc(S(970));
+      print_esc(S(970));
       help2(S(971),
             S(972));
       error();
@@ -16250,7 +16226,7 @@ Static void openorclosein(void) {
     scanfilename();
     if (curext == S(385)) curext = S(669);
     packfilename(curname, S(677), curext);
-    if (aopenin(&readfile[n])) readopen[n] = justopen;
+    if (a_open_in(&readfile[n])) readopen[n] = justopen;
 }
 /*:1275*/
 
@@ -16270,17 +16246,17 @@ Static void issuemessage(void) {
     str_room(1);
     s = makestring();
     if (c == 0) { /*1280:*/
-        if (termoffset + flength(s) > maxprintline - 2) {
+        if (term_offset + str_length(s) > MAX_PRINT_LINE - 2) {
             println();
-        } else if (termoffset > 0 || fileoffset > 0)
-            printchar(' ');
-        slowprint(s);
+        } else if (term_offset > 0 || file_offset > 0)
+            print_char(' ');
+        slow_print(s);
         fflush(stdout);
         /*1283:*/
     } else {      /*:1283*/
         printnl(S(292));
         print(S(385));
-        slowprint(s);
+        slow_print(s);
         if (errhelp != 0)
             useerrhelp = true;
         else if (longhelpseen) {
@@ -16293,7 +16269,7 @@ Static void issuemessage(void) {
         useerrhelp = false;
     }
     /*:1280*/
-    flushstring();
+    flush_string();
 }
 /*:1279*/
 
@@ -16330,8 +16306,8 @@ Static void showwhatever(void) {
             scaneightbitint();
             begindiagnostic();
             printnl(S(979));
-            printint(curval);
-            printchar('=');
+            print_int(curval);
+            print_char('=');
             if (box(curval) == 0)
                 print(S(465));
             else
@@ -16343,8 +16319,8 @@ Static void showwhatever(void) {
             gettoken();
             printnl(S(980));
             if (curcs != 0) {
-                sprintcs(curcs);
-                printchar('=');
+                sprint_cs(curcs);
+                print_char('=');
             }
             printmeaning(curchr, curcmd);
             goto _Lcommonending;
@@ -16401,13 +16377,13 @@ Static void storefmtfile(void) { /*1304:*/
     selector = NEW_STRING;
     print(S(990));
     print(jobname);
-    printchar(' ');
-    printint(year % 100);
-    printchar('.');
-    printint(month);
-    printchar('.');
-    printint(day);
-    printchar(')');
+    print_char(' ');
+    print_int(year % 100);
+    print_char('.');
+    print_int(month);
+    print_char('.');
+    print_int(day);
+    print_char(')');
     if (interaction == batchmode)
         selector = LOG_ONLY;
     else
@@ -16418,10 +16394,10 @@ Static void storefmtfile(void) { /*1304:*/
     while (!wopenout(&fmtfile))
         promptfilename(S(991), formatextension);
     printnl(S(992));
-    slowprint(wmakenamestring());
-    flushstring();
+    slow_print(wmakenamestring());
+    flush_string();
     printnl(S(385));        /*:1328*/
-    slowprint(formatident); /*1307:*/
+    slow_print(formatident); /*1307:*/
     pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
     pppfmtfile.int_ = membot;
@@ -16482,11 +16458,11 @@ Static void storefmtfile(void) { /*1304:*/
     pppfmtfile.int_ = dynused;
     pput(pppfmtfile);
     println();
-    printint(x);
+    print_int(x);
     print(S(993));
-    printint(varused);
-    printchar('&');    /*:1311*/
-    printint(dynused); /*1313:*/
+    print_int(varused);
+    print_char('&');    /*:1311*/
+    print_int(dynused); /*1313:*/
     /*1315:*/
     k = activebase;
 
@@ -16574,7 +16550,7 @@ _Ldone2:
     pppfmtfile.int_ = cscount;
     pput(pppfmtfile);
     println();
-    printint(cscount); /*:1318*/
+    print_int(cscount); /*:1318*/
     /*:1313*/
     print(S(994));
     fonts_dump(fmtfile);
@@ -16592,9 +16568,9 @@ _Ldone2:
         }
     }
     println();
-    printint(hyphcount);
+    print_int(hyphcount);
     print(S(995));
-    if (hyphcount != 1) printchar('s');
+    if (hyphcount != 1) print_char('s');
     if (trie_not_ready) inittrie();
     pppfmtfile.int_ = triemax;
     pput(pppfmtfile);
@@ -16613,19 +16589,19 @@ _Ldone2:
         pput(pppfmtfile);
     }
     printnl(S(996));
-    printint(triemax);
+    print_int(triemax);
     print(S(997));
-    printint(trieopptr);
+    print_int(trieopptr);
     print(S(998));
-    if (trieopptr != 1) printchar('s');
+    if (trieopptr != 1) print_char('s');
     print(S(999));
-    printint(trieopsize);
+    print_int(trieopsize);
     for (k = 255; k >= 0; k--) {            /*1326:*/
         if (trieused[k] > minquarterword) { /*:1324*/
             printnl(S(675));
-            printint(trieused[k] - minquarterword);
+            print_int(trieused[k] - minquarterword);
             print(S(1000));
-            printint(k);
+            print_int(k);
             pppfmtfile.int_ = k;
             pput(pppfmtfile);
             pppfmtfile.int_ = trieused[k] - minquarterword;
@@ -16868,8 +16844,8 @@ Static void handlerightbrace(void) {
             if (box(255) != 0) { /*:1028*/
                 printnl(S(292));
                 print(S(1007));
-                printesc(S(464));
-                printint(255);
+                print_esc(S(464));
+                print_int(255);
                 help3(S(1008), S(1009), S(1010));
                 boxerror(255);
             }
@@ -16901,7 +16877,7 @@ Static void handlerightbrace(void) {
             curtok = cstokenflag + frozencr;
             printnl(S(292));
             print(S(554));
-            printesc(S(737));
+            print_esc(S(737));
             print(S(555));
             help1(S(1011));
             inserror();
@@ -18064,41 +18040,41 @@ Static void closefilesandterminate(void) { /*1378:*/
     long k;
     for (k = 0; k <= 15; k++) {
         if (writeopen[k]) /*:1378*/
-            aclose(&writefile[k]);
+            aclose(&write_file[k]);
     }
 
     #ifdef tt_STAT
         if (tracingstats > 0) {
             /*1334:*/
             if (logopened) { /*:1334*/
-                fprintf(logfile, " \n");
-                fprintf(logfile, "Here is how much of TeX's memory you used:\n");
-                str_print_stats(logfile);
-                fprintf(logfile,
+                fprintf(log_file, " \n");
+                fprintf(log_file, "Here is how much of TeX's memory you used:\n");
+                str_print_stats(log_file);
+                fprintf(log_file,
                         " %ld words of memory out of %ld\n",
                         lomemmax - memmin + memend - himemmin + 2L,
                         memend - memmin + 1L);
-                fprintf(logfile,
+                fprintf(log_file,
                         " %ld multiletter control sequences out of %ld\n",
                         cscount,
                         (long)hashsize);
-                fprintf(logfile,
+                fprintf(log_file,
                         " %d words of font info for %d font",
                         fmemptr,
                         fontptr);
                 if (fontptr != 1) {
-                    fprintf(logfile, "s");
+                    fprintf(log_file, "s");
                 }
-                fprintf(logfile,
+                fprintf(log_file,
                         ", out of %ld for %ld\n",
                         (long)fontmemsize,
                         (long)(fontmax));
-                fprintf(logfile, " %d hyphenation exception", hyphcount);
+                fprintf(log_file, " %d hyphenation exception", hyphcount);
                 if (hyphcount != 1) {
-                    fprintf(logfile, "s");
+                    fprintf(log_file, "s");
                 }
-                fprintf(logfile, " out of %ld\n", (long)hyphsize);
-                fprintf(logfile,
+                fprintf(log_file, " out of %ld\n", (long)hyphsize);
+                fprintf(log_file,
                         " %di,%dn,%ldp,%db,%ds stack positions out of "
                         "%ldi,%ldn,%ldp,%ldb,%lds\n",
                         maxinstack,
@@ -18140,23 +18116,23 @@ Static void closefilesandterminate(void) { /*1378:*/
                 fontptr);
         total_dvi_bytes = dviflush();
         printnl(S(1014));
-        slowprint(outputfilename);
+        slow_print(outputfilename);
         print(S(303));
-        printint(totalpages);
+        print_int(totalpages);
         print(S(1015));
-        if (totalpages != 1) printchar('s');
+        if (totalpages != 1) print_char('s');
         print(S(1016));
-        printint(total_dvi_bytes);
+        print_int(total_dvi_bytes);
         print(S(1017));
     }
     if (!logopened) return;
-    putc('\n', logfile);
-    aclose(&logfile);
+    putc('\n', log_file);
+    aclose(&log_file);
     selector -= 2;
     if (selector != TERM_ONLY) return;
     printnl(S(1018));
-    slowprint(logname);
-    printchar('.');
+    slow_print(logname);
+    print_char('.');
     println();
 } // void closefilesandterminate(void)
 /*:1333*/
@@ -18179,19 +18155,19 @@ Static void finalcleanup(void) {
     }
     if (curlevel > levelone) {
         printnl('(');
-        printesc(S(1020));
+        print_esc(S(1020));
         print(S(1021));
-        printint(curlevel - levelone);
-        printchar(')');
+        print_int(curlevel - levelone);
+        print_char(')');
     }
     while (condptr != 0) {
         printnl('(');
-        printesc(S(1020));
+        print_esc(S(1020));
         print(S(1022));
         printcmdchr(iftest, curif);
         if (ifline != 0) {
             print(S(1023));
-            printint(ifline);
+            print_int(ifline);
         }
         print(S(1024));
         ifline = iflinefield(condptr);
@@ -18299,7 +18275,7 @@ Static void initprim(void) {
     primitive(S(1077), assignint, intbase + floatingpenaltycode);
     primitive(S(1078), assignint, intbase + globaldefscode);
     primitive(S(333), assignint, intbase + curfamcode);
-    primitive(S(1079), assignint, intbase + escapecharcode);
+    primitive(S(1079), assignint, intbase + ESCAPE_CHARcode);
     primitive(S(1080), assignint, intbase + defaulthyphencharcode);
     primitive(S(1081), assignint, intbase + defaultskewcharcode);
     primitive(S(1082), assignint, intbase + endlinecharcode);
@@ -18578,8 +18554,8 @@ Static void initprim(void) {
     primitive(S(470), defcode, sfcodebase);
     primitive(S(473), defcode, delcodebase);
     primitive(S(266), deffamily, mathfontbase);
-    primitive(S(267), deffamily, mathfontbase + scriptsize);
-    primitive(S(268), deffamily, mathfontbase + scriptscriptsize);
+    primitive(S(267), deffamily, mathfontbase + SCRIPT_SIZE);
+    primitive(S(268), deffamily, mathfontbase + SCRIPT_SCRIPT_SIZE);
     /*:1230*/
     /*1250:*/
     primitive(S(787), hyphdata, 0);
@@ -18643,8 +18619,8 @@ Static void debughelp(void) {
             /// #1339
             // display mem[n] in all forms
             case 1: printword(mem[n - memmin]); break;
-            case 2: printint(info(n)); break;
-            case 3: printint(link(n)); break;
+            case 2: print_int(info(n)); break;
+            case 3: print_int(link(n)); break;
             case 4: printword(eqtb[n - activebase]); break;
             case 5: printword(fontinfo[n]); break;
             case 6: printword(savestack[n]); break;
@@ -18652,12 +18628,12 @@ Static void debughelp(void) {
             case 7: showbox(n); break;
             case 8: {
                 breadthmax = 10000;
-                depththreshold = str_adjust_to_room(poolsize) - 10;
+                depththreshold = str_adjust_to_room(POOL_SIZE) - 10;
                 shownodelist(n);
                 break;
             }
             case 9: showtokenlist(n, 0, 1000); break;
-            case 10: slowprint(n); break;
+            case 10: slow_print(n); break;
             // check wellformedness; print new busy locations if n > 0
             case 11: checkmem(n > 0); break;
             // look for pointers to n
@@ -18697,10 +18673,10 @@ int check_constant(void) {
 
     /// #14
     if (
-        halferrorline < 30 ||
-        halferrorline > (errorline - 15)
+        halfERROR_LINE < 30 ||
+        halfERROR_LINE > (ERROR_LINE - 15)
     ) bad = 1;
-    if (maxprintline < 60) bad = 2;
+    if (MAX_PRINT_LINE < 60) bad = 2;
     if ((dvibufsize & 8) != 0) bad = 3;
     if ((membot + 1100) > memtop) bad = 4;
     if (hashprime > hashsize) bad = 5;
@@ -18722,7 +18698,7 @@ int check_constant(void) {
     ) bad = 14;
     if (0 < minquarterword || fontmax > maxquarterword) bad = 15;
     if (fontmax > 256+0) bad = 16;
-    if (savesize > maxhalfword || maxstrings > maxhalfword) bad = 17;
+    if (savesize > maxhalfword || MAX_STRINGS > maxhalfword) bad = 17;
     if (bufsize > maxhalfword) bad = 18;
     if (maxquarterword - minquarterword < 255) bad = 19;
 
@@ -18761,7 +18737,7 @@ int main(int argc, char* argv[]) {
 
     initialize();
 #ifdef tt_INIT
-    if (!getstringsstarted()) goto _L_final_end;
+    if (!get_strings_started()) goto _L_final_end;
     initprim();
     str_set_init_ptrs();
     fixdateandtime(&tex_time, &day, &month, &year);
@@ -18771,15 +18747,15 @@ int main(int argc, char* argv[]) {
 _L_start_of_TEX: /*55:*/
     selector = TERM_ONLY;
     tally = 0;
-    termoffset = 0;
-    fileoffset = 0;
+    term_offset = 0;
+    file_offset = 0;
     /*:55*/
     /*61:*/
     fprintf(stdout, "%s", banner);
     if (formatident == 0)
         fprintf(stdout, " (no format preloaded)\n");
     else {
-        slowprint(formatident);
+        slow_print(formatident);
         println();
     }
     fflush(stdout); /*:61*/

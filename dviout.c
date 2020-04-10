@@ -5,12 +5,12 @@
     // true
 #include "str.h"
     // [type] StrASCIICode, StrNumber
-    // [func] str_map, flength
+    // [func] str_map, str_length
 #include "fonts.h"
     // [type] InternalFontNumber,
     // [var] fontptr, fontused,
     // [func] get_fontsize, get_fontdsize, get_fontname
-#include "funcs.h"  // [func] aopenout
+#include "funcs.h"  // [func] a_open_out
 #include "dviout.h" // export
 
 #define movementnodesize 3
@@ -84,7 +84,7 @@ static move_pointer downptr, rightptr;
     functions
 */
 
-int dvi_openout(void) { return aopenout(&dvifile); }
+int dvi_openout(void) { return a_open_out(&dvifile); }
 
 static move_pointer get_move_node(void) {
     move_pointer pom = (move_pointer)malloc(sizeof(*pom));
@@ -279,7 +279,7 @@ void dvifontdef(InternalFontNumber f) {
     dvifour(get_fontsize(f));
     dvifour(get_fontdsize(f));
     dviout(0);
-    dviout(flength(fnm));
+    dviout(str_length(fnm));
     str_map(fnm, dviout_helper);
 }
 /*:602*/

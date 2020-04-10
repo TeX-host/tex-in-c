@@ -5,11 +5,11 @@
     // [macro] fontmemsize, fontmax, nullfont, nonaddress, kernbaseoffset
 #include "macros.h" // [macro] nonchar
 #include "str.h"    // [type] StrNumber
-#include "funcs.h"  // [func] aopenin
+#include "funcs.h"  // [func] a_open_in
 #include "fonts.h"  // [export], [func] fontidtext
 #include "texfunc.h"
     // [func] print_*,
-    //  packfilename, sprintcs, error, xnoverd,
+    //  packfilename, sprint_cs, error, xn_over_d,
     //  get_defaultskewchar, get_defaulthyphenchar,
     //  get_lomemmax
 
@@ -179,23 +179,23 @@ void fonts_dump(FILE* fmtfile) {
         pppfmtfile.int_ = fontfalsebchar[k];
         pput(pppfmtfile);
         printnl(S(1278));
-        printesc(fontidtext(k));
-        printchar('=');
-        printfilename(fontname[k], fontarea[k], S(385));
+        print_esc(fontidtext(k));
+        print_char('=');
+        print_file_name(fontname[k], fontarea[k], S(385));
         if (fontsize[k] != fontdsize[k]) {
             print(S(642));
-            printscaled(fontsize[k]);
+            print_scaled(fontsize[k]);
             print(S(459));
         }
     }
     /*:1322*/
     println();
-    printint(fmemptr - 7);
+    print_int(fmemptr - 7);
     print(S(1279));
-    printint(fontptr);
+    print_int(fontptr);
     print(S(1280));
     if (fontptr != 1) /*:1320*/
-        printchar('s');
+        print_char('s');
 }
 
 int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
@@ -318,7 +318,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
         packfilename(nom, S(1281), S(1282));
     else
         packfilename(nom, aire, S(1282));
-    if (!aopenin(&tfmfile)) goto _Lbadtfm_;
+    if (!a_open_in(&tfmfile)) goto _Lbadtfm_;
     fileopened = true; /*:563*/
     /*565:*/
     lf = getc(tfmfile);
@@ -370,16 +370,16 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     if (fontptr == fontmax || fmemptr + lf > fontmemsize) { /*567:*/
         printnl(S(292));
         print(S(588));
-        sprintcs(u);
-        printchar('=');
-        printfilename(nom, aire, S(385));
+        sprint_cs(u);
+        print_char('=');
+        print_file_name(nom, aire, S(385));
         if (s >= 0) {
             print(S(642));
-            printscaled(s);
+            print_scaled(s);
             print(S(459));
         } else if (s != -1000) {
             print(S(1283));
-            printint(-s);
+            print_int(-s);
         }
         print(S(1284));
         help4(S(1285), S(1286), S(1287), S(1288));
@@ -413,7 +413,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     z = z * 256 + getc(tfmfile);
     z = z * 256 + getc(tfmfile);
     z = z * 16 + getc(tfmfile) / 16;
-    if (z < unity) goto _Lbadtfm_;
+    if (z < UNITY) goto _Lbadtfm_;
     while (lh > 2) {
         getc(tfmfile);
         getc(tfmfile);
@@ -426,7 +426,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
         if (s >= 0)
             z = s;
         else
-            z = xnoverd(z, -s, 1000);
+            z = xn_over_d(z, -s, 1000);
     }
     fontsize[f] = z; /*:568*/
     /*569:*/
@@ -644,16 +644,16 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
 _Lbadtfm_:       /*561:*/
     printnl(S(292));
     print(S(588));
-    sprintcs(u);
-    printchar('=');
-    printfilename(nom, aire, S(385));
+    sprint_cs(u);
+    print_char('=');
+    print_file_name(nom, aire, S(385));
     if (s >= 0) {
         print(S(642));
-        printscaled(s);
+        print_scaled(s);
         print(S(459));
     } else if (s != -1000) {
         print(S(1283));
-        printint(-s);
+        print_int(-s);
     }
     if (fileopened)
         print(S(1289));

@@ -6,16 +6,16 @@
 #include <stdio.h> // FILE
 
 // str[6], tex[1]
-#define maxstrings 300000
+#define MAX_STRINGS 300000
 // inipool[2] only
-#define stringvacancies 8000
+#define STRING_VACANCIES 8000
 // str[4], tex[4]
-#define poolsize 3200000
+#define POOL_SIZE 3200000
 
 
 #ifdef tt_INIT
 // [str], tex
-extern int getstringsstarted(void); // #47
+extern int get_strings_started(void); // #47
 #endif // tt_INIT
 
 // str, tex
@@ -30,14 +30,14 @@ typedef int StrNumber;
 
 // [str], dviout, tex
 extern void str_map(StrNumber k, void (*f)(StrASCIICode));
-extern int flength(StrNumber s);
+extern int str_length(StrNumber s);
 
 // [str][0] only
 // NOTE: _not_use_
 // extern void f_pool(StrNumber s); 
 
 // [str][0], printout[1], tex[16]
-extern void slowprint(StrNumber s);
+extern void slow_print(StrNumber s);
 
 // [str], inipool, tex
 extern long str_adjust_to_room(long l);
@@ -54,14 +54,13 @@ extern void str_print_stats(FILE* f_log_file);
 extern void str_dump(FILE* fmtfile);
 extern int str_undump(FILE* fmtfile, FILE* _not_use_);
 extern void str_cur_map(void (*f)(StrASCIICode));
-extern int get_cur_length(void);
-extern void flushstring(void);
-extern void flushchar(void); // texmax.h
+extern int cur_length(void);
+extern void flush_string(void);
+extern void flush_char(void); // texmax.h
 extern StrNumber idlookup_s(StrNumber s, int nonew);
 extern void printcurrentstring(void);
-extern Boolean streqstr(StrNumber s, StrNumber t);
-extern void appendchar(StrASCIICode s);
-extern void str_appendchar(StrASCIICode s);
+extern Boolean str_eq_str(StrNumber s, StrNumber t);
+extern void append_char(StrASCIICode s);
 extern void str_print(StrNumber s);
 extern int str_valid(StrNumber s);
 extern int str_bcmp(unsigned char* buffp, long l, StrNumber s);

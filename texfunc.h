@@ -10,29 +10,29 @@ extern void overflow(StrNumber s, long n);
 extern void print(StrNumber s);
 
 // [tex], fonts, printout, str
-extern void printint(long n);
+extern void print_int(long n);
 
 // [tex], fonts, printout
-extern void printesc(StrNumber s); 
-extern void printscaled(long s);
+extern void print_esc(StrNumber s); 
+extern void print_scaled(long s);
 
 // [tex], fonts, str
-extern void printchar(ASCIICode s); 
+extern void print_char(ASCIICode s); 
 extern void println(void);
 
 // [tex], printout
-extern void printhex(long n);
-extern void printsize(long s);
+extern void print_hex(long n);
+extern void print_size(long s);
 extern void printskipparam(long n);
 extern void printstyle(long c);
 
 // [tex], fonts
 extern void printnl(StrNumber s);
-extern void printfilename(StrNumber n, StrNumber a, StrNumber e);
+extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
-extern void sprintcs(HalfWord p);
+extern void sprint_cs(HalfWord p);
 extern void error(void);
-extern long xnoverd(long x, long n, long d);
+extern long xn_over_d(long x, long n, long d);
 extern int get_defaultskewchar(void);
 extern int get_defaulthyphenchar(void);
 extern Pointer get_lomemmax(void);
