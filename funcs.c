@@ -1,11 +1,11 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <time.h>
-#include "tex.h"
-#include "str.h"
-#include "funcs.h"
-#include "global.h"
+#include <stdio.h>  // FILE
+#include <string.h> // memcpy, strlen, strcpy, strchr, strcmp, strcat, strncmp 
+#include <stdlib.h> // malloc, exit, getenv,
+#include <time.h>   // tm_struct
+#include "tex.h"    // [macro] bufsize, filenamesize
+#include "str.h"    // [type] StrNumber
+#include "funcs.h"  // [export]
+#include "global.h" // [var] buffer, last, first, nameoffile
 
 static char my_buff[256];
 

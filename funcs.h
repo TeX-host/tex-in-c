@@ -1,6 +1,7 @@
 #pragma once
 #ifndef FUNCS_H
 #define FUNCS_H
+#include <stdio.h> // FILE
 
 // [funcs], tex
 extern int PASCAL_MAIN(int argc, char** argv);
@@ -15,8 +16,5 @@ extern int aopenin(FILE** f);
 
 // [funcs], dviout, tex, texmac.h
 extern int aopenout(FILE** f);
-
-// [tex], inputln, pool_str, str
-extern void overflow(strnumber s, long n);
 
 #endif // #ifndef FUNCS_H

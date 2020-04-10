@@ -1,9 +1,9 @@
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
-/* for fabs() */
-#include <math.h>
+#include <stdio.h>  // FILE
+#include <stdarg.h> // va_start, va_arg, va_end,
+#include <stdlib.h> // labs, abs, exit, EXIT_SUCCESS
+#include <string.h> // memcpy
+#include <math.h>   // fabs
+
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
 #define BIG_CHARNODE
@@ -21,7 +21,7 @@
 
 #include "global_const.h"
 #include "tex_inc.h"
-#include "tex.h"
+#include "tex.h" // [export]
 #include "str.h"
 #include "texmac.h"
 #include "macros.h"
@@ -29,14 +29,12 @@
 #include "global.h"
 #include "printout.h"
 #include "fonts.h"
-#include "texfunc.h"
+#include "inputln.h" // [func] inputln
 #include "dviout.h"
-#include "inputln.h" // inputln
+#include "texfunc.h" // [export]
 
 #define formatextension  S(256)
-
 #define checkinterrupt()  ((interrupt!=0)?(pauseforinstructions(),0):0)
-
 
 
 
@@ -51,16 +49,16 @@ int pack_tok(int cs, int cmd, int chr) {
 }
 
 unsigned char nameoffile[filenamesize];
-ASCIIcode buffer[bufsize + 1];
+ASCIICode buffer[bufsize + 1];
 short first;
 short last;
 short maxbufstack;
-strnumber formatident;
-instaterecord curinput;
+StrNumber formatident;
+InStateRecord curinput;
 jmp_buf _JLfinalend;
-ASCIIcode xord[256];
+ASCIICode xord[256];
 /*13:*/
-Static scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
+Static Scaled texremainder, maxh, maxv, ruleht, ruledp, rulewd;
 
 /*:13*/
 
@@ -87,7 +85,7 @@ Static enum Selector selector; // where to print a message
 Static long tally; // the number of characters recently printed
 Static char termoffset; // the number of characters on the current terminal line
 Static char fileoffset; // the number of characters on the current file line
-Static ASCIIcode trickbuf[errorline + 1]; // circular buffer for pseudoprinting
+Static ASCIICode trickbuf[errorline + 1]; // circular buffer for pseudoprinting
 Static long trickcount, // threshold for pseudoprinting, explained later
             firstcount; // another variable for pseudoprinting
 
@@ -96,45 +94,45 @@ Static long trickcount, // threshold for pseudoprinting, explained later
 Static char interaction;
 /*:73*/
 /*76:*/
-Static boolean deletionsallowed, setboxallowed;
-Static enum _history history;
-Static schar errorcount;
+Static Boolean deletionsallowed, setboxallowed;
+Static enum History history;
+Static SChar errorcount;
 /*:76*/
 /*79:*/
-Static strnumber helpline[6];
+Static StrNumber helpline[6];
 Static unsigned char helpptr;
-Static boolean useerrhelp;
+Static Boolean useerrhelp;
 /*:79*/
 /*96:*/
 Static long interrupt;
-Static boolean OKtointerrupt;
+Static Boolean OKtointerrupt;
 /*:96*/
 /*104:*/
-Static boolean aritherror;
+Static Boolean aritherror;
 /*:104*/
 /*115:*/
-Static pointer tempptr, lomemmax, himemmin;
+Static Pointer tempptr, lomemmax, himemmin;
 /*:115*/
 /*116:*/
-Static memoryword mem[memmax - memmin + 1];
+Static MemoryWord mem[memmax - memmin + 1];
 /*:116*/
 /*117:*/
 Static long varused, dynused;
 /*:117*/
 /*118:*/
-Static pointer avail, memend;
+Static Pointer avail, memend;
 /*:118*/
 /*124:*/
-Static pointer rover, hashused, curcs, warningindex, defref;
+Static Pointer rover, hashused, curcs, warningindex, defref;
 /*:124*/
 
 /// p95#165
 #ifdef tt_DEBUG
-Static uchar   free_[(memmax - memmin + 8) / 8]; // free cells
-Static uchar wasfree[(memmax - memmin + 8) / 8]; // previously free cells
+Static UChar   free_[(memmax - memmin + 8) / 8]; // free cells
+Static UChar wasfree[(memmax - memmin + 8) / 8]; // previously free cells
 // previous mem end, lo mem max, and hi mem min
-Static pointer wasmemend, waslomax, washimin;
-Static boolean panicking; // do we want to check memory constantly?
+Static Pointer wasmemend, waslomax, washimin;
+Static Boolean panicking; // do we want to check memory constantly?
 #endif // #165: tt_DEBUG
 
 /*173:*/
@@ -144,43 +142,43 @@ Static long fontinshortdisplay;
 Static long depththreshold, breadthmax;
 /*:181*/
 /*213:*/
-Static liststaterecord nest[nestsize + 1];
+Static ListStateRecord nest[nestsize + 1];
 Static unsigned char nestptr; /* INT */
 Static char maxneststack;
-Static liststaterecord curlist;
+Static ListStateRecord curlist;
 Static short shownmode;
 /*:213*/
 /*246:*/
 Static char diag_oldsetting;   /*:246*/
 /*253:*/
-Static memoryword eqtb[eqtbsize - activebase + 1];
+Static MemoryWord eqtb[eqtbsize - activebase + 1];
 /*
-extern memoryword eqtb[];
-memoryword * eqtb_foo(void) { return eqtb;}
+extern MemoryWord eqtb[];
+MemoryWord * eqtb_foo(void) { return eqtb;}
 */
-Static quarterword xeqlevel[eqtbsize - intbase + 1];
+Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
 /*:253*/
 /*256:*/
-Static twohalves hash[undefinedcontrolsequence - hashbase];
+Static TwoHalves hash[undefinedcontrolsequence - hashbase];
 Static long cscount;   /*:256*/
 /*271:*/
-Static memoryword savestack[savesize + 1];
+Static MemoryWord savestack[savesize + 1];
 Static short saveptr;
 Static short maxsavestack;
-Static quarterword curlevel;
-Static groupcode curgroup;
+Static QuarterWord curlevel;
+Static GroupCode curgroup;
 Static short curboundary;
 /*:271*/
 /*286:*/
 Static long magset;
 /*:286*/
 /*297:*/
-Static eightbits curcmd;
-Static halfword curchr, curtok;   /*:297*/
+Static EightBits curcmd;
+Static HalfWord curchr, curtok;   /*:297*/
 /*301:*/
-Static instaterecord inputstack[stacksize + 1];
-Static uchar inputptr;
-Static uchar maxinstack;
+Static InStateRecord inputstack[stacksize + 1];
+Static UChar inputptr;
+Static UChar maxinstack;
 /*:301*/
 /*304:*/
 Static char inopen;
@@ -193,7 +191,7 @@ Static long linestack[maxinopen];
 Static char scannerstatus;
 /*:305*/
 /*308:*/
-Static pointer paramstack[paramsize + 1];
+Static Pointer paramstack[paramsize + 1];
 Static /* char */ int paramptr; /* INT */
 Static long maxparamstack;
 /*:308*/
@@ -201,16 +199,16 @@ Static long maxparamstack;
 Static long alignstate;
 /*:309*/
 /*310:*/
-Static uchar baseptr;
+Static UChar baseptr;
 /*:310*/
 /*333:*/
-Static pointer parloc;
-Static halfword partoken;
+Static Pointer parloc;
+Static HalfWord partoken;
 /*:333*/
 /*361:*/
-Static boolean forceeof;   /*:361*/
+Static Boolean forceeof;   /*:361*/
 /*382:*/
-Static pointer curmark[splitbotmarkcode - topmarkcode + 1];   /*:382*/
+Static Pointer curmark[splitbotmarkcode - topmarkcode + 1];   /*:382*/
 /*387:*/
 Static char longstate;
 /*:387*/
@@ -224,14 +222,14 @@ Static char curvallevel;
 Static SmallNumber radix;
 /*:438*/
 /*447:*/
-Static glueord curorder;
+Static GlueOrd curorder;
 /*:447*/
 /*480:*/
 Static FILE *readfile[16];
 Static char readopen[17];
 /*:480*/
 /*489:*/
-Static pointer condptr;
+Static Pointer condptr;
 Static char iflimit;
 Static SmallNumber curif;
 Static long ifline;
@@ -240,132 +238,132 @@ Static long ifline;
 Static long skipline;
 /*:493*/
 /*512:*/
-Static strnumber curname, curarea, curext;
+Static StrNumber curname, curarea, curext;
 /*:512*/
 /*513:*/
-Static strnumber extdelimiter;
+Static StrNumber extdelimiter;
 /*:513*/
 /*520:*/
 Static Char TEXformatdefault[formatdefaultlength];   /*:520*/
 /*527:*/
-Static boolean nameinprogress;
-Static strnumber jobname;
-Static boolean logopened;   /*:527*/
+Static Boolean nameinprogress;
+Static StrNumber jobname;
+Static Boolean logopened;   /*:527*/
 /*532:*/
-Static strnumber outputfilename, logname;   /*:532*/
+Static StrNumber outputfilename, logname;   /*:532*/
 /*555:*/
-Static fourquarters nullcharacter;
+Static FourQuarters nullcharacter;
 /*:555*/
 /*592:*/
 Static long totalpages, maxpush, deadcycles;
-Static boolean doingleaders;
+Static Boolean doingleaders;
 Static long lq, lr;
 /*:592*/
 /*616:*/
-Static scaled dvih, dviv, curh, curv, curmu;
-Static internalfontnumber dvif;
+Static Scaled dvih, dviv, curh, curv, curmu;
+Static InternalFontNumber dvif;
 Static long curs;
 /*:616*/
 /*646:*/
-Static scaled totalstretch[filll - normal + 1],
+Static Scaled totalstretch[filll - normal + 1],
 	      totalshrink[filll - normal + 1];
 Static long lastbadness;
 /*:646*/
 /*647:*/
-Static pointer adjusttail;
+Static Pointer adjusttail;
 /*:647*/
 /*661:*/
 Static long packbeginline;
 /*:661*/
 /*684:*/
-Static twohalves emptyfield;
-Static fourquarters nulldelimiter;
+Static TwoHalves emptyfield;
+Static FourQuarters nulldelimiter;
 /*:684*/
 /*719:*/
-Static pointer curmlist;
+Static Pointer curmlist;
 Static SmallNumber curstyle, cursize;
-Static boolean mlistpenalties;
+Static Boolean mlistpenalties;
 /*:719*/
 /*724:*/
-Static internalfontnumber curf;
-Static quarterword curc;
-Static fourquarters curi;
+Static InternalFontNumber curf;
+Static QuarterWord curc;
+Static FourQuarters curi;
 /*:724*/
 /*764:*/
 /*:764*/
 /*770:*/
-Static pointer curalign, curspan, curloop, alignptr, curhead, curtail;
+Static Pointer curalign, curspan, curloop, alignptr, curhead, curtail;
 /*:770*/
 /*814:*/
-Static pointer justbox;
+Static Pointer justbox;
 /*:814*/
 /*821:*/
-Static pointer passive, printednode;
-Static halfword passnumber;
+Static Pointer passive, printednode;
+Static HalfWord passnumber;
 /*:821*/
 /*823:*/
-Static scaled activewidth[6];
-Static scaled curactivewidth[6];
-Static scaled background[6];
-Static scaled breakwidth[6];
+Static Scaled activewidth[6];
+Static Scaled curactivewidth[6];
+Static Scaled background[6];
+Static Scaled breakwidth[6];
 /*:823*/
 /*825:*/
-Static boolean noshrinkerroryet, secondpass, finalpass;
+Static Boolean noshrinkerroryet, secondpass, finalpass;
 /*:825*/
 /*828:*/
-Static pointer curp;
+Static Pointer curp;
 Static long threshold;
 /*:828*/
 /*833:*/
 Static long minimaldemerits[tightfit - veryloosefit + 1];
 Static long minimumdemerits;
-Static pointer bestplace[tightfit - veryloosefit + 1];
-Static halfword bestplline[tightfit - veryloosefit + 1];
+Static Pointer bestplace[tightfit - veryloosefit + 1];
+Static HalfWord bestplline[tightfit - veryloosefit + 1];
 /*:833*/
 /*839:*/
-Static scaled discwidth, firstwidth, secondwidth, firstindent, secondindent;
+Static Scaled discwidth, firstwidth, secondwidth, firstindent, secondindent;
 /*:839*/
 /*847:*/
-Static halfword easyline, lastspecialline;
+Static HalfWord easyline, lastspecialline;
 /*:847*/
 /*872:*/
-Static pointer bestbet, ha, hb, initlist, curq, ligstack;
+Static Pointer bestbet, ha, hb, initlist, curq, ligstack;
 Static long fewestdemerits;
-Static halfword bestline;
+Static HalfWord bestline;
 Static long actuallooseness, linediff;
 /*:872*/
 /*892:*/
 Static short hc[66];
 Static /* SmallNumber */ int hn;
-Static internalfontnumber hf;
+Static InternalFontNumber hf;
 Static short hu[64];
 Static long hyfchar;
-Static ASCIIcode curlang, initcurlang;
+Static ASCIICode curlang, initcurlang;
 Static long lhyf, rhyf, initlhyf, initrhyf;
-Static halfword hyfbchar;
+Static HalfWord hyfbchar;
 /*:892*/
 /*900:*/
 Static char hyf[65];
-Static boolean initlig, initlft;
+Static Boolean initlig, initlft;
 /*:900*/
 /*905:*/
 Static SmallNumber hyphenpassed;
 /*:905*/
 /*907:*/
-Static halfword curl, curr;
-Static boolean ligaturepresent, lfthit, rthit;
+Static HalfWord curl, curr;
+Static Boolean ligaturepresent, lfthit, rthit;
 /*:907*/
 /*921:*/
-Static twohalves trie[triesize + 1];
+Static TwoHalves trie[triesize + 1];
 Static SmallNumber hyfdistance[trieopsize];
 Static SmallNumber hyfnum[trieopsize];
-Static quarterword hyfnext[trieopsize];
+Static QuarterWord hyfnext[trieopsize];
 Static short opstart[256];
 /*:921*/
 /*926:*/
-Static strnumber hyphword[hyphsize + 1];
-Static pointer hyphlist[hyphsize + 1];
-Static hyphpointer hyphcount;
+Static StrNumber hyphword[hyphsize + 1];
+Static Pointer hyphlist[hyphsize + 1];
+Static HyphPointer hyphcount;
 /*:926*/
 
 
@@ -375,72 +373,72 @@ Static hyphpointer hyphcount;
 // trie op codes for quadruples
 Static short trieophash[trieopsize + trieopsize + 1];
 // largest opcode used so far for this language
-Static quarterword trieused[256];
+Static QuarterWord trieused[256];
 // language part of a hashed quadruple
-Static ASCIIcode trieoplang[trieopsize];
+Static ASCIICode trieoplang[trieopsize];
 // opcode corresponding to a hashed quadruple
-Static quarterword trieopval[trieopsize];
+Static QuarterWord trieopval[trieopsize];
 // number of stored ops so far
 Static short trieopptr;
 
 /// #947
 // characters to match
-Static packedASCIIcode triec[triesize + 1];
+Static PackedASCIICode triec[triesize + 1];
 // operations to perform
-Static quarterword trieo[triesize + 1];
+Static QuarterWord trieo[triesize + 1];
 // left subtrie links
-Static triepointer triel[triesize + 1];
+Static TriePointer triel[triesize + 1];
 // right subtrie links
-Static triepointer trier[triesize + 1];
+Static TriePointer trier[triesize + 1];
 // the number of nodes in the trie
-Static triepointer trieptr;
+Static TriePointer trieptr;
 // used to identify equivalent subtries
-Static triepointer triehash[triesize + 1];
+Static TriePointer triehash[triesize + 1];
 
 /// #950
 // does a family start here?
-Static uchar trietaken[(triesize + 7) / 8];
+Static UChar trietaken[(triesize + 7) / 8];
 // the first possible slot for each character
-Static triepointer triemin[256];
+Static TriePointer triemin[256];
 // largest location used in trie
-Static triepointer triemax;
+Static TriePointer triemax;
 // is the trie still in linked form?
 // xref: 891, [950], 951, 960, 966, 1324, 1325
-Static boolean trie_not_ready;
+Static Boolean trie_not_ready;
 #endif // #943,947,950: tt_INIT
 
 
 /*971:*/
-Static scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
+Static Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
 /*:971*/
 /*980:*/
-Static pointer pagetail, bestpagebreak, lastglue, mainp;
+Static Pointer pagetail, bestpagebreak, lastglue, mainp;
 Static char pagecontents;
 Static long leastpagecost;
 /*:980*/
 /*982:*/
-Static scaled pagesofar[8];
+Static Scaled pagesofar[8];
 Static long lastpenalty, insertpenalties;
 /*:982*/
 /*989:*/
-Static boolean outputactive;
+Static Boolean outputactive;
 /*:989*/
 /*1032:*/
-Static internalfontnumber mainf;
-Static fourquarters maini, mainj;
-Static fontindex maink;
+Static InternalFontNumber mainf;
+Static FourQuarters maini, mainj;
+Static FontIndex maink;
 Static long mains;
-Static halfword bchar, falsebchar;
-Static boolean cancelboundary, insdisc;
+Static HalfWord bchar, falsebchar;
+Static Boolean cancelboundary, insdisc;
 /*:1032*/
 /*1074:*/
-Static pointer curbox;
+Static Pointer curbox;
 /*:1074*/
 /*1266:*/
-Static halfword aftertoken;
+Static HalfWord aftertoken;
 /*:1266*/
 /*1281:*/
-Static boolean longhelpseen;
+Static Boolean longhelpseen;
 /*:1281*/
 /*1299:*/
 /*:1299*/
@@ -449,10 +447,10 @@ Static FILE *fmtfile = NULL;
 /*:1305*/
 /*1342:*/
 Static FILE *writefile[16];
-Static boolean writeopen[18];
+Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/
-Static pointer writeloc;   /*:1345*/
+Static Pointer writeloc;   /*:1345*/
 
 
 int niezgodnosc(int x) { return x; }
@@ -461,11 +459,11 @@ int get_defaulthyphenchar(void) { return defaulthyphenchar; }
 
 int get_defaultskewchar(void) { return defaultskewchar; }
 
-pointer get_lomemmax(void) { return lomemmax; }
+Pointer get_lomemmax(void) { return lomemmax; }
 
-strnumber fontidtext(internalfontnumber x) { return text(fontidbase + x); }
+StrNumber fontidtext(InternalFontNumber x) { return text(fontidbase + x); }
 
-void set_fontidtext(internalfontnumber x, strnumber t) {
+void set_fontidtext(InternalFontNumber x, StrNumber t) {
     text(fontidbase + x) = t;
 }
 
@@ -497,7 +495,7 @@ Static void initialize(void) { /*:927*/
     long k;
     /*:163*/
     /*927:*/
-    hyphpointer z;
+    HyphPointer z;
 
 /// p5#8: Initialize whatever T E X might access
 
@@ -877,7 +875,7 @@ void println(void) {
 /*:57*/
 
 /*58:*/
-void printchar(ASCIIcode s) {
+void printchar(ASCIICode s) {
     /*244:*/
     if (s == newlinechar) { /*:244*/
         if (selector < PSEUDO) {
@@ -937,7 +935,7 @@ void printchar(ASCIIcode s) {
 /*:58*/
 
 /// p26#59: prints string s
-void print(strnumber s) {
+void print(StrNumber s) {
     long nl; // new-line character to restore
 
     if (0 <= s && s <= 255) {
@@ -965,7 +963,7 @@ void print(strnumber s) {
 } // #59: print
 
 /*62:*/
-void printnl(strnumber s)
+void printnl(StrNumber s)
 {
   if ( (termoffset > 0 && (selector & 1)) ||
       (fileoffset > 0 && selector >= LOG_ONLY))
@@ -975,7 +973,7 @@ void printnl(strnumber s)
 /*:62*/
 
 /*63:*/
-void printesc(strnumber s)
+void printesc(StrNumber s)
 {  /*243:*/
   long c;
 
@@ -989,7 +987,7 @@ void printesc(strnumber s)
 /*:63*/
 
 /*64:*/
-Static void printthedigs(eightbits k, char * dig)
+Static void printthedigs(EightBits k, char * dig)
 {
   while (k > 0) {
     k--;
@@ -1070,7 +1068,7 @@ Static void printcs(long p)
 /*:262*/
 
 /*263:*/
-void sprintcs(halfword p)
+void sprintcs(HalfWord p)
 {
   if (p >= hashbase) {
     printesc(text(p));
@@ -1090,7 +1088,7 @@ void sprintcs(halfword p)
 
 
 /*518:*/
-void printfilename(strnumber n, strnumber a, strnumber e)
+void printfilename(StrNumber n, StrNumber a, StrNumber e)
 {
   slowprint(a);
   slowprint(n);
@@ -1112,7 +1110,7 @@ void printsize(long s) {
 
 
 /*1355:*/
-Static void printwritewhatsit(strnumber s, halfword p) {
+Static void printwritewhatsit(StrNumber s, HalfWord p) {
     printesc(s);
     if (writestream(p) < 16) {
         printint(writestream(p));
@@ -1153,7 +1151,7 @@ void error(void) {
     showcontext();
     if (interaction == errorstopmode) { /*83:*/
         while (true) {                  /*:83*/
-            ASCIIcode c;
+            ASCIICode c;
 _Llabcontinue:
             clearforerrorprompt();
             print(S(269));
@@ -1332,7 +1330,7 @@ Static void succumb(void) {
 }
 
 /// p36#93: 
-Static void fatalerror(strnumber s) {
+Static void fatalerror(StrNumber s) {
     normalizeselector();
     printnl(S(292));
     print(S(293));
@@ -1343,7 +1341,7 @@ Static void fatalerror(strnumber s) {
 
 
 /*94:*/
-void overflow(strnumber s, long n) {
+void overflow(StrNumber s, long n) {
     normalizeselector();
     printnl(S(292));
     print(S(294));
@@ -1358,7 +1356,7 @@ void overflow(strnumber s, long n) {
 
 
 /*95:*/
-Static void confusion(strnumber s) {
+Static void confusion(StrNumber s) {
     normalizeselector();
     if (history < ERROR_MESSAGE_ISSUED) {
         printnl(S(292));
@@ -1394,7 +1392,7 @@ Static void wclose(FILE **f)
 
 
 /*37:*/
-Static boolean initterminal(void)
+Static Boolean initterminal(void)
 {
     // topenin();
   if (initinc(1)) {
@@ -1451,7 +1449,7 @@ void printhex(long n)
 /*69:*/
 Static void printromanint(long n) {
     int j, k;
-    nonnegativeinteger u, v;
+    NonNegativeInteger u, v;
     static char romstr[] = "m2d5c2l5x2v5i";
 
     j = 0;
@@ -1576,7 +1574,7 @@ Static long rounddecimals(int k, char * digs )
 /*103:*/
 void printscaled(long s)
 {
-  scaled delta;
+  Scaled delta;
 
   if (s < 0) {
     printchar('-');
@@ -1620,7 +1618,7 @@ Static long multandadd(long n, long x, long y, long maxanswer)
 Static long xovern(long x, long n)
 {
   long Result;
-  boolean negative;
+  Boolean negative;
 
   negative = false;
   if (n == 0) {
@@ -1651,8 +1649,8 @@ Static long xovern(long x, long n)
 long xnoverd(long x, long n, long d)
 {
   long Result;
-  boolean positive;
-  nonnegativeinteger t, u, v;
+  Boolean positive;
+  NonNegativeInteger t, u, v;
 
   if (x >= 0)
     positive = true;
@@ -1679,7 +1677,7 @@ long xnoverd(long x, long n, long d)
 /*:107*/
 
 /*108:*/
-Static halfword badness(long t, long s)
+Static HalfWord badness(long t, long s)
 {
   long r;
 
@@ -1704,7 +1702,7 @@ Static halfword badness(long t, long s)
 
 /// p43#114
 #ifdef tt_DEBUG
-Static void printword(memoryword w) {
+Static void printword(MemoryWord w) {
     printint(w.int_);
     printchar(' ');
     printscaled(w.sc);
@@ -1734,7 +1732,7 @@ Static void printword(memoryword w) {
 Static void showtokenlist(long p, long q, long l)
 {
   long m, c;
-  ASCIIcode matchchr, n;
+  ASCIICode matchchr, n;
 
   matchchr = '#';
   n = '0';
@@ -1815,7 +1813,7 @@ _Lexit: ;
 /*306:*/
 Static void runaway(void)
 {
-  pointer p=0 /* XXXX */;
+  Pointer p=0 /* XXXX */;
 
   if (scannerstatus <= skipping)
     return;
@@ -1850,8 +1848,8 @@ Static void runaway(void)
 /*:119*/
 
 /// p46#120: single-word node allocation
-Static pointer get_avail(void) {
-    pointer p;
+Static Pointer get_avail(void) {
+    Pointer p;
 
     p = avail;
     if (p != 0)
@@ -1876,8 +1874,8 @@ Static pointer get_avail(void) {
 } // #120: get_avail
 
 /// p46#123: makes list of single-word nodes available
-Static void flushlist(halfword p) {
-    pointer q, r;
+Static void flushlist(HalfWord p) {
+    Pointer q, r;
 
     if (p == 0) return;
     r = p;
@@ -1894,9 +1892,9 @@ Static void flushlist(halfword p) {
 
 
 /// #125
-Static halfword getnode(long s) {
-    halfword Result;
-    pointer p, q;
+Static HalfWord getnode(long s) {
+    HalfWord Result;
+    Pointer p, q;
     long r, t;
 
 _Lrestart:
@@ -1969,8 +1967,8 @@ _Lexit:
 } // #125: getnode
 
 /// p48#130: variable-size node liberation
-Static void freenode(pointer p, halfword s) {
-    pointer q;
+Static void freenode(Pointer p, HalfWord s) {
+    Pointer q;
 
     nodesize(p) = s;
     link(p) = emptyflag;
@@ -1989,7 +1987,7 @@ Static void freenode(pointer p, halfword s) {
 /// p49#131: sorts the available variable-size nodes by location
 Static void sort_avail(void)
 {   // used at #1311
-    pointer p, q, r,  // indices into mem
+    Pointer p, q, r,  // indices into mem
             oldrover; // initial rover setting
 
     p = getnode(1073741824L); // merge adjacent free areas
@@ -2028,9 +2026,9 @@ Static void sort_avail(void)
 
 
 /*136:*/
-Static pointer newnullbox(void)
+Static Pointer newnullbox(void)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(boxnodesize);
   type(p) = hlistnode;
@@ -2048,9 +2046,9 @@ Static pointer newnullbox(void)
 /*:136*/
 
 /*139:*/
-Static pointer newrule(void)
+Static Pointer newrule(void)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(rulenodesize);
   type(p) = rulenode;
@@ -2063,9 +2061,9 @@ Static pointer newrule(void)
 /*:139*/
 
 /*144:*/
-Static pointer newligature(quarterword f, quarterword c, pointer q)
+Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = ligaturenode;
@@ -2077,9 +2075,9 @@ Static pointer newligature(quarterword f, quarterword c, pointer q)
 }
 
 
-Static pointer newligitem(quarterword c)
+Static Pointer newligitem(QuarterWord c)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   character(p) = c;
@@ -2089,9 +2087,9 @@ Static pointer newligitem(quarterword c)
 /*:144*/
 
 /*145:*/
-Static pointer newdisc(void)
+Static Pointer newdisc(void)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = discnode;
@@ -2103,9 +2101,9 @@ Static pointer newdisc(void)
 /*:145*/
 
 /*147:*/
-Static pointer newmath(long w, SmallNumber s)
+Static Pointer newmath(long w, SmallNumber s)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = mathnode;
@@ -2116,9 +2114,9 @@ Static pointer newmath(long w, SmallNumber s)
 /*:147*/
 
 /*151:*/
-Static pointer newspec(pointer p)
+Static Pointer newspec(Pointer p)
 {
-  pointer q;
+  Pointer q;
 
   q = getnode(gluespecsize);
   mem[q - memmin] = mem[p - memmin];
@@ -2131,9 +2129,9 @@ Static pointer newspec(pointer p)
 /*:151*/
 
 /*152:*/
-Static pointer newparamglue(SmallNumber n)
+Static Pointer newparamglue(SmallNumber n)
 {
-  pointer p, q;
+  Pointer p, q;
 
   p = getnode(smallnodesize);
   type(p) = gluenode;
@@ -2148,9 +2146,9 @@ Static pointer newparamglue(SmallNumber n)
 /*:152*/
 
 /*153:*/
-Static pointer newglue(pointer q)
+Static Pointer newglue(Pointer q)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = gluenode;
@@ -2163,9 +2161,9 @@ Static pointer newglue(pointer q)
 /*:153*/
 
 /*154:*/
-Static pointer newskipparam(SmallNumber n)
+Static Pointer newskipparam(SmallNumber n)
 {
-  pointer p;
+  Pointer p;
 
   tempptr = newspec(gluepar(n));   /*224:*/
   /*:224*/
@@ -2177,9 +2175,9 @@ Static pointer newskipparam(SmallNumber n)
 /*:154*/
 
 /*156:*/
-Static pointer newkern(long w)
+Static Pointer newkern(long w)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = kernnode;
@@ -2190,9 +2188,9 @@ Static pointer newkern(long w)
 /*:156*/
 
 /*158:*/
-Static pointer newpenalty(long m)
+Static Pointer newpenalty(long m)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(smallnodesize);
   type(p) = penaltynode;
@@ -2204,10 +2202,10 @@ Static pointer newpenalty(long m)
 
 /// p60#167
 #ifdef tt_DEBUG
-Static void checkmem(boolean printlocs) {
-    pointer p, q;
-    boolean clobbered;
-    halfword FORLIM;
+Static void checkmem(Boolean printlocs) {
+    Pointer p, q;
+    Boolean clobbered;
+    HalfWord FORLIM;
 
     for (p = memmin; p <= lomemmax; p++)
         P_clrbits_B(free_, p - memmin, 0, 3);
@@ -2313,7 +2311,7 @@ _Ldone2: /*:169*/
 } // #164: checkmem
 
 /// p61#172
-Static void searchmem(pointer p) {
+Static void searchmem(Pointer p) {
     long q;
 
     for (q = memmin; q <= lomemmax; q++) {
@@ -2368,7 +2366,7 @@ Static void searchmem(pointer p) {
 #endif // #167,172: tt_DEBUG
 
 /*174:*/
-Static void shortdisplay(pointer p)
+Static void shortdisplay(Pointer p)
 {
   long n;
 
@@ -2434,7 +2432,7 @@ Static void shortdisplay(pointer p)
 /*:174*/
 
 /*176:*/
-Static void printfontandchar(pointer p)
+Static void printfontandchar(Pointer p)
 {
   if (p > memend) {
     printesc(S(308));
@@ -2471,7 +2469,7 @@ Static void printruledimen(long d)
 /*:176*/
 
 /*177:*/
-Static void printglue(long d, long order, strnumber s)
+Static void printglue(long d, long order, StrNumber s)
 {
   printscaled(d);
   if ((unsigned long)order > filll) {
@@ -2492,7 +2490,7 @@ Static void printglue(long d, long order, strnumber s)
 /*:177*/
 
 /*178:*/
-Static void printspec(long p, strnumber s)
+Static void printspec(long p, StrNumber s)
 {
   if ( p >= lomemmax) {
     printchar('*');
@@ -2513,7 +2511,7 @@ Static void printspec(long p, strnumber s)
 /*:178*/
 
 /*691:*/
-Static void printfamandchar(halfword p)
+Static void printfamandchar(HalfWord p)
 {
   printesc(S(333));
   printint(fam(p));
@@ -2522,7 +2520,7 @@ Static void printfamandchar(halfword p)
 }
 
 
-Static void printdelimiter(halfword p)
+Static void printdelimiter(HalfWord p)
 {
   long a;
 
@@ -2539,7 +2537,7 @@ Static void printdelimiter(halfword p)
 Static void showinfo(void);
 
 
-Static void printsubsidiarydata(halfword p, ASCIIcode c)
+Static void printsubsidiarydata(HalfWord p, ASCIICode c)
 {
   if (get_cur_length() >= depththreshold) {
     if (mathtype(p) != empty)
@@ -2902,7 +2900,7 @@ Static void shownodelist(long p)
       case ligaturenode:   /*193:*/
 #ifdef BIG_CHARNODE
 	{
-	pointer pp=get_avail();
+	Pointer pp=get_avail();
 	type(pp) = charnodetype;
 	font(pp) = font_ligchar(p);
 	character(pp) = character_ligchar(p);
@@ -3108,7 +3106,7 @@ _Lexit: ;
 /*:182*/
 
 /*198:*/
-Static void showbox(halfword p)
+Static void showbox(HalfWord p)
 {  /*236:*/
   depththreshold = showboxdepth;
   breadthmax = showboxbreadth;   /*:236*/
@@ -3126,7 +3124,7 @@ Static void showbox(halfword p)
 /*:198*/
 
 /*200:*/
-Static void deletetokenref(halfword p)
+Static void deletetokenref(HalfWord p)
 {
   if (tokenrefcount(p) == 0)
     flushlist(p);
@@ -3136,15 +3134,15 @@ Static void deletetokenref(halfword p)
 /*:200*/
 
 /*201:*/
-Static void deleteglueref(halfword p)
+Static void deleteglueref(HalfWord p)
 {
   karmafastdeleteglueref(p);
 }
 /*:201*/
 
 /*202:*/
-Static void flushnodelist(halfword p) {
-    pointer q;
+Static void flushnodelist(HalfWord p) {
+    Pointer q;
 
     while (p != 0) {
         q = link(p);
@@ -3296,9 +3294,9 @@ _Ldone:;
 /*:202*/
 
 /*204:*/
-Static halfword copynodelist(halfword p)
+Static HalfWord copynodelist(HalfWord p)
 {
-  pointer h, q, r=0 /* XXXX */;
+  Pointer h, q, r=0 /* XXXX */;
   char words;
 
   h = get_avail();
@@ -3492,7 +3490,7 @@ Static void printtotals(void);
 
 Static void showactivities(void)
 {
-  pointer q, r;
+  Pointer q, r;
   long t;
   short TEMP;
 
@@ -3502,7 +3500,7 @@ Static void showactivities(void)
   for (TEMP = nestptr; TEMP >= 0; TEMP--) {
     int p = TEMP;
     short m = nest[p].modefield;
-    memoryword a = nest[p].auxfield;
+    MemoryWord a = nest[p].auxfield;
     printnl(S(439));
     printmode(m);
     print(S(440));
@@ -3607,7 +3605,7 @@ Static void begindiagnostic(void) {
     if (history == SPOTLESS) history = WARNING_ISSUED;
 }
 
-Static void enddiagnostic(boolean blankline) {
+Static void enddiagnostic(Boolean blankline) {
     printnl(S(385));
     if (blankline) println();
     selector = diag_oldsetting;
@@ -3616,7 +3614,7 @@ Static void enddiagnostic(boolean blankline) {
 
 #ifdef tt_STAT
 /// #252:
-Static void showeqtb(halfword n) {
+Static void showeqtb(HalfWord n) {
     if (n < activebase) {
         printchar('?');
         return;
@@ -3771,17 +3769,17 @@ Static void showeqtb(halfword n) {
 
 
 /*
-Static halfword idlookup(long j, long l)
+Static HalfWord idlookup(long j, long l)
 {
 	return idlookup_p(buffer+j,l);
 }
 */
 
 /*259:*/
-halfword idlookup_p(unsigned char* buffp, long l, int no_new) {
+HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
     /*261:*/
     long h;
-    pointer p, k;
+    Pointer p, k;
 
     h = buffp[0];
     for (k = 1; k < l; k++) {
@@ -3825,7 +3823,7 @@ _Lfound:
 
 /// p105#264
 #ifdef tt_INIT
-Static void primitive(strnumber s, quarterword c, halfword o) {
+Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
     if (s < 256) {
         curval = s + singlebase;
     } else {
@@ -3843,7 +3841,7 @@ Static void primitive(strnumber s, quarterword c, halfword o) {
 #endif // #264: tt_INIT
 
 /*274:*/
-Static void newsavelevel(groupcode c)
+Static void newsavelevel(GroupCode c)
 {
   if (saveptr > maxsavestack) {
     maxsavestack = saveptr;
@@ -3863,9 +3861,9 @@ Static void newsavelevel(groupcode c)
 /*:274*/
 
 /*275:*/
-Static void eqdestroy(memoryword w)
+Static void eqdestroy(MemoryWord w)
 {
-  pointer q;
+  Pointer q;
 
   switch (eqtypefield(w)) {
 
@@ -3894,7 +3892,7 @@ Static void eqdestroy(memoryword w)
 /*:275*/
 
 /*276:*/
-Static void eqsave(halfword p, quarterword l)
+Static void eqsave(HalfWord p, QuarterWord l)
 {
   if (saveptr > maxsavestack) {
     maxsavestack = saveptr;
@@ -3915,7 +3913,7 @@ Static void eqsave(halfword p, quarterword l)
 /*:276*/
 
 /*277:*/
-Static void eqdefine(halfword p, quarterword t, halfword e)
+Static void eqdefine(HalfWord p, QuarterWord t, HalfWord e)
 {
   if (eqlevel(p) == curlevel)
     eqdestroy(eqtb[p - activebase]);
@@ -3928,7 +3926,7 @@ Static void eqdefine(halfword p, quarterword t, halfword e)
 /*:277*/
 
 /*278:*/
-Static void eqworddefine(halfword p, long w)
+Static void eqworddefine(HalfWord p, long w)
 {
   if (xeqlevel[p - intbase] != curlevel) {
     eqsave(p, xeqlevel[p - intbase]);
@@ -3939,7 +3937,7 @@ Static void eqworddefine(halfword p, long w)
 /*:278*/
 
 /*279:*/
-Static void geqdefine(halfword p, quarterword t, halfword e)
+Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e)
 {
   eqdestroy(eqtb[p - activebase]);
   eqlevel(p) = levelone;
@@ -3948,7 +3946,7 @@ Static void geqdefine(halfword p, quarterword t, halfword e)
 }
 
 
-Static void geqworddefine(halfword p, long w)
+Static void geqworddefine(HalfWord p, long w)
 {
   eqtb[p - activebase].int_ = w;
   xeqlevel[p - intbase] = levelone;
@@ -3956,7 +3954,7 @@ Static void geqworddefine(halfword p, long w)
 /*:279*/
 
 /*280:*/
-Static void saveforafter(halfword t)
+Static void saveforafter(HalfWord t)
 {
   if (curlevel <= levelone)
     return;
@@ -3975,7 +3973,7 @@ Static void saveforafter(halfword t)
 /*281:*/
 #ifdef tt_STAT
 /// #284
-Static void restoretrace(halfword p, strnumber s) {
+Static void restoretrace(HalfWord p, StrNumber s) {
     begindiagnostic();
     printchar('{');
     print(s);
@@ -3991,8 +3989,8 @@ Static void backinput(void);
 
 
 Static void unsave(void) {
-    pointer p;
-    quarterword l = 0 /* XXXX */;
+    Pointer p;
+    QuarterWord l = 0 /* XXXX */;
 
     if (curlevel <= levelone) {
         confusion(S(478));
@@ -4004,7 +4002,7 @@ Static void unsave(void) {
         if (savetype(saveptr) == levelboundary) break;
         p = saveindex(saveptr);
         if (savetype(saveptr) == inserttoken) { /*326:*/
-            halfword t = curtok;
+            HalfWord t = curtok;
             curtok = p;
             backinput();
             curtok = t;
@@ -4075,7 +4073,7 @@ Static void preparemag(void)
 /*:288*/
 
 /*295:*/
-Static void tokenshow(halfword p)
+Static void tokenshow(HalfWord p)
 {
   if (p != 0)
     showtokenlist(link(p), 0, 10000000L);
@@ -4121,7 +4119,7 @@ Static void showcontext(void)
 {   /*:315*/
   enum Selector old_setting;
   long nn;
-  boolean bottomline;   /*315:*/
+  Boolean bottomline;   /*315:*/
   short i;
   short j;
   char l;
@@ -4305,7 +4303,7 @@ _Ldone:
 /*:311*/
 
 /*323:*/
-Static void begintokenlist(halfword p, quarterword t)
+Static void begintokenlist(HalfWord p, QuarterWord t)
 {
   if (inputptr > maxinstack) {
     maxinstack = inputptr;
@@ -4380,7 +4378,7 @@ Static void endtokenlist(void)
 /*325:*/
 Static void backinput(void)
 {
-  pointer p;
+  Pointer p;
 
   while (state == tokenlist && loc == 0)
     endtokenlist();
@@ -4474,7 +4472,7 @@ Static void clearforerrorprompt(void)
 /*336:*/
 Static int checkoutervalidity(int local_curcs)
 {
-  pointer p, q;
+  Pointer p, q;
   if (scannerstatus == normal)
     return local_curcs;
   deletionsallowed = false;   /*337:*/
@@ -4563,11 +4561,11 @@ Static void firmuptheline(void);
 /*:340*/
 
 /*341:*/
-Static void getnext_worker(boolean no_new_control_sequence)
+Static void getnext_worker(Boolean no_new_control_sequence)
 {
   short k;
   char cat;
-  ASCIIcode c, cc=0 /* XXXX */;
+  ASCIICode c, cc=0 /* XXXX */;
   char d;
   int cur_cs, cur_chr, cur_cmd;
 _Lrestart:
@@ -4888,7 +4886,7 @@ _Lfound:
     }
     /*:344*/
   } else {  /*357:*/
-    halfword t;
+    HalfWord t;
     if (loc == 0) {
       endtokenlist();
       goto _Lrestart;
@@ -5004,9 +5002,9 @@ Static void gettoken(void)
 /*:365*/
 
 /*396:*/
-Static void report_argument(halfword unbalance, int n, pointer * pstack)
+Static void report_argument(HalfWord unbalance, int n, Pointer * pstack)
 {
-    halfword m;
+    HalfWord m;
     if (longstate == call) {
         runaway();
         printnl(S(292));
@@ -5027,14 +5025,14 @@ Static void report_argument(halfword unbalance, int n, pointer * pstack)
 /*:396*/
 /*366:*/
 /*389:*/
-Static void macrocall(pointer refcount)
+Static void macrocall(Pointer refcount)
 {
-  pointer r, p=0 /* XXXX */, s, t, u, v, rbraceptr=0 /* XXXX */, savewarningindex;
+  Pointer r, p=0 /* XXXX */, s, t, u, v, rbraceptr=0 /* XXXX */, savewarningindex;
   /* SmallNumber */ int n;
-  halfword unbalance, m=0 /* XXXX */;
+  HalfWord unbalance, m=0 /* XXXX */;
   SmallNumber savescannerstatus;
-  ASCIIcode matchchr=0 /* XXXX */;
-  pointer pstack[9];
+  ASCIICode matchchr=0 /* XXXX */;
+  Pointer pstack[9];
 
   savescannerstatus = scannerstatus;
   savewarningindex = warningindex;
@@ -5274,8 +5272,8 @@ Static void skip_spaces_or_relax(void)
 
 Static void expand(void)
 {
-  halfword t;
-  pointer p, r, backupbackup;
+  HalfWord t;
+  Pointer p, r, backupbackup;
   short j;
   long cvbackup;
   SmallNumber cvlbackup, radixbackup, cobackup, savescannerstatus;
@@ -5509,18 +5507,18 @@ Static void scanoptionalequals(void)
 /*:405*/
 
 /*407:*/
-Static boolean scankeyword(strnumber s)
+Static Boolean scankeyword(StrNumber s)
 {
-  boolean Result;
+  Boolean Result;
 #if 1
-  pointer p = get_avail();
-  pointer my_backup_head = p;
+  Pointer p = get_avail();
+  Pointer my_backup_head = p;
 #else
-  pointer my_backup_head = backuphead;
-  pointer p = backuphead;
+  Pointer my_backup_head = backuphead;
+  Pointer p = backuphead;
 #endif
 #if 0
-  poolpointer k;
+  PoolPtr k;
 #else
   int k;
   int k_e;
@@ -5657,8 +5655,8 @@ Static void scantwentysevenbitint(void)
 /*577:*/
 Static void scanfontident(void)
 {   /*406:*/
-  internalfontnumber f;
-  halfword m;
+  InternalFontNumber f;
+  HalfWord m;
 
   skip_spaces();
   if (curcmd == deffont)
@@ -5682,9 +5680,9 @@ Static void scanfontident(void)
 /*:577*/
 
 /*578:*/
-Static void findfontdimen(boolean writing)
+Static void findfontdimen(Boolean writing)
 {
-  internalfontnumber f;
+  InternalFontNumber f;
   long n;
 
   scanint();
@@ -5732,9 +5730,9 @@ Static void findfontdimen(boolean writing)
 
 /*:409*/
 /*413:*/
-Static void scansomethinginternal(SmallNumber level, boolean negative)
+Static void scansomethinginternal(SmallNumber level, Boolean negative)
 {
-  halfword m;
+  HalfWord m;
   /* char */ int p; /* INT */
 
   m = curchr;
@@ -6038,10 +6036,10 @@ Static void scansomethinginternal(SmallNumber level, boolean negative)
 /*440:*/
 Static void scanint(void)
 {
-  boolean negative;
+  Boolean negative;
   long m;
   SmallNumber d;
-  boolean vacuous, OKsofar;
+  Boolean vacuous, OKsofar;
 
   radix = 0;
   OKsofar = true;   /*441:*/
@@ -6146,15 +6144,15 @@ _Ldone:   /*:445*/
 /*:440*/
 
 /*448:*/
-Static void scandimen(boolean mu, boolean inf, boolean shortcut)
+Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 {
-  boolean negative;
+  Boolean negative;
   long f;
   /*450:*/
   long num, denom;
   /* SmallNumber */ int k, kk; /* INT */
-  pointer p, q;
-  scaled v;
+  Pointer p, q;
+  Scaled v;
   long savecurval;   /*:450*/
   char digs[23];
 
@@ -6387,8 +6385,8 @@ _Lattachsign_:
 /*461:*/
 Static void scanglue(SmallNumber level)
 {
-  boolean negative, mu;
-  pointer q;
+  Boolean negative, mu;
+  Pointer q;
 
   mu = (level == muval);   /*441:*/
   negative = false;
@@ -6434,9 +6432,9 @@ _Lexit: ;
 /*:461*/
 
 /*463:*/
-Static halfword scanrulespec(void)
+Static HalfWord scanrulespec(void)
 {
-  pointer q;
+  Pointer q;
 
   q = newrule();
   if (curcmd == vrule)
@@ -6466,12 +6464,12 @@ _Lreswitch:
 
 /*464:*/
 
-pointer tex_global_p;
+Pointer tex_global_p;
 
-Static void strtoks_helper(strASCIIcode t)
+Static void strtoks_helper(StrASCIICode t)
 {
     long tt=t;
-    pointer p=tex_global_p;
+    Pointer p=tex_global_p;
     if (tt == ' ')
       tt = spacetoken;
     else
@@ -6480,9 +6478,9 @@ Static void strtoks_helper(strASCIIcode t)
     tex_global_p=p;
 }
 
-Static halfword strtoks(str_poolpointer b)
+Static HalfWord strtoks(StrPoolPtr b)
 {
-  pointer p;
+  Pointer p;
   str_room(1);
   p = temphead;
   link(p) = 0;
@@ -6494,10 +6492,10 @@ Static halfword strtoks(str_poolpointer b)
 /*:464*/
 
 /*465:*/
-Static halfword thetoks(void)
+Static HalfWord thetoks(void)
 {
   enum Selector old_setting;
-  pointer p, r;
+  Pointer p, r;
 
   getxtoken();
   scansomethinginternal(tokval, false);
@@ -6517,7 +6515,7 @@ Static halfword thetoks(void)
     }
     return p;
   } else {
-    str_poolpointer b = str_mark();
+    StrPoolPtr b = str_mark();
     old_setting = selector;
     selector = NEW_STRING;
     switch (curvallevel) {
@@ -6563,7 +6561,7 @@ Static void convtoks(void)
   enum Selector old_setting;
   char c;
   SmallNumber savescannerstatus;
-  str_poolpointer b;
+  StrPoolPtr b;
 
   c = curchr;   /*471:*/
   switch (c) {   /*:471*/
@@ -6634,10 +6632,10 @@ Static void convtoks(void)
 }  /*:470*/
 
 /*473:*/
-Static halfword scantoks(boolean macrodef, boolean xpand)
+Static HalfWord scantoks(Boolean macrodef, Boolean xpand)
 {
-  halfword t, s, unbalance, hashbrace;
-  pointer p;
+  HalfWord t, s, unbalance, hashbrace;
+  Pointer p;
 
   if (macrodef)
     scannerstatus = defining;
@@ -6712,7 +6710,7 @@ _Ldone: ;
 	if (curcmd != the)
 	  expand();
 	else {
-	  pointer q = thetoks();
+	  Pointer q = thetoks();
 	  if (link(temphead) != 0) {
 	    link(p) = link(temphead);
 	    p = q;
@@ -6768,8 +6766,8 @@ _Lfound:
 
 
 /*482:*/
-Static void readtoks(long n, halfword r) {
-    pointer p;
+Static void readtoks(long n, HalfWord r) {
+    Pointer p;
     long s;
     /* SmallNumber */ int m; /* INT */
 
@@ -6878,8 +6876,8 @@ Static void passtext(void) {
 /*:494*/
 
 /*497:*/
-Static void changeiflimit(SmallNumber l, halfword p) {
-    pointer q;
+Static void changeiflimit(SmallNumber l, HalfWord p) {
+    Pointer q;
 
     if (p == condptr)
         iflimit = l;
@@ -6907,10 +6905,10 @@ Static void changeiflimit(SmallNumber l, halfword p) {
 /*498:*/
 Static void conditional(void)
 {  /*495:*/
-  boolean b=false /* XXXX */;
+  Boolean b=false /* XXXX */;
   long r;
   long m, n;
-  pointer p, q, savecondptr;
+  Pointer p, q, savecondptr;
   SmallNumber savescannerstatus, thisif;
 
   p = getnode(ifnodesize);
@@ -7170,7 +7168,7 @@ Static void beginname(void)
 /*:515*/
 
 /*516:*/
-Static boolean morename(ASCIIcode c)
+Static Boolean morename(ASCIICode c)
 {
   if (c == ' ')
     return false;
@@ -7199,7 +7197,7 @@ Static void endname(void)
 }
 
 long filename_k;
-Static void appendtoname(strASCIIcode x)
+Static void appendtoname(StrASCIICode x)
 {
 	filename_k++;
 	if (filename_k<=filenamesize) {
@@ -7209,7 +7207,7 @@ Static void appendtoname(strASCIIcode x)
 /*:517*/
 
 /*519:*/
-void packfilename(strnumber n, strnumber a, strnumber e)
+void packfilename(StrNumber n, StrNumber a, StrNumber e)
 {
   long k;
 
@@ -7228,7 +7226,7 @@ void packfilename(strnumber n, strnumber a, strnumber e)
 }  /*:519*/
 
 /*525:*/
-Static strnumber makenamestring(void)
+Static StrNumber makenamestring(void)
 {
     int k;
     for (k = 0; k < namelength; k++) {
@@ -7238,19 +7236,19 @@ Static strnumber makenamestring(void)
 }
 
 
-Static strnumber amakenamestring(void)
+Static StrNumber amakenamestring(void)
 {
   return (makenamestring());
 }
 
 
-Static strnumber bmakenamestring(void)
+Static StrNumber bmakenamestring(void)
 {
   return (makenamestring());
 }
 
 
-Static strnumber wmakenamestring()
+Static StrNumber wmakenamestring()
 {
   return (makenamestring());
 }
@@ -7275,7 +7273,7 @@ Static void scanfilename(void) {
 /*:526*/
 
 /*529:*/
-Static void packjobname(strnumber s)
+Static void packjobname(StrNumber s)
 {
   curarea = S(385);
   curext = s;
@@ -7285,7 +7283,7 @@ Static void packjobname(strnumber s)
 /*:529*/
 
 /*530:*/
-Static void promptfilename(strnumber s, strnumber e) {
+Static void promptfilename(StrNumber s, StrNumber e) {
     short k;
 
     if (s == S(665)) {
@@ -7417,7 +7415,7 @@ Static void startinput(void) {
 /*:537*/
 
 /*581:*/
-Static void charwarning(internalfontnumber f, eightbits c)
+Static void charwarning(InternalFontNumber f, EightBits c)
 {
   if (tracinglostchars <= 0)
     return;
@@ -7432,9 +7430,9 @@ Static void charwarning(internalfontnumber f, eightbits c)
 /*:581*/
 
 /*582:*/
-Static halfword newcharacter(internalfontnumber f, eightbits c) {
-    halfword Result;
-    pointer p;
+Static HalfWord newcharacter(InternalFontNumber f, EightBits c) {
+    HalfWord Result;
+    Pointer p;
 
     if (fontbc[f] <= c) {
         if (fontec[f] >= c) {
@@ -7460,7 +7458,7 @@ Static void vlistout(void);
 
 /*619:*/
 /*1368:*/
-Static void specialout(halfword p)
+Static void specialout(HalfWord p)
 {
   enum Selector old_setting;
 
@@ -7471,7 +7469,7 @@ Static void specialout(halfword p)
   showtokenlist(link(writetokens(p)), 0, poolsize /* - poolptr */ );
   selector = old_setting;
   str_room(1);
-  { int p_len=get_cur_length(); /* XXXX - Assumes byte=strASCIIcode */
+  { int p_len=get_cur_length(); /* XXXX - Assumes byte=StrASCIICode */
 #define xxx1            239
 #define xxx4            242
 
@@ -7488,12 +7486,12 @@ Static void specialout(halfword p)
 /*:1368*/
 
 /*1370:*/
-Static void writeout(halfword p)
+Static void writeout(HalfWord p)
 {   /*1371:*/
   enum Selector old_setting;
   long oldmode;
   /* SmallNumber */ int j; /* INT */
-  pointer q, r;
+  Pointer q, r;
 
   q = get_avail();
   info(q) = rightbracetoken + '}';
@@ -7540,7 +7538,7 @@ Static void writeout(halfword p)
 /*:1370*/
 
 /*1373:*/
-Static void outwhat(halfword p)
+Static void outwhat(HalfWord p)
 {
   /* SmallNumber */ int j; /* INT */
 
@@ -7591,12 +7589,12 @@ Static void outwhat(halfword p)
 
 Static void hlistout(void)
 {
-  scaled baseline, leftedge, saveh, savev, leaderwd, lx, edge;
-  pointer thisbox, p, leaderbox;
-  glueord gorder;
+  Scaled baseline, leftedge, saveh, savev, leaderwd, lx, edge;
+  Pointer thisbox, p, leaderbox;
+  GlueOrd gorder;
   char gsign;
   long saveloc;
-  boolean outerdoingleaders;
+  Boolean outerdoingleaders;
   double gluetemp;
 
   thisbox = tempptr;
@@ -7618,8 +7616,8 @@ _Lreswitch:
       synchh();
       synchv();
       do {
-	quarterword c;
-	quarterword f = font(p);
+	QuarterWord c;
+	QuarterWord f = font(p);
 	c = character(p);
 	if (f != dvif) {   /*621:*/
 	  dvi_set_font(f);
@@ -7669,7 +7667,7 @@ _Lreswitch:
       /*:1367*/
 
     case gluenode:   /*625:*/
-      {pointer g = glueptr(p);
+      {Pointer g = glueptr(p);
       rulewd = width(g);
       if (gsign != normal) {
 	if (gsign == stretching) {
@@ -7787,12 +7785,12 @@ _Lnextp_:
 /*629:*/
 Static void vlistout(void)
 {
-  scaled leftedge, topedge, saveh, savev, leaderht, lx, edge;
-  pointer thisbox, p, leaderbox;
-  glueord gorder;
+  Scaled leftedge, topedge, saveh, savev, leaderht, lx, edge;
+  Pointer thisbox, p, leaderbox;
+  GlueOrd gorder;
   char gsign;
   long saveloc;
-  boolean outerdoingleaders;
+  Boolean outerdoingleaders;
   double gluetemp;
 
   thisbox = tempptr;
@@ -7852,7 +7850,7 @@ Static void vlistout(void)
 
       case gluenode:   /*634:*/
 	{
-	pointer g = glueptr(p);
+	Pointer g = glueptr(p);
 	ruleht = width(g);
 	if (gsign != normal) {
 	  if (gsign == stretching) {
@@ -7955,7 +7953,7 @@ _Lnextp_:
 /*:629*/
 
 /*638:*/
-Static void shipout(halfword p)
+Static void shipout(HalfWord p)
 {
   int j, k;
   enum Selector old_setting;
@@ -8087,7 +8085,7 @@ _Ldone: /*:640*/
 
 
 /*645:*/
-Static void scanspec(groupcode c, boolean threecodes)
+Static void scanspec(GroupCode c, Boolean threecodes)
 {
   long s=0 /* XXXX */;
   char speccode;
@@ -8118,12 +8116,12 @@ _Lfound:
 /*:645*/
 
 /*649:*/
-Static halfword hpack(halfword p, long w, SmallNumber m)
+Static HalfWord hpack(HalfWord p, long w, SmallNumber m)
 {
-  pointer r, q, g;
-  scaled h, d, x, s;
-  glueord o;
-  eightbits hd;
+  Pointer r, q, g;
+  Scaled h, d, x, s;
+  GlueOrd o;
+  EightBits hd;
 
   lastbadness = 0;
   r = getnode(boxnodesize);
@@ -8146,8 +8144,8 @@ Static halfword hpack(halfword p, long w, SmallNumber m)
   while (p != 0) {   /*651:*/
 _Lreswitch:
     while (ischarnode(p)) {   /*654:*/
-      internalfontnumber f = font(p);
-      fourquarters i = charinfo(f, character(p));
+      InternalFontNumber f = font(p);
+      FourQuarters i = charinfo(f, character(p));
       hd = heightdepth(i);
       x += charwidth(f, i);
       s = charheight(f, hd);
@@ -8367,11 +8365,11 @@ _Lexit:
 /*:649*/
 
 /*668:*/
-Static halfword vpackage(halfword p, long h, SmallNumber m, long l)
+Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 {
-  pointer r, g;
-  scaled w, d, x, s;
-  glueord o;
+  Pointer r, g;
+  Scaled w, d, x, s;
+  GlueOrd o;
 
   lastbadness = 0;
   r = getnode(boxnodesize);
@@ -8557,10 +8555,10 @@ _Lexit:
 /*:668*/
 
 /*679:*/
-Static void appendtovlist(halfword b)
+Static void appendtovlist(HalfWord b)
 {
-  scaled d;
-  pointer p;
+  Scaled d;
+  Pointer p;
 
   if (prevdepth > ignoredepth) {
     d = width(baselineskip) - prevdepth - height(b);
@@ -8580,9 +8578,9 @@ Static void appendtovlist(halfword b)
 /*:679*/
 
 /*686:*/
-Static halfword newnoad(void)
+Static HalfWord newnoad(void)
 {
-  pointer p;
+  Pointer p;
   int i=0;
   p = getnode(noadsize);
   type(p) = ordnoad;
@@ -8601,9 +8599,9 @@ Static halfword newnoad(void)
 /*:686*/
 
 /*688:*/
-Static halfword newstyle(SmallNumber s)
+Static HalfWord newstyle(SmallNumber s)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(stylenodesize);
   type(p) = stylenode;
@@ -8615,9 +8613,9 @@ Static halfword newstyle(SmallNumber s)
 
 
 /*689:*/
-Static halfword newchoice(void)
+Static HalfWord newchoice(void)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(stylenodesize);
   type(p) = choicenode;
@@ -8638,9 +8636,9 @@ Static void showinfo(void)
 /*:693*/
 
 /*704:*/
-Static halfword fractionrule(long t)
+Static HalfWord fractionrule(long t)
 {
-  pointer p;
+  Pointer p;
 
   p = newrule();
   height(p) = t;
@@ -8650,9 +8648,9 @@ Static halfword fractionrule(long t)
 /*:704*/
 
 /*705:*/
-Static halfword overbar(halfword b, long k, long t)
+Static HalfWord overbar(HalfWord b, long k, long t)
 {
-  pointer p, q;
+  Pointer p, q;
 
   p = newkern(k);
   link(p) = b;
@@ -8666,11 +8664,11 @@ Static halfword overbar(halfword b, long k, long t)
 
 /*706:*/
 /*709:*/
-Static halfword charbox(internalfontnumber f, quarterword c)
+Static HalfWord charbox(InternalFontNumber f, QuarterWord c)
 {
-  fourquarters q;
-  eightbits hd;
-  pointer b, p;
+  FourQuarters q;
+  EightBits hd;
+  Pointer b, p;
 
   q = charinfo(f, c);
   hd = heightdepth(q);
@@ -8687,9 +8685,9 @@ Static halfword charbox(internalfontnumber f, quarterword c)
 /*:709*/
 
 /*711:*/
-Static void stackintobox(halfword b, internalfontnumber f, quarterword c)
+Static void stackintobox(HalfWord b, InternalFontNumber f, QuarterWord c)
 {
-  pointer p;
+  Pointer p;
 
   p = charbox(f, c);
   link(p) = listptr(b);
@@ -8699,10 +8697,10 @@ Static void stackintobox(halfword b, internalfontnumber f, quarterword c)
 /*:711*/
 
 /*712:*/
-Static long heightplusdepth(internalfontnumber f, quarterword c)
+Static long heightplusdepth(InternalFontNumber f, QuarterWord c)
 {
-  fourquarters q;
-  eightbits hd;
+  FourQuarters q;
+  EightBits hd;
 
   q = charinfo(f, c);
   hd = heightdepth(q);
@@ -8710,18 +8708,18 @@ Static long heightplusdepth(internalfontnumber f, quarterword c)
 }  /*:712*/
 
 
-Static halfword vardelimiter(halfword d, SmallNumber s, long v)
+Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v)
 {
-  pointer b;
-  internalfontnumber f, g;
-  quarterword c=0 /* XXXX */, x, y;
+  Pointer b;
+  InternalFontNumber f, g;
+  QuarterWord c=0 /* XXXX */, x, y;
   long m, n;
-  scaled u, w;
-  fourquarters q;
-  eightbits hd;
-  fourquarters r;
+  Scaled u, w;
+  FourQuarters q;
+  EightBits hd;
+  FourQuarters r;
   SmallNumber z;
-  boolean largeattempt;
+  Boolean largeattempt;
 
   f = nullfont;
   w = 0;
@@ -8831,11 +8829,11 @@ _Lfound:
 /*:706*/
 
 /*715:*/
-Static halfword rebox(halfword b, long w)
+Static HalfWord rebox(HalfWord b, long w)
 {
-  pointer p;
-  internalfontnumber f;
-  scaled v;
+  Pointer p;
+  InternalFontNumber f;
+  Scaled v;
 
   if ((width(b) != w) & (listptr(b) != 0)) {
     if (type(b) == vlistnode)
@@ -8862,11 +8860,11 @@ Static halfword rebox(halfword b, long w)
 /*:715*/
 
 /*716:*/
-Static halfword mathglue(halfword g, long m)
+Static HalfWord mathglue(HalfWord g, long m)
 {
-  pointer p;
+  Pointer p;
   long n;
-  scaled f;
+  Scaled f;
 
   n = xovern(m, 65536L);
   f = texremainder;
@@ -8895,10 +8893,10 @@ Static halfword mathglue(halfword g, long m)
 /*:716*/
 
 /*717:*/
-Static void mathkern(halfword p, long m)
+Static void mathkern(HalfWord p, long m)
 {
   long n;
-  scaled f;
+  Scaled f;
 
   if (subtype(p) != muglue)
     return;
@@ -8929,9 +8927,9 @@ Static void flushmath(void)
 Static void mlisttohlist(void);
 
 
-Static halfword cleanbox(halfword p, SmallNumber s)
+Static HalfWord cleanbox(HalfWord p, SmallNumber s)
 {
-  pointer q, x, r;
+  Pointer q, x, r;
   SmallNumber savestyle;
 
   switch (mathtype(p)) {
@@ -8993,7 +8991,7 @@ _Lfound:
 /*:720*/
 
 /*722:*/
-Static void fetch(halfword a)
+Static void fetch(HalfWord a)
 {
   curc = character(a);
   curf = famfnt(fam(a) + cursize);
@@ -9029,7 +9027,7 @@ Static void fetch(halfword a)
 
 /*726:*/
 /*734:*/
-Static void makeover(halfword q)
+Static void makeover(HalfWord q)
 {
   info(nucleus(q)) = overbar(
       cleanbox(nucleus(q), crampedstyle(curstyle)),
@@ -9039,10 +9037,10 @@ Static void makeover(halfword q)
 /*:734*/
 
 /*735:*/
-Static void makeunder(halfword q)
+Static void makeunder(HalfWord q)
 {
-  pointer p, x, y;
-  scaled delta;
+  Pointer p, x, y;
+  Scaled delta;
 
   x = cleanbox(nucleus(q), curstyle);
   p = newkern(defaultrulethickness * 3);
@@ -9058,10 +9056,10 @@ Static void makeunder(halfword q)
 /*:735*/
 
 /*736:*/
-Static void makevcenter(halfword q)
+Static void makevcenter(HalfWord q)
 {
-  pointer v;
-  scaled delta;
+  Pointer v;
+  Scaled delta;
 
   v = info(nucleus(q));
   if (type(v) != vlistnode)
@@ -9073,10 +9071,10 @@ Static void makevcenter(halfword q)
 /*:736*/
 
 /*737:*/
-Static void makeradical(halfword q)
+Static void makeradical(HalfWord q)
 {
-  pointer x, y;
-  scaled delta, clr;
+  Pointer x, y;
+  Scaled delta, clr;
 
   x = cleanbox(nucleus(q), crampedstyle(curstyle));
   if (curstyle < textstyle)
@@ -9098,14 +9096,14 @@ Static void makeradical(halfword q)
 /*:737*/
 
 /*738:*/
-Static void makemathaccent(halfword q)
+Static void makemathaccent(HalfWord q)
 {
-  pointer p, x, y;
+  Pointer p, x, y;
   long a;
-  quarterword c;
-  internalfontnumber f;
-  fourquarters i;
-  scaled s, h, delta, w;
+  QuarterWord c;
+  InternalFontNumber f;
+  FourQuarters i;
+  Scaled s, h, delta, w;
 
   fetch(accentchr(q));
   if (!charexists(curi))
@@ -9197,10 +9195,10 @@ _Ldone:   /*:740*/
 /*:738*/
 
 /*743:*/
-Static void makefraction(halfword q)
+Static void makefraction(HalfWord q)
 {
-  pointer p, v, x, y, z;
-  scaled delta, delta1, delta2, shiftup, shiftdown, clr;
+  Pointer p, v, x, y, z;
+  Scaled delta, delta1, delta2, shiftup, shiftdown, clr;
 
   if (thickness(q) == defaultcode)   /*744:*/
     thickness(q) = defaultrulethickness;
@@ -9277,12 +9275,12 @@ Static void makefraction(halfword q)
 
 
 /*749:*/
-Static long makeop(halfword q)
+Static long makeop(HalfWord q)
 {
-  scaled delta, shiftup, shiftdown;
-  pointer p, v, x, y, z;
-  quarterword c;
-  fourquarters i;
+  Scaled delta, shiftup, shiftdown;
+  Pointer p, v, x, y, z;
+  QuarterWord c;
+  FourQuarters i;
 
   if (subtype(q) == normal && curstyle < textstyle)
     subtype(q) = limits;
@@ -9361,10 +9359,10 @@ Static long makeop(halfword q)
 /*:749*/
 
 /*752:*/
-Static void makeord(halfword q)
+Static void makeord(HalfWord q)
 {
   long a;
-  pointer p, r;
+  Pointer p, r;
 
 _Lrestart:
   if (mathtype(subscr(q)) == empty) {
@@ -9456,10 +9454,10 @@ _Lexit: ;
 /*:752*/
 
 /*756:*/
-Static void makescripts(halfword q, long delta)
+Static void makescripts(HalfWord q, long delta)
 {
-  pointer p, x, y, z;
-  scaled shiftup, shiftdown, clr;
+  Pointer p, x, y, z;
+  Scaled shiftup, shiftdown, clr;
   SmallNumber t;
 
   p = newhlist(q);
@@ -9539,10 +9537,10 @@ Static void makescripts(halfword q, long delta)
 
 
 /*762:*/
-Static SmallNumber makeleftright(halfword q, SmallNumber style, long maxd,
+Static SmallNumber makeleftright(HalfWord q, SmallNumber style, long maxd,
 				 long maxh)
 {
-  scaled delta, delta1, delta2;
+  Scaled delta, delta1, delta2;
 
   if (style < scriptstyle)
     cursize = textsize;
@@ -9563,12 +9561,12 @@ Static SmallNumber makeleftright(halfword q, SmallNumber style, long maxd,
 
 Static void mlisttohlist(void)
 {
-  pointer mlist, q, r, p=0 /* XXXX */, x=0 /* XXXX */, y, z;
-  boolean penalties;
+  Pointer mlist, q, r, p=0 /* XXXX */, x=0 /* XXXX */, y, z;
+  Boolean penalties;
   SmallNumber style, savestyle, rtype, t;
   long pen;
   SmallNumber s;
-  scaled maxh, maxd, delta;
+  Scaled maxh, maxd, delta;
 
   mlist = curmlist;
   penalties = mlistpenalties;
@@ -10002,7 +10000,7 @@ _Ldone: ;
 /*772:*/
 Static void pushalignment(void)
 {
-  pointer p;
+  Pointer p;
 
   p = getnode(alignstacknodesize);
   link(p) = alignptr;
@@ -10020,7 +10018,7 @@ Static void pushalignment(void)
 
 Static void popalignment(void)
 {
-  pointer p;
+  Pointer p;
 
   FREE_AVAIL(curhead);
   p = alignptr;
@@ -10070,7 +10068,7 @@ Static void normalparagraph(void);
 
 Static void initalign(void)
 {
-  pointer savecsptr, p;
+  Pointer savecsptr, p;
 
   savecsptr = curcs;
   pushalignment();
@@ -10179,7 +10177,7 @@ _Ldone:
 
 /*786:*/
 /*787:*/
-Static void initspan(halfword p)
+Static void initspan(HalfWord p)
 {
   pushnest();
   if (mode == -hmode)
@@ -10222,13 +10220,13 @@ Static void initcol(void)
 /*:788*/
 
 /*791:*/
-Static boolean fincol(void)
+Static Boolean fincol(void)
 {
-  boolean Result;
-  pointer p, q, r, s, u;
-  scaled w;
-  glueord o;
-  halfword n;
+  Boolean Result;
+  Pointer p, q, r, s, u;
+  Scaled w;
+  GlueOrd o;
+  HalfWord n;
 
   if (curalign == 0)
     confusion(S(735));
@@ -10364,7 +10362,7 @@ _Lexit:
 /*799:*/
 Static void finrow(void)
 {
-  pointer p;
+  Pointer p;
 
   if (mode == -hmode) {
     p = hpack(link(head), 0, additional);
@@ -10399,10 +10397,10 @@ Static void buildpage(void);
 
 Static void finalign(void)
 {
-  pointer p, q, r, s, u, v;
-  scaled t, w, o, rulesave;
-  halfword n;
-  memoryword auxsave;
+  Pointer p, q, r, s, u, v;
+  Scaled t, w, o, rulesave;
+  HalfWord n;
+  MemoryWord auxsave;
 
   if (curgroup != aligngroup)
     confusion(S(742));
@@ -10705,9 +10703,9 @@ _Lrestart:
 
 /*815:*/
 /*826:*/
-Static halfword finiteshrink(halfword p)
+Static HalfWord finiteshrink(HalfWord p)
 {
-  pointer q;
+  Pointer q;
 
   if (noshrinkerroryet) {
     noshrinkerroryet = false;
@@ -10729,20 +10727,20 @@ Static halfword finiteshrink(halfword p)
 
 /// p308#829
 Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
-    pointer r, prevr;
-    halfword oldl;
-    boolean nobreakyet;
+    Pointer r, prevr;
+    HalfWord oldl;
+    Boolean nobreakyet;
     /*830:*/
-    pointer prevprevr = 0 /* XXXXX */, s, q, v, savelink;
+    Pointer prevprevr = 0 /* XXXXX */, s, q, v, savelink;
     long t;
-    internalfontnumber f;
-    halfword l;
-    boolean noderstaysactive;
-    scaled linewidth = 0 /* XXXX */, shortfall; /*:830*/
+    InternalFontNumber f;
+    HalfWord l;
+    Boolean noderstaysactive;
+    Scaled linewidth = 0 /* XXXX */, shortfall; /*:830*/
     char fitclass;
-    halfword b;
+    HalfWord b;
     long d;
-    boolean artificialdemerits;
+    Boolean artificialdemerits;
 
     if (labs(pi) >= infpenalty) {
         if (pi > 0) goto _Lexit;
@@ -11215,12 +11213,12 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
 /*877:*/
 Static void postlinebreak(long finalwidowpenalty)
 {   /*878:*/
-  pointer q, r, s;
-  boolean discbreak, postdiscbreak;
-  scaled curwidth, curindent;
-  quarterword t;
+  Pointer q, r, s;
+  Boolean discbreak, postdiscbreak;
+  Scaled curwidth, curindent;
+  QuarterWord t;
   long pen;
-  halfword curline;
+  HalfWord curline;
 
   q = breaknode(bestbet);
   curp = 0;
@@ -11379,14 +11377,14 @@ _Ldone1:
 
 /*895:*/
 /*906:*/
-Static SmallNumber reconstitute(/* SmallNumber */ int j, SmallNumber n, halfword bchar,
-				halfword hchar)
+Static SmallNumber reconstitute(/* SmallNumber */ int j, SmallNumber n, HalfWord bchar,
+				HalfWord hchar)
 {
-  pointer p, t;
-  fourquarters q;
-  halfword currh, testchar;
-  scaled w;
-  fontindex k;
+  Pointer p, t;
+  FourQuarters q;
+  HalfWord currh, testchar;
+  Scaled w;
+  FontIndex k;
 
   hyphenpassed = 0;
   t = holdhead;
@@ -11553,22 +11551,22 @@ Static void hyphenate(void)   /*:929*/
 {  /*923:*/
   /*901:*/
   /* char */ int i, j, l; /* INT */
-  pointer q, r, s;
-  halfword bchar;
+  Pointer q, r, s;
+  HalfWord bchar;
   /*:901*/
   /*912:*/
-  pointer majortail, minortail, hyfnode;
-  ASCIIcode c=0 /* XXXX */;
+  Pointer majortail, minortail, hyfnode;
+  ASCIICode c=0 /* XXXX */;
   /* char */ int cloc; /* INT */
   long rcount;
   /*:912*/
   /*922:*/
-  triepointer z;
+  TriePointer z;
   long v;
   /*:922*/
   /*929:*/
-  hyphpointer h;
-  strnumber k;
+  HyphPointer h;
+  StrNumber k;
   char FORLIM;
 
   for (j = 0; j <= hn; j++)   /*930:*/
@@ -11809,10 +11807,10 @@ _Lexit: ;
 #ifdef tt_INIT
 
 /// p351#944: Declare procedures for preprocessing hyphenation patterns
-Static quarterword newtrieop(SmallNumber d, SmallNumber n, quarterword v) {
-    quarterword Result;
+Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
+    QuarterWord Result;
     short h;
-    quarterword u;
+    QuarterWord u;
     short l;
 
     h = abs(n + d * 313 + v * 361 + curlang * 1009) %
@@ -11852,8 +11850,8 @@ Static quarterword newtrieop(SmallNumber d, SmallNumber n, quarterword v) {
 
 
 /// #948: Declare procedures for preprocessing hyphenation patterns
-Static triepointer trienode(triepointer p) {
-    triepointer Result, h, q;
+Static TriePointer trienode(TriePointer p) {
+    TriePointer Result, h, q;
 
     h = abs(triec[p] + trieo[p] * 1009 + triel[p] * 2718 + trier[p] * 3142) %
         triesize;
@@ -11880,7 +11878,7 @@ Static triepointer trienode(triepointer p) {
 
 
 /// #949: Declare procedures for preprocessing hyphenation patterns
-Static triepointer compresstrie(triepointer p)
+Static TriePointer compresstrie(TriePointer p)
 {
   if (p == 0)
     return 0;
@@ -11892,11 +11890,11 @@ Static triepointer compresstrie(triepointer p)
 } // compresstrie
 
 /// #953: Declare procedures for preprocessing hyphenation patterns
-Static void firstfit(triepointer p)
+Static void firstfit(TriePointer p)
 {
-  triepointer h, z, q;
-  ASCIIcode c;
-  triepointer l, r;
+  TriePointer h, z, q;
+  ASCIICode c;
+  TriePointer l, r;
   short ll;
 
   c = triec[p];
@@ -11952,9 +11950,9 @@ _Lfound:   /*956:*/
 
 
 /// #957: Declare procedures for preprocessing hyphenation patterns
-Static void triepack(triepointer p)
+Static void triepack(TriePointer p)
 {
-  triepointer q;
+  TriePointer q;
 
   do {
     q = triel[p];
@@ -11967,11 +11965,11 @@ Static void triepack(triepointer p)
 } // triepack
 
 /// #959: Declare procedures for preprocessing hyphenation patterns
-Static void triefix(triepointer p)
+Static void triefix(TriePointer p)
 {
-  triepointer q;
-  ASCIIcode c;
-  triepointer z;
+  TriePointer q;
+  ASCIICode c;
+  TriePointer z;
 
   z = triehash[p];
   do {
@@ -11989,11 +11987,11 @@ Static void triefix(triepointer p)
 /// #960: Declare procedures for preprocessing hyphenation patterns
 Static void newpatterns(void) {
     unsigned char k, l; /* INT */
-    boolean digitsensed;
-    quarterword v;
-    triepointer p, q;
-    boolean firstchild;
-    ASCIIcode c;
+    Boolean digitsensed;
+    QuarterWord v;
+    TriePointer p, q;
+    Boolean firstchild;
+    ASCIICode c;
 
     if (trie_not_ready) {
         setcurlang();
@@ -12116,10 +12114,10 @@ _Ldone: /*:961*/
 /// 966: Declare procedures for preprocessing hyphenation patterns
 Static void inittrie(void)
 {   /*952:*/
-  triepointer p;
+  TriePointer p;
   long j, k, t;
-  triepointer r, s;
-  twohalves h;
+  TriePointer r, s;
+  TwoHalves h;
 
   /*945:*/
   opstart[0] = -minquarterword;
@@ -12182,13 +12180,13 @@ Static void inittrie(void)
 
 Static void linebreak(long finalwidowpenalty) {
     /*862:*/
-    boolean autobreaking;
-    pointer prevp, q, r, s, prevs;
-    internalfontnumber f;
+    Boolean autobreaking;
+    Pointer prevp, q, r, s, prevs;
+    InternalFontNumber f;
     /*:862*/
     /*893:*/
     /* SmallNumber */ int j; /* INT */
-    uchar c;                 /*:893*/
+    UChar c;                 /*:893*/
 
     packbeginline = modeline; /*816:*/
     link(temphead) = link(head);
@@ -12700,9 +12698,9 @@ Static void newhyphexceptions(void)
 {
   unsigned char n; /* INT */
   unsigned char j; /* INT */
-  hyphpointer h;
-  strnumber k, s, t;
-  pointer p, q;
+  HyphPointer h;
+  StrNumber k, s, t;
+  Pointer p, q;
 
   scanleftbrace();
   setcurlang();   /*935:*/
@@ -12811,9 +12809,9 @@ _Lexit: ;
 /*:934*/
 
 /*968:*/
-Static halfword prunepagetop(halfword p)
+Static HalfWord prunepagetop(HalfWord p)
 {
-  pointer prevp, q;
+  Pointer prevp, q;
 
   prevp = temphead;
   link(temphead) = p;
@@ -12861,11 +12859,11 @@ Static halfword prunepagetop(halfword p)
 /*:968*/
 
 /*970:*/
-Static halfword vertbreak(halfword p, long h, long d)
+Static HalfWord vertbreak(HalfWord p, long h, long d)
 {
-  pointer prevp, q, r, bestplace=p /* XXXX */ ;
+  Pointer prevp, q, r, bestplace=p /* XXXX */ ;
   long pi=0 /* XXXX */, b, leastcost;
-  scaled prevdp;
+  Scaled prevdp;
   SmallNumber t;
 
   prevp = p;
@@ -12993,9 +12991,9 @@ _Ldone:
 /*:970*/
 
 /*977:*/
-Static halfword vsplit(eightbits n, long h) {
-    halfword Result;
-    pointer v, p, q;
+Static HalfWord vsplit(EightBits n, long h) {
+    HalfWord Result;
+    Pointer v, p, q;
 
     v = box(n);
     if (splitfirstmark != 0) {
@@ -13116,7 +13114,7 @@ Static void freezepagespecs(SmallNumber s) {
 
 
 /*992:*/
-Static void boxerror(eightbits n)
+Static void boxerror(EightBits n)
 {
   error();
   begindiagnostic();
@@ -13129,9 +13127,9 @@ Static void boxerror(eightbits n)
 /*:992*/
 
 /*993:*/
-Static void ensurevbox(eightbits n)
+Static void ensurevbox(EightBits n)
 {
-  pointer p;
+  Pointer p;
 
   p = box(n);
   if (p == 0)
@@ -13149,13 +13147,13 @@ Static void ensurevbox(eightbits n)
 
 /*994:*/
 /*1012:*/
-Static void fireup(halfword c)
+Static void fireup(HalfWord c)
 {  /*1013:*/
-  pointer p, q, r, s, prevp, savesplittopskip;
-  uchar n;
-  boolean wait;
+  Pointer p, q, r, s, prevp, savesplittopskip;
+  UChar n;
+  Boolean wait;
   long savevbadness;
-  scaled savevfuzz;
+  Scaled savevfuzz;
 
   if (type(bestpagebreak) == penaltynode) {
     geqworddefine(intbase + outputpenaltycode, penalty(bestpagebreak));
@@ -13359,10 +13357,10 @@ _Lexit: ;
 /*:1012*/
 
 Static void buildpage(void) {
-    pointer p, q, r;
+    Pointer p, q, r;
     long b, c, pi = 0 /* XXXX */;
-    uchar n;
-    scaled delta, h, w;
+    UChar n;
+    Scaled delta, h, w;
 
     if (link(contribhead) == 0 || outputactive) goto _Lexit;
     do {
@@ -13658,7 +13656,7 @@ _Lexit:;
 /*1043:*/
 Static void appspace(void)
 {
-  pointer q;
+  Pointer q;
 
   if (spacefactor >= 2000 && xspaceskip != zeroglue)
     q = newparamglue(xspaceskipcode);
@@ -13668,7 +13666,7 @@ Static void appspace(void)
     else {   /*1042:*/
       mainp = fontglue[curfont ];
       if (mainp == 0) {
-	fontindex mmaink;
+	FontIndex mmaink;
 	mainp = newspec(zeroglue);
 	mmaink = parambase[curfont ] + spacecode;
 #if 1
@@ -13733,7 +13731,7 @@ Static void reportillegalcase(void)
 /*:1050*/
 
 /*1051:*/
-Static boolean privileged(void)
+Static Boolean privileged(void)
 {
   if (mode > 0)
     return true;
@@ -13745,7 +13743,7 @@ Static boolean privileged(void)
 /*:1051*/
 
 /*1054:*/
-Static boolean itsallover(void) {
+Static Boolean itsallover(void) {
     if (privileged()) {
         if (pagehead == pagetail && head == tail && deadcycles == 0) {
             return true;
@@ -13806,7 +13804,7 @@ Static void appendglue(void)
 /*1061:*/
 Static void appendkern(void)
 {
-  quarterword s;
+  QuarterWord s;
 
   s = curchr;
   scandimen(s == muglue, false, false);
@@ -13818,7 +13816,7 @@ Static void appendkern(void)
 /*1064:*/
 Static void offsave(void)
 {
-  pointer p;
+  Pointer p;
 
   if (curgroup == bottomlevel) {   /*1066:*/
     printnl(S(292));
@@ -13915,7 +13913,7 @@ Static void normalparagraph(void)
 /*1075:*/
 Static void boxend(long boxcontext)
 {
-  pointer p;
+  Pointer p;
 
   if (boxcontext < boxflag) {   /*1076:*/
     if (curbox == 0)
@@ -13982,10 +13980,10 @@ Static void boxend(long boxcontext)
 
 /*1079:*/
 Static void beginbox(long boxcontext) {
-    pointer p, q;
-    quarterword m;
-    halfword k;
-    eightbits n;
+    Pointer p, q;
+    QuarterWord m;
+    HalfWord k;
+    EightBits n;
 
     switch (curchr) {
 
@@ -14019,7 +14017,7 @@ Static void beginbox(long boxcontext) {
                         p = q;
                         if (!ischarnode(q)) {
                             if (type(q) == discnode) {
-                                quarterword FORLIM = replacecount(q);
+                                QuarterWord FORLIM = replacecount(q);
                                 for (m = 1; m <= FORLIM; m++)
                                     p = link(p);
                                 if (p == tail) goto _Ldone;
@@ -14115,8 +14113,8 @@ Static void scanbox(long boxcontext)
 /*1086:*/
 Static void package(SmallNumber c)
 {
-  scaled h, d;
-  pointer p;
+  Scaled h, d;
+  Pointer p;
 
   d = boxmaxdepth;
   unsave();
@@ -14154,7 +14152,7 @@ Static SmallNumber normmin(long h)
 }
 
 
-Static void newgraf(boolean indented)
+Static void newgraf(Boolean indented)
 {
   prevgraf = 0;
   if (mode == vmode || head != tail) {
@@ -14182,7 +14180,7 @@ Static void newgraf(boolean indented)
 /*1093:*/
 Static void indentinhmode(void)
 {
-  pointer p, q;
+  Pointer p, q;
 
   if (curchr <= 0)
     return;
@@ -14270,7 +14268,7 @@ Static void begininsertoradjust(void)
 /*1101:*/
 Static void makemark(void)
 {
-  pointer p;
+  Pointer p;
 
   p = scantoks(false, true);
   p = getnode(smallnodesize);
@@ -14294,7 +14292,7 @@ Static void appendpenalty(void)
 
 /*1105:*/
 Static void deletelast(void) {
-    pointer p, q;
+    Pointer p, q;
 
     if (mode == vmode && tail == head) { /*1106:*/
     if (curchr != gluenode || lastglue != maxhalfword) {
@@ -14315,8 +14313,8 @@ Static void deletelast(void) {
                 p = q;
                 if (!ischarnode(q)) {
                 if (type(q) == discnode) {
-                    quarterword FORLIM = replacecount(q);
-                    quarterword m;
+                    QuarterWord FORLIM = replacecount(q);
+                    QuarterWord m;
                     for (m = 1; m <= FORLIM; m++)
                         p = link(p);
                     if (p == tail) return;
@@ -14335,7 +14333,7 @@ Static void deletelast(void) {
 
 /*1110:*/
 Static void unpackage(void) {
-    pointer p;
+    Pointer p;
     char c;
 
     c = curchr;
@@ -14366,8 +14364,8 @@ Static void unpackage(void) {
 
 /*1113:*/
 Static void appenditaliccorrection(void) {
-    pointer p;
-    internalfontnumber f;
+    Pointer p;
+    InternalFontNumber f;
     int c;
 
     if (tail != head) {
@@ -14418,7 +14416,7 @@ Static void appenddiscretionary(void)
 
 /*1119:*/
 Static void builddiscretionary(void) {
-    pointer p, q;
+    Pointer p, q;
     long n;
 
     unsave(); /*1121:*/
@@ -14503,10 +14501,10 @@ _Lexit:;
 Static void makeaccent(void)
 {
   double s, t;
-  pointer p, q, r;
-  internalfontnumber f;
-  scaled a, h, x, w, delta;
-  fourquarters i;
+  Pointer p, q, r;
+  InternalFontNumber f;
+  Scaled a, h, x, w, delta;
+  FourQuarters i;
 
   scancharnum();
   f = curfont;
@@ -14646,7 +14644,7 @@ Static void cserror(void)
 
 
 /*1136:*/
-Static void pushmath(groupcode c)
+Static void pushmath(GroupCode c)
 {
   pushnest();
   mode = -mmode;
@@ -14658,9 +14656,9 @@ Static void pushmath(groupcode c)
 /*1138:*/
 Static void initmath(void)
 {
-  scaled w, l, s, v, d;
-  pointer p, q;
-  internalfontnumber f;
+  Scaled w, l, s, v, d;
+  Pointer p, q;
+  InternalFontNumber f;
   long n;
 
   gettoken();
@@ -14799,7 +14797,7 @@ Static void starteqno(void) {
 /*:1142*/
 
 /*1151:*/
-Static void scanmath(halfword p) {
+Static void scanmath(HalfWord p) {
     long c;
 
 _Lrestart:
@@ -14866,7 +14864,7 @@ _Lexit:;
 /*1155:*/
 Static void setmathchar(long c)
 {
-  pointer p;
+  Pointer p;
 
   if (c >= 32768L) {   /*1152:*/
     curcs = curchr + activebase;
@@ -14908,7 +14906,7 @@ Static void mathlimitswitch(void) {
 /*:1159*/
 
 /*1160:*/
-Static void scandelimiter(halfword p, boolean r)
+Static void scandelimiter(HalfWord p, Boolean r)
 {
   if (r)
     scantwentysevenbitint();
@@ -15014,9 +15012,9 @@ Static void appendchoices(void)
 
 /*1174:*/
 /*1184:*/
-Static halfword finmlist(halfword p)
+Static HalfWord finmlist(HalfWord p)
 {
-  pointer q;
+  Pointer q;
 
   if (incompleatnoad != 0) {   /*1185:*/
     mathtype(denominator(incompleatnoad)) = submlist;
@@ -15042,7 +15040,7 @@ Static halfword finmlist(halfword p)
 /*:1184*/
 
 Static void buildchoices(void) {
-    pointer p;
+    Pointer p;
 
     unsave();
     p = finmlist(0);
@@ -15075,7 +15073,7 @@ Static void buildchoices(void) {
 Static void subsup(void)
 {
   SmallNumber t;
-  pointer p;
+  Pointer p;
 
   t = empty;
   p = 0;
@@ -15172,7 +15170,7 @@ Static void mathfraction(void)
 Static void mathleftright(void)
 {
   SmallNumber t;
-  pointer p;
+  Pointer p;
 
   t = curchr;
   if (t == rightnoad && curgroup != mathleftgroup) {   /*1192:*/
@@ -15210,12 +15208,12 @@ Static void mathleftright(void)
 /*1194:*/
 Static void aftermath(void)
 {
-  boolean l, danger;
+  Boolean l, danger;
   long m;
-  pointer p, a;
+  Pointer p, a;
   /*1198:*/
-  pointer b, r, t;   /*:1198*/
-  scaled w, z, e, q, d, s;
+  Pointer b, r, t;   /*:1198*/
+  Scaled w, z, e, q, d, s;
   SmallNumber g1, g2;
 
   danger = false;   /*1195:*/
@@ -15487,7 +15485,7 @@ Static void trapzeroglue(void) {
 
 /*1236:*/
 Static void doregistercommand(SmallNumber a) {
-    pointer l = 0 /* XXXX */, q, r, s;
+    Pointer l = 0 /* XXXX */, q, r, s;
     char p;
 
     q = curcmd; /*1237:*/
@@ -15615,7 +15613,7 @@ _Lexit:;
 
 /*1243:*/
 Static void alteraux(void) {
-    halfword c;
+    HalfWord c;
 
     if (curchr != labs(mode)) {
         reportillegalcase();
@@ -15691,7 +15689,7 @@ Static void alterinteger(void) {
 /*1247:*/
 Static void alterboxdimen(void) {
     SmallNumber c;
-    eightbits b;
+    EightBits b;
 
     c = curchr;
     scaneightbitint();
@@ -15705,12 +15703,12 @@ Static void alterboxdimen(void) {
 /*1257:*/
 Static void newfont(SmallNumber a)
 {
-  pointer u;
-  scaled s;
-  internalfontnumber f;
-  strnumber t;
+  Pointer u;
+  Scaled s;
+  InternalFontNumber f;
+  StrNumber t;
   enum Selector old_setting;
-/* XXXX  strnumber flushablestring; */
+/* XXXX  StrNumber flushablestring; */
 
   if (jobname == 0)
     openlogfile();
@@ -15810,12 +15808,12 @@ Static void newinteraction(void) {
 Static void prefixedcommand(void)
 {
   SmallNumber a;
-  internalfontnumber f;
-  halfword j;
-  fontindex k;
-  pointer p, q;
+  InternalFontNumber f;
+  HalfWord j;
+  FontIndex k;
+  Pointer p, q;
   long n;
-  boolean e;
+  Boolean e;
 
   a = 0;
   while (curcmd == prefix) {
@@ -16265,7 +16263,7 @@ Static void openorclosein(void) {
 Static void issuemessage(void) {
     enum Selector old_setting;
     char c;
-    strnumber s;
+    StrNumber s;
 
     c = curchr;
     link(garbage) = scantoks(false, true);
@@ -16306,14 +16304,14 @@ Static void issuemessage(void) {
 
 /*1288:*/
 Static void shiftcase(void) {
-    pointer b, p;
-    eightbits c;
+    Pointer b, p;
+    EightBits c;
 
     b = curchr;
     p = scantoks(false, false);
     p = link(defref);
     while (p != 0) { /*1289:*/
-        halfword t = info(p);
+        HalfWord t = info(p);
         if (t < cstokenflag + singlebase) { /*:1289*/
             c = t & (dwa_do_8 - 1);
             if (equiv(b + c) != 0) info(p) = t - c + equiv(b + c);
@@ -16395,8 +16393,8 @@ _Lcommonending:
 /// 455#1302: Declare action procedures for use by main control
 Static void storefmtfile(void) { /*1304:*/
     long j, k, l, x;
-    pointer p, q;
-    memoryword pppfmtfile;
+    Pointer p, q;
+    MemoryWord pppfmtfile;
     if (saveptr != 0) {
         printnl(S(292));
         print(S(988));
@@ -16656,7 +16654,7 @@ _Ldone2:
 /*1348:*/
 /*1349:*/
 Static void newwhatsit(SmallNumber s, SmallNumber w) {
-    pointer p;
+    Pointer p;
 
     p = getnode(w);
     type(p) = whatsitnode;
@@ -16685,7 +16683,7 @@ Static void newwritewhatsit(SmallNumber w) {
 Static void doextension(void)
 {
   long k;
-  pointer p;
+  Pointer p;
 
   switch (curchr) {
 
@@ -16763,7 +16761,7 @@ Static void doextension(void)
 
 /*1376:*/
 Static void fixlanguage(void) {
-    ASCIIcode l;
+    ASCIICode l;
 
     if (language <= 0)
         l = 0;
@@ -16782,8 +16780,8 @@ Static void fixlanguage(void) {
 
 /*1068:*/
 Static void handlerightbrace(void) {
-    pointer p, q;
-    scaled d;
+    Pointer p, q;
+    Scaled d;
     long f;
 
     switch (curgroup) {
@@ -17801,7 +17799,7 @@ _Lappendnormalspace_:            /*1041:*/
     if (spaceskip == zeroglue) { /*1042:*/
         mainp = fontglue[curfont];
         if (mainp == 0) { /*:1042*/
-            fontindex mmaink;
+            FontIndex mmaink;
             mainp = newspec(zeroglue);
             mmaink = parambase[curfont] + spacecode;
 #if 1
@@ -17827,15 +17825,15 @@ Static void giveerrhelp(void) { tokenshow(errhelp); }
 /*:1284*/
 
 /*1303:*/
-Static boolean openfmtfile(void) { return open_fmt(&fmtfile, stdout); }
+Static Boolean openfmtfile(void) { return open_fmt(&fmtfile, stdout); }
 /*:524*/
 
-Static boolean loadfmtfile(void) { /*1308:*/
-    boolean Result;
+Static Boolean loadfmtfile(void) { /*1308:*/
+    Boolean Result;
     long j, k, x;
-    pointer p, q;
-    /* fourquarters w; */
-    memoryword pppfmtfile;
+    Pointer p, q;
+    /* FourQuarters w; */
+    MemoryWord pppfmtfile;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x != 371982687L) goto _Lbadfmt_;

@@ -1,4 +1,4 @@
 #pragma once
 
 // [inputln], tex
-extern boolean inputln(FILE* f, boolean bypasseoln);
+extern Boolean inputln(FILE* f, Boolean bypasseoln);

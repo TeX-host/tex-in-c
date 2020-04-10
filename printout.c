@@ -1,9 +1,10 @@
 #include "tex.h"
-#include "macros.h"
-#include "str.h"
-#include "printout.h"
-#include "fonts.h"
-#include "texfunc.h"
+#include "str.h" // [func] slowprint
+#include "fonts.h" 
+    // [func] get_fontsize, get_fontdsize, get_fontname
+#include "texfunc.h"  // [func] print_*
+#include "printout.h" // [export]
+
 
 /*247:*/
 void printlengthparam(long n) {
@@ -331,7 +332,7 @@ void printparam(long n) {
 }
 
 
-void printcmdchr(quarterword cmd, halfword chrcode) {
+void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
     switch (cmd) {
 
         case leftbrace:

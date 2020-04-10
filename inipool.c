@@ -1,10 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-#include "tex.h"
-#include "str.h"
-#include "funcs.h"
-#include "global.h"
-#include "pool_str.c"
+#include <stdio.h>  // fprintf, stderr
+#include <string.h> // strlen
+#include "tex.h" // true, false
+#include "str.h" // [export] str_pool_init
+    // [macro] stringvacancies,
+    // [func] str_adjust_to_room, makestring
+#include "pool_str.c" // [var] pool_strs
 
 int str_pool_init(void) {
     int k, l;

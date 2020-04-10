@@ -4,18 +4,15 @@
 
 #define S(x) (x)
 
-typedef unsigned char uchar;
-typedef signed char schar;
-typedef unsigned char boolean;
-typedef uchar Char;
+typedef unsigned char UChar;
+typedef signed char SChar;
+typedef unsigned char Boolean;
+typedef UChar Char;
 #define true 1
 #define false 0
 #define Static static
 
-/*6:*/
-/*:6*/
 /*11:*/
-
 #define dwa_do_8  ((int)16*1024*1024)
 #define memmax          3000000
 #define memmin          0
@@ -93,7 +90,7 @@ typedef uchar Char;
 #define scrollmode      2
 #define errorstopmode   3
 
-enum _history { // history value @76
+enum History { // history value @76
     SPOTLESS = 0,         // nothing has been amiss yet
     WARNING_ISSUED,       // begin_diagnostic has been called
     ERROR_MESSAGE_ISSUED, // error has been called
@@ -586,19 +583,6 @@ enum _history { // history value @76
 #define nonaddress      0
 #define badtfm          11
 
-#if 0
-#define movementnodesize  3
-#define yhere           1
-#define zhere           2
-#define yzOK            3
-#define yOK             4
-#define zOK             5
-#define dfixed          6
-#define noneseen        0
-#define yseen           6
-#define zseen           12
-#endif // #if 0
-
 #define movepast        13
 #define finrule         14
 #define nextp           15
@@ -741,91 +725,82 @@ enum _history { // history value @76
 #define endwritetoken   (cstokenflag + endwrite)
 
 #define poolname        "TeXformats:TEX.POOL                     "
-    /*:11*/
+/*:11*/
 
 
-    /*18:*/
-    typedef uchar ASCIIcode; /*:18*/
+/*18:*/
+typedef UChar ASCIICode; /*:18*/
 /*25:*/
-typedef uchar eightbits; /*:25*/
+typedef UChar EightBits; /*:25*/
 /*38:*/
-typedef uchar packedASCIIcode; /*:38*/
+typedef UChar PackedASCIICode; /*:38*/
 /*101:*/
-typedef long scaled;
-typedef long nonnegativeinteger;
+typedef long Scaled;
+typedef long NonNegativeInteger;
 typedef char SmallNumber;
 /*:101*/
 
 /*109:*/
-typedef double glueratio; /*:109*/
+typedef double GlueRatio; /*:109*/
 /*113:*/
-typedef unsigned short quarterword;
-typedef int halfword;
-typedef char twochoices;
-typedef char fourchoices;
-typedef struct twohalves {
-    halfword rh;
+typedef unsigned short QuarterWord;
+typedef int HalfWord;
+// typedef char TwoChoices;  // _NOT_USE_
+// typedef char fourchoices; // _NOT_USE_
+typedef struct {
+    HalfWord rh;
     union {
-        halfword lh;
+        HalfWord lh;
         struct {
-            quarterword b0, b1;
+            QuarterWord b0, b1;
         } U2;
     } UU;
-} twohalves;
+} TwoHalves;
 
-typedef struct fourquarters {
-    quarterword b0, b1, b2, b3;
-} fourquarters;
+typedef struct {
+    QuarterWord b0, b1, b2, b3;
+} FourQuarters;
 
-typedef char manychoices;
-typedef int pointer;
-typedef union memoryword {
+// typedef char ManyChoices; // _NOT_USE_
+typedef int Pointer;
+typedef union {
     long int_;
-    glueratio gr;
-    twohalves hh;
-    fourquarters qqqq;
+    GlueRatio gr;
+    TwoHalves hh;
+    FourQuarters qqqq;
     long sc;
-} memoryword;
+} MemoryWord;
 
-struct my_mem {
-    char is_char_node;
-    memoryword mm;
-};
+// struct MyMem { // _NOT_USE_
+//     char is_char_node;
+//     MemoryWord mm;
+// };
 /*:113*/
 /*150:*/
-typedef char glueord;
+typedef char GlueOrd;
 /*:150*/
 /*212:*/
 
-typedef struct liststaterecord {
+typedef struct {
     short modefield;
-    pointer headfield, tailfield;
+    Pointer headfield, tailfield;
     long pgfield, mlfield;
-    memoryword auxfield;
-} liststaterecord;
+    MemoryWord auxfield;
+} ListStateRecord; /*:212*/
 
-/*:212*/
 /*269:*/
-typedef char groupcode;
+typedef char GroupCode; /*:269*/
 
-/*:269*/
 /*300:*/
+typedef struct {
+    QuarterWord statefield, indexfield;
+    HalfWord startfield, locfield, limitfield, namefield;
+    QuarterWord tok_type;
+    Pointer tok_list, tok_loc, tok_name, tok_param;
+} InStateRecord; /*:300*/
 
-typedef struct instaterecord {
-    quarterword statefield, indexfield;
-    halfword startfield, locfield, limitfield, namefield;
-    quarterword tok_type;
-    pointer tok_list, tok_loc, tok_name, tok_param;
-} instaterecord;
-
-/*:300*/
-/*594:
-typedef short dviindex;
-:594*/
-typedef int triepointer;
+typedef int TriePointer;
 /*925:*/
-typedef short hyphpointer;
-
-/*:925*/
+typedef short HyphPointer;  /*:925*/
 
 #endif // #ifndef TEX_H

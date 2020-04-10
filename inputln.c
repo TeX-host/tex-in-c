@@ -1,12 +1,13 @@
-#include <stdio.h>
-#include "tex.h"
-#include "str.h"
-#include "funcs.h"
+#include <stdio.h>  // FILE, EOF, stderr
+#include "tex.h"    // [type] Boolean, [macro] true, false, bufsize
 #include "global.h"
-#include "inputln.h"
+    // [var] buffer, last, first, maxbufstack
+    //  _JLfinalend, formatident, curinput, xord
+#include "texfunc.h" // [func] overflow
+#include "inputln.h" // [export] inputln
 
 
-boolean inputln(FILE* f, boolean bypasseoln) {
+Boolean inputln(FILE* f, Boolean bypasseoln) {
     short lastnonblank;
     if (bypasseoln) {
         int c = getc(f);

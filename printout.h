@@ -5,5 +5,5 @@
 
 // [printout], tex
 extern void printparam(long n);
-extern void printcmdchr(quarterword cmd, halfword chrcode);
+extern void printcmdchr(QuarterWord cmd, HalfWord chrcode);
 extern void printlengthparam(long n);

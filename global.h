@@ -2,18 +2,19 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 #include <setjmp.h> // setjmp
+#include "str.h"    // StrNumber
 
 // funcs, inputln, [tex]
-extern ASCIIcode buffer[];
+extern ASCIICode buffer[];
 extern short last;
 extern short first;
 
 // inputln, [tex]
 extern short maxbufstack;
 extern jmp_buf _JLfinalend;
-extern strnumber formatident;
-extern instaterecord curinput;
-extern ASCIIcode xord[256];
+extern StrNumber formatident;
+extern InStateRecord curinput;
+extern ASCIICode xord[256];
 
 // funcs, [tex]
 extern unsigned char nameoffile[filenamesize];

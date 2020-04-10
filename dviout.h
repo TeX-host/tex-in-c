@@ -1,9 +1,12 @@
 #pragma once
 #ifndef DIV_OUT_H
 #define DIV_OUT_H
+#include "fonts.h"  // [type] InternalFontNumber
+#include "str.h"    // [type] StrASCIICode
+#define dvibufsize 800
 
 // [dviout] only
-extern void dvifontdef(internalfontnumber f);
+extern void dvifontdef(InternalFontNumber f);
 
 // [dviout], tex
 extern int dvi_openout(void);
@@ -14,7 +17,7 @@ extern long get_dvi_mark(void);
 extern void move_h(long w); // texmac(synchh)
 extern void move_v(long w); // texmac(synchv)
 extern void dvifour(unsigned long x);
-extern void dviout_helper(strASCIIcode c);
+extern void dviout_helper(StrASCIICode c);
 extern void prunemovements(long l);
 extern void dvipop(long l);
 extern void dvi_putrule(long ruleht, long rulewd);

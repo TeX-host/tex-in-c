@@ -1,21 +1,23 @@
 #pragma once
-#include <stdio.h>
+#ifndef TEX_FUNC_H
+#define TEX_FUNC_H
+#include "str.h" // StrNumber
 
-// no impl
-// extern void bclose(FILE**);
+// [tex], inputln, pool_str, str
+extern void overflow(StrNumber s, long n);
 
 // [tex], fonts, macro.h, printout
-extern void print(strnumber s);
+extern void print(StrNumber s);
 
 // [tex], fonts, printout, str
 extern void printint(long n);
 
 // [tex], fonts, printout
-extern void printesc(strnumber s); 
+extern void printesc(StrNumber s); 
 extern void printscaled(long s);
 
 // [tex], fonts, str
-extern void printchar(ASCIIcode s); 
+extern void printchar(ASCIICode s); 
 extern void println(void);
 
 // [tex], printout
@@ -25,19 +27,21 @@ extern void printskipparam(long n);
 extern void printstyle(long c);
 
 // [tex], fonts
-extern void printnl(strnumber s);
-extern void printfilename(strnumber n, strnumber a, strnumber e);
-extern void packfilename(strnumber n, strnumber a, strnumber e);
-extern void sprintcs(halfword p);
+extern void printnl(StrNumber s);
+extern void printfilename(StrNumber n, StrNumber a, StrNumber e);
+extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
+extern void sprintcs(HalfWord p);
 extern void error(void);
 extern long xnoverd(long x, long n, long d);
 extern int get_defaultskewchar(void);
 extern int get_defaulthyphenchar(void);
-extern pointer get_lomemmax(void);
-extern strnumber fontidtext(internalfontnumber x);
+extern Pointer get_lomemmax(void);
+
 
 // [tex], str
-extern halfword idlookup_p(unsigned char* buffp, long l, int no_new);
+extern HalfWord idlookup_p(unsigned char* buffp, long l, int no_new);
 
 // [tex]
-extern void set_help(int k, ...); 
+extern void set_help(int k, ...);
+
+#endif // TEX_FUNC_H

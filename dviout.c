@@ -1,11 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "global_const.h"
-#include "tex.h" 
+#include <stdio.h>  // FILE
+#include <stdlib.h> // malloc, exit, labs, free
+#include "tex.h"
+    // [type] EightBits, FourQuarters, EightBits, SmallNumber
+    // true
 #include "str.h"
+    // [type] StrASCIICode, StrNumber
+    // [func] str_map, flength
 #include "fonts.h"
-#include "dviout.h"
-#include "funcs.h"
+    // [type] InternalFontNumber,
+    // [var] fontptr, fontused,
+    // [func] get_fontsize, get_fontdsize, get_fontname
+#include "funcs.h"  // [func] aopenout
+#include "dviout.h" // export
 
 #define movementnodesize 3
 #define yhere           1
@@ -17,7 +23,6 @@
 #define noneseen        0
 #define yseen           6
 #define zseen           12
-
 
 /* DVI commands */
 #define setchar0        0
@@ -49,38 +54,39 @@
 #define postpost        249
 #define idbyte          2
 
-typedef short dviindex;
-
-Static eightbits dvibuf[dvibufsize + 1];
-Static dviindex halfbuf, dvilimit, dviptr;
-Static long dvioffset, dvigone;
-/*:595*/
-
-static FILE* dvifile;
-Static long lastbop;
-
-/* Quick hack to get things running */
-
-typedef struct move* move_pointer;
-#undef halfword
-#undef pointer
-
-struct move {
-    move_pointer linkf;
-    long widthf;
-    long locationf;
-    char infof;
-};
-
 #define location(x) ((x)->locationf)
 #define width(x) ((x)->widthf)
 #define link(x) ((x)->linkf)
 #define info(x) ((x)->infof)
 #define freenode(x, y) free(x)
 
+
+typedef short dviindex;
+static EightBits dvibuf[dvibufsize + 1];
+static dviindex halfbuf, dvilimit, dviptr;
+static long dvioffset, dvigone;
+static FILE* dvifile;
+static long lastbop;
+
+typedef struct move* move_pointer;
+#undef HalfWord
+#undef Pointer
+struct move {
+    move_pointer linkf;
+    long widthf;
+    long locationf;
+    char infof;
+};
+static move_pointer downptr, rightptr;
+
+
+/*
+    functions
+*/
+
 int dvi_openout(void) { return aopenout(&dvifile); }
 
-Static move_pointer get_move_node(void) {
+static move_pointer get_move_node(void) {
     move_pointer pom = (move_pointer)malloc(sizeof(*pom));
     if (pom) {
         return pom;
@@ -91,7 +97,7 @@ Static move_pointer get_move_node(void) {
 }
 /* End quick hack */
 
-Static move_pointer downptr, rightptr;
+
 
 void dvi_push(void) { dviout(push); }
 void dvi_pop(void) { dviout(pop); }
@@ -146,7 +152,7 @@ void dvi_pre(long num, long den, long mag) {
 }
 
 /*597:*/
-Static void writedvi(dviindex a, dviindex b) {
+static void writedvi(dviindex a, dviindex b) {
     fwrite(&dvibuf[a], b - a + 1, 1, dvifile);
 }
 /*:597*/
@@ -219,7 +225,7 @@ long dviflush(void) {
 }
 
 /*598:*/
-Static void dviswap(void) {
+static void dviswap(void) {
     if (dvilimit == dvibufsize) {
         writedvi(0, halfbuf - 1);
         dvilimit = halfbuf;
@@ -258,12 +264,12 @@ void dvipop(long l) {
 }
 /*:601*/
 
-void dviout_helper(strASCIIcode c) { dviout(c); }
+void dviout_helper(StrASCIICode c) { dviout(c); }
 
 /*602:*/
-void dvifontdef(internalfontnumber f) {
-    fourquarters fck = get_fontcheck(f);
-    strnumber fnm = get_fontname(f);
+void dvifontdef(InternalFontNumber f) {
+    FourQuarters fck = get_fontcheck(f);
+    StrNumber fnm = get_fontname(f);
     dviout(fntdef1);
     dviout(f - 1);
     dviout(fck.b0);
@@ -278,12 +284,12 @@ void dvifontdef(internalfontnumber f) {
 }
 /*:602*/
 
-void movement(long w, eightbits o);
+void movement(long w, EightBits o);
 void move_h(long w) { movement(w, right1); }
 void move_v(long w) { movement(w, down1); }
 
 /*607:*/
-void movement(long w, eightbits o) {
+void movement(long w, EightBits o) {
     SmallNumber mstate;
     move_pointer p;
     long k;

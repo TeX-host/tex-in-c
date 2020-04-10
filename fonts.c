@@ -1,24 +1,30 @@
-#include <stdio.h>
+#include <stdio.h> // FILE
 #include "tex.h"
-#include "macros.h"
-#include "str.h"
-#include "printout.h"
-#include "funcs.h"
-#include "fonts.h"
+    // [type] MemoryWord, EightBits, Pointer, Boolean, 
+    //  Scaled FourQuarters, HalfWord
+    // [macro] fontmemsize, fontmax, nullfont, nonaddress, kernbaseoffset
+#include "macros.h" // [macro] nonchar
+#include "str.h"    // [type] StrNumber
+#include "funcs.h"  // [func] aopenin
+#include "fonts.h"  // [export], [func] fontidtext
 #include "texfunc.h"
+    // [func] print_*,
+    //  packfilename, sprintcs, error, xnoverd,
+    //  get_defaultskewchar, get_defaulthyphenchar,
+    //  get_lomemmax
 
 /*549:*/
 #undef Static
 #define Static
-Static fontindex fmemptr;
-Static internalfontnumber fontptr;
-Static memoryword fontinfo[fontmemsize + 1];
-Static fontindex fontparams[fontmax + 1];
-Static eightbits fontbc[fontmax + 1];
-Static eightbits fontec[fontmax + 1];
-Static pointer fontglue[fontmax + 1];
-Static boolean fontused[fontmax + 1];
-Static fontindex bcharlabel[fontmax + 1];
+Static FontIndex fmemptr;
+Static InternalFontNumber fontptr;
+Static MemoryWord fontinfo[fontmemsize + 1];
+Static FontIndex fontparams[fontmax + 1];
+Static EightBits fontbc[fontmax + 1];
+Static EightBits fontec[fontmax + 1];
+Static Pointer fontglue[fontmax + 1];
+Static Boolean fontused[fontmax + 1];
+Static FontIndex bcharlabel[fontmax + 1];
 Static long fontbchar[fontmax + 1];
 Static long fontfalsebchar[fontmax + 1];
 /*:549*/
@@ -32,11 +38,11 @@ Static long parambase[fontmax + 1];
 
 Static long skewchar[fontmax + 1];
 Static long hyphenchar[fontmax + 1];
-Static strnumber fontname[fontmax + 1];
-Static strnumber fontarea[fontmax + 1];
-Static scaled fontsize[fontmax + 1];
-Static scaled fontdsize[fontmax + 1];
-Static fourquarters fontcheck[fontmax + 1];
+Static StrNumber fontname[fontmax + 1];
+Static StrNumber fontarea[fontmax + 1];
+Static Scaled fontsize[fontmax + 1];
+Static Scaled fontdsize[fontmax + 1];
+Static FourQuarters fontcheck[fontmax + 1];
 
 
 Static long charbase[fontmax + 1];
@@ -47,38 +53,38 @@ Static long italicbase[fontmax + 1];
 Static long kernbase[fontmax + 1];
 
 
-long        get_skewchar(internalfontnumber x) { return skewchar[x]; }
-extern void set_skewchar(internalfontnumber x, long c) { skewchar[x] = c; }
+long        get_skewchar(InternalFontNumber x) { return skewchar[x]; }
+extern void set_skewchar(InternalFontNumber x, long c) { skewchar[x] = c; }
 
-long        get_hyphenchar(internalfontnumber x) { return hyphenchar[x]; }
-extern void set_hyphenchar(internalfontnumber x, long c) { hyphenchar[x] = c; }
+long        get_hyphenchar(InternalFontNumber x) { return hyphenchar[x]; }
+extern void set_hyphenchar(InternalFontNumber x, long c) { hyphenchar[x] = c; }
 
-scaled get_fontsize(internalfontnumber x) { return fontsize[x]; }
-scaled get_fontdsize(internalfontnumber x) { return fontdsize[x]; }
-strnumber get_fontname(internalfontnumber x) { return fontname[x]; }
-fourquarters get_fontcheck(internalfontnumber x) { return fontcheck[x]; }
+Scaled get_fontsize(InternalFontNumber x) { return fontsize[x]; }
+Scaled get_fontdsize(InternalFontNumber x) { return fontdsize[x]; }
+StrNumber get_fontname(InternalFontNumber x) { return fontname[x]; }
+FourQuarters get_fontcheck(InternalFontNumber x) { return fontcheck[x]; }
 
-fourquarters charinfo(internalfontnumber f, eightbits p) {
+FourQuarters charinfo(InternalFontNumber f, EightBits p) {
     return fontinfo[charbase[f] + (p)].qqqq;
 }
 
-scaled charwidth(internalfontnumber x, fourquarters y) {
+Scaled charwidth(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[widthbase[x] + (y).b0].sc);
 }
 
-scaled charitalic(internalfontnumber x, fourquarters y) {
+Scaled charitalic(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[italicbase[x] + ((y).b2 / 4)].sc);
 }
 
-scaled charheight(internalfontnumber x, int y) {
+Scaled charheight(InternalFontNumber x, int y) {
     return (fontinfo[heightbase[x] + ((y) / 16)].sc);
 }
 
-scaled chardepth(internalfontnumber x, int y) {
+Scaled chardepth(InternalFontNumber x, int y) {
     return (fontinfo[depthbase[x] + ((y) % 16)].sc);
 }
 
-scaled charkern(internalfontnumber x, fourquarters y) {
+Scaled charkern(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[kernbase[x] + 256 * opbyte(y) + rembyte(y)].sc);
 }
 
@@ -114,7 +120,7 @@ void fonts_init(void) {
 }
 
 void fonts_dump(FILE* fmtfile) {
-    memoryword pppfmtfile;
+    MemoryWord pppfmtfile;
     long k;
     /*1320:*/
     pppfmtfile.int_ = fmemptr;
@@ -193,7 +199,7 @@ void fonts_dump(FILE* fmtfile) {
 }
 
 int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
-    memoryword pppfmtfile;
+    MemoryWord pppfmtfile;
     long k, x;
 
     /*1321:*/
@@ -290,20 +296,20 @@ _Lbadfmt_:
 }
 
 /*560:*/
-internalfontnumber
-readfontinfo(halfword u, strnumber nom, strnumber aire, long s) {
-    fontindex k;
-    boolean fileopened;
+InternalFontNumber
+readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
+    FontIndex k;
+    Boolean fileopened;
     int lf, lh, bc, ec, nw, nh, nd, ni, nl, nk, ne, np;
-    internalfontnumber f, g;
+    InternalFontNumber f, g;
     int a, b, c, d;
-    fourquarters qw;
-    scaled sw, z;
+    FourQuarters qw;
+    Scaled sw, z;
     long bchlabel;
     short bchar;
     long alpha;
     char beta;
-    fontindex FORLIM;
+    FontIndex FORLIM;
     FILE* tfmfile = 0;
     g = nullfont; /*562:*/
     /*563:*/

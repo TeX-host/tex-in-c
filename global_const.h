@@ -2,7 +2,6 @@
 #ifndef _INC_GLOBAL_CONST
 #define _INC_GLOBAL_CONST
 
-#define dvibufsize 800
 
 /// #7
 //  MSVC debug mode || not in (GCC -O3 mode)
