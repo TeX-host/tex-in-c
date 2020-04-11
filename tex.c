@@ -262,11 +262,16 @@ Static long totalpages, maxpush, deadcycles;
 Static Boolean doingleaders;
 Static long lq, lr;
 /*:592*/
-/*616:*/
-Static Scaled dvih, dviv, curh, curv, curmu;
-Static InternalFontNumber dvif;
-Static long curs;
-/*:616*/
+
+// #616
+Static Scaled dvih, dviv,   // a DVI reader program thinks we are here
+              curh, curv,   // TeX thinks we are here
+              curmu;
+#define synchh() synch_h(curh, dvih)
+#define synchv() synch_v(curv, dviv)
+Static InternalFontNumber dvif; // the current font
+Static Integer curs; // current depth of output box nesting, initially −1
+
 /*646:*/
 Static Scaled totalstretch[filll - normal + 1],
 	      totalshrink[filll - normal + 1];
@@ -7442,15 +7447,15 @@ Static void specialout(HalfWord p)
   selector = old_setting;
   str_room(1);
   { int p_len=cur_length(); /* XXXX - Assumes byte=StrASCIICode */
-#define xxx1            239
-#define xxx4            242
+#define XXX1            239
+#define XXX4            242
 
     if (p_len< 256) {
-	dviout(xxx1);
+	dviout(XXX1);
 	dviout(p_len);
     } else {
-	dviout(xxx4);
-	dvifour(p_len);
+	dviout(XXX4);
+	dvi_four(p_len);
     }
     str_cur_map(dviout_helper);
   }
@@ -7575,7 +7580,7 @@ Static void hlistout(void)
   p = listptr(thisbox);
   curs++;
   if (curs > 0) {
-    dvi_push();
+    dvi_out_push();
   }
   if (curs > maxpush)
     maxpush = curs;
@@ -7583,7 +7588,7 @@ Static void hlistout(void)
   baseline = curv;
   leftedge = curh;
   while (p != 0) {   /*620:*/
-_Lreswitch:
+    _Lreswitch:
     if (ischarnode(p)) {
       synchh();
       synchv();
@@ -7724,7 +7729,7 @@ _Lreswitch:
       /*:652*/
     }
     goto _Lnextp_;
-_Lfinrule_:   /*624:*/
+    _Lfinrule_:   /*624:*/
     if (isrunning(ruleht)) {
       ruleht = height(thisbox);
     }
@@ -7740,14 +7745,14 @@ _Lfinrule_:   /*624:*/
       curv = baseline;
       dvih += rulewd;
     }
-_Lmovepast_:
+    _Lmovepast_:
     curh += rulewd;
-_Lnextp_:
+    _Lnextp_:
     p = link(p);
   }
-  prunemovements(saveloc);
+  prune_movements(saveloc);
   if (curs > 0)
-    dvipop(saveloc);
+    dvi_pop(saveloc);
   curs--;
 
   /*:620*/
@@ -7771,7 +7776,7 @@ Static void vlistout(void)
   p = listptr(thisbox);
   curs++;
   if (curs > 0) {
-    dvi_push();
+    dvi_out_push();
   }
   if (curs > maxpush)
     maxpush = curs;
@@ -7917,9 +7922,9 @@ _Lnextp_:
     p = link(p);
   }
   /*:630*/
-  prunemovements(saveloc);
+  prune_movements(saveloc);
   if (curs > 0)
-    dvipop(saveloc);
+    dvi_pop(saveloc);
   curs--;
 }
 /*:629*/
@@ -8020,7 +8025,7 @@ Static void shipout(HalfWord p)
     vlistout();
   else
     hlistout();
-  dvi_eop();
+  dvi_out_eop();
   totalpages++;
   curs = -1;
 
@@ -18095,9 +18100,9 @@ Static void closefilesandterminate(void) { /*1378:*/
     /*642:*/
     while (curs > -1) {
         if (curs > 0) {
-            dvi_pop();
+            dvi_out_pop();
         } else {
-            dvi_eop();
+            dvi_out_eop();
             totalpages++;
         }
         curs--;

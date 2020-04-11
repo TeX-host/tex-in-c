@@ -9,4 +9,5 @@ printout.o: printout.c tex.h tex_types.h str.h fonts.h texfunc.h \
 str.o: str.c global_const.h tex.h tex_types.h macros.h texfunc.h str.h
 fonts.o: fonts.c tex.h tex_types.h macros.h str.h funcs.h fonts.h \
  texfunc.h
-dviout.o: dviout.c tex.h tex_types.h str.h fonts.h funcs.h dviout.h
+dviout.o: dviout.c tex.h tex_types.h str.h fonts.h funcs.h dvicmd.h \
+ dviout.h

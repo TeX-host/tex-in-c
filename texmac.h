@@ -604,22 +604,6 @@
         rcount++;                                                              \
     }
 
-#define synchh()                                                               \
-    {                                                                          \
-        if (curh != dvih) {                                                    \
-            move_h(curh - dvih);                                               \
-            dvih = curh;                                                       \
-        }                                                                      \
-    }
-
-#define synchv()                                                               \
-    {                                                                          \
-        if (curv != dviv) {                                                    \
-            move_v(curv - dviv);                                               \
-            dviv = curv;                                                       \
-        }                                                                      \
-    }
-
 #define advpast(x)                                                             \
     {                                                                          \
         if (subtype(x) == languagenode) {                                      \
