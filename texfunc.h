@@ -23,7 +23,7 @@ extern void println(void);
 // [tex], printout
 extern void print_hex(long n);
 extern void print_size(long s);
-extern void printskipparam(long n);
+extern void print_skip_param(long n);
 extern void printstyle(long c);
 
 // [tex], fonts

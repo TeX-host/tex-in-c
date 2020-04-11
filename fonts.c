@@ -445,19 +445,19 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
             goto _Lbadtfm_;
         switch (c & 3) {
 
-            case ligtag:
+            case LIG_TAG:
                 if (d >= nl) goto _Lbadtfm_;
                 break;
 
-            case exttag:
+            case EXT_TAG:
                 if (d >= ne) goto _Lbadtfm_;
                 break;
 
-            case listtag: /*570:*/
+            case LIST_TAG: /*570:*/
                 if (d < bc || d > ec) goto _Lbadtfm_;
                 while (d < k + bc - fmemptr) {
                     qw = charinfo(f, d);
-                    if (chartag(qw) != listtag) {
+                    if (chartag(qw) != LIST_TAG) {
                         goto _Lnotfound;
                     }
                     d = rembyte(qw) - MIN_QUARTER_WORD;

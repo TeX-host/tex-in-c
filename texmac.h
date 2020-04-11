@@ -169,7 +169,7 @@
     (mem[prevr + (x)].sc = mem[prevr + (x)].sc + mem[r + (x)].sc)
 #define downdatewidth(x) (curactivewidth[(x)-1] -= mem[prevr + (x)].sc)
 #define checkshrinkage(x)                                                      \
-    ((shrinkorder(x) != normal) && (shrink(x) != 0) ? (x) = finiteshrink(x) : 0)
+    ((shrinkorder(x) != NORMAL) && (shrink(x) != 0) ? (x) = finiteshrink(x) : 0)
 #define vetglue(x)                                                             \
     (gluetemp = (x),                                                           \
      ((gluetemp > (1000000000.0))                                              \
@@ -181,8 +181,8 @@
     ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
 
 
-#define precedesbreak(x) (type(x) < mathnode)
-#define nondiscardable(x) (type(x) < mathnode)
+#define precedesbreak(x) (type(x) < MATH_NODE)
+#define nondiscardable(x) (type(x) < MATH_NODE)
 // #define topenin() (termin = stdin) // 33, 37
 // #define topenout() (termout = stdout) // 33, 1332
 #define global (a >= 4)
@@ -191,19 +191,24 @@
 #define worddefine(x, y)                                                       \
     ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
 
+// p121#302
+#define loc     curinput.locfield
+#define state   curinput.statefield // current scanner state
+#define iindex  curinput.indexfield // reference for buffer information
+#define start   curinput.startfield // starting position in |buffer|
+#define limit   curinput.limitfield // end of current line in |buffer|
+#define name    curinput.namefield  // name of the current file
+// #304
+#define terminal_input  (name==0)       // are we reading from the terminal? 
+#define curfile  (inputfile[iindex-1])  // the current |alphafile| variable 
+// p125#307
+#define token_type   iindex // type of current token list
+#define param_start  limit  // base of macro parameters in |paramstack|
+// #866
+#define actwidth  activewidth[0]    // length from first active node to current node
 
-#define state  curinput.statefield /*{current scanner state}*/
-#define iindex  curinput.indexfield /*{reference for buffer information}*/
-#define loc curinput.locfield
-#define start  curinput.startfield /*{starting position in |buffer|}*/
-#define limit  curinput.limitfield /*{end of current line in |buffer|}*/
-#define name  curinput.namefield /*{name of the current file}*/
-#define terminalinput  (name==0) /*{are we reading from the terminal?}*/
-#define curfile  (inputfile[iindex-1]) /*{the current |alphafile| variable}*/
-#define tokentype  iindex /*{type of current token list}*/
-#define paramstart  limit /*{base of macro parameters in |paramstack|}*/
-#define actwidth  activewidth[0] /* length from first active node to current node */
-#define trieroot  (triel[0]) /*root of the linked trie*/
+
+#define trieroot  (triel[0])        // root of the linked trie
 #define activeheight  activewidth /*new name for the six distance variables*/
 #define curheight  (activeheight[0]) /*the natural height*/
 #define pagegoal  (pagesofar[0]) /*desired height of information on page being built*/
@@ -273,13 +278,13 @@
 
 
 
-#define slant(x)  param(slantcode,x) /* slant to the right, per unit distance upward}*/
-#define space(x)  param(spacecode,x) /* normal space between words}*/
-#define spacestretch(x)  param(spacestretchcode,x) /* stretch between words}*/
-#define spaceshrink(x)  param(spaceshrinkcode,x) /* shrink between words}*/
-#define xheight(x)  param(xheightcode,x) /* one ex}*/
-#define quad(x)  param(quadcode,x) /* one em}*/
-#define extraspace(x)  param(extraspacecode,x) /* additional space at end of sentence}*/
+#define slant(x)  param(SLANT_CODE,x) /* slant to the right, per unit distance upward}*/
+#define space(x)  param(SPACE_CODE,x) /* NORMAL space between words}*/
+#define spacestretch(x)  param(SPACE_STRETCH_CODE,x) /* stretch between words}*/
+#define spaceshrink(x)  param(SPACE_SHRINK_CODE,x) /* shrink between words}*/
+#define xheight(x)  param(X_HEIGHT_CODE,x) /* one ex}*/
+#define quad(x)  param(QUAD_CODE,x) /* one em}*/
+#define extraspace(x)  param(EXTRA_SPACE_CODE,x) /* additional space at end of sentence}*/
 
 
 #define mathxheight(x)  mathsy(5,x) /* height of `\.x'}*/
@@ -480,9 +485,9 @@
 #define popinput() /* leave an input level, re-enter the old */                \
     (inputptr--, curinput = inputstack[inputptr])
 #define backlist(x)                                                            \
-    begintokenlist((x), backedup) /* backs up a simple token list */
+    begintokenlist((x), BACKED_UP) /* backs up a simple token list */
 #define inslist(x)                                                             \
-    begintokenlist((x), inserted) /* inserts a simple token list */
+    begintokenlist((x), INSERTED) /* inserts a simple token list */
 
 #define null 0
 
@@ -518,7 +523,7 @@
     }
 
 #define packlig(x)                                                             \
-    { /*{the parameter is either |rthit| or |false|} */                        \
+    { /*{the PARAMETER is either |rthit| or |false|} */                        \
         mainp = newligature(mainf, curl, link(curq));                          \
         if (lfthit) {                                                          \
             subtype(mainp) = 2;                                                \
@@ -536,7 +541,7 @@
 #define kernbreak()                                                            \
     {                                                                          \
         if (!ischarnode(link(curp)) && (autobreaking)) {                       \
-            if (type(link(curp)) == gluenode) trybreak(0, unhyphenated);       \
+            if (type(link(curp)) == GLUE_NODE) trybreak(0, unhyphenated);       \
         }                                                                      \
         actwidth += width(curp);                                               \
     }

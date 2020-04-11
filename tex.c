@@ -88,10 +88,8 @@ Static ASCIICode trickbuf[ERROR_LINE + 1]; // circular buffer for pseudoprinting
 Static long trickcount, // threshold for pseudoprinting, explained later
             firstcount; // another variable for pseudoprinting
 
+Static char interaction; // #73 用户交互模式
 
-/*73:*/
-Static char interaction;
-/*:73*/
 /*76:*/
 Static Boolean deletionsallowed, setboxallowed;
 Static enum History history;
@@ -191,7 +189,7 @@ Static long line;
 Static long linestack[maxinopen];
 /*:304*/
 /*305:*/
-Static char scannerstatus;
+Static char scanner_status;
 /*:305*/
 /*308:*/
 Static Pointer paramstack[paramsize + 1];
@@ -273,8 +271,8 @@ Static InternalFontNumber dvif; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 
 /*646:*/
-Static Scaled totalstretch[filll - normal + 1],
-	      totalshrink[filll - normal + 1];
+Static Scaled totalstretch[filll - NORMAL + 1],
+	          totalshrink[filll - NORMAL + 1];
 Static long lastbadness;
 /*:646*/
 /*647:*/
@@ -525,7 +523,7 @@ Static void initialize(void) { /*:927*/
     for (i = 0; i <= 126; i++) /*:24*/
         xord[xchr[i]] = i;
     /*74:*/
-    interaction = errorstopmode; /*:74*/
+    interaction = ERROR_STOP_MODE; /*:74*/
     /*77:*/
     deletionsallowed = true;
     setboxallowed = true;
@@ -599,7 +597,7 @@ Static void initialize(void) { /*:927*/
         readopen[k] = closed;
     /*490:*/
     condptr = 0;
-    iflimit = normal;
+    iflimit = NORMAL;
     curif = 0;
     ifline = 0; /*:490*/
     /*521:*/
@@ -679,8 +677,8 @@ Static void initialize(void) { /*:927*/
     while (k <= lomemstatmax) {
         // set first words of glue specifications
         gluerefcount(k) = 1;
-        stretchorder(k) = normal;
-        shrinkorder(k) = normal;
+        stretchorder(k) = NORMAL;
+        shrinkorder(k) = NORMAL;
         k += gluespecsize;
     }
 
@@ -723,8 +721,8 @@ Static void initialize(void) { /*:927*/
         type(pageinshead) = splitup;
         link(pageinshead) = pageinshead;
         /// #988
-        type(pagehead) = gluenode;
-        subtype(pagehead) = normal;
+        type(pagehead) = GLUE_NODE;
+        subtype(pagehead) = NORMAL;
     }
 
     /// p59#164
@@ -1148,7 +1146,7 @@ void error(void) {
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
     print_char('.');
     showcontext();
-    if (interaction == errorstopmode) { /*83:*/
+    if (interaction == ERROR_STOP_MODE) { /*83:*/
         while (true) {                  /*:83*/
             ASCIICode c;
 _Llabcontinue:
@@ -1211,7 +1209,7 @@ _Llabcontinue:
                         slow_print(inputstack[baseptr].namefield);
                         print(S(273));
                         print_int(line);
-                        interaction = scrollmode;
+                        interaction = SCROLL_MODE;
                         jumpout();
                     }
                     break;
@@ -1255,7 +1253,7 @@ _Llabcontinue:
                 case 'R':
                 case 'S': /*86:*/
                     errorcount = 0;
-                    interaction = batchmode + c - 'Q';
+                    interaction = BATCH_MODE + c - 'Q';
                     print(S(280));
                     switch (c) {
                         case 'Q':
@@ -1279,7 +1277,7 @@ _Llabcontinue:
                     /*:86*/
 
                 case 'X':
-                    interaction = scrollmode;
+                    interaction = SCROLL_MODE;
                     jumpout();
                     break;
             } /*85:*/
@@ -1298,7 +1296,7 @@ _Llabcontinue:
         history = FATAL_ERROR_STOP;
         jumpout();
     } /*90:*/
-    if (interaction > batchmode) selector--;
+    if (interaction > BATCH_MODE) selector--;
     if (useerrhelp) {
         println();
         giveerrhelp();
@@ -1309,7 +1307,7 @@ _Llabcontinue:
         }
     }
     println();
-    if (interaction > batchmode) /*:90*/
+    if (interaction > BATCH_MODE) /*:90*/
         selector++;
     println();
 _Lexit:;
@@ -1319,10 +1317,10 @@ _Lexit:;
 /// p36#93: Error handling procedures
 /// xref: 93, 94, 95, 1304
 Static void succumb(void) {
-    if (interaction == errorstopmode) interaction = scrollmode;
+    if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (logopened) error();
 #ifdef tt_DEBUG
-    if (interaction > batchmode) debughelp();
+    if (interaction > BATCH_MODE) debughelp();
 #endif // #93: tt_DEBUG
     history = FATAL_ERROR_STOP;
     jumpout();
@@ -1391,29 +1389,27 @@ Static void wclose(FILE **f)
 
 
 /*37:*/
-Static Boolean initterminal(void)
-{
-    // topenin();
-  if (initinc(1)) {
-    loc = first;
-    return true;
-  }
-  while (true) {
-    fprintf(stdout, "**");
-    fflush(stdout);
-    if (!inputln(stdin, true)) {
-      putc('\n', stdout);
-      fprintf(stdout,"! End of file on the terminal... why?");
-      return false;
+Static Boolean initterminal(void) {
+    if (initinc(1)) {
+        loc = first;
+        return true;
     }
-    loc = first;
-    while ((loc < last) & (buffer[loc] == ' '))
-      loc++;
-    if (loc < last) {
-      return true;
+    while (true) {
+        fprintf(stdout, "**");
+        fflush(stdout);
+        if (!inputln(stdin, true)) {
+            putc('\n', stdout);
+            fprintf(stdout, "! End of file on the terminal... why?");
+            return false;
+        }
+        loc = first;
+        while ((loc < last) && (buffer[loc] == ' '))
+            loc++;
+        if (loc < last) {
+            return true;
+        }
+        fprintf(stdout, "Please type the name of your input file.\n");
     }
-    fprintf(stdout, "Please type the name of your input file.\n");
-  }
 }
 /*:37*/
 
@@ -1504,12 +1500,12 @@ Static void normalize_selector(void) {
     else
         selector = TERM_ONLY;
     if (jobname == 0) openlogfile();
-    if (interaction == batchmode) selector--;
+    if (interaction == BATCH_MODE) selector--;
 }
 /// #98
 Static void pause_for_instructions(void) {
     if (!OKtointerrupt) return;
-    interaction = errorstopmode;
+    interaction = ERROR_STOP_MODE;
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
     printnl(S(292));
     print(S(304));
@@ -1796,27 +1792,27 @@ Static void runaway(void)
 {
   Pointer p=0 /* XXXX */;
 
-  if (scannerstatus <= skipping)
+  if (scanner_status <= SKIPPING)
     return;
   printnl(S(312));
-  switch (scannerstatus) {
+  switch (scanner_status) {
 
-  case defining:
+  case DEFINING:
     print(S(313));
     p = defref;
     break;
 
-  case matching:
+  case MATCHING:
     print(S(314));
     p = temphead;
     break;
 
-  case aligning:
+  case ALIGNING:
     print(S(315));
     p = holdhead;
     break;
 
-  case absorbing:
+  case ABSORBING:
     print(S(316));
     p = defref;
     break;
@@ -2019,8 +2015,8 @@ Static Pointer newnullbox(void)
   height(p) = 0;
   shiftamount(p) = 0;
   listptr(p) = 0;
-  gluesign(p) = normal;
-  glueorder(p) = normal;
+  gluesign(p) = NORMAL;
+  glueorder(p) = NORMAL;
   glueset(p) = 0.0;
   return p;
 }
@@ -2032,7 +2028,7 @@ Static Pointer newrule(void)
   Pointer p;
 
   p = getnode(rulenodesize);
-  type(p) = rulenode;
+  type(p) = RULE_NODE;
   subtype(p) = 0;
   width(p) = nullflag;
   depth(p) = nullflag;
@@ -2047,7 +2043,7 @@ Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = ligaturenode;
+  type(p) = LIGATURE_NODE;
   font_ligchar(p) = f;
   character_ligchar(p) = c;
   ligptr(p) = q;
@@ -2073,7 +2069,7 @@ Static Pointer newdisc(void)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = discnode;
+  type(p) = DISC_NODE;
   replacecount(p) = 0;
   prebreak(p) = 0;
   postbreak(p) = 0;
@@ -2087,7 +2083,7 @@ Static Pointer newmath(long w, SmallNumber s)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = mathnode;
+  type(p) = MATH_NODE;
   subtype(p) = s;
   width(p) = w;
   return p;
@@ -2115,7 +2111,7 @@ Static Pointer newparamglue(SmallNumber n)
   Pointer p, q;
 
   p = getnode(smallnodesize);
-  type(p) = gluenode;
+  type(p) = GLUE_NODE;
   subtype(p) = n + 1;
   leaderptr(p) = 0;
   q = gluepar(n);   /*224:*/
@@ -2132,8 +2128,8 @@ Static Pointer newglue(Pointer q)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = gluenode;
-  subtype(p) = normal;
+  type(p) = GLUE_NODE;
+  subtype(p) = NORMAL;
   leaderptr(p) = 0;
   glueptr(p) = q;
   (gluerefcount(q))++;
@@ -2161,8 +2157,8 @@ Static Pointer newkern(long w)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = kernnode;
-  subtype(p) = normal;
+  type(p) = KERN_NODE;
+  subtype(p) = NORMAL;
   width(p) = w;
   return p;
 }
@@ -2174,7 +2170,7 @@ Static Pointer newpenalty(long m)
   Pointer p;
 
   p = getnode(smallnodesize);
-  type(p) = penaltynode;
+  type(p) = PENALTY_NODE;
   subtype(p) = 0;
   penalty(p) = m;
   return p;
@@ -2369,33 +2365,33 @@ Static void shortdisplay(Pointer p)
       switch (type(p)) {   /*:175*/
 
       case hlistnode:
-      case vlistnode:
-      case insnode:
-      case whatsitnode:
-      case marknode:
-      case adjustnode:
-      case unsetnode:
+      case VLIST_NODE:
+      case INS_NODE:
+      case WHATSIT_NODE:
+      case MARK_NODE:
+      case ADJUST_NODE:
+      case UNSET_NODE:
 	print(S(328));
 	break;
 
-      case rulenode:
+      case RULE_NODE:
 	print_char('|');
 	break;
 
-      case gluenode:
+      case GLUE_NODE:
 	if (glueptr(p) != zeroglue)
 	  print_char(' ');
 	break;
 
-      case mathnode:
+      case MATH_NODE:
 	print_char('$');
 	break;
 
-      case ligaturenode:
+      case LIGATURE_NODE:
 	shortdisplay(ligptr(p));
 	break;
 
-      case discnode:
+      case DISC_NODE:
 	shortdisplay(prebreak(p));
 	shortdisplay(postbreak(p));
 	n = replacecount(p);
@@ -2457,7 +2453,7 @@ Static void printglue(long d, long order, StrNumber s)
     print(S(329));
     return;
   }
-  if (order <= normal) {
+  if (order <= NORMAL) {
     if (s != 0)
       print(s);
     return;
@@ -2580,89 +2576,32 @@ void printstyle(long c)
 }
 /*:694*/
 
-/*225:*/
-void printskipparam(long n)
-{
-  switch (n) {
+// #225:
+void print_skip_param(Integer n) {
+    switch (n) {
+        case lineskipcode: print_esc(S(341)); break;
+        case baselineskipcode: print_esc(S(342)); break;
+        case parskipcode: print_esc(S(343)); break;
+        case abovedisplayskipcode: print_esc(S(344)); break;
+        case belowdisplayskipcode: print_esc(S(345)); break;
+        case abovedisplayshortskipcode: print_esc(S(346)); break;
+        case belowdisplayshortskipcode: print_esc(S(347)); break;
+        case leftskipcode: print_esc(S(348)); break;
+        case rightskipcode: print_esc(S(349)); break;
+        case topskipcode: print_esc(S(350)); break;
+        case splittopskipcode: print_esc(S(351)); break;
+        case tabskipcode: print_esc(S(352)); break;
+        case spaceskipcode: print_esc(S(353)); break;
+        case xspaceskipcode: print_esc(S(354)); break;
+        case parfillskipcode: print_esc(S(355)); break;
+        case thinmuskipcode: print_esc(S(356)); break;
+        case medmuskipcode: print_esc(S(357)); break;
+        case thickmuskipcode: print_esc(S(358)); break;
 
-  case lineskipcode:
-    print_esc(S(341));
-    break;
+        default: print(S(359)); break;
+    } // switch (n)
+} // #225: print_skip_param
 
-  case baselineskipcode:
-    print_esc(S(342));
-    break;
-
-  case parskipcode:
-    print_esc(S(343));
-    break;
-
-  case abovedisplayskipcode:
-    print_esc(S(344));
-    break;
-
-  case belowdisplayskipcode:
-    print_esc(S(345));
-    break;
-
-  case abovedisplayshortskipcode:
-    print_esc(S(346));
-    break;
-
-  case belowdisplayshortskipcode:
-    print_esc(S(347));
-    break;
-
-  case leftskipcode:
-    print_esc(S(348));
-    break;
-
-  case rightskipcode:
-    print_esc(S(349));
-    break;
-
-  case topskipcode:
-    print_esc(S(350));
-    break;
-
-  case splittopskipcode:
-    print_esc(S(351));
-    break;
-
-  case tabskipcode:
-    print_esc(S(352));
-    break;
-
-  case spaceskipcode:
-    print_esc(S(353));
-    break;
-
-  case xspaceskipcode:
-    print_esc(S(354));
-    break;
-
-  case parfillskipcode:
-    print_esc(S(355));
-    break;
-
-  case thinmuskipcode:
-    print_esc(S(356));
-    break;
-
-  case medmuskipcode:
-    print_esc(S(357));
-    break;
-
-  case thickmuskipcode:
-    print_esc(S(358));
-    break;
-
-  default:
-    print(S(359));
-    break;
-  }
-}
-/*:225*/
 
 /*182:*/
 Static void shownodelist(long p)
@@ -2694,11 +2633,11 @@ Static void shownodelist(long p)
       switch (type(p)) {   /*:183*/
 
       case hlistnode:
-      case vlistnode:
-      case unsetnode:   /*184:*/
+      case VLIST_NODE:
+      case UNSET_NODE:   /*184:*/
 	if (type(p) == hlistnode)
 	  print_esc('h');
-	else if (type(p) == vlistnode)
+	else if (type(p) == VLIST_NODE)
 	  print_esc('v');
 	else
 	  print_esc(S(362));
@@ -2708,7 +2647,7 @@ Static void shownodelist(long p)
 	print_scaled(depth(p));
 	print(S(364));
 	print_scaled(width(p));
-	if (type(p) == unsetnode) {   /*185:*/
+	if (type(p) == UNSET_NODE) {   /*185:*/
 	  if (spancount(p) != MIN_QUARTER_WORD) {
 	    print(S(303));
 	    print_int(spancount(p) - MIN_QUARTER_WORD + 1);
@@ -2725,7 +2664,7 @@ Static void shownodelist(long p)
 	}  /*:185*/
 	else {   /*186:*/
 	  g = glueset(p);
-	  if ((g != 0.0) & (gluesign(p) != normal)) {   /*:186*/
+	  if ((g != 0.0) & (gluesign(p) != NORMAL)) {   /*:186*/
 	    print(S(368));
 	    if (gluesign(p) == shrinking)
 	      print(S(369));
@@ -2751,7 +2690,7 @@ Static void shownodelist(long p)
 	break;
 	/*:184*/
 
-      case rulenode:   /*187:*/
+      case RULE_NODE:   /*187:*/
 	print_esc(S(373));
 	printruledimen(height(p));
 	print_char('+');
@@ -2761,7 +2700,7 @@ Static void shownodelist(long p)
 	break;
 	/*:187*/
 
-      case insnode:   /*188:*/
+      case INS_NODE:   /*188:*/
 	print_esc(S(374));
 	print_int(subtype(p) - MIN_QUARTER_WORD);
 	print(S(375));
@@ -2776,7 +2715,7 @@ Static void shownodelist(long p)
 	break;
 	/*:188*/
 
-      case whatsitnode:   /*1356:*/
+      case WHATSIT_NODE:   /*1356:*/
 	switch (subtype(p)) {   /*:1356*/
 
 	case opennode:
@@ -2815,7 +2754,7 @@ Static void shownodelist(long p)
 	}
 	break;
 
-      case gluenode:   /*189:*/
+      case GLUE_NODE:   /*189:*/
 	if (subtype(p) >= aleaders) {   /*190:*/
 	  print_esc(S(385));
 	  if (subtype(p) == cleaders)
@@ -2828,10 +2767,10 @@ Static void shownodelist(long p)
 	}  /*:190*/
 	else {   /*:189*/
 	  print_esc(S(387));
-	  if (subtype(p) != normal) {
+	  if (subtype(p) != NORMAL) {
 	    print_char('(');
 	    if (subtype(p) < condmathglue)
-	      printskipparam(subtype(p) - 1);
+	      print_skip_param(subtype(p) - 1);
 	    else {
 	      if (subtype(p) == condmathglue)
 		print_esc(S(388));
@@ -2850,10 +2789,10 @@ Static void shownodelist(long p)
 	}
 	break;
 
-      case kernnode:   /*191:*/
+      case KERN_NODE:   /*191:*/
 	if (subtype(p) != muglue) {
 	  print_esc(S(391));
-	  if (subtype(p) != normal)
+	  if (subtype(p) != NORMAL)
 	    print_char(' ');
 	  print_scaled(width(p));
 	  if (subtype(p) == acckern)
@@ -2865,7 +2804,7 @@ Static void shownodelist(long p)
 	}
 	break;
 
-      case mathnode:   /*192:*/
+      case MATH_NODE:   /*192:*/
 	print_esc(S(394));
 	if (subtype(p) == before)
 	  print(S(395));
@@ -2878,7 +2817,7 @@ Static void shownodelist(long p)
 	break;
 	/*:192*/
 
-      case ligaturenode:   /*193:*/
+      case LIGATURE_NODE:   /*193:*/
 #ifdef BIG_CHARNODE
 	{
 	Pointer pp=get_avail();
@@ -2902,13 +2841,13 @@ Static void shownodelist(long p)
 	break;
 	/*:193*/
 
-      case penaltynode:   /*194:*/
+      case PENALTY_NODE:   /*194:*/
 	print_esc(S(399));
 	print_int(penalty(p));
 	break;
 	/*:194*/
 
-      case discnode:   /*195:*/
+      case DISC_NODE:   /*195:*/
 	print_esc(S(400));
 	if (replacecount(p) > 0) {
 	  print(S(401));
@@ -2921,13 +2860,13 @@ Static void shownodelist(long p)
 	break;
 	/*:195*/
 
-      case marknode:   /*196:*/
+      case MARK_NODE:   /*196:*/
 	print_esc(S(402));
 	printmark(markptr(p));
 	break;
 	/*:196*/
 
-      case adjustnode:   /*197:*/
+      case ADJUST_NODE:   /*197:*/
 	print_esc(S(403));
 	nodelistdisplay(adjustptr(p));
 	break;
@@ -3036,7 +2975,7 @@ Static void shownodelist(long p)
 	  printdelimiter(nucleus(p));
 	  break;
 	}
-	if (subtype(p) != normal) {
+	if (subtype(p) != NORMAL) {
 	  if (subtype(p) == limits)
 	    print_esc(S(420));
 	  else
@@ -3132,26 +3071,26 @@ Static void flushnodelist(HalfWord p) {
         } else {
             switch (type(p)) {
             case hlistnode:
-            case vlistnode:
-            case unsetnode:
+            case VLIST_NODE:
+            case UNSET_NODE:
                 flushnodelist(listptr(p));
                 freenode(p, boxnodesize);
                 goto _Ldone;
                 break;
 
-            case rulenode:
+            case RULE_NODE:
                 freenode(p, rulenodesize);
                 goto _Ldone;
                 break;
 
-            case insnode:
+            case INS_NODE:
                 flushnodelist(insptr(p));
                 deleteglueref(splittopptr(p));
                 freenode(p, insnodesize);
                 goto _Ldone;
                 break;
 
-            case whatsitnode: /*1358:*/
+            case WHATSIT_NODE: /*1358:*/
                 switch (subtype(p)) {
 
                     case opennode:
@@ -3178,31 +3117,31 @@ Static void flushnodelist(HalfWord p) {
                 break;
                 /*:1358*/
 
-            case gluenode:
+            case GLUE_NODE:
                 karmafastdeleteglueref(glueptr(p));
                 if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
                 break;
 
-            case kernnode:
-            case mathnode:
-            case penaltynode:
+            case KERN_NODE:
+            case MATH_NODE:
+            case PENALTY_NODE:
                 /* blank case */
                 break;
 
-            case ligaturenode:
+            case LIGATURE_NODE:
                 flushnodelist(ligptr(p));
                 break;
 
-            case marknode:
+            case MARK_NODE:
                 deletetokenref(markptr(p));
                 break;
 
-            case discnode:
+            case DISC_NODE:
                 flushnodelist(prebreak(p));
                 flushnodelist(postbreak(p));
                 break;
 
-            case adjustnode: /*698:*/
+            case ADJUST_NODE: /*698:*/
                 flushnodelist(adjustptr(p));
                 break;
 
@@ -3293,8 +3232,8 @@ Static HalfWord copynodelist(HalfWord p)
       switch (type(p)) {   /*:206*/
 
       case hlistnode:
-      case vlistnode:
-      case unsetnode:
+      case VLIST_NODE:
+      case UNSET_NODE:
 	r = getnode(boxnodesize);
 	mem[r - memmin + 6] = mem[p - memmin + 6];
 	mem[r - memmin + 5] = mem[p - memmin + 5];
@@ -3302,12 +3241,12 @@ Static HalfWord copynodelist(HalfWord p)
 	words = 5;
 	break;
 
-      case rulenode:
+      case RULE_NODE:
 	r = getnode(rulenodesize);
 	words = rulenodesize;
 	break;
 
-      case insnode:
+      case INS_NODE:
 	r = getnode(insnodesize);
 	mem[r - memmin + 4] = mem[p - memmin + 4];
 	addglueref(splittopptr(p));
@@ -3315,7 +3254,7 @@ Static HalfWord copynodelist(HalfWord p)
 	words = insnodesize - 1;
 	break;
 
-      case whatsitnode:   /*1357:*/
+      case WHATSIT_NODE:   /*1357:*/
 	switch (subtype(p)) {   /*:1357*/
 
 	case opennode:
@@ -3342,39 +3281,39 @@ Static HalfWord copynodelist(HalfWord p)
 	}
 	break;
 
-      case gluenode:
+      case GLUE_NODE:
 	r = getnode(smallnodesize);
 	addglueref(glueptr(p));
 	glueptr(r) = glueptr(p);
 	leaderptr(r) = copynodelist(leaderptr(p));
 	break;
 
-      case kernnode:
-      case mathnode:
-      case penaltynode:
+      case KERN_NODE:
+      case MATH_NODE:
+      case PENALTY_NODE:
 	r = getnode(smallnodesize);
 	words = smallnodesize;
 	break;
 
-      case ligaturenode:
+      case LIGATURE_NODE:
 	r = getnode(smallnodesize);
 	mem[ligchar(r) - memmin] = mem[ligchar(p) - memmin];
 	ligptr(r) = copynodelist(ligptr(p));
 	break;
 
-      case discnode:
+      case DISC_NODE:
 	r = getnode(smallnodesize);
 	prebreak(r) = copynodelist(prebreak(p));
 	postbreak(r) = copynodelist(postbreak(p));
 	break;
 
-      case marknode:
+      case MARK_NODE:
 	r = getnode(smallnodesize);
 	addtokenref(markptr(p));
 	words = smallnodesize;
 	break;
 
-      case adjustnode:
+      case ADJUST_NODE:
 	r = getnode(smallnodesize);
 	adjustptr(r) = copynodelist(adjustptr(p));
 	break;
@@ -3399,45 +3338,26 @@ Static HalfWord copynodelist(HalfWord p)
 }
 /*:204*/
 
-/*211:*/
-Static void printmode(long m)
-{
-  if (m > 0) {
-    switch (m / (maxcommand + 1)) {
+// #211: prints the mode represented by m
+Static void print_mode(Integer m) {
+    if (m > 0) {
+        switch (m / (maxcommand + 1)) {
+            case 0: print(S(431)); break; // "vertical"
+            case 1: print(S(432)); break; // "horizontal"
+            case 2: print(S(433)); break; // "display math"
+        }
+    } else if (m == 0) {
+        print(S(434)); // "no"
+    } else { // m < 0
+        switch ((-1 * m) / (maxcommand + 1)) {
+            case 0: print(S(435)); break; // "internal vertical"
+            case 1: print(S(436)); break; // "restricted horizontal"
+            case 2: print(S(394)); break; // "math"
+        }
+    } // if (m <> 0)
+    print(S(437)); // " mode"
+} // #211: print_mode
 
-    case 0:
-      print(S(431));
-      break;
-
-    case 1:
-      print(S(432));
-      break;
-
-    case 2:
-      print(S(433));
-      break;
-    }
-  } else if (m == 0)
-    print(S(434));
-  else {
-    switch (-m / (maxcommand + 1)) {
-
-    case 0:
-      print(S(435));
-      break;
-
-    case 1:
-      print(S(436));
-      break;
-
-    case 2:
-      print(S(394));
-      break;
-    }
-  }
-  print(S(437));
-}
-/*:211*/
 
 /*216:*/
 Static void pushnest(void)
@@ -3483,7 +3403,7 @@ Static void showactivities(void)
     short m = nest[p].modefield;
     MemoryWord a = nest[p].auxfield;
     printnl(S(439));
-    printmode(m);
+    print_mode(m);
     print(S(440));
     print_int(labs(nest[p].mlfield));
     if (m == H_MODE) {
@@ -3524,7 +3444,7 @@ Static void showactivities(void)
 	      t = 0;
 	      do {
 		q = link(q);
-		if ((type(q) == insnode) & (subtype(q) == subtype(r)))
+		if ((type(q) == INS_NODE) & (subtype(q) == subtype(r)))
 		  t++;
 	      } while (q != brokenins(r));
 	      print(S(449));
@@ -3613,7 +3533,7 @@ Static void showeqtb(HalfWord n) {
     }                    /*:223*/
     if (n < localbase) { /*229:*/
         if (n < skipbase) {
-            printskipparam(n - gluebase);
+            print_skip_param(n - gluebase);
             print_char('=');
             if (n < gluebase + thinmuskipcode)
                 printspec(equiv(n), S(459));
@@ -4085,7 +4005,7 @@ Static void showcurcmdchr(void)
   begindiagnostic();
   printnl('{');
   if (mode != shownmode) {
-    printmode(mode);
+    print_mode(mode);
     print(S(488));
     shownmode = mode;
   }
@@ -4114,19 +4034,19 @@ Static void showcontext(void)
   bottomline = false;
   while (true) {
     curinput = inputstack[baseptr];
-    if (state != tokenlist) {
+    if (state != TOKEN_LIST) {
       if (name > 17 || baseptr == 0)
 	bottomline = true;
     }
     if (baseptr == inputptr || bottomline || nn < errorcontextlines) {
 	  /*312:*/
-	    if (baseptr == inputptr || state != tokenlist ||
-		tokentype != backedup || loc != 0) {
+	    if (baseptr == inputptr || state != TOKEN_LIST ||
+		token_type != BACKED_UP || loc != 0) {
 	tally = 0;
 	old_setting = selector;
-	if (state != tokenlist) {  /*313:*/
+	if (state != TOKEN_LIST) {  /*313:*/
 	  if (name <= 17) {   /*:313*/
-	    if (terminalinput) {
+	    if (terminal_input) {
 	      if (baseptr == 0)
 		printnl(S(489));
 	      else
@@ -4158,70 +4078,70 @@ Static void showcontext(void)
 	    }
 	  }
 	} else {  /*314:*/
-	  switch (tokentype) {   /*:314*/
+	  switch (token_type) {   /*:314*/
 
-	  case parameter:
+	  case PARAMETER:
 	    printnl(S(493));
 	    break;
 
-	  case utemplate:
-	  case vtemplate:
+	  case U_TEMPLATE:
+	  case V_TEMPLATE:
 	    printnl(S(494));
 	    break;
 
-	  case backedup:
+	  case BACKED_UP:
 	    if (loc == 0)
 	      printnl(S(495));
 	    else
 	      printnl(S(496));
 	    break;
 
-	  case inserted:
+	  case INSERTED:
 	    printnl(S(497));
 	    break;
 
-	  case macro:
+	  case MACRO:
 	    println();
 	    print_cs(name);
 	    break;
 
-	  case outputtext:
+	  case OUTPUT_TEXT:
 	    printnl(S(498));
 	    break;
 
-	  case everypartext:
+	  case EVERY_PAR_TEXT:
 	    printnl(S(499));
 	    break;
 
-	  case everymathtext:
+	  case EVERY_MATH_TEXT:
 	    printnl(S(500));
 	    break;
 
-	  case everydisplaytext:
+	  case EVERY_DISPLAY_TEXT:
 	    printnl(S(501));
 	    break;
 
-	  case everyhboxtext:
+	  case EVERY_HBOX_TEXT:
 	    printnl(S(502));
 	    break;
 
-	  case everyvboxtext:
+	  case EVERY_VBOX_TEXT:
 	    printnl(S(503));
 	    break;
 
-	  case everyjobtext:
+	  case EVERY_JOB_TEXT:
 	    printnl(S(504));
 	    break;
 
-	  case everycrtext:
+	  case EVERY_CR_TEXT:
 	    printnl(S(505));
 	    break;
 
-	  case marktext:
+	  case MARK_TEXT:
 	    printnl(S(506));
 	    break;
 
-	  case writetext:
+	  case WRITE_TEXT:
 	    printnl(S(507));
 	    break;
 
@@ -4231,7 +4151,7 @@ Static void showcontext(void)
 	  }
 	  /*319:*/
 	  beginpseudoprint();
-	  if (tokentype < macro)
+	  if (token_type < MACRO)
 	    showtokenlist(start, loc, 100000L);
 	  else   /*:319*/
 	    showtokenlist(link(start), loc, 100000L);
@@ -4293,16 +4213,16 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
   }
   inputstack[inputptr] = curinput;
   inputptr++;
-  state = tokenlist;
+  state = TOKEN_LIST;
   start = p;
-  tokentype = t;
-  if (t < macro) {
+  token_type = t;
+  if (t < MACRO) {
     loc = p;
     return;
   }
   addtokenref(p);
-  if (t == macro) {
-    paramstart = paramptr;
+  if (t == MACRO) {
+    param_start = paramptr;
     return;
   }
   loc = link(p);
@@ -4312,16 +4232,16 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
   printnl(S(385));
   switch (t) {
 
-  case marktext:
+  case MARK_TEXT:
     print_esc(S(402));
     break;
 
-  case writetext:
+  case WRITE_TEXT:
     print_esc(S(379));
     break;
 
   default:
-    printcmdchr(assigntoks, t - outputtext + outputroutineloc);
+    printcmdchr(assigntoks, t - OUTPUT_TEXT + outputroutineloc);
     break;
   }
   print(S(310));
@@ -4333,19 +4253,19 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
 /*324:*/
 Static void endtokenlist(void)
 {
-  if (tokentype >= backedup) {
-    if (tokentype <= inserted)
+  if (token_type >= BACKED_UP) {
+    if (token_type <= INSERTED)
       flushlist(start);
     else {
       deletetokenref(start);
-      if (tokentype == macro) {
-	while (paramptr > paramstart) {
+      if (token_type == MACRO) {
+	while (paramptr > param_start) {
 	  paramptr--;
 	  flushlist(paramstack[paramptr]);
 	}
       }
     }
-  } else if (tokentype == utemplate) {
+  } else if (token_type == U_TEMPLATE) {
     if (alignstate > 500000L)
       alignstate = 0;
     else
@@ -4361,7 +4281,7 @@ Static void backinput(void)
 {
   Pointer p;
 
-  while (state == tokenlist && loc == 0)
+  while (state == TOKEN_LIST && loc == 0)
     endtokenlist();
   p = get_avail();
   info(p) = curtok;
@@ -4378,9 +4298,9 @@ Static void backinput(void)
   }
   inputstack[inputptr] = curinput;
   inputptr++;
-  state = tokenlist;
+  state = TOKEN_LIST;
   start = p;
-  tokentype = backedup;
+  token_type = BACKED_UP;
   loc = p;
 }
 /*:325*/
@@ -4399,7 +4319,7 @@ Static void inserror(void)
 {
   OKtointerrupt = false;
   backinput();
-  tokentype = inserted;
+  token_type = INSERTED;
   OKtointerrupt = true;
   error();
 }
@@ -4443,510 +4363,508 @@ Static void endfilereading(void)
 /*330:*/
 Static void clearforerrorprompt(void)
 {
-  while (state != tokenlist && terminalinput && inputptr > 0 && loc > limit) {
+  while (state != TOKEN_LIST && terminal_input && inputptr > 0 && loc > limit) {
     endfilereading();
   }
   println();
 }
 /*:330*/
 
-/*336:*/
-Static int checkoutervalidity(int local_curcs)
-{
-  Pointer p, q;
-  if (scannerstatus == normal)
-    return local_curcs;
-  deletionsallowed = false;   /*337:*/
-  if (local_curcs != 0) {   /*:337*/
-    if (state == tokenlist || name < 1 || name > 17) {
-      p = get_avail();
-      info(p) = cstokenflag + local_curcs;
-      backlist(p);
+// P134#336
+Static int check_outer_validity(int local_curcs) {
+    Pointer p, q;
+
+    if (scanner_status == NORMAL) return local_curcs;
+
+    deletionsallowed = false; /*337:*/
+    if (local_curcs != 0) {   /*:337*/
+        if (state == TOKEN_LIST || name < 1 || name > 17) {
+            p = get_avail();
+            info(p) = cstokenflag + local_curcs;
+            backlist(p);
+        }
+        curcmd = spacer;
+        curchr = ' ';
     }
-    curcmd = spacer;
-    curchr = ' ';
-  }
-  curcs = local_curcs;
-  if (scannerstatus > skipping) {   /*338:*/
-    runaway();
-    if (curcs == 0) {
-      printnl(S(292));
-      print(S(512));
+    curcs = local_curcs;
+    if (scanner_status > SKIPPING) { /*338:*/
+        runaway();
+        if (curcs == 0) {
+            printnl(S(292));
+            print(S(512));
+        } else {
+            curcs = 0;
+            printnl(S(292));
+            print(S(513));
+        }
+        print(S(514)); /*339:*/
+        p = get_avail();
+        switch (scanner_status) {
+
+            case DEFINING:
+                print(S(313));
+                info(p) = rightbracetoken + '}';
+                break;
+
+            case MATCHING:
+                print(S(515));
+                info(p) = partoken;
+                longstate = outercall;
+                break;
+
+            case ALIGNING:
+                print(S(315));
+                info(p) = rightbracetoken + '}';
+                q = p;
+                p = get_avail();
+                link(p) = q;
+                info(p) = cstokenflag + frozencr;
+                alignstate = -1000000L;
+                break;
+
+            case ABSORBING:
+                print(S(316));
+                info(p) = rightbracetoken + '}';
+                break;
+        }
+        inslist(p); /*:339*/
+        print(S(516));
+        sprint_cs(warningindex);
+        help4(S(517), S(518), S(519), S(520));
+        error();
     } else {
-      curcs = 0;
-      printnl(S(292));
-      print(S(513));
+        printnl(S(292));
+        print(S(521));
+        printcmdchr(iftest, curif);
+        print(S(522));
+        print_int(skipline);
+        help3(S(523), S(524), S(525));
+        if (curcs != 0)
+            curcs = 0;
+        else
+            helpline[2] = S(526);
+        curtok = cstokenflag + frozenfi;
+        inserror();
     }
-    print(S(514));   /*339:*/
-    p = get_avail();
-    switch (scannerstatus) {
-
-    case defining:
-      print(S(313));
-      info(p) = rightbracetoken + '}';
-      break;
-
-    case matching:
-      print(S(515));
-      info(p) = partoken;
-      longstate = outercall;
-      break;
-
-    case aligning:
-      print(S(315));
-      info(p) = rightbracetoken + '}';
-      q = p;
-      p = get_avail();
-      link(p) = q;
-      info(p) = cstokenflag + frozencr;
-      alignstate = -1000000L;
-      break;
-
-    case absorbing:
-      print(S(316));
-      info(p) = rightbracetoken + '}';
-      break;
-    }
-    inslist(p);   /*:339*/
-    print(S(516));
-    sprint_cs(warningindex);
-    help4(S(517),
-          S(518),
-          S(519),
-          S(520));
-    error();
-  } else {
-    printnl(S(292));
-    print(S(521));
-    printcmdchr(iftest, curif);
-    print(S(522));
-    print_int(skipline);
-    help3(S(523),
-          S(524),
-          S(525));
-    if (curcs != 0)
-      curcs = 0;
-    else
-      helpline[2] = S(526);
-    curtok = cstokenflag + frozenfi;
-    inserror();
-  }
-  /*:338*/
-  deletionsallowed = true;
-  return curcs;
-}
-/*:336*/
+    /*:338*/
+    deletionsallowed = true;
+    return curcs;
+} // P134#336: check_outer_validity
 
 /*340:*/
 Static void firmuptheline(void);
 /*:340*/
 
+
+#define CHECK_OUTER                                                            \
+    {                                                                          \
+        curchr = cur_chr;                                                      \
+        curcmd = cur_cmd;                                                      \
+        cur_cs = check_outer_validity(cur_cs);                                   \
+        cur_cmd = curcmd;                                                      \
+        cur_chr = curchr;                                                      \
+    }
+
+#define process_cmd                                                            \
+    if (cur_cmd >= outercall) CHECK_OUTER;                                     \
+    break;
+
+#define Process_cs                                                             \
+    cur_cmd = eqtype(cur_cs);                                                  \
+    cur_chr = equiv(cur_cs);                                                   \
+    process_cmd
+
 /*341:*/
-Static void getnext_worker(Boolean no_new_control_sequence)
-{
-  short k;
-  char cat;
-  ASCIICode c, cc=0 /* XXXX */;
-  char d;
-  int cur_cs, cur_chr, cur_cmd;
+Static void getnext_worker(Boolean no_new_control_sequence) {
+    short k;
+    char cat;
+    ASCIICode c, cc = 0;
+    char d;
+    int cur_cs, cur_chr, cur_cmd;
+
 _Lrestart:
-  cur_cs = 0;
-  if (state != tokenlist) {   /*343:*/
-_Lswitch__:
-    if (loc > limit) {
-      state = newline;   /*360:*/
-      if (name > 17) {   /*362:*/
-	line++;
-	first = start;
-	if (!forceeof) {
-	  if (inputln(curfile, true))
-	    firmuptheline();
-	  else
-	    forceeof = true;
-	}
-	if (forceeof) {
-	  print_char(')');
-	  openparens--;
-	  fflush(stdout);
-	  forceeof = false;
-	  endfilereading();
-	  cur_cs=checkoutervalidity(cur_cs);
-	  goto _Lrestart;
-	}
-	if (endlinecharinactive) {
-	  limit--;
-	} else
-	  buffer[limit] = endlinechar;
-	first = limit + 1;
-	loc = start;
-      }  /*:362*/
-      else {   /*:360*/
-	if (!terminalinput) {
-	  cur_cmd = 0;
-	  cur_chr = 0;
-	  goto _Lexit;
-	}
-	if (inputptr > 0) {
-	  endfilereading();
-	  goto _Lrestart;
-	}
-	if (selector < LOG_ONLY)
-	  openlogfile();
-	if (interaction > nonstopmode) {
-	  if (endlinecharinactive) {
-	    limit++;
-	  }
-	  if (limit == start)
-	    printnl(S(527));
-	  println();
-	  first = start;
-	  print('*');
-	  term_input();
-	  limit = last;
-	  if (endlinecharinactive) {
-	    limit--;
-	  } else
-	    buffer[limit] = endlinechar;
-	  first = limit + 1;
-	  loc = start;
-	} else
-	  fatalerror(S(528));
-      }
-      checkinterrupt();
-      goto _Lswitch__;
+    cur_cs = 0;
+    if (state != TOKEN_LIST) { /*343:*/
+    _Lswitch__:
+        if (loc > limit) {
+            state = newline; /*360:*/
+            if (name > 17) { /*362:*/
+                line++;
+                first = start;
+                if (!forceeof) {
+                    if (inputln(curfile, true))
+                        firmuptheline();
+                    else
+                        forceeof = true;
+                }
+                if (forceeof) {
+                    print_char(')');
+                    openparens--;
+                    fflush(stdout);
+                    forceeof = false;
+                    endfilereading();
+                    cur_cs = check_outer_validity(cur_cs);
+                    goto _Lrestart;
+                }
+                if (endlinecharinactive) {
+                    limit--;
+                } else
+                    buffer[limit] = endlinechar;
+                first = limit + 1;
+                loc = start;
+            }      /*:362*/
+            else { /*:360*/
+                if (!terminal_input) {
+                    cur_cmd = 0;
+                    cur_chr = 0;
+                    goto _Lexit;
+                }
+                if (inputptr > 0) {
+                    endfilereading();
+                    goto _Lrestart;
+                }
+                if (selector < LOG_ONLY) openlogfile();
+                if (interaction > NON_STOP_MODE) {
+                    if (endlinecharinactive) {
+                        limit++;
+                    }
+                    if (limit == start) printnl(S(527));
+                    println();
+                    first = start;
+                    print('*');
+                    term_input();
+                    limit = last;
+                    if (endlinecharinactive) {
+                        limit--;
+                    } else
+                        buffer[limit] = endlinechar;
+                    first = limit + 1;
+                    loc = start;
+                } else
+                    fatalerror(S(528));
+            }
+            checkinterrupt();
+            goto _Lswitch__;
+        }
+        cur_chr = buffer[loc];
+        loc++;
+    _Lreswitch:
+        cur_cmd = catcode(cur_chr); /*344:*/
+        switch (state + cur_cmd) {  /*345:*/
+
+            case midline + ignore:
+            case skipblanks + ignore:
+            case newline + ignore:
+            case skipblanks + spacer:
+            case newline + spacer: /*:345*/
+                goto _Lswitch__;
+                break;
+
+            case midline:
+            case skipblanks:
+            case newline: /*354:*/
+                if (loc > limit)
+                    cur_cs = nullcs;
+                else {
+                _Lstartcs_:
+                    k = loc;
+                    cur_chr = buffer[k];
+                    cat = catcode(cur_chr);
+                    k++;
+                    if (cat == letter)
+                        state = skipblanks;
+                    else if (cat == spacer)
+                        state = skipblanks;
+                    else
+                        state = midline;
+                    if (cat == letter && k <= limit) { /*356:*/
+                        do {
+                            cur_chr = buffer[k];
+                            cat = catcode(cur_chr);
+                            k++;
+                        } while (cat == letter && k <= limit); /*355:*/
+                        if (buffer[k] == cur_chr) {            /*:355*/
+                            if (cat == supmark) {
+                                if (k < limit) {
+                                    c = buffer[k + 1];
+                                    if (c < 128) {
+                                        d = 2;
+                                        if (ishex(c)) {
+                                            if (k + 2 <= limit) {
+                                                cc = buffer[k + 2];
+                                                if (ishex(cc)) {
+                                                    d++;
+                                                }
+                                            }
+                                        }
+                                        if (d > 2) {
+                                            buffer[k - 1] = cur_chr =
+                                                hex_to_i(c, cc);
+                                        } else if (c < 64)
+                                            buffer[k - 1] = c + 64;
+                                        else
+                                            buffer[k - 1] = c - 64;
+                                        limit -= d;
+                                        first -= d;
+                                        while (k <= limit) {
+                                            buffer[k] = buffer[k + d];
+                                            k++;
+                                        }
+                                        goto _Lstartcs_;
+                                    }
+                                }
+                            }
+                        }
+                        if (cat != letter) k--;
+                        if (k > loc + 1) {
+                            cur_cs = idlookup_p(
+                                buffer + loc, k - loc, no_new_control_sequence);
+                            loc = k;
+                            goto _Lfound;
+                        }
+                    } else /*355:*/
+                    {      /*:355*/
+                        if (buffer[k] == cur_chr) {
+                            if (cat == supmark) {
+                                if (k < limit) {
+                                    c = buffer[k + 1];
+                                    if (c < 128) {
+                                        d = 2;
+                                        if (ishex(c)) {
+                                            if (k + 2 <= limit) {
+                                                cc = buffer[k + 2];
+                                                if (ishex(cc)) {
+                                                    d++;
+                                                }
+                                            }
+                                        }
+                                        if (d > 2) {
+                                            buffer[k - 1] = cur_chr =
+                                                hex_to_i(c, cc);
+                                        } else if (c < 64)
+                                            buffer[k - 1] = c + 64;
+                                        else
+                                            buffer[k - 1] = c - 64;
+                                        limit -= d;
+                                        first -= d;
+                                        while (k <= limit) {
+                                            buffer[k] = buffer[k + d];
+                                            k++;
+                                        }
+                                        goto _Lstartcs_;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    /*:356*/
+                    cur_cs = singlebase + buffer[loc];
+                    loc++;
+                }
+
+
+
+            _Lfound:
+                Process_cs
+                    /*:354*/
+
+                    case midline +
+                    activechar : case skipblanks + activechar : case newline +
+                                                                activechar
+                    : /*353:*/
+                      state = midline;
+                cur_cs = cur_chr + activebase;
+                Process_cs
+                    /*:353*/
+
+                    case midline +
+                    supmark : case skipblanks + supmark : case newline +
+                                                          supmark
+                    : /*352:*/
+                      if (cur_chr == buffer[loc]) {
+                    if (loc < limit) {
+                        c = buffer[loc + 1];
+                        if (c < 128) {
+                            loc += 2;
+                            if (ishex(c)) {
+                                if (loc <= limit) {
+                                    cc = buffer[loc];
+                                    if (ishex(cc)) {
+                                        loc++;
+                                        cur_chr = hex_to_i(c, cc);
+                                        goto _Lreswitch;
+                                    }
+                                }
+                            }
+                            if (c < 64)
+                                cur_chr = c + 64;
+                            else
+                                cur_chr = c - 64;
+                            goto _Lreswitch;
+                        }
+                    }
+                }
+                state = midline;
+                break;
+                /*:352*/
+
+            case midline + invalidchar:
+            case skipblanks + invalidchar:
+            case newline + invalidchar: /*346:*/
+                printnl(S(292));
+                print(S(529));
+                help2(S(530), S(531));
+                deletionsallowed = false;
+                error();
+                deletionsallowed = true;
+                goto _Lrestart;
+                break;
+                /*:346*/
+                /*347:*/
+
+            case midline + spacer: /*349:*/
+                state = skipblanks;
+                cur_chr = ' ';
+                break;
+                /*:349*/
+
+            case midline + carret: /*348:*/
+                loc = limit + 1;
+                cur_cmd = spacer;
+                cur_chr = ' ';
+                break;
+                /*:348*/
+
+            case skipblanks + carret:
+            case midline + comment:
+            case skipblanks + comment:
+            case newline + comment: /*:350*/
+                /*350:*/
+                loc = limit + 1;
+                goto _Lswitch__;
+                break;
+
+            case newline + carret: /*351:*/
+                loc = limit + 1;
+                cur_cs = parloc;
+                Process_cs
+                    /*:351*/
+
+                    case midline +
+                    leftbrace : alignstate++;
+                break;
+
+            case skipblanks + leftbrace:
+            case newline + leftbrace:
+                state = midline;
+                alignstate++;
+                break;
+
+            case midline + rightbrace:
+                alignstate--;
+                break;
+
+            case skipblanks + rightbrace:
+            case newline + rightbrace:
+                state = midline;
+                alignstate--;
+                break;
+
+            case skipblanks + mathshift:
+            case skipblanks + tabmark:
+            case skipblanks + macparam:
+            case skipblanks + submark:
+            case skipblanks + letter:
+            case skipblanks + otherchar:
+            case newline + mathshift:
+            case newline + tabmark:
+            case newline + macparam:
+            case newline + submark:
+            case newline + letter:
+            case newline + otherchar: /*:347*/
+                state = midline;
+                break;
+        }
+        /*:344*/
+    } else { /*357:*/
+        HalfWord t;
+        if (loc == 0) {
+            endtokenlist();
+            goto _Lrestart;
+        }
+        t = info(loc);
+        loc = link(loc);
+        if (t >= cstokenflag) {
+            cur_cs = t - cstokenflag;
+            cur_cmd = eqtype(cur_cs);
+            cur_chr = equiv(cur_cs);
+            if (cur_cmd >= outercall) {
+                if (cur_cmd == dontexpand) { /*358:*/
+                    cur_cs = info(loc) - cstokenflag;
+                    loc = 0;
+                    cur_cmd = eqtype(cur_cs);
+                    cur_chr = equiv(cur_cs);
+                    if (cur_cmd > maxcommand) {
+                        cur_cmd = relax;
+                        cur_chr = noexpandflag;
+                    }
+                } else {
+                    CHECK_OUTER;
+                }
+                /*:358*/
+            }
+        } else {
+            cur_cmd = t / dwa_do_8;
+            cur_chr = t & (dwa_do_8 - 1);
+            switch (cur_cmd) {
+
+                case leftbrace:
+                    alignstate++;
+                    break;
+
+                case rightbrace:
+                    alignstate--;
+                    break;
+
+                case outparam: /*359:*/
+                    begintokenlist(paramstack[param_start + cur_chr - 1],
+                                   PARAMETER);
+                    goto _Lrestart;
+                    break;
+                    /*:359*/
+            }
+        }
     }
-    cur_chr = buffer[loc];
-    loc++;
-_Lreswitch:
-    cur_cmd = catcode(cur_chr);   /*344:*/
-    switch (state + cur_cmd) {   /*345:*/
-
-    case midline + ignore:
-    case skipblanks + ignore:
-    case newline + ignore:
-    case skipblanks + spacer:
-    case newline + spacer:   /*:345*/
-      goto _Lswitch__;
-      break;
-
-    case midline:
-    case skipblanks:
-    case newline:   /*354:*/
-      if (loc > limit)
-	cur_cs = nullcs;
-      else {
-_Lstartcs_:
-	k = loc;
-	cur_chr = buffer[k];
-	cat = catcode(cur_chr);
-	k++;
-	if (cat == letter)
-	  state = skipblanks;
-	else if (cat == spacer)
-	  state = skipblanks;
-	else
-	  state = midline;
-	if (cat == letter && k <= limit) {   /*356:*/
-	  do {
-	    cur_chr = buffer[k];
-	    cat = catcode(cur_chr);
-	    k++;
-	  } while (cat == letter && k <= limit);   /*355:*/
-	  if (buffer[k] == cur_chr) {   /*:355*/
-	    if (cat == supmark) {
-	      if (k < limit) {
-		c = buffer[k + 1];
-		if (c < 128) {
-		  d = 2;
-		  if (ishex(c)) {
-		    if (k + 2 <= limit) {
-		      cc = buffer[k + 2];
-		      if (ishex(cc)) {
-			d++;
-		      }
-		    }
-		  }
-		  if (d > 2) {
-		    buffer[k - 1] = cur_chr = hex_to_i(c,cc);
-		  } else if (c < 64)
-		    buffer[k - 1] = c + 64;
-		  else
-		    buffer[k - 1] = c - 64;
-		  limit -= d;
-		  first -= d;
-		  while (k <= limit) {
-		    buffer[k] = buffer[k + d];
-		    k++;
-		  }
-		  goto _Lstartcs_;
-		}
-	      }
-	    }
-	  }
-	  if (cat != letter)
-	    k--;
-	  if (k > loc + 1) {
-	    cur_cs = idlookup_p(buffer+loc, k - loc, no_new_control_sequence);
-	    loc = k;
-	    goto _Lfound;
-	  }
-	} else  /*355:*/
-	{   /*:355*/
-	  if (buffer[k] == cur_chr) {
-	    if (cat == supmark) {
-	      if (k < limit) {
-		c = buffer[k + 1];
-		if (c < 128) {
-		  d = 2;
-		  if (ishex(c)) {
-		    if (k + 2 <= limit) {
-		      cc = buffer[k + 2];
-		      if (ishex(cc)) {
-			d++;
-		      }
-		    }
-		  }
-		  if (d > 2) {
-		    buffer[k - 1] = cur_chr = hex_to_i(c,cc);
-		  } else if (c < 64)
-		    buffer[k - 1] = c + 64;
-		  else
-		    buffer[k - 1] = c - 64;
-		  limit -= d;
-		  first -= d;
-		  while (k <= limit) {
-		    buffer[k] = buffer[k + d];
-		    k++;
-		  }
-		  goto _Lstartcs_;
-		}
-	      }
-	    }
-	  }
-	}
-	/*:356*/
-	cur_cs = singlebase + buffer[loc];
-	loc++;
-      }
-#define check_outer {\
-        curchr = cur_chr;\
-        curcmd=cur_cmd;\
-        cur_cs=checkoutervalidity(cur_cs);\
-        cur_cmd=curcmd;\
-        cur_chr = curchr;\
-      }
-
-#define process_cmd \
-      if (cur_cmd >= outercall) check_outer \
-      break;
-
-#define Process_cs \
-      cur_cmd = eqtype(cur_cs);\
-      cur_chr = equiv(cur_cs);\
-      process_cmd
-
-_Lfound:
-      Process_cs
-      /*:354*/
-
-    case midline + activechar:
-    case skipblanks + activechar:
-    case newline + activechar:   /*353:*/
-      state = midline;
-      cur_cs = cur_chr + activebase;
-      Process_cs
-      /*:353*/
-
-    case midline + supmark:
-    case skipblanks + supmark:
-    case newline + supmark:   /*352:*/
-      if (cur_chr == buffer[loc]) {
-	if (loc < limit) {
-	  c = buffer[loc + 1];
-	  if (c < 128) {
-	    loc += 2;
-	    if (ishex(c)) {
-	      if (loc <= limit) {
-		cc = buffer[loc];
-		if (ishex(cc)) {
-		  loc++;
-		  cur_chr = hex_to_i(c,cc);
-		  goto _Lreswitch;
-		}
-	      }
-	    }
-	    if (c < 64)
-	      cur_chr = c + 64;
-	    else
-	      cur_chr = c - 64;
-	    goto _Lreswitch;
-	  }
-	}
-      }
-      state = midline;
-      break;
-      /*:352*/
-
-    case midline + invalidchar:
-    case skipblanks + invalidchar:
-    case newline + invalidchar:   /*346:*/
-      printnl(S(292));
-      print(S(529));
-      help2(S(530),
-            S(531));
-      deletionsallowed = false;
-      error();
-      deletionsallowed = true;
-      goto _Lrestart;
-      break;
-      /*:346*/
-      /*347:*/
-
-    case midline + spacer:   /*349:*/
-      state = skipblanks;
-      cur_chr = ' ';
-      break;
-      /*:349*/
-
-    case midline + carret:   /*348:*/
-      loc = limit + 1;
-      cur_cmd = spacer;
-      cur_chr = ' ';
-      break;
-      /*:348*/
-
-    case skipblanks + carret:
-    case midline + comment:
-    case skipblanks + comment:
-    case newline + comment:   /*:350*/
-      /*350:*/
-      loc = limit + 1;
-      goto _Lswitch__;
-      break;
-
-    case newline + carret:   /*351:*/
-      loc = limit + 1;
-      cur_cs = parloc;
-      Process_cs
-      /*:351*/
-
-    case midline + leftbrace:
-      alignstate++;
-      break;
-
-    case skipblanks + leftbrace:
-    case newline + leftbrace:
-      state = midline;
-      alignstate++;
-      break;
-
-    case midline + rightbrace:
-      alignstate--;
-      break;
-
-    case skipblanks + rightbrace:
-    case newline + rightbrace:
-      state = midline;
-      alignstate--;
-      break;
-
-    case skipblanks + mathshift:
-    case skipblanks + tabmark:
-    case skipblanks + macparam:
-    case skipblanks + submark:
-    case skipblanks + letter:
-    case skipblanks + otherchar:
-    case newline + mathshift:
-    case newline + tabmark:
-    case newline + macparam:
-    case newline + submark:
-    case newline + letter:
-    case newline + otherchar:   /*:347*/
-      state = midline;
-      break;
+    /*:343*/
+    /*342:*/
+    if (cur_cmd <= carret) {
+        if (cur_cmd >= tabmark) { /*789:*/
+            if (alignstate == 0) {
+                if (scanner_status == ALIGNING) fatalerror(S(509));
+                cur_cmd = extrainfo(curalign);
+                extrainfo(curalign) = cur_chr;
+                if (cur_cmd == omit)
+                    begintokenlist(omittemplate, V_TEMPLATE);
+                else
+                    begintokenlist(vpart(curalign), V_TEMPLATE);
+                alignstate = 1000000L;
+                goto _Lrestart;
+            }
+            /*:789*/
+            /*:342*/
+        }
     }
-    /*:344*/
-  } else {  /*357:*/
-    HalfWord t;
-    if (loc == 0) {
-      endtokenlist();
-      goto _Lrestart;
-    }
-    t = info(loc);
-    loc = link(loc);
-    if (t >= cstokenflag) {
-      cur_cs = t - cstokenflag;
-      cur_cmd = eqtype(cur_cs);
-      cur_chr = equiv(cur_cs);
-      if (cur_cmd >= outercall) {
-	if (cur_cmd == dontexpand) {   /*358:*/
-	  cur_cs = info(loc) - cstokenflag;
-	  loc = 0;
-	  cur_cmd = eqtype(cur_cs);
-	  cur_chr = equiv(cur_cs);
-	  if (cur_cmd > maxcommand) {
-	    cur_cmd = relax;
-	    cur_chr = noexpandflag;
-	  }
-	} else {
-	    check_outer
-	}
-	/*:358*/
-      }
-    } else {
-      cur_cmd = t / dwa_do_8;
-      cur_chr = t & (dwa_do_8-1);
-      switch (cur_cmd) {
+_Lexit:;
+    curcmd = cur_cmd;
+    curchr = cur_chr;
+    curcs = cur_cs;
 
-      case leftbrace:
-	alignstate++;
-	break;
-
-      case rightbrace:
-	alignstate--;
-	break;
-
-      case outparam:   /*359:*/
-	begintokenlist(paramstack[paramstart + cur_chr - 1], parameter);
-	goto _Lrestart;
-	break;
-	/*:359*/
-      }
-    }
-  }
-  /*:343*/
-  /*342:*/
-  if (cur_cmd <= carret) {
-    if (cur_cmd >= tabmark) { /*789:*/
-      if (alignstate == 0) {
-	if (scannerstatus == aligning)
-	  fatalerror(S(509));
-	cur_cmd = extrainfo(curalign);
-	extrainfo(curalign) = cur_chr;
-	if (cur_cmd == omit)
-	  begintokenlist(omittemplate, vtemplate);
-	else
-	  begintokenlist(vpart(curalign), vtemplate);
-	alignstate = 1000000L;
-	goto _Lrestart;
-      }
-      /*:789*/
-      /*:342*/
-    }
-  }
-_Lexit: ;
-  curcmd = cur_cmd;
-  curchr = cur_chr;
-  curcs = cur_cs;
-
-  /*:357*/
+    /*:357*/
 }
 /*:341*/
 
-static void getnext(void)
-{
-    getnext_worker(true);
-}
+static void getnext(void) { getnext_worker(true); }
+
 
 /*363:*/
 Static void firmuptheline(void)
@@ -4956,7 +4874,7 @@ Static void firmuptheline(void)
   limit = last;
   if (pausing <= 0)
     return;
-  if (interaction <= nonstopmode)
+  if (interaction <= NON_STOP_MODE)
     return;
   println();
   if (start < limit) {
@@ -5015,7 +4933,7 @@ Static void macrocall(Pointer refcount)
   ASCIICode matchchr=0 /* XXXX */;
   Pointer pstack[9];
 
-  savescannerstatus = scannerstatus;
+  savescannerstatus = scanner_status;
   savewarningindex = warningindex;
   warningindex = curcs;
   r = link(refcount);
@@ -5029,7 +4947,7 @@ Static void macrocall(Pointer refcount)
   }
   /*:401*/
   if (info(r) != endmatchtoken) {   /*391:*/
-    scannerstatus = matching;
+    scanner_status = MATCHING;
     unbalance = 0;
     longstate = eqtype(curcs);
     if (longstate >= outercall)
@@ -5189,9 +5107,9 @@ _Lfound:
   }
   /*:391*/
   /*390:*/
-  while (state == tokenlist && loc == 0)
+  while (state == TOKEN_LIST && loc == 0)
     endtokenlist();
-  begintokenlist(refcount, macro);
+  begintokenlist(refcount, MACRO);
   name = warningindex;
   loc = link(r);
   if (n > 0) {   /*:390*/
@@ -5205,7 +5123,7 @@ _Lfound:
     paramptr += n;
   }
 _Lexit:
-  scannerstatus = savescannerstatus;
+  scanner_status = savescannerstatus;
   warningindex = savewarningindex;
 
   /*:397*/
@@ -5220,7 +5138,7 @@ Static void insertrelax(void)
   backinput();
   curtok = cstokenflag + frozenrelax;
   backinput();
-  tokentype = inserted;
+  token_type = INSERTED;
 }  /*:379*/
 
 
@@ -5273,7 +5191,7 @@ Static void expand(void)
 
     case topbotmark:   /*386:*/
       if (curmark[curchr - topmarkcode] != 0)
-	begintokenlist(curmark[curchr - topmarkcode], marktext);
+	begintokenlist(curmark[curchr - topmarkcode], MARK_TEXT);
       break;
       /*:386*/
 
@@ -5291,10 +5209,10 @@ Static void expand(void)
       /*:368*/
 
     case noexpand:   /*369:*/
-      savescannerstatus = scannerstatus;
-      scannerstatus = normal;
+      savescannerstatus = scanner_status;
+      scanner_status = NORMAL;
       gettoken();
-      scannerstatus = savescannerstatus;
+      scanner_status = savescannerstatus;
       t = curtok;
       backinput();
       if (t >= cstokenflag) {
@@ -5672,7 +5590,7 @@ Static void findfontdimen(Boolean writing) {
     if (n <= 0) {
         curval = fmemptr;
     } else {
-        if (writing && n <= spaceshrinkcode && n >= spacecode &&
+        if (writing && n <= SPACE_SHRINK_CODE && n >= SPACE_CODE &&
             fontglue[f] != 0) {
             deleteglueref(fontglue[f]);
             fontglue[f] = 0;
@@ -5926,17 +5844,17 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
 	switch (curchr) {
 
 	case intval:
-	  if (type(tail) == penaltynode)
+	  if (type(tail) == PENALTY_NODE)
 	    curval = penalty(tail);
 	  break;
 
 	case dimenval:
-	  if (type(tail) == kernnode)
+	  if (type(tail) == KERN_NODE)
 	    curval = width(tail);
 	  break;
 
 	case glueval:
-	  if (type(tail) == gluenode) {
+	  if (type(tail) == GLUE_NODE) {
 	    curval = glueptr(tail);
 	    if (subtype(tail) == muglue)
 	      curvallevel = muval;
@@ -6135,7 +6053,7 @@ Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 
   f = 0;
   arith_error = false;
-  curorder = normal;
+  curorder = NORMAL;
   negative = false;
   if (!shortcut) {   /*441:*/
     negative = false;
@@ -6550,10 +6468,10 @@ Static void convtoks(void)
 
   case stringcode:
   case meaningcode:
-    savescannerstatus = scannerstatus;
-    scannerstatus = normal;
+    savescannerstatus = scanner_status;
+    scanner_status = NORMAL;
     gettoken();
-    scannerstatus = savescannerstatus;
+    scanner_status = savescannerstatus;
     break;
 
   case fontnamecode:
@@ -6615,9 +6533,9 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand)
   Pointer p;
 
   if (macrodef)
-    scannerstatus = defining;
+    scanner_status = DEFINING;
   else
-    scannerstatus = absorbing;
+    scanner_status = ABSORBING;
   warningindex = curcs;
   defref = get_avail();
   tokenrefcount(defref) = 0;
@@ -6734,7 +6652,7 @@ _Ldone2:
     STORE_NEW_TOKEN(p,curtok);
   }
 _Lfound:
-  scannerstatus = normal;
+  scanner_status = NORMAL;
   if (hashbrace != 0) {
     STORE_NEW_TOKEN(p,hashbrace);
   }
@@ -6748,7 +6666,7 @@ Static void readtoks(long n, HalfWord r) {
     long s;
     /* SmallNumber */ int m; /* INT */
 
-    scannerstatus = defining;
+    scanner_status = DEFINING;
     warningindex = r;
     defref = get_avail();
     tokenrefcount(defref) = 0;
@@ -6764,7 +6682,7 @@ Static void readtoks(long n, HalfWord r) {
         beginfilereading();
         name = m + 1;
         if (readopen[m] == closed) { /*484:*/
-            if (interaction > nonstopmode) {
+            if (interaction > NON_STOP_MODE) {
                 if (n < 0) {
                     print(S(385));
                     term_input();
@@ -6779,7 +6697,7 @@ Static void readtoks(long n, HalfWord r) {
                 fatalerror(S(654));
         } else if (readopen[m] == justopen) {
             if (inputln(readfile[m], false))
-                readopen[m] = normal;
+                readopen[m] = NORMAL;
             else { /*:485*/
                 aclose(&readfile[m]);
                 readopen[m] = closed;
@@ -6823,7 +6741,7 @@ _Ldone: /*:483*/
         endfilereading();
     } while (alignstate != 1000000L);
     curval = defref;
-    scannerstatus = normal;
+    scanner_status = NORMAL;
     alignstate = s;
 
     /*485:*/
@@ -6835,8 +6753,8 @@ Static void passtext(void) {
     long l;
     SmallNumber savescannerstatus;
 
-    savescannerstatus = scannerstatus;
-    scannerstatus = skipping;
+    savescannerstatus = scanner_status;
+    scanner_status = SKIPPING;
     l = 0;
     skipline = line;
     while (true) {
@@ -6848,7 +6766,7 @@ Static void passtext(void) {
             l++;
         }
     }
-    scannerstatus = savescannerstatus;
+    scanner_status = savescannerstatus;
 }
 /*:494*/
 
@@ -6901,8 +6819,8 @@ Static void conditional(void)
   thisif = curchr;   /*501:*/
   switch (thisif) {   /*:501*/
 
-  case ifcharcode:
-  case ifcatcode:   /*506:*/
+  case IF_CHAR_CODE:
+  case IF_CAT_CODE:   /*506:*/
     {
     int cur_chr = curchr;
     getxtokenoractivechar();
@@ -6918,7 +6836,7 @@ Static void conditional(void)
       curcmd = relax;
       cur_chr = 256;
     }
-    if (thisif == ifcharcode)
+    if (thisif == IF_CHAR_CODE)
       b = (n == cur_chr);
     else
       b = (m == curcmd);
@@ -6926,9 +6844,9 @@ Static void conditional(void)
     break;
     /*:506*/
 
-  case ifintcode:
-  case ifdimcode:   /*503:*/
-    if (thisif == ifintcode)
+  case IF_INT_CODE:
+  case IF_DIM_CODE:   /*503:*/
+    if (thisif == IF_INT_CODE)
       scanint();
     else {
       scannormaldimen();
@@ -6945,7 +6863,7 @@ Static void conditional(void)
       backerror();
       r = '=';
     }
-    if (thisif == ifintcode)
+    if (thisif == IF_INT_CODE)
       scanint();
     else {
       scannormaldimen();
@@ -6967,47 +6885,47 @@ Static void conditional(void)
     break;
     /*:503*/
 
-  case ifoddcode:   /*504:*/
+  case IF_ODD_CODE:   /*504:*/
     scanint();
     b = curval & 1;
     break;
     /*:504*/
 
-  case ifvmodecode:
+  case IF_VMODE_CODE:
     b = (labs(mode) == V_MODE);
     break;
 
-  case ifhmodecode:
+  case IF_HMODE_CODE:
     b = (labs(mode) == H_MODE);
     break;
 
-  case ifmmodecode:
+  case IF_MMODE_CODE:
     b = (labs(mode) == M_MODE);
     break;
 
-  case ifinnercode:
+  case IF_INNER_CODE:
     b = (mode < 0);
     break;
 
-  case ifvoidcode:
-  case ifhboxcode:
-  case ifvboxcode:   /*505:*/
+  case IF_VOID_CODE:
+  case IF_HBOX_CODE:
+  case IF_VBOX_CODE:   /*505:*/
     scaneightbitint();
     p = box(curval);
-    if (thisif == ifvoidcode)
+    if (thisif == IF_VOID_CODE)
       b = (p == 0);
     else if (p == 0)
       b = false;
-    else if (thisif == ifhboxcode)
+    else if (thisif == IF_HBOX_CODE)
       b = (type(p) == hlistnode);
     else
-      b = (type(p) == vlistnode);
+      b = (type(p) == VLIST_NODE);
     break;
     /*:505*/
 
-  case ifxcode:   /*507:*/
-    savescannerstatus = scannerstatus;
-    scannerstatus = normal;
+  case IF_X_CODE:   /*507:*/
+    savescannerstatus = scanner_status;
+    scanner_status = NORMAL;
     getnext();
     n = curcs;
     p = curcmd;
@@ -7035,24 +6953,24 @@ Static void conditional(void)
 	b = (p == 0 && q == 0);
       }
     }
-    scannerstatus = savescannerstatus;
+    scanner_status = savescannerstatus;
     break;
     /*:507*/
 
-  case ifeofcode:
+  case IF_EOF_CODE:
     scanfourbitint();
     b = (readopen[curval] == closed);
     break;
 
-  case iftruecode:
+  case IF_TRUE_CODE:
     b = true;
     break;
 
-  case iffalsecode:
+  case IF_FALSE_CODE:
     b = false;
     break;
 
-  case ifcasecode:   /*509:*/
+  case IF_CASE_CODE:   /*509:*/
     scanint();
     n = curval;
     if (tracingcommands > 1) {
@@ -7275,7 +7193,7 @@ Static void promptfilename(StrNumber s, StrNumber e) {
     if (e == S(669)) showcontext();
     printnl(S(670));
     print(s);
-    if (interaction < scrollmode) fatalerror(S(671));
+    if (interaction < SCROLL_MODE) fatalerror(S(671));
     print(S(488));
     term_input(); /*531:*/
     beginname();
@@ -7313,7 +7231,7 @@ Static void openlogfile(void) {
     selector = LOG_ONLY;
     logopened = true;
     /*536:*/
-    fprintf(log_file, "%s", banner);
+    fprintf(log_file, "%s", TEX_BANNER);
     slow_print(formatident);
     print(S(675));
     print_int(day);
@@ -7476,7 +7394,7 @@ Static void writeout(HalfWord p)
   link(q) = r;
   info(r) = endwritetoken;
   inslist(q);
-  begintokenlist(writetokens(p), writetext);
+  begintokenlist(writetokens(p), WRITE_TEXT);
   q = get_avail();
   info(q) = leftbracetoken + '{';
   inslist(q);
@@ -7611,7 +7529,7 @@ Static void hlistout(void)
     switch (type(p)) {
 
     case hlistnode:
-    case vlistnode:   /*623:*/
+    case VLIST_NODE:   /*623:*/
       if (listptr(p) == 0)
 	curh += width(p);
       else {   /*:623*/
@@ -7620,7 +7538,7 @@ Static void hlistout(void)
 	curv = baseline + shiftamount(p);
 	tempptr = p;
 	edge = curh;
-	if (type(p) == vlistnode)
+	if (type(p) == VLIST_NODE)
 	  vlistout();
 	else
 	  hlistout();
@@ -7631,22 +7549,22 @@ Static void hlistout(void)
       }
       break;
 
-    case rulenode:
+    case RULE_NODE:
       ruleht = height(p);
       ruledp = depth(p);
       rulewd = width(p);
       goto _Lfinrule_;
       break;
 
-    case whatsitnode:   /*1367:*/
+    case WHATSIT_NODE:   /*1367:*/
       outwhat(p);
       break;
       /*:1367*/
 
-    case gluenode:   /*625:*/
+    case GLUE_NODE:   /*625:*/
       {Pointer g = glueptr(p);
       rulewd = width(g);
-      if (gsign != normal) {
+      if (gsign != NORMAL) {
 	if (gsign == stretching) {
 	  if (stretchorder(g) == gorder) {
 	    vetglue(glueset(thisbox) * stretch(g));
@@ -7660,7 +7578,7 @@ Static void hlistout(void)
       }
       if (subtype(p) >= aleaders) {   /*626:*/
 	leaderbox = leaderptr(p);
-	if (type(leaderbox) == rulenode) {
+	if (type(leaderbox) == RULE_NODE) {
 	  ruleht = height(leaderbox);
 	  ruledp = depth(leaderbox);
 	  goto _Lfinrule_;
@@ -7694,7 +7612,7 @@ Static void hlistout(void)
 	    tempptr = leaderbox;
 	    outerdoingleaders = doingleaders;
 	    doingleaders = true;
-	    if (type(leaderbox) == vlistnode)
+	    if (type(leaderbox) == VLIST_NODE)
 	      vlistout();
 	    else
 	      hlistout();
@@ -7713,12 +7631,12 @@ Static void hlistout(void)
       break;
       /*:625*/
 
-    case kernnode:
-    case mathnode:
+    case KERN_NODE:
+    case MATH_NODE:
       curh += width(p);
       break;
 
-    case ligaturenode:   /*652:*/
+    case LIGATURE_NODE:   /*652:*/
 	type(ligtrick) = charnodetype;
       font(ligtrick) = font_ligchar(p);
       character(ligtrick) = character_ligchar(p);
@@ -7792,7 +7710,7 @@ Static void vlistout(void)
       switch (type(p)) {
 
       case hlistnode:
-      case vlistnode:   /*632:*/
+      case VLIST_NODE:   /*632:*/
 	if (listptr(p) == 0)
 	  curv += height(p) + depth(p);
 	else {   /*:632*/
@@ -7802,7 +7720,7 @@ Static void vlistout(void)
 	  savev = dviv;
 	  curh = leftedge + shiftamount(p);
 	  tempptr = p;
-	  if (type(p) == vlistnode)
+	  if (type(p) == VLIST_NODE)
 	    vlistout();
 	  else
 	    hlistout();
@@ -7813,23 +7731,23 @@ Static void vlistout(void)
 	}
 	break;
 
-      case rulenode:
+      case RULE_NODE:
 	ruleht = height(p);
 	ruledp = depth(p);
 	rulewd = width(p);
 	goto _Lfinrule_;
 	break;
 
-      case whatsitnode:   /*1366:*/
+      case WHATSIT_NODE:   /*1366:*/
 	outwhat(p);
 	break;
 	/*:1366*/
 
-      case gluenode:   /*634:*/
+      case GLUE_NODE:   /*634:*/
 	{
 	Pointer g = glueptr(p);
 	ruleht = width(g);
-	if (gsign != normal) {
+	if (gsign != NORMAL) {
 	  if (gsign == stretching) {
 	    if (stretchorder(g) == gorder) {
 	      vetglue(glueset(thisbox) * stretch(g));
@@ -7843,7 +7761,7 @@ Static void vlistout(void)
 	}
 	if (subtype(p) >= aleaders) {   /*635:*/
 	  leaderbox = leaderptr(p);
-	  if (type(leaderbox) == rulenode) {
+	  if (type(leaderbox) == RULE_NODE) {
 	    rulewd = width(leaderbox);
 	    ruledp = 0;
 	    goto _Lfinrule_;
@@ -7878,7 +7796,7 @@ Static void vlistout(void)
 	      tempptr = leaderbox;
 	      outerdoingleaders = doingleaders;
 	      doingleaders = true;
-	      if (type(leaderbox) == vlistnode)
+	      if (type(leaderbox) == VLIST_NODE)
 		vlistout();
 	      else
 		hlistout();
@@ -7898,7 +7816,7 @@ Static void vlistout(void)
 	break;
 	/*:634*/
 
-      case kernnode:
+      case KERN_NODE:
 	curv += width(p);
 	break;
       }
@@ -8021,7 +7939,7 @@ Static void shipout(HalfWord p)
   }
   curv = height(p) + voffset;
   tempptr = p;
-  if (type(p) == vlistnode)
+  if (type(p) == VLIST_NODE)
     vlistout();
   else
     hlistout();
@@ -8112,12 +8030,12 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m)
   x = 0;
   totalstretch[0] = 0;
   totalshrink[0] = 0;
-  totalstretch[fil - normal] = 0;
-  totalshrink[fil - normal] = 0;
-  totalstretch[fill - normal] = 0;
-  totalshrink[fill - normal] = 0;
-  totalstretch[filll - normal] = 0;
-  totalshrink[filll - normal] = 0;   /*:650*/
+  totalstretch[fil - NORMAL] = 0;
+  totalshrink[fil - NORMAL] = 0;
+  totalstretch[fill - NORMAL] = 0;
+  totalshrink[fill - NORMAL] = 0;
+  totalstretch[filll - NORMAL] = 0;
+  totalshrink[filll - NORMAL] = 0;   /*:650*/
   while (p != 0) {   /*651:*/
 _Lreswitch:
     while (ischarnode(p)) {   /*654:*/
@@ -8139,11 +8057,11 @@ _Lreswitch:
     switch (type(p)) {
 
     case hlistnode:
-    case vlistnode:
-    case rulenode:
-    case unsetnode:   /*653:*/
+    case VLIST_NODE:
+    case RULE_NODE:
+    case UNSET_NODE:   /*653:*/
       x += width(p);
-      if (type(p) >= rulenode)
+      if (type(p) >= RULE_NODE)
 	s = 0;
       else
 	s = shiftamount(p);
@@ -8154,13 +8072,13 @@ _Lreswitch:
       break;
       /*:653*/
 
-    case insnode:
-    case marknode:
-    case adjustnode:
+    case INS_NODE:
+    case MARK_NODE:
+    case ADJUST_NODE:
       if (adjusttail != 0) {   /*655:*/
 	while (link(q) != p)
 	  q = link(q);
-	if (type(p) == adjustnode) {
+	if (type(p) == ADJUST_NODE) {
 	  link(adjusttail) = adjustptr(p);
 	  while (link(adjusttail) != 0)
 	    adjusttail = link(adjusttail);
@@ -8177,17 +8095,17 @@ _Lreswitch:
       /*:655*/
       break;
 
-    case whatsitnode:   /*1360:*/
+    case WHATSIT_NODE:   /*1360:*/
       break;
       /*:1360*/
 
-    case gluenode:   /*656:*/
+    case GLUE_NODE:   /*656:*/
       g = glueptr(p);
       x += width(g);
       o = stretchorder(g);
-      totalstretch[o - normal] += stretch(g);
+      totalstretch[o - NORMAL] += stretch(g);
       o = shrinkorder(g);
-      totalshrink[o - normal] += shrink(g);
+      totalshrink[o - NORMAL] += shrink(g);
       if (subtype(p) >= aleaders) {
 	g = leaderptr(p);
 	if (height(g) > h)
@@ -8198,12 +8116,12 @@ _Lreswitch:
       break;
       /*:656*/
 
-    case kernnode:
-    case mathnode:
+    case KERN_NODE:
+    case MATH_NODE:
       x += width(p);
       break;
 
-    case ligaturenode:   /*652:*/
+    case LIGATURE_NODE:   /*652:*/
 	type(ligtrick) = charnodetype;
       font(ligtrick) = font_ligchar(p);
       character(ligtrick) = character_ligchar(p);
@@ -8225,30 +8143,30 @@ _Lreswitch:
   width(r) = w;
   x = w - x;
   if (x == 0) {
-    gluesign(r) = normal;
-    glueorder(r) = normal;
+    gluesign(r) = NORMAL;
+    glueorder(r) = NORMAL;
     glueset(r) = 0.0;
     goto _Lexit;
   } else if (x > 0) {
-    if (totalstretch[filll - normal] != 0)
+    if (totalstretch[filll - NORMAL] != 0)
       o = filll;
-    else if (totalstretch[fill - normal] != 0)
+    else if (totalstretch[fill - NORMAL] != 0)
       o = fill;
-    else if (totalstretch[fil - normal] != 0)
+    else if (totalstretch[fil - NORMAL] != 0)
       o = fil;
     else {
-      o = normal;
+      o = NORMAL;
       /*:659*/
     }
     glueorder(r) = o;
     gluesign(r) = stretching;
-    if (totalstretch[o - normal] != 0)
-      glueset(r) = (double)x / totalstretch[o - normal];
+    if (totalstretch[o - NORMAL] != 0)
+      glueset(r) = (double)x / totalstretch[o - NORMAL];
     else {
-      gluesign(r) = normal;
+      gluesign(r) = NORMAL;
       glueset(r) = 0.0;
     }
-    if (o == normal) {
+    if (o == NORMAL) {
       if (listptr(r) != 0) {   /*660:*/
 	lastbadness = badness(x, totalstretch[0]);
 	if (lastbadness > hbadness) {
@@ -8266,23 +8184,23 @@ _Lreswitch:
     }
     goto _Lexit;
   } else {
-    if (totalshrink[filll - normal] != 0)
+    if (totalshrink[filll - NORMAL] != 0)
       o = filll;
-    else if (totalshrink[fill - normal] != 0)
+    else if (totalshrink[fill - NORMAL] != 0)
       o = fill;
-    else if (totalshrink[fil - normal] != 0)
+    else if (totalshrink[fil - NORMAL] != 0)
       o = fil;
     else
-      o = normal;   /*:665*/
+      o = NORMAL;   /*:665*/
     glueorder(r) = o;
     gluesign(r) = shrinking;
-    if (totalshrink[o - normal] != 0)
-      glueset(r) = (double)(-x) / totalshrink[o - normal];
+    if (totalshrink[o - NORMAL] != 0)
+      glueset(r) = (double)(-x) / totalshrink[o - NORMAL];
     else {
-      gluesign(r) = normal;
+      gluesign(r) = NORMAL;
       glueset(r) = 0.0;
     }
-    if ((totalshrink[o - normal] < -x && o == normal) & (listptr(r) != 0)) {
+    if ((totalshrink[o - NORMAL] < -x && o == NORMAL) & (listptr(r) != 0)) {
       lastbadness = 1000000L;
       glueset(r) = 1.0;   /*666:*/
       if (-x - totalshrink[0] > hfuzz || hbadness < 100) {   /*:666*/
@@ -8298,7 +8216,7 @@ _Lreswitch:
 	print(S(703));
 	goto _Lcommonending;
       }
-    } else if (o == normal) {
+    } else if (o == NORMAL) {
       if (listptr(r) != 0) {   /*667:*/
 	lastbadness = badness(-x, totalshrink[0]);
 	if (lastbadness > hbadness) {
@@ -8350,7 +8268,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 
   lastbadness = 0;
   r = getnode(boxnodesize);
-  type(r) = vlistnode;
+  type(r) = VLIST_NODE;
   subtype(r) = MIN_QUARTER_WORD;
   shiftamount(r) = 0;
   listptr(r) = p;
@@ -8359,12 +8277,12 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
   x = 0;
   totalstretch[0] = 0;
   totalshrink[0] = 0;
-  totalstretch[fil - normal] = 0;
-  totalshrink[fil - normal] = 0;
-  totalstretch[fill - normal] = 0;
-  totalshrink[fill - normal] = 0;
-  totalstretch[filll - normal] = 0;
-  totalshrink[filll - normal] = 0;   /*:650*/
+  totalstretch[fil - NORMAL] = 0;
+  totalshrink[fil - NORMAL] = 0;
+  totalstretch[fill - NORMAL] = 0;
+  totalshrink[fill - NORMAL] = 0;
+  totalstretch[filll - NORMAL] = 0;
+  totalshrink[filll - NORMAL] = 0;   /*:650*/
   while (p != 0) {   /*669:*/
     if (ischarnode(p))
       confusion(S(710));
@@ -8372,12 +8290,12 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
       switch (type(p)) {
 
       case hlistnode:
-      case vlistnode:
-      case rulenode:
-      case unsetnode:   /*670:*/
+      case VLIST_NODE:
+      case RULE_NODE:
+      case UNSET_NODE:   /*670:*/
 	x += d + height(p);
 	d = depth(p);
-	if (type(p) >= rulenode)
+	if (type(p) >= RULE_NODE)
 	  s = 0;
 	else
 	  s = shiftamount(p);
@@ -8386,20 +8304,20 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 	break;
 	/*:670*/
 
-      case whatsitnode:   /*1359:*/
+      case WHATSIT_NODE:   /*1359:*/
 	break;
 
       /*:1359*/
-      case gluenode:   /*:671*/
+      case GLUE_NODE:   /*:671*/
 	/*671:*/
 	x += d;
 	d = 0;
 	g = glueptr(p);
 	x += width(g);
 	o = stretchorder(g);
-	totalstretch[o - normal] += stretch(g);
+	totalstretch[o - NORMAL] += stretch(g);
 	o = shrinkorder(g);
-	totalshrink[o - normal] += shrink(g);
+	totalshrink[o - NORMAL] += shrink(g);
 	if (subtype(p) >= aleaders) {
 	  g = leaderptr(p);
 	  if (width(g) > w)
@@ -8407,7 +8325,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 	}
 	break;
 
-      case kernnode:
+      case KERN_NODE:
 	x += d + width(p);
 	d = 0;
 	break;
@@ -8427,30 +8345,30 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
   height(r) = h;
   x = h - x;
   if (x == 0) {
-    gluesign(r) = normal;
-    glueorder(r) = normal;
+    gluesign(r) = NORMAL;
+    glueorder(r) = NORMAL;
     glueset(r) = 0.0;
     goto _Lexit;
   } else if (x > 0) {
-    if (totalstretch[filll - normal] != 0)
+    if (totalstretch[filll - NORMAL] != 0)
       o = filll;
-    else if (totalstretch[fill - normal] != 0)
+    else if (totalstretch[fill - NORMAL] != 0)
       o = fill;
-    else if (totalstretch[fil - normal] != 0)
+    else if (totalstretch[fil - NORMAL] != 0)
       o = fil;
     else {
-      o = normal;
+      o = NORMAL;
       /*:659*/
     }
     glueorder(r) = o;
     gluesign(r) = stretching;
-    if (totalstretch[o - normal] != 0)
-      glueset(r) = (double)x / totalstretch[o - normal];
+    if (totalstretch[o - NORMAL] != 0)
+      glueset(r) = (double)x / totalstretch[o - NORMAL];
     else {
-      gluesign(r) = normal;
+      gluesign(r) = NORMAL;
       glueset(r) = 0.0;
     }
-    if (o == normal) {
+    if (o == NORMAL) {
       if (listptr(r) != 0) {   /*674:*/
 	lastbadness = badness(x, totalstretch[0]);
 	if (lastbadness > vbadness) {
@@ -8468,23 +8386,23 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
     }
     goto _Lexit;
   } else {
-    if (totalshrink[filll - normal] != 0)
+    if (totalshrink[filll - NORMAL] != 0)
       o = filll;
-    else if (totalshrink[fill - normal] != 0)
+    else if (totalshrink[fill - NORMAL] != 0)
       o = fill;
-    else if (totalshrink[fil - normal] != 0)
+    else if (totalshrink[fil - NORMAL] != 0)
       o = fil;
     else
-      o = normal;   /*:665*/
+      o = NORMAL;   /*:665*/
     glueorder(r) = o;
     gluesign(r) = shrinking;
-    if (totalshrink[o - normal] != 0)
-      glueset(r) = (double)(-x) / totalshrink[o - normal];
+    if (totalshrink[o - NORMAL] != 0)
+      glueset(r) = (double)(-x) / totalshrink[o - NORMAL];
     else {
-      gluesign(r) = normal;
+      gluesign(r) = NORMAL;
       glueset(r) = 0.0;
     }
-    if ((totalshrink[o - normal] < -x && o == normal) & (listptr(r) != 0)) {
+    if ((totalshrink[o - NORMAL] < -x && o == NORMAL) & (listptr(r) != 0)) {
       lastbadness = 1000000L;
       glueset(r) = 1.0;   /*677:*/
       if (-x - totalshrink[0] > vfuzz || vbadness < 100) {   /*:677*/
@@ -8494,7 +8412,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
 	print(S(713));
 	goto _Lcommonending;
       }
-    } else if (o == normal) {
+    } else if (o == NORMAL) {
       if (listptr(r) != 0) {   /*678:*/
 	lastbadness = badness(-x, totalshrink[0]);
 	if (lastbadness > vbadness) {
@@ -8561,7 +8479,7 @@ Static HalfWord newnoad(void)
   int i=0;
   p = getnode(noadsize);
   type(p) = ordnoad;
-  subtype(p) = normal;
+  subtype(p) = NORMAL;
 #ifdef BIG_CHARNODE
   for(i=0;i<charnodesize;i++) {
 #endif
@@ -8716,7 +8634,7 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v)
 _Llabcontinue:
 	    q = charinfo(g, y);
 	    if (charexists(q)) {
-	      if (chartag(q) == exttag) {
+	      if (chartag(q) == EXT_TAG) {
 		f = g;
 		c = y;
 		goto _Lfound;
@@ -8730,7 +8648,7 @@ _Llabcontinue:
 		if (u >= v)
 		  goto _Lfound;
 	      }
-	      if (chartag(q) == listtag) {
+	      if (chartag(q) == LIST_TAG) {
 		y = rembyte(q);
 		goto _Llabcontinue;
 	      }
@@ -8748,9 +8666,9 @@ _Llabcontinue:
   }
 _Lfound:
   if (f != nullfont) {   /*710:*/
-    if (chartag(q) == exttag) {   /*713:*/
+    if (chartag(q) == EXT_TAG) {   /*713:*/
       b = newnullbox();
-      type(b) = vlistnode;
+      type(b) = VLIST_NODE;
       r = exteninfo(f,q); /* fontinfo[extenbase[f ] + rembyte(q)].qqqq; */
   /*714:*/
       c = extrep(r);
@@ -8813,7 +8731,7 @@ Static HalfWord rebox(HalfWord b, long w)
   Scaled v;
 
   if ((width(b) != w) & (listptr(b) != 0)) {
-    if (type(b) == vlistnode)
+    if (type(b) == VLIST_NODE)
       b = hpack(b, 0, additional);
     p = listptr(b);
     if (ischarnode(p) & (link(p) == 0)) {
@@ -8853,13 +8771,13 @@ Static HalfWord mathglue(HalfWord g, long m)
   width(p) = mult_and_add(n, width(g), xn_over_d(width(g), f, 65536L),
 			    1073741823L);
   stretchorder(p) = stretchorder(g);
-  if (stretchorder(p) == normal)
+  if (stretchorder(p) == NORMAL)
     stretch(p) = mult_and_add(n, stretch(g),
 	xn_over_d(stretch(g), f, 65536L), 1073741823L);
   else
     stretch(p) = stretch(g);
   shrinkorder(p) = shrinkorder(g);
-  if (shrinkorder(p) == normal)
+  if (shrinkorder(p) == NORMAL)
     shrink(p) = mult_and_add(n, shrink(g),
 			       xn_over_d(shrink(g), f, 65536L),
 			       1073741823L);
@@ -8944,7 +8862,7 @@ Static HalfWord cleanbox(HalfWord p, SmallNumber s)
 _Lfound:
   if (ischarnode(q) || q == 0)   /*721:*/
     x = hpack(q, 0, additional);
-  else if ((link(q) == 0) & (type(q) <= vlistnode) &
+  else if ((link(q) == 0) & (type(q) <= VLIST_NODE) &
 	   (shiftamount(q) == 0))
     x = q;
   else
@@ -8959,7 +8877,7 @@ _Lfound:
     return x;
   if (ischarnode(r))
     return x;
-  if (type(r) == kernnode) {
+  if (type(r) == KERN_NODE) {
     freenode(r, smallnodesize);
     link(q) = 0;
   }
@@ -9039,7 +8957,7 @@ Static void makevcenter(HalfWord q)
   Scaled delta;
 
   v = info(nucleus(q));
-  if (type(v) != vlistnode)
+  if (type(v) != VLIST_NODE)
     confusion(S(415));
   delta = height(v) + depth(v);
   height(v) = axisheight(cursize) + half(delta);
@@ -9091,7 +9009,7 @@ Static void makemathaccent(HalfWord q)
   s = 0;
   if (mathtype(nucleus(q)) == mathchar) {
     fetch(nucleus(q));
-    if (chartag(curi) == ligtag) {
+    if (chartag(curi) == LIG_TAG) {
       a = ligkernstart(curf,curi);
       curi = fontinfo[a].qqqq;
       if (skipbyte(curi) > stopflag) {
@@ -9118,7 +9036,7 @@ _Ldone1:   /*:741*/
   w = width(x);
   h = height(x);   /*740:*/
   while (true) {
-    if (chartag(i) != listtag) {
+    if (chartag(i) != LIST_TAG) {
       goto _Ldone;
     }
     y = rembyte(i);
@@ -9221,7 +9139,7 @@ Static void makefraction(HalfWord q)
   /*:745*/
   /*747:*/
   v = newnullbox();
-  type(v) = vlistnode;
+  type(v) = VLIST_NODE;
   height(v) = shiftup + height(x);
   depth(v) = depth(z) + shiftdown;
   width(v) = width(x);
@@ -9259,11 +9177,11 @@ Static long makeop(HalfWord q)
   QuarterWord c;
   FourQuarters i;
 
-  if (subtype(q) == normal && curstyle < textstyle)
+  if (subtype(q) == NORMAL && curstyle < textstyle)
     subtype(q) = limits;
   if (mathtype(nucleus(q)) == mathchar) {
     fetch(nucleus(q));
-    if ((curstyle < textstyle) & (chartag(curi) == listtag)) {
+    if ((curstyle < textstyle) & (chartag(curi) == LIST_TAG)) {
       c = rembyte(curi);
       i = charinfo(curf, c);
       if (charexists(i)) {
@@ -9289,7 +9207,7 @@ Static long makeop(HalfWord q)
   y = cleanbox(nucleus(q), curstyle);
   z = cleanbox(subscr(q), substyle(curstyle));
   v = newnullbox();
-  type(v) = vlistnode;
+  type(v) = VLIST_NODE;
   width(v) = width(y);
   if (width(x) > width(v))
     width(v) = width(x);
@@ -9352,7 +9270,7 @@ _Lrestart:
 	      if (fam(nucleus(p)) == fam(nucleus(q))) {
 		mathtype(nucleus(q)) = mathtextchar;
 		fetch(nucleus(q));
-		if (chartag(curi) == ligtag) {
+		if (chartag(curi) == LIG_TAG) {
 		  a = ligkernstart(curf,curi);
 		  curc = character(nucleus(p));
 		  curi = fontinfo[a].qqqq;
@@ -9686,16 +9604,16 @@ _Lreswitch:
       break;
       /*:731*/
 
-    case insnode:
-    case marknode:
-    case adjustnode:
-    case whatsitnode:
-    case penaltynode:
-    case discnode:
+    case INS_NODE:
+    case MARK_NODE:
+    case ADJUST_NODE:
+    case WHATSIT_NODE:
+    case PENALTY_NODE:
+    case DISC_NODE:
       goto _Ldonewithnode_;
       break;
 
-    case rulenode:
+    case RULE_NODE:
       if (height(q) > maxh)
 	maxh = height(q);
       if (depth(q) > maxd)
@@ -9703,17 +9621,17 @@ _Lreswitch:
       goto _Ldonewithnode_;
       break;
 
-    case gluenode:  /*732:*/
+    case GLUE_NODE:  /*732:*/
       if (subtype(q) == muglue) {
 	x = glueptr(q);
 	y = mathglue(x, curmu);
 	deleteglueref(x);
 	glueptr(q) = y;
-	subtype(q) = normal;
+	subtype(q) = NORMAL;
       } else if ((cursize != TEXT_SIZE) & (subtype(q) == condmathglue)) {
 	p = link(q);
 	if (p != 0) {
-	  if ((type(p) == gluenode) | (type(p) == kernnode)) {
+	  if ((type(p) == GLUE_NODE) | (type(p) == KERN_NODE)) {
 	    link(q) = link(p);
 	    link(p) = 0;
 	    flushnodelist(p);
@@ -9723,7 +9641,7 @@ _Lreswitch:
       goto _Ldonewithnode_;
       break;
 
-    case kernnode:   /*:730*/
+    case KERN_NODE:   /*:730*/
       mathkern(q, curmu);
       goto _Ldonewithnode_;
       break;
@@ -9874,15 +9792,15 @@ _Ldonewithnode_:
       break;
       /*:763*/
 
-    case whatsitnode:
-    case penaltynode:
-    case rulenode:
-    case discnode:
-    case adjustnode:
-    case insnode:
-    case marknode:
-    case gluenode:
-    case kernnode:
+    case WHATSIT_NODE:
+    case PENALTY_NODE:
+    case RULE_NODE:
+    case DISC_NODE:
+    case ADJUST_NODE:
+    case INS_NODE:
+    case MARK_NODE:
+    case GLUE_NODE:
+    case KERN_NODE:
       link(p) = q;
       p = q;
       q = link(q);
@@ -9951,7 +9869,7 @@ _Ldonewithnode_:
       if (link(q) != 0) {
 	if (pen < infpenalty) {   /*:767*/
 	  rtype = type(link(q));
-	  if (rtype != penaltynode) {
+	  if (rtype != PENALTY_NODE) {
 	    if (rtype != relnoad) {
 	      z = newpenalty(pen);
 	      link(p) = z;
@@ -10072,7 +9990,7 @@ Static void initalign(void)
   preamble = 0;
   curalign = alignhead;
   curloop = 0;
-  scannerstatus = aligning;
+  scanner_status = ALIGNING;
   warningindex = savecsptr;
   alignstate = -1000000L;
   while (true) {   /*778:*/
@@ -10144,10 +10062,10 @@ _Ldone2:
     vpart(curalign) = link(holdhead);   /*:779*/
   }
 _Ldone:
-  scannerstatus = normal;   /*:777*/
+  scanner_status = NORMAL;   /*:777*/
   newsavelevel(aligngroup);
   if (everycr != 0)
-    begintokenlist(everycr, everycrtext);
+    begintokenlist(everycr, EVERY_CR_TEXT);
   alignpeek();
 }
 /*:774*/
@@ -10191,7 +10109,7 @@ Static void initcol(void)
     alignstate = 0;
   else {
     backinput();
-    begintokenlist(upart(curalign), utemplate);
+    begintokenlist(upart(curalign), U_TEMPLATE);
   }
 }
 /*:788*/
@@ -10290,30 +10208,30 @@ Static Boolean fincol(void)
 	width(info(q)) = w;
     } else if (w > width(curalign))   /*:798*/
       width(curalign) = w;
-    type(u) = unsetnode;
+    type(u) = UNSET_NODE;
     spancount(u) = n;   /*659:*/
-    if (totalstretch[filll - normal] != 0)
+    if (totalstretch[filll - NORMAL] != 0)
       o = filll;
-    else if (totalstretch[fill - normal] != 0)
+    else if (totalstretch[fill - NORMAL] != 0)
       o = fill;
-    else if (totalstretch[fil - normal] != 0)
+    else if (totalstretch[fil - NORMAL] != 0)
       o = fil;
     else {
-      o = normal;
+      o = NORMAL;
       /*:659*/
     }
     glueorder(u) = o;
-    gluestretch(u) = totalstretch[o - normal];   /*665:*/
-    if (totalshrink[filll - normal] != 0)
+    gluestretch(u) = totalstretch[o - NORMAL];   /*665:*/
+    if (totalshrink[filll - NORMAL] != 0)
       o = filll;
-    else if (totalshrink[fill - normal] != 0)
+    else if (totalshrink[fill - NORMAL] != 0)
       o = fill;
-    else if (totalshrink[fil - normal] != 0)
+    else if (totalshrink[fil - NORMAL] != 0)
       o = fil;
     else
-      o = normal;   /*:665*/
+      o = NORMAL;   /*:665*/
     gluesign(u) = o;
-    glueshrink(u) = totalshrink[o - normal];
+    glueshrink(u) = totalshrink[o - NORMAL];
     popnest();
     link(tail) = u;
     tail = u;   /*:796*/
@@ -10356,10 +10274,10 @@ Static void finrow(void)
     tail = p;
     spacefactor = 1000;
   }
-  type(p) = unsetnode;
+  type(p) = UNSET_NODE;
   gluestretch(p) = 0;
   if (everycr != 0)
-    begintokenlist(everycr, everycrtext);
+    begintokenlist(everycr, EVERY_CR_TEXT);
   alignpeek();
 }
 /*:799*/
@@ -10433,12 +10351,12 @@ Static void finalign(void)
       } while (r != endspan);
     }
     /*:803*/
-    type(q) = unsetnode;
+    type(q) = UNSET_NODE;
     spancount(q) = MIN_QUARTER_WORD;
     height(q) = 0;
     depth(q) = 0;
-    glueorder(q) = normal;
-    gluesign(q) = normal;
+    glueorder(q) = NORMAL;
+    gluesign(q) = NORMAL;
     gluestretch(q) = 0;
     glueshrink(q) = 0;
     q = p;   /*:801*/
@@ -10471,12 +10389,12 @@ Static void finalign(void)
   s = head;
   while (q != 0) {   /*:805*/
     if (!ischarnode(q)) {
-      if (type(q) == unsetnode) {   /*807:*/
+      if (type(q) == UNSET_NODE) {   /*807:*/
 	if (mode == -V_MODE) {
 	  type(q) = hlistnode;
 	  width(q) = width(p);
 	} else {
-	  type(q) = vlistnode;
+	  type(q) = VLIST_NODE;
 	  height(q) = height(p);
 	}
 	glueorder(q) = glueorder(p);
@@ -10513,7 +10431,7 @@ Static void finalign(void)
 	    if (mode == -V_MODE)
 	      width(u) = width(s);
 	    else {   /*:809*/
-	      type(u) = vlistnode;
+	      type(u) = VLIST_NODE;
 	      height(u) = width(s);
 	    }
 	  }
@@ -10521,8 +10439,8 @@ Static void finalign(void)
 	    height(r) = height(q);
 	    depth(r) = depth(q);
 	    if (t == width(r)) {
-	      gluesign(r) = normal;
-	      glueorder(r) = normal;
+	      gluesign(r) = NORMAL;
+	      glueorder(r) = NORMAL;
 	      glueset(r) = 0.0;
 	    } else if (t > width(r)) {
 	      gluesign(r) = stretching;
@@ -10535,7 +10453,7 @@ Static void finalign(void)
 	      gluesign(r) = shrinking;
 	      if (glueshrink(r) == 0)
 		glueset(r) = 0.0;
-	      else if ((glueorder(r) == normal) &
+	      else if ((glueorder(r) == NORMAL) &
 		       (width(r) - t > glueshrink(r)))
 		glueset(r) = 1.0;
 	      else
@@ -10547,8 +10465,8 @@ Static void finalign(void)
 	  {   /*:811*/
 	    width(r) = width(q);
 	    if (t == height(r)) {
-	      gluesign(r) = normal;
-	      glueorder(r) = normal;
+	      gluesign(r) = NORMAL;
+	      glueorder(r) = NORMAL;
 	      glueset(r) = 0.0;
 	    } else if (t > height(r)) {
 	      gluesign(r) = stretching;
@@ -10561,14 +10479,14 @@ Static void finalign(void)
 	      gluesign(r) = shrinking;
 	      if (glueshrink(r) == 0)
 		glueset(r) = 0.0;
-	      else if ((glueorder(r) == normal) &
+	      else if ((glueorder(r) == NORMAL) &
 		       (height(r) - t > glueshrink(r)))
 		glueset(r) = 1.0;
 	      else
 		glueset(r) = (double)(height(r) - t) / glueshrink(r);
 	    }
 	    height(r) = w;
-	    type(r) = vlistnode;
+	    type(r) = VLIST_NODE;
 	  }
 	  /*:810*/
 	  shiftamount(r) = 0;
@@ -10581,7 +10499,7 @@ Static void finalign(void)
 	  s = link(link(s));
 	} while (r != 0);
       }  /*:807*/
-      else if (type(q) == rulenode) {
+      else if (type(q) == RULE_NODE) {
 	if (isrunning(width(q))) {
 	  width(q) = width(p);
 	}
@@ -10696,7 +10614,7 @@ Static HalfWord finiteshrink(HalfWord p)
     error();
   }
   q = newspec(p);
-  shrinkorder(q) = normal;
+  shrinkorder(q) = NORMAL;
   deleteglueref(p);
   return q;
 }  /*:826*/
@@ -10779,7 +10697,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                 }
                                 switch (type(v)) { /*:841*/
 
-                                    case ligaturenode:
+                                    case LIGATURE_NODE:
                                         f = font_ligchar(v);
                                         breakwidth[0] -= charwidth(
                                             f,
@@ -10787,9 +10705,9 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                         break;
 
                                     case hlistnode:
-                                    case vlistnode:
-                                    case rulenode:
-                                    case kernnode:
+                                    case VLIST_NODE:
+                                    case RULE_NODE:
+                                    case KERN_NODE:
                                         breakwidth[0] -= width(v);
                                         break;
 
@@ -10806,7 +10724,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                 } else {
                                     switch (type(s)) { /*:842*/
 
-                                        case ligaturenode:
+                                        case LIGATURE_NODE:
                                             f = font_ligchar(s);
                                             breakwidth[0] += charwidth(
                                                 f,
@@ -10815,9 +10733,9 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                             break;
 
                                         case hlistnode:
-                                        case vlistnode:
-                                        case rulenode:
-                                        case kernnode:
+                                        case VLIST_NODE:
+                                        case RULE_NODE:
+                                        case KERN_NODE:
                                             breakwidth[0] += width(s);
                                             break;
 
@@ -10837,7 +10755,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                         if (ischarnode(s)) goto _Ldone;
                         switch (type(s)) {
 
-                            case gluenode: /*838:*/
+                            case GLUE_NODE: /*838:*/
                                 v = glueptr(s);
                                 breakwidth[0] -= width(v);
                                 breakwidth[stretchorder(v) + 1] -= stretch(v);
@@ -10845,15 +10763,15 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                 break;
                                 /*:838*/
 
-                            case penaltynode:
+                            case PENALTY_NODE:
                                 /* blank case */
                                 break;
 
-                            case mathnode:
+                            case MATH_NODE:
                                 breakwidth[0] -= width(s);
                                 break;
 
-                            case kernnode:
+                            case KERN_NODE:
                                 if (subtype(s) != explicit) goto _Ldone;
                                 breakwidth[0] -= width(s);
                                 break;
@@ -11076,12 +10994,12 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                 printnl('@');
                 if (curp == 0)
                     print_esc(S(760));
-                else if (type(curp) != gluenode) {
-                    if (type(curp) == penaltynode)
+                else if (type(curp) != GLUE_NODE) {
+                    if (type(curp) == PENALTY_NODE)
                         print_esc(S(761));
-                    else if (type(curp) == discnode)
+                    else if (type(curp) == DISC_NODE)
                         print_esc(S(400));
-                    else if (type(curp) == kernnode)
+                    else if (type(curp) == KERN_NODE)
                         print_esc(S(391));
                     else
                         print_esc(S(394));
@@ -11174,7 +11092,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
     #ifdef tt_STAT
         if (curp != printednode) return;
         if (curp == 0) return;
-        if (type(curp) != discnode) return;
+        if (type(curp) != DISC_NODE) return;
         t = replacecount(curp);
         while (t > 0) {
             t--;
@@ -11211,14 +11129,14 @@ Static void postlinebreak(long finalwidowpenalty)
     discbreak = false;
     postdiscbreak = false;
     if (q != 0) {
-      if (type(q) == gluenode) {
+      if (type(q) == GLUE_NODE) {
 	deleteglueref(glueptr(q));
 	glueptr(q) = rightskip;
 	subtype(q) = rightskipcode + 1;
 	addglueref(rightskip);
 	goto _Ldone;
       }
-      if (type(q) == discnode) {   /*882:*/
+      if (type(q) == DISC_NODE) {   /*882:*/
 	t = replacecount(q);   /*883:*/
 	if (t == 0)
 	  r = link(q);
@@ -11255,7 +11173,7 @@ Static void postlinebreak(long finalwidowpenalty)
 	link(q) = r;
 	discbreak = true;
       }  /*:882*/
-      else if ((type(q) == mathnode) | (type(q) == kernnode))
+      else if ((type(q) == MATH_NODE) | (type(q) == KERN_NODE))
 	width(q) = 0;
     } else {
       q = temphead;
@@ -11329,7 +11247,7 @@ _Ldone:   /*:881*/
 	  if (nondiscardable(q)) {
 	    goto _Ldone1;
 	  }
-	  if (type(q) == kernnode) {
+	  if (type(q) == KERN_NODE) {
 	    if (subtype(q) != explicit)
 	      goto _Ldone1;
 	  }
@@ -11391,7 +11309,7 @@ _Llabcontinue:   /*909:*/
     q = fontinfo[k].qqqq;
   } else {
     q = charinfo(hf, curl);
-    if (chartag(q) != ligtag) {
+    if (chartag(q) != LIG_TAG) {
       goto _Ldone;
     }
     k = ligkernstart(hf,q);
@@ -11630,7 +11548,7 @@ _Lfound1:   /*:902*/
     initlist = ha;
     initlig = false;
     hu[0] = character(ha) - MIN_QUARTER_WORD;
-  } else if (type(ha) == ligaturenode) {
+  } else if (type(ha) == LIGATURE_NODE) {
     if (font_ligchar(ha) != hf) {
       goto _Lfound2;
     }
@@ -11647,7 +11565,7 @@ _Lfound1:   /*:902*/
     freenode(ha, smallnodesize);
   } else {
     if (!ischarnode(r)) {
-      if (type(r) == ligaturenode) {
+      if (type(r) == LIGATURE_NODE) {
 	if (subtype(r) > 1)
 	  goto _Lfound2;
       }
@@ -11687,7 +11605,7 @@ _Lcommonending:
       do {
 	r = getnode(smallnodesize);
 	link(r) = link(holdhead);
-	type(r) = discnode;
+	type(r) = DISC_NODE;
 	majortail = r;
 	rcount = 0;
 	while (link(majortail) > 0) {
@@ -12169,10 +12087,10 @@ Static void linebreak(long finalwidowpenalty) {
     link(temphead) = link(head);
     if (ischarnode(tail)) {
         tailappend(newpenalty(infpenalty));
-    } else if (type(tail) != gluenode) {
+    } else if (type(tail) != GLUE_NODE) {
         tailappend(newpenalty(infpenalty));
     } else {
-        type(tail) = penaltynode;
+        type(tail) = PENALTY_NODE;
         deleteglueref(glueptr(tail));
         flushnodelist(leaderptr(tail));
         penalty(tail) = infpenalty;
@@ -12305,22 +12223,22 @@ Static void linebreak(long finalwidowpenalty) {
             switch (type(curp)) {
 
                 case hlistnode:
-                case vlistnode:
-                case rulenode:
+                case VLIST_NODE:
+                case RULE_NODE:
                     actwidth += width(curp);
                     break;
 
-                case whatsitnode:  /*1362:*/
+                case WHATSIT_NODE:  /*1362:*/
                     advpast(curp); /*:1362*/
                     break;
 
-                case gluenode: /*868:*/
+                case GLUE_NODE: /*868:*/
                     if (autobreaking) {
                         if (ischarnode(prevp))
                             trybreak(0, unhyphenated);
                         else if (precedesbreak(prevp)) {
                             trybreak(0, unhyphenated);
-                        } else if ((type(prevp) == kernnode) &
+                        } else if ((type(prevp) == KERN_NODE) &
                                    (subtype(prevp) != explicit))
                             trybreak(0, unhyphenated);
                     }
@@ -12337,15 +12255,15 @@ Static void linebreak(long finalwidowpenalty) {
                                 if (ischarnode(s)) {
                                     c = character(s) - MIN_QUARTER_WORD;
                                     hf = font(s);
-                                } else if (type(s) == ligaturenode) {
+                                } else if (type(s) == LIGATURE_NODE) {
                                     if (ligptr(s) == 0) goto _Llabcontinue;
                                     q = ligptr(s);
                                     c = character(q) - MIN_QUARTER_WORD;
                                     hf = font(q);
-                                } else if ((type(s) == kernnode) &
-                                           (subtype(s) == normal))
+                                } else if ((type(s) == KERN_NODE) &
+                                           (subtype(s) == NORMAL))
                                     goto _Llabcontinue;
-                                else if (type(s) == whatsitnode) {
+                                else if (type(s) == WHATSIT_NODE) {
                                     advpast(s); /*:1363*/
                                     goto _Llabcontinue;
                                 } else
@@ -12380,7 +12298,7 @@ Static void linebreak(long finalwidowpenalty) {
                                     hu[hn] = c;
                                     hc[hn] = lccode(c);
                                     hyfbchar = nonchar;
-                                } else if (type(s) == ligaturenode) {
+                                } else if (type(s) == LIGATURE_NODE) {
                                     if (font_ligchar(s) != hf) {
                                         goto _Ldone3;
                                     }
@@ -12402,8 +12320,8 @@ Static void linebreak(long finalwidowpenalty) {
                                         hyfbchar = fontbchar[hf];
                                     else
                                         hyfbchar = nonchar;
-                                } else if ((type(s) == kernnode) &
-                                           (subtype(s) == normal)) {
+                                } else if ((type(s) == KERN_NODE) &
+                                           (subtype(s) == NORMAL)) {
                                     hb = s;
                                     hyfbchar = fontbchar[hf];
                                 } else
@@ -12417,21 +12335,21 @@ Static void linebreak(long finalwidowpenalty) {
                                 if (!ischarnode(s)) {
                                     switch (type(s)) {
 
-                                        case ligaturenode:
+                                        case LIGATURE_NODE:
                                             /* blank case */
                                             break;
 
-                                        case kernnode:
-                                            if (subtype(s) != normal)
+                                        case KERN_NODE:
+                                            if (subtype(s) != NORMAL)
                                                 goto _Ldone4;
                                             break;
 
-                                        case whatsitnode:
-                                        case gluenode:
-                                        case penaltynode:
-                                        case insnode:
-                                        case adjustnode:
-                                        case marknode:
+                                        case WHATSIT_NODE:
+                                        case GLUE_NODE:
+                                        case PENALTY_NODE:
+                                        case INS_NODE:
+                                        case ADJUST_NODE:
+                                        case MARK_NODE:
                                             goto _Ldone4;
                                             break;
 
@@ -12450,20 +12368,20 @@ Static void linebreak(long finalwidowpenalty) {
                     /*:894*/
                     break;
 
-                case kernnode:
+                case KERN_NODE:
                     if (subtype(curp) == explicit) {
                         kernbreak();
                     } else
                         actwidth += width(curp);
                     break;
 
-                case ligaturenode:
+                case LIGATURE_NODE:
                     f = font_ligchar(curp);
                     actwidth +=
                         charwidth(f, charinfo(f, character_ligchar(curp)));
                     break;
 
-                case discnode: /*869:*/
+                case DISC_NODE: /*869:*/
                     s = prebreak(curp);
                     discwidth = 0;
                     if (s == 0)
@@ -12477,7 +12395,7 @@ Static void linebreak(long finalwidowpenalty) {
                             } else {
                                 switch (type(s)) { /*:870*/
 
-                                    case ligaturenode:
+                                    case LIGATURE_NODE:
                                         f = font_ligchar(s);
                                         discwidth += charwidth(
                                             f,
@@ -12485,9 +12403,9 @@ Static void linebreak(long finalwidowpenalty) {
                                         break;
 
                                     case hlistnode:
-                                    case vlistnode:
-                                    case rulenode:
-                                    case kernnode:
+                                    case VLIST_NODE:
+                                    case RULE_NODE:
+                                    case KERN_NODE:
                                         discwidth += width(s);
                                         break;
 
@@ -12511,16 +12429,16 @@ Static void linebreak(long finalwidowpenalty) {
                         } else {
                             switch (type(s)) { /*:871*/
 
-                                case ligaturenode:
+                                case LIGATURE_NODE:
                                     f = font_ligchar(s);
                                     actwidth += charwidth(
                                         f, charinfo(f, character_ligchar(s)));
                                     break;
 
                                 case hlistnode:
-                                case vlistnode:
-                                case rulenode:
-                                case kernnode:
+                                case VLIST_NODE:
+                                case RULE_NODE:
+                                case KERN_NODE:
                                     actwidth += width(s);
                                     break;
 
@@ -12538,18 +12456,18 @@ Static void linebreak(long finalwidowpenalty) {
                     break;
                     /*:869*/
 
-                case mathnode:
+                case MATH_NODE:
                     autobreaking = (subtype(curp) == after);
                     kernbreak();
                     break;
 
-                case penaltynode:
+                case PENALTY_NODE:
                     trybreak(penalty(curp), unhyphenated);
                     break;
 
-                case marknode:
-                case insnode:
-                case adjustnode:
+                case MARK_NODE:
+                case INS_NODE:
+                case ADJUST_NODE:
                     /* blank case */
                     break;
 
@@ -12796,8 +12714,8 @@ Static HalfWord prunepagetop(HalfWord p)
     switch (type(p)) {
 
     case hlistnode:
-    case vlistnode:
-    case rulenode:   /*969:*/
+    case VLIST_NODE:
+    case RULE_NODE:   /*969:*/
       q = newskipparam(splittopskipcode);
       link(prevp) = q;
       link(q) = p;
@@ -12809,16 +12727,16 @@ Static HalfWord prunepagetop(HalfWord p)
       break;
       /*:969*/
 
-    case whatsitnode:
-    case marknode:
-    case insnode:
+    case WHATSIT_NODE:
+    case MARK_NODE:
+    case INS_NODE:
       prevp = p;
       p = link(prevp);
       break;
 
-    case gluenode:
-    case kernnode:
-    case penaltynode:
+    case GLUE_NODE:
+    case KERN_NODE:
+    case PENALTY_NODE:
       q = p;
       p = link(q);
       link(q) = 0;
@@ -12859,39 +12777,39 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
       switch (type(p)) {   /*:973*/
 
       case hlistnode:
-      case vlistnode:
-      case rulenode:
+      case VLIST_NODE:
+      case RULE_NODE:
 	curheight += prevdp + height(p);
 	prevdp = depth(p);
 	goto _Lnotfound;
 	break;
 
-      case whatsitnode:   /*1365:*/
+      case WHATSIT_NODE:   /*1365:*/
 	goto _Lnotfound;   /*:1365*/
 	break;
 
-      case gluenode:
+      case GLUE_NODE:
 	if (!precedesbreak(prevp))
 	  goto _Lupdateheights_;
 	pi = 0;
 	break;
 
-      case kernnode:
+      case KERN_NODE:
 	if (link(p) == 0)
-	  t = penaltynode;
+	  t = PENALTY_NODE;
 	else
 	  t = type(link(p));
-	if (t != gluenode)
+	if (t != GLUE_NODE)
 	  goto _Lupdateheights_;
 	pi = 0;
 	break;
 
-      case penaltynode:
+      case PENALTY_NODE:
 	pi = penalty(p);
 	break;
 
-      case marknode:
-      case insnode:
+      case MARK_NODE:
+      case INS_NODE:
 	goto _Lnotfound;
 	break;
 
@@ -12928,16 +12846,16 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
       if (b == awfulbad || pi <= ejectpenalty)
 	goto _Ldone;
     }
-    if ((type(p) < gluenode) | (type(p) > kernnode))
+    if ((type(p) < GLUE_NODE) | (type(p) > KERN_NODE))
       goto _Lnotfound;
 _Lupdateheights_:   /*976:*/
-    if (type(p) == kernnode)
+    if (type(p) == KERN_NODE)
       q = p;
     else {
       q = glueptr(p);
       activeheight[stretchorder(q) + 1] += stretch(q);
       activeheight[5] += shrink(q);
-      if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
+      if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
 	printnl(S(292));
 	print(S(793));
 	help4(S(794),
@@ -12946,7 +12864,7 @@ _Lupdateheights_:   /*976:*/
               S(753));
 	error();
 	r = newspec(q);
-	shrinkorder(r) = normal;
+	shrinkorder(r) = NORMAL;
 	deleteglueref(q);
 	glueptr(p) = r;
 	q = r;
@@ -12984,7 +12902,7 @@ Static HalfWord vsplit(EightBits n, long h) {
         Result = 0;
         goto _Lexit;
     }
-    if (type(v) != vlistnode) { /*:978*/
+    if (type(v) != VLIST_NODE) { /*:978*/
         printnl(S(292));
         print(S(385));
         print_esc(S(797));
@@ -13001,7 +12919,7 @@ Static HalfWord vsplit(EightBits n, long h) {
         listptr(v) = 0;
     else {
         while (true) {
-            if (type(p) == marknode) {
+            if (type(p) == MARK_NODE) {
                 if (splitfirstmark == 0) {
                     splitfirstmark = markptr(p);
                     splitbotmark = splitfirstmark;
@@ -13132,7 +13050,7 @@ Static void fireup(HalfWord c)
   long savevbadness;
   Scaled savevfuzz;
 
-  if (type(bestpagebreak) == penaltynode) {
+  if (type(bestpagebreak) == PENALTY_NODE) {
     geqworddefine(intbase + outputpenaltycode, penalty(bestpagebreak));
     penalty(bestpagebreak) = infpenalty;
   } else   /*:1013*/
@@ -13180,7 +13098,7 @@ Static void fireup(HalfWord c)
   prevp = pagehead;
   p = link(prevp);
   while (p != bestpagebreak) {
-    if (type(p) == insnode) {
+    if (type(p) == INS_NODE) {
       if (holdinginserts <= 0) {   /*1020:*/
 	r = link(pageinshead);
 	while (subtype(r) != subtype(p))
@@ -13232,7 +13150,7 @@ Static void fireup(HalfWord c)
 	p = prevp;   /*:1022*/
       }
       /*:1020*/
-    } else if (type(p) == marknode) {
+    } else if (type(p) == MARK_NODE) {
       if (firstmark == 0) {
 	firstmark = markptr(p);
 	addtokenref(firstmark);
@@ -13299,7 +13217,7 @@ Static void fireup(HalfWord c)
       mode = -V_MODE;
       prevdepth = ignoredepth;
       modeline = -line;
-      begintokenlist(outputroutine, outputtext);
+      begintokenlist(outputroutine, OUTPUT_TEXT);
       newsavelevel(outputgroup);
       normalparagraph();
       scanleftbrace();
@@ -13346,22 +13264,22 @@ Static void buildpage(void) {
         if (lastglue != MAX_HALF_WORD) deleteglueref(lastglue);
         lastpenalty = 0;
         lastkern = 0;
-        if (type(p) == gluenode) { /*997:*/
+        if (type(p) == GLUE_NODE) { /*997:*/
             lastglue = glueptr(p);
             addglueref(lastglue);
         } else { /*:996*/
             lastglue = MAX_HALF_WORD;
-            if (type(p) == penaltynode)
+            if (type(p) == PENALTY_NODE)
                 lastpenalty = penalty(p);
-            else if (type(p) == kernnode)
+            else if (type(p) == KERN_NODE)
                 lastkern = width(p);
         }
         /*1000:*/
         switch (type(p)) { /*:1000*/
 
             case hlistnode:
-            case vlistnode:
-            case rulenode:
+            case VLIST_NODE:
+            case RULE_NODE:
                 if (pagecontents < boxthere) { /*1001:*/
                     if (pagecontents == empty)
                         freezepagespecs(boxthere);
@@ -13384,33 +13302,33 @@ Static void buildpage(void) {
                 /*:1001*/
                 break;
 
-            case whatsitnode:       /*1364:*/
+            case WHATSIT_NODE:       /*1364:*/
                 goto _Lcontribute_; /*:1364*/
                 break;
 
-            case gluenode:
+            case GLUE_NODE:
                 if (pagecontents < boxthere) goto _Ldone1;
                 if (!precedesbreak(pagetail)) goto _Lupdateheights_;
                 pi = 0;
                 break;
 
-            case kernnode:
+            case KERN_NODE:
                 if (pagecontents < boxthere) goto _Ldone1;
                 if (link(p) == 0) goto _Lexit;
-                if (type(link(p)) != gluenode) goto _Lupdateheights_;
+                if (type(link(p)) != GLUE_NODE) goto _Lupdateheights_;
                 pi = 0;
                 break;
 
-            case penaltynode:
+            case PENALTY_NODE:
                 if (pagecontents < boxthere) goto _Ldone1;
                 pi = penalty(p);
                 break;
 
-            case marknode:
+            case MARK_NODE:
                 goto _Lcontribute_;
                 break;
 
-            case insnode: /*1008:*/
+            case INS_NODE: /*1008:*/
                 if (pagecontents == empty) freezepagespecs(insertsonly);
                 n = subtype(p);
                 r = pageinshead;
@@ -13438,7 +13356,7 @@ Static void buildpage(void) {
                     pagegoal += -h - width(q);
                     pagesofar[stretchorder(q) + 2] += stretch(q);
                     pageshrink += shrink(q);
-                    if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
+                    if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
                         printnl(S(292));
                         print(S(817));
                         print_esc(S(460));
@@ -13487,7 +13405,7 @@ Static void buildpage(void) {
                                 print(S(764));
                                 if (q == 0)
                                     print_int(ejectpenalty);
-                                else if (type(q) == penaltynode)
+                                else if (type(q) == PENALTY_NODE)
                                     print_int(penalty(q));
                                 else
                                     print_char('0');
@@ -13504,7 +13422,7 @@ Static void buildpage(void) {
                         brokenins(r) = p;
                         if (q == 0)
                             insertpenalties += ejectpenalty;
-                        else if (type(q) == penaltynode)
+                        else if (type(q) == PENALTY_NODE)
                             insertpenalties += penalty(q);
                     }
                 }
@@ -13582,21 +13500,21 @@ Static void buildpage(void) {
                 goto _Ldone;
             }
         }
-        if ((type(p) < gluenode) | (type(p) > kernnode)) goto _Lcontribute_;
+        if ((type(p) < GLUE_NODE) | (type(p) > KERN_NODE)) goto _Lcontribute_;
     _Lupdateheights_: /*1004:*/
-        if (type(p) == kernnode)
+        if (type(p) == KERN_NODE)
             q = p;
         else {
             q = glueptr(p);
             pagesofar[stretchorder(q) + 2] += stretch(q);
             pageshrink += shrink(q);
-            if ((shrinkorder(q) != normal) & (shrink(q) != 0)) {
+            if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
                 printnl(S(292));
                 print(S(825));
                 help4(S(826), S(795), S(796), S(753));
                 error();
                 r = newspec(q);
-                shrinkorder(r) = normal;
+                shrinkorder(r) = NORMAL;
                 deleteglueref(q);
                 glueptr(p) = r;
                 q = r;
@@ -13645,7 +13563,7 @@ Static void appspace(void)
       if (mainp == 0) {
 	FontIndex mmaink;
 	mainp = newspec(zeroglue);
-	mmaink = parambase[curfont ] + spacecode;
+	mmaink = parambase[curfont ] + SPACE_CODE;
 #if 1
 	maink = mmaink;
 #endif
@@ -13691,7 +13609,7 @@ Static void youcant(void)
   print(S(602));
   printcmdchr(curcmd, curchr);
   print(S(830));
-  printmode(mode);
+  print_mode(mode);
 }
 /*:1049*/
 
@@ -13745,35 +13663,35 @@ Static void appendglue(void)
   s = curchr;
   switch (s) {
 
-  case filcode:
+  case FIL_CODE:
     curval = filglue;
     break;
 
-  case fillcode:
+  case FILL_CODE:
     curval = fillglue;
     break;
 
-  case sscode:
+  case SS_CODE:
     curval = ssglue;
     break;
 
-  case filnegcode:
+  case FIL_NEG_CODE:
     curval = filnegglue;
     break;
 
-  case skipcode:
+  case SKIP_CODE:
     scanglue(glueval);
     break;
 
-  case mskipcode:
+  case MSKIP_CODE:
     scanglue(muval);
     break;
   }
   tailappend(newglue(curval));
-  if (s < skipcode)
+  if (s < SKIP_CODE)
     return;
   (gluerefcount(curval))--;
-  if (s > skipcode)
+  if (s > SKIP_CODE)
     subtype(tail) = muglue;
 }  /*:1060*/
 
@@ -13988,12 +13906,12 @@ Static void beginbox(long boxcontext) {
         } else {
             if (!ischarnode(tail)) {
                 if ((type(tail) == hlistnode) |
-                    (type(tail) == vlistnode)) { /*1081:*/
+                    (type(tail) == VLIST_NODE)) { /*1081:*/
                     q = head;
                     do {
                         p = q;
                         if (!ischarnode(q)) {
-                            if (type(q) == discnode) {
+                            if (type(q) == DISC_NODE) {
                                 QuarterWord FORLIM = replacecount(q);
                                 for (m = 1; m <= FORLIM; m++)
                                     p = link(p);
@@ -14050,10 +13968,10 @@ _Ldone:;
         mode = -k;
         if (k == V_MODE) {
             prevdepth = ignoredepth;
-            if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
+            if (everyvbox != 0) begintokenlist(everyvbox, EVERY_VBOX_TEXT);
         } else {
             spacefactor = 1000;
-            if (everyhbox != 0) begintokenlist(everyhbox, everyhboxtext);
+            if (everyhbox != 0) begintokenlist(everyhbox, EVERY_HBOX_TEXT);
         }
         goto _Lexit; 
 
@@ -14104,7 +14022,7 @@ Static void package(SmallNumber c)
       h = 0;
       p = listptr(curbox);
       if (p != 0) {
-	if (type(p) <= rulenode)
+	if (type(p) <= RULE_NODE)
 	  h = height(p);
       }
       depth(curbox) += height(curbox) - h;
@@ -14148,7 +14066,7 @@ Static void newgraf(Boolean indented)
     width(tail) = parindent;
   }
   if (everypar != 0)
-    begintokenlist(everypar, everypartext);
+    begintokenlist(everypar, EVERY_PAR_TEXT);
   if (nestptr == 1)
     buildpage();
 }
@@ -14195,7 +14113,7 @@ Static void headforvmode(void)
   backinput();
   curtok = partoken;
   backinput();
-  tokentype = inserted;
+  token_type = INSERTED;
 }
 /*:1095*/
 
@@ -14249,7 +14167,7 @@ Static void makemark(void)
 
   p = scantoks(false, true);
   p = getnode(smallnodesize);
-  type(p) = marknode;
+  type(p) = MARK_NODE;
   subtype(p) = 0;
   markptr(p) = defref;
   link(tail) = p;
@@ -14272,12 +14190,12 @@ Static void deletelast(void) {
     Pointer p, q;
 
     if (mode == V_MODE && tail == head) { /*1106:*/
-    if (curchr != gluenode || lastglue != MAX_HALF_WORD) {
+    if (curchr != GLUE_NODE || lastglue != MAX_HALF_WORD) {
         youcant();
         help2(S(854), S(869));
-        if (curchr == kernnode)
+        if (curchr == KERN_NODE)
             helpline[0] = S(870);
-        else if (curchr != gluenode)
+        else if (curchr != GLUE_NODE)
             helpline[0] = S(871);
         error();
     }
@@ -14289,7 +14207,7 @@ Static void deletelast(void) {
             do {
                 p = q;
                 if (!ischarnode(q)) {
-                if (type(q) == discnode) {
+                if (type(q) == DISC_NODE) {
                     QuarterWord FORLIM = replacecount(q);
                     QuarterWord m;
                     for (m = 1; m <= FORLIM; m++)
@@ -14318,7 +14236,7 @@ Static void unpackage(void) {
     p = box(curval);
     if (p == 0) return;
     if ( (labs(mode) == M_MODE) |
-        ((labs(mode) == V_MODE) & (type(p) != vlistnode)) |
+        ((labs(mode) == V_MODE) & (type(p) != VLIST_NODE)) |
         ((labs(mode) == H_MODE) & (type(p) != hlistnode))) {
         printnl(S(292));
         print(S(872));
@@ -14350,7 +14268,7 @@ Static void appenditaliccorrection(void) {
             p = tail;
             f = font(p);
             c = character(p);
-        } else if (type(tail) == ligaturenode) {
+        } else if (type(tail) == LIGATURE_NODE) {
             p = ligchar(tail);
             f = font_ligchar(tail);
             c = character_ligchar(tail);
@@ -14403,9 +14321,9 @@ Static void builddiscretionary(void) {
 
     while (p != 0) {
         if (!ischarnode(p)) {
-            if (type(p) > rulenode) {
-                if (type(p) != kernnode) {
-                    if (type(p) != ligaturenode) {
+            if (type(p) > RULE_NODE) {
+                if (type(p) != KERN_NODE) {
+                    if (type(p) != LIGATURE_NODE) {
                         printnl(S(292));
                         print(S(876));
                         help1(S(877));
@@ -14658,13 +14576,13 @@ _Lreswitch:
 	switch (type(p)) {   /*:1147*/
 
 	case hlistnode:
-	case vlistnode:
-	case rulenode:
+	case VLIST_NODE:
+	case RULE_NODE:
 	  d = width(p);
 	  goto _Lfound;
 	  break;
 
-	case ligaturenode:   /*652:*/
+	case LIGATURE_NODE:   /*652:*/
       type(ligtrick) = charnodetype ;
       font(ligtrick) = font_ligchar(p);
       character(ligtrick) = character_ligchar(p);
@@ -14674,12 +14592,12 @@ _Lreswitch:
 	  break;
 	  /*:652*/
 
-	case kernnode:
-	case mathnode:
+	case KERN_NODE:
+	case MATH_NODE:
 	  d = width(p);
 	  break;
 
-	case gluenode:   /*1148:*/
+	case GLUE_NODE:   /*1148:*/
 	  q = glueptr(p);
 	  d = width(q);
 	  if (gluesign(justbox) == stretching) {
@@ -14696,7 +14614,7 @@ _Lreswitch:
 	  break;
 	  /*:1148*/
 
-	case whatsitnode:   /*1361:*/
+	case WHATSIT_NODE:   /*1361:*/
 	  d = 0;   /*:1361*/
 	  break;
 
@@ -14748,7 +14666,7 @@ _Ldone: ;   /*:1146*/
     eqworddefine(dimenbase + displaywidthcode, l);
     eqworddefine(dimenbase + displayindentcode, s);
     if (everydisplay != 0)
-      begintokenlist(everydisplay, everydisplaytext);
+      begintokenlist(everydisplay, EVERY_DISPLAY_TEXT);
     if (nestptr == 1)
       buildpage();
     return;
@@ -14758,7 +14676,7 @@ _Ldone: ;   /*:1146*/
   pushmath(mathshiftgroup);
   eqworddefine(intbase + curfamcode, -1);
   if (everymath != 0)   /*:1139*/
-    begintokenlist(everymath, everymathtext);
+    begintokenlist(everymath, EVERY_MATH_TEXT);
 }
 /*:1138*/
 
@@ -14769,7 +14687,7 @@ Static void starteqno(void) {
     pushmath(mathshiftgroup);
     eqworddefine(intbase + curfamcode, -1);
     if (everymath != 0) /*:1139*/
-        begintokenlist(everymath, everymathtext);
+        begintokenlist(everymath, EVERY_MATH_TEXT);
 }
 /*:1142*/
 
@@ -14931,7 +14849,7 @@ Static void mathradical(void)
   int i=0;
   tailappend(getnode(radicalnoadsize));
   type(tail) = radicalnoad;
-  subtype(tail) = normal;
+  subtype(tail) = NORMAL;
 #ifdef BIG_CHARNODE
   for(i=0;i<charnodesize;i++) {
 #endif
@@ -14961,7 +14879,7 @@ Static void mathac(void)
   /*:1166*/
   tailappend(getnode(accentnoadsize));
   type(tail) = accentnoad;
-  subtype(tail) = normal;
+  subtype(tail) = NORMAL;
   mem[nucleus(tail) - memmin].hh = emptyfield;
   mem[subscr(tail) - memmin].hh = emptyfield;
   mem[supscr(tail) - memmin].hh = emptyfield;
@@ -15113,7 +15031,7 @@ Static void mathfraction(void)
   }  /*:1183*/
   incompleatnoad = getnode(fractionnoadsize);
   type(incompleatnoad) = fractionnoad;
-  subtype(incompleatnoad) = normal;
+  subtype(incompleatnoad) = NORMAL;
   mathtype(numerator(incompleatnoad)) = submlist;
   info(numerator(incompleatnoad)) = link(head);
   mem[denominator(incompleatnoad) - memmin].hh = emptyfield;
@@ -15323,9 +15241,9 @@ Static void aftermath(void)
   }
   if (w + q > z) {   /*1201:*/
     if (e != 0 && (w - totalshrink[0] + q <= z ||
-		   totalshrink[fil - normal] != 0 ||
-		   totalshrink[fill - normal] != 0 ||
-		   totalshrink[filll - normal] != 0)) {
+		   totalshrink[fil - NORMAL] != 0 ||
+		   totalshrink[fill - NORMAL] != 0 ||
+		   totalshrink[filll - NORMAL] != 0)) {
       freenode(b, boxnodesize);
       b = hpack(p, z - q, exactly);
     } else {
@@ -15344,7 +15262,7 @@ Static void aftermath(void)
     d = half(z - w - e);
     if (p != 0) {
       if (!ischarnode(p)) {
-	if (type(p) == gluenode)
+	if (type(p) == GLUE_NODE)
 	  d = 0;
       }
     }
@@ -15525,7 +15443,7 @@ _Lfound: /*:1237*/
                 r = equiv(l);
                 deleteglueref(curval);
                 width(q) += width(r);
-                if (stretch(q) == 0) stretchorder(q) = normal;
+                if (stretch(q) == 0) stretchorder(q) = NORMAL;
                 if (stretchorder(q) == stretchorder(r))
                     stretch(q) += stretch(r);
                 else if ((stretchorder(q) < stretchorder(r)) &
@@ -15533,7 +15451,7 @@ _Lfound: /*:1237*/
                     stretch(q) = stretch(r);
                     stretchorder(q) = stretchorder(r);
                 }
-                if (shrink(q) == 0) shrinkorder(q) = normal;
+                if (shrink(q) == 0) shrinkorder(q) = NORMAL;
                 if (shrinkorder(q) == shrinkorder(r))
                     shrink(q) += shrink(r);
                 else if ((shrinkorder(q) < shrinkorder(r)) & (shrink(r) != 0)) {
@@ -15772,7 +15690,7 @@ _Lcommonending:
 Static void newinteraction(void) {
     println();
     interaction = curchr; /*75:*/
-    if (interaction == batchmode)
+    if (interaction == BATCH_MODE)
         selector = NO_PRINT;
     else {
         selector = TERM_ONLY;
@@ -15855,7 +15773,7 @@ Static void prefixedcommand(void)
     n = curchr;
     getrtoken();
     p = curcs;
-    if (n == normal) {
+    if (n == NORMAL) {
       do {
 	gettoken();
       } while (curcmd == spacer);
@@ -16268,7 +16186,7 @@ Static void issuemessage(void) {
         else if (longhelpseen) {
             help1(S(974));
         } else {
-            if (interaction < errorstopmode) longhelpseen = true;
+            if (interaction < ERROR_STOP_MODE) longhelpseen = true;
             help4(S(975), S(976), S(977), S(978));
         }
         error();
@@ -16353,7 +16271,7 @@ Static void showwhatever(void) {
         }
     }
 _Lcommonending:
-    if (interaction < errorstopmode) {
+    if (interaction < ERROR_STOP_MODE) {
         helpptr = 0;
         errorcount--;
     } else if (tracingonline > 0) {
@@ -16390,7 +16308,7 @@ Static void storefmtfile(void) { /*1304:*/
     print_char('.');
     print_int(day);
     print_char(')');
-    if (interaction == batchmode)
+    if (interaction == BATCH_MODE)
         selector = LOG_ONLY;
     else
         selector = TERM_AND_LOG;
@@ -16634,7 +16552,7 @@ Static void newwhatsit(SmallNumber s, SmallNumber w) {
     Pointer p;
 
     p = getnode(w);
-    type(p) = whatsitnode;
+    type(p) = WHATSIT_NODE;
     subtype(p) = s;
     link(tail) = p;
     tail = p;
@@ -16813,7 +16731,7 @@ Static void handlerightbrace(void) {
             popnest();
             if (saved(0) < 255) {
                 tailappend(getnode(insnodesize));
-                type(tail) = insnode;
+                type(tail) = INS_NODE;
                 subtype(tail) = saved(0);
                 height(tail) = height(p) + depth(p);
                 insptr(tail) = listptr(p);
@@ -16822,7 +16740,7 @@ Static void handlerightbrace(void) {
                 floatcost(tail) = f;
             } else {
                 tailappend(getnode(smallnodesize));
-                type(tail) = adjustnode;
+                type(tail) = ADJUST_NODE;
                 subtype(tail) = 0;
                 adjustptr(tail) = listptr(p);
                 deleteglueref(q);
@@ -16833,7 +16751,7 @@ Static void handlerightbrace(void) {
 
         case outputgroup: /*1026:*/
             if (loc != 0 ||
-                (tokentype != outputtext && tokentype != backedup)) { /*:1027*/
+                (token_type != OUTPUT_TEXT && token_type != BACKED_UP)) { /*:1027*/
                 printnl(S(292));
                 print(S(1005));
                 help2(S(1006), S(682));
@@ -16961,7 +16879,7 @@ Static void handlerightbrace(void) {
 Static void maincontrol(void) {
     long t;
 
-    if (everyjob != 0) begintokenlist(everyjob, everyjobtext);
+    if (everyjob != 0) begintokenlist(everyjob, EVERY_JOB_TEXT);
 _Lbigswitch_:
     getxtoken();
 _Lreswitch: /*1031:*/
@@ -17403,7 +17321,7 @@ _Lreswitch: /*1031:*/
             pushnest();
             mode = -V_MODE;
             prevdepth = ignoredepth;
-            if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
+            if (everyvbox != 0) begintokenlist(everyvbox, EVERY_VBOX_TEXT);
             break;
             /*:1167*/
 
@@ -17669,7 +17587,7 @@ _Lmainlooplookahead1:
     character(ligstack) = curr;
     if (curr == falsebchar) curr = nonchar; /*:1038*/
 _Lmainligloop:                              /*1039:*/
-    if (chartag(maini) != ligtag) {
+    if (chartag(maini) != LIG_TAG) {
         goto _Lmainloopwrapup;
     }
     maink = ligkernstart(mainf, maini);
@@ -17778,7 +17696,7 @@ _Lappendnormalspace_:            /*1041:*/
         if (mainp == 0) { /*:1042*/
             FontIndex mmaink;
             mainp = newspec(zeroglue);
-            mmaink = parambase[curfont] + spacecode;
+            mmaink = parambase[curfont] + SPACE_CODE;
 #if 1
             maink = mmaink;
 #endif
@@ -18021,7 +17939,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     /*1327:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if ((unsigned long)x > errorstopmode) goto _Lbadfmt_;
+    if ((unsigned long)x > ERROR_STOP_MODE) goto _Lbadfmt_;
     interaction = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -18150,7 +18068,7 @@ Static void finalcleanup(void) {
     c = curchr;
     if (jobname == 0) openlogfile();
     while (inputptr > 0) {
-        if (state == tokenlist)
+        if (state == TOKEN_LIST)
             endtokenlist();
         else
             endfilereading();
@@ -18183,7 +18101,7 @@ Static void finalcleanup(void) {
         freenode(tempptr, ifnodesize);
     }
     if (history != SPOTLESS) {
-        if (history == WARNING_ISSUED || interaction < errorstopmode) {
+        if (history == WARNING_ISSUED || interaction < ERROR_STOP_MODE) {
             if (selector == TERM_AND_LOG) {
                 selector = TERM_ONLY;
                 printnl(S(1025));
@@ -18402,23 +18320,23 @@ Static void initprim(void) {
     primitive(S(1151), convert, fontnamecode);
     primitive(S(1152), convert, jobnamecode); /*:468*/
     /*487:*/
-    primitive(S(658), iftest, ifcharcode);
-    primitive(S(1153), iftest, ifcatcode);
-    primitive(S(1154), iftest, ifintcode);
-    primitive(S(1155), iftest, ifdimcode);
-    primitive(S(1156), iftest, ifoddcode);
-    primitive(S(1157), iftest, ifvmodecode);
-    primitive(S(1158), iftest, ifhmodecode);
-    primitive(S(1159), iftest, ifmmodecode);
-    primitive(S(1160), iftest, ifinnercode);
-    primitive(S(1161), iftest, ifvoidcode);
-    primitive(S(1162), iftest, ifhboxcode);
-    primitive(S(1163), iftest, ifvboxcode);
-    primitive(S(1164), iftest, ifxcode);
-    primitive(S(1165), iftest, ifeofcode);
-    primitive(S(1166), iftest, iftruecode);
-    primitive(S(1167), iftest, iffalsecode);
-    primitive(S(1168), iftest, ifcasecode); /*:487*/
+    primitive(S(658), iftest, IF_CHAR_CODE);
+    primitive(S(1153), iftest, IF_CAT_CODE);
+    primitive(S(1154), iftest, IF_INT_CODE);
+    primitive(S(1155), iftest, IF_DIM_CODE);
+    primitive(S(1156), iftest, IF_ODD_CODE);
+    primitive(S(1157), iftest, IF_VMODE_CODE);
+    primitive(S(1158), iftest, IF_HMODE_CODE);
+    primitive(S(1159), iftest, IF_MMODE_CODE);
+    primitive(S(1160), iftest, IF_INNER_CODE);
+    primitive(S(1161), iftest, IF_VOID_CODE);
+    primitive(S(1162), iftest, IF_HBOX_CODE);
+    primitive(S(1163), iftest, IF_VBOX_CODE);
+    primitive(S(1164), iftest, IF_X_CODE);
+    primitive(S(1165), iftest, IF_EOF_CODE);
+    primitive(S(1166), iftest, IF_TRUE_CODE);
+    primitive(S(1167), iftest, IF_FALSE_CODE);
+    primitive(S(1168), iftest, IF_CASE_CODE); /*:487*/
     /*491:*/
     primitive(S(1169), fiorelse, ficode);
     text(frozenfi) = S(1169);
@@ -18455,17 +18373,17 @@ Static void initprim(void) {
     primitive(S(1183), stop, 0);
     primitive(S(1184), stop, 1); /*:1052*/
     /*1058:*/
-    primitive(S(1185), hskip, skipcode);
-    primitive(S(1186), hskip, filcode);
-    primitive(S(1187), hskip, fillcode);
-    primitive(S(1188), hskip, sscode);
-    primitive(S(1189), hskip, filnegcode);
-    primitive(S(1190), vskip, skipcode);
-    primitive(S(1191), vskip, filcode);
-    primitive(S(1192), vskip, fillcode);
-    primitive(S(1193), vskip, sscode);
-    primitive(S(1194), vskip, filnegcode);
-    primitive(S(389), mskip, mskipcode);
+    primitive(S(1185), hskip, SKIP_CODE);
+    primitive(S(1186), hskip, FIL_CODE);
+    primitive(S(1187), hskip, FILL_CODE);
+    primitive(S(1188), hskip, SS_CODE);
+    primitive(S(1189), hskip, FIL_NEG_CODE);
+    primitive(S(1190), vskip, SKIP_CODE);
+    primitive(S(1191), vskip, FIL_CODE);
+    primitive(S(1192), vskip, FILL_CODE);
+    primitive(S(1193), vskip, SS_CODE);
+    primitive(S(1194), vskip, FIL_NEG_CODE);
+    primitive(S(389), mskip, MSKIP_CODE);
     primitive(S(391), kern, explicit);
     primitive(S(393), mkern, muglue); /*:1058*/
     /*1071:*/
@@ -18488,9 +18406,9 @@ Static void initprim(void) {
     primitive(S(1207), startpar, 1);
     primitive(S(1208), startpar, 0); /*:1088*/
     /*1107:*/
-    primitive(S(1209), removeitem, penaltynode);
-    primitive(S(1210), removeitem, kernnode);
-    primitive(S(1211), removeitem, gluenode);
+    primitive(S(1209), removeitem, PENALTY_NODE);
+    primitive(S(1210), removeitem, KERN_NODE);
+    primitive(S(1211), removeitem, GLUE_NODE);
     primitive(S(1212), unhbox, boxcode);
     primitive(S(1213), unhbox, copycode);
     primitive(S(1214), unvbox, boxcode);
@@ -18512,7 +18430,7 @@ Static void initprim(void) {
     primitive(S(412), mathcomp, innernoad);
     primitive(S(414), mathcomp, undernoad);
     primitive(S(413), mathcomp, overnoad);
-    primitive(S(1218), limitswitch, normal);
+    primitive(S(1218), limitswitch, NORMAL);
     primitive(S(420), limitswitch, limits);
     primitive(S(421), limitswitch, nolimits); /*:1156*/
     /*1169:*/
@@ -18542,8 +18460,8 @@ Static void initprim(void) {
     primitive(S(1229), def, 3);
     /*:1208*/
     /*1219:*/
-    primitive(S(1230), let, normal);
-    primitive(S(1231), let, normal + 1); /*:1219*/
+    primitive(S(1230), let, NORMAL);
+    primitive(S(1231), let, NORMAL + 1); /*:1219*/
     /*1222:*/
     primitive(S(1232), shorthanddef, chardefcode);
     primitive(S(1233), shorthanddef, mathchardefcode);
@@ -18570,10 +18488,10 @@ Static void initprim(void) {
     primitive(S(1239), assignfontint, 0);
     primitive(S(1240), assignfontint, 1); /*:1254*/
     /*1262:*/
-    primitive(S(281), setinteraction, batchmode);
-    primitive(S(282), setinteraction, nonstopmode);
-    primitive(S(283), setinteraction, scrollmode);
-    primitive(S(1241), setinteraction, errorstopmode); /*:1262*/
+    primitive(S(281), setinteraction, BATCH_MODE);
+    primitive(S(282), setinteraction, NON_STOP_MODE);
+    primitive(S(283), setinteraction, SCROLL_MODE);
+    primitive(S(1241), setinteraction, ERROR_STOP_MODE); /*:1262*/
     /*1272:*/
     primitive(S(1242), instream, 1);
     primitive(S(1243), instream, 0); /*:1272*/
@@ -18757,7 +18675,7 @@ _L_start_of_TEX: /*55:*/
     file_offset = 0;
     /*:55*/
     /*61:*/
-    fprintf(stdout, "%s", banner);
+    fprintf(stdout, "%s", TEX_BANNER);
     if (formatident == 0)
         fprintf(stdout, " (no format preloaded)\n");
     else {
@@ -18785,7 +18703,7 @@ _L_start_of_TEX: /*55:*/
         buffer[first] = 0;
         first--;
     } while (first != 0);
-    scannerstatus = normal;
+    scanner_status = NORMAL;
     warningindex = 0;
     first = 1;
     state = newline;
@@ -18816,7 +18734,7 @@ _L_start_of_TEX: /*55:*/
     }
     fixdateandtime(&tex_time, &day, &month, &year); /*765:*/
     /*75:*/
-    if (interaction == batchmode)
+    if (interaction == BATCH_MODE)
         selector = NO_PRINT;
     else {
         selector = TERM_ONLY; /*:75*/

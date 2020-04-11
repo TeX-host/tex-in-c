@@ -32,7 +32,8 @@
 #define trieopsize      5000
 #define filenamesize    240
 
-#define banner          "This is TeX, Version 3.14159"
+#define TEX_BANNER      "This is TeX, Version 3.14159"
+#define poolname        "TeXformats:TEX.POOL                     "
 
 
 // #110: smallest allowable value in a QuarterWord
@@ -99,21 +100,20 @@
 #define carriagereturn  13
 #define invalidcode     127
 
-#define batchmode       0
-#define nonstopmode     1
-#define scrollmode      2
-#define errorstopmode   3
+// p30#73: global variable `interaction` has four settings
+enum UserInteractionMode {
+    BATCH_MODE,     // omits all stops and omits terminal output
+    NON_STOP_MODE,  // omits all stops
+    SCROLL_MODE,    // omits error stops
+    ERROR_STOP_MODE // stops at every opportunity to interact
+};
 
-enum History { // history value @76
+enum History {            // history value @76
     SPOTLESS = 0,         // nothing has been amiss yet
     WARNING_ISSUED,       // begin_diagnostic has been called
     ERROR_MESSAGE_ISSUED, // error has been called
     FATAL_ERROR_STOP,     // termination was premature
-};
-// #define SPOTLESS         0 
-// #define WARNING_ISSUED   1 
-// #define ERROR_MESSAGE_ISSUED  2 
-// #define FATAL_ERROR_STOP 3    
+}; 
 
 #define INF_BAD             10000
 
@@ -123,25 +123,36 @@ enum History { // history value @76
 #define depthoffset     2
 #define heightoffset    3
 #define listoffset      5
-#define normal          0
+
 #define stretching      1
 #define shrinking       2
 #define glueoffset      6
-#define vlistnode       1
-#define rulenode        2
+
+enum NodeType {
+    VLIST_NODE = 1,
+    RULE_NODE,
+    INS_NODE,
+    MARK_NODE,
+    ADJUST_NODE,
+
+    LIGATURE_NODE,
+    DISC_NODE,
+    WHATSIT_NODE,
+    MATH_NODE,
+    GLUE_NODE,
+
+    KERN_NODE,
+    PENALTY_NODE,
+    UNSET_NODE,
+};
+
 #define rulenodesize    4
-#define insnode         3
 #define insnodesize     5
-#define marknode        4
 #define smallnodesize   2
-#define adjustnode      5
-#define ligaturenode    6
-#define discnode        7
-#define whatsitnode     8
-#define mathnode        9
+
 #define before          0
 #define after           1
-#define gluenode        10
+
 #define condmathglue    98
 #define muglue          99
 #define aleaders        100
@@ -151,14 +162,17 @@ enum History { // history value @76
 #define fil             1
 #define fill            2
 #define filll           3
-#define kernnode        11
 #define explicit        1
 #define acckern         2
-#define penaltynode     12
 #define infpenalty      INF_BAD
 #define ejectpenalty    (-infpenalty)
-#define unsetnode       13
 #define himemstatusage  14
+
+// #207
+// enum TexCommandCode {
+
+// };
+
 #define escape          0
 #define relax           0
 #define leftbrace       1
@@ -272,6 +286,7 @@ enum History { // history value @76
 #define setbox          98
 #define hyphdata        99
 #define setinteraction  100
+
 #define maxcommand      100
 
 #define undefinedcs     (maxcommand + 1)
@@ -295,12 +310,12 @@ enum History { // history value @76
 #define boxref          (maxcommand + 19)
 #define data            (maxcommand + 20)
 
+
 #define V_MODE           1 // vertical mode
 #define H_MODE           (V_MODE + maxcommand + 1) // horizontal mode
 #define M_MODE           (H_MODE + maxcommand + 1) // math mode
 
 #define levelzero       MIN_QUARTER_WORD
-
 #define levelone        (levelzero + 1)
 
 /// p82#222
@@ -309,6 +324,7 @@ enum History { // history value @76
 #define nullcs                      (singlebase + 256)
 #define hashbase                    (nullcs + 1)
 #define frozencontrolsequence       (hashbase + hashsize)
+
 #define frozenprotection            frozencontrolsequence
 #define frozencr                    (frozencontrolsequence + 1)
 #define frozenendgroup              (frozencontrolsequence + 2)
@@ -324,6 +340,10 @@ enum History { // history value @76
 #define undefinedcontrolsequence    (frozennullfont + 257)
 #define gluebase                    (undefinedcontrolsequence + 1)
 
+// p83#224
+// enum SkipRegisters {
+// 
+// };
 #define lineskipcode    0
 #define baselineskipcode  1
 #define parskipcode     2
@@ -497,28 +517,39 @@ enum History { // history value @76
 #define skipblanks      (maxcharcode + 2)
 #define newline         (maxcharcode + maxcharcode + 3)
 
-#define skipping        1
-#define defining        2
-#define matching        3
-#define aligning        4
-#define absorbing       5
-#define tokenlist       0
-#define parameter       0
-#define utemplate       1
-#define vtemplate       2
-#define backedup        3
-#define inserted        4
-#define macro           5
-#define outputtext      6
-#define everypartext    7
-#define everymathtext   8
-#define everydisplaytext  9
-#define everyhboxtext   10
-#define everyvboxtext   11
-#define everyjobtext    12
-#define everycrtext     13
-#define marktext        14
-#define writetext       15
+    // p124#305: scanner status
+    enum ScannerStatus {
+        NORMAL = 0,
+        SKIPPING, // when passing conditional text
+        DEFINING, // when reading a macro definition
+        MATCHING, // when reading macro arguments
+        ALIGNING, // when reading an alignment preamble
+        ABSORBING // when reading a balanced text
+    };
+
+// p125#307
+#define TOKEN_LIST 0
+
+enum TokenType {
+    PARAMETER,   // parameter
+    U_TEMPLATE,  // <u_j> template
+    V_TEMPLATE,  // <v_j> template
+    BACKED_UP,   // text to be reread
+    INSERTED,    // inserted texts
+    MACRO,       // defined control sequences
+    OUTPUT_TEXT, // output routines
+
+    EVERY_PAR_TEXT,     // \everypar
+    EVERY_MATH_TEXT,    // \everymath
+    EVERY_DISPLAY_TEXT, // \everydisplay
+    EVERY_HBOX_TEXT,    // \everyhbox
+    EVERY_VBOX_TEXT,    // \everyvbox
+    EVERY_JOB_TEXT,     // \everyjob
+    EVERY_CR_TEXT,      // \everycr
+    MARK_TEXT,          // \topmark, etc.
+    WRITE_TEXT          // \write
+};
+
 #define switch_         25
 #define startcs         26
 #define noexpandflag    257
@@ -556,23 +587,28 @@ enum History { // history value @76
 #define jobnamecode     5
 #define closed          2
 #define justopen        1
-#define ifcharcode      0
-#define ifcatcode       1
-#define ifintcode       2
-#define ifdimcode       3
-#define ifoddcode       4
-#define ifvmodecode     5
-#define ifhmodecode     6
-#define ifmmodecode     7
-#define ifinnercode     8
-#define ifvoidcode      9
-#define ifhboxcode      10
-#define ifvboxcode      11
-#define ifxcode         12
-#define ifeofcode       13
-#define iftruecode      14
-#define iffalsecode     15
-#define ifcasecode      16
+
+// p181#487: Conditional processing
+enum ConditionPrimitives {
+    IF_CHAR_CODE,  // \if
+    IF_CAT_CODE,   // \ifcat
+    IF_INT_CODE,   // \ifnum
+    IF_DIM_CODE,   // \ifdim
+    IF_ODD_CODE,   // \ifodd
+    IF_VMODE_CODE, // \ifvmode
+    IF_HMODE_CODE, // \ifhmode
+    IF_MMODE_CODE, // \ifmmode
+    IF_INNER_CODE, // \ifinner
+    IF_VOID_CODE,  // \ifvoid
+    IF_HBOX_CODE,  // \ifhbox
+    IF_VBOX_CODE,  // \ifvbox
+    IF_X_CODE,     // \ifx
+    IF_EOF_CODE,   // \ifeof
+    IF_TRUE_CODE,  // \iftrue
+    IF_FALSE_CODE, // \iffalse
+    IF_CASE_CODE   // \ifcase
+};
+
 #define ifnodesize      2
 #define ifcode          1
 #define ficode          2
@@ -581,20 +617,31 @@ enum History { // history value @76
 #define formatdefaultlength  20
 #define formatarealength  11
 #define formatextlength  4
-#define notag           0
-#define ligtag          1
-#define listtag         2
-#define exttag          3
-#define slantcode       1
-#define spacecode       2
-#define spacestretchcode  3
-#define spaceshrinkcode  4
-#define xheightcode     5
-#define quadcode        6
-#define extraspacecode  7
+
+// p198#544: tag field in a char_info_word
+// that explain how to interpret the remainder field.
+enum CharTag {
+    NO_TAG,   // vanilla character
+    LIG_TAG,  // character has a ligature/kerning program
+    LIST_TAG, // character has a successor in a charlist
+    EXT_TAG   // character is extensible
+};
+
+// p200#547
+enum TFMParamVal {
+    TFM_PARAM_MISSING, // TeX sets the missing parameters to zero
+
+    SLANT_CODE,
+    SPACE_CODE,
+    SPACE_STRETCH_CODE,
+    SPACE_SHRINK_CODE,
+    X_HEIGHT_CODE,
+    QUAD_CODE,
+    EXTRA_SPACE_CODE
+};
+
 #define nonaddress      0
 #define badtfm          11
-
 #define movepast        13
 #define finrule         14
 #define nextp           15
@@ -605,7 +652,7 @@ enum History { // history value @76
 #define submlist        3
 #define mathtextchar    4
 
-#define ordnoad         (unsetnode + 3)
+#define ordnoad         (UNSET_NODE + 3)
 #define opnoad          (ordnoad + 1)
 #define binnoad         (ordnoad + 2)
 #define relnoad         (ordnoad + 3)
@@ -633,7 +680,7 @@ enum History { // history value @76
 #define vcenternoad     (accentnoad + 1)
 #define leftnoad        (vcenternoad + 1)
 #define rightnoad       (leftnoad + 1)
-#define stylenode       (unsetnode + 1)
+#define stylenode       (UNSET_NODE + 1)
 
 #define stylenodesize   3
 #define displaystyle    0
@@ -642,7 +689,7 @@ enum History { // history value @76
 #define scriptscriptstyle  6
 #define cramped         1
 
-#define choicenode      (unsetnode + 2)
+#define choicenode      (UNSET_NODE + 2)
 
 /// p258#699: Subroutines for math mode
 // size code for the largest size in a family
@@ -685,21 +732,28 @@ enum History { // history value @76
 #define contribute      80
 #define bigswitch       60
 #define appendnormalspace  120
-#define filcode         0
-#define fillcode        1
-#define sscode          2
-#define filnegcode      3
-#define skipcode        4
-#define mskipcode       5
+
+// #1058
+enum hvSkipDiff {
+    FIL_CODE,
+    FILL_CODE,
+    SS_CODE,
+    FIL_NEG_CODE,
+    SKIP_CODE,
+    MSKIP_CODE
+};
+// #1291
 #define boxcode         0
 #define copycode        1
 #define lastboxcode     2
 #define vsplitcode      3
 #define vtopcode        4
+// #1178
 #define abovecode       0
 #define overcode        1
 #define atopcode        2
 #define delimitedcode   3
+// #1222
 #define chardefcode     0
 #define mathchardefcode  1
 #define countdefcode    2
@@ -707,21 +761,26 @@ enum History { // history value @76
 #define skipdefcode     4
 #define muskipdefcode   5
 #define toksdefcode     6
+// #1291
 #define showcode        0
 #define showboxcode     1
 #define showthecode     2
 #define showlists       3
+
 #define badfmt          6666
 #define breakpoint      888
 #define writenodesize   2
 #define opennodesize    3
+
+// #1341
 #define opennode        0
 #define writenode       1
 #define closenode       2
 #define specialnode     3
-#define languagenode    4
 #define immediatecode   4
 #define setlanguagecode  5
+
+#define languagenode    4
 
 #define endtemplatetoken  (cstokenflag + frozenendtemplate)
 
@@ -740,8 +799,5 @@ enum History { // history value @76
 #define nullfont        0
 
 #define endwritetoken   (cstokenflag + endwrite)
-
-#define poolname        "TeXformats:TEX.POOL                     "
-/*:11*/
 
 #endif // #ifndef TEX_H
