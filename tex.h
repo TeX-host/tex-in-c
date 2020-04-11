@@ -388,6 +388,8 @@ enum NodeType {
 #define mathcodebase    (sfcodebase + 256)
 #define intbase         (mathcodebase + 256)
 
+
+// enum DelimiterCodesTable {};
 #define pretolerancecode  0
 #define tolerancecode   1
 #define linepenaltycode  2
@@ -449,6 +451,8 @@ enum NodeType {
 #define delcodebase     (countbase + 256)
 #define dimenbase       (delcodebase + 256)
 
+// p99#247: final region of eqtb
+// enum DimensionRegisters {};
 #define parindentcode   0
 #define mathsurroundcode  1
 #define lineskiplimitcode  2
@@ -475,10 +479,15 @@ enum NodeType {
 #define scaledbase      (dimenbase + dimenpars)
 #define eqtbsize        (scaledbase + 255)
 
+// #268
+// enum SaveType {};
 #define restoreoldvalue  0
 #define restorezero     1
 #define inserttoken     2
 #define levelboundary   3
+
+// #269
+// enum GroupCode {};
 #define bottomlevel     0
 #define simplegroup     1
 #define hboxgroup       2
@@ -652,6 +661,8 @@ enum TFMParamVal {
 #define submlist        3
 #define mathtextchar    4
 
+// #682
+// enum NoadType {};
 #define ordnoad         (UNSET_NODE + 3)
 #define opnoad          (ordnoad + 1)
 #define binnoad         (ordnoad + 2)
@@ -672,11 +683,9 @@ enum TFMParamVal {
 #define accentnoadsize  (5*charnodesize)
 
 #define fractionnoad    (radicalnoad + 1)
-
 #define undernoad       (fractionnoad + 1)
 #define overnoad        (undernoad + 1)
 #define accentnoad      (overnoad + 1)
-
 #define vcenternoad     (accentnoad + 1)
 #define leftnoad        (vcenternoad + 1)
 #define rightnoad       (leftnoad + 1)
@@ -742,7 +751,9 @@ enum hvSkipDiff {
     SKIP_CODE,
     MSKIP_CODE
 };
+
 // #1291
+// enum ChrCode {};
 #define boxcode         0
 #define copycode        1
 #define lastboxcode     2
@@ -753,7 +764,9 @@ enum hvSkipDiff {
 #define overcode        1
 #define atopcode        2
 #define delimitedcode   3
+
 // #1222
+// enum ShortHandDef {};
 #define chardefcode     0
 #define mathchardefcode  1
 #define countdefcode    2
@@ -761,6 +774,7 @@ enum hvSkipDiff {
 #define skipdefcode     4
 #define muskipdefcode   5
 #define toksdefcode     6
+
 // #1291
 #define showcode        0
 #define showboxcode     1
@@ -773,6 +787,7 @@ enum hvSkipDiff {
 #define opennodesize    3
 
 // #1341
+// enum WhatsitsSubtype {};
 #define opennode        0
 #define writenode       1
 #define closenode       2
