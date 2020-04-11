@@ -60,10 +60,11 @@
 #define info(x) ((x)->infof)
 #define freenode(x, y) free(x)
 
-
-typedef short dviindex;
-static EightBits dvibuf[dvibufsize + 1];
-static dviindex halfbuf, dvilimit, dviptr;
+// #594: an index into the output buffer
+// [0, DVI_BUF_SIZE=800]
+typedef Pointer DVI_Index;
+static EightBits dvibuf[DVI_BUF_SIZE + 1];
+static DVI_Index halfbuf, dvilimit, dviptr;
 static long dvioffset, dvigone;
 static FILE* dvifile;
 static long lastbop;
@@ -152,15 +153,15 @@ void dvi_pre(long num, long den, long mag) {
 }
 
 /*597:*/
-static void writedvi(dviindex a, dviindex b) {
+static void writedvi(DVI_Index a, DVI_Index b) {
     fwrite(&dvibuf[a], b - a + 1, 1, dvifile);
 }
 /*:597*/
 
 void dviout_init(void) {
     /*596:*/
-    halfbuf = dvibufsize / 2;
-    dvilimit = dvibufsize;
+    halfbuf = DVI_BUF_SIZE / 2;
+    dvilimit = DVI_BUF_SIZE;
     dviptr = 0;
     dvioffset = 0;
     dvigone = 0; /*:596*/
@@ -213,12 +214,12 @@ long dviflush(void) {
     dviout(postpost);
     dvifour(lastbop);
     dviout(idbyte);
-    k = ((dvibufsize - dviptr) & 3) + 4;
+    k = ((DVI_BUF_SIZE - dviptr) & 3) + 4;
     while (k > 0) {
         dviout(223);
         k--;
     } /*599:*/
-    if (dvilimit == halfbuf) writedvi(halfbuf, dvibufsize - 1);
+    if (dvilimit == halfbuf) writedvi(halfbuf, DVI_BUF_SIZE - 1);
     if (dviptr > 0) writedvi(0, dviptr - 1);
     fclose(dvifile);
     return dvioffset + dviptr;
@@ -226,14 +227,14 @@ long dviflush(void) {
 
 /*598:*/
 static void dviswap(void) {
-    if (dvilimit == dvibufsize) {
+    if (dvilimit == DVI_BUF_SIZE) {
         writedvi(0, halfbuf - 1);
         dvilimit = halfbuf;
-        dvioffset += dvibufsize;
+        dvioffset += DVI_BUF_SIZE;
         dviptr = 0;
     } else {
-        writedvi(halfbuf, dvibufsize - 1);
-        dvilimit = dvibufsize;
+        writedvi(halfbuf, DVI_BUF_SIZE - 1);
+        dvilimit = DVI_BUF_SIZE;
     }
     dvigone += halfbuf;
 }
@@ -318,7 +319,7 @@ void movement(long w, EightBits o) {
                     else /*613:*/
                     {    /*:613*/
                         k = location(p) - dvioffset;
-                        if (k < 0) k += dvibufsize;
+                        if (k < 0) k += DVI_BUF_SIZE;
                         dvibuf[k] += y1_ - down1;
                         info(p) = yhere;
                         goto _Lfound;
@@ -332,7 +333,7 @@ void movement(long w, EightBits o) {
                         goto _Lnotfound;
                     else { /*614:*/
                         k = location(p) - dvioffset;
-                        if (k < 0) k += dvibufsize;
+                        if (k < 0) k += DVI_BUF_SIZE;
                         dvibuf[k] += z1 - down1;
                         info(p) = zhere;
                         goto _Lfound;

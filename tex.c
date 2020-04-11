@@ -152,14 +152,15 @@ Static short shownmode;
 /*:213*/
 /*246:*/
 Static char diag_oldsetting;   /*:246*/
-/*253:*/
+
+/// #253
 Static MemoryWord eqtb[eqtbsize - activebase + 1];
+Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
 /*
 extern MemoryWord eqtb[];
 MemoryWord * eqtb_foo(void) { return eqtb;}
 */
-Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
-/*:253*/
+
 /*256:*/
 Static TwoHalves hash[undefinedcontrolsequence - hashbase];
 Static long cscount;   /*:256*/
@@ -356,15 +357,15 @@ Static HalfWord curl, curr;
 Static Boolean ligaturepresent, lfthit, rthit;
 /*:907*/
 /*921:*/
-Static TwoHalves trie[triesize + 1];
+Static TwoHalves trie[TRIE_SIZE + 1];
 Static SmallNumber hyfdistance[trieopsize];
 Static SmallNumber hyfnum[trieopsize];
 Static QuarterWord hyfnext[trieopsize];
 Static short opstart[256];
 /*:921*/
 /*926:*/
-Static StrNumber hyphword[hyphsize + 1];
-Static Pointer hyphlist[hyphsize + 1];
+Static StrNumber hyphword[HYPH_SIZE + 1];
+Static Pointer hyphlist[HYPH_SIZE + 1];
 Static HyphPointer hyphcount;
 /*:926*/
 
@@ -385,21 +386,21 @@ Static short trieopptr;
 
 /// #947
 // characters to match
-Static PackedASCIICode triec[triesize + 1];
+Static PackedASCIICode triec[TRIE_SIZE + 1];
 // operations to perform
-Static QuarterWord trieo[triesize + 1];
+Static QuarterWord trieo[TRIE_SIZE + 1];
 // left subtrie links
-Static TriePointer triel[triesize + 1];
+Static TriePointer triel[TRIE_SIZE + 1];
 // right subtrie links
-Static TriePointer trier[triesize + 1];
+Static TriePointer trier[TRIE_SIZE + 1];
 // the number of nodes in the trie
 Static TriePointer trieptr;
 // used to identify equivalent subtries
-Static TriePointer triehash[triesize + 1];
+Static TriePointer triehash[TRIE_SIZE + 1];
 
 /// #950
 // does a family start here?
-Static UChar trietaken[(triesize + 7) / 8];
+Static UChar trietaken[(TRIE_SIZE + 7) / 8];
 // the first possible slot for each character
 Static TriePointer triemin[256];
 // largest location used in trie
@@ -542,7 +543,7 @@ Static void initialize(void) { /*:927*/
     /*215:*/
     nestptr = 0;
     maxneststack = 0;
-    mode = vmode;
+    mode = V_MODE;
     head = contribhead;
     tail = contribhead;
     prevdepth = ignoredepth;
@@ -552,7 +553,7 @@ Static void initialize(void) { /*:927*/
     pagecontents = empty;
     pagetail = pagehead;
     link(pagehead) = 0;
-    lastglue = maxhalfword;
+    lastglue = MAX_HALF_WORD;
     lastpenalty = 0;
     lastkern = 0;
     pagedepth = 0;
@@ -600,15 +601,15 @@ Static void initialize(void) { /*:927*/
     memcpy(TEXformatdefault, "TeXformats:plain.fmt", formatdefaultlength);
     /*:521*/
     /*551:*/
-    for (int k = 0; k <= fontmax; k++) {
+    for (int k = 0; k <= FONT_MAX; k++) {
         fontused[k] = false;
     }
     /*:551*/
     /*556:*/
-    nullcharacter.b0 = minquarterword;
-    nullcharacter.b1 = minquarterword;
-    nullcharacter.b2 = minquarterword;
-    nullcharacter.b3 = minquarterword; /*:556*/
+    nullcharacter.b0 = MIN_QUARTER_WORD;
+    nullcharacter.b1 = MIN_QUARTER_WORD;
+    nullcharacter.b2 = MIN_QUARTER_WORD;
+    nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
     /*593:*/
     totalpages = 0;
     maxv = 0;
@@ -627,9 +628,9 @@ Static void initialize(void) { /*:927*/
     emptyfield.rh = empty;
     emptyfield.UU.lh = 0;
     nulldelimiter.b0 = 0;
-    nulldelimiter.b1 = minquarterword;
+    nulldelimiter.b1 = MIN_QUARTER_WORD;
     nulldelimiter.b2 = 0;
-    nulldelimiter.b3 = minquarterword; /*:685*/
+    nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
     /*771:*/
     alignptr = 0;
     curalign = 0;
@@ -638,7 +639,7 @@ Static void initialize(void) { /*:927*/
     curhead = 0;
     curtail = 0; /*:771*/
     /*928:*/
-    for (z = 0; z <= hyphsize; z++) {
+    for (z = 0; z <= HYPH_SIZE; z++) {
         hyphword[z] = 0;
         hyphlist[z] = 0;
     }
@@ -706,14 +707,14 @@ Static void initialize(void) { /*:927*/
         /// #790
         info(omittemplate) = endtemplatetoken; // ink(omit template) = null
         /// #797
-        link(endspan) = maxquarterword + 1;
+        link(endspan) = MAX_QUARTER_WORD + 1;
         info(endspan) = 0;
         /// #820
         type(lastactive) = hyphenated;
-        linenumber(lastactive) = maxhalfword;
+        linenumber(lastactive) = MAX_HALF_WORD;
         subtype(lastactive) = 0; // the subtype is never examined by the algorithm
         /// #981
-        subtype(pageinshead) = minquarterword + 255;
+        subtype(pageinshead) = MIN_QUARTER_WORD + 255;
         type(pageinshead) = splitup;
         link(pageinshead) = pageinshead;
         /// #988
@@ -819,7 +820,7 @@ Static void initialize(void) { /*:927*/
     for (k = -trieopsize; k <= trieopsize; k++)
         trieophash[k + trieopsize] = 0;
     for (k = 0; k <= 255; k++)
-        trieused[k] = minquarterword;
+        trieused[k] = MIN_QUARTER_WORD;
     trieopptr = 0;
 
     // #951
@@ -1904,11 +1905,11 @@ _Lrestart:
         p = rlink(p);
     } while (p != rover);
     if (s == 1073741824L) {
-        Result = maxhalfword;
+        Result = MAX_HALF_WORD;
         goto _Lexit;
     }
     if (lomemmax + 2 < himemmin) {
-        if (lomemmax + 2 <= membot + maxhalfword) { /*126:*/
+        if (lomemmax + 2 <= membot + MAX_HALF_WORD) { /*126:*/
             if (himemmin - lomemmax >= 1998)
                 t = lomemmax + 1000;
             else
@@ -1917,7 +1918,7 @@ _Lrestart:
             q = lomemmax;
             rlink(p) = q;
             llink(rover) = q;
-            if (t > membot + maxhalfword) t = membot + maxhalfword;
+            if (t > membot + MAX_HALF_WORD) t = membot + MAX_HALF_WORD;
             rlink(q) = rover;
             llink(q) = p;
             link(q) = emptyflag;
@@ -1967,7 +1968,7 @@ Static void sort_avail(void)
 
     p = getnode(1073741824L); // merge adjacent free areas
     p = rlink(rover);
-    rlink(rover) = maxhalfword;
+    rlink(rover) = MAX_HALF_WORD;
     oldrover = rover;
 
     while (p != oldrover) {
@@ -1990,10 +1991,10 @@ Static void sort_avail(void)
     } // while (p != oldrover)
 
     p = rover;
-    while (rlink(p) != maxhalfword) {
+    while (rlink(p) != MAX_HALF_WORD) {
         llink(rlink(p)) = p;
         p = rlink(p);
-    } // while (rlink(p) != maxhalfword)
+    } // while (rlink(p) != MAX_HALF_WORD)
     rlink(p) = rover;
     llink(rover) = p;
 } // sort_avail
@@ -2007,7 +2008,7 @@ Static Pointer newnullbox(void)
 
   p = getnode(boxnodesize);
   type(p) = hlistnode;
-  subtype(p) = minquarterword;
+  subtype(p) = MIN_QUARTER_WORD;
   width(p) = 0;
   depth(p) = 0;
   height(p) = 0;
@@ -2330,7 +2331,7 @@ Static void searchmem(Pointer p) {
             }
         }
     }
-    for (q = 0; q <= hyphsize; q++) { /*:933*/
+    for (q = 0; q <= HYPH_SIZE; q++) { /*:933*/
         if (hyphlist[q] == p) {
             printnl(S(327));
             print_int(q);
@@ -2349,7 +2350,7 @@ Static void shortdisplay(Pointer p)
     if (ischarnode(p)) {
       if (p <= memend) {
 	if (font(p) != fontinshortdisplay) {
-	  if ( /* (font(p) < 0 ) | */ (font(p) > fontmax))
+	  if ( /* (font(p) < 0 ) | */ (font(p) > FONT_MAX))
 	    print_char('*');
 	  else  /*267:*/
 		/*:267*/
@@ -2357,7 +2358,7 @@ Static void shortdisplay(Pointer p)
 	  print_char(' ');
 	  fontinshortdisplay = font(p);
 	}
-	print(character(p) - minquarterword);
+	print(character(p) - MIN_QUARTER_WORD);
       }
     } else {  /*175:*/
       switch (type(p)) {   /*:175*/
@@ -2413,13 +2414,13 @@ Static void printfontandchar(Pointer p)
     print_esc(S(308));
     return;
   }
-  if ((font(p) > fontmax))
+  if ((font(p) > FONT_MAX))
     print_char('*');
   else  /*267:*/
 	/*:267*/
 	  print_esc(fontidtext(font(p)));
   print_char(' ');
-  print(character(p) - minquarterword);
+  print(character(p) - MIN_QUARTER_WORD);
 }
 
 
@@ -2491,7 +2492,7 @@ Static void printfamandchar(HalfWord p)
   print_esc(S(333));
   print_int(fam(p));
   print_char(' ');
-  print(character(p) - minquarterword);
+  print(character(p) - MIN_QUARTER_WORD);
 }
 
 
@@ -2499,8 +2500,8 @@ Static void printdelimiter(HalfWord p)
 {
   long a;
 
-  a = smallfam(p) * 256 + smallchar(p) - minquarterword;
-  a = a * 4096 + largefam(p) * 256 + largechar(p) - minquarterword;
+  a = smallfam(p) * 256 + smallchar(p) - MIN_QUARTER_WORD;
+  a = a * 4096 + largefam(p) * 256 + largechar(p) - MIN_QUARTER_WORD;
   if (a < 0)
     print_int(a);
   else
@@ -2703,9 +2704,9 @@ Static void shownodelist(long p)
 	print(S(364));
 	print_scaled(width(p));
 	if (type(p) == unsetnode) {   /*185:*/
-	  if (spancount(p) != minquarterword) {
+	  if (spancount(p) != MIN_QUARTER_WORD) {
 	    print(S(303));
-	    print_int(spancount(p) - minquarterword + 1);
+	    print_int(spancount(p) - MIN_QUARTER_WORD + 1);
 	    print(S(365));
 	  }
 	  if (gluestretch(p) != 0) {
@@ -2757,7 +2758,7 @@ Static void shownodelist(long p)
 
       case insnode:   /*188:*/
 	print_esc(S(374));
-	print_int(subtype(p) - minquarterword);
+	print_int(subtype(p) - MIN_QUARTER_WORD);
 	print(S(375));
 	print_scaled(height(p));
 	print(S(376));
@@ -3050,16 +3051,16 @@ Static void shownodelist(long p)
 	else
 	  print_scaled(thickness(p));
 	if ((smallfam(leftdelimiter(p)) != 0) |
-	    (smallchar(leftdelimiter(p)) != minquarterword) |
+	    (smallchar(leftdelimiter(p)) != MIN_QUARTER_WORD) |
 	    (largefam(leftdelimiter(p)) != 0) |
-	    (largechar(leftdelimiter(p)) != minquarterword)) {
+	    (largechar(leftdelimiter(p)) != MIN_QUARTER_WORD)) {
 	  print(S(424));
 	  printdelimiter(leftdelimiter(p));
 	}
 	if ((smallfam(rightdelimiter(p)) != 0) |
-	    (smallchar(rightdelimiter(p)) != minquarterword) |
+	    (smallchar(rightdelimiter(p)) != MIN_QUARTER_WORD) |
 	    (largefam(rightdelimiter(p)) != 0) |
-	    (largechar(rightdelimiter(p)) != minquarterword)) {
+	    (largechar(rightdelimiter(p)) != MIN_QUARTER_WORD)) {
 	  print(S(425));
 	  printdelimiter(rightdelimiter(p));
 	}
@@ -3480,7 +3481,7 @@ Static void showactivities(void)
     printmode(m);
     print(S(440));
     print_int(labs(nest[p].mlfield));
-    if (m == hmode) {
+    if (m == H_MODE) {
       if (nest[p].pgfield != 8585216L) {
 	print(S(441));
 	print_int(nest[p].pgfield % 65536L);
@@ -3508,7 +3509,7 @@ Static void showactivities(void)
 	  while (r != pageinshead) {
 	    println();
 	    print_esc(S(374));
-	    t = subtype(r) - minquarterword;
+	    t = subtype(r) - MIN_QUARTER_WORD;
 	    print_int(t);
 	    print(S(448));
 	    t = x_over_n(height(r), 1000) * count(t);
@@ -3826,8 +3827,8 @@ Static void newsavelevel(GroupCode c)
   savetype(saveptr) = levelboundary;
   savelevel(saveptr) = curgroup;
   saveindex(saveptr) = curboundary;
-  if (curlevel == maxquarterword)
-    overflow(S(477), maxquarterword - minquarterword);
+  if (curlevel == MAX_QUARTER_WORD)
+    overflow(S(477), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
   curboundary = saveptr;
   curlevel++;
   saveptr++;
@@ -5676,7 +5677,7 @@ Static void findfontdimen(Boolean writing) {
                 curval = fmemptr;
             } else { /*:580*/
                 do {
-                    if (fmemptr == fontmemsize) overflow(S(587), fontmemsize);
+                    if (fmemptr == FONT_MEM_SIZE) overflow(S(587), FONT_MEM_SIZE);
                     fontinfo[fmemptr].sc = 0;
                     fmemptr++;
                     fontparams[f]++;
@@ -5790,7 +5791,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
 	curval = 0;
 	curvallevel = intval;
       }
-    } else if (m == vmode) {
+    } else if (m == V_MODE) {
       curval = prevdepth;
       curvallevel = dimenval;
     } else {
@@ -5806,7 +5807,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
     } else {   /*:422*/
       nest[nestptr] = curlist;
       p = nestptr;
-      while (abs(nest[p].modefield) != vmode)
+      while (abs(nest[p].modefield) != V_MODE)
 	p--;
       curval = nest[p].pgfield;
       curvallevel = intval;
@@ -5937,7 +5938,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
 	  }
 	  break;
 	}
-      } else if (mode == vmode && tail == head) {
+      } else if (mode == V_MODE && tail == head) {
 	switch (curchr) {
 
 	case intval:
@@ -5949,7 +5950,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
 	  break;
 
 	case glueval:
-	  if (lastglue != maxhalfword)
+	  if (lastglue != MAX_HALF_WORD)
 	    curval = lastglue;
 	  break;
 	}
@@ -6968,15 +6969,15 @@ Static void conditional(void)
     /*:504*/
 
   case ifvmodecode:
-    b = (labs(mode) == vmode);
+    b = (labs(mode) == V_MODE);
     break;
 
   case ifhmodecode:
-    b = (labs(mode) == hmode);
+    b = (labs(mode) == H_MODE);
     break;
 
   case ifmmodecode:
-    b = (labs(mode) == mmode);
+    b = (labs(mode) == M_MODE);
     break;
 
   case ifinnercode:
@@ -8097,7 +8098,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m)
   lastbadness = 0;
   r = getnode(boxnodesize);
   type(r) = hlistnode;
-  subtype(r) = minquarterword;
+  subtype(r) = MIN_QUARTER_WORD;
   shiftamount(r) = 0;
   q = r + listoffset;
   link(q) = p;
@@ -8345,7 +8346,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
   lastbadness = 0;
   r = getnode(boxnodesize);
   type(r) = vlistnode;
-  subtype(r) = minquarterword;
+  subtype(r) = MIN_QUARTER_WORD;
   shiftamount(r) = 0;
   listptr(r) = p;
   w = 0;   /*650:*/
@@ -8698,15 +8699,15 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v)
   z = smallfam(d);
   x = smallchar(d);
   while (true) {  /*707:*/
-    if (z != 0 || x != minquarterword) {   /*:707*/
+    if (z != 0 || x != MIN_QUARTER_WORD) {   /*:707*/
       z += s + 16;
       do {
 	z -= 16;
 	g = famfnt(z);
 	if (g != nullfont) {   /*708:*/
 	  y = x;
-	  if (y - minquarterword >= fontbc[g ] &&
-	      y - minquarterword <= fontec[g ]) {
+	  if (y - MIN_QUARTER_WORD >= fontbc[g ] &&
+	      y - MIN_QUARTER_WORD <= fontec[g ]) {
 _Llabcontinue:
 	    q = charinfo(g, y);
 	    if (charexists(q)) {
@@ -8753,38 +8754,38 @@ _Lfound:
       q = charinfo(f, c);
       width(b) = charwidth(f, q) + charitalic(f, q);
       c = extbot(r);
-      if (c != minquarterword)
+      if (c != MIN_QUARTER_WORD)
 	w += heightplusdepth(f, c);
       c = extmid(r);
-      if (c != minquarterword)
+      if (c != MIN_QUARTER_WORD)
 	w += heightplusdepth(f, c);
       c = exttop(r);
-      if (c != minquarterword)
+      if (c != MIN_QUARTER_WORD)
 	w += heightplusdepth(f, c);
       n = 0;
       if (u > 0) {
 	while (w < v) {   /*:714*/
 	  w += u;
 	  n++;
-	  if (extmid(r) != minquarterword)
+	  if (extmid(r) != MIN_QUARTER_WORD)
 	    w += u;
 	}
       }
       c = extbot(r);
-      if (c != minquarterword)
+      if (c != MIN_QUARTER_WORD)
 	stackintobox(b, f, c);
       c = extrep(r);
       for (m = 1; m <= n; m++)
 	stackintobox(b, f, c);
       c = extmid(r);
-      if (c != minquarterword) {
+      if (c != MIN_QUARTER_WORD) {
 	stackintobox(b, f, c);
 	c = extrep(r);
 	for (m = 1; m <= n; m++)
 	  stackintobox(b, f, c);
       }
       c = exttop(r);
-      if (c != minquarterword)
+      if (c != MIN_QUARTER_WORD)
 	stackintobox(b, f, c);
       depth(b) = w - height(b);
     } else
@@ -8973,7 +8974,7 @@ Static void fetch(HalfWord a)
     print_char(' ');
     print_int(fam(a));
     print(S(715));
-    print(curc - minquarterword);
+    print(curc - MIN_QUARTER_WORD);
     print_char(')');
     help4(S(716),
           S(717),
@@ -8984,13 +8985,13 @@ Static void fetch(HalfWord a)
     mathtype(a) = empty;
     return;
   }  /*:723*/
-  if (curc - minquarterword >= fontbc[curf ] &&
-      curc - minquarterword <= fontec[curf ])
+  if (curc - MIN_QUARTER_WORD >= fontbc[curf ] &&
+      curc - MIN_QUARTER_WORD <= fontec[curf ])
     curi = charinfo(curf, curc);
   else
     curi = nullcharacter;
   if (!charexists(curi)) {
-    charwarning(curf, curc - minquarterword);
+    charwarning(curf, curc - MIN_QUARTER_WORD);
     mathtype(a) = empty;
   }
 }
@@ -9093,7 +9094,7 @@ Static void makemathaccent(HalfWord q)
 	curi = fontinfo[a].qqqq;
       }
       while (true) {
-	if (nextchar(curi) - minquarterword == get_skewchar(curf)) {
+	if (nextchar(curi) - MIN_QUARTER_WORD == get_skewchar(curf)) {
 	  if (opbyte(curi) >= kernflag) {
 	    if (skipbyte(curi) <= stopflag)
 	      s = charkern(curf, curi);
@@ -9102,7 +9103,7 @@ Static void makemathaccent(HalfWord q)
 	}
 	if (skipbyte(curi) >= stopflag)
 	  goto _Ldone1;
-	a += skipbyte(curi) - minquarterword + 1;
+	a += skipbyte(curi) - MIN_QUARTER_WORD + 1;
 	curi = fontinfo[a].qqqq;
       }
     }
@@ -9366,25 +9367,25 @@ _Lrestart:
 			  checkinterrupt();
 			  switch (opbyte(curi)) {
 
-			  case minquarterword + 1:
-			  case minquarterword + 5:
+			  case MIN_QUARTER_WORD + 1:
+			  case MIN_QUARTER_WORD + 5:
 			    character(nucleus(q)) = rembyte(curi);
 			    break;
 
-			  case minquarterword + 2:
-			  case minquarterword + 6:
+			  case MIN_QUARTER_WORD + 2:
+			  case MIN_QUARTER_WORD + 6:
 			    character(nucleus(p)) = rembyte(curi);
 			    break;
 
-			  case minquarterword + 3:
-			  case minquarterword + 7:
-			  case minquarterword + 11:
+			  case MIN_QUARTER_WORD + 3:
+			  case MIN_QUARTER_WORD + 7:
+			  case MIN_QUARTER_WORD + 11:
 			    r = newnoad();
 			    character(nucleus(r)) = rembyte(curi);
 			    fam(nucleus(r)) = fam(nucleus(q));
 			    link(q) = r;
 			    link(r) = p;
-			    if (opbyte(curi) < minquarterword + 11)
+			    if (opbyte(curi) < MIN_QUARTER_WORD + 11)
 			      mathtype(nucleus(r)) = mathchar;
 			    else
 			      mathtype(nucleus(r)) = mathtextchar;
@@ -9400,7 +9401,7 @@ _Lrestart:
 			    freenode(p, noadsize);
 			    break;
 			  }
-			  if (opbyte(curi) > minquarterword + 3)
+			  if (opbyte(curi) > MIN_QUARTER_WORD + 3)
 			    goto _Lexit;
 			  mathtype(nucleus(q)) = mathchar;
 			  goto _Lrestart;
@@ -9409,7 +9410,7 @@ _Lrestart:
 		    }
 		    if (skipbyte(curi) >= stopflag)
 		      goto _Lexit;
-		    a += skipbyte(curi) - minquarterword + 1;
+		    a += skipbyte(curi) - MIN_QUARTER_WORD + 1;
 		    curi = fontinfo[a].qqqq;
 		  }
 		}
@@ -9735,7 +9736,7 @@ _Lreswitch:
       fetch(nucleus(q));
       if (charexists(curi)) {
 	delta = charitalic(curf, curi);
-	p = newcharacter(curf, curc - minquarterword);
+	p = newcharacter(curf, curc - MIN_QUARTER_WORD);
 	if ((mathtype(nucleus(q)) == mathtextchar) & (space(curf) != 0))
 	  delta = 0;
 	if (mathtype(subscr(q)) == empty && delta != 0) {
@@ -10044,7 +10045,7 @@ Static void initalign(void)
   savecsptr = curcs;
   pushalignment();
   alignstate = -1000000L;   /*776:*/
-  if (mode == mmode && (tail != head || incompleatnoad != 0)) {   /*:776*/
+  if (mode == M_MODE && (tail != head || incompleatnoad != 0)) {   /*:776*/
     printnl(S(292));
     print(S(597));
     print_esc(S(724));
@@ -10056,8 +10057,8 @@ Static void initalign(void)
     flushmath();
   }
   pushnest();   /*775:*/
-  if (mode == mmode) {
-    mode = -vmode;
+  if (mode == M_MODE) {
+    mode = -V_MODE;
     prevdepth = nest[nestptr - 2].auxfield.sc;
   } else if (mode > 0)
     mode = -mode;   /*:775*/
@@ -10151,7 +10152,7 @@ _Ldone:
 Static void initspan(HalfWord p)
 {
   pushnest();
-  if (mode == -hmode)
+  if (mode == -H_MODE)
     spacefactor = 1000;
   else {
     prevdepth = ignoredepth;
@@ -10164,8 +10165,8 @@ Static void initspan(HalfWord p)
 Static void initrow(void)
 {
   pushnest();
-  mode = -hmode - vmode - mode;
-  if (mode == -hmode)
+  mode = -H_MODE - V_MODE - mode;
+  if (mode == -H_MODE)
     spacefactor = 0;
   else
     prevdepth = 0;
@@ -10252,7 +10253,7 @@ Static Boolean fincol(void)
   if (extrainfo(curalign) != spancode) {
     unsave();
     newsavelevel(aligngroup);   /*796:*/
-    if (mode == -hmode) {
+    if (mode == -H_MODE) {
       adjusttail = curtail;
       u = hpack(link(head), 0, additional);
       w = width(u);
@@ -10262,14 +10263,14 @@ Static Boolean fincol(void)
       u = vpackage(link(head), 0, additional, 0);
       w = height(u);
     }
-    n = minquarterword;
+    n = MIN_QUARTER_WORD;
     if (curspan != curalign) {   /*798:*/
       q = curspan;
       do {
 	n++;
 	q = link(link(q));
       } while (q != curalign);
-      if (n > maxquarterword)
+      if (n > MAX_QUARTER_WORD)
 	confusion(S(741));
       q = curspan;
       while (link(info(q)) < n)
@@ -10335,7 +10336,7 @@ Static void finrow(void)
 {
   Pointer p;
 
-  if (mode == -hmode) {
+  if (mode == -H_MODE) {
     p = hpack(link(head), 0, additional);
     popnest();
     appendtovlist(p);
@@ -10379,7 +10380,7 @@ Static void finalign(void)
   if (curgroup != aligngroup)
     confusion(S(743));
   unsave();
-  if (nest[nestptr - 1].modefield == mmode)
+  if (nest[nestptr - 1].modefield == M_MODE)
     o = displayindent;
   else
     o = 0;
@@ -10405,7 +10406,7 @@ Static void finalign(void)
       r = info(q);
       s = endspan;
       info(s) = p;
-      n = minquarterword + 1;
+      n = MIN_QUARTER_WORD + 1;
       do {
 	width(r) -= t;
 	u = info(r);
@@ -10428,7 +10429,7 @@ Static void finalign(void)
     }
     /*:803*/
     type(q) = unsetnode;
-    spancount(q) = minquarterword;
+    spancount(q) = MIN_QUARTER_WORD;
     height(q) = 0;
     depth(q) = 0;
     glueorder(q) = normal;
@@ -10439,7 +10440,7 @@ Static void finalign(void)
   } while (q != 0);
   saveptr -= 2;
   packbeginline = -modeline;
-  if (mode == -vmode) {
+  if (mode == -V_MODE) {
     rulesave = overfullrule;
     overfullrule = 0;
     p = hpack(preamble, saved(1), saved(0));
@@ -10466,7 +10467,7 @@ Static void finalign(void)
   while (q != 0) {   /*:805*/
     if (!ischarnode(q)) {
       if (type(q) == unsetnode) {   /*807:*/
-	if (mode == -vmode) {
+	if (mode == -V_MODE) {
 	  type(q) = hlistnode;
 	  width(q) = width(p);
 	} else {
@@ -10484,7 +10485,7 @@ Static void finalign(void)
 	  t = width(s);
 	  w = t;
 	  u = holdhead;
-	  while (n > minquarterword) {
+	  while (n > MIN_QUARTER_WORD) {
 	    n--;
 	    /*809:*/
 	    s = link(s);
@@ -10504,14 +10505,14 @@ Static void finalign(void)
 	    link(u) = newnullbox();
 	    u = link(u);
 	    t += width(s);
-	    if (mode == -vmode)
+	    if (mode == -V_MODE)
 	      width(u) = width(s);
 	    else {   /*:809*/
 	      type(u) = vlistnode;
 	      height(u) = width(s);
 	    }
 	  }
-	  if (mode == -vmode) {   /*810:*/
+	  if (mode == -V_MODE) {   /*810:*/
 	    height(r) = height(q);
 	    depth(r) = depth(q);
 	    if (t == width(r)) {
@@ -10604,7 +10605,7 @@ Static void finalign(void)
   p = link(head);
   q = tail;
   popnest();
-  if (mode == mmode) {   /*1206:*/
+  if (mode == M_MODE) {   /*1206:*/
     doassignments();
     if (curcmd != mathshift) {   /*1207:*/
       printnl(S(292));
@@ -10640,7 +10641,7 @@ Static void finalign(void)
   link(tail) = p;
   if (p != 0)
     tail = q;
-  if (mode == vmode)
+  if (mode == V_MODE)
     buildpage();
 
   /*:1197*/
@@ -10656,7 +10657,7 @@ _Lrestart:
   if (curcmd == noalign) {
     scanleftbrace();
     newsavelevel(noaligngroup);
-    if (mode == -vmode)
+    if (mode == -V_MODE)
       normalparagraph();
     return;
   }
@@ -10964,7 +10965,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             if (r == lastactive) goto _Lexit; /*850:*/
             if (l > easyline) {
                 linewidth = secondwidth;
-                oldl = maxhalfword - 1;
+                oldl = MAX_HALF_WORD - 1;
             } else { /*:850*/
                 oldl = l;
                 if (l > lastspecialline)
@@ -11424,14 +11425,14 @@ _Llabcontinue:   /*909:*/
 	    checkinterrupt();
 	    switch (opbyte(q)) {
 
-	    case minquarterword + 1:
-	    case minquarterword + 5:
+	    case MIN_QUARTER_WORD + 1:
+	    case MIN_QUARTER_WORD + 5:
 	      curl = rembyte(q);
 	      ligaturepresent = true;
 	      break;
 
-	    case minquarterword + 2:
-	    case minquarterword + 6:
+	    case MIN_QUARTER_WORD + 2:
+	    case MIN_QUARTER_WORD + 6:
 	      curr = rembyte(q);
 	      if (ligstack > 0)
 		character(ligstack) = curr;
@@ -11448,15 +11449,15 @@ _Llabcontinue:   /*909:*/
 	      }
 	      break;
 
-	    case minquarterword + 3:
+	    case MIN_QUARTER_WORD + 3:
 	      curr = rembyte(q);
 	      p = ligstack;
 	      ligstack = newligitem(curr);
 	      link(ligstack) = p;
 	      break;
 
-	    case minquarterword + 7:
-	    case minquarterword + 11:
+	    case MIN_QUARTER_WORD + 7:
+	    case MIN_QUARTER_WORD + 11:
 	      wraplig(false);
 	      curq = t;
 	      curl = rembyte(q);
@@ -11477,8 +11478,8 @@ _Llabcontinue:   /*909:*/
 	      }
 	      break;
 	    }
-	    if (opbyte(q) > minquarterword + 4) {
-	      if (opbyte(q) != minquarterword + 7)
+	    if (opbyte(q) > MIN_QUARTER_WORD + 4) {
+	      if (opbyte(q) != MIN_QUARTER_WORD + 7)
 		goto _Ldone;
 	    }
 	    goto _Llabcontinue;
@@ -11497,7 +11498,7 @@ _Llabcontinue:   /*909:*/
 	goto _Llabcontinue;
       }
     }
-    k += skipbyte(q) - minquarterword + 1;
+    k += skipbyte(q) - MIN_QUARTER_WORD + 1;
     q = fontinfo[k].qqqq;
   }
 _Ldone:   /*:909*/
@@ -11546,7 +11547,7 @@ Static void hyphenate(void)   /*:929*/
   hn++;
   hc[hn] = curlang;
   for (j = 2; j <= hn ; j++)
-    h = (h + h + hc[j]) % hyphsize;
+    h = (h + h + hc[j]) % HYPH_SIZE;
   while (true) {  /*931:*/
     k = hyphword[h];
     if (k == 0)
@@ -11572,7 +11573,7 @@ _Ldone:   /*:931*/
     if (h > 0)
       h--;
     else
-      h = hyphsize;
+      h = HYPH_SIZE;
   }
 _Lnotfound:
   hn--;   /*:930*/
@@ -11585,8 +11586,8 @@ _Lnotfound:
   for (j = 0; j <= FORLIM; j++) {
     z = trielink(curlang + 1) + hc[j];
     l = j;
-    while (hc[l] == triechar(z) - minquarterword) {
-      if (trieop(z) != minquarterword) {   /*924:*/
+    while (hc[l] == triechar(z) - MIN_QUARTER_WORD) {
+      if (trieop(z) != MIN_QUARTER_WORD) {   /*924:*/
 	v = trieop(z);
 	do {
 	  v += opstart[curlang];
@@ -11594,7 +11595,7 @@ _Lnotfound:
 	  if (hyfnum[v - 1] > hyf[i])
 	    hyf[i] = hyfnum[v - 1];
 	  v = hyfnext[v - 1];
-	} while (v != minquarterword);
+	} while (v != MIN_QUARTER_WORD);
       }
       /*:924*/
       l++;
@@ -11623,7 +11624,7 @@ _Lfound1:   /*:902*/
       goto _Lfound2;
     initlist = ha;
     initlig = false;
-    hu[0] = character(ha) - minquarterword;
+    hu[0] = character(ha) - MIN_QUARTER_WORD;
   } else if (type(ha) == ligaturenode) {
     if (font_ligchar(ha) != hf) {
       goto _Lfound2;
@@ -11631,7 +11632,7 @@ _Lfound1:   /*:902*/
     initlist = ligptr(ha);
     initlig = true;
     initlft = (subtype(ha) > 1);
-    hu[0] = character_ligchar(ha) - minquarterword;
+    hu[0] = character_ligchar(ha) - MIN_QUARTER_WORD;
     if (initlist == 0) {
       if (initlft) {
 	hu[0] = 256;
@@ -11791,8 +11792,8 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
         if (l == 0) {
             if (trieopptr == trieopsize) overflow(S(767), trieopsize);
             u = trieused[curlang];
-            if (u == maxquarterword)
-                overflow(S(768), maxquarterword - minquarterword);
+            if (u == MAX_QUARTER_WORD)
+                overflow(S(768), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
             trieopptr++;
             u++;
             trieused[curlang] = u;
@@ -11825,7 +11826,7 @@ Static TriePointer trienode(TriePointer p) {
     TriePointer Result, h, q;
 
     h = abs(triec[p] + trieo[p] * 1009 + triel[p] * 2718 + trier[p] * 3142) %
-        triesize;
+       TRIE_SIZE;
     while (true) {
         q = triehash[h];
         if (q == 0) {
@@ -11841,7 +11842,7 @@ Static TriePointer trienode(TriePointer p) {
         if (h > 0)
             h--;
         else
-            h = triesize;
+            h =TRIE_SIZE;
     } // while (true)
 
     return Result;
@@ -11873,8 +11874,8 @@ Static void firstfit(TriePointer p)
   while (true) {
     h = z - c;   /*954:*/
     if (triemax < h + 256) {   /*:954*/
-      if (triesize <= h + 256)
-	overflow(S(769), triesize);
+      if (TRIE_SIZE <= h + 256)
+	overflow(S(769),TRIE_SIZE);
       do {
 	triemax++;
 	P_clrbits_B(trietaken, triemax - 1, 0, 3);
@@ -12008,7 +12009,7 @@ Static void newpatterns(void) {
                         if (hc[1] == 0) hyf[0] = 0;
                         if (hc[k] == 0) hyf[k] = 0;
                         l = k;
-                        v = minquarterword;
+                        v = MIN_QUARTER_WORD;
                         while (true) {
                             if (hyf[l] != 0) v = newtrieop(k - l, hyf[l], v);
                             if (l <= 0) goto _Ldone1;
@@ -12028,8 +12029,8 @@ _Ldone1: /*:965*/
                                 firstchild = false;
                             }
                             if (p == 0 || c < triec[p]) { /*964:*/
-                                if (trieptr == triesize)
-                                    overflow(S(769), triesize);
+                                if (trieptr ==TRIE_SIZE)
+                                    overflow(S(769),TRIE_SIZE);
                                 trieptr++;
                                 trier[trieptr] = p;
                                 p = trieptr;
@@ -12039,12 +12040,12 @@ _Ldone1: /*:965*/
                                 else
                                     trier[q] = p;
                                 triec[p] = c;
-                                trieo[p] = minquarterword;
+                                trieo[p] = MIN_QUARTER_WORD;
                             }
                             /*:964*/
                             q = p;
                         }
-                        if (trieo[q] != minquarterword) {
+                        if (trieo[q] != MIN_QUARTER_WORD) {
                             printnl(S(292));
                             print(S(772));
                             help1(S(771));
@@ -12091,9 +12092,9 @@ Static void inittrie(void)
   TwoHalves h;
 
   /*945:*/
-  opstart[0] = -minquarterword;
+  opstart[0] = -MIN_QUARTER_WORD;
   for (j = 1; j <= 255; j++)
-    opstart[j] = opstart[j - 1] + trieused[j - 1] - minquarterword;
+    opstart[j] = opstart[j - 1] + trieused[j - 1] - MIN_QUARTER_WORD;
   for (j = 1; j <= trieopptr; j++)
     trieophash[j + trieopsize] = opstart[trieoplang[j - 1]] + trieopval[j - 1];
   for (j = 1; j <= trieopptr; j++) {
@@ -12112,7 +12113,7 @@ Static void inittrie(void)
       trieophash[k + trieopsize] = k;
     }
   }
-  for (p = 0; p <= triesize; p++)
+  for (p = 0; p <=TRIE_SIZE; p++)
     triehash[p] = 0;
   trieroot = compresstrie(trieroot);
   for (p = 0; p <= trieptr; p++)
@@ -12127,8 +12128,8 @@ Static void inittrie(void)
   }
   /*958:*/
   h.rh = 0;
-  h.UU.U2.b0 = minquarterword;
-  h.UU.U2.b1 = minquarterword;
+  h.UU.U2.b0 = MIN_QUARTER_WORD;
+  h.UU.U2.b1 = MIN_QUARTER_WORD;
   if (trieroot == 0) {
     for (r = 0; r <= 256; r++)
       trie[r] = h;
@@ -12231,7 +12232,7 @@ Static void linebreak(long finalwidowpenalty) {
     if (looseness == 0)
         easyline = lastspecialline;
     else {
-        easyline = maxhalfword;
+        easyline = MAX_HALF_WORD;
         /*:848*/
     }
     /*863:*/
@@ -12329,12 +12330,12 @@ Static void linebreak(long finalwidowpenalty) {
                         if (s != 0) { /*896:*/
                             while (true) {
                                 if (ischarnode(s)) {
-                                    c = character(s) - minquarterword;
+                                    c = character(s) - MIN_QUARTER_WORD;
                                     hf = font(s);
                                 } else if (type(s) == ligaturenode) {
                                     if (ligptr(s) == 0) goto _Llabcontinue;
                                     q = ligptr(s);
-                                    c = character(q) - minquarterword;
+                                    c = character(q) - MIN_QUARTER_WORD;
                                     hf = font(q);
                                 } else if ((type(s) == kernnode) &
                                            (subtype(s) == normal))
@@ -12366,7 +12367,7 @@ Static void linebreak(long finalwidowpenalty) {
                                 if (ischarnode(s)) {
                                     if (font(s) != hf) goto _Ldone3;
                                     hyfbchar = character(s);
-                                    c = hyfbchar - minquarterword;
+                                    c = hyfbchar - MIN_QUARTER_WORD;
                                     if (lccode(c) == 0) goto _Ldone3;
                                     if (hn == 63) goto _Ldone3;
                                     hb = s;
@@ -12382,7 +12383,7 @@ Static void linebreak(long finalwidowpenalty) {
                                     q = ligptr(s);
                                     if (q > 0) hyfbchar = character(q);
                                     while (q > 0) {
-                                        c = character(q) - minquarterword;
+                                        c = character(q) - MIN_QUARTER_WORD;
                                         if (lccode(c) == 0) goto _Ldone3;
                                         if (j == 63) goto _Ldone3;
                                         j++;
@@ -12723,11 +12724,11 @@ _Lreswitch:
 	hc[n] = curlang;
 	h = 0;
 	for (j = 1; j <= n; j++) {
-	  h = (h + h + hc[j]) % hyphsize;
+	  h = (h + h + hc[j]) % HYPH_SIZE;
 	}
 	s = str_ins(hc+1,n);
-	if (hyphcount == hyphsize)
-	  overflow(S(786), hyphsize);
+	if (hyphcount == HYPH_SIZE)
+	  overflow(S(786), HYPH_SIZE);
 	hyphcount++;
 	while (hyphword[h] != 0) {  /*941:*/
 	  k = hyphword[h];
@@ -12752,7 +12753,7 @@ _Lnotfound:   /*:941*/
 	  if (h > 0)
 	    h--;
 	  else
-	    h = hyphsize;
+	    h = HYPH_SIZE;
 	}
 	hyphword[h] = s;
 	hyphlist[h] = p;   /*:940*/
@@ -13156,7 +13157,7 @@ Static void fireup(HalfWord c)
     r = link(pageinshead);
     while (r != pageinshead) {
       if (bestinsptr(r) != 0) {
-	n = subtype(r) - minquarterword;
+	n = subtype(r) - MIN_QUARTER_WORD;
 	ensurevbox(n);
 	if (box(n) == 0)
 	  box(n) = newnullbox();
@@ -13202,7 +13203,7 @@ Static void fireup(HalfWord c)
 	      }
 	    }
 	    bestinsptr(r) = 0;
-	    n = subtype(r) - minquarterword;
+	    n = subtype(r) - MIN_QUARTER_WORD;
 	    tempptr = listptr(box(n));
 	    freenode(box(n), boxnodesize);
 	    box(n) = vpack(tempptr, 0, additional);
@@ -13258,12 +13259,12 @@ Static void fireup(HalfWord c)
   box(255) = vpackage(link(pagehead), bestsize, exactly, pagemaxdepth);
   vbadness = savevbadness;
   vfuzz = savevfuzz;
-  if (lastglue != maxhalfword)   /*991:*/
+  if (lastglue != MAX_HALF_WORD)   /*991:*/
     deleteglueref(lastglue);
   pagecontents = empty;
   pagetail = pagehead;
   link(pagehead) = 0;
-  lastglue = maxhalfword;
+  lastglue = MAX_HALF_WORD;
   lastpenalty = 0;
   lastkern = 0;
   pagedepth = 0;
@@ -13290,7 +13291,7 @@ Static void fireup(HalfWord c)
       outputactive = true;
       deadcycles++;
       pushnest();
-      mode = -vmode;
+      mode = -V_MODE;
       prevdepth = ignoredepth;
       modeline = -line;
       begintokenlist(outputroutine, outputtext);
@@ -13337,14 +13338,14 @@ Static void buildpage(void) {
     do {
     _Llabcontinue:
         p = link(contribhead); /*996:*/
-        if (lastglue != maxhalfword) deleteglueref(lastglue);
+        if (lastglue != MAX_HALF_WORD) deleteglueref(lastglue);
         lastpenalty = 0;
         lastkern = 0;
         if (type(p) == gluenode) { /*997:*/
             lastglue = glueptr(p);
             addglueref(lastglue);
         } else { /*:996*/
-            lastglue = maxhalfword;
+            lastglue = MAX_HALF_WORD;
             if (type(p) == penaltynode)
                 lastpenalty = penalty(p);
             else if (type(p) == kernnode)
@@ -13410,7 +13411,7 @@ Static void buildpage(void) {
                 r = pageinshead;
                 while (n >= subtype(link(r)))
                     r = link(r);
-                n -= minquarterword;
+                n -= MIN_QUARTER_WORD;
                 if (subtype(r) != n) { /*1009:*/
                     q = getnode(pageinsnodesize);
                     link(q) = link(r);
@@ -13890,7 +13891,7 @@ Static void boxend(long boxcontext)
     if (curbox == 0)
       return;
     shiftamount(curbox) = boxcontext;
-    if (labs(mode) == vmode) {
+    if (labs(mode) == V_MODE) {
       appendtovlist(curbox);
       if (adjusttail != 0) {
 	if (adjusthead != adjusttail) {
@@ -13903,7 +13904,7 @@ Static void boxend(long boxcontext)
 	buildpage();
       return;
     }
-    if (labs(mode) == hmode)
+    if (labs(mode) == H_MODE)
       spacefactor = 1000;
     else {
       p = newnoad();
@@ -13931,9 +13932,9 @@ Static void boxend(long boxcontext)
   }
   /*:1078*/
   skip_spaces_or_relax();
-  if ( (curcmd == hskip && labs(mode) != vmode) ||
-      (curcmd == vskip && labs(mode) == vmode) ||
-      (curcmd == mskip && labs(mode) == mmode) ) {
+  if ( (curcmd == hskip && labs(mode) != V_MODE) ||
+      (curcmd == vskip && labs(mode) == V_MODE) ||
+      (curcmd == mskip && labs(mode) == M_MODE) ) {
     appendglue();
     subtype(tail) = boxcontext - leaderflag + aleaders;
     leaderptr(tail) = curbox;
@@ -13971,11 +13972,11 @@ Static void beginbox(long boxcontext) {
 
     case lastboxcode: /*1080:*/
         curbox = 0;
-        if (labs(mode) == mmode) {
+        if (labs(mode) == M_MODE) {
             youcant();
             help1(S(853));
             error();
-        } else if (mode == vmode && head == tail) {
+        } else if (mode == V_MODE && head == tail) {
             youcant();
             help2(S(854), S(855));
             error();
@@ -14026,23 +14027,23 @@ _Ldone:;
     default:
         k = curchr - vtopcode;
         saved(0) = boxcontext;
-        if (k == hmode) {
-            if (boxcontext < boxflag && labs(mode) == vmode)
+        if (k == H_MODE) {
+            if (boxcontext < boxflag && labs(mode) == V_MODE)
                 scanspec(adjustedhboxgroup, true);
             else
                 scanspec(hboxgroup, true);
         } else {
-            if (k == vmode)
+            if (k == V_MODE)
                 scanspec(vboxgroup, true);
             else {
                 scanspec(vtopgroup, true);
-                k = vmode;
+                k = V_MODE;
             }
             normalparagraph();
         }
         pushnest();
         mode = -k;
-        if (k == vmode) {
+        if (k == V_MODE) {
             prevdepth = ignoredepth;
             if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
         } else {
@@ -14090,7 +14091,7 @@ Static void package(SmallNumber c)
   d = boxmaxdepth;
   unsave();
   saveptr -= 3;
-  if (mode == -hmode)
+  if (mode == -H_MODE)
     curbox = hpack(link(head), saved(2), saved(1));
   else {
     curbox = vpackage(link(head), saved(2), saved(1), d);
@@ -14126,11 +14127,11 @@ Static SmallNumber normmin(long h)
 Static void newgraf(Boolean indented)
 {
   prevgraf = 0;
-  if (mode == vmode || head != tail) {
+  if (mode == V_MODE || head != tail) {
     tailappend(newparamglue(parskipcode));
   }
   pushnest();
-  mode = hmode;
+  mode = H_MODE;
   spacefactor = 1000;
   setcurlang();
   clang = curlang;
@@ -14157,7 +14158,7 @@ Static void indentinhmode(void)
     return;
   p = newnullbox();
   width(p) = parindent;
-  if (labs(mode) == hmode)
+  if (labs(mode) == H_MODE)
     spacefactor = 1000;
   else {
     q = newnoad();
@@ -14196,7 +14197,7 @@ Static void headforvmode(void)
 /*1096:*/
 Static void endgraf(void)
 {
-  if (mode != hmode)
+  if (mode != H_MODE)
     return;
   if (head == tail)
     popnest();
@@ -14230,7 +14231,7 @@ Static void begininsertoradjust(void)
   scanleftbrace();
   normalparagraph();
   pushnest();
-  mode = -vmode;
+  mode = -V_MODE;
   prevdepth = ignoredepth;
 }
 /*:1099*/
@@ -14256,7 +14257,7 @@ Static void appendpenalty(void)
 {
   scanint();
   tailappend(newpenalty(curval));
-  if (mode == vmode)
+  if (mode == V_MODE)
     buildpage();
 }
 /*:1103*/
@@ -14265,8 +14266,8 @@ Static void appendpenalty(void)
 Static void deletelast(void) {
     Pointer p, q;
 
-    if (mode == vmode && tail == head) { /*1106:*/
-    if (curchr != gluenode || lastglue != maxhalfword) {
+    if (mode == V_MODE && tail == head) { /*1106:*/
+    if (curchr != gluenode || lastglue != MAX_HALF_WORD) {
         youcant();
         help2(S(854), S(869));
         if (curchr == kernnode)
@@ -14311,9 +14312,9 @@ Static void unpackage(void) {
     scaneightbitint();
     p = box(curval);
     if (p == 0) return;
-    if ( (labs(mode) == mmode) |
-        ((labs(mode) == vmode) & (type(p) != vlistnode)) |
-        ((labs(mode) == hmode) & (type(p) != hlistnode))) {
+    if ( (labs(mode) == M_MODE) |
+        ((labs(mode) == V_MODE) & (type(p) != vlistnode)) |
+        ((labs(mode) == H_MODE) & (type(p) != hlistnode))) {
         printnl(S(292));
         print(S(872));
         help3(S(873), S(874), S(875));
@@ -14380,7 +14381,7 @@ Static void appenddiscretionary(void)
   newsavelevel(discgroup);
   scanleftbrace();
   pushnest();
-  mode = -hmode;
+  mode = -H_MODE;
   spacefactor = 1000;
 }
 /*:1117*/
@@ -14434,7 +14435,7 @@ Static void builddiscretionary(void) {
             break;
 
         case 2: /*1120:*/
-            if (n > 0 && labs(mode) == mmode) {
+            if (n > 0 && labs(mode) == M_MODE) {
                 printnl(S(292));
                 print(S(879));
                 print_esc(S(400));
@@ -14444,7 +14445,7 @@ Static void builddiscretionary(void) {
                 error();
             } else
                 link(tail) = p;
-            if (n <= maxquarterword)
+            if (n <= MAX_QUARTER_WORD)
                 replacecount(tail) = n;
             else {
                 printnl(S(292));
@@ -14462,7 +14463,7 @@ Static void builddiscretionary(void) {
     newsavelevel(discgroup);
     scanleftbrace();
     pushnest();
-    mode = -hmode;
+    mode = -H_MODE;
     spacefactor = 1000;
 _Lexit:;
 }
@@ -14618,7 +14619,7 @@ Static void cserror(void)
 Static void pushmath(GroupCode c)
 {
   pushnest();
-  mode = -mmode;
+  mode = -M_MODE;
   incompleatnoad = 0;
   newsavelevel(c);
 }
@@ -14736,7 +14737,7 @@ _Ldone: ;   /*:1146*/
       l = mem[p - memmin].sc;
     }
     pushmath(mathshiftgroup);
-    mode = mmode;
+    mode = M_MODE;
     eqworddefine(intbase + curfamcode, -1);
     eqworddefine(dimenbase + predisplaysizecode, w);
     eqworddefine(dimenbase + displaywidthcode, l);
@@ -15403,7 +15404,7 @@ Static void resumeafterdisplay(void)
   unsave();
   prevgraf += 3;
   pushnest();
-  mode = hmode;
+  mode = H_MODE;
   spacefactor = 1000;
   setcurlang();
   clang = curlang;
@@ -15592,7 +15593,7 @@ Static void alteraux(void) {
     }
     c = curchr;
     scanoptionalequals();
-    if (c == vmode) {
+    if (c == V_MODE) {
         scannormaldimen();
         prevdepth = curval;
         return;
@@ -15615,7 +15616,7 @@ Static void alterprevgraf(void) {
 
     nest[nestptr] = curlist;
     p = nestptr;
-    while (abs(nest[p].modefield) != vmode)
+    while (abs(nest[p].modefield) != V_MODE)
         p--;
     scanoptionalequals();
     scanint();
@@ -16408,7 +16409,7 @@ Static void storefmtfile(void) { /*1304:*/
     pput(pppfmtfile);
     pppfmtfile.int_ = hashprime;
     pput(pppfmtfile);
-    pppfmtfile.int_ = hyphsize;
+    pppfmtfile.int_ = HYPH_SIZE;
     pput(pppfmtfile); /*:1307*/
     str_dump(fmtfile);
 
@@ -16557,7 +16558,7 @@ _Ldone2:
     /*1324:*/
     pppfmtfile.int_ = hyphcount;
     pput(pppfmtfile);
-    for (k = 0; k <= hyphsize; k++) {
+    for (k = 0; k <= HYPH_SIZE; k++) {
         if (hyphword[k] != 0) {
             pppfmtfile.int_ = k;
             pput(pppfmtfile);
@@ -16597,14 +16598,14 @@ _Ldone2:
     print(S(999));
     print_int(trieopsize);
     for (k = 255; k >= 0; k--) {            /*1326:*/
-        if (trieused[k] > minquarterword) { /*:1324*/
+        if (trieused[k] > MIN_QUARTER_WORD) { /*:1324*/
             printnl(S(675));
-            print_int(trieused[k] - minquarterword);
+            print_int(trieused[k] - MIN_QUARTER_WORD);
             print(S(1000));
             print_int(k);
             pppfmtfile.int_ = k;
             pput(pppfmtfile);
-            pppfmtfile.int_ = trieused[k] - minquarterword;
+            pppfmtfile.int_ = trieused[k] - MIN_QUARTER_WORD;
             pput(pppfmtfile);
         }
     }
@@ -16706,7 +16707,7 @@ Static void doextension(void)
     /*:1375*/
 
   case setlanguagecode:   /*1377:*/
-    if (labs(mode) != hmode)
+    if (labs(mode) != H_MODE)
       reportillegalcase();
     else {   /*:1377*/
       newwhatsit(languagenode, smallnodesize);
@@ -16972,19 +16973,19 @@ _Lreswitch: /*1031:*/
     if (tracingcommands > 0) /*:1031*/
         showcurcmdchr();
     switch (labs(mode) + curcmd) {
-        case hmode + letter:
-        case hmode + otherchar:
-        case hmode + chargiven:
+        case H_MODE + letter:
+        case H_MODE + otherchar:
+        case H_MODE + chargiven:
             goto _Lmainloop;
             break;
 
-        case hmode + charnum:
+        case H_MODE + charnum:
             scancharnum();
             curchr = curval;
             goto _Lmainloop;
             break;
 
-        case hmode + noboundary:
+        case H_MODE + noboundary:
             getxtoken();
             if (curcmd == letter || curcmd == otherchar ||
                 curcmd == chargiven || curcmd == charnum)
@@ -16992,138 +16993,138 @@ _Lreswitch: /*1031:*/
             goto _Lreswitch;
             break;
 
-        case hmode + spacer:
+        case H_MODE + spacer:
             if (spacefactor == 1000) goto _Lappendnormalspace_;
             appspace();
             break;
 
-        case hmode + exspace:
-        case mmode + exspace: /*1045:*/
+        case H_MODE + exspace:
+        case M_MODE + exspace: /*1045:*/
             goto _Lappendnormalspace_;
             break;
 
-        case vmode:
-        case hmode:
-        case mmode:
-        case vmode + spacer:
-        case mmode + spacer:
-        case mmode + noboundary:
+        case V_MODE:
+        case H_MODE:
+        case M_MODE:
+        case V_MODE + spacer:
+        case M_MODE + spacer:
+        case M_MODE + noboundary:
             /* blank case */
             break;
 
-        case vmode + ignorespaces:
-        case hmode + ignorespaces:
-        case mmode + ignorespaces:
+        case V_MODE + ignorespaces:
+        case H_MODE + ignorespaces:
+        case M_MODE + ignorespaces:
             skip_spaces();
             goto _Lreswitch;
             break;
 
-        case vmode + stop: /*1048:*/
+        case V_MODE + stop: /*1048:*/
             if (itsallover()) goto _Lexit;
             break;
 
-        case vmode + vmove:
-        case hmode + hmove:
-        case mmode + hmove:
-        case vmode + lastitem:
-        case hmode + lastitem:
-        case mmode + lastitem:
-        case vmode + vadjust:
-        case vmode + italcorr:
-        case vmode + eqno:
-        case hmode + eqno:
-        case vmode + macparam:
-        case hmode + macparam:
-        case mmode + macparam: /*:1048*/
+        case V_MODE + vmove:
+        case H_MODE + hmove:
+        case M_MODE + hmove:
+        case V_MODE + lastitem:
+        case H_MODE + lastitem:
+        case M_MODE + lastitem:
+        case V_MODE + vadjust:
+        case V_MODE + italcorr:
+        case V_MODE + eqno:
+        case H_MODE + eqno:
+        case V_MODE + macparam:
+        case H_MODE + macparam:
+        case M_MODE + macparam: /*:1048*/
             reportillegalcase();
             break;
             /*1046:*/
 
-        case vmode + supmark:
-        case hmode + supmark:
-        case vmode + submark:
-        case hmode + submark:
-        case vmode + mathcharnum:
-        case hmode + mathcharnum:
-        case vmode + mathgiven:
-        case hmode + mathgiven:
-        case vmode + mathcomp:
-        case hmode + mathcomp:
-        case vmode + delimnum:
-        case hmode + delimnum:
-        case vmode + leftright:
-        case hmode + leftright:
-        case vmode + above:
-        case hmode + above:
-        case vmode + radical:
-        case hmode + radical:
-        case vmode + mathstyle:
-        case hmode + mathstyle:
-        case vmode + mathchoice:
-        case hmode + mathchoice:
-        case vmode + vcenter:
-        case hmode + vcenter:
-        case vmode + nonscript:
-        case hmode + nonscript:
-        case vmode + mkern:
-        case hmode + mkern:
-        case vmode + limitswitch:
-        case hmode + limitswitch:
-        case vmode + mskip:
-        case hmode + mskip:
-        case vmode + mathaccent:
-        case hmode + mathaccent:
-        case mmode + endv:
-        case mmode + parend:
-        case mmode + stop:
-        case mmode + vskip:
-        case mmode + unvbox:
-        case mmode + valign:
-        case mmode + hrule: /*:1046*/
+        case V_MODE + supmark:
+        case H_MODE + supmark:
+        case V_MODE + submark:
+        case H_MODE + submark:
+        case V_MODE + mathcharnum:
+        case H_MODE + mathcharnum:
+        case V_MODE + mathgiven:
+        case H_MODE + mathgiven:
+        case V_MODE + mathcomp:
+        case H_MODE + mathcomp:
+        case V_MODE + delimnum:
+        case H_MODE + delimnum:
+        case V_MODE + leftright:
+        case H_MODE + leftright:
+        case V_MODE + above:
+        case H_MODE + above:
+        case V_MODE + radical:
+        case H_MODE + radical:
+        case V_MODE + mathstyle:
+        case H_MODE + mathstyle:
+        case V_MODE + mathchoice:
+        case H_MODE + mathchoice:
+        case V_MODE + vcenter:
+        case H_MODE + vcenter:
+        case V_MODE + nonscript:
+        case H_MODE + nonscript:
+        case V_MODE + mkern:
+        case H_MODE + mkern:
+        case V_MODE + limitswitch:
+        case H_MODE + limitswitch:
+        case V_MODE + mskip:
+        case H_MODE + mskip:
+        case V_MODE + mathaccent:
+        case H_MODE + mathaccent:
+        case M_MODE + endv:
+        case M_MODE + parend:
+        case M_MODE + stop:
+        case M_MODE + vskip:
+        case M_MODE + unvbox:
+        case M_MODE + valign:
+        case M_MODE + hrule: /*:1046*/
             insertdollarsign();
             break;
 
         /*1056:*/
-        case vmode + hrule:
-        case hmode + vrule:
-        case mmode + vrule: /*:1056*/
+        case V_MODE + hrule:
+        case H_MODE + vrule:
+        case M_MODE + vrule: /*:1056*/
             tailappend(scanrulespec());
-            if (labs(mode) == vmode)
+            if (labs(mode) == V_MODE)
                 prevdepth = ignoredepth;
-            else if (labs(mode) == hmode)
+            else if (labs(mode) == H_MODE)
                 spacefactor = 1000;
             break;
             /*1057:*/
 
-        case vmode + vskip:
-        case hmode + hskip:
-        case mmode + hskip:
-        case mmode + mskip:
+        case V_MODE + vskip:
+        case H_MODE + hskip:
+        case M_MODE + hskip:
+        case M_MODE + mskip:
             appendglue();
             break;
 
-        case vmode + kern:
-        case hmode + kern:
-        case mmode + kern:
-        case mmode + mkern: /*:1057*/
+        case V_MODE + kern:
+        case H_MODE + kern:
+        case M_MODE + kern:
+        case M_MODE + mkern: /*:1057*/
             appendkern();
             break;
             /*1063:*/
 
-        case vmode + leftbrace:
-        case hmode + leftbrace:
+        case V_MODE + leftbrace:
+        case H_MODE + leftbrace:
             newsavelevel(simplegroup);
             break;
 
-        case vmode + begingroup:
-        case hmode + begingroup:
-        case mmode + begingroup:
+        case V_MODE + begingroup:
+        case H_MODE + begingroup:
+        case M_MODE + begingroup:
             newsavelevel(semisimplegroup);
             break;
 
-        case vmode + endgroup:
-        case hmode + endgroup:
-        case mmode + endgroup: /*:1063*/
+        case V_MODE + endgroup:
+        case H_MODE + endgroup:
+        case M_MODE + endgroup: /*:1063*/
             if (curgroup == semisimplegroup)
                 unsave();
             else
@@ -17131,17 +17132,17 @@ _Lreswitch: /*1031:*/
             break;
             /*1067:*/
 
-        case vmode + rightbrace:
-        case hmode + rightbrace:
-        case mmode + rightbrace:
+        case V_MODE + rightbrace:
+        case H_MODE + rightbrace:
+        case M_MODE + rightbrace:
             handlerightbrace();
             break;
 
         /*:1067*/
         /*1073:*/
-        case vmode + hmove:
-        case hmode + vmove:
-        case mmode + vmove:
+        case V_MODE + hmove:
+        case H_MODE + vmove:
+        case M_MODE + vmove:
             t = curchr;
             scannormaldimen();
             if (t == 0)
@@ -17150,155 +17151,155 @@ _Lreswitch: /*1031:*/
                 scanbox(-curval);
             break;
 
-        case vmode + leadership:
-        case hmode + leadership:
-        case mmode + leadership:
+        case V_MODE + leadership:
+        case H_MODE + leadership:
+        case M_MODE + leadership:
             scanbox(leaderflag - aleaders + curchr);
             break;
 
-        case vmode + makebox:
-        case hmode + makebox:
-        case mmode + makebox:
+        case V_MODE + makebox:
+        case H_MODE + makebox:
+        case M_MODE + makebox:
             beginbox(0);
             break;
 
         /*:1073*/
         /*1090:*/
-        case vmode + startpar:
+        case V_MODE + startpar:
             newgraf(curchr > 0);
             break;
 
-        case vmode + letter:
-        case vmode + otherchar:
-        case vmode + charnum:
-        case vmode + chargiven:
-        case vmode + mathshift:
-        case vmode + unhbox:
-        case vmode + vrule:
-        case vmode + accent:
-        case vmode + discretionary:
-        case vmode + hskip:
-        case vmode + valign:
-        case vmode + exspace:
-        case vmode + noboundary: /*:1090*/
+        case V_MODE + letter:
+        case V_MODE + otherchar:
+        case V_MODE + charnum:
+        case V_MODE + chargiven:
+        case V_MODE + mathshift:
+        case V_MODE + unhbox:
+        case V_MODE + vrule:
+        case V_MODE + accent:
+        case V_MODE + discretionary:
+        case V_MODE + hskip:
+        case V_MODE + valign:
+        case V_MODE + exspace:
+        case V_MODE + noboundary: /*:1090*/
             backinput();
             newgraf(true);
             break;
             /*1092:*/
 
-        case hmode + startpar:
-        case mmode + startpar: /*:1092*/
+        case H_MODE + startpar:
+        case M_MODE + startpar: /*:1092*/
             indentinhmode();
             break;
             /*1094:*/
 
-        case vmode + parend:
+        case V_MODE + parend:
             normalparagraph();
             if (mode > 0) buildpage();
             break;
 
-        case hmode + parend:
+        case H_MODE + parend:
             if (alignstate < 0) offsave();
             endgraf();
-            if (mode == vmode) buildpage();
+            if (mode == V_MODE) buildpage();
             break;
 
-        case hmode + stop:
-        case hmode + vskip:
-        case hmode + hrule:
-        case hmode + unvbox:
-        case hmode + halign: /*:1094*/
+        case H_MODE + stop:
+        case H_MODE + vskip:
+        case H_MODE + hrule:
+        case H_MODE + unvbox:
+        case H_MODE + halign: /*:1094*/
             headforvmode();
             break;
             /*1097:*/
 
-        case vmode + insert_:
-        case hmode + insert_:
-        case mmode + insert_:
-        case hmode + vadjust:
-        case mmode + vadjust:
+        case V_MODE + insert_:
+        case H_MODE + insert_:
+        case M_MODE + insert_:
+        case H_MODE + vadjust:
+        case M_MODE + vadjust:
             begininsertoradjust();
             break;
 
-        case vmode + mark_:
-        case hmode + mark_:
-        case mmode + mark_: /*:1097*/
+        case V_MODE + mark_:
+        case H_MODE + mark_:
+        case M_MODE + mark_: /*:1097*/
             makemark();
             break;
 
         /*1102:*/
-        case vmode + breakpenalty:
-        case hmode + breakpenalty:
-        case mmode + breakpenalty:
+        case V_MODE + breakpenalty:
+        case H_MODE + breakpenalty:
+        case M_MODE + breakpenalty:
             appendpenalty();
             break;
 
         /*:1102*/
         /*1104:*/
-        case vmode + removeitem:
-        case hmode + removeitem:
-        case mmode + removeitem: /*:1104*/
+        case V_MODE + removeitem:
+        case H_MODE + removeitem:
+        case M_MODE + removeitem: /*:1104*/
             deletelast();
             break;
 
         /*1109:*/
-        case vmode + unvbox:
-        case hmode + unhbox:
-        case mmode + unhbox:
+        case V_MODE + unvbox:
+        case H_MODE + unhbox:
+        case M_MODE + unhbox:
             unpackage();
             break;
 
         /*:1109*/
         /*1112:*/
-        case hmode + italcorr:
+        case H_MODE + italcorr:
             appenditaliccorrection();
             break;
 
-        case mmode + italcorr: /*:1112*/
+        case M_MODE + italcorr: /*:1112*/
             tailappend(newkern(0));
             break;
             /*1116:*/
 
-        case hmode + discretionary:
-        case mmode + discretionary: /*:1116*/
+        case H_MODE + discretionary:
+        case M_MODE + discretionary: /*:1116*/
             appenddiscretionary();
             break;
 
         /*1122:*/
-        case hmode + accent:
+        case H_MODE + accent:
             makeaccent();
             break;
 
         /*:1122*/
         /*1126:*/
-        case vmode + carret:
-        case hmode + carret:
-        case mmode + carret:
-        case vmode + tabmark:
-        case hmode + tabmark:
-        case mmode + tabmark:
+        case V_MODE + carret:
+        case H_MODE + carret:
+        case M_MODE + carret:
+        case V_MODE + tabmark:
+        case H_MODE + tabmark:
+        case M_MODE + tabmark:
             alignerror();
             break;
 
-        case vmode + noalign:
-        case hmode + noalign:
-        case mmode + noalign:
+        case V_MODE + noalign:
+        case H_MODE + noalign:
+        case M_MODE + noalign:
             noalignerror();
             break;
 
-        case vmode + omit:
-        case hmode + omit:
-        case mmode + omit: /*:1126*/
+        case V_MODE + omit:
+        case H_MODE + omit:
+        case M_MODE + omit: /*:1126*/
             omiterror();
             break;
             /*1130:*/
 
-        case vmode + halign:
-        case hmode + valign:
+        case V_MODE + halign:
+        case H_MODE + valign:
             initalign();
             break;
 
-        case mmode + halign:
+        case M_MODE + halign:
             if (privileged()) {
                 if (curgroup == mathshiftgroup)
                     initalign();
@@ -17307,25 +17308,25 @@ _Lreswitch: /*1031:*/
             }
             break;
 
-        case vmode + endv:
-        case hmode + endv: /*:1130*/
+        case V_MODE + endv:
+        case H_MODE + endv: /*:1130*/
             doendv();
             break;
             /*1134:*/
 
-        case vmode + endcsname:
-        case hmode + endcsname:
-        case mmode + endcsname: /*:1134*/
+        case V_MODE + endcsname:
+        case H_MODE + endcsname:
+        case M_MODE + endcsname: /*:1134*/
             cserror();
             break;
             /*1137:*/
 
-        case hmode + mathshift: /*:1137*/
+        case H_MODE + mathshift: /*:1137*/
             initmath();
             break;
             /*1140:*/
 
-        case mmode + eqno: /*:1140*/
+        case M_MODE + eqno: /*:1140*/
             if (privileged()) {
                 if (curgroup == mathshiftgroup)
                     starteqno();
@@ -17335,107 +17336,107 @@ _Lreswitch: /*1031:*/
             break;
             /*1150:*/
 
-        case mmode + leftbrace: /*:1150*/
+        case M_MODE + leftbrace: /*:1150*/
             tailappend(newnoad());
             backinput();
             scanmath(nucleus(tail));
             break;
             /*1154:*/
 
-        case mmode + letter:
-        case mmode + otherchar:
-        case mmode + chargiven:
+        case M_MODE + letter:
+        case M_MODE + otherchar:
+        case M_MODE + chargiven:
             setmathchar(mathcode(curchr));
             break;
 
-        case mmode + charnum:
+        case M_MODE + charnum:
             scancharnum();
             curchr = curval;
             setmathchar(mathcode(curchr));
             break;
 
-        case mmode + mathcharnum:
+        case M_MODE + mathcharnum:
             scanfifteenbitint();
             setmathchar(curval);
             break;
 
-        case mmode + mathgiven:
+        case M_MODE + mathgiven:
             setmathchar(curchr);
             break;
 
-        case mmode + delimnum: /*:1154*/
+        case M_MODE + delimnum: /*:1154*/
             scantwentysevenbitint();
             setmathchar(curval / 4096);
             break;
             /*1158:*/
 
-        case mmode + mathcomp:
+        case M_MODE + mathcomp:
             tailappend(newnoad());
             type(tail) = curchr;
             scanmath(nucleus(tail));
             break;
 
-        case mmode + limitswitch: /*:1158*/
+        case M_MODE + limitswitch: /*:1158*/
             mathlimitswitch();
             break;
             /*1162:*/
 
-        case mmode + radical: /*:1162*/
+        case M_MODE + radical: /*:1162*/
             mathradical();
             break;
             /*1164:*/
 
-        case mmode + accent:
-        case mmode + mathaccent: /*:1164*/
+        case M_MODE + accent:
+        case M_MODE + mathaccent: /*:1164*/
             mathac();
             break;
             /*1167:*/
 
-        case mmode + vcenter:
+        case M_MODE + vcenter:
             scanspec(vcentergroup, false);
             normalparagraph();
             pushnest();
-            mode = -vmode;
+            mode = -V_MODE;
             prevdepth = ignoredepth;
             if (everyvbox != 0) begintokenlist(everyvbox, everyvboxtext);
             break;
             /*:1167*/
 
         /*1171:*/
-        case mmode + mathstyle:
+        case M_MODE + mathstyle:
             tailappend(newstyle(curchr));
             break;
 
-        case mmode + nonscript:
+        case M_MODE + nonscript:
             tailappend(newglue(zeroglue));
             subtype(tail) = condmathglue;
             break;
 
-        case mmode + mathchoice:
+        case M_MODE + mathchoice:
             appendchoices();
             break;
 
         /*:1171*/
         /*1175:*/
-        case mmode + submark:
-        case mmode + supmark:
+        case M_MODE + submark:
+        case M_MODE + supmark:
             subsup();
             break;
 
         /*:1175*/
         /*1180:*/
-        case mmode + above: /*:1180*/
+        case M_MODE + above: /*:1180*/
             mathfraction();
             break;
             /*1190:*/
 
-        case mmode + leftright:
+        case M_MODE + leftright:
             mathleftright();
             break;
 
         /*:1190*/
         /*1193:*/
-        case mmode + mathshift:
+        case M_MODE + mathshift:
             if (curgroup == mathshiftgroup)
                 aftermath();
             else
@@ -17444,150 +17445,150 @@ _Lreswitch: /*1031:*/
 
         /*:1193*/
         /*1210:*/
-        case vmode + toksregister:
-        case hmode + toksregister:
-        case mmode + toksregister:
-        case vmode + assigntoks:
-        case hmode + assigntoks:
-        case mmode + assigntoks:
-        case vmode + assignint:
-        case hmode + assignint:
-        case mmode + assignint:
-        case vmode + assigndimen:
-        case hmode + assigndimen:
-        case mmode + assigndimen:
-        case vmode + assignglue:
-        case hmode + assignglue:
-        case mmode + assignglue:
-        case vmode + assignmuglue:
-        case hmode + assignmuglue:
-        case mmode + assignmuglue:
-        case vmode + assignfontdimen:
-        case hmode + assignfontdimen:
-        case mmode + assignfontdimen:
-        case vmode + assignfontint:
-        case hmode + assignfontint:
-        case mmode + assignfontint:
-        case vmode + setaux:
-        case hmode + setaux:
-        case mmode + setaux:
-        case vmode + setprevgraf:
-        case hmode + setprevgraf:
-        case mmode + setprevgraf:
-        case vmode + setpagedimen:
-        case hmode + setpagedimen:
-        case mmode + setpagedimen:
-        case vmode + setpageint:
-        case hmode + setpageint:
-        case mmode + setpageint:
-        case vmode + setboxdimen:
-        case hmode + setboxdimen:
-        case mmode + setboxdimen:
-        case vmode + setshape:
-        case hmode + setshape:
-        case mmode + setshape:
-        case vmode + defcode:
-        case hmode + defcode:
-        case mmode + defcode:
-        case vmode + deffamily:
-        case hmode + deffamily:
-        case mmode + deffamily:
-        case vmode + setfont:
-        case hmode + setfont:
-        case mmode + setfont:
-        case vmode + deffont:
-        case hmode + deffont:
-        case mmode + deffont:
-        case vmode + register_:
-        case hmode + register_:
-        case mmode + register_:
-        case vmode + advance:
-        case hmode + advance:
-        case mmode + advance:
-        case vmode + multiply:
-        case hmode + multiply:
-        case mmode + multiply:
-        case vmode + divide:
-        case hmode + divide:
-        case mmode + divide:
-        case vmode + prefix:
-        case hmode + prefix:
-        case mmode + prefix:
-        case vmode + let:
-        case hmode + let:
-        case mmode + let:
-        case vmode + shorthanddef:
-        case hmode + shorthanddef:
-        case mmode + shorthanddef:
-        case vmode + readtocs:
-        case hmode + readtocs:
-        case mmode + readtocs:
-        case vmode + def:
-        case hmode + def:
-        case mmode + def:
-        case vmode + setbox:
-        case hmode + setbox:
-        case mmode + setbox:
-        case vmode + hyphdata:
-        case hmode + hyphdata:
-        case mmode + hyphdata:
-        case vmode + setinteraction:
-        case hmode + setinteraction:
-        case mmode + setinteraction: /*:1210*/
+        case V_MODE + toksregister:
+        case H_MODE + toksregister:
+        case M_MODE + toksregister:
+        case V_MODE + assigntoks:
+        case H_MODE + assigntoks:
+        case M_MODE + assigntoks:
+        case V_MODE + assignint:
+        case H_MODE + assignint:
+        case M_MODE + assignint:
+        case V_MODE + assigndimen:
+        case H_MODE + assigndimen:
+        case M_MODE + assigndimen:
+        case V_MODE + assignglue:
+        case H_MODE + assignglue:
+        case M_MODE + assignglue:
+        case V_MODE + assignmuglue:
+        case H_MODE + assignmuglue:
+        case M_MODE + assignmuglue:
+        case V_MODE + assignfontdimen:
+        case H_MODE + assignfontdimen:
+        case M_MODE + assignfontdimen:
+        case V_MODE + assignfontint:
+        case H_MODE + assignfontint:
+        case M_MODE + assignfontint:
+        case V_MODE + setaux:
+        case H_MODE + setaux:
+        case M_MODE + setaux:
+        case V_MODE + setprevgraf:
+        case H_MODE + setprevgraf:
+        case M_MODE + setprevgraf:
+        case V_MODE + setpagedimen:
+        case H_MODE + setpagedimen:
+        case M_MODE + setpagedimen:
+        case V_MODE + setpageint:
+        case H_MODE + setpageint:
+        case M_MODE + setpageint:
+        case V_MODE + setboxdimen:
+        case H_MODE + setboxdimen:
+        case M_MODE + setboxdimen:
+        case V_MODE + setshape:
+        case H_MODE + setshape:
+        case M_MODE + setshape:
+        case V_MODE + defcode:
+        case H_MODE + defcode:
+        case M_MODE + defcode:
+        case V_MODE + deffamily:
+        case H_MODE + deffamily:
+        case M_MODE + deffamily:
+        case V_MODE + setfont:
+        case H_MODE + setfont:
+        case M_MODE + setfont:
+        case V_MODE + deffont:
+        case H_MODE + deffont:
+        case M_MODE + deffont:
+        case V_MODE + register_:
+        case H_MODE + register_:
+        case M_MODE + register_:
+        case V_MODE + advance:
+        case H_MODE + advance:
+        case M_MODE + advance:
+        case V_MODE + multiply:
+        case H_MODE + multiply:
+        case M_MODE + multiply:
+        case V_MODE + divide:
+        case H_MODE + divide:
+        case M_MODE + divide:
+        case V_MODE + prefix:
+        case H_MODE + prefix:
+        case M_MODE + prefix:
+        case V_MODE + let:
+        case H_MODE + let:
+        case M_MODE + let:
+        case V_MODE + shorthanddef:
+        case H_MODE + shorthanddef:
+        case M_MODE + shorthanddef:
+        case V_MODE + readtocs:
+        case H_MODE + readtocs:
+        case M_MODE + readtocs:
+        case V_MODE + def:
+        case H_MODE + def:
+        case M_MODE + def:
+        case V_MODE + setbox:
+        case H_MODE + setbox:
+        case M_MODE + setbox:
+        case V_MODE + hyphdata:
+        case H_MODE + hyphdata:
+        case M_MODE + hyphdata:
+        case V_MODE + setinteraction:
+        case H_MODE + setinteraction:
+        case M_MODE + setinteraction: /*:1210*/
             prefixedcommand();
             break;
             /*1268:*/
 
-        case vmode + afterassignment:
-        case hmode + afterassignment:
-        case mmode + afterassignment: /*:1268*/
+        case V_MODE + afterassignment:
+        case H_MODE + afterassignment:
+        case M_MODE + afterassignment: /*:1268*/
             gettoken();
             aftertoken = curtok;
             break;
             /*1271:*/
 
-        case vmode + aftergroup:
-        case hmode + aftergroup:
-        case mmode + aftergroup: /*:1271*/
+        case V_MODE + aftergroup:
+        case H_MODE + aftergroup:
+        case M_MODE + aftergroup: /*:1271*/
             gettoken();
             saveforafter(curtok);
             break;
             /*1274:*/
 
-        case vmode + instream:
-        case hmode + instream:
-        case mmode + instream: /*:1274*/
+        case V_MODE + instream:
+        case H_MODE + instream:
+        case M_MODE + instream: /*:1274*/
             openorclosein();
             break;
 
         /*1276:*/
-        case vmode + message:
-        case hmode + message:
-        case mmode + message:
+        case V_MODE + message:
+        case H_MODE + message:
+        case M_MODE + message:
             issuemessage();
             break;
 
         /*:1276*/
         /*1285:*/
-        case vmode + caseshift:
-        case hmode + caseshift:
-        case mmode + caseshift:
+        case V_MODE + caseshift:
+        case H_MODE + caseshift:
+        case M_MODE + caseshift:
             shiftcase();
             break;
 
         /*:1285*/
         /*1290:*/
-        case vmode + xray:
-        case hmode + xray:
-        case mmode + xray:
+        case V_MODE + xray:
+        case H_MODE + xray:
+        case M_MODE + xray:
             showwhatever();
             break;
 
         /*:1290*/
         /*1347:*/
-        case vmode + extension:
-        case hmode + extension:
-        case mmode + extension: /*:1347*/
+        case V_MODE + extension:
+        case H_MODE + extension:
+        case M_MODE + extension: /*:1347*/
             doextension();
             break;
             /*:1045*/
@@ -17687,15 +17688,15 @@ _Lmainligloop2:
             checkinterrupt();
             switch (opbyte(mainj)) {
 
-                case minquarterword + 1:
-                case minquarterword + 5:
+                case MIN_QUARTER_WORD + 1:
+                case MIN_QUARTER_WORD + 5:
                     curl = rembyte(mainj);
                     maini = charinfo(mainf, curl);
                     ligaturepresent = true;
                     break;
 
-                case minquarterword + 2:
-                case minquarterword + 6:
+                case MIN_QUARTER_WORD + 2:
+                case MIN_QUARTER_WORD + 6:
                     curr = rembyte(mainj);
                     if (ligstack == 0) {
                         ligstack = newligitem(curr);
@@ -17708,15 +17709,15 @@ _Lmainligloop2:
                         character(ligstack) = curr;
                     break;
 
-                case minquarterword + 3:
+                case MIN_QUARTER_WORD + 3:
                     curr = rembyte(mainj);
                     mainp = ligstack;
                     ligstack = newligitem(curr);
                     link(ligstack) = mainp;
                     break;
 
-                case minquarterword + 7:
-                case minquarterword + 11:
+                case MIN_QUARTER_WORD + 7:
+                case MIN_QUARTER_WORD + 11:
                     wrapup(false);
                     curq = tail;
                     curl = rembyte(mainj);
@@ -17733,8 +17734,8 @@ _Lmainligloop2:
                         goto _Lmainloopmove1;
                     break;
             }
-            if (opbyte(mainj) > minquarterword + 4) {
-                if (opbyte(mainj) != minquarterword + 7) goto _Lmainloopwrapup;
+            if (opbyte(mainj) > MIN_QUARTER_WORD + 4) {
+                if (opbyte(mainj) != MIN_QUARTER_WORD + 7) goto _Lmainloopwrapup;
             }
             if (curl < nonchar) goto _Lmainligloop;
             maink = bcharlabel[mainf];
@@ -17742,11 +17743,11 @@ _Lmainligloop2:
         }
         /*:1040*/
     }
-    if (skipbyte(mainj) == minquarterword)
+    if (skipbyte(mainj) == MIN_QUARTER_WORD)
         maink++;
     else {
         if (skipbyte(mainj) >= stopflag) goto _Lmainloopwrapup;
-        maink += skipbyte(mainj) - minquarterword + 1;
+        maink += skipbyte(mainj) - MIN_QUARTER_WORD + 1;
     }
     goto _Lmainligloop1; /*:1039*/
 _Lmainloopmovelig:       /*1037:*/
@@ -17822,7 +17823,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     if (x != hashprime) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x != hyphsize) /*1310:*/
+    if (x != HYPH_SIZE) /*1310:*/
         goto _Lbadfmt_;
     if (!str_undump(fmtfile, stdout)) goto _Lbadfmt_;
     /*1312:*/
@@ -17932,12 +17933,12 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     /*1325:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if ((unsigned long)x > hyphsize) goto _Lbadfmt_;
+    if ((unsigned long)x > HYPH_SIZE) goto _Lbadfmt_;
     hyphcount = x;
     for (k = 1; k <= hyphcount; k++) {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > hyphsize) goto _Lbadfmt_;
+        if ((unsigned long)x > HYPH_SIZE) goto _Lbadfmt_;
         j = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
@@ -17945,13 +17946,13 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         hyphword[j] = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > maxhalfword) goto _Lbadfmt_;
+        if ((unsigned long)x > MAX_HALF_WORD) goto _Lbadfmt_;
         hyphlist[j] = x;
     }
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
-    if (x > triesize) {
+    if (x >TRIE_SIZE) {
         fprintf(stdout, "---! Must increase the trie size\n");
         goto _Lbadfmt_;
     }
@@ -17985,12 +17986,12 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         hyfnum[k - 1] = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > maxquarterword) goto _Lbadfmt_;
+        if ((unsigned long)x > MAX_QUARTER_WORD) goto _Lbadfmt_;
         hyfnext[k - 1] = x;
     }
 #ifdef tt_INIT
     for (k = 0; k <= 255; k++)
-        trieused[k] = minquarterword;
+        trieused[k] = MIN_QUARTER_WORD;
 #endif // #1325.3: tt_INIT
     k = 256;
     while (j > 0) {
@@ -18005,7 +18006,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         trieused[k] = x;
 #endif // #1325.4: tt_INIT
         j -= x;
-        opstart[k] = j - minquarterword;
+        opstart[k] = j - MIN_QUARTER_WORD;
     }
 #ifdef tt_INIT
     trie_not_ready = false;
@@ -18067,13 +18068,13 @@ Static void closefilesandterminate(void) { /*1378:*/
                 }
                 fprintf(log_file,
                         ", out of %ld for %ld\n",
-                        (long)fontmemsize,
-                        (long)(fontmax));
+                        (long)FONT_MEM_SIZE,
+                        (long)(FONT_MAX));
                 fprintf(log_file, " %d hyphenation exception", hyphcount);
                 if (hyphcount != 1) {
                     fprintf(log_file, "s");
                 }
-                fprintf(log_file, " out of %ld\n", (long)hyphsize);
+                fprintf(log_file, " out of %ld\n", (long)HYPH_SIZE);
                 fprintf(log_file,
                         " %di,%dn,%ldp,%db,%ds stack positions out of "
                         "%ldi,%ldn,%ldp,%ldb,%lds\n",
@@ -18376,8 +18377,8 @@ Static void initprim(void) {
     primitive(S(460), register_, glueval);
     primitive(S(461), register_, muval); /*:411*/
     /*416:*/
-    primitive(S(1135), setaux, hmode);
-    primitive(S(1136), setaux, vmode);
+    primitive(S(1135), setaux, H_MODE);
+    primitive(S(1136), setaux, V_MODE);
     primitive(S(1137), setpageint, 0);
     primitive(S(1138), setpageint, 1);
     primitive(S(1139), setboxdimen, widthoffset);
@@ -18472,8 +18473,8 @@ Static void initprim(void) {
     primitive(S(1200), makebox, lastboxcode);
     primitive(S(797), makebox, vsplitcode);
     primitive(S(1201), makebox, vtopcode);
-    primitive(S(799), makebox, vtopcode + vmode);
-    primitive(S(1202), makebox, vtopcode + hmode);
+    primitive(S(799), makebox, vtopcode + V_MODE);
+    primitive(S(1202), makebox, vtopcode + H_MODE);
     primitive(S(1203), leadership, aleaders - 1);
     primitive(S(1204), leadership, aleaders);
     primitive(S(1205), leadership, cleaders);
@@ -18677,7 +18678,7 @@ int check_constant(void) {
         halfERROR_LINE > (ERROR_LINE - 15)
     ) bad = 1;
     if (MAX_PRINT_LINE < 60) bad = 2;
-    if ((dvibufsize & 8) != 0) bad = 3;
+    if ((DVI_BUF_SIZE & 8) != 0) bad = 3;
     if ((membot + 1100) > memtop) bad = 4;
     if (hashprime > hashsize) bad = 5;
     if (maxinopen >= 128) bad = 6;
@@ -18688,26 +18689,26 @@ int check_constant(void) {
         if (memmin != membot || memmax != memtop) bad = 10;
     #endif // #111: tt_INIT
     if (memmin > membot || memmax < memtop) bad = 10;
-    if (minquarterword > 0 || maxquarterword < 127) bad = 11;
-    if (maxhalfword < 32767) bad = 12;
-    if (minquarterword < 0 || maxquarterword > maxhalfword) bad = 13;
+    if (MIN_QUARTER_WORD > 0 || MAX_QUARTER_WORD < 127) bad = 11;
+    if (MAX_HALF_WORD < 32767) bad = 12;
+    if (MIN_QUARTER_WORD < 0 || MAX_QUARTER_WORD > MAX_HALF_WORD) bad = 13;
     if (
         memmin < 0 ||
-        memmax >= maxhalfword ||
-        (membot - memmin) > (maxhalfword + 1)
+        memmax >= MAX_HALF_WORD ||
+        (membot - memmin) > (MAX_HALF_WORD + 1)
     ) bad = 14;
-    if (0 < minquarterword || fontmax > maxquarterword) bad = 15;
-    if (fontmax > 256+0) bad = 16;
-    if (savesize > maxhalfword || MAX_STRINGS > maxhalfword) bad = 17;
-    if (bufsize > maxhalfword) bad = 18;
-    if (maxquarterword - minquarterword < 255) bad = 19;
+    if (0 < MIN_QUARTER_WORD || FONT_MAX > MAX_QUARTER_WORD) bad = 15;
+    if (FONT_MAX > 256+0) bad = 16;
+    if (savesize > MAX_HALF_WORD || MAX_STRINGS > MAX_HALF_WORD) bad = 17;
+    if (bufsize > MAX_HALF_WORD) bad = 18;
+    if (MAX_QUARTER_WORD - MIN_QUARTER_WORD < 255) bad = 19;
 
     /// #290
-    if ((cstokenflag + undefinedcontrolsequence) > maxhalfword) bad = 21;
+    if ((cstokenflag + undefinedcontrolsequence) > MAX_HALF_WORD) bad = 21;
     /// #522
     if (formatdefaultlength > filenamesize) bad = 31;
     /// 1249
-    if ((maxhalfword * 2) < (memtop - memmin)) bad = 41;
+    if ((MAX_HALF_WORD * 2) < (memtop - memmin)) bad = 41;
 
     return bad;
 }

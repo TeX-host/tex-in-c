@@ -4,9 +4,11 @@
 #include <stdio.h> // FILE
 
 // [fonts], dviout, tex
+
+// #548: [FONT_BASE, FONT_MAX] = [0, 75]
 typedef unsigned short InternalFontNumber;
 extern InternalFontNumber fontptr;
-extern Boolean fontused[fontmax + 1];
+extern Boolean fontused[FONT_MAX + 1];
 
 // [fonts], dviout, printout, tex
 extern Scaled get_fontsize(InternalFontNumber x);
@@ -14,7 +16,7 @@ extern Scaled get_fontdsize(InternalFontNumber x);
 extern StrNumber get_fontname(InternalFontNumber x);
 
 // [fonts], tex
-typedef int FontIndex;
+typedef Pointer FontIndex; // #548: [0, FONT_MEM_SIZE] = [0, 200000]
 extern FourQuarters charinfo(InternalFontNumber f, EightBits p);
 extern Scaled charwidth(InternalFontNumber x, FourQuarters y);
 extern Scaled charitalic(InternalFontNumber x, FourQuarters y);
@@ -33,17 +35,17 @@ extern long get_skewchar(InternalFontNumber x);
 extern void set_skewchar(InternalFontNumber x, long c);
 
 extern FontIndex fmemptr;
-extern MemoryWord fontinfo[fontmemsize + 1];
-extern FontIndex fontparams[fontmax + 1];
-extern EightBits fontbc[fontmax + 1];
-extern EightBits fontec[fontmax + 1];
-extern Pointer fontglue[fontmax + 1];
-extern FontIndex bcharlabel[fontmax + 1];
-extern long fontbchar[fontmax + 1];
-extern long fontfalsebchar[fontmax + 1];
-extern long ligkernbase[fontmax + 1]; // texmac
-extern long extenbase[fontmax + 1];
-extern long parambase[fontmax + 1];
+extern MemoryWord fontinfo[FONT_MEM_SIZE + 1];
+extern FontIndex fontparams[FONT_MAX + 1];
+extern EightBits fontbc[FONT_MAX + 1];
+extern EightBits fontec[FONT_MAX + 1];
+extern Pointer fontglue[FONT_MAX + 1];
+extern FontIndex bcharlabel[FONT_MAX + 1];
+extern long fontbchar[FONT_MAX + 1];
+extern long fontfalsebchar[FONT_MAX + 1];
+extern long ligkernbase[FONT_MAX + 1]; // texmac
+extern long extenbase[FONT_MAX + 1];
+extern long parambase[FONT_MAX + 1];
 
 // [tex], fonts
 extern StrNumber fontidtext(InternalFontNumber x);

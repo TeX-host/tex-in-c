@@ -1,15 +1,12 @@
 #pragma once
 #ifndef TEX_H
 #define TEX_H
+#include <stdint.h>
+#include <stdbool.h>
+#include "tex_types.h"
 
+// 标记字符串序号
 #define S(x) (x)
-
-typedef unsigned char UChar;
-typedef signed char SChar;
-typedef unsigned char Boolean;
-typedef UChar Char;
-#define true 1
-#define false 0
 #define Static static
 
 /*11:*/
@@ -17,25 +14,40 @@ typedef UChar Char;
 #define memmax          3000000
 #define memmin          0
 #define bufsize         5000
-#define ERROR_LINE       72
-#define halfERROR_LINE   42
-#define MAX_PRINT_LINE    79
+#define ERROR_LINE      72
+#define halfERROR_LINE  42
+#define MAX_PRINT_LINE  79
 #define stacksize       200
 #define maxinopen       6
-#define fontmax         75
-#define fontmemsize     200000
+#define FONT_BASE       0
+#define FONT_MAX        75
+#define FONT_MEM_SIZE   200000
 #define paramsize       60
 #define nestsize        40
 
 #define savesize        600
-#define triesize        131000
+// space for hyphenation patterns;
+// should be larger for INITEX than it is in production versions of TeX
+#define TRIE_SIZE       131000
 #define trieopsize      5000
 #define filenamesize    240
 
 #define banner          "This is TeX, Version 3.14159"
 
-#define maxhalfword     655350000L
-#define emptyflag       maxhalfword
+
+// #110: smallest allowable value in a QuarterWord
+#define MIN_QUARTER_WORD    0
+// #110: largest allowable value in a QuarterWord
+// 1/4 word = (8bit)[0, 255]
+#define MAX_QUARTER_WORD    255
+// #110: smallest allowable value in a HalfWord
+#define MIN_HALF_WORD       0
+// #110: largest allowable value in a HalfWord
+// 1/2 word = (16bit)[0, 65535]
+// mutst > 65535 (2^16-1)
+#define MAX_HALF_WORD       655350000L
+
+#define emptyflag       MAX_HALF_WORD
 
 #define memtop          3000000
 #define pageinshead     (memtop-charnodesize+1)
@@ -78,7 +90,8 @@ typedef UChar Char;
 #define membot          0
 #define hashsize        210000
 #define hashprime       171553
-#define hyphsize        307
+// #12: another prime; the number of \hyphenation exceptions
+#define HYPH_SIZE       307
 #define empty           0
 #define firsttextchar   0
 #define lasttextchar    255
@@ -102,9 +115,8 @@ enum History { // history value @76
 // #define ERROR_MESSAGE_ISSUED  2 
 // #define FATAL_ERROR_STOP 3    
 
-#define INF_BAD          10000
-#define minquarterword  0
-#define maxquarterword  255
+#define INF_BAD             10000
+
 #define hlistnode       0
 #define boxnodesize     7
 #define widthoffset     1
@@ -283,12 +295,11 @@ enum History { // history value @76
 #define boxref          (maxcommand + 19)
 #define data            (maxcommand + 20)
 
-#define vmode           1
+#define V_MODE           1 // vertical mode
+#define H_MODE           (V_MODE + maxcommand + 1) // horizontal mode
+#define M_MODE           (H_MODE + maxcommand + 1) // math mode
 
-#define hmode           (vmode + maxcommand + 1)
-#define mmode           (hmode + maxcommand + 1)
-
-#define levelzero       minquarterword
+#define levelzero       MIN_QUARTER_WORD
 
 #define levelone        (levelzero + 1)
 
@@ -465,7 +476,7 @@ enum History { // history value @76
 #define semisimplegroup  14
 #define mathshiftgroup  15
 #define mathleftgroup   16
-#define maxgroupcode    16
+#define MAX_GROUP_CODE      16
 
 
 #define leftbracetoken  (1*dwa_do_8)
@@ -732,81 +743,5 @@ enum History { // history value @76
 
 #define poolname        "TeXformats:TEX.POOL                     "
 /*:11*/
-
-
-/*18:*/
-typedef UChar ASCIICode; /*:18*/
-/*25:*/
-typedef UChar EightBits; /*:25*/
-/*38:*/
-typedef UChar PackedASCIICode; /*:38*/
-/*101:*/
-typedef long Scaled;
-typedef long NonNegativeInteger;
-typedef char SmallNumber;
-/*:101*/
-
-/*109:*/
-typedef double GlueRatio; /*:109*/
-/*113:*/
-typedef unsigned short QuarterWord;
-typedef int HalfWord;
-// typedef char TwoChoices;  // _NOT_USE_
-// typedef char fourchoices; // _NOT_USE_
-typedef struct {
-    HalfWord rh;
-    union {
-        HalfWord lh;
-        struct {
-            QuarterWord b0, b1;
-        } U2;
-    } UU;
-} TwoHalves;
-
-typedef struct {
-    QuarterWord b0, b1, b2, b3;
-} FourQuarters;
-
-// typedef char ManyChoices; // _NOT_USE_
-typedef int Pointer;
-typedef union {
-    long int_;
-    GlueRatio gr;
-    TwoHalves hh;
-    FourQuarters qqqq;
-    long sc;
-} MemoryWord;
-
-// struct MyMem { // _NOT_USE_
-//     char is_char_node;
-//     MemoryWord mm;
-// };
-/*:113*/
-/*150:*/
-typedef char GlueOrd;
-/*:150*/
-/*212:*/
-
-typedef struct {
-    short modefield;
-    Pointer headfield, tailfield;
-    long pgfield, mlfield;
-    MemoryWord auxfield;
-} ListStateRecord; /*:212*/
-
-/*269:*/
-typedef char GroupCode; /*:269*/
-
-/*300:*/
-typedef struct {
-    QuarterWord statefield, indexfield;
-    HalfWord startfield, locfield, limitfield, namefield;
-    QuarterWord tok_type;
-    Pointer tok_list, tok_loc, tok_name, tok_param;
-} InStateRecord; /*:300*/
-
-typedef int TriePointer;
-/*925:*/
-typedef short HyphPointer;  /*:925*/
 
 #endif // #ifndef TEX_H

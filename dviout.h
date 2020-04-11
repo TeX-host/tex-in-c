@@ -3,7 +3,9 @@
 #define DIV_OUT_H
 #include "fonts.h"  // [type] InternalFontNumber
 #include "str.h"    // [type] StrASCIICode
-#define dvibufsize 800
+
+// #11: size of the output buffer; must be a multiple of 8
+#define DVI_BUF_SIZE 800
 
 // [dviout] only
 extern void dvifontdef(InternalFontNumber f);

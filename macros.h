@@ -11,7 +11,7 @@
 #define opbyte(x) (x.b2)
 #define rembyte(x) (x.b3)
 #define chartag(x) (((x).b2) % 4)
-#define charexists(x) ((x).b0 > minquarterword)
+#define charexists(x) ((x).b0 > MIN_QUARTER_WORD)
 
 // tex only
 #define help1(x1) set_help(1, x1)

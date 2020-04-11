@@ -235,7 +235,7 @@
 
 #define ligchar(x)  ((x)+1) /* {the word where the ligature is to be found} */
 /*
-#define charexists(x)  ((x).b0>minquarterword)
+#define charexists(x)  ((x).b0>MIN_QUARTER_WORD)
 #define chartag(x)  ((qo((x).b2)) % 4)
 */
 #define tailappend(x)  (link(tail)=(x), tail=link(tail))

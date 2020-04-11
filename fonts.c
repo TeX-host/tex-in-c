@@ -2,7 +2,7 @@
 #include "tex.h"
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
-    // [macro] fontmemsize, fontmax, nullfont, nonaddress, kernbaseoffset
+    // [macro] FONT_MEM_SIZE, FONT_MAX, nullfont, nonaddress, kernbaseoffset
 #include "macros.h" // [macro] nonchar
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
@@ -18,39 +18,39 @@
 #define Static
 Static FontIndex fmemptr;
 Static InternalFontNumber fontptr;
-Static MemoryWord fontinfo[fontmemsize + 1];
-Static FontIndex fontparams[fontmax + 1];
-Static EightBits fontbc[fontmax + 1];
-Static EightBits fontec[fontmax + 1];
-Static Pointer fontglue[fontmax + 1];
-Static Boolean fontused[fontmax + 1];
-Static FontIndex bcharlabel[fontmax + 1];
-Static long fontbchar[fontmax + 1];
-Static long fontfalsebchar[fontmax + 1];
+Static MemoryWord fontinfo[FONT_MEM_SIZE + 1];
+Static FontIndex fontparams[FONT_MAX + 1];
+Static EightBits fontbc[FONT_MAX + 1];
+Static EightBits fontec[FONT_MAX + 1];
+Static Pointer fontglue[FONT_MAX + 1];
+Static Boolean fontused[FONT_MAX + 1];
+Static FontIndex bcharlabel[FONT_MAX + 1];
+Static long fontbchar[FONT_MAX + 1];
+Static long fontfalsebchar[FONT_MAX + 1];
 /*:549*/
 /*550:*/
-Static long ligkernbase[fontmax + 1];
-Static long extenbase[fontmax + 1];
-Static long parambase[fontmax + 1];
+Static long ligkernbase[FONT_MAX + 1];
+Static long extenbase[FONT_MAX + 1];
+Static long parambase[FONT_MAX + 1];
 /*555:*/
 #undef Static
 #define Static static
 
-Static long skewchar[fontmax + 1];
-Static long hyphenchar[fontmax + 1];
-Static StrNumber fontname[fontmax + 1];
-Static StrNumber fontarea[fontmax + 1];
-Static Scaled fontsize[fontmax + 1];
-Static Scaled fontdsize[fontmax + 1];
-Static FourQuarters fontcheck[fontmax + 1];
+Static long skewchar[FONT_MAX + 1];
+Static long hyphenchar[FONT_MAX + 1];
+Static StrNumber fontname[FONT_MAX + 1];
+Static StrNumber fontarea[FONT_MAX + 1];
+Static Scaled fontsize[FONT_MAX + 1];
+Static Scaled fontdsize[FONT_MAX + 1];
+Static FourQuarters fontcheck[FONT_MAX + 1];
 
 
-Static long charbase[fontmax + 1];
-Static long widthbase[fontmax + 1];
-Static long heightbase[fontmax + 1];
-Static long depthbase[fontmax + 1];
-Static long italicbase[fontmax + 1];
-Static long kernbase[fontmax + 1];
+Static long charbase[FONT_MAX + 1];
+Static long widthbase[FONT_MAX + 1];
+Static long heightbase[FONT_MAX + 1];
+Static long depthbase[FONT_MAX + 1];
+Static long italicbase[FONT_MAX + 1];
+Static long kernbase[FONT_MAX + 1];
 
 
 long        get_skewchar(InternalFontNumber x) { return skewchar[x]; }
@@ -206,7 +206,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 7) goto _Lbadfmt_;
-    if (x > fontmemsize) {
+    if (x > FONT_MEM_SIZE) {
         fprintf(stdout, "---! Must increase the font mem size\n");
         goto _Lbadfmt_;
     }
@@ -218,7 +218,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
-    if (x > fontmax) {
+    if (x > FONT_MAX) {
         fprintf(stdout, "---! Must increase the font max\n");
         goto _Lbadfmt_;
     }
@@ -232,7 +232,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
         fontdsize[k] = pppfmtfile.int_;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > maxhalfword) goto _Lbadfmt_;
+        if ((unsigned long)x > MAX_HALF_WORD) goto _Lbadfmt_;
         fontparams[k] = x;
         pget(pppfmtfile);
         hyphenchar[k] = pppfmtfile.int_;
@@ -367,7 +367,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     /*566:*/
     lf += -lh - 6;
     if (np < 7) lf += 7 - np;
-    if (fontptr == fontmax || fmemptr + lf > fontmemsize) { /*567:*/
+    if (fontptr == FONT_MAX || fmemptr + lf > FONT_MEM_SIZE) { /*567:*/
         printnl(S(292));
         print(S(588));
         sprint_cs(u);
@@ -460,7 +460,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
                     if (chartag(qw) != listtag) {
                         goto _Lnotfound;
                     }
-                    d = rembyte(qw) - minquarterword;
+                    d = rembyte(qw) - MIN_QUARTER_WORD;
                 }
                 if (d == k + bc - fmemptr) goto _Lbadtfm_;
             _Lnotfound:;
@@ -630,11 +630,11 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     fontbc[f] = bc;
     fontec[f] = ec;
     fontglue[f] = 0;
-    charbase[f] -= minquarterword;
-    widthbase[f] -= minquarterword;
-    ligkernbase[f] -= minquarterword;
-    kernbase[f] -= minquarterword;
-    extenbase[f] -= minquarterword;
+    charbase[f] -= MIN_QUARTER_WORD;
+    widthbase[f] -= MIN_QUARTER_WORD;
+    ligkernbase[f] -= MIN_QUARTER_WORD;
+    kernbase[f] -= MIN_QUARTER_WORD;
+    extenbase[f] -= MIN_QUARTER_WORD;
     parambase[f]--;
     fmemptr += lf;
     fontptr = f;

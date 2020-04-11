@@ -684,7 +684,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
 
             /*417:*/
         case setaux:
-            if (chrcode == vmode)
+            if (chrcode == V_MODE)
                 print_esc(S(1136));
             else
                 print_esc(S(1135));
@@ -1010,7 +1010,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                     print_esc(S(1201));
                     break;
 
-                case vtopcode + vmode:
+                case vtopcode + V_MODE:
                     print_esc(S(799));
                     break;
 
