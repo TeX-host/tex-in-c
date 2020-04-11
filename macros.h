@@ -1,6 +1,7 @@
 #pragma once
 #ifndef MACROS_H
 #define MACROS_H
+#include "texfunc.h" // [func] set_help
 
 // fonts, str, tex
 #define pget(x) fread(&x, 8, 1, fmtfile)

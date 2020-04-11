@@ -4,6 +4,7 @@
 // Need:
 // [type] Boolean@tex.h
 #include <stdio.h> // FILE
+#include "tex_types.h" // [type]
 
 // str[6], tex[1]
 #define MAX_STRINGS 300000

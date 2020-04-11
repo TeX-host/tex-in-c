@@ -7,7 +7,33 @@
 
 // 标记字符串序号
 #define S(x) (x)
+
+#ifndef INC_SHIP_OUT
 #define Static static
+#else
+#define Static 
+extern int niezgodnosc(int x);
+extern void synchh();
+extern void synchv();
+extern void outwhat(HalfWord p);
+extern void confusion(StrNumber s);
+extern void println(void);
+extern void print_char(ASCIICode s);
+extern void print(StrNumber s);
+extern void printnl(StrNumber s);
+extern void print_int(long n);
+extern void begindiagnostic(void);
+extern void showbox(HalfWord p);
+extern void enddiagnostic(Boolean blankline);
+extern void openlogfile(void);
+extern void error(void);
+extern void packjobname(StrNumber s);
+extern void promptfilename(StrNumber s, StrNumber e);
+extern StrNumber bmakenamestring(void);
+extern void preparemag(void);
+extern void print_two(long n);
+extern void flushnodelist(HalfWord p);
+#endif
 
 /*11:*/
 #define dwa_do_8  ((int)16*1024*1024)
@@ -19,9 +45,9 @@
 #define MAX_PRINT_LINE  79
 #define stacksize       200
 #define maxinopen       6
-#define FONT_BASE       0
-#define FONT_MAX        75
-#define FONT_MEM_SIZE   200000
+// #define FONT_BASE       0
+// #define FONT_MAX        75
+// #define FONT_MEM_SIZE   200000
 #define paramsize       60
 #define nestsize        40
 

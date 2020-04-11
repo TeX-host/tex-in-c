@@ -3,6 +3,7 @@
 #include <stdlib.h> // labs, abs, exit, EXIT_SUCCESS
 #include <string.h> // memcpy
 #include <math.h>   // fabs
+#include "shipout.h" // [func]
 
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
@@ -31,11 +32,17 @@
 #include "fonts.h"
 #include "inputln.h" // [func] inputln
 #include "dviout.h"
+
 #include "texfunc.h" // [export]
 
 #define formatextension  S(256)
 #define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
+#ifndef INC_SHIP_OUT
+/*618:*/
+Static void vlistout(void);
+/*:618*/
+#endif // INC_SHIP_OUT
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
@@ -267,8 +274,14 @@ Static long lq, lr;
 Static Scaled dvih, dviv,   // a DVI reader program thinks we are here
               curh, curv,   // TeX thinks we are here
               curmu;
+#ifndef INC_SHIP_OUT
 #define synchh() synch_h(curh, dvih)
 #define synchv() synch_v(curv, dviv)
+#else
+extern void synchh() {synch_h(curh, dvih);}
+extern void synchv() {synch_v(curv, dviv);}
+#endif // INC_SHIP_OUT
+
 Static InternalFontNumber dvif; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 
@@ -7429,9 +7442,7 @@ _Lexit:
 }
 /*:582*/
 
-/*618:*/
-Static void vlistout(void);
-/*:618*/
+
 
 /*619:*/
 /*1368:*/
@@ -7563,6 +7574,7 @@ Static void outwhat(HalfWord p)
 }
 /*:1373*/
 
+#ifndef INC_SHIP_OUT
 
 Static void hlistout(void)
 {
@@ -8059,6 +8071,8 @@ _Ldone: /*:640*/
         }
     #endif // #639.2: tt_STAT
 }  /*:638*/
+
+#endif // INC_SHIP_OUT
 
 
 /*645:*/

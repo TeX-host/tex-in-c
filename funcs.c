@@ -40,12 +40,12 @@ void fixdateandtime(long* tex_time_p,
     }
 }
 
-void beginname(void) {
+static void beginname(void) {
     nlen = 0;
     name_buf[0] = 0;
 }
 
-int morename(int c) {
+static int morename(int c) {
     if (c == ' ') return 0;
     if (nlen + 1 < mybufsize) {
         name_buf[nlen] = c;
@@ -54,7 +54,7 @@ int morename(int c) {
     return 1;
 }
 
-void endname(void) {}
+static void endname(void) {}
 
 static char* format_name;
 

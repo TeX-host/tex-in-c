@@ -2,6 +2,11 @@
 #ifndef FONTS_H
 #define FONTS_H
 #include <stdio.h> // FILE
+#include "str.h"   // [type] StrNumber
+
+#define FONT_BASE       0
+#define FONT_MAX        75
+#define FONT_MEM_SIZE   200000
 
 // [fonts], dviout, tex
 
