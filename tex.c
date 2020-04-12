@@ -38,9 +38,14 @@
 
 
 /*
- * [ #13: Global variables ][97]
+ * [ #13: Global variables ]
  * 
- *   [13],  20,  26,  30,  32,  39,  50,  54,  73,  76,
+ * 真正的 global 放在 global.h 中。
+ * 以下变量一般为 tex.h 中的全局变量。
+ * 已更改为函数内局部变量的用 [00] 标出。
+ * 
+ * 共 97 个
+ *  [13],  20,  26,  30,  32, [39], [50],  54,  73,  76,
  *   79,  96, 104, 115, 116, 117, 118, 124, 165, 173,
  *  181, 213, 246, 253, 256, 271, 286, 297, 301, 304,
  *  305, 308, 309, 310, 333, 361, 382, 387, 388, 410,
@@ -52,66 +57,60 @@
  *  1266, 1281, 1299, 1305, 1331, 1342, 1345
  * 
  * Notes:
- *  locals
- *      13-bad, 
+ *  locals: 13-bad, 
+ *  404 not found: 39-str*, 50-poolfile,
  */
 
-// #20
+/// [#20]
 ASCIICode   xord[256]; // specifies conversion of input characters
 Static Char xchr[256]; // specifies conversion of output characters
-// #26
-unsigned char name_of_file[filenamesize];
-ASCIICode buffer[bufsize + 1];
-short first;
-short last;
-short maxbufstack;
-StrNumber formatident;
-InStateRecord curinput;
-jmp_buf _JLfinalend;
 
-/*13:*/
-Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
+/// [#26]: on some systems this may be a record variable
+Char name_of_file[filenamesize + 1];
+// #26: this many characters are actually relevant in `name_of_file`
+// (the rest are blank)
+Static UInt16 namelength;
 
-/*:13*/
+/// [#30]
+ASCIICode buffer[bufsize + 1]; // lines of characters being read
+UInt16 first; // the first unused position in `buffer`
+UInt16 last;  // end of the line just input to `buffer`
+UInt16 max_buf_stack; // largest index used in `buffer`
 
+/// [#32]: 直接使用 stdin, stdout, stderr
+#if !(defined(stdin) || defined(stdout) || defined(stderr))
+Static FILE *termin = NULL, *termout = NULL;
+#endif
 
-/*20:*/
-
-
-/*:20*/
-/*26:*/
-Static int namelength;
-/*:26*/
-/*30:*/
-/*:30*/
-/*32:*/
-// Static FILE *termin = NULL, *termout = NULL;
-/*:32*/
-
-/// p24#54: On-line and off-line printing
-/// Global variables: in tex.c only
-Static FILE* log_file = NULL;   // transcript of T E X session
-// Static unsigned char selector; // where to print a message
+/// [p24#54]: On-line and off-line printing
+Static FILE* log_file = NULL;  // transcript of TeX session
 Static enum Selector selector; // where to print a message
 // ? dig[23] // digits in a number being output
-Static long tally; // the number of characters recently printed
-Static char term_offset; // the number of characters on the current terminal line
-Static char file_offset; // the number of characters on the current file line
-Static ASCIICode trickbuf[ERROR_LINE + 1]; // circular buffer for pseudoprinting
-Static long trickcount, // threshold for pseudoprinting, explained later
-            firstcount; // another variable for pseudoprinting
+Static Integer tally; // the number of characters recently printed
+// the number of characters on the current terminal line
+// term_offset = [0, MAX_PRINT_LINE=79]
+Static UChar term_offset; 
+// the number of characters on the current file line
+// file_offset = [0, MAX_PRINT_LINE=79]
+Static UChar file_offset; 
+// circular buffer for pseudoprinting
+Static ASCIICode trick_buf[ERROR_LINE + 1]; 
+Static Integer trick_count; // threshold for pseudoprinting, explained later
+Static Integer first_count; // another variable for pseudoprinting
 
 /*
- * [REPORTING ERRORS] section
+ * [ #72~98: REPORTING ERRORS ]
+ * 
  */
 
 // [p30#73] current level of interaction
-// interaction = [BATCH_MODE, ERROR_STOP_MODE]
+// interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
 // [REPORTING ERRORS]
-Static char interaction;
-// [p31#76][REPORTING ERRORS]
-Static Boolean deletionsallowed; // is it safe for error to call get token?
-Static Boolean setboxallowed;    // is it safe to do a \setbox assignment?
+Static UChar interaction;
+
+/// [p31#76]
+Static Boolean deletions_allowed; // is it safe for error to call get token?
+Static Boolean set_box_allowed;   // is it safe to do a \setbox assignment?
 // has the source input been clean so far?
 // [SPOTLESS, FATAL_ERROR_STOP]
 Static enum ErrorLevel history;
@@ -119,83 +118,85 @@ Static enum ErrorLevel history;
 // errorcount = [-1, 100]
 Static SChar errorcount;
 
-/*79:*/
-Static StrNumber helpline[6];
-Static unsigned char helpptr;
-Static Boolean useerrhelp;
-/*:79*/
-/*96:*/
-Static long interrupt;
-Static Boolean OKtointerrupt;
-/*:96*/
+/// [#79]
+Static StrNumber help_line[6]; // helps for the `nexterror`
+Static UChar help_ptr; // the number of help lines present
+Static Boolean use_err_help; // should the `errhelp` list be shown?
 
-/// #104
-// has arithmetic overflow occurred recently?
+/// [#96]
+Static Integer interrupt; // should TeX pause for instructions?
+Static Boolean OK_to_interrupt; // should interrupts be observed?
+
+/// [ #99~109: ARITHMETIC WITH SCALED DIMENSIONS ]
+
+// [#104] has arithmetic overflow occurred recently?
 Static Boolean arith_error = false;
 Static Scaled tex_remainder = 0; // amount subtracted to get an exact division
 
-/*115:*/
-Static Pointer tempptr, lomemmax, himemmin;
-/*:115*/
-/*116:*/
-Static MemoryWord mem[memmax - memmin + 1];
-/*:116*/
-/*117:*/
-Static long varused, dynused;
-/*:117*/
-/*118:*/
-Static Pointer avail, memend;
-/*:118*/
-/*124:*/
-Static Pointer rover, hashused, curcs, warningindex, defref;
-/*:124*/
+/// [ #115~132: DYNAMIC MEMORY ALLOCATION ]
+/// [#115]
+Static Pointer temp_ptr; // for occasional emergency use
+/// [#116]
+Static MemoryWord mem[memmax - memmin + 1]; // the big dynamic storage area
+Static Pointer lo_mem_max; // the largest location of variable-size memory
+Static Pointer hi_mem_min; // the smallest location of one-word memory
+/// [#117]
+Static Integer var_used, dyn_used; // how much memory is in use
+/// [#118]
+Static Pointer avail;   // head of the list of available one-word nodes
+Static Pointer mem_end; // the last one-word node used in mem
+/// [#124]
+Static Pointer rover; // points to some node in the list of empties
 
-/// p95#165
+/// [ #162~172: MEMORY LAYOUT ]
+/// [p95#165]
 #ifdef tt_DEBUG
-Static UChar   free_[(memmax - memmin + 8) / 8]; // free cells
-Static UChar wasfree[(memmax - memmin + 8) / 8]; // previously free cells
-// previous mem end, lo mem max, and hi mem min
-Static Pointer wasmemend, waslomax, washimin;
+// 以 byte(8) 分配，按位取用
+Static UChar free_cells[(memmax - memmin + 8) / 8]; // free: free cells
+Static UChar was_free[(memmax - memmin + 8) / 8]; // previously free cells
+// previous `mem_end`, `lo_mem_max`, and `hi_mem_min`
+Static Pointer was_mem_end, was_lo_max, was_hi_min;
 Static Boolean panicking; // do we want to check memory constantly?
 #endif // #165: tt_DEBUG
 
-/*173:*/
-Static long fontinshortdisplay;
-/*:173*/
-/*181:*/
-Static long depththreshold, breadthmax;
-/*:181*/
-/*213:*/
-Static ListStateRecord nest[nestsize + 1];
-Static unsigned char nestptr; /* INT */
-Static char maxneststack;
-Static ListStateRecord curlist;
-Static short shownmode;
-/*:213*/
-/*246:*/
-Static char diag_oldsetting;   /*:246*/
+/// [ #173~198: DISPLAYING BOXES ]
+Static Integer font_in_short_display; // an internal font number
+/// [#181]
+Static Integer depth_threshold; // maximum nesting depth in box displays
+// maximum number of items shown at the same list level
+Static Integer breadth_max;
 
+/// [#213] [THE SEMANTIC NEST]
+Static ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
+Static UChar nest_ptr;           // first unused location of nest
+Static UChar max_nest_stack;     // maximum of nest_ptr when pushing
+Static ListStateRecord cur_list; // the "top" semantic state
+Static UInt16 shown_mode;        // most recent mode shown by \tracingcommands
+
+/// [ #220~255: THE TABLE OF EQUIVALENTS ]
+Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
 /// #253
-Static MemoryWord eqtb[eqtbsize - activebase + 1];
+Static MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
+// store the eq level information
 Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
-/*
-extern MemoryWord eqtb[];
-MemoryWord * eqtb_foo(void) { return eqtb;}
-*/
+/// [#256]
+Static TwoHalves hash[undefinedcontrolsequence - hashbase]; // hash table
+Static Pointer hash_used; // allocation pointer for hash
+// ? no_new_control_sequence // are new identifiers legal?
+Static Integer cs_count; // total number of known identifiers
 
-/*256:*/
-Static TwoHalves hash[undefinedcontrolsequence - hashbase];
-Static long cscount;   /*:256*/
-/*271:*/
+/// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
+
+/// [#271]
 Static MemoryWord savestack[savesize + 1];
-Static short saveptr;
-Static short maxsavestack;
+Static UInt16 saveptr;
+Static UInt16 maxsavestack;
 Static QuarterWord curlevel;
 Static GroupCode curgroup;
-Static short curboundary;
+Static UInt16 curboundary;
 /*:271*/
 /*286:*/
-Static long magset;
+Static Integer magset;
 /*:286*/
 /*297:*/
 Static EightBits curcmd;
@@ -209,8 +210,8 @@ Static UChar maxinstack;
 Static char inopen;
 Static char openparens;
 Static FILE *inputfile[maxinopen];
-Static long line;
-Static long linestack[maxinopen];
+Static Integer line;
+Static Integer linestack[maxinopen];
 /*:304*/
 /*305:*/
 Static char scanner_status;
@@ -218,10 +219,10 @@ Static char scanner_status;
 /*308:*/
 Static Pointer paramstack[paramsize + 1];
 Static /* char */ int paramptr; /* INT */
-Static long maxparamstack;
+Static Integer maxparamstack;
 /*:308*/
 /*309:*/
-Static long alignstate;
+Static Integer alignstate;
 /*:309*/
 /*310:*/
 Static UChar baseptr;
@@ -240,7 +241,7 @@ Static char longstate;
 /*388:*/
 /*:388*/
 /*410:*/
-Static long curval;
+Static Integer curval;
 Static char curvallevel;
 /*:410*/
 /*438:*/
@@ -257,10 +258,10 @@ Static char readopen[17];
 Static Pointer condptr;
 Static char iflimit;
 Static SmallNumber curif;
-Static long ifline;
+Static Integer ifline;
 /*:489*/
 /*493:*/
-Static long skipline;
+Static Integer skipline;
 /*:493*/
 /*512:*/
 Static StrNumber curname, curarea, curext;
@@ -280,9 +281,9 @@ Static StrNumber outputfilename, logname;   /*:532*/
 Static FourQuarters nullcharacter;
 /*:555*/
 /*592:*/
-Static long totalpages, maxpush, deadcycles;
+Static Integer totalpages, maxpush, deadcycles;
 Static Boolean doingleaders;
-Static long lq, lr;
+Static Integer lq, lr;
 /*:592*/
 
 // #616
@@ -297,13 +298,13 @@ Static Integer curs; // current depth of output box nesting, initially −1
 /*646:*/
 Static Scaled totalstretch[FILLL - NORMAL + 1],
 	          totalshrink[FILLL - NORMAL + 1];
-Static long lastbadness;
+Static Integer lastbadness;
 /*:646*/
 /*647:*/
 Static Pointer adjusttail;
 /*:647*/
 /*661:*/
-Static long packbeginline;
+Static Integer packbeginline;
 /*:661*/
 /*684:*/
 Static TwoHalves emptyfield;
@@ -342,11 +343,11 @@ Static Boolean noshrinkerroryet, secondpass, finalpass;
 /*:825*/
 /*828:*/
 Static Pointer curp;
-Static long threshold;
+Static Integer threshold;
 /*:828*/
 /*833:*/
-Static long minimaldemerits[tightfit - veryloosefit + 1];
-Static long minimumdemerits;
+Static Integer minimaldemerits[tightfit - veryloosefit + 1];
+Static Integer minimumdemerits;
 Static Pointer bestplace[tightfit - veryloosefit + 1];
 Static HalfWord bestplline[tightfit - veryloosefit + 1];
 /*:833*/
@@ -358,18 +359,18 @@ Static HalfWord easyline, lastspecialline;
 /*:847*/
 /*872:*/
 Static Pointer bestbet, ha, hb, initlist, curq, ligstack;
-Static long fewestdemerits;
+Static Integer fewestdemerits;
 Static HalfWord bestline;
-Static long actuallooseness, linediff;
+Static Integer actuallooseness, linediff;
 /*:872*/
 /*892:*/
 Static short hc[66];
 Static /* SmallNumber */ int hn;
 Static InternalFontNumber hf;
 Static short hu[64];
-Static long hyfchar;
+Static Integer hyfchar;
 Static ASCIICode curlang, initcurlang;
-Static long lhyf, rhyf, initlhyf, initrhyf;
+Static Integer lhyf, rhyf, initlhyf, initrhyf;
 Static HalfWord hyfbchar;
 /*:892*/
 /*900:*/
@@ -397,6 +398,7 @@ Static HyphPointer hyphcount;
 /*:926*/
 
 
+
 /// #943, 947, 950
 #ifdef tt_INIT
 /// #943
@@ -409,7 +411,7 @@ Static ASCIICode trieoplang[trieopsize];
 // opcode corresponding to a hashed quadruple
 Static QuarterWord trieopval[trieopsize];
 // number of stored ops so far
-Static short trieopptr;
+Static UInt16 trieopptr;
 
 /// #947
 // characters to match
@@ -444,11 +446,11 @@ Static Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
 /*980:*/
 Static Pointer pagetail, bestpagebreak, lastglue, mainp;
 Static char pagecontents;
-Static long leastpagecost;
+Static Integer leastpagecost;
 /*:980*/
 /*982:*/
 Static Scaled pagesofar[8];
-Static long lastpenalty, insertpenalties;
+Static Integer lastpenalty, insertpenalties;
 /*:982*/
 /*989:*/
 Static Boolean outputactive;
@@ -457,7 +459,7 @@ Static Boolean outputactive;
 Static InternalFontNumber mainf;
 Static FourQuarters maini, mainj;
 Static FontIndex maink;
-Static long mains;
+Static Integer mains;
 Static HalfWord bchar, falsebchar;
 Static Boolean cancelboundary, insdisc;
 /*:1032*/
@@ -482,6 +484,12 @@ Static Boolean writeopen[18];
 /*1345:*/
 Static Pointer writeloc;   /*:1345*/
 
+/// [#]
+StrNumber formatident;
+InStateRecord curinput;
+jmp_buf _JLfinalend;
+Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
+Static Pointer curcs, warningindex, defref;
 
 
 
@@ -503,11 +511,11 @@ int pack_tok(int cs, int cmd, int chr) {
 
 int niezgodnosc(int x) { return x; }
 
-int get_defaulthyphenchar(void) { return defaulthyphenchar; }
+Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
 
-int get_defaultskewchar(void) { return defaultskewchar; }
+Integer get_defaultskewchar(void) { return defaultskewchar; }
 
-Pointer get_lomemmax(void) { return lomemmax; }
+Pointer get_lo_mem_max(void) { return lo_mem_max; }
 
 StrNumber fontidtext(InternalFontNumber x) { return text(fontidbase + x); }
 
@@ -515,13 +523,13 @@ void set_fontidtext(InternalFontNumber x, StrNumber t) {
     text(fontidbase + x) = t;
 }
 
-void set_help(int k, ...) {
+void set_help(UChar k, ...) {
     va_list ap;
     va_start(ap, k);
-    helpptr = k;
+    help_ptr = k;
     k--;
     while (k >= 0) {
-        helpline[k] = va_arg(ap, int);
+        help_line[k] = va_arg(ap, int);
         k--;
     }
     va_end(ap);
@@ -564,34 +572,34 @@ Static void initialize(void) {
         /*74:*/
         interaction = ERROR_STOP_MODE; /*:74*/
         /*77:*/
-        deletionsallowed = true;
-        setboxallowed = true;
+        deletions_allowed = true;
+        set_box_allowed = true;
         errorcount = 0; /*:77*/
         /*80:*/
-        helpptr = 0;
-        useerrhelp = false; /*:80*/
+        help_ptr = 0;
+        use_err_help = false; /*:80*/
         /*97:*/
         interrupt = 0;
-        OKtointerrupt = true; /*:97*/
+        OK_to_interrupt = true; /*:97*/
 
         /// p#95: 166
         #ifdef tt_DEBUG
-            wasmemend = memmin;
-            waslomax = memmin;
-            washimin = memmax;
+            was_mem_end = memmin;
+            was_lo_max = memmin;
+            was_hi_min = memmax;
             panicking = false;
         #endif // #166: tt_DEBUG
 
         /*215:*/
-        nestptr = 0;
-        maxneststack = 0;
+        nest_ptr = 0;
+        max_nest_stack = 0;
         mode = V_MODE;
         head = contribhead;
         tail = contribhead;
         prevdepth = ignoredepth;
         modeline = 0;
         prevgraf = 0;
-        shownmode = 0; /*991:*/
+        shown_mode = 0; /*991:*/
         pagecontents = empty;
         pagetail = pagehead;
         link(pagehead) = 0;
@@ -734,9 +742,9 @@ Static void initialize(void) {
         nodesize(rover) = 1000; // which is a 1000-word available node
         llink(rover) = rover;
         rlink(rover) = rover;
-        lomemmax = rover + 1000;
-        link(lomemmax) = 0;
-        info(lomemmax) = 0;
+        lo_mem_max = rover + 1000;
+        link(lo_mem_max) = 0;
+        info(lo_mem_max) = 0;
 
         for (k = himemstatmin; k <= memtop; k++) {
             // clear list heads
@@ -766,10 +774,10 @@ Static void initialize(void) {
 
         /// p59#164
         avail = 0;
-        memend = memtop;
-        himemmin = himemstatmin; // initialize the one-word memory
-        varused = lomemstatmax - membot + 1;
-        dynused = himemstatusage; // initialize statistics
+        mem_end = memtop;
+        hi_mem_min = himemstatmin; // initialize the one-word memory
+        var_used = lomemstatmax - membot + 1;
+        dyn_used = himemstatusage; // initialize statistics
 
         /// p82#222
         eqtype(undefinedcontrolsequence) = undefinedcs;
@@ -850,8 +858,8 @@ Static void initialize(void) {
             eqtb[k - activebase].sc = 0;
 
         // #258
-        hashused = frozencontrolsequence; // nothing is used
-        cscount = 0;
+        hash_used = frozencontrolsequence; // nothing is used
+        cs_count = 0;
         eqtype(frozendontexpand) = dontexpand;
         text(frozendontexpand) = S(257);
 
@@ -972,8 +980,8 @@ void print_char(ASCIICode s) {
             break;
 
         case PSEUDO:
-            if (tally < trickcount) {
-                trickbuf[tally % ERROR_LINE] = s;
+            if (tally < trick_count) {
+                trick_buf[tally % ERROR_LINE] = s;
             }
             break;
 
@@ -1048,9 +1056,9 @@ Static void print_the_digs(EightBits k, char dig[]) {
 } // #64: print_the_digs
 
 /// #65: prints an integer in decimal form
-void print_int(long n) {
+void print_int(Integer n) {
     int k = 0; // index to current digit; we assume that n < 10^23
-    long m; // used to negate n in possibly dangerous cases
+    Integer m; // used to negate n in possibly dangerous cases
     char dig[23];
 
     if (n < 0) {
@@ -1136,7 +1144,7 @@ void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
 } // #518: print_file_name
 
 /// #699
-void print_size(long s) {
+void print_size(Integer s) {
     if (s == TEXT_SIZE) {
         print_esc(S(266));
         return;
@@ -1208,13 +1216,13 @@ _Llabcontinue:
                 case '7':
                 case '8':
                 case '9':
-                    if (deletionsallowed) { /*88:*/
+                    if (deletions_allowed) { /*88:*/
                         long s1 = curtok;
                         long s2 = curcmd;
                         long s3 = curchr;
                         long s4 = alignstate;
                         alignstate = 1000000L;
-                        OKtointerrupt = false;
+                        OK_to_interrupt = false;
                         if ((last > first + 1) & (buffer[first + 1] >= '0') &
                             (buffer[first + 1] <= '9'))
                             c = c * 10 + buffer[first + 1] - '0' * 11;
@@ -1228,7 +1236,7 @@ _Llabcontinue:
                         curcmd = s2;
                         curchr = s3;
                         alignstate = s4;
-                        OKtointerrupt = true;
+                        OK_to_interrupt = true;
                         help2(S(270), S(271));
                         showcontext();
                         goto _Llabcontinue;
@@ -1255,18 +1263,18 @@ _Llabcontinue:
                     break;
 
                 case 'H': /*89:*/
-                    if (useerrhelp) {
+                    if (use_err_help) {
                         giveerrhelp();
-                        useerrhelp = false;
+                        use_err_help = false;
                     } else {
-                        if (helpptr == 0) {
+                        if (help_ptr == 0) {
                             help2(S(274), S(275));
                         }
                         do {
-                            helpptr--;
-                            print(helpline[helpptr]);
+                            help_ptr--;
+                            print(help_line[help_ptr]);
                             println();
-                        } while (helpptr != 0);
+                        } while (help_ptr != 0);
                     }
                     help4(S(276), S(275), S(277), S(278));
                     goto _Llabcontinue;
@@ -1325,7 +1333,7 @@ _Llabcontinue:
             printnl(S(286));
             printnl(S(287));
             if (baseptr > 0) print(S(288));
-            if (deletionsallowed) printnl(S(289));
+            if (deletions_allowed) printnl(S(289));
             printnl(S(290)); /*:85*/
             /*:84*/
         }
@@ -1337,13 +1345,13 @@ _Llabcontinue:
         jumpout();
     } /*90:*/
     if (interaction > BATCH_MODE) selector--;
-    if (useerrhelp) {
+    if (use_err_help) {
         println();
         giveerrhelp();
     } else {
-        while (helpptr > 0) {
-            helpptr--;
-            printnl(helpline[helpptr]);
+        while (help_ptr > 0) {
+            help_ptr--;
+            printnl(help_line[help_ptr]);
         }
     }
     println();
@@ -1371,14 +1379,14 @@ Static void fatalerror(StrNumber s) {
     normalize_selector();
     printnl(S(292));
     print(S(293));
-    helpptr = 1;
-    helpline[0] = s;
+    help_ptr = 1;
+    help_line[0] = s;
     succumb();
 }
 
 
 /*94:*/
-void overflow(StrNumber s, long n) {
+void overflow(StrNumber s, Integer n) {
     normalize_selector();
     printnl(S(292));
     print(S(294));
@@ -1412,18 +1420,14 @@ Static void confusion(StrNumber s) {
 
 
 /*28:*/
-Static void aclose(FILE **f)
-{
-  if (*f != NULL)
-    fclose(*f);
-  *f = NULL;
+Static void aclose(FILE** f) {
+    if (*f != NULL) fclose(*f);
+    *f = NULL;
 }
 
-Static void wclose(FILE **f)
-{
-  if (*f != NULL)
-    fclose(*f);
-  *f = NULL;
+Static void wclose(FILE** f) {
+    if (*f != NULL) fclose(*f);
+    *f = NULL;
 }
 /*:28*/
 
@@ -1455,14 +1459,14 @@ Static Boolean initterminal(void) {
 
 
 /// #66
-Static void print_two(long n) {
+Static void print_two(Integer n) {
     n = labs(n) % 100;
     print_char('0' + n / 10);
     print_char('0' + n % 10);
 }
 
 /// #67
-void print_hex(long n) {
+void print_hex(Integer n) {
     int k;
     char digs[23];
 
@@ -1477,7 +1481,7 @@ void print_hex(long n) {
 }
 
 /// #69
-Static void print_roman_int(long n) {
+Static void print_roman_int(Integer n) {
     int j, k;
     NonNegativeInteger u, v;
     static char romstr[] = "m2d5c2l5x2v5i";
@@ -1544,15 +1548,15 @@ Static void normalize_selector(void) {
 }
 /// #98
 Static void pause_for_instructions(void) {
-    if (!OKtointerrupt) return;
+    if (!OK_to_interrupt) return;
     interaction = ERROR_STOP_MODE;
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
     printnl(S(292));
     print(S(304));
     help3(S(305), S(306), S(307));
-    deletionsallowed = false;
+    deletions_allowed = false;
     error();
-    deletionsallowed = true;
+    deletions_allowed = true;
     interrupt = 0;
 }
 
@@ -1563,7 +1567,7 @@ export:
     + void print_scaled(Scaled s)
     + Scaled xn_over_d(Scaled x, long n, long d)
 others:
-    - Static long half(Scaled x)
+    - Static Integer half(Scaled x)
     - Static Scaled round_decimals(int k, char digs[])
     - Static Scaled mult_and_add(long n, Scaled x, Scaled y, Scaled max_ans)
     - Static Scaled x_over_n(Scaled x, Scaled n)
@@ -1571,7 +1575,7 @@ others:
 
 */
 /// #100
-Static long half(Scaled x) {
+Static Integer half(Scaled x) {
     if (x & 1)
         return ((x + 1) / 2);
     else
@@ -1756,11 +1760,11 @@ Static void showtokenlist(long p, long q, long l)
   tally = 0;
   while (p != 0 && tally < l) {
     if (p == q) {   /*320:*/
-      settrickcount();
+      settrick_count();
     }
     /*:320*/
     /*293:*/
-    if (p < himemmin || p > memend) {
+    if (p < hi_mem_min || p > mem_end) {
       print_esc(S(308));
       goto _Lexit;
     }
@@ -1871,13 +1875,13 @@ Static Pointer get_avail(void) {
     p = avail;
     if (p != 0)
         avail = link(avail);
-    else if (memend + charnodesize <= memmax) {
-        p = memend + 1;
-        memend += charnodesize;
+    else if (mem_end + charnodesize <= memmax) {
+        p = mem_end + 1;
+        mem_end += charnodesize;
     } else {
-        p = himemmin - 1;
-        himemmin -= charnodesize;
-        if (himemmin <= lomemmax) {
+        p = hi_mem_min - 1;
+        hi_mem_min -= charnodesize;
+        if (hi_mem_min <= lo_mem_max) {
             runaway();
             overflow(S(317), memmax - memmin + 1);
         }
@@ -1885,7 +1889,7 @@ Static Pointer get_avail(void) {
     set_as_char_node(p);
     link(p) = 0;
     #ifdef tt_STAT
-        dynused += charnodesize;
+        dyn_used += charnodesize;
     #endif // #120: tt_STAT
     return p;
 } // #120: get_avail
@@ -1900,7 +1904,7 @@ Static void flushlist(HalfWord p) {
         q = r;
         r = link(r);            
         #ifdef tt_STAT
-            dynused -= charnodesize;
+            dyn_used -= charnodesize;
         #endif // #123: tt_STAT
     } while (r != 0);
     link(q) = avail;
@@ -1949,24 +1953,24 @@ _Lrestart:
         Result = MAX_HALF_WORD;
         goto _Lexit;
     }
-    if (lomemmax + 2 < himemmin) {
-        if (lomemmax + 2 <= membot + MAX_HALF_WORD) { /*126:*/
-            if (himemmin - lomemmax >= 1998)
-                t = lomemmax + 1000;
+    if (lo_mem_max + 2 < hi_mem_min) {
+        if (lo_mem_max + 2 <= membot + MAX_HALF_WORD) { /*126:*/
+            if (hi_mem_min - lo_mem_max >= 1998)
+                t = lo_mem_max + 1000;
             else
-                t = lomemmax + (himemmin - lomemmax) / 2 + 1;
+                t = lo_mem_max + (hi_mem_min - lo_mem_max) / 2 + 1;
             p = llink(rover);
-            q = lomemmax;
+            q = lo_mem_max;
             rlink(p) = q;
             llink(rover) = q;
             if (t > membot + MAX_HALF_WORD) t = membot + MAX_HALF_WORD;
             rlink(q) = rover;
             llink(q) = p;
             link(q) = emptyflag;
-            nodesize(q) = t - lomemmax;
-            lomemmax = t;
-            link(lomemmax) = 0;
-            info(lomemmax) = 0;
+            nodesize(q) = t - lo_mem_max;
+            lo_mem_max = t;
+            link(lo_mem_max) = 0;
+            info(lo_mem_max) = 0;
             rover = q;
             goto _Lrestart;
         }
@@ -1976,7 +1980,7 @@ _Lrestart:
 _Lfound:
     link(r) = 0;
     #ifdef tt_STAT
-        varused += s;
+        var_used += s;
     #endif // #125: tt_STAT
     Result = r;
 _Lexit:
@@ -1995,7 +1999,7 @@ Static void freenode(Pointer p, HalfWord s) {
     llink(rover) = p;
     rlink(q) = p;
     #ifdef tt_STAT
-        varused -= s;
+        var_used -= s;
     #endif // #130: tt_STAT
 } // #130: freenode
 
@@ -2182,10 +2186,10 @@ Static Pointer newskipparam(SmallNumber n)
 {
   Pointer p;
 
-  tempptr = newspec(gluepar(n));   /*224:*/
+  temp_ptr = newspec(gluepar(n));   /*224:*/
   /*:224*/
-  p = newglue(tempptr);
-  gluerefcount(tempptr) = 0;
+  p = newglue(temp_ptr);
+  gluerefcount(temp_ptr) = 0;
   subtype(p) = n + 1;
   return p;
 }
@@ -2224,25 +2228,25 @@ Static void checkmem(Boolean printlocs) {
     Boolean clobbered;
     HalfWord FORLIM;
 
-    for (p = memmin; p <= lomemmax; p++)
-        P_clrbits_B(free_, p - memmin, 0, 3);
-    for (p = himemmin; p <= memend; p++) /*168:*/
-        P_clrbits_B(free_, p - memmin, 0, 3);
+    for (p = memmin; p <= lo_mem_max; p++)
+        P_clrbits_B(free_cells, p - memmin, 0, 3);
+    for (p = hi_mem_min; p <= mem_end; p++) /*168:*/
+        P_clrbits_B(free_cells, p - memmin, 0, 3);
     p = avail;
     q = 0;
     clobbered = false;
     while (p != 0) {
-        if (p > memend || p < himemmin)
+        if (p > mem_end || p < hi_mem_min)
             clobbered = true;
         else {
-            if (P_getbits_UB(free_, p - memmin, 0, 3)) clobbered = true;
+            if (P_getbits_UB(free_cells, p - memmin, 0, 3)) clobbered = true;
         }
         if (clobbered) {
             printnl(S(318));
             print_int(q);
             goto _Ldone1;
         }
-        P_putbits_UB(free_, p - memmin, 1, 0, 3);
+        P_putbits_UB(free_cells, p - memmin, 1, 0, 3);
         q = p;
         p = link(q);
     }
@@ -2253,12 +2257,12 @@ _Ldone1: /*:168*/
     q = 0;
     clobbered = false;
     do {
-        if (p >= lomemmax || p < memmin)
+        if (p >= lo_mem_max || p < memmin)
             clobbered = true;
-        else if ((rlink(p) >= lomemmax) | (rlink(p) < memmin))
+        else if ((rlink(p) >= lo_mem_max) | (rlink(p) < memmin))
             clobbered = true;
         else if ((!isempty(p)) | (nodesize(p) < 2) |
-                 (p + nodesize(p) > lomemmax) | (llink(rlink(p)) != p)) {
+                 (p + nodesize(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
             clobbered = true;
         }
         if (clobbered) {
@@ -2268,12 +2272,12 @@ _Ldone1: /*:168*/
         }
         FORLIM = p + nodesize(p);
         for (q = p; q < FORLIM; q++) {
-            if (P_getbits_UB(free_, q - memmin, 0, 3)) {
+            if (P_getbits_UB(free_cells, q - memmin, 0, 3)) {
                 printnl(S(320));
                 print_int(q);
                 goto _Ldone2;
             }
-            P_putbits_UB(free_, q - memmin, 1, 0, 3);
+            P_putbits_UB(free_cells, q - memmin, 1, 0, 3);
         }
         q = p;
         p = rlink(p);
@@ -2282,56 +2286,56 @@ _Ldone1: /*:168*/
 _Ldone2: /*:169*/
     /*170:*/
     p = memmin;
-    while (p <= lomemmax) { /*:170*/
+    while (p <= lo_mem_max) { /*:170*/
         if (isempty(p)) {
             printnl(S(321));
             print_int(p);
         }
-        while ((p <= lomemmax) & (!P_getbits_UB(free_, p - memmin, 0, 3)))
+        while ((p <= lo_mem_max) & (!P_getbits_UB(free_cells, p - memmin, 0, 3)))
             p++;
-        while ((p <= lomemmax) &   P_getbits_UB(free_, p - memmin, 0, 3))
+        while ((p <= lo_mem_max) &   P_getbits_UB(free_cells, p - memmin, 0, 3))
             p++;
     }
     if (printlocs) { /*171:*/
         printnl(S(322));
-        FORLIM = lomemmax;
-        for (p = memmin; p <= lomemmax; p++) {
-            if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
-                ((p > waslomax) | P_getbits_UB(wasfree, p - memmin, 0, 3))) {
+        FORLIM = lo_mem_max;
+        for (p = memmin; p <= lo_mem_max; p++) {
+            if ((!P_getbits_UB(free_cells, p - memmin, 0, 3)) &
+                ((p > was_lo_max) | P_getbits_UB(was_free, p - memmin, 0, 3))) {
                 print_char(' ');
                 print_int(p);
             }
         }
-        for (p = himemmin; p <= memend; p++) {
-            if ((!P_getbits_UB(free_, p - memmin, 0, 3)) &
-                ((p < washimin || p > wasmemend) |
-                 P_getbits_UB(wasfree, p - memmin, 0, 3))) {
+        for (p = hi_mem_min; p <= mem_end; p++) {
+            if ((!P_getbits_UB(free_cells, p - memmin, 0, 3)) &
+                ((p < was_hi_min || p > was_mem_end) |
+                 P_getbits_UB(was_free, p - memmin, 0, 3))) {
                 print_char(' ');
                 print_int(p);
             }
         }
     }
     /*:171*/
-    for (p = memmin; p <= lomemmax; p++) {
-        P_clrbits_B(wasfree, p - memmin, 0, 3);
-        P_putbits_UB(wasfree,
-            p - memmin, P_getbits_UB(free_, p - memmin, 0, 3), 0, 3);
+    for (p = memmin; p <= lo_mem_max; p++) {
+        P_clrbits_B(was_free, p - memmin, 0, 3);
+        P_putbits_UB(was_free,
+            p - memmin, P_getbits_UB(free_cells, p - memmin, 0, 3), 0, 3);
     }
-    for (p = himemmin; p <= memend; p++) {
-        P_clrbits_B(wasfree, p - memmin, 0, 3);
-        P_putbits_UB(wasfree, 
-            p - memmin, P_getbits_UB(free_, p - memmin, 0, 3), 0, 3);
+    for (p = hi_mem_min; p <= mem_end; p++) {
+        P_clrbits_B(was_free, p - memmin, 0, 3);
+        P_putbits_UB(was_free, 
+            p - memmin, P_getbits_UB(free_cells, p - memmin, 0, 3), 0, 3);
     }
-    wasmemend = memend;
-    waslomax = lomemmax;
-    washimin = himemmin;
+    was_mem_end = mem_end;
+    was_lo_max = lo_mem_max;
+    was_hi_min = hi_mem_min;
 } // #164: checkmem
 
 /// p61#172
 Static void searchmem(Pointer p) {
     long q;
 
-    for (q = memmin; q <= lomemmax; q++) {
+    for (q = memmin; q <= lo_mem_max; q++) {
         if (link(q) == p) {
             printnl(S(323));
             print_int(q);
@@ -2343,7 +2347,7 @@ Static void searchmem(Pointer p) {
             print_char(')');
         }
     }
-    for (q = himemmin; q <= memend; q++) {
+    for (q = hi_mem_min; q <= mem_end; q++) {
         if (link(q) == p) {
             printnl(S(323));
             print_int(q);
@@ -2389,15 +2393,15 @@ Static void shortdisplay(Pointer p)
 
   while (p > memmin) {
     if (ischarnode(p)) {
-      if (p <= memend) {
-	if (font(p) != fontinshortdisplay) {
+      if (p <= mem_end) {
+	if (font(p) != font_in_short_display) {
 	  if ( /* (font(p) < 0 ) | */ (font(p) > FONT_MAX))
 	    print_char('*');
 	  else  /*267:*/
 		/*:267*/
 		  print_esc(fontidtext(font(p)));
 	  print_char(' ');
-	  fontinshortdisplay = font(p);
+	  font_in_short_display = font(p);
 	}
 	print(character(p) - MIN_QUARTER_WORD);
       }
@@ -2451,7 +2455,7 @@ Static void shortdisplay(Pointer p)
 /*176:*/
 Static void printfontandchar(Pointer p)
 {
-  if (p > memend) {
+  if (p > mem_end) {
     print_esc(S(308));
     return;
   }
@@ -2468,7 +2472,7 @@ Static void printfontandchar(Pointer p)
 Static void printmark(long p)
 {
   print_char('{');
-  if (p < himemmin || p > memend)
+  if (p < hi_mem_min || p > mem_end)
     print_esc(S(308));
   else
     showtokenlist(link(p), 0, MAX_PRINT_LINE - 10);
@@ -2509,7 +2513,7 @@ Static void printglue(long d, long order, StrNumber s)
 /*178:*/
 Static void printspec(long p, StrNumber s)
 {
-  if ( p >= lomemmax) {
+  if ( p >= lo_mem_max) {
     print_char('*');
     return;
   }
@@ -2556,13 +2560,13 @@ Static void showinfo(void);
 
 Static void printsubsidiarydata(HalfWord p, ASCIICode c)
 {
-  if (cur_length() >= depththreshold) {
+  if (cur_length() >= depth_threshold) {
     if (mathtype(p) != empty)
       print(S(334));
     return;
   }
   append_char(c);
-  tempptr = p;
+  temp_ptr = p;
   switch (mathtype(p)) {
 
   case mathchar:
@@ -2589,30 +2593,15 @@ Static void printsubsidiarydata(HalfWord p, ASCIICode c)
 /*:692*/
 
 /*694:*/
-void printstyle(long c)
-{
-  switch (c / 2) {
+void printstyle(Integer c) {
+    switch (c / 2) {
+        case 0: print_esc(S(336)); break;
+        case 1: print_esc(S(337)); break;
+        case 2: print_esc(S(338)); break;
+        case 3: print_esc(S(339)); break;
 
-  case 0:
-    print_esc(S(336));
-    break;
-
-  case 1:
-    print_esc(S(337));
-    break;
-
-  case 2:
-    print_esc(S(338));
-    break;
-
-  case 3:
-    print_esc(S(339));
-    break;
-
-  default:
-    print(S(340));
-    break;
-  }
+        default: print(S(340)); break;
+    }
 }
 /*:694*/
 
@@ -2649,7 +2638,7 @@ Static void shownodelist(long p)
   long n;
   double g;
 
-  if (cur_length() > depththreshold) {
+  if (cur_length() > depth_threshold) {
     if (p > 0)
       print(S(334));
     goto _Lexit;
@@ -2658,12 +2647,12 @@ Static void shownodelist(long p)
   while (p > memmin) {
     println();
     printcurrentstring();
-    if (p > memend) {
+    if (p > mem_end) {
       print(S(360));
       goto _Lexit;
     }
     n++;
-    if (n > breadthmax) {
+    if (n > breadth_max) {
       print(S(361));
       goto _Lexit;
     }  /*183:*/
@@ -2873,7 +2862,7 @@ Static void shownodelist(long p)
 	print(S(398));
 	if (subtype(p) > 1)
 	  print_char('|');
-	fontinshortdisplay = font_ligchar(p);
+	font_in_short_display = font_ligchar(p);
 	shortdisplay(ligptr(p));
 	if ((subtype(p)) & 1)
 	  print_char('|');
@@ -3068,15 +3057,15 @@ _Lexit: ;
 /*198:*/
 Static void showbox(HalfWord p)
 {  /*236:*/
-  depththreshold = showboxdepth;
-  breadthmax = showboxbreadth;   /*:236*/
-  if (breadthmax <= 0)
-    breadthmax = 5;
+  depth_threshold = showboxdepth;
+  breadth_max = showboxbreadth;   /*:236*/
+  if (breadth_max <= 0)
+    breadth_max = 5;
 #if 0
-  if (pool_ptr + depththreshold >= POOL_SIZE)
-    depththreshold = POOL_SIZE - pool_ptr - 1;
+  if (pool_ptr + depth_threshold >= POOL_SIZE)
+    depth_threshold = POOL_SIZE - pool_ptr - 1;
 #else
-	depththreshold = str_adjust_to_room(depththreshold);
+	depth_threshold = str_adjust_to_room(depth_threshold);
 #endif
   shownodelist(p);
   println();
@@ -3402,13 +3391,13 @@ Static void print_mode(Integer m) {
 /*216:*/
 Static void pushnest(void)
 {
-  if (nestptr > maxneststack) {
-    maxneststack = nestptr;
-    if (nestptr == nestsize)
+  if (nest_ptr > max_nest_stack) {
+    max_nest_stack = nest_ptr;
+    if (nest_ptr == nestsize)
       overflow(S(438), nestsize);
   }
-  nest[nestptr] = curlist;
-  nestptr++;
+  nest[nest_ptr] = cur_list;
+  nest_ptr++;
   head = get_avail();
   tail = head;
   prevgraf = 0;
@@ -3420,8 +3409,8 @@ Static void pushnest(void)
 Static void popnest(void)
 {
   FREE_AVAIL(head);
-  nestptr--;
-  curlist = nest[nestptr];
+  nest_ptr--;
+  cur_list = nest[nest_ptr];
 }
 /*:217*/
 
@@ -3435,10 +3424,10 @@ Static void showactivities(void)
   long t;
   short TEMP;
 
-  nest[nestptr] = curlist;
+  nest[nest_ptr] = cur_list;
   printnl(S(385));
   println();
-  for (TEMP = nestptr; TEMP >= 0; TEMP--) {
+  for (TEMP = nest_ptr; TEMP >= 0; TEMP--) {
     int p = TEMP;
     short m = nest[p].modefield;
     MemoryWord a = nest[p].auxfield;
@@ -3625,8 +3614,8 @@ Static void showeqtb(HalfWord n) {
                 print(S(465));
                 return;
             }
-            depththreshold = 0;
-            breadthmax = 1;
+            depth_threshold = 0;
+            breadth_max = 1;
             shownodelist(equiv(n));
             return;
         }
@@ -3742,15 +3731,15 @@ HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
                         if (hashisfull) {
                             overflow(S(475), hashsize);
                         }
-                        hashused--;
-                    } while (text(hashused) != 0);
-                    next(p) = hashused;
-                    p = hashused;
+                        hash_used--;
+                    } while (text(hash_used) != 0);
+                    next(p) = hash_used;
+                    p = hash_used;
                 }
                 text(p) = str_insert(buffp, l);
 
                 #ifdef tt_STAT
-                    cscount++;
+                    cs_count++;
                 #endif // #260: tt_STAT
             }
             goto _Lfound;
@@ -4044,10 +4033,10 @@ Static void showcurcmdchr(void)
 {
   begindiagnostic();
   printnl('{');
-  if (mode != shownmode) {
+  if (mode != shown_mode) {
     print_mode(mode);
     print(S(488));
-    shownmode = mode;
+    shown_mode = mode;
   }
   printcmdchr(curcmd, curchr);
   print_char('}');
@@ -4112,7 +4101,7 @@ Static void showcontext(void)
 	  if (j > 0) {
 	    for (i = start; i < j; i++) {   /*:318*/
 	      if (i == loc) {
-		settrickcount();
+		settrick_count();
 	      }
 	      print(buffer[i]);
 	    }
@@ -4197,33 +4186,33 @@ Static void showcontext(void)
 	    showtokenlist(link(start), loc, 100000L);
 	}
 	selector = old_setting;   /*317:*/
-	if (trickcount == 1000000L) {
-	  settrickcount();
+	if (trick_count == 1000000L) {
+	  settrick_count();
 	}
-	if (tally < trickcount)
-	  m = tally - firstcount;
+	if (tally < trick_count)
+	  m = tally - first_count;
 	else
-	  m = trickcount - firstcount;
-	if (l + firstcount <= halfERROR_LINE) {
+	  m = trick_count - first_count;
+	if (l + first_count <= halfERROR_LINE) {
 	  p = 0;
-	  n = l + firstcount;
+	  n = l + first_count;
 	} else {
 	  print(S(284));
-	  p = l + firstcount - halfERROR_LINE + 3;
+	  p = l + first_count - halfERROR_LINE + 3;
 	  n = halfERROR_LINE;
 	}
-	for (q = p; q < firstcount; q++) {
-	  print_char(trickbuf[q % ERROR_LINE]);
+	for (q = p; q < first_count; q++) {
+	  print_char(trick_buf[q % ERROR_LINE]);
 	}
 	println();
 	for (q = 1; q <= n; q++)
 	  print_char(' ');
 	if (m + n <= ERROR_LINE)
-	  p = firstcount + m;
+	  p = first_count + m;
 	else
-	  p = firstcount + ERROR_LINE - n - 3;
-	for (q = firstcount; q < p; q++) {
-	  print_char(trickbuf[q % ERROR_LINE]);
+	  p = first_count + ERROR_LINE - n - 3;
+	for (q = first_count; q < p; q++) {
+	  print_char(trick_buf[q % ERROR_LINE]);
 	}
 	if (m + n > ERROR_LINE)   /*:317*/
 	  print(S(284));
@@ -4348,19 +4337,19 @@ Static void backinput(void)
 /*327:*/
 Static void backerror(void)
 {
-  OKtointerrupt = false;
+  OK_to_interrupt = false;
   backinput();
-  OKtointerrupt = true;
+  OK_to_interrupt = true;
   error();
 }
 
 
 Static void inserror(void)
 {
-  OKtointerrupt = false;
+  OK_to_interrupt = false;
   backinput();
   token_type = INSERTED;
-  OKtointerrupt = true;
+  OK_to_interrupt = true;
   error();
 }
 /*:327*/
@@ -4416,7 +4405,7 @@ Static int check_outer_validity(int local_curcs) {
 
     if (scanner_status == NORMAL) return local_curcs;
 
-    deletionsallowed = false; /*337:*/
+    deletions_allowed = false; /*337:*/
     if (local_curcs != 0) {   /*:337*/
         if (state == TOKEN_LIST || name < 1 || name > 17) {
             p = get_avail();
@@ -4482,12 +4471,12 @@ Static int check_outer_validity(int local_curcs) {
         if (curcs != 0)
             curcs = 0;
         else
-            helpline[2] = S(526);
+            help_line[2] = S(526);
         curtok = cstokenflag + frozenfi;
         inserror();
     }
     /*:338*/
-    deletionsallowed = true;
+    deletions_allowed = true;
     return curcs;
 } // P134#336: check_outer_validity
 
@@ -4754,9 +4743,9 @@ _Lrestart:
                 printnl(S(292));
                 print(S(529));
                 help2(S(530), S(531));
-                deletionsallowed = false;
+                deletions_allowed = false;
                 error();
-                deletionsallowed = true;
+                deletions_allowed = true;
                 goto _Lrestart;
                 break;
                 /*:346*/
@@ -5288,9 +5277,9 @@ Static void expand(void)
       j = first;
       p = link(r);
       while (p != 0) {
-	if (j >= maxbufstack) {
-	  maxbufstack = j + 1;
-	  if (maxbufstack == bufsize)
+	if (j >= max_buf_stack) {
+	  max_buf_stack = j + 1;
+	  if (max_buf_stack == bufsize)
 	    overflow(S(511), bufsize);
 	}
 	buffer[j] = (info(p)) & (dwa_do_8-1);
@@ -5768,8 +5757,8 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative)
       curval = 0;
       curvallevel = intval;
     } else {   /*:422*/
-      nest[nestptr] = curlist;
-      p = nestptr;
+      nest[nest_ptr] = cur_list;
+      p = nest_ptr;
       while (abs(nest[p].modefield) != V_MODE)
 	p--;
       curval = nest[p].pgfield;
@@ -7532,7 +7521,7 @@ Static void hlistout(void)
   Boolean outerdoingleaders;
   double gluetemp;
 
-  thisbox = tempptr;
+  thisbox = temp_ptr;
   gorder = glueorder(thisbox);
   gsign = gluesign(thisbox);
   p = listptr(thisbox);
@@ -7576,7 +7565,7 @@ Static void hlistout(void)
 	saveh = dvih;
 	savev = dviv;
 	curv = baseline + shiftamount(p);
-	tempptr = p;
+	temp_ptr = p;
 	edge = curh;
 	if (type(p) == VLIST_NODE)
 	  vlistout();
@@ -7649,7 +7638,7 @@ Static void hlistout(void)
 	    savev = dviv;
 	    synchh();
 	    saveh = dvih;
-	    tempptr = leaderbox;
+	    temp_ptr = leaderbox;
 	    outerdoingleaders = doingleaders;
 	    doingleaders = true;
 	    if (type(leaderbox) == VLIST_NODE)
@@ -7728,7 +7717,7 @@ Static void vlistout(void)
   Boolean outerdoingleaders;
   double gluetemp;
 
-  thisbox = tempptr;
+  thisbox = temp_ptr;
   gorder = glueorder(thisbox);
   gsign = gluesign(thisbox);
   p = listptr(thisbox);
@@ -7759,7 +7748,7 @@ Static void vlistout(void)
 	  saveh = dvih;
 	  savev = dviv;
 	  curh = leftedge + shiftamount(p);
-	  tempptr = p;
+	  temp_ptr = p;
 	  if (type(p) == VLIST_NODE)
 	    vlistout();
 	  else
@@ -7833,7 +7822,7 @@ Static void vlistout(void)
 	      curv += height(leaderbox);
 	      synchv();
 	      savev = dviv;
-	      tempptr = leaderbox;
+	      temp_ptr = leaderbox;
 	      outerdoingleaders = doingleaders;
 	      doingleaders = true;
 	      if (type(leaderbox) == VLIST_NODE)
@@ -7978,7 +7967,7 @@ Static void shipout(HalfWord p)
     dvibop(cp);
   }
   curv = height(p) + voffset;
-  tempptr = p;
+  temp_ptr = p;
   if (type(p) == VLIST_NODE)
     vlistout();
   else
@@ -7996,9 +7985,9 @@ _Ldone: /*:640*/
     #ifdef tt_STAT
         if (tracingstats > 1) {
             printnl(S(694));
-            print_int(varused);
+            print_int(var_used);
             print_char('&');
-            print_int(dynused);
+            print_int(dyn_used);
             print_char(';');
         }
     #endif // #639.1: tt_STAT
@@ -8008,11 +7997,11 @@ _Ldone: /*:640*/
     #ifdef tt_STAT
         if (tracingstats > 1) {
             print(S(695));
-            print_int(varused);
+            print_int(var_used);
             print_char('&');
-            print_int(dynused);
+            print_int(dyn_used);
             print(S(696));
-            print_int(himemmin - lomemmax - 1);
+            print_int(hi_mem_min - lo_mem_max - 1);
             println();
         }
     #endif // #639.2: tt_STAT
@@ -8286,7 +8275,7 @@ _Lcommonending:   /*663:*/
     print_int(line);
   }
   println();
-  fontinshortdisplay = nullfont;
+  font_in_short_display = nullfont;
   shortdisplay(listptr(r));
   println();
   begindiagnostic();
@@ -8501,7 +8490,7 @@ Static void appendtovlist(HalfWord b)
       p = newparamglue(lineskipcode);
     else {
       p = newskipparam(baselineskipcode);
-      width(tempptr) = d;
+      width(temp_ptr) = d;
     }
     link(tail) = p;
     tail = p;
@@ -8566,7 +8555,7 @@ Static HalfWord newchoice(void)
 /*693:*/
 Static void showinfo(void)
 {
-  shownodelist(info(tempptr));
+  shownodelist(info(temp_ptr));
 }
 /*:693*/
 
@@ -8632,7 +8621,7 @@ Static void stackintobox(HalfWord b, InternalFontNumber f, QuarterWord c)
 /*:711*/
 
 /*712:*/
-Static long heightplusdepth(InternalFontNumber f, QuarterWord c)
+Static Integer heightplusdepth(InternalFontNumber f, QuarterWord c)
 {
   FourQuarters q;
   EightBits hd;
@@ -9210,7 +9199,7 @@ Static void makefraction(HalfWord q)
 
 
 /*749:*/
-Static long makeop(HalfWord q)
+Static Integer makeop(HalfWord q)
 {
   Scaled delta, shiftup, shiftdown;
   Pointer p, v, x, y, z;
@@ -10022,7 +10011,7 @@ Static void initalign(void)
   pushnest();   /*775:*/
   if (mode == M_MODE) {
     mode = -V_MODE;
-    prevdepth = nest[nestptr - 2].auxfield.sc;
+    prevdepth = nest[nest_ptr - 2].auxfield.sc;
   } else if (mode > 0)
     mode = -mode;   /*:775*/
   scanspec(aligngroup, false);
@@ -10343,7 +10332,7 @@ Static void finalign(void)
   if (curgroup != aligngroup)
     confusion(S(743));
   unsave();
-  if (nest[nestptr - 1].modefield == M_MODE)
+  if (nest[nest_ptr - 1].modefield == M_MODE)
     o = displayindent;
   else
     o = 0;
@@ -12246,7 +12235,7 @@ Static void linebreak(long finalwidowpenalty) {
         passive = 0;
         printednode = temphead;
         passnumber = 0;
-        fontinshortdisplay = nullfont; /*:864*/
+        font_in_short_display = nullfont; /*:864*/
         curp = link(temphead);
         autobreaking = true;
         prevp = curp;
@@ -12759,10 +12748,10 @@ Static HalfWord prunepagetop(HalfWord p)
       q = newskipparam(splittopskipcode);
       link(prevp) = q;
       link(q) = p;
-      if (width(tempptr) > height(p))
-	width(tempptr) -= height(p);
+      if (width(temp_ptr) > height(p))
+	width(temp_ptr) -= height(p);
       else
-	width(tempptr) = 0;
+	width(temp_ptr) = 0;
       p = 0;
       break;
       /*:969*/
@@ -13158,18 +13147,18 @@ Static void fireup(HalfWord c)
 		splittopskip = splittopptr(p);
 		insptr(p) = prunepagetop(brokenptr(r));
 		if (insptr(p) != 0) {
-		  tempptr = vpack(insptr(p), 0, additional);
-		  height(p) = height(tempptr) + depth(tempptr);
-		  freenode(tempptr, boxnodesize);
+		  temp_ptr = vpack(insptr(p), 0, additional);
+		  height(p) = height(temp_ptr) + depth(temp_ptr);
+		  freenode(temp_ptr, boxnodesize);
 		  wait = true;
 		}
 	      }
 	    }
 	    bestinsptr(r) = 0;
 	    n = subtype(r) - MIN_QUARTER_WORD;
-	    tempptr = listptr(box(n));
+	    temp_ptr = listptr(box(n));
 	    freenode(box(n), boxnodesize);
-	    box(n) = vpack(tempptr, 0, additional);
+	    box(n) = vpack(temp_ptr, 0, additional);
 	  }  /*:1021*/
 	  else {
 	    while (link(s) != 0)
@@ -13206,7 +13195,7 @@ Static void fireup(HalfWord c)
   splittopskip = savesplittopskip;   /*1017:*/
   if (p != 0) {
     if (link(contribhead) == 0) {
-      if (nestptr == 0)
+      if (nest_ptr == 0)
 	tail = pagetail;
       else
 	contribtail = pagetail;
@@ -13275,7 +13264,7 @@ Static void fireup(HalfWord c)
   }
   if (link(pagehead) != 0) {
     if (link(contribhead) == 0) {
-      if (nestptr == 0)
+      if (nest_ptr == 0)
 	tail = pagetail;
       else
 	contribtail = pagetail;
@@ -13326,10 +13315,10 @@ Static void buildpage(void) {
                     else
                         pagecontents = boxthere;
                     q = newskipparam(topskipcode);
-                    if (width(tempptr) > height(p))
-                        width(tempptr) -= height(p);
+                    if (width(temp_ptr) > height(p))
+                        width(temp_ptr) -= height(p);
                     else
-                        width(tempptr) = 0;
+                        width(temp_ptr) = 0;
                     link(q) = p;
                     link(contribhead) = q;
                     goto _Llabcontinue;
@@ -13579,7 +13568,7 @@ Static void buildpage(void) {
         flushnodelist(p);
     _Ldone:;                          /*:997*/
     } while (link(contribhead) != 0); /*995:*/
-    if (nestptr == 0)
+    if (nest_ptr == 0)
         tail = contribhead;
     else
         contribtail = contribhead; /*:995*/
@@ -14107,7 +14096,7 @@ Static void newgraf(Boolean indented)
   }
   if (everypar != 0)
     begintokenlist(everypar, EVERY_PAR_TEXT);
-  if (nestptr == 1)
+  if (nest_ptr == 1)
     buildpage();
 }
 /*:1091*/
@@ -14234,9 +14223,9 @@ Static void deletelast(void) {
         youcant();
         help2(S(854), S(869));
         if (curchr == KERN_NODE)
-            helpline[0] = S(870);
+            help_line[0] = S(870);
         else if (curchr != GLUE_NODE)
-            helpline[0] = S(871);
+            help_line[0] = S(871);
         error();
     }
     } /*:1106*/
@@ -14707,7 +14696,7 @@ _Ldone: ;   /*:1146*/
     eqworddefine(dimenbase + displayindentcode, s);
     if (everydisplay != 0)
       begintokenlist(everydisplay, EVERY_DISPLAY_TEXT);
-    if (nestptr == 1)
+    if (nest_ptr == 1)
       buildpage();
     return;
   }
@@ -15377,7 +15366,7 @@ Static void resumeafterdisplay(void)
   getxtoken();
   if (curcmd != spacer)   /*:443*/
     backinput();
-  if (nestptr == 1)
+  if (nest_ptr == 1)
     buildpage();
 }
 /*:1200*/
@@ -15577,15 +15566,15 @@ Static void alteraux(void) {
 Static void alterprevgraf(void) {
     int p;
 
-    nest[nestptr] = curlist;
-    p = nestptr;
+    nest[nest_ptr] = cur_list;
+    p = nest_ptr;
     while (abs(nest[p].modefield) != V_MODE)
         p--;
     scanoptionalequals();
     scanint();
     if (curval >= 0) {
         nest[p].pgfield = curval;
-        curlist = nest[nestptr];
+        cur_list = nest[nest_ptr];
         return;
     }
     printnl(S(292));
@@ -16046,7 +16035,7 @@ Static void prefixedcommand(void)
     } else
       n = curval;
     scanoptionalequals();
-    if (setboxallowed)
+    if (set_box_allowed)
       scanbox(boxflag + n);
     else {
       printnl(S(292));
@@ -16166,9 +16155,9 @@ Static void doassignments(void) {
     while (true) {
         skip_spaces_or_relax();
         if (curcmd <= maxnonprefixedcommand) break;
-        setboxallowed = false;
+        set_box_allowed = false;
         prefixedcommand();
-        setboxallowed = true;
+        set_box_allowed = true;
     }
 }
 /*:1270*/
@@ -16222,7 +16211,7 @@ Static void issuemessage(void) {
         print(S(385));
         slow_print(s);
         if (errhelp != 0)
-            useerrhelp = true;
+            use_err_help = true;
         else if (longhelpseen) {
             help1(S(974));
         } else {
@@ -16230,7 +16219,7 @@ Static void issuemessage(void) {
             help4(S(975), S(976), S(977), S(978));
         }
         error();
-        useerrhelp = false;
+        use_err_help = false;
     }
     /*:1280*/
     flush_string();
@@ -16312,7 +16301,7 @@ Static void showwhatever(void) {
     }
 _Lcommonending:
     if (interaction < ERROR_STOP_MODE) {
-        helpptr = 0;
+        help_ptr = 0;
         errorcount--;
     } else if (tracingonline > 0) {
         help3(S(983), S(984), S(985));
@@ -16378,8 +16367,8 @@ Static void storefmtfile(void) { /*1304:*/
 
     sort_avail(); // #131
 
-    varused = 0;
-    pppfmtfile.int_ = lomemmax;
+    var_used = 0;
+    pppfmtfile.int_ = lo_mem_max;
     pput(pppfmtfile);
     pppfmtfile.int_ = rover;
     pput(pppfmtfile);
@@ -16392,41 +16381,41 @@ Static void storefmtfile(void) { /*1304:*/
             pput(pppfmtfile);
         }
         x += q - p + 2;
-        varused += q - p;
+        var_used += q - p;
         p = q + nodesize(q);
         q = rlink(q);
     } while (q != rover);
-    varused += lomemmax - p;
-    dynused = memend - himemmin + 1;
-    for (k = p; k <= lomemmax; k++) {
+    var_used += lo_mem_max - p;
+    dyn_used = mem_end - hi_mem_min + 1;
+    for (k = p; k <= lo_mem_max; k++) {
         pppfmtfile = mem[k - memmin];
         pput(pppfmtfile);
     }
-    x += lomemmax - p + 1;
-    pppfmtfile.int_ = himemmin;
+    x += lo_mem_max - p + 1;
+    pppfmtfile.int_ = hi_mem_min;
     pput(pppfmtfile);
     pppfmtfile.int_ = avail;
     pput(pppfmtfile);
-    for (k = himemmin; k <= memend; k++) {
+    for (k = hi_mem_min; k <= mem_end; k++) {
         pppfmtfile = mem[k - memmin];
         pput(pppfmtfile);
     }
-    x += memend - himemmin + 1;
+    x += mem_end - hi_mem_min + 1;
     p = avail;
     while (p != 0) {
-        dynused -= charnodesize;
+        dyn_used -= charnodesize;
         p = link(p);
     }
-    pppfmtfile.int_ = varused;
+    pppfmtfile.int_ = var_used;
     pput(pppfmtfile);
-    pppfmtfile.int_ = dynused;
+    pppfmtfile.int_ = dyn_used;
     pput(pppfmtfile);
     println();
     print_int(x);
     print(S(993));
-    print_int(varused);
+    print_int(var_used);
     print_char('&');    /*:1311*/
-    print_int(dynused); /*1313:*/
+    print_int(dyn_used); /*1313:*/
     /*1315:*/
     k = activebase;
 
@@ -16495,26 +16484,26 @@ _Ldone2:
     pput(pppfmtfile);
     pppfmtfile.int_ = writeloc;
     pput(pppfmtfile); /*1318:*/
-    pppfmtfile.int_ = hashused;
+    pppfmtfile.int_ = hash_used;
     pput(pppfmtfile);
-    cscount = frozencontrolsequence - hashused - 1;
-    for (p = hashbase; p <= hashused; p++) {
+    cs_count = frozencontrolsequence - hash_used - 1;
+    for (p = hashbase; p <= hash_used; p++) {
         if (text(p) != 0) {
             pppfmtfile.int_ = p;
             pput(pppfmtfile);
             pppfmtfile.hh = hash[p - hashbase];
             pput(pppfmtfile);
-            cscount++;
+            cs_count++;
         }
     }
-    for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
+    for (p = hash_used + 1; p < undefinedcontrolsequence; p++) {
         pppfmtfile.hh = hash[p - hashbase];
         pput(pppfmtfile);
     }
-    pppfmtfile.int_ = cscount;
+    pppfmtfile.int_ = cs_count;
     pput(pppfmtfile);
     println();
-    print_int(cscount); /*:1318*/
+    print_int(cs_count); /*:1318*/
     /*:1313*/
     print(S(994));
     fonts_dump(fmtfile);
@@ -16786,7 +16775,7 @@ Static void handlerightbrace(void) {
                 deleteglueref(q);
             }
             freenode(p, boxnodesize);
-            if (nestptr == 0) buildpage();
+            if (nest_ptr == 0) buildpage();
             break;
 
         case outputgroup: /*1026:*/
@@ -16924,7 +16913,7 @@ _Lbigswitch_:
     getxtoken();
 _Lreswitch: /*1031:*/
     if (interrupt != 0) {
-        if (OKtointerrupt) {
+        if (OK_to_interrupt) {
             backinput();
             checkinterrupt();
             goto _Lbigswitch_;
@@ -17718,9 +17707,9 @@ _Lmainloopmovelig:       /*1037:*/
     if (mainp > 0) {
         tailappend(mainp);
     }
-    tempptr = ligstack;
-    ligstack = link(tempptr);
-    freenode(tempptr, smallnodesize);
+    temp_ptr = ligstack;
+    ligstack = link(temp_ptr);
+    freenode(temp_ptr, smallnodesize);
     maini = charinfo(mainf, curl);
     ligaturepresent = true;
     if (ligstack == 0) {
@@ -17745,11 +17734,11 @@ _Lappendnormalspace_:            /*1041:*/
             shrink(mainp) = fontinfo[mmaink + 2].sc;
             fontglue[curfont] = mainp;
         }
-        tempptr = newglue(mainp);
+        temp_ptr = newglue(mainp);
     } else
-        tempptr = newparamglue(spaceskipcode);
-    link(tail) = tempptr;
-    tail = tempptr;
+        temp_ptr = newparamglue(spaceskipcode);
+    link(tail) = temp_ptr;
+    tail = temp_ptr;
     goto _Lbigswitch_; /*:1041*/
 _Lexit:;
 }
@@ -17793,10 +17782,10 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < lomemstatmax + 1000 || x >= himemstatmin) goto _Lbadfmt_;
-    lomemmax = x;
+    lo_mem_max = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x <= lomemstatmax || x > lomemmax) goto _Lbadfmt_;
+    if (x <= lomemstatmax || x > lo_mem_max) goto _Lbadfmt_;
     rover = x;
     p = membot;
     q = rover;
@@ -17806,11 +17795,11 @@ Static Boolean loadfmtfile(void) { /*1308:*/
             mem[k - memmin] = pppfmtfile;
         }
         p = q + nodesize(q);
-        if ((p > lomemmax) | ((q >= rlink(q)) & (rlink(q) != rover)))
+        if ((p > lo_mem_max) | ((q >= rlink(q)) & (rlink(q) != rover)))
             goto _Lbadfmt_;
         q = rlink(q);
     } while (q != rover);
-    for (k = p; k <= lomemmax; k++) {
+    for (k = p; k <= lo_mem_max; k++) {
         pget(pppfmtfile);
         mem[k - memmin] = pppfmtfile;
     }
@@ -17828,21 +17817,21 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     }
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x <= lomemmax || x > himemstatmin) goto _Lbadfmt_;
-    himemmin = x;
+    if (x <= lo_mem_max || x > himemstatmin) goto _Lbadfmt_;
+    hi_mem_min = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if ((unsigned long)x > memtop) goto _Lbadfmt_;
     avail = x;
-    memend = memtop;
-    for (k = himemmin; k <= memend; k++) {
+    mem_end = memtop;
+    for (k = hi_mem_min; k <= mem_end; k++) {
         pget(pppfmtfile);
         mem[k - memmin] = pppfmtfile;
     }
     pget(pppfmtfile);
-    varused = pppfmtfile.int_;
+    var_used = pppfmtfile.int_;
     pget(pppfmtfile);
-    dynused = pppfmtfile.int_; /*:1312*/
+    dyn_used = pppfmtfile.int_; /*:1312*/
     /*1314:*/
     /*1317:*/
     k = activebase;
@@ -17875,22 +17864,22 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
-    hashused = x;
+    hash_used = x;
     p = hashbase - 1;
     do {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if (x <= p || x > hashused) goto _Lbadfmt_;
+        if (x <= p || x > hash_used) goto _Lbadfmt_;
         p = x;
         pget(pppfmtfile);
         hash[p - hashbase] = pppfmtfile.hh;
-    } while (p != hashused);
-    for (p = hashused + 1; p < undefinedcontrolsequence; p++) {
+    } while (p != hash_used);
+    for (p = hash_used + 1; p < undefinedcontrolsequence; p++) {
         pget(pppfmtfile);
         hash[p - hashbase] = pppfmtfile.hh;
     }
     pget(pppfmtfile);
-    cscount = pppfmtfile.int_; /*:1319*/
+    cs_count = pppfmtfile.int_; /*:1319*/
     /*:1314*/
     if (!fonts_undump(fmtfile, stdout)) goto _Lbadfmt_;
     /*1325:*/
@@ -18016,11 +18005,11 @@ Static void closefilesandterminate(void) { /*1378:*/
                 str_print_stats(log_file);
                 fprintf(log_file,
                         " %ld words of memory out of %ld\n",
-                        lomemmax - memmin + memend - himemmin + 2L,
-                        memend - memmin + 1L);
+                        lo_mem_max - memmin + mem_end - hi_mem_min + 2L,
+                        mem_end - memmin + 1L);
                 fprintf(log_file,
                         " %ld multiletter control sequences out of %ld\n",
-                        cscount,
+                        cs_count,
                         (long)hashsize);
                 fprintf(log_file,
                         " %d words of font info for %d font",
@@ -18042,9 +18031,9 @@ Static void closefilesandterminate(void) { /*1378:*/
                         " %di,%dn,%ldp,%db,%ds stack positions out of "
                         "%ldi,%ldn,%ldp,%ldb,%lds\n",
                         maxinstack,
-                        maxneststack,
+                        max_nest_stack,
                         maxparamstack,
-                        maxbufstack + 1,
+                        max_buf_stack + 1,
                         maxsavestack + 6,
                         (long)stacksize,
                         (long)nestsize,
@@ -18136,9 +18125,9 @@ Static void finalcleanup(void) {
         print(S(1024));
         ifline = iflinefield(condptr);
         curif = subtype(condptr);
-        tempptr = condptr;
+        temp_ptr = condptr;
         condptr = link(condptr);
-        freenode(tempptr, ifnodesize);
+        freenode(temp_ptr, ifnodesize);
     }
     if (history != SPOTLESS) {
         if (history == WARNING_ISSUED || interaction < ERROR_STOP_MODE) {
@@ -18591,8 +18580,8 @@ Static void debughelp(void) {
             // show a box, abbreviated by show box depth and show box breadth
             case 7: showbox(n); break;
             case 8: {
-                breadthmax = 10000;
-                depththreshold = str_adjust_to_room(POOL_SIZE) - 10;
+                breadth_max = 10000;
+                depth_threshold = str_adjust_to_room(POOL_SIZE) - 10;
                 shownodelist(n);
                 break;
             }
@@ -18613,7 +18602,7 @@ Static void debughelp(void) {
                 break;
             }
             case 15: {
-                fontinshortdisplay = nullfont;
+                font_in_short_display = nullfont;
                 shortdisplay(n);
                 break;
             }
@@ -18736,7 +18725,7 @@ _L_start_of_TEX: /*55:*/
     maxinstack = 0;
     inopen = 0;
     openparens = 0;
-    maxbufstack = 0;
+    max_buf_stack = 0;
     paramptr = 0;
     maxparamstack = 0;
     first = bufsize;

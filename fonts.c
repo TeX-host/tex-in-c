@@ -11,7 +11,7 @@
     // [func] print_*,
     //  packfilename, sprint_cs, error, xn_over_d,
     //  get_defaultskewchar, get_defaulthyphenchar,
-    //  get_lomemmax
+    //  get_lo_mem_max
 
 /*549:*/
 #undef Static
@@ -274,7 +274,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
         parambase[k] = pppfmtfile.int_;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((long)x > get_lomemmax()) goto _Lbadfmt_;
+        if ((long)x > get_lo_mem_max()) goto _Lbadfmt_;
         fontglue[k] = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;

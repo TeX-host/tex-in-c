@@ -42,7 +42,8 @@ typedef int64_t     Integer;    // Integer(64) = [−(2^64), 2^64)
 typedef uint64_t    UInteger;   // UInteger(64) = [0, 2^64)
 typedef size_t      Pointer;    // Pointer::size_t(64)
 
-typedef int16_t     Int16;
+typedef int16_t     Int16;      // Int16(16) = [-(2^15), 2^15)
+typedef uint16_t    UInt16;     // UInt16(16) = [0, 2^16]
 #else
 // fallback
 typedef unsigned char   UChar;      // UChar(8) = [0, 255]
@@ -53,7 +54,8 @@ typedef long            Integer;    // Integer::long(32/64)
 typedef unsigned long   UInteger;   // Integer::ulong(32/64) = [0, 2^32)
 typedef unsigned int    Pointer;    // Pointer::Uint(32)
 
-typedef short           Int16;
+typedef short           Int16;      // Int16(16) = [-(2^15), 2^15)
+typedef unsigned short  UInt16;     // UInt16(16) = [0,2^16]
 #endif // _STDINT
 
 
@@ -87,9 +89,9 @@ All types:
 
 */
 
-typedef UChar ASCIICode;        // #18: ASCIICode::UChar(8) = [0, 255]
-typedef UChar EightBits;        // #25: EightBits::UChar(8) = [0, 255]
-typedef UChar PackedASCIICode;  // #38: PackedASCIICode::UChar(8) = [0, 255]
+typedef UChar ASCIICode;       // #18: ASCIICode::UChar(8) = [0, 255]
+typedef UChar EightBits;       // #25: EightBits::UChar(8) = [0, 255]
+typedef UChar PackedASCIICode; // #38: PackedASCIICode::UChar(8) = [0, 255]
 
 // [p38#101]: Scaled::Integer(64) = [−(2^64), 2^64)
 // we need Pascal's `Integer(32/64)`,

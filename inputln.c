@@ -1,7 +1,7 @@
 #include <stdio.h>  // FILE, EOF, stderr
 #include "tex.h"    // [type] Boolean, [macro] true, false, bufsize
 #include "global.h"
-    // [var] buffer, last, first, maxbufstack
+    // [var] buffer, last, first, max_buf_stack
     //  _JLfinalend, formatident, curinput, xord
 #include "texfunc.h" // [func] overflow
 #include "inputln.h" // [export] inputln
@@ -23,9 +23,9 @@ Boolean inputln(FILE* f, Boolean bypasseoln) {
         int inp_c;
         lastnonblank = first;
         while ((inp_c = getc(f)) != EOF && inp_c != '\n') {
-            if (last >= maxbufstack) {
-                maxbufstack = last + 1;
-                if (maxbufstack == bufsize) { /*35:*/
+            if (last >= max_buf_stack) {
+                max_buf_stack = last + 1;
+                if (max_buf_stack == bufsize) { /*35:*/
                     if (formatident == 0) {
                         fprintf(stderr, "Buffer size exceeded!\n");
                         longjmp(_JLfinalend, 1);

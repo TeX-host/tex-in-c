@@ -24,7 +24,7 @@ enum Selector {
 #ifdef tt_STAT
 /// #121
 #define FREE_AVAIL(x)                                                          \
-    (mem[(x)].hh.rh = avail, avail = (x), dynused -= charnodesize)
+    (mem[(x)].hh.rh = avail, avail = (x), dyn_used -= charnodesize)
 // end #define FREE_AVAIL(x)
 
 /// #122
@@ -34,7 +34,7 @@ enum Selector {
             type(x) = charnodetype;                                            \
             avail = link(x);                                                   \
             link(x) = 0;                                                       \
-            dynused += charnodesize;                                           \
+            dyn_used += charnodesize;                                           \
         } else {                                                               \
             (x) = get_avail();                                                 \
         }                                                                      \

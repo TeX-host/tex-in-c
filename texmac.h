@@ -24,7 +24,7 @@
 
 #define isrunning(x) ((x) == nullflag) /* {tests for a running dimension} */
 
-#define hashisfull (hashused == hashbase)
+#define hashisfull (hash_used == hashbase)
 #define equiv(x) (eqtb[(x)-activebase].hh.rh)
 
 /* Glue parameters */
@@ -218,16 +218,14 @@
 #define contribtail  (nest[0].tailfield) /*tail of the contribution list*/
 
 #if 0
-#define ischarnode(x) ((x) >= himemmin)
+#define ischarnode(x) ((x) >= hi_mem_min)
 #else
 #define ischarnode(x)                                                          \
-    (((((x) >= himemmin) != (type(x) == charnodetype)) ? niezgodnosc(x) : 0),  \
-     ((x) >= himemmin))
+    (((((x) >= hi_mem_min) != (type(x) == charnodetype)) ? niezgodnosc(x)      \
+                                                         : 0),                 \
+     ((x) >= hi_mem_min))
 #endif
 
-/*
-#define ischarnode(x) (((((x)>=himemmin)!=mem[(x)].is_char_node)?fprintf(stderr,"Niezgodno�� dla mem[%d]\n",(x)):fprintf(stderr,"Zgodno�� ")),((x)>=himemmin))
-*/
 #define set_as_char_node(x) (type(x)=charnodetype) 
 #define unset_is_char_node(x) 0 /* (mem[(x)].is_char_node=0)*/
 /* Makra specjalne */
@@ -249,16 +247,16 @@
 
 #define qi(x) (x)
 #define qo(x) (x)
-#define mode  curlist.modefield /* current mode}*/
-#define head  curlist.headfield /* header node of current list}*/
-#define tail  curlist.tailfield /* final node on current list}*/
-#define prevgraf  curlist.pgfield /* number of paragraph lines accumulated}*/
-#define aux  curlist.auxfield /* auxiliary data about the current list}*/
+#define mode  cur_list.modefield /* current mode}*/
+#define head  cur_list.headfield /* header node of current list}*/
+#define tail  cur_list.tailfield /* final node on current list}*/
+#define prevgraf  cur_list.pgfield /* number of paragraph lines accumulated}*/
+#define aux  cur_list.auxfield /* auxiliary data about the current list}*/
 #define prevdepth  aux.sc /* the name of |aux| in vertical mode}*/
 #define spacefactor  aux.hh.UU.lh /* part of |aux| in horizontal mode}*/
 #define clang  aux.hh.rh /* the other part of |aux| in horizontal mode}*/
 #define incompleatnoad  aux.int_ /* the name of |aux| in math mode}*/
-#define modeline  curlist.mlfield /* source file line number at beginning of list}*/
+#define modeline  cur_list.mlfield /* source file line number at beginning of list}*/
 #define topmark  curmark[topmarkcode- topmarkcode]
 #define firstmark  curmark[firstmarkcode - topmarkcode]
 #define botmark  curmark[botmarkcode - topmarkcode]
@@ -475,12 +473,12 @@
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
 #define beginpseudoprint()                                                     \
-    (l = tally, tally = 0, selector = PSEUDO, trickcount = 1000000)
+    (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
 
-#define settrickcount()                                                        \
-    (firstcount = tally,                                                       \
-     trickcount = tally + 1 + ERROR_LINE - halfERROR_LINE,                       \
-     ((trickcount < ERROR_LINE) ? trickcount = ERROR_LINE : 0))
+#define settrick_count()                                                        \
+    (first_count = tally,                                                       \
+     trick_count = tally + 1 + ERROR_LINE - halfERROR_LINE,                       \
+     ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
 #define popinput() /* leave an input level, re-enter the old */                \
     (inputptr--, curinput = inputstack[inputptr])
