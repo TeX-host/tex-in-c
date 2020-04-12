@@ -37,17 +37,30 @@
 #define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 
-long tex_round(double d) { return (long)(floor(d + 0.5)); }
+/*
+ * [ #13: Global variables ][97]
+ * 
+ *   [13],  20,  26,  30,  32,  39,  50,  54,  73,  76,
+ *   79,  96, 104, 115, 116, 117, 118, 124, 165, 173,
+ *  181, 213, 246, 253, 256, 271, 286, 297, 301, 304,
+ *  305, 308, 309, 310, 333, 361, 382, 387, 388, 410,
+ *  438, 447, 480, 489, 493, 512, 513, 520, 527, 532,
+ *  539, 549, 550, 555, 592, 595, 605, 616, 646, 647,
+ *  661, 684, 719, 724, 764, 770, 814, 821, 823, 825,
+ *  828, 833, 839, 847, 872, 892, 900, 905, 907, 921,
+ *  926, 943, 947, 950, 971, 980, 982, 989, 1032, 1074, 
+ *  1266, 1281, 1299, 1305, 1331, 1342, 1345
+ * 
+ * Notes:
+ *  locals
+ *      13-bad, 
+ */
 
-int pack_tok(int cs, int cmd, int chr) {
-    if (cs == 0) {
-        return dwa_do_8 * cmd + chr;
-    } else {
-        return cstokenflag + cs;
-    }
-}
-
-unsigned char nameoffile[filenamesize];
+// #20
+ASCIICode   xord[256]; // specifies conversion of input characters
+Static Char xchr[256]; // specifies conversion of output characters
+// #26
+unsigned char name_of_file[filenamesize];
 ASCIICode buffer[bufsize + 1];
 short first;
 short last;
@@ -55,7 +68,7 @@ short maxbufstack;
 StrNumber formatident;
 InStateRecord curinput;
 jmp_buf _JLfinalend;
-ASCIICode xord[256];
+
 /*13:*/
 Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
 
@@ -64,7 +77,7 @@ Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
 
 /*20:*/
 
-Static Char xchr[256];
+
 /*:20*/
 /*26:*/
 Static int namelength;
@@ -88,13 +101,24 @@ Static ASCIICode trickbuf[ERROR_LINE + 1]; // circular buffer for pseudoprinting
 Static long trickcount, // threshold for pseudoprinting, explained later
             firstcount; // another variable for pseudoprinting
 
-Static char interaction; // #73 用户交互模式
+/*
+ * [REPORTING ERRORS] section
+ */
 
-/*76:*/
-Static Boolean deletionsallowed, setboxallowed;
-Static enum History history;
+// [p30#73] current level of interaction
+// interaction = [BATCH_MODE, ERROR_STOP_MODE]
+// [REPORTING ERRORS]
+Static char interaction;
+// [p31#76][REPORTING ERRORS]
+Static Boolean deletionsallowed; // is it safe for error to call get token?
+Static Boolean setboxallowed;    // is it safe to do a \setbox assignment?
+// has the source input been clean so far?
+// [SPOTLESS, FATAL_ERROR_STOP]
+Static enum ErrorLevel history;
+// the number of scrolled errors since the last paragraph ended
+// errorcount = [-1, 100]
 Static SChar errorcount;
-/*:76*/
+
 /*79:*/
 Static StrNumber helpline[6];
 Static unsigned char helpptr;
@@ -271,8 +295,8 @@ Static InternalFontNumber dvif; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 
 /*646:*/
-Static Scaled totalstretch[filll - NORMAL + 1],
-	          totalshrink[filll - NORMAL + 1];
+Static Scaled totalstretch[FILLL - NORMAL + 1],
+	          totalshrink[FILLL - NORMAL + 1];
 Static long lastbadness;
 /*:646*/
 /*647:*/
@@ -459,6 +483,24 @@ Static Boolean writeopen[18];
 Static Pointer writeloc;   /*:1345*/
 
 
+
+
+/*
+ * functions
+ * 
+ */
+
+
+long tex_round(double d) { return (long)(floor(d + 0.5)); }
+
+int pack_tok(int cs, int cmd, int chr) {
+    if (cs == 0) {
+        return dwa_do_8 * cmd + chr;
+    } else {
+        return cstokenflag + cs;
+    }
+}
+
 int niezgodnosc(int x) { return x; }
 
 int get_defaulthyphenchar(void) { return defaulthyphenchar; }
@@ -493,357 +535,354 @@ Static int hex_to_i(int c, int cc) {
 }
 
 
-Static void initialize(void) { /*:927*/
-    /*19:*/
-    long i;
-    /*:19*/
-    /*163:*/
-    long k;
-    /*:163*/
-    /*927:*/
-    HyphPointer z;
+// #4: this procedure gets things started properly
+Static void initialize(void) {
+    // Local variables for initialization
+    Integer i;
+    Integer k; // index into mem, eqtb, etc.
+    HyphPointer z; // runs through the exception dictionary
 
-/// p5#8: Initialize whatever T E X might access
+    /// p5#8: Initialize whatever T E X might access
 
-/// p11#21 Set initial values of key variables
-{
-    /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
-    /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
-    /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
-    /// 1267, 1282, 1300, 1343.
-    /*23:*/
-    for (i = 0; i <= 255; i++)
-        xchr[i] = (Char)i;
-    /*:23*/
-    /*24:*/
-    for (i = firsttextchar; i <= lasttextchar; i++)
-        xord[(Char)i] = invalidcode;
-    for (i = 128; i <= 255; i++)
-        xord[xchr[i]] = i;
-    for (i = 0; i <= 126; i++) /*:24*/
-        xord[xchr[i]] = i;
-    /*74:*/
-    interaction = ERROR_STOP_MODE; /*:74*/
-    /*77:*/
-    deletionsallowed = true;
-    setboxallowed = true;
-    errorcount = 0; /*:77*/
-    /*80:*/
-    helpptr = 0;
-    useerrhelp = false; /*:80*/
-    /*97:*/
-    interrupt = 0;
-    OKtointerrupt = true; /*:97*/
-
-    /// p#95: 166
-#ifdef tt_DEBUG
-    wasmemend = memmin;
-    waslomax = memmin;
-    washimin = memmax;
-    panicking = false;
-#endif // #166: tt_DEBUG
-
-    /*215:*/
-    nestptr = 0;
-    maxneststack = 0;
-    mode = V_MODE;
-    head = contribhead;
-    tail = contribhead;
-    prevdepth = ignoredepth;
-    modeline = 0;
-    prevgraf = 0;
-    shownmode = 0; /*991:*/
-    pagecontents = empty;
-    pagetail = pagehead;
-    link(pagehead) = 0;
-    lastglue = MAX_HALF_WORD;
-    lastpenalty = 0;
-    lastkern = 0;
-    pagedepth = 0;
-    pagemaxdepth = 0; /*:991*/
-    /*:215*/
-    /*254:*/
-    for (k = intbase; k <= eqtbsize; k++) {
-        xeqlevel[k - intbase] = levelone;
-    }
-    /*:254*/
-    /*257:*/
-
-    next(hashbase) = 0;
-    text(hashbase) = 0;
-    for (k = hashbase + 1; k < undefinedcontrolsequence; k++) /*:257*/
-        hash[k - hashbase] = hash[0];
-    /*272:*/
-    saveptr = 0;
-    curlevel = levelone;
-    curgroup = bottomlevel;
-    curboundary = 0;
-    maxsavestack = 0; /*:272*/
-    /*287:*/
-    magset = 0; /*:287*/
-    /*383:*/
-    topmark = 0;
-    firstmark = 0;
-    botmark = 0;
-    splitfirstmark = 0;
-    splitbotmark = 0; /*:383*/
-    /*439:*/
-    curval = 0;
-    curvallevel = intval;
-    radix = 0;
-    curorder = 0; /*:439*/
-    /*481:*/
-    for (k = 0; k <= 16; k++) /*:481*/
-        readopen[k] = closed;
-    /*490:*/
-    condptr = 0;
-    iflimit = NORMAL;
-    curif = 0;
-    ifline = 0; /*:490*/
-    /*521:*/
-    memcpy(TEXformatdefault, "TeXformats:plain.fmt", formatdefaultlength);
-    /*:521*/
-    /*551:*/
-    for (int k = 0; k <= FONT_MAX; k++) {
-        fontused[k] = false;
-    }
-    /*:551*/
-    /*556:*/
-    nullcharacter.b0 = MIN_QUARTER_WORD;
-    nullcharacter.b1 = MIN_QUARTER_WORD;
-    nullcharacter.b2 = MIN_QUARTER_WORD;
-    nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
-    /*593:*/
-    totalpages = 0;
-    maxv = 0;
-    maxh = 0;
-    maxpush = 0;
-    doingleaders = false;
-    deadcycles = 0;
-    curs = -1; /*:593*/
-    dviout_init();
-    /*648:*/
-    adjusttail = 0;
-    lastbadness = 0; /*:648*/
-    /*662:*/
-    packbeginline = 0; /*:662*/
-    /*685:*/
-    emptyfield.rh = empty;
-    emptyfield.UU.lh = 0;
-    nulldelimiter.b0 = 0;
-    nulldelimiter.b1 = MIN_QUARTER_WORD;
-    nulldelimiter.b2 = 0;
-    nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
-    /*771:*/
-    alignptr = 0;
-    curalign = 0;
-    curspan = 0;
-    curloop = 0;
-    curhead = 0;
-    curtail = 0; /*:771*/
-    /*928:*/
-    for (z = 0; z <= HYPH_SIZE; z++) {
-        hyphword[z] = 0;
-        hyphlist[z] = 0;
-    }
-    hyphcount = 0; /*:928*/
-    /*990:*/
-    outputactive = false;
-    insertpenalties = 0; /*:990*/
-    /*1033:*/
-    ligaturepresent = false;
-    cancelboundary = false;
-    lfthit = false;
-    rthit = false;
-    insdisc = false; /*:1033*/
-    /*1267:*/
-    aftertoken = 0; /*:1267*/
-    /*1282:*/
-    longhelpseen = false; /*:1282*/
-    /*1300:*/
-    formatident = 0; /*:1300*/
-    /*1343:*/
-    for (k = 0; k <= 17; k++) /*:1343*/
-        writeopen[k] = false;
-} // end block p11#21
-
-/// p59#164: Initialize table entries (done by INITEX only)
-#ifdef tt_INIT
-    /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
-    for (k = membot + 1; k <= lomemstatmax; k++)
-        mem[k - memmin].sc = 0; // all glue dimensions are zeroed
-
-    k = membot;
-    while (k <= lomemstatmax) {
-        // set first words of glue specifications
-        gluerefcount(k) = 1;
-        stretchorder(k) = NORMAL;
-        shrinkorder(k) = NORMAL;
-        k += gluespecsize;
-    }
-
-    stretch(filglue)    =  UNITY; stretchorder(filglue)    = fil;
-    stretch(fillglue)   =  UNITY; stretchorder(fillglue)   = fill;
-    stretch(ssglue)     =  UNITY; stretchorder(ssglue)     = fil;
-    shrink(ssglue)      =  UNITY; shrinkorder(ssglue)      = fil;
-    stretch(filnegglue) = -UNITY; stretchorder(filnegglue) = fil;
-
-    // now initialize the dynamic memory
-    rover = lomemstatmax + 1;
-    link(rover) = emptyflag;
-
-    nodesize(rover) = 1000; // which is a 1000-word available node
-    llink(rover) = rover;
-    rlink(rover) = rover;
-    lomemmax = rover + 1000;
-    link(lomemmax) = 0;
-    info(lomemmax) = 0;
-
-    for (k = himemstatmin; k <= memtop; k++) {
-        // clear list heads
-        mem[k - memmin].sc = 0;
-        type(k) = charnodetype;
-    }
-
-    // Initialize the special list heads and constant nodes
+    /// p11#21 Set initial values of key variables
     {
-        /// #790
-        info(omittemplate) = endtemplatetoken; // ink(omit template) = null
-        /// #797
-        link(endspan) = MAX_QUARTER_WORD + 1;
-        info(endspan) = 0;
-        /// #820
-        type(lastactive) = hyphenated;
-        linenumber(lastactive) = MAX_HALF_WORD;
-        subtype(lastactive) = 0; // the subtype is never examined by the algorithm
-        /// #981
-        subtype(pageinshead) = MIN_QUARTER_WORD + 255;
-        type(pageinshead) = splitup;
-        link(pageinshead) = pageinshead;
-        /// #988
-        type(pagehead) = GLUE_NODE;
-        subtype(pagehead) = NORMAL;
-    }
+        /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
+        /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
+        /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
+        /// 1267, 1282, 1300, 1343.
+        /*23:*/
+        for (i = 0; i <= 255; i++)
+            xchr[i] = (Char)i;
+        /*:23*/
+        /*24:*/
+        for (i = firsttextchar; i <= lasttextchar; i++)
+            xord[(Char)i] = invalidcode;
+        for (i = 128; i <= 255; i++)
+            xord[xchr[i]] = i;
+        for (i = 0; i <= 126; i++) /*:24*/
+            xord[xchr[i]] = i;
+        /*74:*/
+        interaction = ERROR_STOP_MODE; /*:74*/
+        /*77:*/
+        deletionsallowed = true;
+        setboxallowed = true;
+        errorcount = 0; /*:77*/
+        /*80:*/
+        helpptr = 0;
+        useerrhelp = false; /*:80*/
+        /*97:*/
+        interrupt = 0;
+        OKtointerrupt = true; /*:97*/
 
-    /// p59#164
-    avail = 0;
-    memend = memtop;
-    himemmin = himemstatmin; // initialize the one-word memory
-    varused = lomemstatmax - membot + 1;
-    dynused = himemstatusage; // initialize statistics
+        /// p#95: 166
+        #ifdef tt_DEBUG
+            wasmemend = memmin;
+            waslomax = memmin;
+            washimin = memmax;
+            panicking = false;
+        #endif // #166: tt_DEBUG
 
-    /// p82#222
-    eqtype(undefinedcontrolsequence) = undefinedcs;
-    equiv(undefinedcontrolsequence) = 0;
-    eqlevel(undefinedcontrolsequence) = levelzero;
-    for (k = activebase; k < undefinedcontrolsequence; k++)
-        eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
+        /*215:*/
+        nestptr = 0;
+        maxneststack = 0;
+        mode = V_MODE;
+        head = contribhead;
+        tail = contribhead;
+        prevdepth = ignoredepth;
+        modeline = 0;
+        prevgraf = 0;
+        shownmode = 0; /*991:*/
+        pagecontents = empty;
+        pagetail = pagehead;
+        link(pagehead) = 0;
+        lastglue = MAX_HALF_WORD;
+        lastpenalty = 0;
+        lastkern = 0;
+        pagedepth = 0;
+        pagemaxdepth = 0; /*:991*/
+        /*:215*/
+        /*254:*/
+        for (k = intbase; k <= eqtbsize; k++) {
+            xeqlevel[k - intbase] = levelone;
+        }
+        /*:254*/
+        /*257:*/
 
-    /// #228
-    equiv(gluebase) = zeroglue;
-    eqlevel(gluebase) = levelone;
-    eqtype(gluebase) = glueref;
-    for (k = gluebase + 1; k < localbase; k++)
-        eqtb[k - activebase] = eqtb[gluebase - activebase];
-    gluerefcount(zeroglue) += localbase - gluebase;
+        next(hashbase) = 0;
+        text(hashbase) = 0;
+        for (k = hashbase + 1; k < undefinedcontrolsequence; k++) /*:257*/
+            hash[k - hashbase] = hash[0];
+        /*272:*/
+        saveptr = 0;
+        curlevel = levelone;
+        curgroup = bottomlevel;
+        curboundary = 0;
+        maxsavestack = 0; /*:272*/
+        /*287:*/
+        magset = 0; /*:287*/
+        /*383:*/
+        topmark = 0;
+        firstmark = 0;
+        botmark = 0;
+        splitfirstmark = 0;
+        splitbotmark = 0; /*:383*/
+        /*439:*/
+        curval = 0;
+        curvallevel = intval;
+        radix = 0;
+        curorder = 0; /*:439*/
+        /*481:*/
+        for (k = 0; k <= 16; k++) /*:481*/
+            readopen[k] = closed;
+        /*490:*/
+        condptr = 0;
+        iflimit = NORMAL;
+        curif = 0;
+        ifline = 0; /*:490*/
+        /*521:*/
+        memcpy(TEXformatdefault, "TeXformats:plain.fmt", formatdefaultlength);
+        /*:521*/
+        /*551:*/
+        for (int k = 0; k <= FONT_MAX; k++) {
+            fontused[k] = false;
+        }
+        /*:551*/
+        /*556:*/
+        nullcharacter.b0 = MIN_QUARTER_WORD;
+        nullcharacter.b1 = MIN_QUARTER_WORD;
+        nullcharacter.b2 = MIN_QUARTER_WORD;
+        nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
+        /*593:*/
+        totalpages = 0;
+        maxv = 0;
+        maxh = 0;
+        maxpush = 0;
+        doingleaders = false;
+        deadcycles = 0;
+        curs = -1; /*:593*/
+        dviout_init();
+        /*648:*/
+        adjusttail = 0;
+        lastbadness = 0; /*:648*/
+        /*662:*/
+        packbeginline = 0; /*:662*/
+        /*685:*/
+        emptyfield.rh = empty;
+        emptyfield.UU.lh = 0;
+        nulldelimiter.b0 = 0;
+        nulldelimiter.b1 = MIN_QUARTER_WORD;
+        nulldelimiter.b2 = 0;
+        nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
+        /*771:*/
+        alignptr = 0;
+        curalign = 0;
+        curspan = 0;
+        curloop = 0;
+        curhead = 0;
+        curtail = 0; /*:771*/
+        /*928:*/
+        for (z = 0; z <= HYPH_SIZE; z++) {
+            hyphword[z] = 0;
+            hyphlist[z] = 0;
+        }
+        hyphcount = 0; /*:928*/
+        /*990:*/
+        outputactive = false;
+        insertpenalties = 0; /*:990*/
+        /*1033:*/
+        ligaturepresent = false;
+        cancelboundary = false;
+        lfthit = false;
+        rthit = false;
+        insdisc = false; /*:1033*/
+        /*1267:*/
+        aftertoken = 0; /*:1267*/
+        /*1282:*/
+        longhelpseen = false; /*:1282*/
+        /*1300:*/
+        formatident = 0; /*:1300*/
+        /*1343:*/
+        for (k = 0; k <= 17; k++) /*:1343*/
+            writeopen[k] = false;
+    } // end block p11#21
 
-    // #232
-    parshapeptr = 0;
-    eqtype(parshapeloc) = shaperef;
-    eqlevel(parshapeloc) = levelone;
-    for (k = outputroutineloc; k <= toksbase + 255; k++)
-        eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
-    box(0) = 0;
-    eqtype(boxbase) = boxref;
-    eqlevel(boxbase) = levelone;
-    for (k = boxbase + 1; k <= boxbase + 255; k++)
-        eqtb[k - activebase] = eqtb[boxbase - activebase];
-    curfont = nullfont;
-    eqtype(curfontloc) = data;
-    eqlevel(curfontloc) = levelone;
-    for (k = mathfontbase; k <= mathfontbase + 47; k++)
-        eqtb[k - activebase] = eqtb[curfontloc - activebase];
-    equiv(catcodebase) = 0;
-    eqtype(catcodebase) = data;
-    eqlevel(catcodebase) = levelone;
-    for (k = catcodebase + 1; k < intbase; k++)
-        eqtb[k - activebase] = eqtb[catcodebase - activebase];
-    for (k = 0; k <= 255; k++) {
-        catcode(k) = otherchar;
-        mathcode(k) = k;
-        sfcode(k) = 1000;
-    }
-    catcode(carriagereturn) = carret;
-    catcode(' ') = spacer;
-    catcode('\\') = escape;
-    catcode('%') = comment;
-    catcode(invalidcode) = invalidchar;
-    catcode(nullcode) = ignore;
-    for (k = '0'; k <= '9'; k++)
-        mathcode(k) = k + varcode;
-    for (k = 'A'; k <= 'Z'; k++) {
-        catcode(k) = letter;
-        catcode(k + 'a' - 'A') = letter;
-        mathcode(k) = k + varcode + 256;
-        mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
-        lccode(k) = k + 'a' - 'A';
-        lccode(k + 'a' - 'A') = k + 'a' - 'A';
-        uccode(k) = k;
-        uccode(k + 'a' - 'A') = k;
-        sfcode(k) = 999;
-    }
+    /// p59#164: Initialize table entries (done by INITEX only)
+    #ifdef tt_INIT
+        /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
+        for (k = membot + 1; k <= lomemstatmax; k++)
+            mem[k - memmin].sc = 0; // all glue dimensions are zeroed
 
-    // #240
-    for (k = intbase; k < delcodebase; k++)
-        eqtb[k - activebase].int_ = 0;
-    mag = 1000;
-    tolerance = 10000;
-    hangafter = 1;
-    maxdeadcycles = 25;
-    ESCAPE_CHAR = '\\';
-    endlinechar = carriagereturn;
-    for (k = 0; k <= 255; k++)
-        delcode(k) = -1;
-    delcode('.') = 0; // this null delimiter is used in error recovery
+        k = membot;
+        while (k <= lomemstatmax) {
+            // set first words of glue specifications
+            gluerefcount(k) = 1;
+            stretchorder(k) = NORMAL;
+            shrinkorder(k) = NORMAL;
+            k += gluespecsize;
+        }
 
-    // #250
-    for (k = dimenbase; k <= eqtbsize; k++)
-        eqtb[k - activebase].sc = 0;
+        stretch(filglue)    =  UNITY; stretchorder(filglue)    = FIL;
+        stretch(fillglue)   =  UNITY; stretchorder(fillglue)   = FILL;
+        stretch(ssglue)     =  UNITY; stretchorder(ssglue)     = FIL;
+        shrink(ssglue)      =  UNITY; shrinkorder(ssglue)      = FIL;
+        stretch(filnegglue) = -UNITY; stretchorder(filnegglue) = FIL;
 
-    // #258
-    hashused = frozencontrolsequence; // nothing is used
-    cscount = 0;
-    eqtype(frozendontexpand) = dontexpand;
-    text(frozendontexpand) = S(257);
+        // now initialize the dynamic memory
+        rover = lomemstatmax + 1;
+        link(rover) = emptyflag;
 
-    // #552
-    fonts_init();
+        nodesize(rover) = 1000; // which is a 1000-word available node
+        llink(rover) = rover;
+        rlink(rover) = rover;
+        lomemmax = rover + 1000;
+        link(lomemmax) = 0;
+        info(lomemmax) = 0;
 
-    // #946
-    for (k = -trieopsize; k <= trieopsize; k++)
-        trieophash[k + trieopsize] = 0;
-    for (k = 0; k <= 255; k++)
-        trieused[k] = MIN_QUARTER_WORD;
-    trieopptr = 0;
+        for (k = himemstatmin; k <= memtop; k++) {
+            // clear list heads
+            mem[k - memmin].sc = 0;
+            type(k) = charnodetype;
+        }
 
-    // #951
-    trie_not_ready = true;
-    trieroot = 0;
-    triec[0] = 0;
-    trieptr = 0;
+        // Initialize the special list heads and constant nodes
+        {
+            /// #790
+            info(omittemplate) = endtemplatetoken; // ink(omit template) = null
+            /// #797
+            link(endspan) = MAX_QUARTER_WORD + 1;
+            info(endspan) = 0;
+            /// #820
+            type(lastactive) = hyphenated;
+            linenumber(lastactive) = MAX_HALF_WORD;
+            subtype(lastactive) = 0; // the subtype is never examined by the algorithm
+            /// #981
+            subtype(pageinshead) = MIN_QUARTER_WORD + 255;
+            type(pageinshead) = splitup;
+            link(pageinshead) = pageinshead;
+            /// #988
+            type(pagehead) = GLUE_NODE;
+            subtype(pagehead) = NORMAL;
+        }
 
-    // #1216
-    text(frozenprotection) = S(258);
-    // #1301
-    formatident = S(259);
-    // #1369
-    text(endwrite) = S(260);
-    eqlevel(endwrite) = levelone;
-    eqtype(endwrite) = outercall;
-    equiv(endwrite) = 0;
+        /// p59#164
+        avail = 0;
+        memend = memtop;
+        himemmin = himemstatmin; // initialize the one-word memory
+        varused = lomemstatmax - membot + 1;
+        dynused = himemstatusage; // initialize statistics
+
+        /// p82#222
+        eqtype(undefinedcontrolsequence) = undefinedcs;
+        equiv(undefinedcontrolsequence) = 0;
+        eqlevel(undefinedcontrolsequence) = levelzero;
+        for (k = activebase; k < undefinedcontrolsequence; k++)
+            eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
+
+        /// #228
+        equiv(gluebase) = zeroglue;
+        eqlevel(gluebase) = levelone;
+        eqtype(gluebase) = glueref;
+        for (k = gluebase + 1; k < localbase; k++)
+            eqtb[k - activebase] = eqtb[gluebase - activebase];
+        gluerefcount(zeroglue) += localbase - gluebase;
+
+        // #232
+        parshapeptr = 0;
+        eqtype(parshapeloc) = shaperef;
+        eqlevel(parshapeloc) = levelone;
+        for (k = outputroutineloc; k <= toksbase + 255; k++)
+            eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
+        box(0) = 0;
+        eqtype(boxbase) = boxref;
+        eqlevel(boxbase) = levelone;
+        for (k = boxbase + 1; k <= boxbase + 255; k++)
+            eqtb[k - activebase] = eqtb[boxbase - activebase];
+        curfont = nullfont;
+        eqtype(curfontloc) = data;
+        eqlevel(curfontloc) = levelone;
+        for (k = mathfontbase; k <= mathfontbase + 47; k++)
+            eqtb[k - activebase] = eqtb[curfontloc - activebase];
+        equiv(catcodebase) = 0;
+        eqtype(catcodebase) = data;
+        eqlevel(catcodebase) = levelone;
+        for (k = catcodebase + 1; k < intbase; k++)
+            eqtb[k - activebase] = eqtb[catcodebase - activebase];
+        for (k = 0; k <= 255; k++) {
+            catcode(k) = otherchar;
+            mathcode(k) = k;
+            sfcode(k) = 1000;
+        }
+        catcode(carriagereturn) = carret;
+        catcode(' ') = spacer;
+        catcode('\\') = escape;
+        catcode('%') = comment;
+        catcode(invalidcode) = invalidchar;
+        catcode(nullcode) = ignore;
+        for (k = '0'; k <= '9'; k++)
+            mathcode(k) = k + varcode;
+        for (k = 'A'; k <= 'Z'; k++) {
+            catcode(k) = letter;
+            catcode(k + 'a' - 'A') = letter;
+            mathcode(k) = k + varcode + 256;
+            mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
+            lccode(k) = k + 'a' - 'A';
+            lccode(k + 'a' - 'A') = k + 'a' - 'A';
+            uccode(k) = k;
+            uccode(k + 'a' - 'A') = k;
+            sfcode(k) = 999;
+        }
+
+        // #240
+        for (k = intbase; k < delcodebase; k++)
+            eqtb[k - activebase].int_ = 0;
+        mag = 1000;
+        tolerance = 10000;
+        hangafter = 1;
+        maxdeadcycles = 25;
+        ESCAPE_CHAR = '\\';
+        endlinechar = carriagereturn;
+        for (k = 0; k <= 255; k++)
+            delcode(k) = -1;
+        delcode('.') = 0; // this null delimiter is used in error recovery
+
+        // #250
+        for (k = dimenbase; k <= eqtbsize; k++)
+            eqtb[k - activebase].sc = 0;
+
+        // #258
+        hashused = frozencontrolsequence; // nothing is used
+        cscount = 0;
+        eqtype(frozendontexpand) = dontexpand;
+        text(frozendontexpand) = S(257);
+
+        // #552
+        fonts_init();
+
+        // #946
+        for (k = -trieopsize; k <= trieopsize; k++)
+            trieophash[k + trieopsize] = 0;
+        for (k = 0; k <= 255; k++)
+            trieused[k] = MIN_QUARTER_WORD;
+        trieopptr = 0;
+
+        // #951
+        trie_not_ready = true;
+        trieroot = 0;
+        triec[0] = 0;
+        trieptr = 0;
+
+        // #1216
+        text(frozenprotection) = S(258);
+        // #1301
+        formatident = S(259);
+        // #1369
+        text(endwrite) = S(260);
+        eqlevel(endwrite) = levelone;
+        eqtype(endwrite) = outercall;
+        equiv(endwrite) = 0;
 
 
-#endif // #164: tt_INIT
+    #endif // #164: tt_INIT
 } // initialize
 
 
@@ -858,6 +897,7 @@ Static void initialize(void) { /*:927*/
     printesc, print_the_digs, print_int, print_cs, sprint_cs,
     print_file_name, print_size, print_write_whatsit
 */
+
 /// #57
 void println(void) {
     switch (selector) {
@@ -2449,7 +2489,7 @@ Static void printruledimen(long d)
 Static void printglue(long d, long order, StrNumber s)
 {
   print_scaled(d);
-  if ((unsigned long)order > filll) {
+  if ((unsigned long)order > FILLL) {
     print(S(329));
     return;
   }
@@ -2459,7 +2499,7 @@ Static void printglue(long d, long order, StrNumber s)
     return;
   }
   print(S(330));
-  while (order > fil) {
+  while (order > FIL) {
     print_char('l');
     order--;
   }
@@ -6129,9 +6169,9 @@ _Ldone1:
   }  /*453:*/
   if (inf) {   /*454:*/
     if (scankeyword(S(330))) {   /*:454*/
-      curorder = fil;
+      curorder = FIL;
       while (scankeyword('l')) {
-	if (curorder != filll) {
+	if (curorder != FILLL) {
 	  curorder++;
 	  continue;
 	}
@@ -7096,7 +7136,7 @@ Static void appendtoname(StrASCIICode x)
 {
 	filename_k++;
 	if (filename_k<=filenamesize) {
-           nameoffile[filename_k-1]=xchr[x];
+           name_of_file[filename_k-1]=xchr[x];
 	}
 }
 /*:517*/
@@ -7117,7 +7157,7 @@ void packfilename(StrNumber n, StrNumber a, StrNumber e)
   else
     namelength = filenamesize;
   for (k = namelength; k < filenamesize; k++)
-    nameoffile[k] = ' ';
+    name_of_file[k] = ' ';
 }  /*:519*/
 
 /*525:*/
@@ -7125,7 +7165,7 @@ Static StrNumber makenamestring(void)
 {
     int k;
     for (k = 0; k < namelength; k++) {
-        append_char(xord[nameoffile[k]]);
+        append_char(xord[name_of_file[k]]);
     }
     return (makestring());
 }
@@ -8030,12 +8070,12 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m)
   x = 0;
   totalstretch[0] = 0;
   totalshrink[0] = 0;
-  totalstretch[fil - NORMAL] = 0;
-  totalshrink[fil - NORMAL] = 0;
-  totalstretch[fill - NORMAL] = 0;
-  totalshrink[fill - NORMAL] = 0;
-  totalstretch[filll - NORMAL] = 0;
-  totalshrink[filll - NORMAL] = 0;   /*:650*/
+  totalstretch[FIL - NORMAL] = 0;
+  totalshrink[FIL - NORMAL] = 0;
+  totalstretch[FILL - NORMAL] = 0;
+  totalshrink[FILL - NORMAL] = 0;
+  totalstretch[FILLL - NORMAL] = 0;
+  totalshrink[FILLL - NORMAL] = 0;   /*:650*/
   while (p != 0) {   /*651:*/
 _Lreswitch:
     while (ischarnode(p)) {   /*654:*/
@@ -8148,12 +8188,12 @@ _Lreswitch:
     glueset(r) = 0.0;
     goto _Lexit;
   } else if (x > 0) {
-    if (totalstretch[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalstretch[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalstretch[fil - NORMAL] != 0)
-      o = fil;
+    if (totalstretch[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalstretch[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalstretch[FIL - NORMAL] != 0)
+      o = FIL;
     else {
       o = NORMAL;
       /*:659*/
@@ -8184,12 +8224,12 @@ _Lreswitch:
     }
     goto _Lexit;
   } else {
-    if (totalshrink[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalshrink[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalshrink[fil - NORMAL] != 0)
-      o = fil;
+    if (totalshrink[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalshrink[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalshrink[FIL - NORMAL] != 0)
+      o = FIL;
     else
       o = NORMAL;   /*:665*/
     glueorder(r) = o;
@@ -8277,12 +8317,12 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
   x = 0;
   totalstretch[0] = 0;
   totalshrink[0] = 0;
-  totalstretch[fil - NORMAL] = 0;
-  totalshrink[fil - NORMAL] = 0;
-  totalstretch[fill - NORMAL] = 0;
-  totalshrink[fill - NORMAL] = 0;
-  totalstretch[filll - NORMAL] = 0;
-  totalshrink[filll - NORMAL] = 0;   /*:650*/
+  totalstretch[FIL - NORMAL] = 0;
+  totalshrink[FIL - NORMAL] = 0;
+  totalstretch[FILL - NORMAL] = 0;
+  totalshrink[FILL - NORMAL] = 0;
+  totalstretch[FILLL - NORMAL] = 0;
+  totalshrink[FILLL - NORMAL] = 0;   /*:650*/
   while (p != 0) {   /*669:*/
     if (ischarnode(p))
       confusion(S(710));
@@ -8350,12 +8390,12 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
     glueset(r) = 0.0;
     goto _Lexit;
   } else if (x > 0) {
-    if (totalstretch[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalstretch[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalstretch[fil - NORMAL] != 0)
-      o = fil;
+    if (totalstretch[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalstretch[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalstretch[FIL - NORMAL] != 0)
+      o = FIL;
     else {
       o = NORMAL;
       /*:659*/
@@ -8386,12 +8426,12 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)
     }
     goto _Lexit;
   } else {
-    if (totalshrink[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalshrink[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalshrink[fil - NORMAL] != 0)
-      o = fil;
+    if (totalshrink[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalshrink[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalshrink[FIL - NORMAL] != 0)
+      o = FIL;
     else
       o = NORMAL;   /*:665*/
     glueorder(r) = o;
@@ -9734,7 +9774,7 @@ _Ldonewithnode_:
   while (q != 0) {   /*761:*/
     t = ordnoad;
     s = noadsize;
-    pen = infpenalty;
+    pen = INF_PENALTY;
     switch (type(q)) {   /*:761*/
 
     case opnoad:
@@ -9867,7 +9907,7 @@ _Ldonewithnode_:
     }
     if (penalties) {
       if (link(q) != 0) {
-	if (pen < infpenalty) {   /*:767*/
+	if (pen < INF_PENALTY) {   /*:767*/
 	  rtype = type(link(q));
 	  if (rtype != PENALTY_NODE) {
 	    if (rtype != relnoad) {
@@ -10210,24 +10250,24 @@ Static Boolean fincol(void)
       width(curalign) = w;
     type(u) = UNSET_NODE;
     spancount(u) = n;   /*659:*/
-    if (totalstretch[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalstretch[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalstretch[fil - NORMAL] != 0)
-      o = fil;
+    if (totalstretch[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalstretch[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalstretch[FIL - NORMAL] != 0)
+      o = FIL;
     else {
       o = NORMAL;
       /*:659*/
     }
     glueorder(u) = o;
     gluestretch(u) = totalstretch[o - NORMAL];   /*665:*/
-    if (totalshrink[filll - NORMAL] != 0)
-      o = filll;
-    else if (totalshrink[fill - NORMAL] != 0)
-      o = fill;
-    else if (totalshrink[fil - NORMAL] != 0)
-      o = fil;
+    if (totalshrink[FILLL - NORMAL] != 0)
+      o = FILLL;
+    else if (totalshrink[FILL - NORMAL] != 0)
+      o = FILL;
+    else if (totalshrink[FIL - NORMAL] != 0)
+      o = FIL;
     else
       o = NORMAL;   /*:665*/
     gluesign(u) = o;
@@ -10637,9 +10677,9 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
     long d;
     Boolean artificialdemerits;
 
-    if (labs(pi) >= infpenalty) {
+    if (labs(pi) >= INF_PENALTY) {
         if (pi > 0) goto _Lexit;
-        pi = ejectpenalty;
+        pi = EJECT_PENALTY;
         /*:831*/
     }
 
@@ -10937,7 +10977,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             else
                 fitclass = decentfit;
         }
-        if (b > INF_BAD || pi == ejectpenalty) { /*854:*/
+        if (b > INF_BAD || pi == EJECT_PENALTY) { /*854:*/
             if (((finalpass && minimumdemerits == awfulbad) &
                  (link(r) == lastactive)) &&
                 prevr == active)
@@ -10962,7 +11002,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             if (pi != 0) {
                 if (pi > 0)
                     d += pi * pi;
-                else if (pi > ejectpenalty)
+                else if (pi > EJECT_PENALTY)
                     d -= pi * pi;
             }
             if ((breaktype == hyphenated) & (type(r) == hyphenated)) {
@@ -12086,14 +12126,14 @@ Static void linebreak(long finalwidowpenalty) {
     packbeginline = modeline; /*816:*/
     link(temphead) = link(head);
     if (ischarnode(tail)) {
-        tailappend(newpenalty(infpenalty));
+        tailappend(newpenalty(INF_PENALTY));
     } else if (type(tail) != GLUE_NODE) {
-        tailappend(newpenalty(infpenalty));
+        tailappend(newpenalty(INF_PENALTY));
     } else {
         type(tail) = PENALTY_NODE;
         deleteglueref(glueptr(tail));
         flushnodelist(leaderptr(tail));
-        penalty(tail) = infpenalty;
+        penalty(tail) = INF_PENALTY;
     }
     link(tail) = newparamglue(parfillskipcode);
     initcurlang = prevgraf % 65536L;
@@ -12481,7 +12521,7 @@ Static void linebreak(long finalwidowpenalty) {
         }
         /*:866*/
         if (curp == 0) { /*873:*/
-            trybreak(ejectpenalty, hyphenated);
+            trybreak(EJECT_PENALTY, hyphenated);
             if (link(active) != lastactive) { /*874:*/
                 r = link(active);
                 fewestdemerits = awfulbad;
@@ -12772,7 +12812,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
   prevdp = 0;
   while (true) {  /*972:*/
     if (p == 0)   /*974:*/
-      pi = ejectpenalty;
+      pi = EJECT_PENALTY;
     else {  /*973:*/
       switch (type(p)) {   /*:973*/
 
@@ -12818,7 +12858,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
 	break;
       }
     }
-    if (pi < infpenalty)   /*:974*/
+    if (pi < INF_PENALTY)   /*:974*/
     {  /*975:*/
       if (curheight < h) {
 	if (activeheight[2] != 0 || activeheight[3] != 0 ||
@@ -12831,7 +12871,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
       else
 	b = badness(curheight - h, activeheight[5]);   /*:975*/
       if (b < awfulbad) {
-	if (pi <= ejectpenalty)
+	if (pi <= EJECT_PENALTY)
 	  b = pi;
 	else if (b < INF_BAD)
 	  b += pi;
@@ -12843,7 +12883,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d)
 	leastcost = b;
 	bestheightplusdepth = curheight + prevdp;
       }
-      if (b == awfulbad || pi <= ejectpenalty)
+      if (b == awfulbad || pi <= EJECT_PENALTY)
 	goto _Ldone;
     }
     if ((type(p) < GLUE_NODE) | (type(p) > KERN_NODE))
@@ -13052,9 +13092,9 @@ Static void fireup(HalfWord c)
 
   if (type(bestpagebreak) == PENALTY_NODE) {
     geqworddefine(intbase + outputpenaltycode, penalty(bestpagebreak));
-    penalty(bestpagebreak) = infpenalty;
+    penalty(bestpagebreak) = INF_PENALTY;
   } else   /*:1013*/
-    geqworddefine(intbase + outputpenaltycode, infpenalty);
+    geqworddefine(intbase + outputpenaltycode, INF_PENALTY);
   if (botmark != 0) {   /*1014:*/
     if (topmark != 0)
       deletetokenref(topmark);
@@ -13404,7 +13444,7 @@ Static void buildpage(void) {
                                 print_scaled(bestheightplusdepth);
                                 print(S(764));
                                 if (q == 0)
-                                    print_int(ejectpenalty);
+                                    print_int(EJECT_PENALTY);
                                 else if (type(q) == PENALTY_NODE)
                                     print_int(penalty(q));
                                 else
@@ -13421,7 +13461,7 @@ Static void buildpage(void) {
                         brokenptr(r) = q;
                         brokenins(r) = p;
                         if (q == 0)
-                            insertpenalties += ejectpenalty;
+                            insertpenalties += EJECT_PENALTY;
                         else if (type(q) == PENALTY_NODE)
                             insertpenalties += penalty(q);
                     }
@@ -13435,7 +13475,7 @@ Static void buildpage(void) {
                 break;
         }
         /*1005:*/
-        if (pi < infpenalty) /*:1005*/
+        if (pi < INF_PENALTY) /*:1005*/
         {                    /*1007:*/
             if (pagetotal < pagegoal) {
                 if (pagesofar[3] != 0 || pagesofar[4] != 0 || pagesofar[5] != 0)
@@ -13447,7 +13487,7 @@ Static void buildpage(void) {
             else
                 b = badness(pagetotal - pagegoal, pageshrink); /*:1007*/
             if (b < awfulbad) {
-                if (pi <= ejectpenalty)
+                if (pi <= EJECT_PENALTY)
                     c = pi;
                 else if (b < INF_BAD)
                     c = b + pi + insertpenalties;
@@ -13494,7 +13534,7 @@ Static void buildpage(void) {
                     r = link(r);
                 }
             }
-            if (c == awfulbad || pi <= ejectpenalty) {
+            if (c == awfulbad || pi <= EJECT_PENALTY) {
                 fireup(p);
                 if (outputactive) goto _Lexit;
                 goto _Ldone;
@@ -15241,9 +15281,9 @@ Static void aftermath(void)
   }
   if (w + q > z) {   /*1201:*/
     if (e != 0 && (w - totalshrink[0] + q <= z ||
-		   totalshrink[fil - NORMAL] != 0 ||
-		   totalshrink[fill - NORMAL] != 0 ||
-		   totalshrink[filll - NORMAL] != 0)) {
+		   totalshrink[FIL - NORMAL] != 0 ||
+		   totalshrink[FILL - NORMAL] != 0 ||
+		   totalshrink[FILLL - NORMAL] != 0)) {
       freenode(b, boxnodesize);
       b = hpack(p, z - q, exactly);
     } else {
@@ -15279,7 +15319,7 @@ Static void aftermath(void)
   if (l && e == 0) {   /*1204:*/
     shiftamount(a) = s;
     appendtovlist(a);
-    tailappend(newpenalty(infpenalty));
+    tailappend(newpenalty(INF_PENALTY));
   } else {
     tailappend(newparamglue(g1));   /*:1203*/
   }
@@ -15299,7 +15339,7 @@ Static void aftermath(void)
   shiftamount(b) = s + d;   /*:1204*/
   appendtovlist(b);   /*1205:*/
   if (a != 0 && e == 0 && !l) {
-    tailappend(newpenalty(infpenalty));
+    tailappend(newpenalty(INF_PENALTY));
     shiftamount(a) = s + z - width(a);
     appendtovlist(a);
     g2 = 0;
@@ -18592,8 +18632,9 @@ Static void debughelp(void) {
 // Check the “constant” values for consistency
 // 14, 111, 290, 522, 1249, used in 1332
 int check_constant(void) {
-    /// bad: 13, 14, 111, 290, 522, 1249, 1332
-    int bad = 0;
+    /// bad: is some “constant” wrong?
+    // 13, 14, 111, 290, 522, 1249, 1332
+    Integer bad = 0;
 
     /// #14
     if (

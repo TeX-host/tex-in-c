@@ -153,6 +153,7 @@ typedef union {
 } MemoryWord;
 
 // #150: GlueOrd(8)
+// infinity to the 0, 1, 2, or 3 power
 // only need: [normal, filll] = [0, 3]
 typedef UChar GlueOrd;
 

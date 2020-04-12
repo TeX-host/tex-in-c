@@ -5,7 +5,7 @@
 #include "tex.h"    // [macro] bufsize, filenamesize
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [export]
-#include "global.h" // [var] buffer, last, first, nameoffile
+#include "global.h" // [var] buffer, last, first, name_of_file
 
 static char my_buff[256];
 
@@ -200,7 +200,7 @@ int open_fmt(FILE** fmt, FILE* _not_use_) {
 
 void trimspaces(void) {
     char* pp;
-    memcpy(my_buff, nameoffile, filenamesize);
+    memcpy(my_buff, name_of_file, filenamesize);
     my_buff[filenamesize] = 0;
     my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : filenamesize] = 0;
     fprintf(stderr, "%s", my_buff);

@@ -1,9 +1,8 @@
 #pragma once
 #ifndef TEX_H
 #define TEX_H
-#include <stdint.h>
-#include <stdbool.h>
 #include "tex_types.h"
+#include "tex_constant.h"
 
 // 标记字符串序号
 #define S(x) (x)
@@ -100,22 +99,6 @@
 #define carriagereturn  13
 #define invalidcode     127
 
-// p30#73: global variable `interaction` has four settings
-enum UserInteractionMode {
-    BATCH_MODE,     // omits all stops and omits terminal output
-    NON_STOP_MODE,  // omits all stops
-    SCROLL_MODE,    // omits error stops
-    ERROR_STOP_MODE // stops at every opportunity to interact
-};
-
-enum History {            // history value @76
-    SPOTLESS = 0,         // nothing has been amiss yet
-    WARNING_ISSUED,       // begin_diagnostic has been called
-    ERROR_MESSAGE_ISSUED, // error has been called
-    FATAL_ERROR_STOP,     // termination was premature
-}; 
-
-#define INF_BAD             10000
 
 #define hlistnode       0
 #define boxnodesize     7
@@ -128,44 +111,14 @@ enum History {            // history value @76
 #define shrinking       2
 #define glueoffset      6
 
-enum NodeType {
-    VLIST_NODE = 1,
-    RULE_NODE,
-    INS_NODE,
-    MARK_NODE,
-    ADJUST_NODE,
 
-    LIGATURE_NODE,
-    DISC_NODE,
-    WHATSIT_NODE,
-    MATH_NODE,
-    GLUE_NODE,
-
-    KERN_NODE,
-    PENALTY_NODE,
-    UNSET_NODE,
-};
-
-#define rulenodesize    4
-#define insnodesize     5
-#define smallnodesize   2
-
-#define before          0
-#define after           1
 
 #define condmathglue    98
 #define muglue          99
 #define aleaders        100
 #define cleaders        101
 #define xleaders        102
-#define gluespecsize    4
-#define fil             1
-#define fill            2
-#define filll           3
-#define explicit        1
-#define acckern         2
-#define infpenalty      INF_BAD
-#define ejectpenalty    (-infpenalty)
+
 #define himemstatusage  14
 
 // #207
@@ -526,39 +479,6 @@ enum NodeType {
 #define skipblanks      (maxcharcode + 2)
 #define newline         (maxcharcode + maxcharcode + 3)
 
-    // p124#305: scanner status
-    enum ScannerStatus {
-        NORMAL = 0,
-        SKIPPING, // when passing conditional text
-        DEFINING, // when reading a macro definition
-        MATCHING, // when reading macro arguments
-        ALIGNING, // when reading an alignment preamble
-        ABSORBING // when reading a balanced text
-    };
-
-// p125#307
-#define TOKEN_LIST 0
-
-enum TokenType {
-    PARAMETER,   // parameter
-    U_TEMPLATE,  // <u_j> template
-    V_TEMPLATE,  // <v_j> template
-    BACKED_UP,   // text to be reread
-    INSERTED,    // inserted texts
-    MACRO,       // defined control sequences
-    OUTPUT_TEXT, // output routines
-
-    EVERY_PAR_TEXT,     // \everypar
-    EVERY_MATH_TEXT,    // \everymath
-    EVERY_DISPLAY_TEXT, // \everydisplay
-    EVERY_HBOX_TEXT,    // \everyhbox
-    EVERY_VBOX_TEXT,    // \everyvbox
-    EVERY_JOB_TEXT,     // \everyjob
-    EVERY_CR_TEXT,      // \everycr
-    MARK_TEXT,          // \topmark, etc.
-    WRITE_TEXT          // \write
-};
-
 #define switch_         25
 #define startcs         26
 #define noexpandflag    257
@@ -597,26 +517,7 @@ enum TokenType {
 #define closed          2
 #define justopen        1
 
-// p181#487: Conditional processing
-enum ConditionPrimitives {
-    IF_CHAR_CODE,  // \if
-    IF_CAT_CODE,   // \ifcat
-    IF_INT_CODE,   // \ifnum
-    IF_DIM_CODE,   // \ifdim
-    IF_ODD_CODE,   // \ifodd
-    IF_VMODE_CODE, // \ifvmode
-    IF_HMODE_CODE, // \ifhmode
-    IF_MMODE_CODE, // \ifmmode
-    IF_INNER_CODE, // \ifinner
-    IF_VOID_CODE,  // \ifvoid
-    IF_HBOX_CODE,  // \ifhbox
-    IF_VBOX_CODE,  // \ifvbox
-    IF_X_CODE,     // \ifx
-    IF_EOF_CODE,   // \ifeof
-    IF_TRUE_CODE,  // \iftrue
-    IF_FALSE_CODE, // \iffalse
-    IF_CASE_CODE   // \ifcase
-};
+
 
 #define ifnodesize      2
 #define ifcode          1
@@ -627,27 +528,7 @@ enum ConditionPrimitives {
 #define formatarealength  11
 #define formatextlength  4
 
-// p198#544: tag field in a char_info_word
-// that explain how to interpret the remainder field.
-enum CharTag {
-    NO_TAG,   // vanilla character
-    LIG_TAG,  // character has a ligature/kerning program
-    LIST_TAG, // character has a successor in a charlist
-    EXT_TAG   // character is extensible
-};
 
-// p200#547
-enum TFMParamVal {
-    TFM_PARAM_MISSING, // TeX sets the missing parameters to zero
-
-    SLANT_CODE,
-    SPACE_CODE,
-    SPACE_STRETCH_CODE,
-    SPACE_SHRINK_CODE,
-    X_HEIGHT_CODE,
-    QUAD_CODE,
-    EXTRA_SPACE_CODE
-};
 
 #define nonaddress      0
 #define badtfm          11
@@ -742,15 +623,7 @@ enum TFMParamVal {
 #define bigswitch       60
 #define appendnormalspace  120
 
-// #1058
-enum hvSkipDiff {
-    FIL_CODE,
-    FILL_CODE,
-    SS_CODE,
-    FIL_NEG_CODE,
-    SKIP_CODE,
-    MSKIP_CODE
-};
+
 
 // #1291
 // enum ChrCode {};
