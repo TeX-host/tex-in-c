@@ -31,6 +31,7 @@
 #include "fonts.h"
 #include "inputln.h" // [func] inputln
 #include "dviout.h"
+#include "pure_func.h" // [func] 导入纯函数
 #include "texfunc.h" // [export]
 
 #define formatextension  S(256)
@@ -536,13 +537,6 @@ void set_help(UChar k, ...) {
         k--;
     }
     va_end(ap);
-}
-
-Static int hex_to_i(int c, int cc) {
-    int res = (c <= '9') ? (c - '0') : (c - 'a' + 10);
-    res *= 16;
-    res += (cc <= '9') ? (cc - '0') : (cc - 'a' + 10);
-    return res;
 }
 
 
@@ -1420,20 +1414,6 @@ Static void confusion(StrNumber s) {
     succumb();
 }
 /*:95*/
-
-
-/*28:*/
-Static void aclose(FILE** f) {
-    if (*f != NULL) fclose(*f);
-    *f = NULL;
-}
-
-Static void wclose(FILE** f) {
-    if (*f != NULL) fclose(*f);
-    *f = NULL;
-}
-/*:28*/
-
 
 /*37:*/
 Static Boolean initterminal(void) {
