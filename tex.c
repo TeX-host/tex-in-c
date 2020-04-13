@@ -7144,103 +7144,92 @@ Static void specialout(HalfWord p) {
 } // #1368: specialout
 
 /*1370:*/
-Static void writeout(HalfWord p)
-{   /*1371:*/
-  enum Selector old_setting;
-  long oldmode;
-  /* SmallNumber */ int j; /* INT */
-  Pointer q, r;
+Static void writeout(HalfWord p) { /*1371:*/
+    enum Selector old_setting;
+    long oldmode;
+    /* SmallNumber */ int j; /* INT */
+    Pointer q, r;
 
-  q = get_avail();
-  info(q) = rightbracetoken + '}';
-  r = get_avail();
-  link(q) = r;
-  info(r) = endwritetoken;
-  inslist(q);
-  begintokenlist(writetokens(p), WRITE_TEXT);
-  q = get_avail();
-  info(q) = leftbracetoken + '{';
-  inslist(q);
-  oldmode = mode;
-  mode = 0;
-  curcs = writeloc;
-  q = scantoks(false, true);
-  gettoken();
-  if (curtok != endwritetoken) {   /*1372:*/
-    printnl(S(292));
-    print(S(680));
-    help2(S(681),
-          S(682));
-    error();
-    do {
-      gettoken();
-    } while (curtok != endwritetoken);
-  }
-  /*:1372*/
-  mode = oldmode;   /*:1371*/
-  endtokenlist();
-  old_setting = selector;
-  j = writestream(p);
-  if (writeopen[j])
-    selector = j;
-  else {
-    if (j == 17 && selector == TERM_AND_LOG)
-      selector = LOG_ONLY;
-    printnl(S(385));
-  }
-  tokenshow(defref);
-  println();
-  flushlist(defref);
-  selector = old_setting;
+    q = get_avail();
+    info(q) = rightbracetoken + '}';
+    r = get_avail();
+    link(q) = r;
+    info(r) = endwritetoken;
+    inslist(q);
+    begintokenlist(writetokens(p), WRITE_TEXT);
+    q = get_avail();
+    info(q) = leftbracetoken + '{';
+    inslist(q);
+    oldmode = mode;
+    mode = 0;
+    curcs = writeloc;
+    q = scantoks(false, true);
+    gettoken();
+    if (curtok != endwritetoken) { /*1372:*/
+        printnl(S(292));
+        print(S(680));
+        help2(S(681), S(682));
+        error();
+        do {
+            gettoken();
+        } while (curtok != endwritetoken);
+    }
+    /*:1372*/
+    mode = oldmode; /*:1371*/
+    endtokenlist();
+    old_setting = selector;
+    j = writestream(p);
+    if (writeopen[j])
+        selector = j;
+    else {
+        if (j == 17 && selector == TERM_AND_LOG) selector = LOG_ONLY;
+        printnl(S(385));
+    }
+    tokenshow(defref);
+    println();
+    flushlist(defref);
+    selector = old_setting;
 }
 /*:1370*/
 
 /*1373:*/
-Static void outwhat(HalfWord p)
-{
-  /* SmallNumber */ int j; /* INT */
+Static void outwhat(HalfWord p) {
+    /* SmallNumber */ int j; /* INT */
 
-  switch (subtype(p)) {
+    switch (subtype(p)) {
+        case opennode:
+        case writenode:
+        case closenode:          /*1374:*/
+            if (!doingleaders) { /*:1374*/
+                j = writestream(p);
+                if (subtype(p) == writenode)
+                    writeout(p);
+                else {
+                    if (writeopen[j]) aclose(&write_file[j]);
+                    if (subtype(p) == closenode)
+                        writeopen[j] = false;
+                    else if (j < 16) {
+                        curname = openname(p);
+                        curarea = openarea(p);
+                        curext = openext(p);
+                        if (curext == S(385)) curext = S(669);
+                        packfilename(curname, curarea, curext);
+                        while (!a_open_out(&write_file[j]))
+                            promptfilename(S(683), S(669));
+                        writeopen[j] = true;
+                    }
+                }
+            }
+            break;
 
-  case opennode:
-  case writenode:
-  case closenode:   /*1374:*/
-    if (!doingleaders) {   /*:1374*/
-      j = writestream(p);
-      if (subtype(p) == writenode)
-	writeout(p);
-      else {
-	if (writeopen[j])
-	  aclose(&write_file[j]);
-	if (subtype(p) == closenode)
-	  writeopen[j] = false;
-	else if (j < 16) {
-	  curname = openname(p);
-	  curarea = openarea(p);
-	  curext = openext(p);
-	  if (curext == S(385))
-	    curext = S(669);
-	packfilename(curname,curarea,curext);
-	  while (!a_open_out(&write_file[j]))
-	    promptfilename(S(683), S(669));
-	  writeopen[j] = true;
-	}
-      }
+        case specialnode: specialout(p); break;
+
+        case languagenode:
+            /* blank case */
+            break;
+
+        default: confusion(S(684)); break;
     }
-    break;
-
-  case specialnode:
-    specialout(p);
-    break;
-
-  case languagenode:
-    /* blank case */
-    break;
-
-  default:
-    confusion(S(684));
-    break;
-  }
 }
 /*:1373*/
 
@@ -8263,1465 +8252,1390 @@ Static HalfWord newnoad(void) {
 /*:686*/
 
 /*688:*/
-Static HalfWord newstyle(SmallNumber s)
-{
-  Pointer p;
+Static HalfWord newstyle(SmallNumber s) {
+    Pointer p;
 
-  p = getnode(stylenodesize);
-  type(p) = stylenode;
-  subtype(p) = s;
-  width(p) = 0;
-  depth(p) = 0;
-  return p;
-}  /*:688*/
+    p = getnode(stylenodesize);
+    type(p) = stylenode;
+    subtype(p) = s;
+    width(p) = 0;
+    depth(p) = 0;
+    return p;
+} /*:688*/
 
 
 /*689:*/
-Static HalfWord newchoice(void)
-{
-  Pointer p;
+Static HalfWord newchoice(void) {
+    Pointer p;
 
-  p = getnode(stylenodesize);
-  type(p) = choicenode;
-  subtype(p) = 0;
-  displaymlist(p) = 0;
-  textmlist(p) = 0;
-  scriptmlist(p) = 0;
-  scriptscriptmlist(p) = 0;
-  return p;
+    p = getnode(stylenodesize);
+    type(p) = choicenode;
+    subtype(p) = 0;
+    displaymlist(p) = 0;
+    textmlist(p) = 0;
+    scriptmlist(p) = 0;
+    scriptscriptmlist(p) = 0;
+    return p;
 }
 /*:689*/
 
 /*693:*/
-Static void showinfo(void)
-{
-  shownodelist(info(temp_ptr));
-}
+Static void showinfo(void) { shownodelist(info(temp_ptr)); }
 /*:693*/
 
-/*704:*/
-Static HalfWord fractionrule(long t)
-{
-  Pointer p;
 
-  p = newrule();
-  height(p) = t;
-  depth(p) = 0;
-  return p;
+/// [ #699. Subroutines for math mode.  ]
+
+/*704:*/
+Static HalfWord fractionrule(long t) {
+    Pointer p;
+
+    p = newrule();
+    height(p) = t;
+    depth(p) = 0;
+    return p;
 }
 /*:704*/
 
 /*705:*/
-Static HalfWord overbar(HalfWord b, long k, long t)
-{
-  Pointer p, q;
+Static HalfWord overbar(HalfWord b, long k, long t) {
+    Pointer p, q;
 
-  p = newkern(k);
-  link(p) = b;
-  q = fractionrule(t);
-  link(q) = p;
-  p = newkern(t);
-  link(p) = q;
-  return (vpack(p, 0, additional));
+    p = newkern(k);
+    link(p) = b;
+    q = fractionrule(t);
+    link(q) = p;
+    p = newkern(t);
+    link(p) = q;
+    return (vpack(p, 0, additional));
 }
 /*:705*/
 
 /*706:*/
 /*709:*/
-Static HalfWord charbox(InternalFontNumber f, QuarterWord c)
-{
-  FourQuarters q;
-  EightBits hd;
-  Pointer b, p;
+Static HalfWord charbox(InternalFontNumber f, QuarterWord c) {
+    FourQuarters q;
+    EightBits hd;
+    Pointer b, p;
 
-  q = charinfo(f, c);
-  hd = heightdepth(q);
-  b = newnullbox();
-  width(b) = charwidth(f, q) + charitalic(f, q);
-  height(b) = charheight(f, hd);
-  depth(b) = chardepth(f, hd);
-  p = get_avail();
-  character(p) = c;
-  font(p) = f;
-  listptr(b) = p;
-  return b;
+    q = charinfo(f, c);
+    hd = heightdepth(q);
+    b = newnullbox();
+    width(b) = charwidth(f, q) + charitalic(f, q);
+    height(b) = charheight(f, hd);
+    depth(b) = chardepth(f, hd);
+    p = get_avail();
+    character(p) = c;
+    font(p) = f;
+    listptr(b) = p;
+    return b;
 }
 /*:709*/
 
 /*711:*/
-Static void stackintobox(HalfWord b, InternalFontNumber f, QuarterWord c)
-{
-  Pointer p;
+Static void stackintobox(HalfWord b, InternalFontNumber f, QuarterWord c) {
+    Pointer p;
 
-  p = charbox(f, c);
-  link(p) = listptr(b);
-  listptr(b) = p;
-  height(b) = height(p);
+    p = charbox(f, c);
+    link(p) = listptr(b);
+    listptr(b) = p;
+    height(b) = height(p);
 }
 /*:711*/
 
 /*712:*/
-Static Integer heightplusdepth(InternalFontNumber f, QuarterWord c)
-{
-  FourQuarters q;
-  EightBits hd;
+Static Integer heightplusdepth(InternalFontNumber f, QuarterWord c) {
+    FourQuarters q;
+    EightBits hd;
 
-  q = charinfo(f, c);
-  hd = heightdepth(q);
-  return (charheight(f, hd) + chardepth(f, hd));
-}  /*:712*/
+    q = charinfo(f, c);
+    hd = heightdepth(q);
+    return (charheight(f, hd) + chardepth(f, hd));
+} /*:712*/
 
 
-Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v)
-{
-  Pointer b;
-  InternalFontNumber f, g;
-  QuarterWord c=0 /* XXXX */, x, y;
-  long m, n;
-  Scaled u, w;
-  FourQuarters q;
-  EightBits hd;
-  FourQuarters r;
-  SmallNumber z;
-  Boolean largeattempt;
+Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
+    Pointer b;
+    InternalFontNumber f, g;
+    QuarterWord c = 0 /* XXXX */, x, y;
+    long m, n;
+    Scaled u, w;
+    FourQuarters q;
+    EightBits hd;
+    FourQuarters r;
+    SmallNumber z;
+    Boolean largeattempt;
 
-  f = nullfont;
-  w = 0;
-  largeattempt = false;
-  z = smallfam(d);
-  x = smallchar(d);
-  while (true) {  /*707:*/
-    if (z != 0 || x != MIN_QUARTER_WORD) {   /*:707*/
-      z += s + 16;
-      do {
-	z -= 16;
-	g = famfnt(z);
-	if (g != nullfont) {   /*708:*/
-	  y = x;
-	  if (y - MIN_QUARTER_WORD >= fontbc[g ] &&
-	      y - MIN_QUARTER_WORD <= fontec[g ]) {
-_Llabcontinue:
-	    q = charinfo(g, y);
-	    if (charexists(q)) {
-	      if (chartag(q) == EXT_TAG) {
-		f = g;
-		c = y;
-		goto _Lfound;
-	      }
-	      hd = heightdepth(q);
-	      u = charheight(g, hd) + chardepth(g, hd);
-	      if (u > w) {
-		f = g;
-		c = y;
-		w = u;
-		if (u >= v)
-		  goto _Lfound;
-	      }
-	      if (chartag(q) == LIST_TAG) {
-		y = rembyte(q);
-		goto _Llabcontinue;
-	      }
-	    }
-	  }
-	}
-	/*:708*/
-      } while (z >= 16);
+    f = nullfont;
+    w = 0;
+    largeattempt = false;
+    z = smallfam(d);
+    x = smallchar(d);
+    while (true) {                             /*707:*/
+        if (z != 0 || x != MIN_QUARTER_WORD) { /*:707*/
+            z += s + 16;
+            do {
+                z -= 16;
+                g = famfnt(z);
+                if (g != nullfont) { /*708:*/
+                    y = x;
+                    if (y - MIN_QUARTER_WORD >= fontbc[g] &&
+                        y - MIN_QUARTER_WORD <= fontec[g]) {
+                    _Llabcontinue:
+                        q = charinfo(g, y);
+                        if (charexists(q)) {
+                            if (chartag(q) == EXT_TAG) {
+                                f = g;
+                                c = y;
+                                goto _Lfound;
+                            }
+                            hd = heightdepth(q);
+                            u = charheight(g, hd) + chardepth(g, hd);
+                            if (u > w) {
+                                f = g;
+                                c = y;
+                                w = u;
+                                if (u >= v) goto _Lfound;
+                            }
+                            if (chartag(q) == LIST_TAG) {
+                                y = rembyte(q);
+                                goto _Llabcontinue;
+                            }
+                        }
+                    }
+                }
+                /*:708*/
+            } while (z >= 16);
+        }
+        if (largeattempt) goto _Lfound;
+        largeattempt = true;
+        z = largefam(d);
+        x = largechar(d);
     }
-    if (largeattempt)
-      goto _Lfound;
-    largeattempt = true;
-    z = largefam(d);
-    x = largechar(d);
-  }
 _Lfound:
-  if (f != nullfont) {   /*710:*/
-    if (chartag(q) == EXT_TAG) {   /*713:*/
-      b = newnullbox();
-      type(b) = VLIST_NODE;
-      r = exteninfo(f,q); /* fontinfo[extenbase[f ] + rembyte(q)].qqqq; */
-  /*714:*/
-      c = extrep(r);
-      u = heightplusdepth(f, c);
-      w = 0;
-      q = charinfo(f, c);
-      width(b) = charwidth(f, q) + charitalic(f, q);
-      c = extbot(r);
-      if (c != MIN_QUARTER_WORD)
-	w += heightplusdepth(f, c);
-      c = extmid(r);
-      if (c != MIN_QUARTER_WORD)
-	w += heightplusdepth(f, c);
-      c = exttop(r);
-      if (c != MIN_QUARTER_WORD)
-	w += heightplusdepth(f, c);
-      n = 0;
-      if (u > 0) {
-	while (w < v) {   /*:714*/
-	  w += u;
-	  n++;
-	  if (extmid(r) != MIN_QUARTER_WORD)
-	    w += u;
-	}
-      }
-      c = extbot(r);
-      if (c != MIN_QUARTER_WORD)
-	stackintobox(b, f, c);
-      c = extrep(r);
-      for (m = 1; m <= n; m++)
-	stackintobox(b, f, c);
-      c = extmid(r);
-      if (c != MIN_QUARTER_WORD) {
-	stackintobox(b, f, c);
-	c = extrep(r);
-	for (m = 1; m <= n; m++)
-	  stackintobox(b, f, c);
-      }
-      c = exttop(r);
-      if (c != MIN_QUARTER_WORD)
-	stackintobox(b, f, c);
-      depth(b) = w - height(b);
-    } else
-      b = charbox(f, c);   /*:710*/
-    /*:713*/
-  } else {
-    b = newnullbox();
-    width(b) = nulldelimiterspace;
-  }
-  shiftamount(b) = half(height(b) - depth(b)) - axisheight(s);
-  return b;
+    if (f != nullfont) {             /*710:*/
+        if (chartag(q) == EXT_TAG) { /*713:*/
+            b = newnullbox();
+            type(b) = VLIST_NODE;
+            r = exteninfo(f,
+                          q); /* fontinfo[extenbase[f ] + rembyte(q)].qqqq; */
+                              /*714:*/
+            c = extrep(r);
+            u = heightplusdepth(f, c);
+            w = 0;
+            q = charinfo(f, c);
+            width(b) = charwidth(f, q) + charitalic(f, q);
+            c = extbot(r);
+            if (c != MIN_QUARTER_WORD) w += heightplusdepth(f, c);
+            c = extmid(r);
+            if (c != MIN_QUARTER_WORD) w += heightplusdepth(f, c);
+            c = exttop(r);
+            if (c != MIN_QUARTER_WORD) w += heightplusdepth(f, c);
+            n = 0;
+            if (u > 0) {
+                while (w < v) { /*:714*/
+                    w += u;
+                    n++;
+                    if (extmid(r) != MIN_QUARTER_WORD) w += u;
+                }
+            }
+            c = extbot(r);
+            if (c != MIN_QUARTER_WORD) stackintobox(b, f, c);
+            c = extrep(r);
+            for (m = 1; m <= n; m++)
+                stackintobox(b, f, c);
+            c = extmid(r);
+            if (c != MIN_QUARTER_WORD) {
+                stackintobox(b, f, c);
+                c = extrep(r);
+                for (m = 1; m <= n; m++)
+                    stackintobox(b, f, c);
+            }
+            c = exttop(r);
+            if (c != MIN_QUARTER_WORD) stackintobox(b, f, c);
+            depth(b) = w - height(b);
+        } else
+            b = charbox(f, c); /*:710*/
+                               /*:713*/
+    } else {
+        b = newnullbox();
+        width(b) = nulldelimiterspace;
+    }
+    shiftamount(b) = half(height(b) - depth(b)) - axisheight(s);
+    return b;
 }
 /*:706*/
 
 /*715:*/
-Static HalfWord rebox(HalfWord b, long w)
-{
-  Pointer p;
-  InternalFontNumber f;
-  Scaled v;
+Static HalfWord rebox(HalfWord b, long w) {
+    Pointer p;
+    InternalFontNumber f;
+    Scaled v;
 
-  if ((width(b) != w) & (listptr(b) != 0)) {
-    if (type(b) == VLIST_NODE)
-      b = hpack(b, 0, additional);
-    p = listptr(b);
-    if (ischarnode(p) & (link(p) == 0)) {
-      f = font(p);
-      v = charwidth(f, charinfo(f, character(p)));
-      if (v != width(b))
-	link(p) = newkern(width(b) - v);
+    if ((width(b) != w) & (listptr(b) != 0)) {
+        if (type(b) == VLIST_NODE) b = hpack(b, 0, additional);
+        p = listptr(b);
+        if (ischarnode(p) & (link(p) == 0)) {
+            f = font(p);
+            v = charwidth(f, charinfo(f, character(p)));
+            if (v != width(b)) link(p) = newkern(width(b) - v);
+        }
+        freenode(b, boxnodesize);
+        b = newglue(ssglue);
+        link(b) = p;
+        while (link(p) != 0)
+            p = link(p);
+        link(p) = newglue(ssglue);
+        return (hpack(b, w, exactly));
+    } else {
+        width(b) = w;
+        return b;
     }
-    freenode(b, boxnodesize);
-    b = newglue(ssglue);
-    link(b) = p;
-    while (link(p) != 0)
-      p = link(p);
-    link(p) = newglue(ssglue);
-    return (hpack(b, w, exactly));
-  } else {
-    width(b) = w;
-    return b;
-  }
 }
 /*:715*/
 
 /*716:*/
-Static HalfWord mathglue(HalfWord g, long m)
-{
-  Pointer p;
-  long n;
-  Scaled f;
+Static HalfWord mathglue(HalfWord g, long m) {
+    Pointer p;
+    long n;
+    Scaled f;
 
-  n = x_over_n(m, 65536L);
-  f = tex_remainder;
-  if (f < 0) {
-    n--;
-    f += 65536L;
-  }
-  p = getnode(gluespecsize);
-  width(p) = mult_and_add(n, width(g), xn_over_d(width(g), f, 65536L),
-			    1073741823L);
-  stretchorder(p) = stretchorder(g);
-  if (stretchorder(p) == NORMAL)
-    stretch(p) = mult_and_add(n, stretch(g),
-	xn_over_d(stretch(g), f, 65536L), 1073741823L);
-  else
-    stretch(p) = stretch(g);
-  shrinkorder(p) = shrinkorder(g);
-  if (shrinkorder(p) == NORMAL)
-    shrink(p) = mult_and_add(n, shrink(g),
-			       xn_over_d(shrink(g), f, 65536L),
-			       1073741823L);
-  else
-    shrink(p) = shrink(g);
-  return p;
+    n = x_over_n(m, 65536L);
+    f = tex_remainder;
+    if (f < 0) {
+        n--;
+        f += 65536L;
+    }
+    p = getnode(gluespecsize);
+    width(p) =
+        mult_and_add(n, width(g), xn_over_d(width(g), f, 65536L), 1073741823L);
+    stretchorder(p) = stretchorder(g);
+    if (stretchorder(p) == NORMAL)
+        stretch(p) = mult_and_add(
+            n, stretch(g), xn_over_d(stretch(g), f, 65536L), 1073741823L);
+    else
+        stretch(p) = stretch(g);
+    shrinkorder(p) = shrinkorder(g);
+    if (shrinkorder(p) == NORMAL)
+        shrink(p) = mult_and_add(
+            n, shrink(g), xn_over_d(shrink(g), f, 65536L), 1073741823L);
+    else
+        shrink(p) = shrink(g);
+    return p;
 }
 /*:716*/
 
 /*717:*/
-Static void mathkern(HalfWord p, long m)
-{
-  long n;
-  Scaled f;
+Static void mathkern(HalfWord p, long m) {
+    long n;
+    Scaled f;
 
-  if (subtype(p) != muglue)
-    return;
-  n = x_over_n(m, 65536L);
-  f = tex_remainder;
-  if (f < 0) {
-    n--;
-    f += 65536L;
-  }
-  width(p) = mult_and_add(n, width(p), xn_over_d(width(p), f, 65536L),
-			    1073741823L);
-  subtype(p) = explicit;
+    if (subtype(p) != muglue) return;
+    n = x_over_n(m, 65536L);
+    f = tex_remainder;
+    if (f < 0) {
+        n--;
+        f += 65536L;
+    }
+    width(p) =
+        mult_and_add(n, width(p), xn_over_d(width(p), f, 65536L), 1073741823L);
+    subtype(p) = explicit;
 }
 /*:717*/
 
 /*718:*/
-Static void flushmath(void)
-{
-  flushnodelist(link(head));
-  flushnodelist(incompleatnoad);
-  link(head) = 0;
-  tail = head;
-  incompleatnoad = 0;
+Static void flushmath(void) {
+    flushnodelist(link(head));
+    flushnodelist(incompleatnoad);
+    link(head) = 0;
+    tail = head;
+    incompleatnoad = 0;
 }
 /*:718*/
+
+/// [ #719. Typesetting math formulas. ]
 
 /*720:*/
 Static void mlisttohlist(void);
 
 
-Static HalfWord cleanbox(HalfWord p, SmallNumber s)
-{
-  Pointer q, x, r;
-  SmallNumber savestyle;
+Static HalfWord cleanbox(HalfWord p, SmallNumber s) {
+    Pointer q, x, r;
+    SmallNumber savestyle;
 
-  switch (mathtype(p)) {
+    switch (mathtype(p)) {
 
-  case mathchar:
-    curmlist = newnoad();
-    mem[nucleus(curmlist) - memmin] = mem[p - memmin];
-    break;
+        case mathchar:
+            curmlist = newnoad();
+            mem[nucleus(curmlist) - memmin] = mem[p - memmin];
+            break;
 
-  case subbox:
-    q = info(p);
-    goto _Lfound;
-    break;
+        case subbox:
+            q = info(p);
+            goto _Lfound;
+            break;
 
-  case submlist:
-    curmlist = info(p);
-    break;
+        case submlist: curmlist = info(p); break;
 
-  default:
-    q = newnullbox();
-    goto _Lfound;
-    break;
-  }
-  savestyle = curstyle;
-  curstyle = s;
-  mlistpenalties = false;
-  mlisttohlist();
-  q = link(temphead);
-  curstyle = savestyle;   /*703:*/
-  if (curstyle < scriptstyle)
-    cursize = TEXT_SIZE;
-  else
-    cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
+        default:
+            q = newnullbox();
+            goto _Lfound;
+            break;
+    }
+    savestyle = curstyle;
+    curstyle = s;
+    mlistpenalties = false;
+    mlisttohlist();
+    q = link(temphead);
+    curstyle = savestyle; /*703:*/
+    if (curstyle < scriptstyle)
+        cursize = TEXT_SIZE;
+    else
+        cursize = (curstyle - textstyle) / 2 * 16;
+    curmu = x_over_n(mathquad(cursize), 18); /*:703*/
 _Lfound:
-  if (ischarnode(q) || q == 0)   /*721:*/
-    x = hpack(q, 0, additional);
-  else if ((link(q) == 0) & (type(q) <= VLIST_NODE) &
-	   (shiftamount(q) == 0))
-    x = q;
-  else
-    x = hpack(q, 0, additional);
-  q = listptr(x);
-  if (!ischarnode(q))   /*:721*/
+    if (ischarnode(q) || q == 0) /*721:*/
+        x = hpack(q, 0, additional);
+    else if ((link(q) == 0) & (type(q) <= VLIST_NODE) & (shiftamount(q) == 0))
+        x = q;
+    else
+        x = hpack(q, 0, additional);
+    q = listptr(x);
+    if (!ischarnode(q)) /*:721*/
+        return x;
+    r = link(q);
+    if (r == 0) return x;
+    if (link(r) != 0) return x;
+    if (ischarnode(r)) return x;
+    if (type(r) == KERN_NODE) {
+        freenode(r, smallnodesize);
+        link(q) = 0;
+    }
     return x;
-  r = link(q);
-  if (r == 0)
-    return x;
-  if (link(r) != 0)
-    return x;
-  if (ischarnode(r))
-    return x;
-  if (type(r) == KERN_NODE) {
-    freenode(r, smallnodesize);
-    link(q) = 0;
-  }
-  return x;
 }
 /*:720*/
 
 /*722:*/
-Static void fetch(HalfWord a)
-{
-  curc = character(a);
-  curf = famfnt(fam(a) + cursize);
-  if (curf == nullfont) {   /*723:*/
-    printnl(S(292));
-    print(S(385));
-    print_size(cursize);
-    print_char(' ');
-    print_int(fam(a));
-    print(S(715));
-    print(curc - MIN_QUARTER_WORD);
-    print_char(')');
-    help4(S(716),
-          S(717),
-          S(718),
-          S(719));
-    error();
-    curi = nullcharacter;
-    mathtype(a) = empty;
-    return;
-  }  /*:723*/
-  if (curc - MIN_QUARTER_WORD >= fontbc[curf ] &&
-      curc - MIN_QUARTER_WORD <= fontec[curf ])
-    curi = charinfo(curf, curc);
-  else
-    curi = nullcharacter;
-  if (!charexists(curi)) {
-    charwarning(curf, curc - MIN_QUARTER_WORD);
-    mathtype(a) = empty;
-  }
+Static void fetch(HalfWord a) {
+    curc = character(a);
+    curf = famfnt(fam(a) + cursize);
+    if (curf == nullfont) { /*723:*/
+        printnl(S(292));
+        print(S(385));
+        print_size(cursize);
+        print_char(' ');
+        print_int(fam(a));
+        print(S(715));
+        print(curc - MIN_QUARTER_WORD);
+        print_char(')');
+        help4(S(716), S(717), S(718), S(719));
+        error();
+        curi = nullcharacter;
+        mathtype(a) = empty;
+        return;
+    } /*:723*/
+    if (curc - MIN_QUARTER_WORD >= fontbc[curf] &&
+        curc - MIN_QUARTER_WORD <= fontec[curf])
+        curi = charinfo(curf, curc);
+    else
+        curi = nullcharacter;
+    if (!charexists(curi)) {
+        charwarning(curf, curc - MIN_QUARTER_WORD);
+        mathtype(a) = empty;
+    }
 }
 /*:722*/
 
 /*726:*/
 /*734:*/
-Static void makeover(HalfWord q)
-{
-  info(nucleus(q)) = overbar(
-      cleanbox(nucleus(q), crampedstyle(curstyle)),
-      defaultrulethickness * 3, defaultrulethickness);
-  mathtype(nucleus(q)) = subbox;
+Static void makeover(HalfWord q) {
+    info(nucleus(q)) = overbar(cleanbox(nucleus(q), crampedstyle(curstyle)),
+                               defaultrulethickness * 3,
+                               defaultrulethickness);
+    mathtype(nucleus(q)) = subbox;
 }
 /*:734*/
 
 /*735:*/
-Static void makeunder(HalfWord q)
-{
-  Pointer p, x, y;
-  Scaled delta;
+Static void makeunder(HalfWord q) {
+    Pointer p, x, y;
+    Scaled delta;
 
-  x = cleanbox(nucleus(q), curstyle);
-  p = newkern(defaultrulethickness * 3);
-  link(x) = p;
-  link(p) = fractionrule(defaultrulethickness);
-  y = vpack(x, 0, additional);
-  delta = height(y) + depth(y) + defaultrulethickness;
-  height(y) = height(x);
-  depth(y) = delta - height(y);
-  info(nucleus(q)) = y;
-  mathtype(nucleus(q)) = subbox;
+    x = cleanbox(nucleus(q), curstyle);
+    p = newkern(defaultrulethickness * 3);
+    link(x) = p;
+    link(p) = fractionrule(defaultrulethickness);
+    y = vpack(x, 0, additional);
+    delta = height(y) + depth(y) + defaultrulethickness;
+    height(y) = height(x);
+    depth(y) = delta - height(y);
+    info(nucleus(q)) = y;
+    mathtype(nucleus(q)) = subbox;
 }
 /*:735*/
 
 /*736:*/
-Static void makevcenter(HalfWord q)
-{
-  Pointer v;
-  Scaled delta;
+Static void makevcenter(HalfWord q) {
+    Pointer v;
+    Scaled delta;
 
-  v = info(nucleus(q));
-  if (type(v) != VLIST_NODE)
-    confusion(S(415));
-  delta = height(v) + depth(v);
-  height(v) = axisheight(cursize) + half(delta);
-  depth(v) = delta - height(v);
+    v = info(nucleus(q));
+    if (type(v) != VLIST_NODE) confusion(S(415));
+    delta = height(v) + depth(v);
+    height(v) = axisheight(cursize) + half(delta);
+    depth(v) = delta - height(v);
 }
 /*:736*/
 
 /*737:*/
-Static void makeradical(HalfWord q)
-{
-  Pointer x, y;
-  Scaled delta, clr;
+Static void makeradical(HalfWord q) {
+    Pointer x, y;
+    Scaled delta, clr;
 
-  x = cleanbox(nucleus(q), crampedstyle(curstyle));
-  if (curstyle < textstyle)
-    clr = defaultrulethickness + labs(mathxheight(cursize)) / 4;
-  else {
-    clr = defaultrulethickness;
-    clr += labs(clr) / 4;
-  }
-  y = vardelimiter(leftdelimiter(q), cursize,
-		   height(x) + depth(x) + clr + defaultrulethickness);
-  delta = depth(y) - height(x) - depth(x) - clr;
-  if (delta > 0)
-    clr += half(delta);
-  shiftamount(y) = -(height(x) + clr);
-  link(y) = overbar(x, clr, height(y));
-  info(nucleus(q)) = hpack(y, 0, additional);
-  mathtype(nucleus(q)) = subbox;
+    x = cleanbox(nucleus(q), crampedstyle(curstyle));
+    if (curstyle < textstyle)
+        clr = defaultrulethickness + labs(mathxheight(cursize)) / 4;
+    else {
+        clr = defaultrulethickness;
+        clr += labs(clr) / 4;
+    }
+    y = vardelimiter(leftdelimiter(q),
+                     cursize,
+                     height(x) + depth(x) + clr + defaultrulethickness);
+    delta = depth(y) - height(x) - depth(x) - clr;
+    if (delta > 0) clr += half(delta);
+    shiftamount(y) = -(height(x) + clr);
+    link(y) = overbar(x, clr, height(y));
+    info(nucleus(q)) = hpack(y, 0, additional);
+    mathtype(nucleus(q)) = subbox;
 }
 /*:737*/
 
 /*738:*/
-Static void makemathaccent(HalfWord q)
-{
-  Pointer p, x, y;
-  long a;
-  QuarterWord c;
-  InternalFontNumber f;
-  FourQuarters i;
-  Scaled s, h, delta, w;
+Static void makemathaccent(HalfWord q) {
+    Pointer p, x, y;
+    long a;
+    QuarterWord c;
+    InternalFontNumber f;
+    FourQuarters i;
+    Scaled s, h, delta, w;
 
-  fetch(accentchr(q));
-  if (!charexists(curi))
-    return;
-  i = curi;
-  c = curc;
-  f = curf;   /*741:*/
-  s = 0;
-  if (mathtype(nucleus(q)) == mathchar) {
-    fetch(nucleus(q));
-    if (chartag(curi) == LIG_TAG) {
-      a = ligkernstart(curf,curi);
-      curi = fontinfo[a].qqqq;
-      if (skipbyte(curi) > stopflag) {
-	a = ligkernrestart(curf,curi);
-	curi = fontinfo[a].qqqq;
-      }
-      while (true) {
-	if (nextchar(curi) - MIN_QUARTER_WORD == get_skewchar(curf)) {
-	  if (opbyte(curi) >= kernflag) {
-	    if (skipbyte(curi) <= stopflag)
-	      s = charkern(curf, curi);
-	  }
-	  goto _Ldone1;
-	}
-	if (skipbyte(curi) >= stopflag)
-	  goto _Ldone1;
-	a += skipbyte(curi) - MIN_QUARTER_WORD + 1;
-	curi = fontinfo[a].qqqq;
-      }
+    fetch(accentchr(q));
+    if (!charexists(curi)) return;
+    i = curi;
+    c = curc;
+    f = curf; /*741:*/
+    s = 0;
+    if (mathtype(nucleus(q)) == mathchar) {
+        fetch(nucleus(q));
+        if (chartag(curi) == LIG_TAG) {
+            a = ligkernstart(curf, curi);
+            curi = fontinfo[a].qqqq;
+            if (skipbyte(curi) > stopflag) {
+                a = ligkernrestart(curf, curi);
+                curi = fontinfo[a].qqqq;
+            }
+            while (true) {
+                if (nextchar(curi) - MIN_QUARTER_WORD == get_skewchar(curf)) {
+                    if (opbyte(curi) >= kernflag) {
+                        if (skipbyte(curi) <= stopflag)
+                            s = charkern(curf, curi);
+                    }
+                    goto _Ldone1;
+                }
+                if (skipbyte(curi) >= stopflag) goto _Ldone1;
+                a += skipbyte(curi) - MIN_QUARTER_WORD + 1;
+                curi = fontinfo[a].qqqq;
+            }
+        }
     }
-  }
-_Ldone1:   /*:741*/
-  x = cleanbox(nucleus(q), crampedstyle(curstyle));
-  w = width(x);
-  h = height(x);   /*740:*/
-  while (true) {
-    if (chartag(i) != LIST_TAG) {
-      goto _Ldone;
+_Ldone1: /*:741*/
+    x = cleanbox(nucleus(q), crampedstyle(curstyle));
+    w = width(x);
+    h = height(x); /*740:*/
+    while (true) {
+        if (chartag(i) != LIST_TAG) {
+            goto _Ldone;
+        }
+        y = rembyte(i);
+        i = charinfo(f, y);
+        if (!charexists(i)) goto _Ldone;
+        if (charwidth(f, i) > w) goto _Ldone;
+        c = y;
     }
-    y = rembyte(i);
-    i = charinfo(f, y);
-    if (!charexists(i))
-      goto _Ldone;
-    if (charwidth(f, i) > w)
-      goto _Ldone;
-    c = y;
-  }
-_Ldone:   /*:740*/
-  if (h < xheight(f))
-    delta = h;
-  else
-    delta = xheight(f);
-  if ((mathtype(supscr(q)) != empty) |
-      (mathtype(subscr(q)) != empty)) {
-    if (mathtype(nucleus(q)) == mathchar) {   /*742:*/
-      flushnodelist(x);
-      x = newnoad();
-      mem[nucleus(x) - memmin] = mem[nucleus(q) - memmin];
-      mem[supscr(x) - memmin] = mem[supscr(q) - memmin];
-      mem[subscr(x) - memmin] = mem[subscr(q) - memmin];
-      mem[supscr(q) - memmin].hh = emptyfield;
-      mem[subscr(q) - memmin].hh = emptyfield;
-      mathtype(nucleus(q)) = submlist;
-      info(nucleus(q)) = x;
-      x = cleanbox(nucleus(q), curstyle);
-      delta += height(x) - h;
-      h = height(x);
+_Ldone: /*:740*/
+    if (h < xheight(f))
+        delta = h;
+    else
+        delta = xheight(f);
+    if ((mathtype(supscr(q)) != empty) | (mathtype(subscr(q)) != empty)) {
+        if (mathtype(nucleus(q)) == mathchar) { /*742:*/
+            flushnodelist(x);
+            x = newnoad();
+            mem[nucleus(x) - memmin] = mem[nucleus(q) - memmin];
+            mem[supscr(x) - memmin] = mem[supscr(q) - memmin];
+            mem[subscr(x) - memmin] = mem[subscr(q) - memmin];
+            mem[supscr(q) - memmin].hh = emptyfield;
+            mem[subscr(q) - memmin].hh = emptyfield;
+            mathtype(nucleus(q)) = submlist;
+            info(nucleus(q)) = x;
+            x = cleanbox(nucleus(q), curstyle);
+            delta += height(x) - h;
+            h = height(x);
+        }
+        /*:742*/
     }
-    /*:742*/
-  }
-  y = charbox(f, c);
-  shiftamount(y) = s + half(w - width(y));
-  width(y) = 0;
-  p = newkern(-delta);
-  link(p) = x;
-  link(y) = p;
-  y = vpack(y, 0, additional);
-  width(y) = width(x);
-  if (height(y) < h) {   /*739:*/
-    p = newkern(h - height(y));
-    link(p) = listptr(y);
-    listptr(y) = p;
-    height(y) = h;
-  }  /*:739*/
-  info(nucleus(q)) = y;
-  mathtype(nucleus(q)) = subbox;
+    y = charbox(f, c);
+    shiftamount(y) = s + half(w - width(y));
+    width(y) = 0;
+    p = newkern(-delta);
+    link(p) = x;
+    link(y) = p;
+    y = vpack(y, 0, additional);
+    width(y) = width(x);
+    if (height(y) < h) { /*739:*/
+        p = newkern(h - height(y));
+        link(p) = listptr(y);
+        listptr(y) = p;
+        height(y) = h;
+    } /*:739*/
+    info(nucleus(q)) = y;
+    mathtype(nucleus(q)) = subbox;
 }
 /*:738*/
 
 /*743:*/
-Static void makefraction(HalfWord q)
-{
-  Pointer p, v, x, y, z;
-  Scaled delta, delta1, delta2, shiftup, shiftdown, clr;
+Static void makefraction(HalfWord q) {
+    Pointer p, v, x, y, z;
+    Scaled delta, delta1, delta2, shiftup, shiftdown, clr;
 
-  if (thickness(q) == defaultcode)   /*744:*/
-    thickness(q) = defaultrulethickness;
-  x = cleanbox(numerator(q), numstyle(curstyle));
-  z = cleanbox(denominator(q), denomstyle(curstyle));
-  if (width(x) < width(z))
-    x = rebox(x, width(z));
-  else
-    z = rebox(z, width(x));
-  if (curstyle < textstyle) {
-    shiftup = num1(cursize);
-    shiftdown = denom1(cursize);
-  } else {   /*:744*/
-    shiftdown = denom2(cursize);
-    if (thickness(q) != 0)
-      shiftup = num2(cursize);
+    if (thickness(q) == defaultcode) /*744:*/
+        thickness(q) = defaultrulethickness;
+    x = cleanbox(numerator(q), numstyle(curstyle));
+    z = cleanbox(denominator(q), denomstyle(curstyle));
+    if (width(x) < width(z))
+        x = rebox(x, width(z));
     else
-      shiftup = num3(cursize);
-  }
-  if (thickness(q) == 0) {   /*745:*/
-    if (curstyle < textstyle)
-      clr = defaultrulethickness * 7;
-    else
-      clr = defaultrulethickness * 3;
-    delta = half(clr - shiftup + depth(x) + height(z) - shiftdown);
-    if (delta > 0) {
-      shiftup += delta;
-      shiftdown += delta;
+        z = rebox(z, width(x));
+    if (curstyle < textstyle) {
+        shiftup = num1(cursize);
+        shiftdown = denom1(cursize);
+    } else { /*:744*/
+        shiftdown = denom2(cursize);
+        if (thickness(q) != 0)
+            shiftup = num2(cursize);
+        else
+            shiftup = num3(cursize);
     }
-  } else {
+    if (thickness(q) == 0) { /*745:*/
+        if (curstyle < textstyle)
+            clr = defaultrulethickness * 7;
+        else
+            clr = defaultrulethickness * 3;
+        delta = half(clr - shiftup + depth(x) + height(z) - shiftdown);
+        if (delta > 0) {
+            shiftup += delta;
+            shiftdown += delta;
+        }
+    } else {
+        if (curstyle < textstyle)
+            clr = thickness(q) * 3;
+        else
+            clr = thickness(q);
+        delta = half(thickness(q));
+        delta1 = clr - shiftup + depth(x) + axisheight(cursize) + delta;
+        delta2 = clr - axisheight(cursize) + delta + height(z) - shiftdown;
+        if (delta1 > 0) shiftup += delta1;
+        if (delta2 > 0) shiftdown += delta2;
+    }
+    /*:745*/
+    /*747:*/
+    v = newnullbox();
+    type(v) = VLIST_NODE;
+    height(v) = shiftup + height(x);
+    depth(v) = depth(z) + shiftdown;
+    width(v) = width(x);
+    if (thickness(q) == 0) {
+        p = newkern(shiftup - depth(x) - height(z) + shiftdown);
+        link(p) = z;
+    } else {
+        y = fractionrule(thickness(q));
+        p = newkern(axisheight(cursize) - delta - height(z) + shiftdown);
+        link(y) = p;
+        link(p) = z;
+        p = newkern(shiftup - depth(x) - axisheight(cursize) - delta);
+        link(p) = y;
+    }
+    link(x) = p;
+    listptr(v) = x; /*:747*/
+    /*748:*/
     if (curstyle < textstyle)
-      clr = thickness(q) * 3;
+        delta = delim1(cursize);
     else
-      clr = thickness(q);
-    delta = half(thickness(q));
-    delta1 = clr - shiftup + depth(x) + axisheight(cursize) + delta;
-    delta2 = clr - axisheight(cursize) + delta + height(z) - shiftdown;
-    if (delta1 > 0)
-      shiftup += delta1;
-    if (delta2 > 0)
-      shiftdown += delta2;
-  }
-  /*:745*/
-  /*747:*/
-  v = newnullbox();
-  type(v) = VLIST_NODE;
-  height(v) = shiftup + height(x);
-  depth(v) = depth(z) + shiftdown;
-  width(v) = width(x);
-  if (thickness(q) == 0) {
-    p = newkern(shiftup - depth(x) - height(z) + shiftdown);
-    link(p) = z;
-  } else {
-    y = fractionrule(thickness(q));
-    p = newkern(axisheight(cursize) - delta - height(z) + shiftdown);
-    link(y) = p;
-    link(p) = z;
-    p = newkern(shiftup - depth(x) - axisheight(cursize) - delta);
-    link(p) = y;
-  }
-  link(x) = p;
-  listptr(v) = x;   /*:747*/
-  /*748:*/
-  if (curstyle < textstyle)
-    delta = delim1(cursize);
-  else
-    delta = delim2(cursize);
-  x = vardelimiter(leftdelimiter(q), cursize, delta);
-  link(x) = v;
-  z = vardelimiter(rightdelimiter(q), cursize, delta);
-  link(v) = z;
-  newhlist(q) = hpack(x, 0, additional);   /*:748*/
-}  /*:743*/
+        delta = delim2(cursize);
+    x = vardelimiter(leftdelimiter(q), cursize, delta);
+    link(x) = v;
+    z = vardelimiter(rightdelimiter(q), cursize, delta);
+    link(v) = z;
+    newhlist(q) = hpack(x, 0, additional); /*:748*/
+} /*:743*/
 
 
 /*749:*/
-Static Integer makeop(HalfWord q)
-{
-  Scaled delta, shiftup, shiftdown;
-  Pointer p, v, x, y, z;
-  QuarterWord c;
-  FourQuarters i;
+Static Integer makeop(HalfWord q) {
+    Scaled delta, shiftup, shiftdown;
+    Pointer p, v, x, y, z;
+    QuarterWord c;
+    FourQuarters i;
 
-  if (subtype(q) == NORMAL && curstyle < textstyle)
-    subtype(q) = limits;
-  if (mathtype(nucleus(q)) == mathchar) {
-    fetch(nucleus(q));
-    if ((curstyle < textstyle) & (chartag(curi) == LIST_TAG)) {
-      c = rembyte(curi);
-      i = charinfo(curf, c);
-      if (charexists(i)) {
-	curc = c;
-	curi = i;
-	character(nucleus(q)) = c;
-      }
+    if (subtype(q) == NORMAL && curstyle < textstyle) subtype(q) = limits;
+    if (mathtype(nucleus(q)) == mathchar) {
+        fetch(nucleus(q));
+        if ((curstyle < textstyle) & (chartag(curi) == LIST_TAG)) {
+            c = rembyte(curi);
+            i = charinfo(curf, c);
+            if (charexists(i)) {
+                curc = c;
+                curi = i;
+                character(nucleus(q)) = c;
+            }
+        }
+        delta = charitalic(curf, curi);
+        x = cleanbox(nucleus(q), curstyle);
+        if ((mathtype(subscr(q)) != empty) & (subtype(q) != limits))
+            width(x) -= delta;
+        shiftamount(x) = half(height(x) - depth(x)) - axisheight(cursize);
+        mathtype(nucleus(q)) = subbox;
+        info(nucleus(q)) = x;
+    } else
+        delta = 0;
+    if (subtype(q) != limits) /*750:*/
+        return delta;
+    /*:750*/
+    x = cleanbox(supscr(q), supstyle(curstyle));
+    y = cleanbox(nucleus(q), curstyle);
+    z = cleanbox(subscr(q), substyle(curstyle));
+    v = newnullbox();
+    type(v) = VLIST_NODE;
+    width(v) = width(y);
+    if (width(x) > width(v)) width(v) = width(x);
+    if (width(z) > width(v)) width(v) = width(z);
+    x = rebox(x, width(v));
+    y = rebox(y, width(v));
+    z = rebox(z, width(v));
+    shiftamount(x) = half(delta);
+    shiftamount(z) = -shiftamount(x);
+    height(v) = height(y);
+    depth(v) = depth(y); /*751:*/
+    if (mathtype(supscr(q)) == empty) {
+        freenode(x, boxnodesize);
+        listptr(v) = y;
+    } else {
+        shiftup = bigopspacing3 - depth(x);
+        if (shiftup < bigopspacing1) shiftup = bigopspacing1;
+        p = newkern(shiftup);
+        link(p) = y;
+        link(x) = p;
+        p = newkern(bigopspacing5);
+        link(p) = x;
+        listptr(v) = p;
+        height(v) += bigopspacing5 + height(x) + depth(x) + shiftup;
     }
-    delta = charitalic(curf, curi);
-    x = cleanbox(nucleus(q), curstyle);
-    if ((mathtype(subscr(q)) != empty) & (subtype(q) != limits))
-      width(x) -= delta;
-    shiftamount(x) =
-      half(height(x) - depth(x)) - axisheight(cursize);
-    mathtype(nucleus(q)) = subbox;
-    info(nucleus(q)) = x;
-  } else
-    delta = 0;
-  if (subtype(q) != limits)   /*750:*/
+    if (mathtype(subscr(q)) == empty)
+        freenode(z, boxnodesize);
+    else { /*:751*/
+        shiftdown = bigopspacing4 - height(z);
+        if (shiftdown < bigopspacing2) shiftdown = bigopspacing2;
+        p = newkern(shiftdown);
+        link(y) = p;
+        link(p) = z;
+        p = newkern(bigopspacing5);
+        link(z) = p;
+        depth(v) += bigopspacing5 + height(z) + depth(z) + shiftdown;
+    }
+    newhlist(q) = v;
     return delta;
-  /*:750*/
-  x = cleanbox(supscr(q), supstyle(curstyle));
-  y = cleanbox(nucleus(q), curstyle);
-  z = cleanbox(subscr(q), substyle(curstyle));
-  v = newnullbox();
-  type(v) = VLIST_NODE;
-  width(v) = width(y);
-  if (width(x) > width(v))
-    width(v) = width(x);
-  if (width(z) > width(v))
-    width(v) = width(z);
-  x = rebox(x, width(v));
-  y = rebox(y, width(v));
-  z = rebox(z, width(v));
-  shiftamount(x) = half(delta);
-  shiftamount(z) = -shiftamount(x);
-  height(v) = height(y);
-  depth(v) = depth(y);   /*751:*/
-  if (mathtype(supscr(q)) == empty) {
-    freenode(x, boxnodesize);
-    listptr(v) = y;
-  } else {
-    shiftup = bigopspacing3 - depth(x);
-    if (shiftup < bigopspacing1)
-      shiftup = bigopspacing1;
-    p = newkern(shiftup);
-    link(p) = y;
-    link(x) = p;
-    p = newkern(bigopspacing5);
-    link(p) = x;
-    listptr(v) = p;
-    height(v) += bigopspacing5 + height(x) + depth(x) + shiftup;
-  }
-  if (mathtype(subscr(q)) == empty)
-    freenode(z, boxnodesize);
-  else {   /*:751*/
-    shiftdown = bigopspacing4 - height(z);
-    if (shiftdown < bigopspacing2)
-      shiftdown = bigopspacing2;
-    p = newkern(shiftdown);
-    link(y) = p;
-    link(p) = z;
-    p = newkern(bigopspacing5);
-    link(z) = p;
-    depth(v) += bigopspacing5 + height(z) + depth(z) + shiftdown;
-  }
-  newhlist(q) = v;
-  return delta;
 }
 /*:749*/
 
 /*752:*/
-Static void makeord(HalfWord q)
-{
-  long a;
-  Pointer p, r;
+Static void makeord(HalfWord q) {
+    long a;
+    Pointer p, r;
 
 _Lrestart:
-  if (mathtype(subscr(q)) == empty) {
-    if (mathtype(supscr(q)) == empty) {
-      if (mathtype(nucleus(q)) == mathchar) {
-	p = link(q);
-	if (p != 0) {
-	  if ((type(p) >= ordnoad) & (type(p) <= punctnoad)) {
-	    if (mathtype(nucleus(p)) == mathchar) {
-	      if (fam(nucleus(p)) == fam(nucleus(q))) {
-		mathtype(nucleus(q)) = mathtextchar;
-		fetch(nucleus(q));
-		if (chartag(curi) == LIG_TAG) {
-		  a = ligkernstart(curf,curi);
-		  curc = character(nucleus(p));
-		  curi = fontinfo[a].qqqq;
-		  if (skipbyte(curi) > stopflag) {
-		    a = ligkernrestart(curf,curi);
-		    curi = fontinfo[a].qqqq;
-		  }
-		  while (true) {  /*753:*/
-		    if (nextchar(curi) == curc) {
-		      if (skipbyte(curi) <= stopflag) {
-			if (opbyte(curi) >= kernflag) {
-			  p = newkern(charkern(curf, curi));
-			  link(p) = link(q);
-			  link(q) = p;
-			  goto _Lexit;
-			} else {   /*:753*/
-			  checkinterrupt();
-			  switch (opbyte(curi)) {
+    if (mathtype(subscr(q)) == empty) {
+        if (mathtype(supscr(q)) == empty) {
+            if (mathtype(nucleus(q)) == mathchar) {
+                p = link(q);
+                if (p != 0) {
+                    if ((type(p) >= ordnoad) & (type(p) <= punctnoad)) {
+                        if (mathtype(nucleus(p)) == mathchar) {
+                            if (fam(nucleus(p)) == fam(nucleus(q))) {
+                                mathtype(nucleus(q)) = mathtextchar;
+                                fetch(nucleus(q));
+                                if (chartag(curi) == LIG_TAG) {
+                                    a = ligkernstart(curf, curi);
+                                    curc = character(nucleus(p));
+                                    curi = fontinfo[a].qqqq;
+                                    if (skipbyte(curi) > stopflag) {
+                                        a = ligkernrestart(curf, curi);
+                                        curi = fontinfo[a].qqqq;
+                                    }
+                                    while (true) { /*753:*/
+                                        if (nextchar(curi) == curc) {
+                                            if (skipbyte(curi) <= stopflag) {
+                                                if (opbyte(curi) >= kernflag) {
+                                                    p = newkern(
+                                                        charkern(curf, curi));
+                                                    link(p) = link(q);
+                                                    link(q) = p;
+                                                    goto _Lexit;
+                                                } else { /*:753*/
+                                                    checkinterrupt();
+                                                    switch (opbyte(curi)) {
 
-			  case MIN_QUARTER_WORD + 1:
-			  case MIN_QUARTER_WORD + 5:
-			    character(nucleus(q)) = rembyte(curi);
-			    break;
+                                                        case MIN_QUARTER_WORD +
+                                                            1:
+                                                        case MIN_QUARTER_WORD +
+                                                            5:
+                                                            character(
+                                                                nucleus(q)) =
+                                                                rembyte(curi);
+                                                            break;
 
-			  case MIN_QUARTER_WORD + 2:
-			  case MIN_QUARTER_WORD + 6:
-			    character(nucleus(p)) = rembyte(curi);
-			    break;
+                                                        case MIN_QUARTER_WORD +
+                                                            2:
+                                                        case MIN_QUARTER_WORD +
+                                                            6:
+                                                            character(
+                                                                nucleus(p)) =
+                                                                rembyte(curi);
+                                                            break;
 
-			  case MIN_QUARTER_WORD + 3:
-			  case MIN_QUARTER_WORD + 7:
-			  case MIN_QUARTER_WORD + 11:
-			    r = newnoad();
-			    character(nucleus(r)) = rembyte(curi);
-			    fam(nucleus(r)) = fam(nucleus(q));
-			    link(q) = r;
-			    link(r) = p;
-			    if (opbyte(curi) < MIN_QUARTER_WORD + 11)
-			      mathtype(nucleus(r)) = mathchar;
-			    else
-			      mathtype(nucleus(r)) = mathtextchar;
-			    break;
+                                                        case MIN_QUARTER_WORD +
+                                                            3:
+                                                        case MIN_QUARTER_WORD +
+                                                            7:
+                                                        case MIN_QUARTER_WORD +
+                                                            11:
+                                                            r = newnoad();
+                                                            character(
+                                                                nucleus(r)) =
+                                                                rembyte(curi);
+                                                            fam(nucleus(r)) =
+                                                                fam(nucleus(q));
+                                                            link(q) = r;
+                                                            link(r) = p;
+                                                            if (opbyte(curi) <
+                                                                MIN_QUARTER_WORD +
+                                                                    11)
+                                                                mathtype(
+                                                                    nucleus(
+                                                                        r)) =
+                                                                    mathchar;
+                                                            else
+                                                                mathtype(
+                                                                    nucleus(
+                                                                        r)) =
+                                                                    mathtextchar;
+                                                            break;
 
-			  default:
-			    link(q) = link(p);
-			    character(nucleus(q)) = rembyte(curi);
-			    mem[subscr(q) - memmin] =
-			      mem[subscr(p) - memmin];
-			    mem[supscr(q) - memmin] =
-			      mem[supscr(p) - memmin];
-			    freenode(p, noadsize);
-			    break;
-			  }
-			  if (opbyte(curi) > MIN_QUARTER_WORD + 3)
-			    goto _Lexit;
-			  mathtype(nucleus(q)) = mathchar;
-			  goto _Lrestart;
-			}
-		      }
-		    }
-		    if (skipbyte(curi) >= stopflag)
-		      goto _Lexit;
-		    a += skipbyte(curi) - MIN_QUARTER_WORD + 1;
-		    curi = fontinfo[a].qqqq;
-		  }
-		}
-	      }
-	    }
-	  }
-	}
-      }
+                                                        default:
+                                                            link(q) = link(p);
+                                                            character(
+                                                                nucleus(q)) =
+                                                                rembyte(curi);
+                                                            mem[subscr(q) -
+                                                                memmin] =
+                                                                mem[subscr(p) -
+                                                                    memmin];
+                                                            mem[supscr(q) -
+                                                                memmin] =
+                                                                mem[supscr(p) -
+                                                                    memmin];
+                                                            freenode(p,
+                                                                     noadsize);
+                                                            break;
+                                                    }
+                                                    if (opbyte(curi) >
+                                                        MIN_QUARTER_WORD + 3)
+                                                        goto _Lexit;
+                                                    mathtype(nucleus(q)) =
+                                                        mathchar;
+                                                    goto _Lrestart;
+                                                }
+                                            }
+                                        }
+                                        if (skipbyte(curi) >= stopflag)
+                                            goto _Lexit;
+                                        a += skipbyte(curi) - MIN_QUARTER_WORD +
+                                             1;
+                                        curi = fontinfo[a].qqqq;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
-_Lexit: ;
+_Lexit:;
 }
 /*:752*/
 
 /*756:*/
-Static void makescripts(HalfWord q, long delta)
-{
-  Pointer p, x, y, z;
-  Scaled shiftup, shiftdown, clr;
-  SmallNumber t;
+Static void makescripts(HalfWord q, long delta) {
+    Pointer p, x, y, z;
+    Scaled shiftup, shiftdown, clr;
+    SmallNumber t;
 
-  p = newhlist(q);
-  if (ischarnode(p)) {
-    shiftup = 0;
-    shiftdown = 0;
-  } else {
-    z = hpack(p, 0, additional);
-    if (curstyle < scriptstyle)
-      t = SCRIPT_SIZE;
-    else
-      t = SCRIPT_SCRIPT_SIZE;
-    shiftup = height(z) - supdrop(t);
-    shiftdown = depth(z) + subdrop(t);
-    freenode(z, boxnodesize);
-  }
-  if (mathtype(supscr(q)) == empty) {   /*757:*/
-    x = cleanbox(subscr(q), substyle(curstyle));
-    width(x) += scriptspace;
-    if (shiftdown < sub1(cursize))
-      shiftdown = sub1(cursize);
-    clr = height(x) - labs(mathxheight(cursize) * 4) / 5;
-    if (shiftdown < clr)
-      shiftdown = clr;
-    shiftamount(x) = shiftdown;
-  } else {  /*758:*/
-    x = cleanbox(supscr(q), supstyle(curstyle));
-    width(x) += scriptspace;
-    if (curstyle & 1)
-      clr = sup3(cursize);
-    else if (curstyle < textstyle)
-      clr = sup1(cursize);
-    else
-      clr = sup2(cursize);
-    if (shiftup < clr)
-      shiftup = clr;
-    clr = depth(x) + labs(mathxheight(cursize)) / 4;
-    if (shiftup < clr)   /*:758*/
-      shiftup = clr;
-    if (mathtype(subscr(q)) == empty)
-      shiftamount(x) = -shiftup;
-    else {   /*759:*/
-      y = cleanbox(subscr(q), substyle(curstyle));
-      width(y) += scriptspace;
-      if (shiftdown < sub2(cursize))
-	shiftdown = sub2(cursize);
-      clr = defaultrulethickness * 4 - shiftup + depth(x) +
-	    height(y) - shiftdown;
-      if (clr > 0) {
-	shiftdown += clr;
-	clr = labs(mathxheight(cursize) * 4) / 5 - shiftup + depth(x);
-	if (clr > 0) {
-	  shiftup += clr;
-	  shiftdown -= clr;
-	}
-      }
-      shiftamount(x) = delta;
-      p = newkern(shiftup - depth(x) - height(y) + shiftdown);
-      link(x) = p;
-      link(p) = y;
-      x = vpack(x, 0, additional);
-      shiftamount(x) = shiftdown;
+    p = newhlist(q);
+    if (ischarnode(p)) {
+        shiftup = 0;
+        shiftdown = 0;
+    } else {
+        z = hpack(p, 0, additional);
+        if (curstyle < scriptstyle)
+            t = SCRIPT_SIZE;
+        else
+            t = SCRIPT_SCRIPT_SIZE;
+        shiftup = height(z) - supdrop(t);
+        shiftdown = depth(z) + subdrop(t);
+        freenode(z, boxnodesize);
     }
-  }
-  /*:757*/
-  if (newhlist(q) == 0) {
-    newhlist(q) = x;
-    return;
-  }
-  p = newhlist(q);
-  while (link(p) != 0)
-    p = link(p);
-  link(p) = x;
+    if (mathtype(supscr(q)) == empty) { /*757:*/
+        x = cleanbox(subscr(q), substyle(curstyle));
+        width(x) += scriptspace;
+        if (shiftdown < sub1(cursize)) shiftdown = sub1(cursize);
+        clr = height(x) - labs(mathxheight(cursize) * 4) / 5;
+        if (shiftdown < clr) shiftdown = clr;
+        shiftamount(x) = shiftdown;
+    } else { /*758:*/
+        x = cleanbox(supscr(q), supstyle(curstyle));
+        width(x) += scriptspace;
+        if (curstyle & 1)
+            clr = sup3(cursize);
+        else if (curstyle < textstyle)
+            clr = sup1(cursize);
+        else
+            clr = sup2(cursize);
+        if (shiftup < clr) shiftup = clr;
+        clr = depth(x) + labs(mathxheight(cursize)) / 4;
+        if (shiftup < clr) /*:758*/
+            shiftup = clr;
+        if (mathtype(subscr(q)) == empty)
+            shiftamount(x) = -shiftup;
+        else { /*759:*/
+            y = cleanbox(subscr(q), substyle(curstyle));
+            width(y) += scriptspace;
+            if (shiftdown < sub2(cursize)) shiftdown = sub2(cursize);
+            clr = defaultrulethickness * 4 - shiftup + depth(x) + height(y) -
+                  shiftdown;
+            if (clr > 0) {
+                shiftdown += clr;
+                clr = labs(mathxheight(cursize) * 4) / 5 - shiftup + depth(x);
+                if (clr > 0) {
+                    shiftup += clr;
+                    shiftdown -= clr;
+                }
+            }
+            shiftamount(x) = delta;
+            p = newkern(shiftup - depth(x) - height(y) + shiftdown);
+            link(x) = p;
+            link(p) = y;
+            x = vpack(x, 0, additional);
+            shiftamount(x) = shiftdown;
+        }
+    }
+    /*:757*/
+    if (newhlist(q) == 0) {
+        newhlist(q) = x;
+        return;
+    }
+    p = newhlist(q);
+    while (link(p) != 0)
+        p = link(p);
+    link(p) = x;
 
-  /*:759*/
-}  /*:756*/
+    /*:759*/
+} /*:756*/
 
 
 /*762:*/
-Static SmallNumber makeleftright(HalfWord q, SmallNumber style, long maxd,
-				 long maxh)
-{
-  Scaled delta, delta1, delta2;
+Static SmallNumber makeleftright(HalfWord q,
+                                 SmallNumber style,
+                                 long maxd,
+                                 long maxh) {
+    Scaled delta, delta1, delta2;
 
-  if (style < scriptstyle)
-    cursize = TEXT_SIZE;
-  else
-    cursize = (style - textstyle) / 2 * 16;
-  delta2 = maxd + axisheight(cursize);
-  delta1 = maxh + maxd - delta2;
-  if (delta2 > delta1)
-    delta1 = delta2;
-  delta = delta1 / 500 * delimiterfactor;
-  delta2 = delta1 + delta1 - delimitershortfall;
-  if (delta < delta2)
-    delta = delta2;
-  newhlist(q) = vardelimiter(delimiter(q), cursize, delta);
-  return (type(q) - leftnoad + opennoad);
-}  /*:762*/
+    if (style < scriptstyle)
+        cursize = TEXT_SIZE;
+    else
+        cursize = (style - textstyle) / 2 * 16;
+    delta2 = maxd + axisheight(cursize);
+    delta1 = maxh + maxd - delta2;
+    if (delta2 > delta1) delta1 = delta2;
+    delta = delta1 / 500 * delimiterfactor;
+    delta2 = delta1 + delta1 - delimitershortfall;
+    if (delta < delta2) delta = delta2;
+    newhlist(q) = vardelimiter(delimiter(q), cursize, delta);
+    return (type(q) - leftnoad + opennoad);
+} /*:762*/
 
 
-Static void mlisttohlist(void)
-{
-  Pointer mlist, q, r, p=0 /* XXXX */, x=0 /* XXXX */, y, z;
-  Boolean penalties;
-  SmallNumber style, savestyle, rtype, t;
-  long pen;
-  SmallNumber s;
-  Scaled maxh, maxd, delta;
+Static void mlisttohlist(void) {
+    Pointer mlist, q, r, p = 0 /* XXXX */, x = 0 /* XXXX */, y, z;
+    Boolean penalties;
+    SmallNumber style, savestyle, rtype, t;
+    long pen;
+    SmallNumber s;
+    Scaled maxh, maxd, delta;
 
-  mlist = curmlist;
-  penalties = mlistpenalties;
-  style = curstyle;
-  q = mlist;
-  r = 0;
-  rtype = opnoad;
-  maxh = 0;
-  maxd = 0;   /*703:*/
-  if (curstyle < scriptstyle)
-    cursize = TEXT_SIZE;
-  else
-    cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
-  while (q != 0) {   /*727:*/
-_Lreswitch:
-    delta = 0;
-    switch (type(q)) {
+    mlist = curmlist;
+    penalties = mlistpenalties;
+    style = curstyle;
+    q = mlist;
+    r = 0;
+    rtype = opnoad;
+    maxh = 0;
+    maxd = 0; /*703:*/
+    if (curstyle < scriptstyle)
+        cursize = TEXT_SIZE;
+    else
+        cursize = (curstyle - textstyle) / 2 * 16;
+    curmu = x_over_n(mathquad(cursize), 18); /*:703*/
+    while (q != 0) {                         /*727:*/
+    _Lreswitch:
+        delta = 0;
+        switch (type(q)) {
 
-    case binnoad:
-      switch (rtype) {
+            case binnoad:
+                switch (rtype) {
 
-      case binnoad:
-      case opnoad:
-      case relnoad:
-      case opennoad:
-      case punctnoad:
-      case leftnoad:
-	type(q) = ordnoad;
-	goto _Lreswitch;
-	break;
-      }
-      break;
+                    case binnoad:
+                    case opnoad:
+                    case relnoad:
+                    case opennoad:
+                    case punctnoad:
+                    case leftnoad:
+                        type(q) = ordnoad;
+                        goto _Lreswitch;
+                        break;
+                }
+                break;
 
-    case relnoad:
-    case closenoad:
-    case punctnoad:
-    case rightnoad:  /*729:*/
-      if (rtype == binnoad)
-	type(r) = ordnoad;   /*:729*/
-      if (type(q) == rightnoad)
-	goto _Ldonewithnoad_;
-      break;
-      /*733:*/
+            case relnoad:
+            case closenoad:
+            case punctnoad:
+            case rightnoad:                              /*729:*/
+                if (rtype == binnoad) type(r) = ordnoad; /*:729*/
+                if (type(q) == rightnoad) goto _Ldonewithnoad_;
+                break;
+                /*733:*/
 
-    case leftnoad:
-      goto _Ldonewithnoad_;
-      break;
+            case leftnoad: goto _Ldonewithnoad_; break;
 
-    case fractionnoad:
-      makefraction(q);
-      goto _Lcheckdimensions_;
-      break;
+            case fractionnoad:
+                makefraction(q);
+                goto _Lcheckdimensions_;
+                break;
 
-    case opnoad:
-      delta = makeop(q);
-      if (subtype(q) == limits)
-	goto _Lcheckdimensions_;
-      break;
+            case opnoad:
+                delta = makeop(q);
+                if (subtype(q) == limits) goto _Lcheckdimensions_;
+                break;
 
-    case ordnoad:
-      makeord(q);
-      break;
+            case ordnoad: makeord(q); break;
 
-    case opennoad:
-    case innernoad:
-      /* blank case */
-      break;
+            case opennoad:
+            case innernoad:
+                /* blank case */
+                break;
 
-    case radicalnoad:
-      makeradical(q);
-      break;
+            case radicalnoad: makeradical(q); break;
 
-    case overnoad:
-      makeover(q);
-      break;
+            case overnoad: makeover(q); break;
 
-    case undernoad:
-      makeunder(q);
-      break;
+            case undernoad: makeunder(q); break;
 
-    case accentnoad:
-      makemathaccent(q);
-      break;
+            case accentnoad: makemathaccent(q); break;
 
-    case vcenternoad:   /*:733*/
-      makevcenter(q);
-      break;
-      /*730:*/
+            case vcenternoad: /*:733*/
+                makevcenter(q);
+                break;
+                /*730:*/
 
-    case stylenode:
-      curstyle = subtype(q);   /*703:*/
-      if (curstyle < scriptstyle)
-	cursize = TEXT_SIZE;
-      else
-	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
-      goto _Ldonewithnode_;
-      break;
+            case stylenode:
+                curstyle = subtype(q); /*703:*/
+                if (curstyle < scriptstyle)
+                    cursize = TEXT_SIZE;
+                else
+                    cursize = (curstyle - textstyle) / 2 * 16;
+                curmu = x_over_n(mathquad(cursize), 18); /*:703*/
+                goto _Ldonewithnode_;
+                break;
 
-    case choicenode:   /*731:*/
-      switch (curstyle / 2) {
+            case choicenode: /*731:*/
+                switch (curstyle / 2) {
 
-      case 0:
-	p = displaymlist(q);
-	displaymlist(q) = 0;
-	break;
+                    case 0:
+                        p = displaymlist(q);
+                        displaymlist(q) = 0;
+                        break;
 
-      case 1:
-	p = textmlist(q);
-	textmlist(q) = 0;
-	break;
+                    case 1:
+                        p = textmlist(q);
+                        textmlist(q) = 0;
+                        break;
 
-      case 2:
-	p = scriptmlist(q);
-	scriptmlist(q) = 0;
-	break;
+                    case 2:
+                        p = scriptmlist(q);
+                        scriptmlist(q) = 0;
+                        break;
 
-      case 3:
-	p = scriptscriptmlist(q);
-	scriptscriptmlist(q) = 0;
-	break;
-      }
-      flushnodelist(displaymlist(q));
-      flushnodelist(textmlist(q));
-      flushnodelist(scriptmlist(q));
-      flushnodelist(scriptscriptmlist(q));
-      type(q) = stylenode;
-      subtype(q) = curstyle;
-      width(q) = 0;
-      depth(q) = 0;
-      if (p != 0) {
-	z = link(q);
-	link(q) = p;
-	while (link(p) != 0)
-	  p = link(p);
-	link(p) = z;
-      }
-      goto _Ldonewithnode_;
-      break;
-      /*:731*/
+                    case 3:
+                        p = scriptscriptmlist(q);
+                        scriptscriptmlist(q) = 0;
+                        break;
+                }
+                flushnodelist(displaymlist(q));
+                flushnodelist(textmlist(q));
+                flushnodelist(scriptmlist(q));
+                flushnodelist(scriptscriptmlist(q));
+                type(q) = stylenode;
+                subtype(q) = curstyle;
+                width(q) = 0;
+                depth(q) = 0;
+                if (p != 0) {
+                    z = link(q);
+                    link(q) = p;
+                    while (link(p) != 0)
+                        p = link(p);
+                    link(p) = z;
+                }
+                goto _Ldonewithnode_;
+                break;
+                /*:731*/
 
-    case INS_NODE:
-    case MARK_NODE:
-    case ADJUST_NODE:
-    case WHATSIT_NODE:
-    case PENALTY_NODE:
-    case DISC_NODE:
-      goto _Ldonewithnode_;
-      break;
+            case INS_NODE:
+            case MARK_NODE:
+            case ADJUST_NODE:
+            case WHATSIT_NODE:
+            case PENALTY_NODE:
+            case DISC_NODE: goto _Ldonewithnode_; break;
 
-    case RULE_NODE:
-      if (height(q) > maxh)
-	maxh = height(q);
-      if (depth(q) > maxd)
-	maxd = depth(q);
-      goto _Ldonewithnode_;
-      break;
+            case RULE_NODE:
+                if (height(q) > maxh) maxh = height(q);
+                if (depth(q) > maxd) maxd = depth(q);
+                goto _Ldonewithnode_;
+                break;
 
-    case GLUE_NODE:  /*732:*/
-      if (subtype(q) == muglue) {
-	x = glueptr(q);
-	y = mathglue(x, curmu);
-	deleteglueref(x);
-	glueptr(q) = y;
-	subtype(q) = NORMAL;
-      } else if ((cursize != TEXT_SIZE) & (subtype(q) == condmathglue)) {
-	p = link(q);
-	if (p != 0) {
-	  if ((type(p) == GLUE_NODE) | (type(p) == KERN_NODE)) {
-	    link(q) = link(p);
-	    link(p) = 0;
-	    flushnodelist(p);
-	  }
-	}
-      }
-      goto _Ldonewithnode_;
-      break;
+            case GLUE_NODE: /*732:*/
+                if (subtype(q) == muglue) {
+                    x = glueptr(q);
+                    y = mathglue(x, curmu);
+                    deleteglueref(x);
+                    glueptr(q) = y;
+                    subtype(q) = NORMAL;
+                } else if ((cursize != TEXT_SIZE) &
+                           (subtype(q) == condmathglue)) {
+                    p = link(q);
+                    if (p != 0) {
+                        if ((type(p) == GLUE_NODE) | (type(p) == KERN_NODE)) {
+                            link(q) = link(p);
+                            link(p) = 0;
+                            flushnodelist(p);
+                        }
+                    }
+                }
+                goto _Ldonewithnode_;
+                break;
 
-    case KERN_NODE:   /*:730*/
-      mathkern(q, curmu);
-      goto _Ldonewithnode_;
-      break;
+            case KERN_NODE: /*:730*/
+                mathkern(q, curmu);
+                goto _Ldonewithnode_;
+                break;
 
-    default:
-      confusion(S(720));
-      break;
+            default: confusion(S(720)); break;
+        }
+        /*754:*/
+        switch (mathtype(nucleus(q))) {
+
+            case mathchar:
+            case mathtextchar: /*:755*/
+                /*755:*/
+                fetch(nucleus(q));
+                if (charexists(curi)) {
+                    delta = charitalic(curf, curi);
+                    p = newcharacter(curf, curc - MIN_QUARTER_WORD);
+                    if ((mathtype(nucleus(q)) == mathtextchar) &
+                        (space(curf) != 0))
+                        delta = 0;
+                    if (mathtype(subscr(q)) == empty && delta != 0) {
+                        link(p) = newkern(delta);
+                        delta = 0;
+                    }
+                } else
+                    p = 0;
+                break;
+
+            case empty: p = 0; break;
+
+            case subbox: p = info(nucleus(q)); break;
+
+            case submlist:
+                curmlist = info(nucleus(q));
+                savestyle = curstyle;
+                mlistpenalties = false;
+                mlisttohlist();
+                curstyle = savestyle; /*703:*/
+                if (curstyle < scriptstyle)
+                    cursize = TEXT_SIZE;
+                else
+                    cursize = (curstyle - textstyle) / 2 * 16;
+                curmu = x_over_n(mathquad(cursize), 18); /*:703*/
+                p = hpack(link(temphead), 0, additional);
+                break;
+
+            default: confusion(S(721)); break;
+        }
+        newhlist(q) = p;
+        if ((mathtype(subscr(q)) == empty) & (mathtype(supscr(q)) == empty))
+            /*:754*/
+            goto _Lcheckdimensions_;
+        /*:728*/
+        makescripts(q, delta);
+    _Lcheckdimensions_:
+        z = hpack(newhlist(q), 0, additional);
+        if (height(z) > maxh) maxh = height(z);
+        if (depth(z) > maxd) maxd = depth(z);
+        freenode(z, boxnodesize);
+    _Ldonewithnoad_:
+        r = q;
+        rtype = type(r);
+    _Ldonewithnode_:
+        q = link(q);
     }
-    /*754:*/
-    switch (mathtype(nucleus(q))) {
+    /*728:*/
+    /*:727*/
+    /*729:*/
+    if (rtype == binnoad)  /*760:*/
+        type(r) = ordnoad; /*:729*/
+    p = temphead;
+    link(p) = 0;
+    q = mlist;
+    rtype = 0;
+    curstyle = style; /*703:*/
+    if (curstyle < scriptstyle)
+        cursize = TEXT_SIZE;
+    else
+        cursize = (curstyle - textstyle) / 2 * 16;
+    curmu = x_over_n(mathquad(cursize), 18); /*:703*/
+    while (q != 0) {                         /*761:*/
+        t = ordnoad;
+        s = noadsize;
+        pen = INF_PENALTY;
+        switch (type(q)) { /*:761*/
 
-    case mathchar:
-    case mathtextchar:   /*:755*/
-      /*755:*/
-      fetch(nucleus(q));
-      if (charexists(curi)) {
-	delta = charitalic(curf, curi);
-	p = newcharacter(curf, curc - MIN_QUARTER_WORD);
-	if ((mathtype(nucleus(q)) == mathtextchar) & (space(curf) != 0))
-	  delta = 0;
-	if (mathtype(subscr(q)) == empty && delta != 0) {
-	  link(p) = newkern(delta);
-	  delta = 0;
-	}
-      } else
-	p = 0;
-      break;
+            case opnoad:
+            case opennoad:
+            case closenoad:
+            case punctnoad:
+            case innernoad: t = type(q); break;
 
-    case empty:
-      p = 0;
-      break;
+            case binnoad:
+                t = binnoad;
+                pen = binoppenalty;
+                break;
 
-    case subbox:
-      p = info(nucleus(q));
-      break;
+            case relnoad:
+                t = relnoad;
+                pen = relpenalty;
+                break;
 
-    case submlist:
-      curmlist = info(nucleus(q));
-      savestyle = curstyle;
-      mlistpenalties = false;
-      mlisttohlist();
-      curstyle = savestyle;   /*703:*/
-      if (curstyle < scriptstyle)
-	cursize = TEXT_SIZE;
-      else
-	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
-      p = hpack(link(temphead), 0, additional);
-      break;
+            case ordnoad:
+            case vcenternoad:
+            case overnoad:
+            case undernoad:
+                /* blank case */
+                break;
 
-    default:
-      confusion(S(721));
-      break;
+            case radicalnoad: s = radicalnoadsize; break;
+
+            case accentnoad: s = accentnoadsize; break;
+
+            case fractionnoad:
+                t = innernoad;
+                s = fractionnoadsize;
+                break;
+
+            case leftnoad:
+            case rightnoad: t = makeleftright(q, style, maxd, maxh); break;
+
+            case stylenode: /*763:*/
+                curstyle = subtype(q);
+                s = stylenodesize; /*703:*/
+                if (curstyle < scriptstyle)
+                    cursize = TEXT_SIZE;
+                else
+                    cursize = (curstyle - textstyle) / 2 * 16;
+                curmu = x_over_n(mathquad(cursize), 18); /*:703*/
+                goto _Ldeleteq_;
+                break;
+                /*:763*/
+
+            case WHATSIT_NODE:
+            case PENALTY_NODE:
+            case RULE_NODE:
+            case DISC_NODE:
+            case ADJUST_NODE:
+            case INS_NODE:
+            case MARK_NODE:
+            case GLUE_NODE:
+            case KERN_NODE:
+                link(p) = q;
+                p = q;
+                q = link(q);
+                link(p) = 0;
+                goto _Ldone;
+                break;
+
+            default: confusion(S(722)); break;
+        }
+        /*766:*/
+        if (rtype > 0) { /*:766*/
+            const char trans_table[] = "0234000122*4000133**3**344*0400400*"
+                                       "000000234000111*1111112341011";
+            switch (trans_table[rtype * 8 + t - ordnoad * 9]) {
+                case '0': x = 0; break;
+
+                case '1':
+                    if (curstyle < scriptstyle)
+                        x = thinmuskipcode;
+                    else
+                        x = 0;
+                    break;
+
+                case '2': x = thinmuskipcode; break;
+
+                case '3':
+                    if (curstyle < scriptstyle)
+                        x = medmuskipcode;
+                    else
+                        x = 0;
+                    break;
+
+                case '4':
+                    if (curstyle < scriptstyle)
+                        x = thickmuskipcode;
+                    else
+                        x = 0;
+                    break;
+
+                default: confusion(S(723)); break;
+            }
+            if (x != 0) {
+                y = mathglue(gluepar(x), curmu);
+                z = newglue(y);
+                gluerefcount(y) = 0;
+                link(p) = z;
+                p = z;
+                subtype(z) = x + 1;
+            }
+        }
+        /*767:*/
+        if (newhlist(q) != 0) {
+            link(p) = newhlist(q);
+            do {
+                p = link(p);
+            } while (link(p) != 0);
+        }
+        if (penalties) {
+            if (link(q) != 0) {
+                if (pen < INF_PENALTY) { /*:767*/
+                    rtype = type(link(q));
+                    if (rtype != PENALTY_NODE) {
+                        if (rtype != relnoad) {
+                            z = newpenalty(pen);
+                            link(p) = z;
+                            p = z;
+                        }
+                    }
+                }
+            }
+        }
+        rtype = t;
+    _Ldeleteq_:
+        r = q;
+        q = link(q);
+        freenode(r, s);
+    _Ldone:;
     }
-    newhlist(q) = p;
-    if ((mathtype(subscr(q)) == empty) &
-	(mathtype(supscr(q)) == empty))
-	  /*:754*/
-	    goto _Lcheckdimensions_;
-    /*:728*/
-    makescripts(q, delta);
-_Lcheckdimensions_:
-    z = hpack(newhlist(q), 0, additional);
-    if (height(z) > maxh)
-      maxh = height(z);
-    if (depth(z) > maxd)
-      maxd = depth(z);
-    freenode(z, boxnodesize);
-_Ldonewithnoad_:
-    r = q;
-    rtype = type(r);
-_Ldonewithnode_:
-    q = link(q);
-  }
-  /*728:*/
-  /*:727*/
-  /*729:*/
-  if (rtype == binnoad)   /*760:*/
-    type(r) = ordnoad;   /*:729*/
-  p = temphead;
-  link(p) = 0;
-  q = mlist;
-  rtype = 0;
-  curstyle = style;   /*703:*/
-  if (curstyle < scriptstyle)
-    cursize = TEXT_SIZE;
-  else
-    cursize = (curstyle - textstyle) / 2 * 16;
-  curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
-  while (q != 0) {   /*761:*/
-    t = ordnoad;
-    s = noadsize;
-    pen = INF_PENALTY;
-    switch (type(q)) {   /*:761*/
+    /*:760*/
 
-    case opnoad:
-    case opennoad:
-    case closenoad:
-    case punctnoad:
-    case innernoad:
-      t = type(q);
-      break;
-
-    case binnoad:
-      t = binnoad;
-      pen = binoppenalty;
-      break;
-
-    case relnoad:
-      t = relnoad;
-      pen = relpenalty;
-      break;
-
-    case ordnoad:
-    case vcenternoad:
-    case overnoad:
-    case undernoad:
-      /* blank case */
-      break;
-
-    case radicalnoad:
-      s = radicalnoadsize;
-      break;
-
-    case accentnoad:
-      s = accentnoadsize;
-      break;
-
-    case fractionnoad:
-      t = innernoad;
-      s = fractionnoadsize;
-      break;
-
-    case leftnoad:
-    case rightnoad:
-      t = makeleftright(q, style, maxd, maxh);
-      break;
-
-    case stylenode:   /*763:*/
-      curstyle = subtype(q);
-      s = stylenodesize;   /*703:*/
-      if (curstyle < scriptstyle)
-	cursize = TEXT_SIZE;
-      else
-	cursize = (curstyle - textstyle) / 2 * 16;
-      curmu = x_over_n(mathquad(cursize), 18);   /*:703*/
-      goto _Ldeleteq_;
-      break;
-      /*:763*/
-
-    case WHATSIT_NODE:
-    case PENALTY_NODE:
-    case RULE_NODE:
-    case DISC_NODE:
-    case ADJUST_NODE:
-    case INS_NODE:
-    case MARK_NODE:
-    case GLUE_NODE:
-    case KERN_NODE:
-      link(p) = q;
-      p = q;
-      q = link(q);
-      link(p) = 0;
-      goto _Ldone;
-      break;
-
-    default:
-      confusion(S(722));
-      break;
-    }
-    /*766:*/
-    if (rtype > 0) {   /*:766*/
-      const char trans_table[]="0234000122*4000133**3**344*0400400*000000234000111*1111112341011";
-      switch (trans_table[rtype * 8 + t - ordnoad * 9]) {
-      case '0':
-	x = 0;
-	break;
-
-      case '1':
-	if (curstyle < scriptstyle)
-	  x = thinmuskipcode;
-	else
-	  x = 0;
-	break;
-
-      case '2':
-	x = thinmuskipcode;
-	break;
-
-      case '3':
-	if (curstyle < scriptstyle)
-	  x = medmuskipcode;
-	else
-	  x = 0;
-	break;
-
-      case '4':
-	if (curstyle < scriptstyle)
-	  x = thickmuskipcode;
-	else
-	  x = 0;
-	break;
-
-      default:
-	confusion(S(723));
-	break;
-      }
-      if (x != 0) {
-	y = mathglue(gluepar(x), curmu);
-	z = newglue(y);
-	gluerefcount(y) = 0;
-	link(p) = z;
-	p = z;
-	subtype(z) = x + 1;
-      }
-    }
-    /*767:*/
-    if (newhlist(q) != 0) {
-      link(p) = newhlist(q);
-      do {
-	p = link(p);
-      } while (link(p) != 0);
-    }
-    if (penalties) {
-      if (link(q) != 0) {
-	if (pen < INF_PENALTY) {   /*:767*/
-	  rtype = type(link(q));
-	  if (rtype != PENALTY_NODE) {
-	    if (rtype != relnoad) {
-	      z = newpenalty(pen);
-	      link(p) = z;
-	      p = z;
-	    }
-	  }
-	}
-      }
-    }
-    rtype = t;
-_Ldeleteq_:
-    r = q;
-    q = link(q);
-    freenode(r, s);
-_Ldone: ;
-  }
-  /*:760*/
-
-  /*:732*/
+    /*:732*/
 }
 /*:726*/
 
+/// [ #768. Alignment. ]
 /*772:*/
-Static void pushalignment(void)
-{
-  Pointer p;
+Static void pushalignment(void) {
+    Pointer p;
 
-  p = getnode(alignstacknodesize);
-  link(p) = alignptr;
-  info(p) = curalign;
-  llink(p) = preamble;
-  rlink(p) = curspan;
-  mem[p - memmin + 2].int_ = curloop;
-  mem[p - memmin + 3].int_ = alignstate;
-  info(p + 4) = curhead;
-  link(p + 4) = curtail;
-  alignptr = p;
-  curhead = get_avail();
+    p = getnode(alignstacknodesize);
+    link(p) = alignptr;
+    info(p) = curalign;
+    llink(p) = preamble;
+    rlink(p) = curspan;
+    mem[p - memmin + 2].int_ = curloop;
+    mem[p - memmin + 3].int_ = alignstate;
+    info(p + 4) = curhead;
+    link(p + 4) = curtail;
+    alignptr = p;
+    curhead = get_avail();
 }
 
 
-Static void popalignment(void)
-{
-  Pointer p;
+Static void popalignment(void) {
+    Pointer p;
 
-  FREE_AVAIL(curhead);
-  p = alignptr;
-  curtail = link(p + 4);
-  curhead = info(p + 4);
-  alignstate = mem[p - memmin + 3].int_;
-  curloop = mem[p - memmin + 2].int_;
-  curspan = rlink(p);
-  preamble = llink(p);
-  curalign = info(p);
-  alignptr = link(p);
-  freenode(p, alignstacknodesize);
+    FREE_AVAIL(curhead);
+    p = alignptr;
+    curtail = link(p + 4);
+    curhead = info(p + 4);
+    alignstate = mem[p - memmin + 3].int_;
+    curloop = mem[p - memmin + 2].int_;
+    curspan = rlink(p);
+    preamble = llink(p);
+    curalign = info(p);
+    alignptr = link(p);
+    freenode(p, alignstacknodesize);
 }
 /*:772*/
 
 /*774:*/
 /*782:*/
-Static void getpreambletoken(void)
-{
+Static void getpreambletoken(void) {
 _Lrestart:
-  gettoken();
-  while (curchr == spancode && curcmd == tabmark) {
     gettoken();
-    if (curcmd > maxcommand) {
-      expand();
-      gettoken();
+    while (curchr == spancode && curcmd == tabmark) {
+        gettoken();
+        if (curcmd > maxcommand) {
+            expand();
+            gettoken();
+        }
     }
-  }
-  if (curcmd == endv)
-    fatalerror(S(509));
-  if (curcmd != assignglue || curchr != gluebase + tabskipcode)
-    return;
-  scanoptionalequals();
-  scanglue(glueval);
-  if (globaldefs > 0)
-    geqdefine(gluebase + tabskipcode, glueref, curval);
-  else
-    eqdefine(gluebase + tabskipcode, glueref, curval);
-  goto _Lrestart;
+    if (curcmd == endv) fatalerror(S(509));
+    if (curcmd != assignglue || curchr != gluebase + tabskipcode) return;
+    scanoptionalequals();
+    scanglue(glueval);
+    if (globaldefs > 0)
+        geqdefine(gluebase + tabskipcode, glueref, curval);
+    else
+        eqdefine(gluebase + tabskipcode, glueref, curval);
+    goto _Lrestart;
 }
 /*:782*/
 
@@ -9730,324 +9644,303 @@ Static void alignpeek(void);
 Static void normalparagraph(void);
 
 
-Static void initalign(void)
-{
-  Pointer savecsptr, p;
+Static void initalign(void) {
+    Pointer savecsptr, p;
 
-  savecsptr = curcs;
-  pushalignment();
-  alignstate = -1000000L;   /*776:*/
-  if (mode == M_MODE && (tail != head || incompleatnoad != 0)) {   /*:776*/
-    printnl(S(292));
-    print(S(597));
-    print_esc(S(724));
-    print(S(725));
-    help3(S(726),
-          S(727),
-          S(728));
-    error();
-    flushmath();
-  }
-  pushnest();   /*775:*/
-  if (mode == M_MODE) {
-    mode = -V_MODE;
-    prevdepth = nest[nest_ptr - 2].auxfield.sc;
-  } else if (mode > 0)
-    mode = -mode;   /*:775*/
-  scanspec(aligngroup, false);
-  /*777:*/
-  preamble = 0;
-  curalign = alignhead;
-  curloop = 0;
-  scanner_status = ALIGNING;
-  warningindex = savecsptr;
-  alignstate = -1000000L;
-  while (true) {   /*778:*/
-    link(curalign) = newparamglue(tabskipcode);
-    curalign = link(curalign);   /*:778*/
-    if (curcmd == carret)
-      goto _Ldone;
-    /*779:*/
-    /*783:*/
-    p = holdhead;
-    link(p) = 0;
-    while (true) {
-      getpreambletoken();
-      if (curcmd == macparam)
-	goto _Ldone1;
-      if (curcmd <= carret && curcmd >= tabmark && alignstate == -1000000L) {
-	if (p == holdhead && curloop == 0 && curcmd == tabmark) {
-	  curloop = curalign;
-	  continue;
-	} else {
-	  printnl(S(292));
-	  print(S(729));
-	  help3(
-            S(730),
-            S(731),
-            S(732));
-	  backerror();
-	  goto _Ldone1;
-	}
-      } else {
-	if (curcmd != spacer || p != holdhead) {
-	  link(p) = get_avail();
-	  p = link(p);
-	  info(p) = curtok;
-	}
-	continue;
-      }
+    savecsptr = curcs;
+    pushalignment();
+    alignstate = -1000000L;                                        /*776:*/
+    if (mode == M_MODE && (tail != head || incompleatnoad != 0)) { /*:776*/
+        printnl(S(292));
+        print(S(597));
+        print_esc(S(724));
+        print(S(725));
+        help3(S(726), S(727), S(728));
+        error();
+        flushmath();
     }
-_Ldone1:   /*:783*/
-    link(curalign) = newnullbox();
-    curalign = link(curalign);
-    info(curalign) = endspan;
-    width(curalign) = nullflag;
-    upart(curalign) = link(holdhead);   /*784:*/
-    p = holdhead;
-    link(p) = 0;
-    while (true) {
-_Llabcontinue:
-      getpreambletoken();
-      if (curcmd <= carret && curcmd >= tabmark && alignstate == -1000000L)
-	goto _Ldone2;
-      if (curcmd == macparam) {
-	printnl(S(292));
-	print(S(733));
-	help3(S(730),
-              S(731),
-              S(734));
-	error();
-	goto _Llabcontinue;
-      }
-      link(p) = get_avail();
-      p = link(p);
-      info(p) = curtok;
+    pushnest(); /*775:*/
+    if (mode == M_MODE) {
+        mode = -V_MODE;
+        prevdepth = nest[nest_ptr - 2].auxfield.sc;
+    } else if (mode > 0)
+        mode = -mode; /*:775*/
+    scanspec(aligngroup, false);
+    /*777:*/
+    preamble = 0;
+    curalign = alignhead;
+    curloop = 0;
+    scanner_status = ALIGNING;
+    warningindex = savecsptr;
+    alignstate = -1000000L;
+    while (true) { /*778:*/
+        link(curalign) = newparamglue(tabskipcode);
+        curalign = link(curalign); /*:778*/
+        if (curcmd == carret) goto _Ldone;
+        /*779:*/
+        /*783:*/
+        p = holdhead;
+        link(p) = 0;
+        while (true) {
+            getpreambletoken();
+            if (curcmd == macparam) goto _Ldone1;
+            if (curcmd <= carret && curcmd >= tabmark &&
+                alignstate == -1000000L) {
+                if (p == holdhead && curloop == 0 && curcmd == tabmark) {
+                    curloop = curalign;
+                    continue;
+                } else {
+                    printnl(S(292));
+                    print(S(729));
+                    help3(S(730), S(731), S(732));
+                    backerror();
+                    goto _Ldone1;
+                }
+            } else {
+                if (curcmd != spacer || p != holdhead) {
+                    link(p) = get_avail();
+                    p = link(p);
+                    info(p) = curtok;
+                }
+                continue;
+            }
+        }
+    _Ldone1: /*:783*/
+        link(curalign) = newnullbox();
+        curalign = link(curalign);
+        info(curalign) = endspan;
+        width(curalign) = nullflag;
+        upart(curalign) = link(holdhead); /*784:*/
+        p = holdhead;
+        link(p) = 0;
+        while (true) {
+        _Llabcontinue:
+            getpreambletoken();
+            if (curcmd <= carret && curcmd >= tabmark &&
+                alignstate == -1000000L)
+                goto _Ldone2;
+            if (curcmd == macparam) {
+                printnl(S(292));
+                print(S(733));
+                help3(S(730), S(731), S(734));
+                error();
+                goto _Llabcontinue;
+            }
+            link(p) = get_avail();
+            p = link(p);
+            info(p) = curtok;
+        }
+    _Ldone2:
+        link(p) = get_avail();
+        p = link(p);
+        info(p) = endtemplatetoken;       /*:784*/
+        vpart(curalign) = link(holdhead); /*:779*/
     }
-_Ldone2:
-    link(p) = get_avail();
-    p = link(p);
-    info(p) = endtemplatetoken;   /*:784*/
-    vpart(curalign) = link(holdhead);   /*:779*/
-  }
 _Ldone:
-  scanner_status = NORMAL;   /*:777*/
-  newsavelevel(aligngroup);
-  if (everycr != 0)
-    begintokenlist(everycr, EVERY_CR_TEXT);
-  alignpeek();
+    scanner_status = NORMAL; /*:777*/
+    newsavelevel(aligngroup);
+    if (everycr != 0) begintokenlist(everycr, EVERY_CR_TEXT);
+    alignpeek();
 }
 /*:774*/
 
 /*786:*/
 /*787:*/
-Static void initspan(HalfWord p)
-{
-  pushnest();
-  if (mode == -H_MODE)
-    spacefactor = 1000;
-  else {
-    prevdepth = ignoredepth;
-    normalparagraph();
-  }
-  curspan = p;
+Static void initspan(HalfWord p) {
+    pushnest();
+    if (mode == -H_MODE)
+        spacefactor = 1000;
+    else {
+        prevdepth = ignoredepth;
+        normalparagraph();
+    }
+    curspan = p;
 }
 /*:787*/
 
-Static void initrow(void)
-{
-  pushnest();
-  mode = -H_MODE - V_MODE - mode;
-  if (mode == -H_MODE)
-    spacefactor = 0;
-  else
-    prevdepth = 0;
-  tailappend(newglue(glueptr(preamble)));
-  subtype(tail) = tabskipcode + 1;
-  curalign = link(preamble);
-  curtail = curhead;
-  initspan(curalign);
+Static void initrow(void) {
+    pushnest();
+    mode = -H_MODE - V_MODE - mode;
+    if (mode == -H_MODE)
+        spacefactor = 0;
+    else
+        prevdepth = 0;
+    tailappend(newglue(glueptr(preamble)));
+    subtype(tail) = tabskipcode + 1;
+    curalign = link(preamble);
+    curtail = curhead;
+    initspan(curalign);
 }
 /*:786*/
 
 /*788:*/
-Static void initcol(void)
-{
-  extrainfo(curalign) = curcmd;
-  if (curcmd == omit)
-    alignstate = 0;
-  else {
-    backinput();
-    begintokenlist(upart(curalign), U_TEMPLATE);
-  }
+Static void initcol(void) {
+    extrainfo(curalign) = curcmd;
+    if (curcmd == omit)
+        alignstate = 0;
+    else {
+        backinput();
+        begintokenlist(upart(curalign), U_TEMPLATE);
+    }
 }
 /*:788*/
 
 /*791:*/
-Static Boolean fincol(void)
-{
-  Boolean Result;
-  Pointer p, q, r, s, u;
-  Scaled w;
-  GlueOrd o;
-  HalfWord n;
+Static Boolean fincol(void) {
+    Boolean Result;
+    Pointer p, q, r, s, u;
+    Scaled w;
+    GlueOrd o;
+    HalfWord n;
 
-  if (curalign == 0)
-    confusion(S(735));
-  q = link(curalign);
-  if (q == 0)
-    confusion(S(735));
-  if (alignstate < 500000L)
-    fatalerror(S(509));
-  p = link(q);
-  /*792:*/
-  if ((p == 0) & (extrainfo(curalign) < crcode)) {
-    if (curloop != 0) {   /*793:*/
-      link(q) = newnullbox();
-      p = link(q);
-      info(p) = endspan;
-      width(p) = nullflag;
-      curloop = link(curloop);   /*794:*/
-      q = holdhead;
-      r = upart(curloop);
-      while (r != 0) {
-	link(q) = get_avail();
-	q = link(q);
-	info(q) = info(r);
-	r = link(r);
-      }
-      link(q) = 0;
-      upart(p) = link(holdhead);
-      q = holdhead;
-      r = vpart(curloop);
-      while (r != 0) {
-	link(q) = get_avail();
-	q = link(q);
-	info(q) = info(r);
-	r = link(r);
-      }
-      link(q) = 0;
-      vpart(p) = link(holdhead);   /*:794*/
-      curloop = link(curloop);
-      link(p) = newglue(glueptr(curloop));
-    } else {   /*:792*/
-      printnl(S(292));
-      print(S(736));
-      print_esc(S(737));
-      help3(S(738),
-            S(739),
-            S(740));
-      extrainfo(curalign) = crcode;
-      error();
+    if (curalign == 0) confusion(S(735));
+    q = link(curalign);
+    if (q == 0) confusion(S(735));
+    if (alignstate < 500000L) fatalerror(S(509));
+    p = link(q);
+    /*792:*/
+    if ((p == 0) & (extrainfo(curalign) < crcode)) {
+        if (curloop != 0) { /*793:*/
+            link(q) = newnullbox();
+            p = link(q);
+            info(p) = endspan;
+            width(p) = nullflag;
+            curloop = link(curloop); /*794:*/
+            q = holdhead;
+            r = upart(curloop);
+            while (r != 0) {
+                link(q) = get_avail();
+                q = link(q);
+                info(q) = info(r);
+                r = link(r);
+            }
+            link(q) = 0;
+            upart(p) = link(holdhead);
+            q = holdhead;
+            r = vpart(curloop);
+            while (r != 0) {
+                link(q) = get_avail();
+                q = link(q);
+                info(q) = info(r);
+                r = link(r);
+            }
+            link(q) = 0;
+            vpart(p) = link(holdhead); /*:794*/
+            curloop = link(curloop);
+            link(p) = newglue(glueptr(curloop));
+        } else { /*:792*/
+            printnl(S(292));
+            print(S(736));
+            print_esc(S(737));
+            help3(S(738), S(739), S(740));
+            extrainfo(curalign) = crcode;
+            error();
+        }
+        /*:793*/
     }
-    /*:793*/
-  }
-  if (extrainfo(curalign) != spancode) {
-    unsave();
-    newsavelevel(aligngroup);   /*796:*/
-    if (mode == -H_MODE) {
-      adjusttail = curtail;
-      u = hpack(link(head), 0, additional);
-      w = width(u);
-      curtail = adjusttail;
-      adjusttail = 0;
-    } else {
-      u = vpackage(link(head), 0, additional, 0);
-      w = height(u);
+    if (extrainfo(curalign) != spancode) {
+        unsave();
+        newsavelevel(aligngroup); /*796:*/
+        if (mode == -H_MODE) {
+            adjusttail = curtail;
+            u = hpack(link(head), 0, additional);
+            w = width(u);
+            curtail = adjusttail;
+            adjusttail = 0;
+        } else {
+            u = vpackage(link(head), 0, additional, 0);
+            w = height(u);
+        }
+        n = MIN_QUARTER_WORD;
+        if (curspan != curalign) { /*798:*/
+            q = curspan;
+            do {
+                n++;
+                q = link(link(q));
+            } while (q != curalign);
+            if (n > MAX_QUARTER_WORD) confusion(S(741));
+            q = curspan;
+            while (link(info(q)) < n)
+                q = info(q);
+            if (link(info(q)) > n) {
+                s = getnode(spannodesize);
+                info(s) = info(q);
+                link(s) = n;
+                info(q) = s;
+                width(s) = w;
+            } else if (width(info(q)) < w)
+                width(info(q)) = w;
+        } else if (w > width(curalign)) /*:798*/
+            width(curalign) = w;
+        type(u) = UNSET_NODE;
+        spancount(u) = n; /*659:*/
+        if (totalstretch[FILLL - NORMAL] != 0)
+            o = FILLL;
+        else if (totalstretch[FILL - NORMAL] != 0)
+            o = FILL;
+        else if (totalstretch[FIL - NORMAL] != 0)
+            o = FIL;
+        else {
+            o = NORMAL;
+            /*:659*/
+        }
+        glueorder(u) = o;
+        gluestretch(u) = totalstretch[o - NORMAL]; /*665:*/
+        if (totalshrink[FILLL - NORMAL] != 0)
+            o = FILLL;
+        else if (totalshrink[FILL - NORMAL] != 0)
+            o = FILL;
+        else if (totalshrink[FIL - NORMAL] != 0)
+            o = FIL;
+        else
+            o = NORMAL; /*:665*/
+        gluesign(u) = o;
+        glueshrink(u) = totalshrink[o - NORMAL];
+        popnest();
+        link(tail) = u;
+        tail = u; /*:796*/
+        /*795:*/
+        tailappend(newglue(glueptr(link(curalign))));
+        subtype(tail) = tabskipcode + 1; /*:795*/
+        if (extrainfo(curalign) >= crcode) {
+            Result = true;
+            goto _Lexit;
+        }
+        initspan(p);
     }
-    n = MIN_QUARTER_WORD;
-    if (curspan != curalign) {   /*798:*/
-      q = curspan;
-      do {
-	n++;
-	q = link(link(q));
-      } while (q != curalign);
-      if (n > MAX_QUARTER_WORD)
-	confusion(S(741));
-      q = curspan;
-      while (link(info(q)) < n)
-	q = info(q);
-      if (link(info(q)) > n) {
-	s = getnode(spannodesize);
-	info(s) = info(q);
-	link(s) = n;
-	info(q) = s;
-	width(s) = w;
-      } else if (width(info(q)) < w)
-	width(info(q)) = w;
-    } else if (w > width(curalign))   /*:798*/
-      width(curalign) = w;
-    type(u) = UNSET_NODE;
-    spancount(u) = n;   /*659:*/
-    if (totalstretch[FILLL - NORMAL] != 0)
-      o = FILLL;
-    else if (totalstretch[FILL - NORMAL] != 0)
-      o = FILL;
-    else if (totalstretch[FIL - NORMAL] != 0)
-      o = FIL;
-    else {
-      o = NORMAL;
-      /*:659*/
-    }
-    glueorder(u) = o;
-    gluestretch(u) = totalstretch[o - NORMAL];   /*665:*/
-    if (totalshrink[FILLL - NORMAL] != 0)
-      o = FILLL;
-    else if (totalshrink[FILL - NORMAL] != 0)
-      o = FILL;
-    else if (totalshrink[FIL - NORMAL] != 0)
-      o = FIL;
-    else
-      o = NORMAL;   /*:665*/
-    gluesign(u) = o;
-    glueshrink(u) = totalshrink[o - NORMAL];
-    popnest();
-    link(tail) = u;
-    tail = u;   /*:796*/
-    /*795:*/
-    tailappend(newglue(glueptr(link(curalign))));
-    subtype(tail) = tabskipcode + 1;   /*:795*/
-    if (extrainfo(curalign) >= crcode) {
-      Result = true;
-      goto _Lexit;
-    }
-    initspan(p);
-  }
-  alignstate = 1000000L;
-  skip_spaces();
-  curalign = p;
-  initcol();
-  Result = false;
+    alignstate = 1000000L;
+    skip_spaces();
+    curalign = p;
+    initcol();
+    Result = false;
 _Lexit:
-  return Result;
+    return Result;
 }
 /*:791*/
 
 /*799:*/
-Static void finrow(void)
-{
-  Pointer p;
+Static void finrow(void) {
+    Pointer p;
 
-  if (mode == -H_MODE) {
-    p = hpack(link(head), 0, additional);
-    popnest();
-    appendtovlist(p);
-    if (curhead != curtail) {
-      link(tail) = link(curhead);
-      tail = curtail;
+    if (mode == -H_MODE) {
+        p = hpack(link(head), 0, additional);
+        popnest();
+        appendtovlist(p);
+        if (curhead != curtail) {
+            link(tail) = link(curhead);
+            tail = curtail;
+        }
+    } else {
+        p = vpack(link(head), 0, additional);
+        popnest();
+        link(tail) = p;
+        tail = p;
+        spacefactor = 1000;
     }
-  } else {
-    p = vpack(link(head), 0, additional);
-    popnest();
-    link(tail) = p;
-    tail = p;
-    spacefactor = 1000;
-  }
-  type(p) = UNSET_NODE;
-  gluestretch(p) = 0;
-  if (everycr != 0)
-    begintokenlist(everycr, EVERY_CR_TEXT);
-  alignpeek();
+    type(p) = UNSET_NODE;
+    gluestretch(p) = 0;
+    if (everycr != 0) begintokenlist(everycr, EVERY_CR_TEXT);
+    alignpeek();
 }
 /*:799*/
 
@@ -10059,334 +9952,326 @@ Static void resumeafterdisplay(void);
 Static void buildpage(void);
 
 
-Static void finalign(void)
-{
-  Pointer p, q, r, s, u, v;
-  Scaled t, w, o, rulesave;
-  HalfWord n;
-  MemoryWord auxsave;
+Static void finalign(void) {
+    Pointer p, q, r, s, u, v;
+    Scaled t, w, o, rulesave;
+    HalfWord n;
+    MemoryWord auxsave;
 
-  if (curgroup != aligngroup)
-    confusion(S(742));
-  unsave();
-  if (curgroup != aligngroup)
-    confusion(S(743));
-  unsave();
-  if (nest[nest_ptr - 1].modefield == M_MODE)
-    o = displayindent;
-  else
-    o = 0;
-  /*801:*/
-  q = link(preamble);
-  do {   /*804:*/
-    flushlist(upart(q));
-    flushlist(vpart(q));
-    p = link(link(q));
-    if (width(q) == nullflag) {   /*802:*/
-      width(q) = 0;
-      r = link(q);
-      s = glueptr(r);
-      if (s != zeroglue) {
-	addglueref(zeroglue);
-	deleteglueref(s);
-	glueptr(r) = zeroglue;
-      }
-    }
-    /*:802*/
-    if (info(q) != endspan) {   /*803:*/
-      t = width(q) + width(glueptr(link(q)));
-      r = info(q);
-      s = endspan;
-      info(s) = p;
-      n = MIN_QUARTER_WORD + 1;
-      do {
-	width(r) -= t;
-	u = info(r);
-	while (link(r) > n) {
-	  s = info(s);
-	  n = link(info(s)) + 1;
-	}
-	if (link(r) < n) {
-	  info(r) = info(s);
-	  info(s) = r;
-	  (link(r))--;
-	  s = r;
-	} else {
-	  if (width(r) > width(info(s)))
-	    width(info(s)) = width(r);
-	  freenode(r, spannodesize);
-	}
-	r = u;
-      } while (r != endspan);
-    }
-    /*:803*/
-    type(q) = UNSET_NODE;
-    spancount(q) = MIN_QUARTER_WORD;
-    height(q) = 0;
-    depth(q) = 0;
-    glueorder(q) = NORMAL;
-    gluesign(q) = NORMAL;
-    gluestretch(q) = 0;
-    glueshrink(q) = 0;
-    q = p;   /*:801*/
-  } while (q != 0);
-  saveptr -= 2;
-  packbeginline = -modeline;
-  if (mode == -V_MODE) {
-    rulesave = overfullrule;
-    overfullrule = 0;
-    p = hpack(preamble, saved(1), saved(0));
-    overfullrule = rulesave;
-  } else {
+    if (curgroup != aligngroup) confusion(S(742));
+    unsave();
+    if (curgroup != aligngroup) confusion(S(743));
+    unsave();
+    if (nest[nest_ptr - 1].modefield == M_MODE)
+        o = displayindent;
+    else
+        o = 0;
+    /*801:*/
     q = link(preamble);
-    do {
-      height(q) = width(q);
-      width(q) = 0;
-      q = link(link(q));
+    do { /*804:*/
+        flushlist(upart(q));
+        flushlist(vpart(q));
+        p = link(link(q));
+        if (width(q) == nullflag) { /*802:*/
+            width(q) = 0;
+            r = link(q);
+            s = glueptr(r);
+            if (s != zeroglue) {
+                addglueref(zeroglue);
+                deleteglueref(s);
+                glueptr(r) = zeroglue;
+            }
+        }
+        /*:802*/
+        if (info(q) != endspan) { /*803:*/
+            t = width(q) + width(glueptr(link(q)));
+            r = info(q);
+            s = endspan;
+            info(s) = p;
+            n = MIN_QUARTER_WORD + 1;
+            do {
+                width(r) -= t;
+                u = info(r);
+                while (link(r) > n) {
+                    s = info(s);
+                    n = link(info(s)) + 1;
+                }
+                if (link(r) < n) {
+                    info(r) = info(s);
+                    info(s) = r;
+                    (link(r))--;
+                    s = r;
+                } else {
+                    if (width(r) > width(info(s))) width(info(s)) = width(r);
+                    freenode(r, spannodesize);
+                }
+                r = u;
+            } while (r != endspan);
+        }
+        /*:803*/
+        type(q) = UNSET_NODE;
+        spancount(q) = MIN_QUARTER_WORD;
+        height(q) = 0;
+        depth(q) = 0;
+        glueorder(q) = NORMAL;
+        gluesign(q) = NORMAL;
+        gluestretch(q) = 0;
+        glueshrink(q) = 0;
+        q = p; /*:801*/
     } while (q != 0);
-    p = vpack(preamble, saved(1), saved(0));
-    q = link(preamble);
-    do {
-      width(q) = height(q);
-      height(q) = 0;
-      q = link(link(q));
-    } while (q != 0);
-  }
-  packbeginline = 0;   /*:804*/
-  /*805:*/
-  q = link(head);
-  s = head;
-  while (q != 0) {   /*:805*/
-    if (!ischarnode(q)) {
-      if (type(q) == UNSET_NODE) {   /*807:*/
-	if (mode == -V_MODE) {
-	  type(q) = HLIST_NODE;
-	  width(q) = width(p);
-	} else {
-	  type(q) = VLIST_NODE;
-	  height(q) = height(p);
-	}
-	glueorder(q) = glueorder(p);
-	gluesign(q) = gluesign(p);
-	glueset(q) = glueset(p);
-	shiftamount(q) = o;
-	r = link(listptr(q));
-	s = link(listptr(p));
-	do {   /*808:*/
-	  n = spancount(r);
-	  t = width(s);
-	  w = t;
-	  u = holdhead;
-	  while (n > MIN_QUARTER_WORD) {
-	    n--;
-	    /*809:*/
-	    s = link(s);
-	    v = glueptr(s);
-	    link(u) = newglue(v);
-	    u = link(u);
-	    subtype(u) = tabskipcode + 1;
-	    t += width(v);
-	    if (gluesign(p) == stretching) {
-	      if (stretchorder(v) == glueorder(p))
-		t += tex_round(((double)glueset(p)) * stretch(v));
-	    } else if (gluesign(p) == shrinking) {
-	      if (shrinkorder(v) == glueorder(p))
-		t -= tex_round(((double)glueset(p)) * shrink(v));
-	    }
-	    s = link(s);
-	    link(u) = newnullbox();
-	    u = link(u);
-	    t += width(s);
-	    if (mode == -V_MODE)
-	      width(u) = width(s);
-	    else {   /*:809*/
-	      type(u) = VLIST_NODE;
-	      height(u) = width(s);
-	    }
-	  }
-	  if (mode == -V_MODE) {   /*810:*/
-	    height(r) = height(q);
-	    depth(r) = depth(q);
-	    if (t == width(r)) {
-	      gluesign(r) = NORMAL;
-	      glueorder(r) = NORMAL;
-	      glueset(r) = 0.0;
-	    } else if (t > width(r)) {
-	      gluesign(r) = stretching;
-	      if (gluestretch(r) == 0)
-		glueset(r) = 0.0;
-	      else
-		glueset(r) = (double)(t - width(r)) / gluestretch(r);
-	    } else {
-	      glueorder(r) = gluesign(r);
-	      gluesign(r) = shrinking;
-	      if (glueshrink(r) == 0)
-		glueset(r) = 0.0;
-	      else if ((glueorder(r) == NORMAL) &
-		       (width(r) - t > glueshrink(r)))
-		glueset(r) = 1.0;
-	      else
-		glueset(r) = (double)(width(r) - t) / glueshrink(r);
-	    }
-	    width(r) = w;
-	    type(r) = HLIST_NODE;
-	  } else  /*811:*/
-	  {   /*:811*/
-	    width(r) = width(q);
-	    if (t == height(r)) {
-	      gluesign(r) = NORMAL;
-	      glueorder(r) = NORMAL;
-	      glueset(r) = 0.0;
-	    } else if (t > height(r)) {
-	      gluesign(r) = stretching;
-	      if (gluestretch(r) == 0)
-		glueset(r) = 0.0;
-	      else
-		glueset(r) = (double)(t - height(r)) / gluestretch(r);
-	    } else {
-	      glueorder(r) = gluesign(r);
-	      gluesign(r) = shrinking;
-	      if (glueshrink(r) == 0)
-		glueset(r) = 0.0;
-	      else if ((glueorder(r) == NORMAL) &
-		       (height(r) - t > glueshrink(r)))
-		glueset(r) = 1.0;
-	      else
-		glueset(r) = (double)(height(r) - t) / glueshrink(r);
-	    }
-	    height(r) = w;
-	    type(r) = VLIST_NODE;
-	  }
-	  /*:810*/
-	  shiftamount(r) = 0;
-	  if (u != holdhead) {   /*:808*/
-	    link(u) = link(r);
-	    link(r) = link(holdhead);
-	    r = u;
-	  }
-	  r = link(link(r));
-	  s = link(link(s));
-	} while (r != 0);
-      }  /*:807*/
-      else if (type(q) == RULE_NODE) {
-	if (isrunning(width(q))) {
-	  width(q) = width(p);
-	}
-	if (isrunning(height(q))) {
-	  height(q) = height(p);
-	}
-	if (isrunning(depth(q))) {
-	  depth(q) = depth(p);
-	}
-	if (o != 0) {
-	  r = link(q);
-	  link(q) = 0;
-	  q = hpack(q, 0, additional);
-	  shiftamount(q) = o;
-	  link(q) = r;
-	  link(s) = q;
-	}
-      }
+    saveptr -= 2;
+    packbeginline = -modeline;
+    if (mode == -V_MODE) {
+        rulesave = overfullrule;
+        overfullrule = 0;
+        p = hpack(preamble, saved(1), saved(0));
+        overfullrule = rulesave;
+    } else {
+        q = link(preamble);
+        do {
+            height(q) = width(q);
+            width(q) = 0;
+            q = link(link(q));
+        } while (q != 0);
+        p = vpack(preamble, saved(1), saved(0));
+        q = link(preamble);
+        do {
+            width(q) = height(q);
+            height(q) = 0;
+            q = link(link(q));
+        } while (q != 0);
     }
-    s = q;
-    q = link(q);
-  }
-  flushnodelist(p);
-  popalignment();   /*812:*/
-  auxsave = aux;
-  p = link(head);
-  q = tail;
-  popnest();
-  if (mode == M_MODE) {   /*1206:*/
-    doassignments();
-    if (curcmd != mathshift) {   /*1207:*/
-      printnl(S(292));
-      print(S(744));
-      help2(S(726),
-            S(727));
-      backerror();
-    } else {   /*1197:*/
-      getxtoken();
-      if (curcmd != mathshift) {
-	printnl(S(292));
-	print(S(745));
-	help2(S(746),
-              S(747));
-	backerror();
-      }
+    packbeginline = 0; /*:804*/
+    /*805:*/
+    q = link(head);
+    s = head;
+    while (q != 0) { /*:805*/
+        if (!ischarnode(q)) {
+            if (type(q) == UNSET_NODE) { /*807:*/
+                if (mode == -V_MODE) {
+                    type(q) = HLIST_NODE;
+                    width(q) = width(p);
+                } else {
+                    type(q) = VLIST_NODE;
+                    height(q) = height(p);
+                }
+                glueorder(q) = glueorder(p);
+                gluesign(q) = gluesign(p);
+                glueset(q) = glueset(p);
+                shiftamount(q) = o;
+                r = link(listptr(q));
+                s = link(listptr(p));
+                do { /*808:*/
+                    n = spancount(r);
+                    t = width(s);
+                    w = t;
+                    u = holdhead;
+                    while (n > MIN_QUARTER_WORD) {
+                        n--;
+                        /*809:*/
+                        s = link(s);
+                        v = glueptr(s);
+                        link(u) = newglue(v);
+                        u = link(u);
+                        subtype(u) = tabskipcode + 1;
+                        t += width(v);
+                        if (gluesign(p) == stretching) {
+                            if (stretchorder(v) == glueorder(p))
+                                t += tex_round(((double)glueset(p)) *
+                                               stretch(v));
+                        } else if (gluesign(p) == shrinking) {
+                            if (shrinkorder(v) == glueorder(p))
+                                t -=
+                                    tex_round(((double)glueset(p)) * shrink(v));
+                        }
+                        s = link(s);
+                        link(u) = newnullbox();
+                        u = link(u);
+                        t += width(s);
+                        if (mode == -V_MODE)
+                            width(u) = width(s);
+                        else { /*:809*/
+                            type(u) = VLIST_NODE;
+                            height(u) = width(s);
+                        }
+                    }
+                    if (mode == -V_MODE) { /*810:*/
+                        height(r) = height(q);
+                        depth(r) = depth(q);
+                        if (t == width(r)) {
+                            gluesign(r) = NORMAL;
+                            glueorder(r) = NORMAL;
+                            glueset(r) = 0.0;
+                        } else if (t > width(r)) {
+                            gluesign(r) = stretching;
+                            if (gluestretch(r) == 0)
+                                glueset(r) = 0.0;
+                            else
+                                glueset(r) =
+                                    (double)(t - width(r)) / gluestretch(r);
+                        } else {
+                            glueorder(r) = gluesign(r);
+                            gluesign(r) = shrinking;
+                            if (glueshrink(r) == 0)
+                                glueset(r) = 0.0;
+                            else if ((glueorder(r) == NORMAL) &
+                                     (width(r) - t > glueshrink(r)))
+                                glueset(r) = 1.0;
+                            else
+                                glueset(r) =
+                                    (double)(width(r) - t) / glueshrink(r);
+                        }
+                        width(r) = w;
+                        type(r) = HLIST_NODE;
+                    } else /*811:*/
+                    {      /*:811*/
+                        width(r) = width(q);
+                        if (t == height(r)) {
+                            gluesign(r) = NORMAL;
+                            glueorder(r) = NORMAL;
+                            glueset(r) = 0.0;
+                        } else if (t > height(r)) {
+                            gluesign(r) = stretching;
+                            if (gluestretch(r) == 0)
+                                glueset(r) = 0.0;
+                            else
+                                glueset(r) =
+                                    (double)(t - height(r)) / gluestretch(r);
+                        } else {
+                            glueorder(r) = gluesign(r);
+                            gluesign(r) = shrinking;
+                            if (glueshrink(r) == 0)
+                                glueset(r) = 0.0;
+                            else if ((glueorder(r) == NORMAL) &
+                                     (height(r) - t > glueshrink(r)))
+                                glueset(r) = 1.0;
+                            else
+                                glueset(r) =
+                                    (double)(height(r) - t) / glueshrink(r);
+                        }
+                        height(r) = w;
+                        type(r) = VLIST_NODE;
+                    }
+                    /*:810*/
+                    shiftamount(r) = 0;
+                    if (u != holdhead) { /*:808*/
+                        link(u) = link(r);
+                        link(r) = link(holdhead);
+                        r = u;
+                    }
+                    r = link(link(r));
+                    s = link(link(s));
+                } while (r != 0);
+            } /*:807*/
+            else if (type(q) == RULE_NODE) {
+                if (isrunning(width(q))) {
+                    width(q) = width(p);
+                }
+                if (isrunning(height(q))) {
+                    height(q) = height(p);
+                }
+                if (isrunning(depth(q))) {
+                    depth(q) = depth(p);
+                }
+                if (o != 0) {
+                    r = link(q);
+                    link(q) = 0;
+                    q = hpack(q, 0, additional);
+                    shiftamount(q) = o;
+                    link(q) = r;
+                    link(s) = q;
+                }
+            }
+        }
+        s = q;
+        q = link(q);
     }
-    /*:1207*/
+    flushnodelist(p);
+    popalignment(); /*812:*/
+    auxsave = aux;
+    p = link(head);
+    q = tail;
     popnest();
-    tailappend(newpenalty(predisplaypenalty));
-    tailappend(newparamglue(abovedisplayskipcode));
+    if (mode == M_MODE) { /*1206:*/
+        doassignments();
+        if (curcmd != mathshift) { /*1207:*/
+            printnl(S(292));
+            print(S(744));
+            help2(S(726), S(727));
+            backerror();
+        } else { /*1197:*/
+            getxtoken();
+            if (curcmd != mathshift) {
+                printnl(S(292));
+                print(S(745));
+                help2(S(746), S(747));
+                backerror();
+            }
+        }
+        /*:1207*/
+        popnest();
+        tailappend(newpenalty(predisplaypenalty));
+        tailappend(newparamglue(abovedisplayskipcode));
+        link(tail) = p;
+        if (p != 0) tail = q;
+        tailappend(newpenalty(postdisplaypenalty));
+        tailappend(newparamglue(belowdisplayskipcode));
+        prevdepth = auxsave.sc;
+        resumeafterdisplay();
+        return;
+    }
+    /*:1206*/
+    aux = auxsave;
     link(tail) = p;
-    if (p != 0)
-      tail = q;
-    tailappend(newpenalty(postdisplaypenalty));
-    tailappend(newparamglue(belowdisplayskipcode));
-    prevdepth = auxsave.sc;
-    resumeafterdisplay();
-    return;
-  }
-  /*:1206*/
-  aux = auxsave;
-  link(tail) = p;
-  if (p != 0)
-    tail = q;
-  if (mode == V_MODE)
-    buildpage();
+    if (p != 0) tail = q;
+    if (mode == V_MODE) buildpage();
 
-  /*:1197*/
-  /*:812*/
-}  /*785:*/
+    /*:1197*/
+    /*:812*/
+} /*785:*/
 
 
-Static void alignpeek(void)
-{
+Static void alignpeek(void) {
 _Lrestart:
-  alignstate = 1000000L;
-  skip_spaces();
-  if (curcmd == noalign) {
-    scanleftbrace();
-    newsavelevel(noaligngroup);
-    if (mode == -V_MODE)
-      normalparagraph();
-    return;
-  }
-  if (curcmd == rightbrace) {
-    finalign();
-    return;
-  }
-  if (curcmd == carret && curchr == crcrcode)
-    goto _Lrestart;
-  initrow();
-  initcol();
+    alignstate = 1000000L;
+    skip_spaces();
+    if (curcmd == noalign) {
+        scanleftbrace();
+        newsavelevel(noaligngroup);
+        if (mode == -V_MODE) normalparagraph();
+        return;
+    }
+    if (curcmd == rightbrace) {
+        finalign();
+        return;
+    }
+    if (curcmd == carret && curchr == crcrcode) goto _Lrestart;
+    initrow();
+    initcol();
 }
 /*:785*/
 /*:800*/
 
+
+/// [ #813. Breaking paragraphs into lines. ]
+
 /*815:*/
 /*826:*/
-Static HalfWord finiteshrink(HalfWord p)
-{
-  Pointer q;
+Static HalfWord finiteshrink(HalfWord p) {
+    Pointer q;
 
-  if (noshrinkerroryet) {
-    noshrinkerroryet = false;
-    printnl(S(292));
-    print(S(748));
-    help5(S(749),
-          S(750),
-          S(751),
-          S(752),
-          S(753));
-    error();
-  }
-  q = newspec(p);
-  shrinkorder(q) = NORMAL;
-  deleteglueref(p);
-  return q;
-}  /*:826*/
+    if (noshrinkerroryet) {
+        noshrinkerroryet = false;
+        printnl(S(292));
+        print(S(748));
+        help5(S(749), S(750), S(751), S(752), S(753));
+        error();
+    }
+    q = newspec(p);
+    shrinkorder(q) = NORMAL;
+    deleteglueref(p);
+    return q;
+} /*:826*/
 
 
 /// p308#829
@@ -10875,594 +10760,575 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
 
 
 /*877:*/
-Static void postlinebreak(long finalwidowpenalty)
-{   /*878:*/
-  Pointer q, r, s;
-  Boolean discbreak, postdiscbreak;
-  Scaled curwidth, curindent;
-  QuarterWord t;
-  long pen;
-  HalfWord curline;
+Static void postlinebreak(long finalwidowpenalty) { /*878:*/
+    Pointer q, r, s;
+    Boolean discbreak, postdiscbreak;
+    Scaled curwidth, curindent;
+    QuarterWord t;
+    long pen;
+    HalfWord curline;
 
-  q = breaknode(bestbet);
-  curp = 0;
-  do {
-    r = q;
-    q = prevbreak(q);
-    nextbreak(r) = curp;
-    curp = r;   /*:878*/
-  } while (q != 0);
-  curline = prevgraf + 1;
-  do {   /*880:*/
-    q = curbreak(curp);
-    discbreak = false;
-    postdiscbreak = false;
-    if (q != 0) {
-      if (type(q) == GLUE_NODE) {
-	deleteglueref(glueptr(q));
-	glueptr(q) = rightskip;
-	subtype(q) = rightskipcode + 1;
-	addglueref(rightskip);
-	goto _Ldone;
-      }
-      if (type(q) == DISC_NODE) {   /*882:*/
-	t = replacecount(q);   /*883:*/
-	if (t == 0)
-	  r = link(q);
-	else {   /*:883*/
-	  r = q;
-	  while (t > 1) {
-	    r = link(r);
-	    t--;
-	  }
-	  s = link(r);
-	  r = link(s);
-	  link(s) = 0;
-	  flushnodelist(link(q));
-	  replacecount(q) = 0;
-	}
-	if (postbreak(q) != 0) {   /*884:*/
-	  s = postbreak(q);
-	  while (link(s) != 0)
-	    s = link(s);
-	  link(s) = r;
-	  r = postbreak(q);
-	  postbreak(q) = 0;
-	  postdiscbreak = true;
-	}
-	/*:884*/
-	if (prebreak(q) != 0) {   /*885:*/
-	  s = prebreak(q);
-	  link(q) = s;
-	  while (link(s) != 0)
-	    s = link(s);
-	  prebreak(q) = 0;
-	  q = s;
-	}  /*:885*/
-	link(q) = r;
-	discbreak = true;
-      }  /*:882*/
-      else if ((type(q) == MATH_NODE) | (type(q) == KERN_NODE))
-	width(q) = 0;
-    } else {
-      q = temphead;
-      while (link(q) != 0)
-	q = link(q);
-    }
-    /*886:*/
-    r = newparamglue(rightskipcode);
-    link(r) = link(q);
-    link(q) = r;
-    q = r;   /*:886*/
-_Ldone:   /*:881*/
-    /*887:*/
-    r = link(q);
-    link(q) = 0;
-    q = link(temphead);
-    link(temphead) = r;
-    if (leftskip != zeroglue) {   /*:887*/
-      r = newparamglue(leftskipcode);
-      link(r) = q;
-      q = r;
-    }
-    /*889:*/
-    if (curline > lastspecialline) {
-      curwidth = secondwidth;
-      curindent = secondindent;
-    } else if (parshapeptr == 0) {
-      curwidth = firstwidth;
-      curindent = firstindent;
-    } else {
-      curwidth = mem[parshapeptr + curline * 2 - memmin].sc;
-      curindent = mem[parshapeptr + curline * 2 - memmin - 1].sc;
-    }
-    adjusttail = adjusthead;
-    justbox = hpack(q, curwidth, exactly);
-    shiftamount(justbox) = curindent;   /*:889*/
-    /*888:*/
-    appendtovlist(justbox);
-    if (adjusthead != adjusttail) {
-      link(tail) = link(adjusthead);
-      tail = adjusttail;
-    }
-    adjusttail = 0;   /*:888*/
-    /*890:*/
-    if (curline + 1 != bestline) {   /*:890*/
-      pen = interlinepenalty;
-      if (curline == prevgraf + 1)
-	pen += clubpenalty;
-      if (curline + 2 == bestline)
-	pen += finalwidowpenalty;
-      if (discbreak)
-	pen += brokenpenalty;
-      if (pen != 0) {
-	r = newpenalty(pen);
-	link(tail) = r;
-	tail = r;
-      }
-    }
-    /*:880*/
-    curline++;
-    curp = nextbreak(curp);
-    if (curp != 0) {
-      if (!postdiscbreak) {   /*879:*/
-	r = temphead;
-	while (true) {
-	  q = link(r);
-	  if (q == curbreak(curp))
-	    goto _Ldone1;
-	  if (ischarnode(q))
-	    goto _Ldone1;
-	  if (nondiscardable(q)) {
-	    goto _Ldone1;
-	  }
-	  if (type(q) == KERN_NODE) {
-	    if (subtype(q) != explicit)
-	      goto _Ldone1;
-	  }
-	  r = q;
-	}
-_Ldone1:
-	if (r != temphead) {
-	  link(r) = 0;
-	  flushnodelist(link(temphead));
-	  link(temphead) = q;
-	}
-      }
-      /*:879*/
-    }
-  } while (curp != 0);
-  /*881:*/
-  if ((curline != bestline) | (link(temphead) != 0))
-    confusion(S(766));
-  prevgraf = bestline - 1;
+    q = breaknode(bestbet);
+    curp = 0;
+    do {
+        r = q;
+        q = prevbreak(q);
+        nextbreak(r) = curp;
+        curp = r; /*:878*/
+    } while (q != 0);
+    curline = prevgraf + 1;
+    do { /*880:*/
+        q = curbreak(curp);
+        discbreak = false;
+        postdiscbreak = false;
+        if (q != 0) {
+            if (type(q) == GLUE_NODE) {
+                deleteglueref(glueptr(q));
+                glueptr(q) = rightskip;
+                subtype(q) = rightskipcode + 1;
+                addglueref(rightskip);
+                goto _Ldone;
+            }
+            if (type(q) == DISC_NODE) { /*882:*/
+                t = replacecount(q);    /*883:*/
+                if (t == 0)
+                    r = link(q);
+                else { /*:883*/
+                    r = q;
+                    while (t > 1) {
+                        r = link(r);
+                        t--;
+                    }
+                    s = link(r);
+                    r = link(s);
+                    link(s) = 0;
+                    flushnodelist(link(q));
+                    replacecount(q) = 0;
+                }
+                if (postbreak(q) != 0) { /*884:*/
+                    s = postbreak(q);
+                    while (link(s) != 0)
+                        s = link(s);
+                    link(s) = r;
+                    r = postbreak(q);
+                    postbreak(q) = 0;
+                    postdiscbreak = true;
+                }
+                /*:884*/
+                if (prebreak(q) != 0) { /*885:*/
+                    s = prebreak(q);
+                    link(q) = s;
+                    while (link(s) != 0)
+                        s = link(s);
+                    prebreak(q) = 0;
+                    q = s;
+                } /*:885*/
+                link(q) = r;
+                discbreak = true;
+            } /*:882*/
+            else if ((type(q) == MATH_NODE) | (type(q) == KERN_NODE))
+                width(q) = 0;
+        } else {
+            q = temphead;
+            while (link(q) != 0)
+                q = link(q);
+        }
+        /*886:*/
+        r = newparamglue(rightskipcode);
+        link(r) = link(q);
+        link(q) = r;
+        q = r; /*:886*/
+    _Ldone:    /*:881*/
+        /*887:*/
+        r = link(q);
+        link(q) = 0;
+        q = link(temphead);
+        link(temphead) = r;
+        if (leftskip != zeroglue) { /*:887*/
+            r = newparamglue(leftskipcode);
+            link(r) = q;
+            q = r;
+        }
+        /*889:*/
+        if (curline > lastspecialline) {
+            curwidth = secondwidth;
+            curindent = secondindent;
+        } else if (parshapeptr == 0) {
+            curwidth = firstwidth;
+            curindent = firstindent;
+        } else {
+            curwidth = mem[parshapeptr + curline * 2 - memmin].sc;
+            curindent = mem[parshapeptr + curline * 2 - memmin - 1].sc;
+        }
+        adjusttail = adjusthead;
+        justbox = hpack(q, curwidth, exactly);
+        shiftamount(justbox) = curindent; /*:889*/
+        /*888:*/
+        appendtovlist(justbox);
+        if (adjusthead != adjusttail) {
+            link(tail) = link(adjusthead);
+            tail = adjusttail;
+        }
+        adjusttail = 0; /*:888*/
+        /*890:*/
+        if (curline + 1 != bestline) { /*:890*/
+            pen = interlinepenalty;
+            if (curline == prevgraf + 1) pen += clubpenalty;
+            if (curline + 2 == bestline) pen += finalwidowpenalty;
+            if (discbreak) pen += brokenpenalty;
+            if (pen != 0) {
+                r = newpenalty(pen);
+                link(tail) = r;
+                tail = r;
+            }
+        }
+        /*:880*/
+        curline++;
+        curp = nextbreak(curp);
+        if (curp != 0) {
+            if (!postdiscbreak) { /*879:*/
+                r = temphead;
+                while (true) {
+                    q = link(r);
+                    if (q == curbreak(curp)) goto _Ldone1;
+                    if (ischarnode(q)) goto _Ldone1;
+                    if (nondiscardable(q)) {
+                        goto _Ldone1;
+                    }
+                    if (type(q) == KERN_NODE) {
+                        if (subtype(q) != explicit) goto _Ldone1;
+                    }
+                    r = q;
+                }
+            _Ldone1:
+                if (r != temphead) {
+                    link(r) = 0;
+                    flushnodelist(link(temphead));
+                    link(temphead) = q;
+                }
+            }
+            /*:879*/
+        }
+    } while (curp != 0);
+    /*881:*/
+    if ((curline != bestline) | (link(temphead) != 0)) confusion(S(766));
+    prevgraf = bestline - 1;
 }
 /*:877*/
 
 /*895:*/
 /*906:*/
-Static SmallNumber reconstitute(/* SmallNumber */ int j, SmallNumber n, HalfWord bchar,
-				HalfWord hchar)
-{
-  Pointer p, t;
-  FourQuarters q;
-  HalfWord currh, testchar;
-  Scaled w;
-  FontIndex k;
+Static SmallNumber reconstitute(/* SmallNumber */ int j,
+                                SmallNumber n,
+                                HalfWord bchar,
+                                HalfWord hchar) {
+    Pointer p, t;
+    FourQuarters q;
+    HalfWord currh, testchar;
+    Scaled w;
+    FontIndex k;
 
-  hyphenpassed = 0;
-  t = holdhead;
-  w = 0;
-  link(holdhead) = 0;   /*908:*/
-  curl = hu[j];
-  curq = t;
-  if (j == 0) {
-    ligaturepresent = initlig;
-    p = initlist;
-    if (ligaturepresent)
-      lfthit = initlft;
-    while (p > 0) {
-      appendcharnodetot(character(p));
-      p = link(p);
-    }
-  } else if (curl < nonchar) {
-    appendcharnodetot(curl);
-  }
-  ligstack = 0;   /*:908*/
-  setcurr();
-_Llabcontinue:   /*909:*/
-  if (curl == nonchar) {
-    k = bcharlabel[hf ];
-    if (k == nonaddress)
-      goto _Ldone;
-    q = fontinfo[k].qqqq;
-  } else {
-    q = charinfo(hf, curl);
-    if (chartag(q) != LIG_TAG) {
-      goto _Ldone;
-    }
-    k = ligkernstart(hf,q);
-    q = fontinfo[k].qqqq;
-    if (skipbyte(q) > stopflag) {
-      k = ligkernrestart(hf,q);
-      q = fontinfo[k].qqqq;
-    }
-  }
-  if (currh < nonchar)
-    testchar = currh;
-  else
-    testchar = curr;
-  while (true) {
-    if (nextchar(q) == testchar) {
-      if (skipbyte(q) <= stopflag) {
-	if (currh < nonchar) {
-	  hyphenpassed = j;
-	  hchar = nonchar;
-	  currh = nonchar;
-	  goto _Llabcontinue;
-	} else {
-	  if (hchar < nonchar) {
-	    if (hyf[j] & 1) {
-	      hyphenpassed = j;
-	      hchar = nonchar;
-	    }
-	  }
-	  if (opbyte(q) < kernflag) {   /*911:*/
-	    if (curl == nonchar)
-	      lfthit = true;
-	    if (j == n) {
-	      if (ligstack == 0)
-		rthit = true;
-	    }
-	    checkinterrupt();
-	    switch (opbyte(q)) {
-
-	    case MIN_QUARTER_WORD + 1:
-	    case MIN_QUARTER_WORD + 5:
-	      curl = rembyte(q);
-	      ligaturepresent = true;
-	      break;
-
-	    case MIN_QUARTER_WORD + 2:
-	    case MIN_QUARTER_WORD + 6:
-	      curr = rembyte(q);
-	      if (ligstack > 0)
-		character(ligstack) = curr;
-	      else {
-		ligstack = newligitem(curr);
-		if (j == n)
-		  bchar = nonchar;
-		else {
-		  p = get_avail();
-		  ligptr(ligstack) = p;
-		  character(p) = hu[j + 1];
-		  font(p) = hf;
-		}
-	      }
-	      break;
-
-	    case MIN_QUARTER_WORD + 3:
-	      curr = rembyte(q);
-	      p = ligstack;
-	      ligstack = newligitem(curr);
-	      link(ligstack) = p;
-	      break;
-
-	    case MIN_QUARTER_WORD + 7:
-	    case MIN_QUARTER_WORD + 11:
-	      wraplig(false);
-	      curq = t;
-	      curl = rembyte(q);
-	      ligaturepresent = true;
-	      break;
-
-	    default:
-	      curl = rembyte(q);
-	      ligaturepresent = true;
-	      if (ligstack > 0) {
-		popligstack();
-	      } else if (j == n)
-		goto _Ldone;
-	      else {
-		appendcharnodetot(curr);
-		j++;
-		setcurr();
-	      }
-	      break;
-	    }
-	    if (opbyte(q) > MIN_QUARTER_WORD + 4) {
-	      if (opbyte(q) != MIN_QUARTER_WORD + 7)
-		goto _Ldone;
-	    }
-	    goto _Llabcontinue;
-	  }
-	  /*:911*/
-	  w = charkern(hf, q);
-	  goto _Ldone;
-	}
-      }
-    }
-    if (skipbyte(q) >= stopflag) {
-      if (currh == nonchar)
-	goto _Ldone;
-      else {
-	currh = nonchar;
-	goto _Llabcontinue;
-      }
-    }
-    k += skipbyte(q) - MIN_QUARTER_WORD + 1;
-    q = fontinfo[k].qqqq;
-  }
-_Ldone:   /*:909*/
-  /*910:*/
-  wraplig(rthit);
-  if (w != 0) {
-    link(t) = newkern(w);
-    t = link(t);
+    hyphenpassed = 0;
+    t = holdhead;
     w = 0;
-  }
-  if (ligstack <= 0)   /*:910*/
-    return j;
-  curq = t;
-  curl = character(ligstack);
-  ligaturepresent = true;
-  popligstack();
-  goto _Llabcontinue;
+    link(holdhead) = 0; /*908:*/
+    curl = hu[j];
+    curq = t;
+    if (j == 0) {
+        ligaturepresent = initlig;
+        p = initlist;
+        if (ligaturepresent) lfthit = initlft;
+        while (p > 0) {
+            appendcharnodetot(character(p));
+            p = link(p);
+        }
+    } else if (curl < nonchar) {
+        appendcharnodetot(curl);
+    }
+    ligstack = 0; /*:908*/
+    setcurr();
+_Llabcontinue: /*909:*/
+    if (curl == nonchar) {
+        k = bcharlabel[hf];
+        if (k == nonaddress) goto _Ldone;
+        q = fontinfo[k].qqqq;
+    } else {
+        q = charinfo(hf, curl);
+        if (chartag(q) != LIG_TAG) {
+            goto _Ldone;
+        }
+        k = ligkernstart(hf, q);
+        q = fontinfo[k].qqqq;
+        if (skipbyte(q) > stopflag) {
+            k = ligkernrestart(hf, q);
+            q = fontinfo[k].qqqq;
+        }
+    }
+    if (currh < nonchar)
+        testchar = currh;
+    else
+        testchar = curr;
+    while (true) {
+        if (nextchar(q) == testchar) {
+            if (skipbyte(q) <= stopflag) {
+                if (currh < nonchar) {
+                    hyphenpassed = j;
+                    hchar = nonchar;
+                    currh = nonchar;
+                    goto _Llabcontinue;
+                } else {
+                    if (hchar < nonchar) {
+                        if (hyf[j] & 1) {
+                            hyphenpassed = j;
+                            hchar = nonchar;
+                        }
+                    }
+                    if (opbyte(q) < kernflag) { /*911:*/
+                        if (curl == nonchar) lfthit = true;
+                        if (j == n) {
+                            if (ligstack == 0) rthit = true;
+                        }
+                        checkinterrupt();
+                        switch (opbyte(q)) {
+
+                            case MIN_QUARTER_WORD + 1:
+                            case MIN_QUARTER_WORD + 5:
+                                curl = rembyte(q);
+                                ligaturepresent = true;
+                                break;
+
+                            case MIN_QUARTER_WORD + 2:
+                            case MIN_QUARTER_WORD + 6:
+                                curr = rembyte(q);
+                                if (ligstack > 0)
+                                    character(ligstack) = curr;
+                                else {
+                                    ligstack = newligitem(curr);
+                                    if (j == n)
+                                        bchar = nonchar;
+                                    else {
+                                        p = get_avail();
+                                        ligptr(ligstack) = p;
+                                        character(p) = hu[j + 1];
+                                        font(p) = hf;
+                                    }
+                                }
+                                break;
+
+                            case MIN_QUARTER_WORD + 3:
+                                curr = rembyte(q);
+                                p = ligstack;
+                                ligstack = newligitem(curr);
+                                link(ligstack) = p;
+                                break;
+
+                            case MIN_QUARTER_WORD + 7:
+                            case MIN_QUARTER_WORD + 11:
+                                wraplig(false);
+                                curq = t;
+                                curl = rembyte(q);
+                                ligaturepresent = true;
+                                break;
+
+                            default:
+                                curl = rembyte(q);
+                                ligaturepresent = true;
+                                if (ligstack > 0) {
+                                    popligstack();
+                                } else if (j == n)
+                                    goto _Ldone;
+                                else {
+                                    appendcharnodetot(curr);
+                                    j++;
+                                    setcurr();
+                                }
+                                break;
+                        }
+                        if (opbyte(q) > MIN_QUARTER_WORD + 4) {
+                            if (opbyte(q) != MIN_QUARTER_WORD + 7) goto _Ldone;
+                        }
+                        goto _Llabcontinue;
+                    }
+                    /*:911*/
+                    w = charkern(hf, q);
+                    goto _Ldone;
+                }
+            }
+        }
+        if (skipbyte(q) >= stopflag) {
+            if (currh == nonchar)
+                goto _Ldone;
+            else {
+                currh = nonchar;
+                goto _Llabcontinue;
+            }
+        }
+        k += skipbyte(q) - MIN_QUARTER_WORD + 1;
+        q = fontinfo[k].qqqq;
+    }
+_Ldone: /*:909*/
+    /*910:*/
+    wraplig(rthit);
+    if (w != 0) {
+        link(t) = newkern(w);
+        t = link(t);
+        w = 0;
+    }
+    if (ligstack <= 0) /*:910*/
+        return j;
+    curq = t;
+    curl = character(ligstack);
+    ligaturepresent = true;
+    popligstack();
+    goto _Llabcontinue;
 }
 /*:906*/
 
-Static void hyphenate(void)   /*:929*/
-{  /*923:*/
-  /*901:*/
-  /* char */ int i, j, l; /* INT */
-  Pointer q, r, s;
-  HalfWord bchar;
-  /*:901*/
-  /*912:*/
-  Pointer majortail, minortail, hyfnode;
-  ASCIICode c=0 /* XXXX */;
-  /* char */ int cloc; /* INT */
-  long rcount;
-  /*:912*/
-  /*922:*/
-  TriePointer z;
-  long v;
-  /*:922*/
-  /*929:*/
-  HyphPointer h;
-  StrNumber k;
-  char FORLIM;
+Static void hyphenate(void) /*:929*/
+{                           /*923:*/
+                            /*901:*/
+    /* char */ int i, j, l; /* INT */
+    Pointer q, r, s;
+    HalfWord bchar;
+    /*:901*/
+    /*912:*/
+    Pointer majortail, minortail, hyfnode;
+    ASCIICode c = 0 /* XXXX */;
+    /* char */ int cloc; /* INT */
+    long rcount;
+    /*:912*/
+    /*922:*/
+    TriePointer z;
+    long v;
+    /*:922*/
+    /*929:*/
+    HyphPointer h;
+    StrNumber k;
+    char FORLIM;
 
-  for (j = 0; j <= hn; j++)   /*930:*/
-    hyf[j] = 0;
-  h = hc[1];
-  hn++;
-  hc[hn] = curlang;
-  for (j = 2; j <= hn ; j++)
-    h = (h + h + hc[j]) % HYPH_SIZE;
-  while (true) {  /*931:*/
-    k = hyphword[h];
-    if (k == 0)
-      goto _Lnotfound;
-    if (str_length(k) < hn) {
-      goto _Lnotfound;
+    for (j = 0; j <= hn; j++) /*930:*/
+        hyf[j] = 0;
+    h = hc[1];
+    hn++;
+    hc[hn] = curlang;
+    for (j = 2; j <= hn; j++)
+        h = (h + h + hc[j]) % HYPH_SIZE;
+    while (true) { /*931:*/
+        k = hyphword[h];
+        if (k == 0) goto _Lnotfound;
+        if (str_length(k) < hn) {
+            goto _Lnotfound;
+        }
+        if (str_length(k) == hn) {
+            {
+                int ress = str_scmp(k, hc + 1);
+                if (ress < 0) goto _Lnotfound;
+                if (ress > 0) goto _Ldone;
+            }
+            s = hyphlist[h];
+            while (s != 0) { /*:932*/
+                hyf[info(s)] = 1;
+                s = link(s);
+            }
+            hn--;
+            goto _Lfound;
+        }
+    _Ldone: /*:931*/
+        if (h > 0)
+            h--;
+        else
+            h = HYPH_SIZE;
     }
-    if (str_length(k) == hn) {
-	{
-        int ress=str_scmp(k,hc+1);
-	if(ress<0) goto _Lnotfound;
-	if(ress>0) goto _Ldone;
-	}
-      s = hyphlist[h];
-      while (s != 0) {   /*:932*/
-	hyf[info(s)] = 1;
-	s = link(s);
-      }
-      hn--;
-      goto _Lfound;
-    }
-_Ldone:   /*:931*/
-    if (h > 0)
-      h--;
-    else
-      h = HYPH_SIZE;
-  }
 _Lnotfound:
-  hn--;   /*:930*/
-  if (triechar(curlang + 1) != curlang)
-    goto _Lexit;
-  hc[0] = 0;
-  hc[hn + 1] = 0;
-  hc[hn + 2] = 256;
-  FORLIM = hn - rhyf + 1;
-  for (j = 0; j <= FORLIM; j++) {
-    z = trielink(curlang + 1) + hc[j];
-    l = j;
-    while (hc[l] == triechar(z) - MIN_QUARTER_WORD) {
-      if (trieop(z) != MIN_QUARTER_WORD) {   /*924:*/
-	v = trieop(z);
-	do {
-	  v += opstart[curlang];
-	  i = l - hyfdistance[v - 1];
-	  if (hyfnum[v - 1] > hyf[i])
-	    hyf[i] = hyfnum[v - 1];
-	  v = hyfnext[v - 1];
-	} while (v != MIN_QUARTER_WORD);
-      }
-      /*:924*/
-      l++;
-      z = trielink(z) + hc[l];
+    hn--; /*:930*/
+    if (triechar(curlang + 1) != curlang) goto _Lexit;
+    hc[0] = 0;
+    hc[hn + 1] = 0;
+    hc[hn + 2] = 256;
+    FORLIM = hn - rhyf + 1;
+    for (j = 0; j <= FORLIM; j++) {
+        z = trielink(curlang + 1) + hc[j];
+        l = j;
+        while (hc[l] == triechar(z) - MIN_QUARTER_WORD) {
+            if (trieop(z) != MIN_QUARTER_WORD) { /*924:*/
+                v = trieop(z);
+                do {
+                    v += opstart[curlang];
+                    i = l - hyfdistance[v - 1];
+                    if (hyfnum[v - 1] > hyf[i]) hyf[i] = hyfnum[v - 1];
+                    v = hyfnext[v - 1];
+                } while (v != MIN_QUARTER_WORD);
+            }
+            /*:924*/
+            l++;
+            z = trielink(z) + hc[l];
+        }
     }
-  }
 _Lfound:
-  for (j = 0; j < lhyf; j++)
-    hyf[j] = 0;
-  for (j = 0; j < rhyf; j++)   /*902:*/
-    hyf[hn - j] = 0;   /*:923*/
-  for (j = lhyf; j <= hn - rhyf; j++) {
-    if (hyf[j] & 1)
-      goto _Lfound1;
-  }
-  goto _Lexit;
-_Lfound1:   /*:902*/
-  /*903:*/
-  q = link(hb);
-  link(hb) = 0;
-  r = link(ha);
-  link(ha) = 0;
-  bchar = hyfbchar;
-  if (ischarnode(ha)) {
-    if (font(ha) != hf)
-      goto _Lfound2;
-    initlist = ha;
-    initlig = false;
-    hu[0] = character(ha) - MIN_QUARTER_WORD;
-  } else if (type(ha) == LIGATURE_NODE) {
-    if (font_ligchar(ha) != hf) {
-      goto _Lfound2;
+    for (j = 0; j < lhyf; j++)
+        hyf[j] = 0;
+    for (j = 0; j < rhyf; j++) /*902:*/
+        hyf[hn - j] = 0;       /*:923*/
+    for (j = lhyf; j <= hn - rhyf; j++) {
+        if (hyf[j] & 1) goto _Lfound1;
     }
-    initlist = ligptr(ha);
-    initlig = true;
-    initlft = (subtype(ha) > 1);
-    hu[0] = character_ligchar(ha) - MIN_QUARTER_WORD;
-    if (initlist == 0) {
-      if (initlft) {
-	hu[0] = 256;
-	initlig = false;
-      }
+    goto _Lexit;
+_Lfound1: /*:902*/
+    /*903:*/
+    q = link(hb);
+    link(hb) = 0;
+    r = link(ha);
+    link(ha) = 0;
+    bchar = hyfbchar;
+    if (ischarnode(ha)) {
+        if (font(ha) != hf) goto _Lfound2;
+        initlist = ha;
+        initlig = false;
+        hu[0] = character(ha) - MIN_QUARTER_WORD;
+    } else if (type(ha) == LIGATURE_NODE) {
+        if (font_ligchar(ha) != hf) {
+            goto _Lfound2;
+        }
+        initlist = ligptr(ha);
+        initlig = true;
+        initlft = (subtype(ha) > 1);
+        hu[0] = character_ligchar(ha) - MIN_QUARTER_WORD;
+        if (initlist == 0) {
+            if (initlft) {
+                hu[0] = 256;
+                initlig = false;
+            }
+        }
+        freenode(ha, smallnodesize);
+    } else {
+        if (!ischarnode(r)) {
+            if (type(r) == LIGATURE_NODE) {
+                if (subtype(r) > 1) goto _Lfound2;
+            }
+        }
+        j = 1;
+        s = ha;
+        initlist = 0;
+        goto _Lcommonending;
     }
-    freenode(ha, smallnodesize);
-  } else {
-    if (!ischarnode(r)) {
-      if (type(r) == LIGATURE_NODE) {
-	if (subtype(r) > 1)
-	  goto _Lfound2;
-      }
-    }
-    j = 1;
-    s = ha;
-    initlist = 0;
+    s = curp;
+    while (link(s) != ha)
+        s = link(s);
+    j = 0;
     goto _Lcommonending;
-  }
-  s = curp;
-  while (link(s) != ha)
-    s = link(s);
-  j = 0;
-  goto _Lcommonending;
 _Lfound2:
-  s = ha;
-  j = 0;
-  hu[0] = 256;
-  initlig = false;
-  initlist = 0;
+    s = ha;
+    j = 0;
+    hu[0] = 256;
+    initlig = false;
+    initlist = 0;
 _Lcommonending:
-  flushnodelist(r);   /*913:*/
-  do {
-    l = j;
-    j = reconstitute(j, hn, bchar, hyfchar) + 1;
-    if (hyphenpassed == 0) {
-      link(s) = link(holdhead);
-      while (link(s) > 0)
-	s = link(s);
-      if (hyf[j - 1] & 1) {
-	l = j;
-	hyphenpassed = j - 1;
-	link(holdhead) = 0;
-      }
-    }
-    if (hyphenpassed > 0) {   /*914:*/
-      do {
-	r = getnode(smallnodesize);
-	link(r) = link(holdhead);
-	type(r) = DISC_NODE;
-	majortail = r;
-	rcount = 0;
-	while (link(majortail) > 0) {
-	  advancemajortail();
-	}
-	i = hyphenpassed;
-	hyf[i] = 0;   /*915:*/
-	minortail = 0;
-	prebreak(r) = 0;
-	hyfnode = newcharacter(hf, hyfchar);
-	if (hyfnode != 0) {
-	  i++;
-	  c = hu[i];
-	  hu[i] = hyfchar;
-	  FREE_AVAIL(hyfnode);
-	}
-	while (l <= i) {
-	  l = reconstitute(l, i, fontbchar[hf ], nonchar) + 1;
-	  if (link(holdhead) <= 0)
-	    continue;
-	  if (minortail == 0)
-	    prebreak(r) = link(holdhead);
-	  else
-	    link(minortail) = link(holdhead);
-	  minortail = link(holdhead);
-	  while (link(minortail) > 0)
-	    minortail = link(minortail);
-	}
-	if (hyfnode != 0) {   /*:915*/
-	  hu[i] = c;
-	  l = i;
-	  i--;
-	}
-	/*916:*/
-	minortail = 0;
-	postbreak(r) = 0;
-	cloc = 0;
-	if (bcharlabel[hf ] != nonaddress) {
-	  l--;
-	  c = hu[l];
-	  cloc = l;
-	  hu[l] = 256;
-	}
-	while (l < j) {   /*:916*/
-	  do {
-	    l = reconstitute(l, hn, bchar, nonchar) + 1;
-	    if (cloc > 0) {
-	      hu[cloc] = c;
-	      cloc = 0;
-	    }
-	    if (link(holdhead) > 0) {
-	      if (minortail == 0)
-		postbreak(r) = link(holdhead);
-	      else
-		link(minortail) = link(holdhead);
-	      minortail = link(holdhead);
-	      while (link(minortail) > 0)
-		minortail = link(minortail);
-	    }
-	  } while (l < j);
-	  while (l > j) {   /*917:*/
-	    j = reconstitute(j, hn, bchar, nonchar) + 1;
-	    link(majortail) = link(holdhead);
-	    while (link(majortail) > 0) {
-	      advancemajortail();
-	    }
-	  }
-	  /*:917*/
-	}
-	/*918:*/
-	if (rcount > 127) {
-	  link(s) = link(r);
-	  link(r) = 0;
-	  flushnodelist(r);
-	} else {
-	  link(s) = r;
-	  replacecount(r) = rcount;
-	}
-	s = majortail;   /*:918*/
-	hyphenpassed = j - 1;
-	link(holdhead) = 0;   /*:914*/
-      } while (hyf[j - 1] & 1);
-    }
-  } while (j <= hn);
-  link(s) = q;   /*:913*/
-  /*:903*/
-  flushlist(initlist);
-_Lexit: ;
+    flushnodelist(r); /*913:*/
+    do {
+        l = j;
+        j = reconstitute(j, hn, bchar, hyfchar) + 1;
+        if (hyphenpassed == 0) {
+            link(s) = link(holdhead);
+            while (link(s) > 0)
+                s = link(s);
+            if (hyf[j - 1] & 1) {
+                l = j;
+                hyphenpassed = j - 1;
+                link(holdhead) = 0;
+            }
+        }
+        if (hyphenpassed > 0) { /*914:*/
+            do {
+                r = getnode(smallnodesize);
+                link(r) = link(holdhead);
+                type(r) = DISC_NODE;
+                majortail = r;
+                rcount = 0;
+                while (link(majortail) > 0) {
+                    advancemajortail();
+                }
+                i = hyphenpassed;
+                hyf[i] = 0; /*915:*/
+                minortail = 0;
+                prebreak(r) = 0;
+                hyfnode = newcharacter(hf, hyfchar);
+                if (hyfnode != 0) {
+                    i++;
+                    c = hu[i];
+                    hu[i] = hyfchar;
+                    FREE_AVAIL(hyfnode);
+                }
+                while (l <= i) {
+                    l = reconstitute(l, i, fontbchar[hf], nonchar) + 1;
+                    if (link(holdhead) <= 0) continue;
+                    if (minortail == 0)
+                        prebreak(r) = link(holdhead);
+                    else
+                        link(minortail) = link(holdhead);
+                    minortail = link(holdhead);
+                    while (link(minortail) > 0)
+                        minortail = link(minortail);
+                }
+                if (hyfnode != 0) { /*:915*/
+                    hu[i] = c;
+                    l = i;
+                    i--;
+                }
+                /*916:*/
+                minortail = 0;
+                postbreak(r) = 0;
+                cloc = 0;
+                if (bcharlabel[hf] != nonaddress) {
+                    l--;
+                    c = hu[l];
+                    cloc = l;
+                    hu[l] = 256;
+                }
+                while (l < j) { /*:916*/
+                    do {
+                        l = reconstitute(l, hn, bchar, nonchar) + 1;
+                        if (cloc > 0) {
+                            hu[cloc] = c;
+                            cloc = 0;
+                        }
+                        if (link(holdhead) > 0) {
+                            if (minortail == 0)
+                                postbreak(r) = link(holdhead);
+                            else
+                                link(minortail) = link(holdhead);
+                            minortail = link(holdhead);
+                            while (link(minortail) > 0)
+                                minortail = link(minortail);
+                        }
+                    } while (l < j);
+                    while (l > j) { /*917:*/
+                        j = reconstitute(j, hn, bchar, nonchar) + 1;
+                        link(majortail) = link(holdhead);
+                        while (link(majortail) > 0) {
+                            advancemajortail();
+                        }
+                    }
+                    /*:917*/
+                }
+                /*918:*/
+                if (rcount > 127) {
+                    link(s) = link(r);
+                    link(r) = 0;
+                    flushnodelist(r);
+                } else {
+                    link(s) = r;
+                    replacecount(r) = rcount;
+                }
+                s = majortail; /*:918*/
+                hyphenpassed = j - 1;
+                link(holdhead) = 0; /*:914*/
+            } while (hyf[j - 1] & 1);
+        }
+    } while (j <= hn);
+    link(s) = q; /*:913*/
+    /*:903*/
+    flushlist(initlist);
+_Lexit:;
 }
 /*:895*/
 
