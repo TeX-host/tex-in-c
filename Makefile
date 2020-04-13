@@ -11,7 +11,7 @@ ttex: ${OBJS}
 	${CC} -o ttex ${OBJS} -lm ${CFLAGS}
 
 # clean && run && load plainTeX
-r: clean ttex
+r: clean_test ttex
 	cp ttex _test 
 	cd _test && ./ttex plain
 
@@ -20,6 +20,9 @@ clean:
 	-rm -f ttex ${OBJS}
 	-rm -f test/*.dvi test/*.log
 	-rm -f *.gcno *.gcda *.gcov
+
+clean_test: clean
+	-rm -f _test/ttex _test/*.dvi _test/*.log
 
 deps: ${CSRCS}
 	-rm -f deps.1
