@@ -11,6 +11,7 @@
 extern void dviout(int x);
 extern void dvi_four(Integer x);
 extern void dvi_pop(Integer l);
+extern void dvi_font_def(InternalFontNumber f);
 extern void prune_movements(Integer l);
 extern Scaled synch_h(Scaled cur_h, Scaled dvi_h);
 extern Scaled synch_v(Scaled cur_v, Scaled dvi_v);
@@ -34,18 +35,5 @@ extern void dvi_set_font(int f);
 extern void dvi_set_char(long c);
 extern void dviout_init(void);
 extern long dviflush(void);
-
-extern void dvipost(long num,
-                    long den,
-                    long mag_,
-                    long maxv,
-                    long maxh,
-                    int maxpush,
-                    int totalpages,
-                    int fontptr);
-
-
-// [dviout] only
-extern void dvi_font_def(InternalFontNumber f);
 
 #endif // #ifndef DIV_OUT_H

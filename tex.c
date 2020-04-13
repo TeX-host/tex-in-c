@@ -18085,29 +18085,24 @@ Static void close_files_and_terminate(void) {
         printnl(S(1013)); // "No pages of output."
     } else { /*:642*/
         long total_dvi_bytes;
+        dviout_POST(); // beginning of the postamble
+        _dvi_lastbop(); // post location
+        // conversion ratio for sp
+        dvi_four(25400000L);
+        dvi_four(473628672L);
+        // magnification factor
         preparemag();
-        dvipost(25400000L,
-                473628672L,
-                mag,
-                maxv,
-                maxh,
-                maxpush,
-                totalpages,
-                fontptr);
-        // dviout_POST(); // beginning of the postamble
-        // _dvi_lastbop(); // post location
-        // // conversion ratio for sp
-        // dvi_four(25400000L);
-        // dvi_four(473628672L);
-        // // magnification factor
-        // preparemag();
-        // dvi_four(mag);
-        // dvi_four(maxv);
-        // dvi_four(maxh);
-        // dviout(maxpush / 256);
-        // dviout(maxpush % 256);
-        // dviout((totalpages / 256) % 256);
-        // dviout(totalpages % 256);
+        dvi_four(mag);
+        dvi_four(maxv);
+        dvi_four(maxh);
+        dviout(maxpush / 256);
+        dviout(maxpush % 256);
+        dviout((totalpages / 256) % 256);
+        dviout(totalpages % 256);
+        while (fontptr > 0) {
+            if (fontused[fontptr]) dvi_font_def(fontptr);
+            fontptr--;
+        }
 
         total_dvi_bytes = dviflush();
         printnl(S(1014)); // "Output written on "

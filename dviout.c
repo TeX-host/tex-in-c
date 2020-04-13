@@ -446,30 +446,3 @@ long dviflush(void) {
     fclose(dvifile);
     return dvi_offset + dvi_ptr;
 }
-
-
-void dvipost(long num,
-             long den,
-             long mag_,
-             long maxv,
-             long maxh,
-             int maxpush,
-             int totalpages,
-             int fontptr) {
-    dviout(POST);
-    dvi_four(last_bop);
-    last_bop = dvi_offset + dvi_ptr - 5;
-    dvi_four(num);
-    dvi_four(den);
-    dvi_four(mag_);
-    dvi_four(maxv);
-    dvi_four(maxh);
-    dviout(maxpush / 256);
-    dviout(maxpush & 255);
-    dviout((totalpages / 256) & 255);
-    dviout(totalpages & 255);
-    while (fontptr > 0) {
-        if (fontused[fontptr]) dvi_font_def(fontptr);
-        fontptr--;
-    }
-}
