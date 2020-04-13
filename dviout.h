@@ -26,6 +26,8 @@ extern void dviout_PUSH(void);
 extern void dviout_POP(void);
 extern void dviout_PRE(void);
 extern void dviout_POST(void);
+extern void dviout_XXX1(void);
+extern void dviout_XXX4(void);
 
 extern long get_dvi_mark(void);
 extern Boolean dvi_openout(void);

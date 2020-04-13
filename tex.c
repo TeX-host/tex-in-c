@@ -7119,7 +7119,7 @@ _Lexit:
 
 /// [ #1340. Extensions. ]
 
-/*1368:*/
+// #1368
 Static void specialout(HalfWord p) {
     enum Selector old_setting;
 
@@ -7130,22 +7130,18 @@ Static void specialout(HalfWord p) {
     showtokenlist(link(writetokens(p)), 0, POOL_SIZE /* - pool_ptr */);
     selector = old_setting;
     str_room(1);
-    {
-        int p_len = cur_length(); /* XXXX - Assumes byte=StrASCIICode */
-        #define XXX1 239
-        #define XXX4 242
+    
+    int p_len = cur_length(); /* XXXX - Assumes byte=StrASCIICode */
 
-        if (p_len < 256) {
-            dviout(XXX1);
-            dviout(p_len);
-        } else {
-            dviout(XXX4);
-            dvi_four(p_len);
-        }
-        str_cur_map(dviout_helper);
+    if (p_len < 256) {
+        dviout_XXX1();
+        dviout(p_len);
+    } else {
+        dviout_XXX4();
+        dvi_four(p_len);
     }
-}
-/*:1368*/
+    str_cur_map(dviout_helper);
+} // #1368: specialout
 
 /*1370:*/
 Static void writeout(HalfWord p)

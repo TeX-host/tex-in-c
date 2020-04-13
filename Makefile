@@ -2,7 +2,7 @@ CFLAGS = -g -O0 -I.
 CFLAGS += -pedantic -Wall -Wno-unused-result
 CFLAGS += --coverage -ftest-coverage -fprofile-arcs
 
-OBJS=tex.o funcs.o inipool.o inputln.o printout.o str.o fonts.o dviout.o
+OBJS=tex.o funcs.o inipool.o inputln.o printout.o str.o fonts.o dviout.o pure_func.o
 CSRCS=$(OBJS:.o=.c)
 
 

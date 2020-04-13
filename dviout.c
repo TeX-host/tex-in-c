@@ -381,6 +381,8 @@ inline void dviout_PUSH(void)       { dviout(PUSH); }
 inline void dviout_POP(void)        { dviout(POP); }
 inline void dviout_PRE(void)        { dviout(PRE); }
 inline void dviout_POST(void)       { dviout(POST); }
+inline void dviout_XXX1(void)       { dviout(XXX1); }
+inline void dviout_XXX4(void)       { dviout(XXX4); }
 
 long get_dvi_mark(void) { return dvi_offset + dvi_ptr; }
 Boolean dvi_openout(void) { return a_open_out(&dvifile); }
