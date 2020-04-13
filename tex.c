@@ -2566,170 +2566,150 @@ Static void searchmem(Pointer p) {
 #endif // #167,172: tt_DEBUG
 
 /*174:*/
-Static void shortdisplay(Pointer p)
-{
-  long n;
+Static void shortdisplay(Pointer p) {
+    long n;
 
-  while (p > memmin) {
-    if (ischarnode(p)) {
-      if (p <= mem_end) {
-	if (font(p) != font_in_short_display) {
-	  if ( /* (font(p) < 0 ) | */ (font(p) > FONT_MAX))
-	    print_char('*');
-	  else  /*267:*/
-		/*:267*/
-		  print_esc(fontidtext(font(p)));
-	  print_char(' ');
-	  font_in_short_display = font(p);
-	}
-	print(character(p) - MIN_QUARTER_WORD);
-      }
-    } else {  /*175:*/
-      switch (type(p)) {   /*:175*/
+    while (p > memmin) {
+        if (ischarnode(p)) {
+            if (p <= mem_end) {
+                if (font(p) != font_in_short_display) {
+                    if (/* (font(p) < 0 ) | */ (font(p) > FONT_MAX))
+                        print_char('*');
+                    else /*267:*/
+                         /*:267*/
+                        print_esc(fontidtext(font(p)));
+                    print_char(' ');
+                    font_in_short_display = font(p);
+                }
+                print(character(p) - MIN_QUARTER_WORD);
+            }
+        } else {               /*175:*/
+            switch (type(p)) { /*:175*/
 
-      case HLIST_NODE:
-      case VLIST_NODE:
-      case INS_NODE:
-      case WHATSIT_NODE:
-      case MARK_NODE:
-      case ADJUST_NODE:
-      case UNSET_NODE:
-	print(S(328));
-	break;
+                case HLIST_NODE:
+                case VLIST_NODE:
+                case INS_NODE:
+                case WHATSIT_NODE:
+                case MARK_NODE:
+                case ADJUST_NODE:
+                case UNSET_NODE: print(S(328)); break;
 
-      case RULE_NODE:
-	print_char('|');
-	break;
+                case RULE_NODE: print_char('|'); break;
 
-      case GLUE_NODE:
-	if (glueptr(p) != zeroglue)
-	  print_char(' ');
-	break;
+                case GLUE_NODE:
+                    if (glueptr(p) != zeroglue) print_char(' ');
+                    break;
 
-      case MATH_NODE:
-	print_char('$');
-	break;
+                case MATH_NODE: print_char('$'); break;
 
-      case LIGATURE_NODE:
-	shortdisplay(ligptr(p));
-	break;
+                case LIGATURE_NODE: shortdisplay(ligptr(p)); break;
 
-      case DISC_NODE:
-	shortdisplay(prebreak(p));
-	shortdisplay(postbreak(p));
-	n = replacecount(p);
-	while (n > 0) {
-	  if (link(p) != 0)
-	    p = link(p);
-	  n--;
-	}
-	break;
-      }
+                case DISC_NODE:
+                    shortdisplay(prebreak(p));
+                    shortdisplay(postbreak(p));
+                    n = replacecount(p);
+                    while (n > 0) {
+                        if (link(p) != 0) p = link(p);
+                        n--;
+                    }
+                    break;
+            }
+        }
+        p = link(p);
     }
-    p = link(p);
-  }
 }
 /*:174*/
 
 /*176:*/
-Static void printfontandchar(Pointer p)
-{
-  if (p > mem_end) {
-    print_esc(S(308));
-    return;
-  }
-  if ((font(p) > FONT_MAX))
-    print_char('*');
-  else  /*267:*/
-	/*:267*/
-	  print_esc(fontidtext(font(p)));
-  print_char(' ');
-  print(character(p) - MIN_QUARTER_WORD);
+Static void printfontandchar(Pointer p) {
+    if (p > mem_end) {
+        print_esc(S(308));
+        return;
+    }
+    if ((font(p) > FONT_MAX))
+        print_char('*');
+    else /*267:*/
+         /*:267*/
+        print_esc(fontidtext(font(p)));
+    print_char(' ');
+    print(character(p) - MIN_QUARTER_WORD);
 }
 
 
-Static void printmark(long p)
-{
-  print_char('{');
-  if (p < hi_mem_min || p > mem_end)
-    print_esc(S(308));
-  else
-    showtokenlist(link(p), 0, MAX_PRINT_LINE - 10);
-  print_char('}');
+Static void printmark(long p) {
+    print_char('{');
+    if (p < hi_mem_min || p > mem_end)
+        print_esc(S(308));
+    else
+        showtokenlist(link(p), 0, MAX_PRINT_LINE - 10);
+    print_char('}');
 }
 
 
-Static void printruledimen(long d)
-{
-  if (isrunning(d)) {
-    print_char('*');
-  } else
-    print_scaled(d);
+Static void printruledimen(long d) {
+    if (isrunning(d)) {
+        print_char('*');
+    } else
+        print_scaled(d);
 }
 /*:176*/
 
 /*177:*/
-Static void printglue(long d, long order, StrNumber s)
-{
-  print_scaled(d);
-  if ((unsigned long)order > FILLL) {
-    print(S(329));
-    return;
-  }
-  if (order <= NORMAL) {
-    if (s != 0)
-      print(s);
-    return;
-  }
-  print(S(330));
-  while (order > FIL) {
-    print_char('l');
-    order--;
-  }
+Static void printglue(long d, long order, StrNumber s) {
+    print_scaled(d);
+    if ((unsigned long)order > FILLL) {
+        print(S(329));
+        return;
+    }
+    if (order <= NORMAL) {
+        if (s != 0) print(s);
+        return;
+    }
+    print(S(330));
+    while (order > FIL) {
+        print_char('l');
+        order--;
+    }
 }
 /*:177*/
 
 /*178:*/
-Static void printspec(long p, StrNumber s)
-{
-  if ( p >= lo_mem_max) {
-    print_char('*');
-    return;
-  }
-  print_scaled(width(p));
-  if (s != 0)
-    print(s);
-  if (stretch(p) != 0) {
-    print(S(331));
-    printglue(stretch(p), stretchorder(p), s);
-  }
-  if (shrink(p) != 0) {
-    print(S(332));
-    printglue(shrink(p), shrinkorder(p), s);
-  }
+Static void printspec(long p, StrNumber s) {
+    if (p >= lo_mem_max) {
+        print_char('*');
+        return;
+    }
+    print_scaled(width(p));
+    if (s != 0) print(s);
+    if (stretch(p) != 0) {
+        print(S(331));
+        printglue(stretch(p), stretchorder(p), s);
+    }
+    if (shrink(p) != 0) {
+        print(S(332));
+        printglue(shrink(p), shrinkorder(p), s);
+    }
 }
 /*:178*/
 
 // #691
-Static void printfamandchar(HalfWord p)
-{
-  print_esc(S(333));
-  print_int(fam(p));
-  print_char(' ');
-  print(character(p) - MIN_QUARTER_WORD);
+Static void printfamandchar(HalfWord p) {
+    print_esc(S(333));
+    print_int(fam(p));
+    print_char(' ');
+    print(character(p) - MIN_QUARTER_WORD);
 }
 
 // #691
-Static void printdelimiter(HalfWord p)
-{
-  long a;
+Static void printdelimiter(HalfWord p) {
+    long a;
 
-  a = smallfam(p) * 256 + smallchar(p) - MIN_QUARTER_WORD;
-  a = a * 4096 + largefam(p) * 256 + largechar(p) - MIN_QUARTER_WORD;
-  if (a < 0)
-    print_int(a);
-  else
-    print_hex(a);
+    a = smallfam(p) * 256 + smallchar(p) - MIN_QUARTER_WORD;
+    a = a * 4096 + largefam(p) * 256 + largechar(p) - MIN_QUARTER_WORD;
+    if (a < 0)
+        print_int(a);
+    else
+        print_hex(a);
 }
 /*:691*/
 
@@ -2812,424 +2792,388 @@ void print_skip_param(Integer n) {
 
 
 /*182:*/
-Static void shownodelist(long p)
-{
-  long n;
-  double g;
+Static void shownodelist(long p) {
+    long n;
+    double g;
 
-  if (cur_length() > depth_threshold) {
-    if (p > 0)
-      print(S(334));
-    goto _Lexit;
-  }
-  n = 0;
-  while (p > memmin) {
-    println();
-    printcurrentstring();
-    if (p > mem_end) {
-      print(S(360));
-      goto _Lexit;
+    if (cur_length() > depth_threshold) {
+        if (p > 0) print(S(334));
+        goto _Lexit;
     }
-    n++;
-    if (n > breadth_max) {
-      print(S(361));
-      goto _Lexit;
-    }  /*183:*/
-    if (ischarnode(p))
-      printfontandchar(p);
-    else {
-      switch (type(p)) {   /*:183*/
+    n = 0;
+    while (p > memmin) {
+        println();
+        printcurrentstring();
+        if (p > mem_end) {
+            print(S(360));
+            goto _Lexit;
+        }
+        n++;
+        if (n > breadth_max) {
+            print(S(361));
+            goto _Lexit;
+        } /*183:*/
+        if (ischarnode(p))
+            printfontandchar(p);
+        else {
+            switch (type(p)) { /*:183*/
+                case HLIST_NODE:
+                case VLIST_NODE:
+                case UNSET_NODE: /*184:*/
+                    if (type(p) == HLIST_NODE)
+                        print_esc('h');
+                    else if (type(p) == VLIST_NODE)
+                        print_esc('v');
+                    else
+                        print_esc(S(362));
+                    print(S(363));
+                    print_scaled(height(p));
+                    print_char('+');
+                    print_scaled(depth(p));
+                    print(S(364));
+                    print_scaled(width(p));
+                    if (type(p) == UNSET_NODE) { /*185:*/
+                        if (spancount(p) != MIN_QUARTER_WORD) {
+                            print(S(303));
+                            print_int(spancount(p) - MIN_QUARTER_WORD + 1);
+                            print(S(365));
+                        }
+                        if (gluestretch(p) != 0) {
+                            print(S(366));
+                            printglue(gluestretch(p), glueorder(p), 0);
+                        }
+                        if (glueshrink(p) != 0) {
+                            print(S(367));
+                            printglue(glueshrink(p), gluesign(p), 0);
+                        }
+                    }      /*:185*/
+                    else { /*186:*/
+                        g = glueset(p);
+                        if ((g != 0.0) & (gluesign(p) != NORMAL)) { /*:186*/
+                            print(S(368));
+                            if (gluesign(p) == shrinking) print(S(369));
+                            if (0 /*labs(mem[p + glueoffset - memmin].int_) < 1048576L */)
+                                print(S(370));
+                            else {
+                                if (fabs(g) > 20000.0) {
+                                    if (g > 0.0)
+                                        print_char('>');
+                                    else
+                                        print(S(371));
+                                    printglue(UNITY * 20000, glueorder(p), 0);
+                                } else
+                                    printglue((long)floor(UNITY * g + 0.5),
+                                              glueorder(p),
+                                              0);
+                            }
+                        }
+                        if (shiftamount(p) != 0) {
+                            print(S(372));
+                            print_scaled(shiftamount(p));
+                        }
+                    }
+                    nodelistdisplay(listptr(p));
+                    break;
+                    /*:184*/
 
-      case HLIST_NODE:
-      case VLIST_NODE:
-      case UNSET_NODE:   /*184:*/
-	if (type(p) == HLIST_NODE)
-	  print_esc('h');
-	else if (type(p) == VLIST_NODE)
-	  print_esc('v');
-	else
-	  print_esc(S(362));
-	print(S(363));
-	print_scaled(height(p));
-	print_char('+');
-	print_scaled(depth(p));
-	print(S(364));
-	print_scaled(width(p));
-	if (type(p) == UNSET_NODE) {   /*185:*/
-	  if (spancount(p) != MIN_QUARTER_WORD) {
-	    print(S(303));
-	    print_int(spancount(p) - MIN_QUARTER_WORD + 1);
-	    print(S(365));
-	  }
-	  if (gluestretch(p) != 0) {
-	    print(S(366));
-	    printglue(gluestretch(p), glueorder(p), 0);
-	  }
-	  if (glueshrink(p) != 0) {
-	    print(S(367));
-	    printglue(glueshrink(p), gluesign(p), 0);
-	  }
-	}  /*:185*/
-	else {   /*186:*/
-	  g = glueset(p);
-	  if ((g != 0.0) & (gluesign(p) != NORMAL)) {   /*:186*/
-	    print(S(368));
-	    if (gluesign(p) == shrinking)
-	      print(S(369));
-	    if (0 /*labs(mem[p + glueoffset - memmin].int_) < 1048576L */)
-	      print(S(370));
-	    else {
-	      if (fabs(g) > 20000.0) {
-		if (g > 0.0)
-		  print_char('>');
-		else
-		  print(S(371));
-		printglue(UNITY * 20000, glueorder(p), 0);
-	      } else
-		printglue((long)floor(UNITY * g + 0.5), glueorder(p), 0);
-	    }
-	  }
-	  if (shiftamount(p) != 0) {
-	    print(S(372));
-	    print_scaled(shiftamount(p));
-	  }
-	}
-	nodelistdisplay(listptr(p));
-	break;
-	/*:184*/
+                case RULE_NODE: /*187:*/
+                    print_esc(S(373));
+                    printruledimen(height(p));
+                    print_char('+');
+                    printruledimen(depth(p));
+                    print(S(364));
+                    printruledimen(width(p));
+                    break;
+                    /*:187*/
 
-      case RULE_NODE:   /*187:*/
-	print_esc(S(373));
-	printruledimen(height(p));
-	print_char('+');
-	printruledimen(depth(p));
-	print(S(364));
-	printruledimen(width(p));
-	break;
-	/*:187*/
+                case INS_NODE: /*188:*/
+                    print_esc(S(374));
+                    print_int(subtype(p) - MIN_QUARTER_WORD);
+                    print(S(375));
+                    print_scaled(height(p));
+                    print(S(376));
+                    printspec(splittopptr(p), 0);
+                    print_char(',');
+                    print_scaled(depth(p));
+                    print(S(377));
+                    print_int(floatcost(p));
+                    nodelistdisplay(insptr(p));
+                    break;
+                    /*:188*/
 
-      case INS_NODE:   /*188:*/
-	print_esc(S(374));
-	print_int(subtype(p) - MIN_QUARTER_WORD);
-	print(S(375));
-	print_scaled(height(p));
-	print(S(376));
-	printspec(splittopptr(p), 0);
-	print_char(',');
-	print_scaled(depth(p));
-	print(S(377));
-	print_int(floatcost(p));
-	nodelistdisplay(insptr(p));
-	break;
-	/*:188*/
+                case WHATSIT_NODE:        /*1356:*/
+                    switch (subtype(p)) { /*:1356*/
+                        case opennode:
+                            print_write_whatsit(S(378), p);
+                            print_char('=');
+                            print_file_name(
+                                openname(p), openarea(p), openext(p));
+                            break;
 
-      case WHATSIT_NODE:   /*1356:*/
-	switch (subtype(p)) {   /*:1356*/
+                        case writenode:
+                            print_write_whatsit(S(379), p);
+                            printmark(writetokens(p));
+                            break;
 
-	case opennode:
-	  print_write_whatsit(S(378), p);
-	  print_char('=');
-	  print_file_name(openname(p), openarea(p), openext(p));
-	  break;
+                        case closenode: print_write_whatsit(S(380), p); break;
 
-	case writenode:
-	  print_write_whatsit(S(379), p);
-	  printmark(writetokens(p));
-	  break;
+                        case specialnode:
+                            print_esc(S(381));
+                            printmark(writetokens(p));
+                            break;
 
-	case closenode:
-	  print_write_whatsit(S(380), p);
-	  break;
+                        case languagenode:
+                            print_esc(S(382));
+                            print_int(whatlang(p));
+                            print(S(383));
+                            print_int(whatlhm(p));
+                            print_char(',');
+                            print_int(whatrhm(p));
+                            print_char(')');
+                            break;
 
-	case specialnode:
-	  print_esc(S(381));
-	  printmark(writetokens(p));
-	  break;
+                        default: print(S(384)); break;
+                    }
+                    break;
 
-	case languagenode:
-	  print_esc(S(382));
-	  print_int(whatlang(p));
-	  print(S(383));
-	  print_int(whatlhm(p));
-	  print_char(',');
-	  print_int(whatrhm(p));
-	  print_char(')');
-	  break;
+                case GLUE_NODE:                   /*189:*/
+                    if (subtype(p) >= aleaders) { /*190:*/
+                        print_esc(S(385));
+                        if (subtype(p) == cleaders)
+                            print_char('c');
+                        else if (subtype(p) == xleaders)
+                            print_char('x');
+                        print(S(386));
+                        printspec(glueptr(p), 0);
+                        nodelistdisplay(leaderptr(p));
+                    }      /*:190*/
+                    else { /*:189*/
+                        print_esc(S(387));
+                        if (subtype(p) != NORMAL) {
+                            print_char('(');
+                            if (subtype(p) < condmathglue)
+                                print_skip_param(subtype(p) - 1);
+                            else {
+                                if (subtype(p) == condmathglue)
+                                    print_esc(S(388));
+                                else
+                                    print_esc(S(389));
+                            }
+                            print_char(')');
+                        }
+                        if (subtype(p) != condmathglue) {
+                            print_char(' ');
+                            if (subtype(p) < condmathglue)
+                                printspec(glueptr(p), 0);
+                            else
+                                printspec(glueptr(p), S(390));
+                        }
+                    }
+                    break;
 
-	default:
-	  print(S(384));
-	  break;
-	}
-	break;
+                case KERN_NODE: /*191:*/
+                    if (subtype(p) != muglue) {
+                        print_esc(S(391));
+                        if (subtype(p) != NORMAL) print_char(' ');
+                        print_scaled(width(p));
+                        if (subtype(p) == acckern) print(S(392));
+                    } else { /*:191*/
+                        print_esc(S(393));
+                        print_scaled(width(p));
+                        print(S(390));
+                    }
+                    break;
 
-      case GLUE_NODE:   /*189:*/
-	if (subtype(p) >= aleaders) {   /*190:*/
-	  print_esc(S(385));
-	  if (subtype(p) == cleaders)
-	    print_char('c');
-	  else if (subtype(p) == xleaders)
-	    print_char('x');
-	  print(S(386));
-	  printspec(glueptr(p), 0);
-	  nodelistdisplay(leaderptr(p));
-	}  /*:190*/
-	else {   /*:189*/
-	  print_esc(S(387));
-	  if (subtype(p) != NORMAL) {
-	    print_char('(');
-	    if (subtype(p) < condmathglue)
-	      print_skip_param(subtype(p) - 1);
-	    else {
-	      if (subtype(p) == condmathglue)
-		print_esc(S(388));
-	      else
-		print_esc(S(389));
-	    }
-	    print_char(')');
-	  }
-	  if (subtype(p) != condmathglue) {
-	    print_char(' ');
-	    if (subtype(p) < condmathglue)
-	      printspec(glueptr(p), 0);
-	    else
-	      printspec(glueptr(p), S(390));
-	  }
-	}
-	break;
+                case MATH_NODE: /*192:*/
+                    print_esc(S(394));
+                    if (subtype(p) == before)
+                        print(S(395));
+                    else
+                        print(S(396));
+                    if (width(p) != 0) {
+                        print(S(397));
+                        print_scaled(width(p));
+                    }
+                    break;
+                    /*:192*/
 
-      case KERN_NODE:   /*191:*/
-	if (subtype(p) != muglue) {
-	  print_esc(S(391));
-	  if (subtype(p) != NORMAL)
-	    print_char(' ');
-	  print_scaled(width(p));
-	  if (subtype(p) == acckern)
-	    print(S(392));
-	} else {   /*:191*/
-	  print_esc(S(393));
-	  print_scaled(width(p));
-	  print(S(390));
-	}
-	break;
-
-      case MATH_NODE:   /*192:*/
-	print_esc(S(394));
-	if (subtype(p) == before)
-	  print(S(395));
-	else
-	  print(S(396));
-	if (width(p) != 0) {
-	  print(S(397));
-	  print_scaled(width(p));
-	}
-	break;
-	/*:192*/
-
-      case LIGATURE_NODE:   /*193:*/
+                case LIGATURE_NODE: /*193:*/
 #ifdef BIG_CHARNODE
-	{
-	Pointer pp=get_avail();
-	type(pp) = charnodetype;
-	font(pp) = font_ligchar(p);
-	character(pp) = character_ligchar(p);
-	printfontandchar(pp);
-	FREE_AVAIL(pp);
-	}
+                {
+                    Pointer pp = get_avail();
+                    type(pp) = charnodetype;
+                    font(pp) = font_ligchar(p);
+                    character(pp) = character_ligchar(p);
+                    printfontandchar(pp);
+                    FREE_AVAIL(pp);
+                }
 #else
-	printfontandchar(ligchar(p));
+                    printfontandchar(ligchar(p));
 #endif
-	print(S(398));
-	if (subtype(p) > 1)
-	  print_char('|');
-	font_in_short_display = font_ligchar(p);
-	shortdisplay(ligptr(p));
-	if ((subtype(p)) & 1)
-	  print_char('|');
-	print_char(')');
-	break;
-	/*:193*/
+                    print(S(398));
+                    if (subtype(p) > 1) print_char('|');
+                    font_in_short_display = font_ligchar(p);
+                    shortdisplay(ligptr(p));
+                    if ((subtype(p)) & 1) print_char('|');
+                    print_char(')');
+                    break;
+                    /*:193*/
 
-      case PENALTY_NODE:   /*194:*/
-	print_esc(S(399));
-	print_int(penalty(p));
-	break;
-	/*:194*/
+                case PENALTY_NODE: /*194:*/
+                    print_esc(S(399));
+                    print_int(penalty(p));
+                    break;
+                    /*:194*/
 
-      case DISC_NODE:   /*195:*/
-	print_esc(S(400));
-	if (replacecount(p) > 0) {
-	  print(S(401));
-	  print_int(replacecount(p));
-	}
-	nodelistdisplay(prebreak(p));
-	append_char('|');
-	shownodelist(postbreak(p));
-	flush_char();
-	break;
-	/*:195*/
+                case DISC_NODE: /*195:*/
+                    print_esc(S(400));
+                    if (replacecount(p) > 0) {
+                        print(S(401));
+                        print_int(replacecount(p));
+                    }
+                    nodelistdisplay(prebreak(p));
+                    append_char('|');
+                    shownodelist(postbreak(p));
+                    flush_char();
+                    break;
+                    /*:195*/
 
-      case MARK_NODE:   /*196:*/
-	print_esc(S(402));
-	printmark(markptr(p));
-	break;
-	/*:196*/
+                case MARK_NODE: /*196:*/
+                    print_esc(S(402));
+                    printmark(markptr(p));
+                    break;
+                    /*:196*/
 
-      case ADJUST_NODE:   /*197:*/
-	print_esc(S(403));
-	nodelistdisplay(adjustptr(p));
-	break;
-	/*:197*/
-	/*690:*/
+                case ADJUST_NODE: /*197:*/
+                    print_esc(S(403));
+                    nodelistdisplay(adjustptr(p));
+                    break;
+                    /*:197*/
+                    /*690:*/
 
-      case stylenode:
-	printstyle(subtype(p));
-	break;
+                case stylenode: printstyle(subtype(p)); break;
 
-      case choicenode:   /*695:*/
-	print_esc(S(404));
-	append_char('D');
-	shownodelist(displaymlist(p));
-	flush_char();
-	append_char('T');
-	shownodelist(textmlist(p));
-	flush_char();
-	append_char('S');
-	shownodelist(scriptmlist(p));
-	flush_char();
-	append_char('s');
-	shownodelist(scriptscriptmlist(p));
-	flush_char();
-	break;
-	/*:695*/
+                case choicenode: /*695:*/
+                    print_esc(S(404));
+                    append_char('D');
+                    shownodelist(displaymlist(p));
+                    flush_char();
+                    append_char('T');
+                    shownodelist(textmlist(p));
+                    flush_char();
+                    append_char('S');
+                    shownodelist(scriptmlist(p));
+                    flush_char();
+                    append_char('s');
+                    shownodelist(scriptscriptmlist(p));
+                    flush_char();
+                    break;
+                    /*:695*/
 
-      case ordnoad:
-      case opnoad:
-      case binnoad:
-      case relnoad:
-      case opennoad:
-      case closenoad:
-      case punctnoad:
-      case innernoad:
-      case radicalnoad:
-      case overnoad:
-      case undernoad:
-      case vcenternoad:
-      case accentnoad:
-      case leftnoad:
-      case rightnoad:   /*696:*/
-	switch (type(p)) {
+                case ordnoad:
+                case opnoad:
+                case binnoad:
+                case relnoad:
+                case opennoad:
+                case closenoad:
+                case punctnoad:
+                case innernoad:
+                case radicalnoad:
+                case overnoad:
+                case undernoad:
+                case vcenternoad:
+                case accentnoad:
+                case leftnoad:
+                case rightnoad: /*696:*/
+                    switch (type(p)) {
 
-	case ordnoad:
-	  print_esc(S(405));
-	  break;
+                        case ordnoad: print_esc(S(405)); break;
 
-	case opnoad:
-	  print_esc(S(406));
-	  break;
+                        case opnoad: print_esc(S(406)); break;
 
-	case binnoad:
-	  print_esc(S(407));
-	  break;
+                        case binnoad: print_esc(S(407)); break;
 
-	case relnoad:
-	  print_esc(S(408));
-	  break;
+                        case relnoad: print_esc(S(408)); break;
 
-	case opennoad:
-	  print_esc(S(409));
-	  break;
+                        case opennoad: print_esc(S(409)); break;
 
-	case closenoad:
-	  print_esc(S(410));
-	  break;
+                        case closenoad: print_esc(S(410)); break;
 
-	case punctnoad:
-	  print_esc(S(411));
-	  break;
+                        case punctnoad: print_esc(S(411)); break;
 
-	case innernoad:
-	  print_esc(S(412));
-	  break;
+                        case innernoad: print_esc(S(412)); break;
 
-	case overnoad:
-	  print_esc(S(413));
-	  break;
+                        case overnoad: print_esc(S(413)); break;
 
-	case undernoad:
-	  print_esc(S(414));
-	  break;
+                        case undernoad: print_esc(S(414)); break;
 
-	case vcenternoad:
-	  print_esc(S(415));
-	  break;
+                        case vcenternoad: print_esc(S(415)); break;
 
-	case radicalnoad:
-	  print_esc(S(416));
-	  printdelimiter(leftdelimiter(p));
-	  break;
+                        case radicalnoad:
+                            print_esc(S(416));
+                            printdelimiter(leftdelimiter(p));
+                            break;
 
-	case accentnoad:
-	  print_esc(S(417));
-	  printfamandchar(accentchr(p));
-	  break;
+                        case accentnoad:
+                            print_esc(S(417));
+                            printfamandchar(accentchr(p));
+                            break;
 
-	case leftnoad:
-	  print_esc(S(418));
-	  printdelimiter(nucleus(p));
-	  break;
+                        case leftnoad:
+                            print_esc(S(418));
+                            printdelimiter(nucleus(p));
+                            break;
 
-	case rightnoad:
-	  print_esc(S(419));
-	  printdelimiter(nucleus(p));
-	  break;
-	}
-	if (subtype(p) != NORMAL) {
-	  if (subtype(p) == limits)
-	    print_esc(S(420));
-	  else
-	    print_esc(S(421));
-	}
-	if (type(p) < leftnoad)
-	  printsubsidiarydata(nucleus(p), '.');
-	printsubsidiarydata(supscr(p), '^');
-	printsubsidiarydata(subscr(p), '_');
-	break;
-	/*:696*/
+                        case rightnoad:
+                            print_esc(S(419));
+                            printdelimiter(nucleus(p));
+                            break;
+                    }
+                    if (subtype(p) != NORMAL) {
+                        if (subtype(p) == limits)
+                            print_esc(S(420));
+                        else
+                            print_esc(S(421));
+                    }
+                    if (type(p) < leftnoad)
+                        printsubsidiarydata(nucleus(p), '.');
+                    printsubsidiarydata(supscr(p), '^');
+                    printsubsidiarydata(subscr(p), '_');
+                    break;
+                    /*:696*/
 
-      case fractionnoad:   /*697:*/
-	print_esc(S(422));
-	if (thickness(p) == defaultcode)
-	  print(S(423));
-	else
-	  print_scaled(thickness(p));
-	if ((smallfam(leftdelimiter(p)) != 0) |
-	    (smallchar(leftdelimiter(p)) != MIN_QUARTER_WORD) |
-	    (largefam(leftdelimiter(p)) != 0) |
-	    (largechar(leftdelimiter(p)) != MIN_QUARTER_WORD)) {
-	  print(S(424));
-	  printdelimiter(leftdelimiter(p));
-	}
-	if ((smallfam(rightdelimiter(p)) != 0) |
-	    (smallchar(rightdelimiter(p)) != MIN_QUARTER_WORD) |
-	    (largefam(rightdelimiter(p)) != 0) |
-	    (largechar(rightdelimiter(p)) != MIN_QUARTER_WORD)) {
-	  print(S(425));
-	  printdelimiter(rightdelimiter(p));
-	}
-	printsubsidiarydata(numerator(p), '\\');
-	printsubsidiarydata(denominator(p), '/');
-	break;
-	/*:697*/
-	/*:690*/
+                case fractionnoad: /*697:*/
+                    print_esc(S(422));
+                    if (thickness(p) == defaultcode)
+                        print(S(423));
+                    else
+                        print_scaled(thickness(p));
+                    if ((smallfam(leftdelimiter(p)) != 0) |
+                        (smallchar(leftdelimiter(p)) != MIN_QUARTER_WORD) |
+                        (largefam(leftdelimiter(p)) != 0) |
+                        (largechar(leftdelimiter(p)) != MIN_QUARTER_WORD)) {
+                        print(S(424));
+                        printdelimiter(leftdelimiter(p));
+                    }
+                    if ((smallfam(rightdelimiter(p)) != 0) |
+                        (smallchar(rightdelimiter(p)) != MIN_QUARTER_WORD) |
+                        (largefam(rightdelimiter(p)) != 0) |
+                        (largechar(rightdelimiter(p)) != MIN_QUARTER_WORD)) {
+                        print(S(425));
+                        printdelimiter(rightdelimiter(p));
+                    }
+                    printsubsidiarydata(numerator(p), '\\');
+                    printsubsidiarydata(denominator(p), '/');
+                    break;
+                    /*:697*/
+                    /*:690*/
 
-      default:
-	print(S(426));
-	break;
-      }
+                default: print(S(426)); break;
+            }
+        }
+        p = link(p);
     }
-    p = link(p);
-  }
-_Lexit: ;
+_Lexit:;
 }
 /*:182*/
 
@@ -3252,12 +3196,11 @@ Static void showbox(HalfWord p)
 /*:198*/
 
 /*200:*/
-Static void deletetokenref(HalfWord p)
-{
-  if (tokenrefcount(p) == 0)
-    flushlist(p);
-  else
-    (tokenrefcount(p))--;
+Static void deletetokenref(HalfWord p) {
+    if (tokenrefcount(p) == 0)
+        flushlist(p);
+    else
+        (tokenrefcount(p))--;
 }
 /*:200*/
 
@@ -3278,143 +3221,126 @@ Static void flushnodelist(HalfWord p) {
             FREE_AVAIL(p);
         } else {
             switch (type(p)) {
-            case HLIST_NODE:
-            case VLIST_NODE:
-            case UNSET_NODE:
-                flushnodelist(listptr(p));
-                freenode(p, boxnodesize);
-                goto _Ldone;
-                break;
+                case HLIST_NODE:
+                case VLIST_NODE:
+                case UNSET_NODE:
+                    flushnodelist(listptr(p));
+                    freenode(p, boxnodesize);
+                    goto _Ldone;
+                    break;
 
-            case RULE_NODE:
-                freenode(p, rulenodesize);
-                goto _Ldone;
-                break;
+                case RULE_NODE:
+                    freenode(p, rulenodesize);
+                    goto _Ldone;
+                    break;
 
-            case INS_NODE:
-                flushnodelist(insptr(p));
-                deleteglueref(splittopptr(p));
-                freenode(p, insnodesize);
-                goto _Ldone;
-                break;
+                case INS_NODE:
+                    flushnodelist(insptr(p));
+                    deleteglueref(splittopptr(p));
+                    freenode(p, insnodesize);
+                    goto _Ldone;
+                    break;
 
-            case WHATSIT_NODE: /*1358:*/
-                switch (subtype(p)) {
+                case WHATSIT_NODE: /*1358:*/
+                    switch (subtype(p)) {
+                        case opennode: freenode(p, opennodesize); break;
+                    
+                        case writenode:
+                        case specialnode:
+                            deletetokenref(writetokens(p));
+                            freenode(p, writenodesize);
+                            goto _Ldone;
+                            break;
 
-                    case opennode:
-                        freenode(p, opennodesize);
-                        break;
+                        case closenode:
+                        case languagenode: freenode(p, smallnodesize); break;
 
-                    case writenode:
-                    case specialnode:
-                        deletetokenref(writetokens(p));
-                        freenode(p, writenodesize);
-                        goto _Ldone;
-                        break;
+                        default: confusion(S(427)); break;
+                    }
+                    goto _Ldone;
+                    break;
+                    /*:1358*/
 
-                    case closenode:
-                    case languagenode:
-                        freenode(p, smallnodesize);
-                        break;
+                case GLUE_NODE:
+                    karmafastdeleteglueref(glueptr(p));
+                    if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
+                    break;
 
-                    default:
-                        confusion(S(427));
-                        break;
-                }
-                goto _Ldone;
-                break;
-                /*:1358*/
+                case KERN_NODE:
+                case MATH_NODE:
+                case PENALTY_NODE:
+                    /* blank case */
+                    break;
 
-            case GLUE_NODE:
-                karmafastdeleteglueref(glueptr(p));
-                if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
-                break;
+                case LIGATURE_NODE: flushnodelist(ligptr(p)); break;
+                case MARK_NODE: deletetokenref(markptr(p)); break;
+                case DISC_NODE:
+                    flushnodelist(prebreak(p));
+                    flushnodelist(postbreak(p));
+                    break;
 
-            case KERN_NODE:
-            case MATH_NODE:
-            case PENALTY_NODE:
-                /* blank case */
-                break;
+                case ADJUST_NODE: /*698:*/ flushnodelist(adjustptr(p)); break;
 
-            case LIGATURE_NODE:
-                flushnodelist(ligptr(p));
-                break;
+                case stylenode:
+                    freenode(p, stylenodesize);
+                    goto _Ldone;
+                    break;
 
-            case MARK_NODE:
-                deletetokenref(markptr(p));
-                break;
+                case choicenode:
+                    flushnodelist(displaymlist(p));
+                    flushnodelist(textmlist(p));
+                    flushnodelist(scriptmlist(p));
+                    flushnodelist(scriptscriptmlist(p));
+                    freenode(p, stylenodesize);
+                    goto _Ldone;
+                    break;
 
-            case DISC_NODE:
-                flushnodelist(prebreak(p));
-                flushnodelist(postbreak(p));
-                break;
+                case ordnoad:
+                case opnoad:
+                case binnoad:
+                case relnoad:
+                case opennoad:
+                case closenoad:
+                case punctnoad:
+                case innernoad:
+                case radicalnoad:
+                case overnoad:
+                case undernoad:
+                case vcenternoad:
+                case accentnoad:
+                    if (mathtype(nucleus(p)) >= subbox)
+                        flushnodelist(info(nucleus(p)));
+                    if (mathtype(supscr(p)) >= subbox)
+                        flushnodelist(info(supscr(p)));
+                    if (mathtype(subscr(p)) >= subbox)
+                        flushnodelist(info(subscr(p)));
+                    if (type(p) == radicalnoad)
+                        freenode(p, radicalnoadsize);
+                    else if (type(p) == accentnoad)
+                        freenode(p, accentnoadsize);
+                    else
+                        freenode(p, noadsize);
+                    goto _Ldone;
+                    break;
 
-            case ADJUST_NODE: /*698:*/
-                flushnodelist(adjustptr(p));
-                break;
-
-            case stylenode:
-                freenode(p, stylenodesize);
-                goto _Ldone;
-                break;
-
-            case choicenode:
-                flushnodelist(displaymlist(p));
-                flushnodelist(textmlist(p));
-                flushnodelist(scriptmlist(p));
-                flushnodelist(scriptscriptmlist(p));
-                freenode(p, stylenodesize);
-                goto _Ldone;
-                break;
-
-            case ordnoad:
-            case opnoad:
-            case binnoad:
-            case relnoad:
-            case opennoad:
-            case closenoad:
-            case punctnoad:
-            case innernoad:
-            case radicalnoad:
-            case overnoad:
-            case undernoad:
-            case vcenternoad:
-            case accentnoad:
-                if (mathtype(nucleus(p)) >= subbox)
-                    flushnodelist(info(nucleus(p)));
-                if (mathtype(supscr(p)) >= subbox)
-                    flushnodelist(info(supscr(p)));
-                if (mathtype(subscr(p)) >= subbox)
-                    flushnodelist(info(subscr(p)));
-                if (type(p) == radicalnoad)
-                    freenode(p, radicalnoadsize);
-                else if (type(p) == accentnoad)
-                    freenode(p, accentnoadsize);
-                else
+                case leftnoad:
+                case rightnoad:
                     freenode(p, noadsize);
-                goto _Ldone;
-                break;
+                    goto _Ldone;
+                    break;
 
-            case leftnoad:
-            case rightnoad:
-                freenode(p, noadsize);
-                goto _Ldone;
-                break;
+                case fractionnoad:
+                    flushnodelist(info(numerator(p)));
+                    flushnodelist(info(denominator(p)));
+                    freenode(p, fractionnoadsize);
+                    goto _Ldone;
+                    break;
+                    /*:698*/
 
-            case fractionnoad:
-                flushnodelist(info(numerator(p)));
-                flushnodelist(info(denominator(p)));
-                freenode(p, fractionnoadsize);
-                goto _Ldone;
-                break;
-                /*:698*/
-
-            default:
-                confusion(S(428));
-                break;
+                default: confusion(S(428)); break;
             }
             freenode(p, smallnodesize);
-_Ldone:;
+        _Ldone:;
         }
         p = q;
     } // while (p != 0)
@@ -4439,7 +4365,7 @@ Static void firmuptheline(void);
     {                                                                          \
         curchr = cur_chr;                                                      \
         curcmd = cur_cmd;                                                      \
-        cur_cs = check_outer_validity(cur_cs);                                   \
+        cur_cs = check_outer_validity(cur_cs);                                 \
         cur_cmd = curcmd;                                                      \
         cur_chr = curchr;                                                      \
     }
@@ -5350,53 +5276,47 @@ Static void xtoken(void)
 }
 /*:381*/
 
+/// [ #402 : scan left brace ]
+
 /*403:*/
-Static void scanleftbrace(void)
-{
-  skip_spaces_or_relax();
-  if (curcmd == leftbrace)
-    return;
-  printnl(S(292));
-  print(S(566));
-  help4(S(567),
-        S(568),
-        S(569),
-        S(570));
-  backerror();
-  curtok = leftbracetoken + '{';
-  curcmd = leftbrace;
-  curchr = '{';
-  alignstate++;
+Static void scanleftbrace(void) {
+    skip_spaces_or_relax();
+    if (curcmd == leftbrace) return;
+    printnl(S(292));
+    print(S(566));
+    help4(S(567), S(568), S(569), S(570));
+    backerror();
+    curtok = leftbracetoken + '{';
+    curcmd = leftbrace;
+    curchr = '{';
+    alignstate++;
 }
 /*:403*/
 
 /*405:*/
-Static void scanoptionalequals(void)
-{
-  skip_spaces();
-  if (curtok != othertoken + '=')
-    backinput();
+Static void scanoptionalequals(void) {
+    skip_spaces();
+    if (curtok != othertoken + '=') backinput();
 }
 /*:405*/
 
 /*407:*/
-Static Boolean scankeyword(StrNumber s)
-{
-  Boolean Result;
+Static Boolean scankeyword(StrNumber s) {
+    Boolean Result;
 #if 1
-  Pointer p = get_avail();
-  Pointer my_backup_head = p;
+    Pointer p = get_avail();
+    Pointer my_backup_head = p;
 #else
-  Pointer my_backup_head = backuphead;
-  Pointer p = backuphead;
+    Pointer my_backup_head = backuphead;
+    Pointer p = backuphead;
 #endif
 #if 0
   PoolPtr k;
 #else
-  int k;
-  int k_e;
+    int k;
+    int k_e;
 #endif
-  link(p) = 0;
+    link(p) = 0;
 #if 0
   k = str_start[s];
   while (k < str_end(s) ) {
@@ -5404,45 +5324,44 @@ Static Boolean scankeyword(StrNumber s)
     if ((curcs == 0) & ((curchr == str_pool[k]) |
 			(curchr == str_pool[k] - 'a' + 'A'))) {
 #else
-  k=0;
-  k_e=str_length(s);
-  while(k<k_e) {
-    int str_c = str_getc(s,k);
-    getxtoken();
-    if ((curcs == 0) & ((curchr == str_c) |
-                        (curchr == str_c - 'a' + 'A'))) {
+    k = 0;
+    k_e = str_length(s);
+    while (k < k_e) {
+        int str_c = str_getc(s, k);
+        getxtoken();
+        if ((curcs == 0) &
+            ((curchr == str_c) | (curchr == str_c - 'a' + 'A'))) {
 #endif
-      STORE_NEW_TOKEN(p,curtok);
-      k++;
-      continue;
-    } else {
-      if (curcmd == spacer && p == my_backup_head)
-	continue;
-      backinput();
-      if (p != my_backup_head) {
-	backlist(link(my_backup_head));
-      }
-      Result = false;
-      goto _Lexit;
+    STORE_NEW_TOKEN(p, curtok);
+    k++;
+    continue;
+}
+else {
+    if (curcmd == spacer && p == my_backup_head) continue;
+    backinput();
+    if (p != my_backup_head) {
+        backlist(link(my_backup_head));
     }
-  }
-  flushlist(link(my_backup_head));
-  Result = true;
-_Lexit:
+    Result = false;
+    goto _Lexit;
+}
+}
+flushlist(link(my_backup_head));
+Result = true;
+_Lexit :
 
-  FREE_AVAIL(my_backup_head);
+    FREE_AVAIL(my_backup_head);
 
-  return Result;
+return Result;
 }
 /*:407*/
 
 /*408:*/
-Static void muerror(void)
-{
-  printnl(S(292));
-  print(S(571));
-  help1(S(572));
-  error();
+Static void muerror(void) {
+    printnl(S(292));
+    print(S(571));
+    help1(S(572));
+    error();
 }
 /*:408*/
 
@@ -5451,104 +5370,87 @@ Static void scanint(void);
 
 
 /*433:*/
-Static void scaneightbitint(void)
-{
-  scanint();
-  if ((unsigned long)curval <= 255)
-    return;
-  printnl(S(292));
-  print(S(573));
-  help2(S(574),
-        S(575));
-  int_error(curval);
-  curval = 0;
+Static void scaneightbitint(void) {
+    scanint();
+    if ((unsigned long)curval <= 255) return;
+    printnl(S(292));
+    print(S(573));
+    help2(S(574), S(575));
+    int_error(curval);
+    curval = 0;
 }
 /*:433*/
 
 /*434:*/
-Static void scancharnum(void)
-{
-  scanint();
-  if ((unsigned long)curval <= 255)
-    return;
-  printnl(S(292));
-  print(S(576));
-  help2(S(577),
-        S(575));
-  int_error(curval);
-  curval = 0;
+Static void scancharnum(void) {
+    scanint();
+    if ((unsigned long)curval <= 255) return;
+    printnl(S(292));
+    print(S(576));
+    help2(S(577), S(575));
+    int_error(curval);
+    curval = 0;
 }
 /*:434*/
 
 /*435:*/
-Static void scanfourbitint(void)
-{
-  scanint();
-  if ((unsigned long)curval <= 15)
-    return;
-  printnl(S(292));
-  print(S(578));
-  help2(S(579),
-        S(575));
-  int_error(curval);
-  curval = 0;
+Static void scanfourbitint(void) {
+    scanint();
+    if ((unsigned long)curval <= 15) return;
+    printnl(S(292));
+    print(S(578));
+    help2(S(579), S(575));
+    int_error(curval);
+    curval = 0;
 }
 /*:435*/
 
 /*436:*/
-Static void scanfifteenbitint(void)
-{
-  scanint();
-  if ((unsigned long)curval <= 32767)
-    return;
-  printnl(S(292));
-  print(S(580));
-  help2(S(581),
-        S(575));
-  int_error(curval);
-  curval = 0;
+Static void scanfifteenbitint(void) {
+    scanint();
+    if ((unsigned long)curval <= 32767) return;
+    printnl(S(292));
+    print(S(580));
+    help2(S(581), S(575));
+    int_error(curval);
+    curval = 0;
 }
 /*:436*/
 
 /*437:*/
-Static void scantwentysevenbitint(void)
-{
-  scanint();
-  if ((unsigned long)curval <= 134217727L)
-    return;
-  printnl(S(292));
-  print(S(582));
-  help2(S(583),
-        S(575));
-  int_error(curval);
-  curval = 0;
+Static void scantwentysevenbitint(void) {
+    scanint();
+    if ((unsigned long)curval <= 134217727L) return;
+    printnl(S(292));
+    print(S(582));
+    help2(S(583), S(575));
+    int_error(curval);
+    curval = 0;
 }
 /*:437*/
 
 /*577:*/
-Static void scanfontident(void)
-{   /*406:*/
-  InternalFontNumber f;
-  HalfWord m;
+Static void scanfontident(void) { /*406:*/
+    InternalFontNumber f;
+    HalfWord m;
 
-  skip_spaces();
-  if (curcmd == deffont)
-    f = curfont;
-  else if (curcmd == setfont)
-    f = curchr;
-  else if (curcmd == deffamily) {
-    m = curchr;
-    scanfourbitint();
-    f = equiv(m + curval);
-  } else {
-    printnl(S(292));
-    print(S(584));
-    help2(S(585),
-          S(586));
-    backerror();
-    f = nullfont;
-  }
-  curval = f;
+    skip_spaces();
+    if (curcmd == deffont)
+        f = curfont;
+    else if (curcmd == setfont)
+        f = curchr;
+    else if (curcmd == deffamily) {
+        m = curchr;
+        scanfourbitint();
+        f = equiv(m + curval);
+    } else {
+        printnl(S(292));
+        print(S(584));
+        help2(S(585), S(586));
+        backerror();
+        f = nullfont;
+    }
+    curval = f;
 }
 /*:577*/
 
@@ -5599,416 +5501,389 @@ Static void findfontdimen(Boolean writing) {
 
 /*:409*/
 /*413:*/
-Static void scansomethinginternal(SmallNumber level, Boolean negative)
-{
-  HalfWord m;
-  /* char */ int p; /* INT */
+Static void scansomethinginternal(SmallNumber level, Boolean negative) {
+    HalfWord m;
+    /* char */ int p; /* INT */
 
-  m = curchr;
-  switch (curcmd) {
+    m = curchr;
+    switch (curcmd) {
 
-  case defcode:   /*414:*/
-    scancharnum();
-    if (m == mathcodebase) {
-      curval = mathcode(curval);
-      curvallevel = intval;
-    } else if (m < mathcodebase) {
-      curval = equiv(m + curval);
-      curvallevel = intval;
-    } else {
-      curval = eqtb[m + curval - activebase].int_;
-      curvallevel = intval;
+        case defcode: /*414:*/
+            scancharnum();
+            if (m == mathcodebase) {
+                curval = mathcode(curval);
+                curvallevel = intval;
+            } else if (m < mathcodebase) {
+                curval = equiv(m + curval);
+                curvallevel = intval;
+            } else {
+                curval = eqtb[m + curval - activebase].int_;
+                curvallevel = intval;
+            }
+            break;
+            /*:414*/
+
+        case toksregister:
+        case assigntoks:
+        case deffamily:
+        case setfont:
+        case deffont: /*415:*/
+            if (level != tokval) {
+                printnl(S(292));
+                print(S(593));
+                help3(S(594), S(595), S(596));
+                backerror();
+                curval = 0;
+                curvallevel = dimenval;
+            } else if (curcmd <= assigntoks) {
+                if (curcmd < assigntoks) {
+                    scaneightbitint();
+                    m = toksbase + curval;
+                }
+                curval = equiv(m);
+                curvallevel = tokval;
+            } else {
+                backinput();
+                scanfontident();
+                curval += fontidbase;
+                curvallevel = identval;
+            }
+            break;
+
+        case assignint:
+            curval = eqtb[m - activebase].int_;
+            curvallevel = intval;
+            break;
+
+        case assigndimen:
+            curval = eqtb[m - activebase].sc;
+            curvallevel = dimenval;
+            break;
+
+        case assignglue:
+            curval = equiv(m);
+            curvallevel = glueval;
+            break;
+
+        case assignmuglue:
+            curval = equiv(m);
+            curvallevel = muval;
+            break;
+
+        case setaux: /*418:*/
+            if (labs(mode) != m) {
+                printnl(S(292));
+                print(S(597));
+                printcmdchr(setaux, m);
+                help4(S(598), S(599), S(600), S(601));
+                error();
+                if (level != tokval) {
+                    curval = 0;
+                    curvallevel = dimenval;
+                } else {
+                    curval = 0;
+                    curvallevel = intval;
+                }
+            } else if (m == V_MODE) {
+                curval = prevdepth;
+                curvallevel = dimenval;
+            } else {
+                curval = spacefactor;
+                curvallevel = intval;
+            }
+            break;
+
+        case setprevgraf: /*422:*/
+            if (mode == 0) {
+                curval = 0;
+                curvallevel = intval;
+            } else { /*:422*/
+                nest[nest_ptr] = cur_list;
+                p = nest_ptr;
+                while (abs(nest[p].modefield) != V_MODE)
+                    p--;
+                curval = nest[p].pgfield;
+                curvallevel = intval;
+            }
+            break;
+
+        case setpageint: /*419:*/
+            if (m == 0)
+                curval = deadcycles;
+            else
+                curval = insertpenalties;
+            curvallevel = intval;
+            break;
+            /*:419*/
+
+        case setpagedimen: /*421:*/
+            if (pagecontents == empty && !outputactive) {
+                if (m == 0)
+                    curval = maxdimen;
+                else
+                    curval = 0;
+            } else
+                curval = pagesofar[m];
+            curvallevel = dimenval;
+            break;
+            /*:421*/
+
+        case setshape: /*423:*/
+            if (parshapeptr == 0)
+                curval = 0;
+            else
+                curval = info(parshapeptr);
+            curvallevel = intval;
+            break;
+            /*:423*/
+
+        case setboxdimen: /*420:*/
+            scaneightbitint();
+            if (box(curval) == 0)
+                curval = 0;
+            else
+                curval = mem[box(curval) + m - memmin].sc;
+            curvallevel = dimenval;
+            break;
+            /*:420*/
+
+        case chargiven:
+        case mathgiven:
+            curval = curchr;
+            curvallevel = intval;
+            break;
+
+        case assignfontdimen: /*425:*/
+            findfontdimen(false);
+            fontinfo[fmemptr].sc = 0;
+            curval = fontinfo[curval].sc;
+            curvallevel = dimenval;
+            break;
+            /*:425*/
+
+        case assignfontint: /*426:*/
+            scanfontident();
+            if (m == 0) {
+                curval = get_hyphenchar(curval);
+                curvallevel = intval;
+            } else {
+                curval = get_skewchar(curval);
+                curvallevel = intval;
+            }
+            break;
+            /*:426*/
+
+        case register_: /*427:*/
+            scaneightbitint();
+            switch (m) {
+
+                case intval: curval = count(curval); break;
+
+                case dimenval: curval = dimen(curval); break;
+
+                case glueval: curval = skip(curval); break;
+
+                case muval: curval = muskip(curval); break;
+            }
+            curvallevel = m;
+            break;
+            /*:427*/
+
+        case lastitem: /*424:*/
+            if (curchr > glueval) {
+                if (curchr == inputlinenocode)
+                    curval = line;
+                else
+                    curval = lastbadness;
+                curvallevel = intval;
+            } else { /*:424*/
+                if (curchr == glueval)
+                    curval = zeroglue;
+                else
+                    curval = 0;
+                curvallevel = curchr;
+                if (!ischarnode(tail) && mode != 0) {
+                    switch (curchr) {
+
+                        case intval:
+                            if (type(tail) == PENALTY_NODE)
+                                curval = penalty(tail);
+                            break;
+
+                        case dimenval:
+                            if (type(tail) == KERN_NODE) curval = width(tail);
+                            break;
+
+                        case glueval:
+                            if (type(tail) == GLUE_NODE) {
+                                curval = glueptr(tail);
+                                if (subtype(tail) == muglue)
+                                    curvallevel = muval;
+                            }
+                            break;
+                    }
+                } else if (mode == V_MODE && tail == head) {
+                    switch (curchr) {
+
+                        case intval: curval = lastpenalty; break;
+
+                        case dimenval: curval = lastkern; break;
+
+                        case glueval:
+                            if (lastglue != MAX_HALF_WORD) curval = lastglue;
+                            break;
+                    }
+                }
+            }
+            break;
+            /*428:*/
+
+        default:
+            printnl(S(292));
+            print(S(602));
+            printcmdchr(curcmd, curchr);
+            print(S(603));
+            print_esc(S(604));
+            help1(S(601));
+            error();
+            if (level != tokval) { /*:428*/
+                curval = 0;
+                curvallevel = dimenval;
+            } else {
+                curval = 0;
+                curvallevel = intval;
+            }
+            break;
     }
-    break;
-    /*:414*/
-
-  case toksregister:
-  case assigntoks:
-  case deffamily:
-  case setfont:
-  case deffont:   /*415:*/
-    if (level != tokval) {
-      printnl(S(292));
-      print(S(593));
-      help3(S(594),
-            S(595),
-            S(596));
-      backerror();
-      curval = 0;
-      curvallevel = dimenval;
-    } else if (curcmd <= assigntoks) {
-      if (curcmd < assigntoks) {
-	scaneightbitint();
-	m = toksbase + curval;
-      }
-      curval = equiv(m);
-      curvallevel = tokval;
-    } else {
-      backinput();
-      scanfontident();
-      curval += fontidbase;
-      curvallevel = identval;
+    while (curvallevel > level) { /*429:*/
+        if (curvallevel == glueval)
+            curval = width(curval);
+        else if (curvallevel == muval)
+            muerror();
+        curvallevel--;
     }
-    break;
-
-  case assignint:
-    curval = eqtb[m - activebase].int_;
-    curvallevel = intval;
-    break;
-
-  case assigndimen:
-    curval = eqtb[m - activebase].sc;
-    curvallevel = dimenval;
-    break;
-
-  case assignglue:
-    curval = equiv(m);
-    curvallevel = glueval;
-    break;
-
-  case assignmuglue:
-    curval = equiv(m);
-    curvallevel = muval;
-    break;
-
-  case setaux:   /*418:*/
-    if (labs(mode) != m) {
-      printnl(S(292));
-      print(S(597));
-      printcmdchr(setaux, m);
-      help4(S(598),
-            S(599),
-            S(600),
-            S(601));
-      error();
-      if (level != tokval) {
-	curval = 0;
-	curvallevel = dimenval;
-      } else {
-	curval = 0;
-	curvallevel = intval;
-      }
-    } else if (m == V_MODE) {
-      curval = prevdepth;
-      curvallevel = dimenval;
-    } else {
-      curval = spacefactor;
-      curvallevel = intval;
+    /*:429*/
+    /*430:*/
+    if (!negative) {
+        if (curvallevel >= glueval && curvallevel <= muval) {
+            addglueref(curval); /*:430*/
+        }
+        return;
     }
-    break;
-
-  case setprevgraf:   /*422:*/
-    if (mode == 0) {
-      curval = 0;
-      curvallevel = intval;
-    } else {   /*:422*/
-      nest[nest_ptr] = cur_list;
-      p = nest_ptr;
-      while (abs(nest[p].modefield) != V_MODE)
-	p--;
-      curval = nest[p].pgfield;
-      curvallevel = intval;
+    if (curvallevel < glueval) {
+        curval = -curval;
+        return;
     }
-    break;
+    curval = newspec(curval); /*431:*/
+    width(curval) = -width(curval);
+    stretch(curval) = -stretch(curval);
+    shrink(curval) = -shrink(curval); /*:431*/
 
-  case setpageint:   /*419:*/
-    if (m == 0)
-      curval = deadcycles;
-    else
-      curval = insertpenalties;
-    curvallevel = intval;
-    break;
-    /*:419*/
-
-  case setpagedimen:   /*421:*/
-    if (pagecontents == empty && !outputactive) {
-      if (m == 0)
-	curval = maxdimen;
-      else
-	curval = 0;
-    } else
-      curval = pagesofar[m];
-    curvallevel = dimenval;
-    break;
-    /*:421*/
-
-  case setshape:   /*423:*/
-    if (parshapeptr == 0)
-      curval = 0;
-    else
-      curval = info(parshapeptr);
-    curvallevel = intval;
-    break;
-    /*:423*/
-
-  case setboxdimen:   /*420:*/
-    scaneightbitint();
-    if (box(curval) == 0)
-      curval = 0;
-    else
-      curval = mem[box(curval) + m - memmin].sc;
-    curvallevel = dimenval;
-    break;
-    /*:420*/
-
-  case chargiven:
-  case mathgiven:
-    curval = curchr;
-    curvallevel = intval;
-    break;
-
-  case assignfontdimen:   /*425:*/
-    findfontdimen(false);
-    fontinfo[fmemptr].sc = 0;
-    curval = fontinfo[curval].sc;
-    curvallevel = dimenval;
-    break;
-    /*:425*/
-
-  case assignfontint:   /*426:*/
-    scanfontident();
-    if (m == 0) {
-      curval = get_hyphenchar(curval);
-      curvallevel = intval;
-    } else {
-      curval = get_skewchar(curval);
-      curvallevel = intval;
-    }
-    break;
-    /*:426*/
-
-  case register_:   /*427:*/
-    scaneightbitint();
-    switch (m) {
-
-    case intval:
-      curval = count(curval);
-      break;
-
-    case dimenval:
-      curval = dimen(curval);
-      break;
-
-    case glueval:
-      curval = skip(curval);
-      break;
-
-    case muval:
-      curval = muskip(curval);
-      break;
-    }
-    curvallevel = m;
-    break;
-    /*:427*/
-
-  case lastitem:   /*424:*/
-    if (curchr > glueval) {
-      if (curchr == inputlinenocode)
-	curval = line;
-      else
-	curval = lastbadness;
-      curvallevel = intval;
-    } else {   /*:424*/
-      if (curchr == glueval)
-	curval = zeroglue;
-      else
-	curval = 0;
-      curvallevel = curchr;
-      if (!ischarnode(tail) && mode != 0) {
-	switch (curchr) {
-
-	case intval:
-	  if (type(tail) == PENALTY_NODE)
-	    curval = penalty(tail);
-	  break;
-
-	case dimenval:
-	  if (type(tail) == KERN_NODE)
-	    curval = width(tail);
-	  break;
-
-	case glueval:
-	  if (type(tail) == GLUE_NODE) {
-	    curval = glueptr(tail);
-	    if (subtype(tail) == muglue)
-	      curvallevel = muval;
-	  }
-	  break;
-	}
-      } else if (mode == V_MODE && tail == head) {
-	switch (curchr) {
-
-	case intval:
-	  curval = lastpenalty;
-	  break;
-
-	case dimenval:
-	  curval = lastkern;
-	  break;
-
-	case glueval:
-	  if (lastglue != MAX_HALF_WORD)
-	    curval = lastglue;
-	  break;
-	}
-      }
-    }
-    break;
-    /*428:*/
-
-  default:
-    printnl(S(292));
-    print(S(602));
-    printcmdchr(curcmd, curchr);
-    print(S(603));
-    print_esc(S(604));
-    help1(S(601));
-    error();
-    if (level != tokval) {   /*:428*/
-      curval = 0;
-      curvallevel = dimenval;
-    } else {
-      curval = 0;
-      curvallevel = intval;
-    }
-    break;
-  }
-  while (curvallevel > level) {   /*429:*/
-    if (curvallevel == glueval)
-      curval = width(curval);
-    else if (curvallevel == muval)
-      muerror();
-    curvallevel--;
-  }
-  /*:429*/
-  /*430:*/
-  if (!negative) {
-    if (curvallevel >= glueval && curvallevel <= muval) {
-      addglueref(curval);   /*:430*/
-    }
-    return;
-  }
-  if (curvallevel < glueval) {
-    curval = -curval;
-    return;
-  }
-  curval = newspec(curval);   /*431:*/
-  width(curval) = -width(curval);
-  stretch(curval) = -stretch(curval);
-  shrink(curval) = -shrink(curval);   /*:431*/
-
-  /*:415*/
-  /*:418*/
+    /*:415*/
+    /*:418*/
 }
 /*:413*/
 
 /*440:*/
-Static void scanint(void)
-{
-  Boolean negative;
-  long m;
-  SmallNumber d;
-  Boolean vacuous, OKsofar;
+Static void scanint(void) {
+    Boolean negative;
+    long m;
+    SmallNumber d;
+    Boolean vacuous, OKsofar;
 
-  radix = 0;
-  OKsofar = true;   /*441:*/
-  negative = false;
-  do {
-    skip_spaces();
-    if (curtok == othertoken + '-') {   /*:441*/
-      negative = !negative;
-      curtok = othertoken + '+';
+    radix = 0;
+    OKsofar = true; /*441:*/
+    negative = false;
+    do {
+        skip_spaces();
+        if (curtok == othertoken + '-') { /*:441*/
+            negative = !negative;
+            curtok = othertoken + '+';
+        }
+    } while (curtok == othertoken + '+');
+    if (curtok == alphatoken) { /*442:*/
+        gettoken();
+        if (curtok < cstokenflag) {
+            curval = curchr;
+            if (curcmd <= rightbrace) {
+                if (curcmd == rightbrace)
+                    alignstate++;
+                else
+                    alignstate--;
+            }
+        } else if (curtok < cstokenflag + singlebase)
+            curval = curtok - cstokenflag - activebase;
+        else
+            curval = curtok - cstokenflag - singlebase;
+        if (curval > 255) {
+            printnl(S(292));
+            print(S(605));
+            help2(S(606), S(607));
+            curval = '0';
+            backerror();
+        } else { /*443:*/
+            getxtoken();
+            if (curcmd != spacer) backinput();
+        }
+    } /*:442*/
+    else if (curcmd >= mininternal && curcmd <= maxinternal)
+        scansomethinginternal(intval, false);
+    else {
+        radix = 10;
+        m = 214748364L;
+        if (curtok == octaltoken) {
+            radix = 8;
+            m = 268435456L;
+            getxtoken();
+        } else if (curtok == hextoken) {
+            radix = 16;
+            m = 134217728L;
+            getxtoken();
+        }
+        vacuous = true;
+        curval = 0; /*445:*/
+        while (true) {
+            if (curtok < zerotoken + radix && curtok >= zerotoken &&
+                curtok <= zerotoken + 9)
+                d = curtok - zerotoken;
+            else if (radix == 16) {
+                if (curtok <= Atoken + 5 && curtok >= Atoken)
+                    d = curtok - Atoken + 10;
+                else if (curtok <= otherAtoken + 5 && curtok >= otherAtoken)
+                    d = curtok - otherAtoken + 10;
+                else
+                    goto _Ldone;
+            } else
+                goto _Ldone;
+            vacuous = false;
+            if (curval >= m && (curval > m || d > 7 || radix != 10)) {
+                if (OKsofar) {
+                    printnl(S(292));
+                    print(S(608));
+                    help2(S(609), S(610));
+                    error();
+                    curval = infinity;
+                    OKsofar = false;
+                }
+            } else
+                curval = curval * radix + d;
+            getxtoken();
+        }
+    _Ldone:            /*:445*/
+        if (vacuous) { /*446:*/
+            printnl(S(292));
+            print(S(593));
+            help3(S(594), S(595), S(596));
+            backerror();
+        } /*:446*/
+        else if (curcmd != spacer)
+            backinput();
     }
-  } while (curtok == othertoken + '+');
-  if (curtok == alphatoken) {   /*442:*/
-    gettoken();
-    if (curtok < cstokenflag) {
-      curval = curchr;
-      if (curcmd <= rightbrace) {
-	if (curcmd == rightbrace)
-	  alignstate++;
-	else
-	  alignstate--;
-      }
-    } else if (curtok < cstokenflag + singlebase)
-      curval = curtok - cstokenflag - activebase;
-    else
-      curval = curtok - cstokenflag - singlebase;
-    if (curval > 255) {
-      printnl(S(292));
-      print(S(605));
-      help2(S(606),
-            S(607));
-      curval = '0';
-      backerror();
-    } else {   /*443:*/
-      getxtoken();
-      if (curcmd != spacer)
-	backinput();
-    }
-  }  /*:442*/
-  else if (curcmd >= mininternal && curcmd <= maxinternal)
-    scansomethinginternal(intval, false);
-  else {
-    radix = 10;
-    m = 214748364L;
-    if (curtok == octaltoken) {
-      radix = 8;
-      m = 268435456L;
-      getxtoken();
-    } else if (curtok == hextoken) {
-      radix = 16;
-      m = 134217728L;
-      getxtoken();
-    }
-    vacuous = true;
-    curval = 0;   /*445:*/
-    while (true) {
-      if (curtok < zerotoken + radix && curtok >= zerotoken &&
-	  curtok <= zerotoken + 9)
-	d = curtok - zerotoken;
-      else if (radix == 16) {
-	if (curtok <= Atoken + 5 && curtok >= Atoken)
-	  d = curtok - Atoken + 10;
-	else if (curtok <= otherAtoken + 5 && curtok >= otherAtoken)
-	  d = curtok - otherAtoken + 10;
-	else
-	  goto _Ldone;
-      } else
-	goto _Ldone;
-      vacuous = false;
-      if (curval >= m && (curval > m || d > 7 || radix != 10)) {
-	if (OKsofar) {
-	  printnl(S(292));
-	  print(S(608));
-	  help2(S(609),
-                S(610));
-	  error();
-	  curval = infinity;
-	  OKsofar = false;
-	}
-      } else
-	curval = curval * radix + d;
-      getxtoken();
-    }
-_Ldone:   /*:445*/
-    if (vacuous) {   /*446:*/
-      printnl(S(292));
-      print(S(593));
-      help3(S(594),
-            S(595),
-            S(596));
-      backerror();
-    }  /*:446*/
-    else if (curcmd != spacer)
-      backinput();
-  }
-  if (negative)
-    curval = -curval;
+    if (negative) curval = -curval;
 
-  /*:443*/
-  /*444:*/
-  /*:444*/
+    /*:443*/
+    /*444:*/
+    /*:444*/
 }
 /*:440*/
 
@@ -6252,82 +6127,77 @@ _Lattachsign_:
 /*:448*/
 
 /*461:*/
-Static void scanglue(SmallNumber level)
-{
-  Boolean negative, mu;
-  Pointer q;
+Static void scanglue(SmallNumber level) {
+    Boolean negative, mu;
+    Pointer q;
 
-  mu = (level == muval);   /*441:*/
-  negative = false;
-  do {
-    skip_spaces();
-    if (curtok == othertoken + '-') {   /*:441*/
-      negative = !negative;
-      curtok = othertoken + '+';
+    mu = (level == muval); /*441:*/
+    negative = false;
+    do {
+        skip_spaces();
+        if (curtok == othertoken + '-') { /*:441*/
+            negative = !negative;
+            curtok = othertoken + '+';
+        }
+    } while (curtok == othertoken + '+');
+    if (curcmd >= mininternal && curcmd <= maxinternal) { /*462:*/
+        scansomethinginternal(level, negative);
+        if (curvallevel >= glueval) {
+            if (curvallevel != level) muerror();
+            goto _Lexit;
+        }
+        if (curvallevel == intval)
+            scandimen(mu, false, true);
+        else if (level == muval)
+            muerror();
+    } else {
+        backinput();
+        scandimen(mu, false, false);
+        if (negative) curval = -curval;
     }
-  } while (curtok == othertoken + '+');
-  if (curcmd >= mininternal && curcmd <= maxinternal) {   /*462:*/
-    scansomethinginternal(level, negative);
-    if (curvallevel >= glueval) {
-      if (curvallevel != level)
-	muerror();
-      goto _Lexit;
+    q = newspec(zeroglue);
+    width(q) = curval;
+    if (scankeyword(S(637))) {
+        scandimen(mu, true, false);
+        stretch(q) = curval;
+        stretchorder(q) = curorder;
     }
-    if (curvallevel == intval)
-      scandimen(mu, false, true);
-    else if (level == muval)
-      muerror();
-  } else {
-    backinput();
-    scandimen(mu, false, false);
-    if (negative)
-      curval = -curval;
-  }
-  q = newspec(zeroglue);
-  width(q) = curval;
-  if (scankeyword(S(637))) {
-    scandimen(mu, true, false);
-    stretch(q) = curval;
-    stretchorder(q) = curorder;
-  }
-  if (scankeyword(S(638))) {
-    scandimen(mu, true, false);
-    shrink(q) = curval;
-    shrinkorder(q) = curorder;
-  }
-  curval = q;   /*:462*/
-_Lexit: ;
+    if (scankeyword(S(638))) {
+        scandimen(mu, true, false);
+        shrink(q) = curval;
+        shrinkorder(q) = curorder;
+    }
+    curval = q; /*:462*/
+_Lexit:;
 }
 /*:461*/
 
 /*463:*/
-Static HalfWord scanrulespec(void)
-{
-  Pointer q;
+Static HalfWord scanrulespec(void) {
+    Pointer q;
 
-  q = newrule();
-  if (curcmd == vrule)
-    width(q) = defaultrule;
-  else {
-    height(q) = defaultrule;
-    depth(q) = 0;
-  }
+    q = newrule();
+    if (curcmd == vrule)
+        width(q) = defaultrule;
+    else {
+        height(q) = defaultrule;
+        depth(q) = 0;
+    }
 _Lreswitch:
-  if (scankeyword(S(639))) {
+    if (scankeyword(S(639))) {
+        scannormaldimen();
+        width(q) = curval;
+        goto _Lreswitch;
+    }
+    if (scankeyword(S(640))) {
+        scannormaldimen();
+        height(q) = curval;
+        goto _Lreswitch;
+    }
+    if (!scankeyword(S(641))) return q;
     scannormaldimen();
-    width(q) = curval;
+    depth(q) = curval;
     goto _Lreswitch;
-  }
-  if (scankeyword(S(640))) {
-    scannormaldimen();
-    height(q) = curval;
-    goto _Lreswitch;
-  }
-  if (!scankeyword(S(641)))
-    return q;
-  scannormaldimen();
-  depth(q) = curval;
-  goto _Lreswitch;
 }
 /*:463*/
 
@@ -6335,303 +6205,270 @@ _Lreswitch:
 
 Pointer tex_global_p;
 
-Static void strtoks_helper(StrASCIICode t)
-{
-    long tt=t;
-    Pointer p=tex_global_p;
+Static void strtoks_helper(StrASCIICode t) {
+    long tt = t;
+    Pointer p = tex_global_p;
     if (tt == ' ')
-      tt = spacetoken;
+        tt = spacetoken;
     else
-      tt += othertoken;
-    FAST_STORE_NEW_TOKEN(p,tt);
-    tex_global_p=p;
+        tt += othertoken;
+    FAST_STORE_NEW_TOKEN(p, tt);
+    tex_global_p = p;
 }
 
-Static HalfWord strtoks(StrPoolPtr b)
-{
-  Pointer p;
-  str_room(1);
-  p = temphead;
-  link(p) = 0;
-  tex_global_p=p;
-  str_map_from_mark(b, strtoks_helper);
-  p=tex_global_p;
-  return p;
+Static HalfWord strtoks(StrPoolPtr b) {
+    Pointer p;
+    str_room(1);
+    p = temphead;
+    link(p) = 0;
+    tex_global_p = p;
+    str_map_from_mark(b, strtoks_helper);
+    p = tex_global_p;
+    return p;
 }
 /*:464*/
 
 /*465:*/
-Static HalfWord thetoks(void)
-{
-  enum Selector old_setting;
-  Pointer p, r;
+Static HalfWord thetoks(void) {
+    enum Selector old_setting;
+    Pointer p, r;
 
-  getxtoken();
-  scansomethinginternal(tokval, false);
-  if (curvallevel >= identval) {   /*466:*/
-    p = temphead;
-    link(p) = 0;
-    if (curvallevel == identval) {
-      STORE_NEW_TOKEN(p,cstokenflag + curval);
-      return p;
+    getxtoken();
+    scansomethinginternal(tokval, false);
+    if (curvallevel >= identval) { /*466:*/
+        p = temphead;
+        link(p) = 0;
+        if (curvallevel == identval) {
+            STORE_NEW_TOKEN(p, cstokenflag + curval);
+            return p;
+        }
+        if (curval == 0) return p;
+        r = link(curval);
+        while (r != 0) {
+            FAST_STORE_NEW_TOKEN(p, info(r));
+            r = link(r);
+        }
+        return p;
+    } else {
+        StrPoolPtr b = str_mark();
+        old_setting = selector;
+        selector = NEW_STRING;
+        switch (curvallevel) {
+
+            case intval: print_int(curval); break;
+
+            case dimenval:
+                print_scaled(curval);
+                print(S(459));
+                break;
+
+            case glueval:
+                printspec(curval, S(459));
+                deleteglueref(curval);
+                break;
+
+            case muval:
+                printspec(curval, S(390));
+                deleteglueref(curval);
+                break;
+        }
+        selector = old_setting;
+        /*	fprintf(stderr,"(%d %d)",bb-b,pool_ptr-b); */
+        return (strtoks(b));
     }
-    if (curval == 0)
-      return p;
-    r = link(curval);
-    while (r != 0) {
-      FAST_STORE_NEW_TOKEN(p,info(r));
-      r = link(r);
-    }
-    return p;
-  } else {
-    StrPoolPtr b = str_mark();
-    old_setting = selector;
-    selector = NEW_STRING;
-    switch (curvallevel) {
-
-    case intval:
-      print_int(curval);
-      break;
-
-    case dimenval:
-      print_scaled(curval);
-      print(S(459));
-      break;
-
-    case glueval:
-      printspec(curval, S(459));
-      deleteglueref(curval);
-      break;
-
-    case muval:
-      printspec(curval, S(390));
-      deleteglueref(curval);
-      break;
-    }
-    selector = old_setting;
-/*	fprintf(stderr,"(%d %d)",bb-b,pool_ptr-b); */
-    return (strtoks(b));
-  }
-  /*:466*/
+    /*:466*/
 }
 /*:465*/
 
 /*467:*/
-Static void insthetoks(void)
-{
-  link(garbage) = thetoks();
-  inslist(link(temphead));
-}  /*:467*/
+Static void insthetoks(void) {
+    link(garbage) = thetoks();
+    inslist(link(temphead));
+} /*:467*/
 
 
 /*470:*/
-Static void convtoks(void)
-{
-  enum Selector old_setting;
-  char c;
-  SmallNumber savescannerstatus;
-  StrPoolPtr b;
+Static void convtoks(void) {
+    enum Selector old_setting;
+    char c;
+    SmallNumber savescannerstatus;
+    StrPoolPtr b;
 
-  c = curchr;   /*471:*/
-  switch (c) {   /*:471*/
+    c = curchr;  /*471:*/
+    switch (c) { /*:471*/
+        case numbercode:
+        case romannumeralcode: scanint(); break;
 
-  case numbercode:
-  case romannumeralcode:
-    scanint();
-    break;
+        case stringcode:
+        case meaningcode:
+            savescannerstatus = scanner_status;
+            scanner_status = NORMAL;
+            gettoken();
+            scanner_status = savescannerstatus;
+            break;
 
-  case stringcode:
-  case meaningcode:
-    savescannerstatus = scanner_status;
-    scanner_status = NORMAL;
-    gettoken();
-    scanner_status = savescannerstatus;
-    break;
+        case fontnamecode: scanfontident(); break;
 
-  case fontnamecode:
-    scanfontident();
-    break;
-
-  case jobnamecode:
-    if (jobname == 0)
-      openlogfile();
-    break;
-  }
-  old_setting = selector;
-  selector = NEW_STRING;
-  b = str_mark();
-  /*472:*/
-  switch (c) {   /*:472*/
-
-  case numbercode:
-    print_int(curval);
-    break;
-
-  case romannumeralcode:
-    print_roman_int(curval);
-    break;
-
-  case stringcode:
-    if (curcs != 0)
-      sprint_cs(curcs);
-    else
-      print_char(curchr);
-    break;
-
-  case meaningcode:
-    printmeaning(curchr, curcmd);
-    break;
-
-  case fontnamecode:
-    print(get_fontname(curval));
-    if (get_fontsize(curval) != get_fontdsize(curval)) {
-      print(S(642));
-      print_scaled(get_fontsize(curval));
-      print(S(459));
+        case jobnamecode:
+            if (jobname == 0) openlogfile();
+            break;
     }
-    break;
+    old_setting = selector;
+    selector = NEW_STRING;
+    b = str_mark();
+    /*472:*/
+    switch (c) { /*:472*/
 
-  case jobnamecode:
-    print(jobname);
-    break;
-  }
-  selector = old_setting;
-  link(garbage) = strtoks(b);
-  inslist(link(temphead));
-}  /*:470*/
+        case numbercode: print_int(curval); break;
+
+        case romannumeralcode: print_roman_int(curval); break;
+
+        case stringcode:
+            if (curcs != 0)
+                sprint_cs(curcs);
+            else
+                print_char(curchr);
+            break;
+
+        case meaningcode: printmeaning(curchr, curcmd); break;
+
+        case fontnamecode:
+            print(get_fontname(curval));
+            if (get_fontsize(curval) != get_fontdsize(curval)) {
+                print(S(642));
+                print_scaled(get_fontsize(curval));
+                print(S(459));
+            }
+            break;
+
+        case jobnamecode: print(jobname); break;
+    }
+    selector = old_setting;
+    link(garbage) = strtoks(b);
+    inslist(link(temphead));
+} /*:470*/
 
 /*473:*/
-Static HalfWord scantoks(Boolean macrodef, Boolean xpand)
-{
-  HalfWord t, s, unbalance, hashbrace;
-  Pointer p;
+Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
+    HalfWord t, s, unbalance, hashbrace;
+    Pointer p;
 
-  if (macrodef)
-    scanner_status = DEFINING;
-  else
-    scanner_status = ABSORBING;
-  warningindex = curcs;
-  defref = get_avail();
-  tokenrefcount(defref) = 0;
-  p = defref;
-  hashbrace = 0;
-  t = zerotoken;
-  if (macrodef) {   /*474:*/
-    while (true) {
-      gettoken();
-      if (curtok < rightbracelimit)
-	goto _Ldone1;
-      if (curcmd == macparam) {   /*476:*/
-	s = matchtoken + curchr;
-	gettoken();
-	if (curcmd == leftbrace) {
-	  hashbrace = curtok;
-	  STORE_NEW_TOKEN(p,curtok);
-	  STORE_NEW_TOKEN(p,endmatchtoken);
-	  goto _Ldone;
-	}
-	if (t == zerotoken + 9) {
-	  printnl(S(292));
-	  print(S(643));
-	  help1(S(644));
-	  error();
-	} else {
-	  t++;
-	  if (curtok != t) {
-	    printnl(S(292));
-	    print(S(645));
-	    help2(
-              S(646),
-              S(647));
-	    backerror();
-	  }
-	  curtok = s;
-	}
-      }
-      /*:476*/
-      STORE_NEW_TOKEN(p,curtok);
-    }
-_Ldone1:
-    STORE_NEW_TOKEN(p,endmatchtoken);
-    if (curcmd == rightbrace) {   /*475:*/
-      printnl(S(292));
-      print(S(566));
-      alignstate++;
-      help2(
-        S(648),
-        S(649));
-      error();
-      goto _Lfound;
-    }
-    /*:475*/
-_Ldone: ;
-  } else
-    scanleftbrace();
-  /*:474*/
-  /*477:*/
-  unbalance = 1;
-  while (true) {   /*:477*/
-    if (xpand) {   /*478:*/
-      while (true) {
-	getnext();
-	if (curcmd <= maxcommand)
-	  goto _Ldone2;
-	if (curcmd != the)
-	  expand();
-	else {
-	  Pointer q = thetoks();
-	  if (link(temphead) != 0) {
-	    link(p) = link(temphead);
-	    p = q;
-	  }
-	}
-      }
-_Ldone2:
-      xtoken();
+    if (macrodef)
+        scanner_status = DEFINING;
+    else
+        scanner_status = ABSORBING;
+    warningindex = curcs;
+    defref = get_avail();
+    tokenrefcount(defref) = 0;
+    p = defref;
+    hashbrace = 0;
+    t = zerotoken;
+    if (macrodef) { /*474:*/
+        while (true) {
+            gettoken();
+            if (curtok < rightbracelimit) goto _Ldone1;
+            if (curcmd == macparam) { /*476:*/
+                s = matchtoken + curchr;
+                gettoken();
+                if (curcmd == leftbrace) {
+                    hashbrace = curtok;
+                    STORE_NEW_TOKEN(p, curtok);
+                    STORE_NEW_TOKEN(p, endmatchtoken);
+                    goto _Ldone;
+                }
+                if (t == zerotoken + 9) {
+                    printnl(S(292));
+                    print(S(643));
+                    help1(S(644));
+                    error();
+                } else {
+                    t++;
+                    if (curtok != t) {
+                        printnl(S(292));
+                        print(S(645));
+                        help2(S(646), S(647));
+                        backerror();
+                    }
+                    curtok = s;
+                }
+            }
+            /*:476*/
+            STORE_NEW_TOKEN(p, curtok);
+        }
+    _Ldone1:
+        STORE_NEW_TOKEN(p, endmatchtoken);
+        if (curcmd == rightbrace) { /*475:*/
+            printnl(S(292));
+            print(S(566));
+            alignstate++;
+            help2(S(648), S(649));
+            error();
+            goto _Lfound;
+        }
+        /*:475*/
+    _Ldone:;
     } else
-      gettoken();
-    /*:478*/
-    if (curtok < rightbracelimit) {
-      if (curcmd < rightbrace)
-	unbalance++;
-      else {
-	unbalance--;
-	if (unbalance == 0)
-	  goto _Lfound;
-      }
-    } else if (curcmd == macparam) {
-      if (macrodef) {   /*479:*/
-	s = curtok;
-	if (xpand)
-	  getxtoken();
-	else
-	  gettoken();
-	if (curcmd != macparam) {
-	  if (curtok <= zerotoken || curtok > t) {
-	    printnl(S(292));
-	    print(S(650));
-	    sprint_cs(warningindex);
-	    help3(
-              S(651),
-              S(652),
-              S(653));
-	    backerror();
-	    curtok = s;
-	  } else
-	    curtok = outparamtoken - '0' + curchr;
-	}
-      }
-      /*:479*/
+        scanleftbrace();
+    /*:474*/
+    /*477:*/
+    unbalance = 1;
+    while (true) {   /*:477*/
+        if (xpand) { /*478:*/
+            while (true) {
+                getnext();
+                if (curcmd <= maxcommand) goto _Ldone2;
+                if (curcmd != the)
+                    expand();
+                else {
+                    Pointer q = thetoks();
+                    if (link(temphead) != 0) {
+                        link(p) = link(temphead);
+                        p = q;
+                    }
+                }
+            }
+        _Ldone2:
+            xtoken();
+        } else
+            gettoken();
+        /*:478*/
+        if (curtok < rightbracelimit) {
+            if (curcmd < rightbrace)
+                unbalance++;
+            else {
+                unbalance--;
+                if (unbalance == 0) goto _Lfound;
+            }
+        } else if (curcmd == macparam) {
+            if (macrodef) { /*479:*/
+                s = curtok;
+                if (xpand)
+                    getxtoken();
+                else
+                    gettoken();
+                if (curcmd != macparam) {
+                    if (curtok <= zerotoken || curtok > t) {
+                        printnl(S(292));
+                        print(S(650));
+                        sprint_cs(warningindex);
+                        help3(S(651), S(652), S(653));
+                        backerror();
+                        curtok = s;
+                    } else
+                        curtok = outparamtoken - '0' + curchr;
+                }
+            }
+            /*:479*/
+        }
+        STORE_NEW_TOKEN(p, curtok);
     }
-    STORE_NEW_TOKEN(p,curtok);
-  }
 _Lfound:
-  scanner_status = NORMAL;
-  if (hashbrace != 0) {
-    STORE_NEW_TOKEN(p,hashbrace);
-  }
-  return p;
-}  /*:473*/
+    scanner_status = NORMAL;
+    if (hashbrace != 0) {
+        STORE_NEW_TOKEN(p, hashbrace);
+    }
+    return p;
+} /*:473*/
 
 
 /*482:*/
@@ -6722,6 +6559,9 @@ _Ldone: /*:483*/
 }
 /*:482*/
 
+
+/// [ #487. Conditional processing ]
+
 /*494:*/
 Static void passtext(void) {
     long l;
@@ -6772,331 +6612,295 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 /*:497*/
 
 /*498:*/
-Static void conditional(void)
-{  /*495:*/
-  Boolean b=false /* XXXX */;
-  long r;
-  long m, n;
-  Pointer p, q, savecondptr;
-  SmallNumber savescannerstatus, thisif;
+Static void conditional(void) { /*495:*/
+    Boolean b = false /* XXXX */;
+    long r;
+    long m, n;
+    Pointer p, q, savecondptr;
+    SmallNumber savescannerstatus, thisif;
 
-  p = getnode(ifnodesize);
-  link(p) = condptr;
-  type(p) = iflimit;
-  subtype(p) = curif;
-  iflinefield(p) = ifline;
-  condptr = p;
-  curif = curchr;
-  iflimit = ifcode;
-  ifline = line;   /*:495*/
-  savecondptr = condptr;
-  thisif = curchr;   /*501:*/
-  switch (thisif) {   /*:501*/
+    p = getnode(ifnodesize);
+    link(p) = condptr;
+    type(p) = iflimit;
+    subtype(p) = curif;
+    iflinefield(p) = ifline;
+    condptr = p;
+    curif = curchr;
+    iflimit = ifcode;
+    ifline = line; /*:495*/
+    savecondptr = condptr;
+    thisif = curchr;  /*501:*/
+    switch (thisif) { /*:501*/
+        case IF_CHAR_CODE:
+        case IF_CAT_CODE: /*506:*/
+        {
+            int cur_chr = curchr;
+            getxtokenoractivechar();
+            if (curcmd > activechar || cur_chr > 255) {
+                m = relax;
+                n = 256;
+            } else {
+                m = curcmd;
+                n = cur_chr;
+            }
+            getxtokenoractivechar();
+            if (curcmd > activechar || cur_chr > 255) {
+                curcmd = relax;
+                cur_chr = 256;
+            }
+            if (thisif == IF_CHAR_CODE)
+                b = (n == cur_chr);
+            else
+                b = (m == curcmd);
+        } break;
+            /*:506*/
 
-  case IF_CHAR_CODE:
-  case IF_CAT_CODE:   /*506:*/
-    {
-    int cur_chr = curchr;
-    getxtokenoractivechar();
-    if (curcmd > activechar || cur_chr > 255) {
-      m = relax;
-      n = 256;
-    } else {
-      m = curcmd;
-      n = cur_chr;
+        case IF_INT_CODE:
+        case IF_DIM_CODE: /*503:*/
+            if (thisif == IF_INT_CODE)
+                scanint();
+            else {
+                scannormaldimen();
+            }
+            n = curval;
+            skip_spaces();
+            if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
+                r = curtok - othertoken;
+            else {
+                printnl(S(292));
+                print(S(659));
+                printcmdchr(iftest, thisif);
+                help1(S(660));
+                backerror();
+                r = '=';
+            }
+            if (thisif == IF_INT_CODE)
+                scanint();
+            else {
+                scannormaldimen();
+            }
+            switch (r) {
+                case '<': b = (n < curval); break;
+                case '=': b = (n == curval); break;
+                case '>': b = (n > curval); break;
+            }
+            break;
+            /*:503*/
+
+        case IF_ODD_CODE: /*504:*/
+            scanint();
+            b = curval & 1;
+            break;
+            /*:504*/
+
+        case IF_VMODE_CODE: b = (labs(mode) == V_MODE); break;
+        case IF_HMODE_CODE: b = (labs(mode) == H_MODE); break;
+        case IF_MMODE_CODE: b = (labs(mode) == M_MODE); break;
+        case IF_INNER_CODE: b = (mode < 0); break;
+
+        case IF_VOID_CODE:
+        case IF_HBOX_CODE:
+        case IF_VBOX_CODE: /*505:*/
+            scaneightbitint();
+            p = box(curval);
+            if (thisif == IF_VOID_CODE)
+                b = (p == 0);
+            else if (p == 0)
+                b = false;
+            else if (thisif == IF_HBOX_CODE)
+                b = (type(p) == HLIST_NODE);
+            else
+                b = (type(p) == VLIST_NODE);
+            break;
+            /*:505*/
+
+        case IF_X_CODE: /*507:*/
+            savescannerstatus = scanner_status;
+            scanner_status = NORMAL;
+            getnext();
+            n = curcs;
+            p = curcmd;
+            q = curchr;
+            getnext();
+            if (curcmd != p)
+                b = false;
+            else if (curcmd < call)
+                b = (curchr == q);
+            else {
+                /* 508:*/
+                p = link(curchr);
+                q = link(equiv(n));
+                if (p == q)
+                    b = true;
+                else {
+                    while (p != 0 && q != 0) {
+                        if (info(p) != info(q))
+                            p = 0;
+                        else {
+                            p = link(p);
+                            q = link(q);
+                        }
+                    }
+                    b = (p == 0 && q == 0);
+                }
+            }
+            scanner_status = savescannerstatus;
+            break;
+            /*:507*/
+
+        case IF_EOF_CODE:
+            scanfourbitint();
+            b = (readopen[curval] == closed);
+            break;
+
+        case IF_TRUE_CODE: b = true; break;
+        case IF_FALSE_CODE: b = false; break;
+        case IF_CASE_CODE: /*509:*/
+            scanint();
+            n = curval;
+            if (tracingcommands > 1) {
+                begindiagnostic();
+                print(S(661));
+                print_int(n);
+                print_char('}');
+                enddiagnostic(false);
+            }
+            while (n != 0) {
+                passtext();
+                if (condptr == savecondptr) {
+                    if (curchr != orcode) goto _Lcommonending;
+                    n--;
+                    continue;
+                }
+                if (curchr != ficode) /*496:*/
+                    continue;
+                /*:496*/
+                p = condptr;
+                ifline = iflinefield(p);
+                curif = subtype(p);
+                iflimit = type(p);
+                condptr = link(p);
+                freenode(p, ifnodesize);
+            }
+            changeiflimit(orcode, savecondptr);
+            goto _Lexit;
+            break;
+            /*:509*/
     }
-    getxtokenoractivechar();
-    if (curcmd > activechar || cur_chr > 255) {
-      curcmd = relax;
-      cur_chr = 256;
+    if (tracingcommands > 1) { /*502:*/
+        begindiagnostic();
+        if (b)
+            print(S(662));
+        else
+            print(S(663));
+        enddiagnostic(false);
     }
-    if (thisif == IF_CHAR_CODE)
-      b = (n == cur_chr);
-    else
-      b = (m == curcmd);
+    /*:502*/
+    if (b) {
+        changeiflimit(elsecode, savecondptr);
+        goto _Lexit;
+    }              /*500:*/
+    while (true) { /*:500*/
+        passtext();
+        if (condptr == savecondptr) {
+            if (curchr != orcode) goto _Lcommonending;
+            printnl(S(292));
+            print(S(558));
+            print_esc(S(664));
+            help1(S(559));
+            error();
+            continue;
+        }
+        if (curchr != ficode) /*496:*/
+            continue;
+        /*:496*/
+        p = condptr;
+        ifline = iflinefield(p);
+        curif = subtype(p);
+        iflimit = type(p);
+        condptr = link(p);
+        freenode(p, ifnodesize);
     }
-    break;
-    /*:506*/
-
-  case IF_INT_CODE:
-  case IF_DIM_CODE:   /*503:*/
-    if (thisif == IF_INT_CODE)
-      scanint();
-    else {
-      scannormaldimen();
-    }
-    n = curval;
-    skip_spaces();
-    if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
-      r = curtok - othertoken;
-    else {
-      printnl(S(292));
-      print(S(659));
-      printcmdchr(iftest, thisif);
-      help1(S(660));
-      backerror();
-      r = '=';
-    }
-    if (thisif == IF_INT_CODE)
-      scanint();
-    else {
-      scannormaldimen();
-    }
-    switch (r) {
-
-    case '<':
-      b = (n < curval);
-      break;
-
-    case '=':
-      b = (n == curval);
-      break;
-
-    case '>':
-      b = (n > curval);
-      break;
-    }
-    break;
-    /*:503*/
-
-  case IF_ODD_CODE:   /*504:*/
-    scanint();
-    b = curval & 1;
-    break;
-    /*:504*/
-
-  case IF_VMODE_CODE:
-    b = (labs(mode) == V_MODE);
-    break;
-
-  case IF_HMODE_CODE:
-    b = (labs(mode) == H_MODE);
-    break;
-
-  case IF_MMODE_CODE:
-    b = (labs(mode) == M_MODE);
-    break;
-
-  case IF_INNER_CODE:
-    b = (mode < 0);
-    break;
-
-  case IF_VOID_CODE:
-  case IF_HBOX_CODE:
-  case IF_VBOX_CODE:   /*505:*/
-    scaneightbitint();
-    p = box(curval);
-    if (thisif == IF_VOID_CODE)
-      b = (p == 0);
-    else if (p == 0)
-      b = false;
-    else if (thisif == IF_HBOX_CODE)
-      b = (type(p) == HLIST_NODE);
-    else
-      b = (type(p) == VLIST_NODE);
-    break;
-    /*:505*/
-
-  case IF_X_CODE:   /*507:*/
-    savescannerstatus = scanner_status;
-    scanner_status = NORMAL;
-    getnext();
-    n = curcs;
-    p = curcmd;
-    q = curchr;
-    getnext();
-    if (curcmd != p)
-      b = false;
-    else if (curcmd < call)
-      b = (curchr == q);
-    else {
-      /* 508:*/
-      p = link(curchr);
-      q = link(equiv(n));
-      if (p == q)
-	b = true;
-      else {
-	while (p != 0 && q != 0) {
-	  if (info(p) != info(q))
-	    p = 0;
-	  else {
-	    p = link(p);
-	    q = link(q);
-	  }
-	}
-	b = (p == 0 && q == 0);
-      }
-    }
-    scanner_status = savescannerstatus;
-    break;
-    /*:507*/
-
-  case IF_EOF_CODE:
-    scanfourbitint();
-    b = (readopen[curval] == closed);
-    break;
-
-  case IF_TRUE_CODE:
-    b = true;
-    break;
-
-  case IF_FALSE_CODE:
-    b = false;
-    break;
-
-  case IF_CASE_CODE:   /*509:*/
-    scanint();
-    n = curval;
-    if (tracingcommands > 1) {
-      begindiagnostic();
-      print(S(661));
-      print_int(n);
-      print_char('}');
-      enddiagnostic(false);
-    }
-    while (n != 0) {
-      passtext();
-      if (condptr == savecondptr) {
-	if (curchr != orcode)
-	  goto _Lcommonending;
-	n--;
-	continue;
-      }
-      if (curchr != ficode)   /*496:*/
-	continue;
-      /*:496*/
-      p = condptr;
-      ifline = iflinefield(p);
-      curif = subtype(p);
-      iflimit = type(p);
-      condptr = link(p);
-      freenode(p, ifnodesize);
-    }
-    changeiflimit(orcode, savecondptr);
-    goto _Lexit;
-    break;
-    /*:509*/
-  }
-  if (tracingcommands > 1) {   /*502:*/
-    begindiagnostic();
-    if (b)
-      print(S(662));
-    else
-      print(S(663));
-    enddiagnostic(false);
-  }
-  /*:502*/
-  if (b) {
-    changeiflimit(elsecode, savecondptr);
-    goto _Lexit;
-  }  /*500:*/
-  while (true) {   /*:500*/
-    passtext();
-    if (condptr == savecondptr) {
-      if (curchr != orcode)
-	goto _Lcommonending;
-      printnl(S(292));
-      print(S(558));
-      print_esc(S(664));
-      help1(S(559));
-      error();
-      continue;
-    }
-    if (curchr != ficode)   /*496:*/
-      continue;
-    /*:496*/
-    p = condptr;
-    ifline = iflinefield(p);
-    curif = subtype(p);
-    iflimit = type(p);
-    condptr = link(p);
-    freenode(p, ifnodesize);
-  }
 _Lcommonending:
-  if (curchr == ficode) {   /*496:*/
-    p = condptr;
-    ifline = iflinefield(p);
-    curif = subtype(p);
-    iflimit = type(p);
-    condptr = link(p);
-    freenode(p, ifnodesize);
-  }  /*:496*/
-  else
-    iflimit = ficode;
-_Lexit: ;
+    if (curchr == ficode) { /*496:*/
+        p = condptr;
+        ifline = iflinefield(p);
+        curif = subtype(p);
+        iflimit = type(p);
+        condptr = link(p);
+        freenode(p, ifnodesize);
+    } /*:496*/
+    else
+        iflimit = ficode;
+_Lexit:;
 
-  /*:508*/
+    /*:508*/
 }
 /*:498*/
 
+
+/// [ #511. File names. ] 
+
 /*515:*/
-Static void beginname(void)
-{
-  extdelimiter = 0;
-}
+Static void beginname(void) { extdelimiter = 0; }
 /*:515*/
 
 /*516:*/
-Static Boolean morename(ASCIICode c)
-{
-  if (c == ' ')
-    return false;
-  else {
-    str_room(1);
-    if (c == '.' && extdelimiter == 0) {
-	extdelimiter = makestring();
+Static Boolean morename(ASCIICode c) {
+    if (c == ' ') {
+        return false;
+    } else {
+        str_room(1);
+        if (c == '.' && extdelimiter == 0) {
+            extdelimiter = makestring();
+        }
+        append_char(c);
+        return true;
     }
-    append_char(c);
-    return true;
-  }
 }
 /*:516*/
 
 /*517:*/
-Static void endname(void)
-{
-  curarea = S(385);
-  if (extdelimiter == 0) {
-	curext = S(385);
-	curname = makestring();
-  } else {
-	curname = extdelimiter;
-	curext = makestring();
-  }
+Static void endname(void) {
+    curarea = S(385);
+    if (extdelimiter == 0) {
+        curext = S(385);
+        curname = makestring();
+    } else {
+        curname = extdelimiter;
+        curext = makestring();
+    }
 }
 
 long filename_k;
-Static void appendtoname(StrASCIICode x)
-{
-	filename_k++;
-	if (filename_k<=filenamesize) {
-           name_of_file[filename_k-1]=xchr[x];
-	}
+Static void appendtoname(StrASCIICode x) {
+    filename_k++;
+    if (filename_k <= filenamesize) {
+        name_of_file[filename_k - 1] = xchr[x];
+    }
 }
 /*:517*/
 
 /*519:*/
-void packfilename(StrNumber n, StrNumber a, StrNumber e)
-{
-  long k;
+void packfilename(StrNumber n, StrNumber a, StrNumber e) {
+    long k;
 
-  k = 0;
-  filename_k = 0;
-  str_map(a,appendtoname);
-  str_map(n,appendtoname);
-  str_map(e,appendtoname);
-  k = filename_k;
-  if (k <= filenamesize)
-    namelength = k;
-  else
-    namelength = filenamesize;
-  for (k = namelength; k < filenamesize; k++)
-    name_of_file[k] = ' ';
-}  /*:519*/
+    k = 0;
+    filename_k = 0;
+    str_map(a, appendtoname);
+    str_map(n, appendtoname);
+    str_map(e, appendtoname);
+    k = filename_k;
+    if (k <= filenamesize)
+        namelength = k;
+    else
+        namelength = filenamesize;
+    for (k = namelength; k < filenamesize; k++)
+        name_of_file[k] = ' ';
+} /*:519*/
 
 /*525:*/
-Static StrNumber makenamestring(void)
-{
+Static StrNumber makenamestring(void) {
     int k;
     for (k = 0; k < namelength; k++) {
         append_char(xord[name_of_file[k]]);
@@ -7104,23 +6908,9 @@ Static StrNumber makenamestring(void)
     return (makestring());
 }
 
-
-Static StrNumber amakenamestring(void)
-{
-  return (makenamestring());
-}
-
-
-Static StrNumber bmakenamestring(void)
-{
-  return (makenamestring());
-}
-
-
-Static StrNumber wmakenamestring()
-{
-  return (makenamestring());
-}
+Static StrNumber amakenamestring(void) { return (makenamestring()); }
+Static StrNumber bmakenamestring(void) { return (makenamestring()); }
+Static StrNumber wmakenamestring(void) { return (makenamestring()); }
 /*:525*/
 
 /*526:*/
@@ -7142,12 +6932,11 @@ Static void scanfilename(void) {
 /*:526*/
 
 /*529:*/
-Static void packjobname(StrNumber s)
-{
-  curarea = S(385);
-  curext = s;
-  curname = jobname;
-  packfilename(curname,curarea,curext);
+Static void packjobname(StrNumber s) {
+    curarea = S(385);
+    curext = s;
+    curname = jobname;
+    packfilename(curname, curarea, curext);
 }
 /*:529*/
 
@@ -7284,17 +7073,15 @@ Static void startinput(void) {
 /*:537*/
 
 /*581:*/
-Static void charwarning(InternalFontNumber f, EightBits c)
-{
-  if (tracinglostchars <= 0)
-    return;
-  begindiagnostic();
-  printnl(S(678));
-  print(c);
-  print(S(679));
-  slow_print(get_fontname(f));
-  print_char('!');
-  enddiagnostic(false);
+Static void charwarning(InternalFontNumber f, EightBits c) {
+    if (tracinglostchars <= 0) return;
+    begindiagnostic();
+    printnl(S(678));
+    print(c);
+    print(S(679));
+    slow_print(get_fontname(f));
+    print_char('!');
+    enddiagnostic(false);
 }
 /*:581*/
 
@@ -7326,31 +7113,37 @@ _Lexit:
 /*:618*/
 
 /*619:*/
+
+
+
+
+/// [ #1340. Extensions. ]
+
 /*1368:*/
-Static void specialout(HalfWord p)
-{
-  enum Selector old_setting;
+Static void specialout(HalfWord p) {
+    enum Selector old_setting;
 
-  synchh();
-  synchv();
-  old_setting = selector;
-  selector = NEW_STRING;
-  showtokenlist(link(writetokens(p)), 0, POOL_SIZE /* - pool_ptr */ );
-  selector = old_setting;
-  str_room(1);
-  { int p_len=cur_length(); /* XXXX - Assumes byte=StrASCIICode */
-#define XXX1            239
-#define XXX4            242
+    synchh();
+    synchv();
+    old_setting = selector;
+    selector = NEW_STRING;
+    showtokenlist(link(writetokens(p)), 0, POOL_SIZE /* - pool_ptr */);
+    selector = old_setting;
+    str_room(1);
+    {
+        int p_len = cur_length(); /* XXXX - Assumes byte=StrASCIICode */
+        #define XXX1 239
+        #define XXX4 242
 
-    if (p_len< 256) {
-	dviout(XXX1);
-	dviout(p_len);
-    } else {
-	dviout(XXX4);
-	dvi_four(p_len);
+        if (p_len < 256) {
+            dviout(XXX1);
+            dviout(p_len);
+        } else {
+            dviout(XXX4);
+            dvi_four(p_len);
+        }
+        str_cur_map(dviout_helper);
     }
-    str_cur_map(dviout_helper);
-  }
 }
 /*:1368*/
 
@@ -13606,14 +13399,13 @@ Static void reportillegalcase(void)
 /*:1050*/
 
 /*1051:*/
-Static Boolean privileged(void)
-{
-  if (mode > 0)
-    return true;
-  else {
-    reportillegalcase();
-    return false;
-  }
+Static Boolean privileged(void) {
+    if (mode > 0)
+        return true;
+    else {
+        reportillegalcase();
+        return false;
+    }
 }
 /*:1051*/
 
@@ -13636,44 +13428,23 @@ Static Boolean itsallover(void) {
 /*:1054*/
 
 /*1060:*/
-Static void appendglue(void)
-{
-  SmallNumber s;
+Static void appendglue(void) {
+    SmallNumber s;
 
-  s = curchr;
-  switch (s) {
-
-  case FIL_CODE:
-    curval = filglue;
-    break;
-
-  case FILL_CODE:
-    curval = fillglue;
-    break;
-
-  case SS_CODE:
-    curval = ssglue;
-    break;
-
-  case FIL_NEG_CODE:
-    curval = filnegglue;
-    break;
-
-  case SKIP_CODE:
-    scanglue(glueval);
-    break;
-
-  case MSKIP_CODE:
-    scanglue(muval);
-    break;
-  }
-  tailappend(newglue(curval));
-  if (s < SKIP_CODE)
-    return;
-  (gluerefcount(curval))--;
-  if (s > SKIP_CODE)
-    subtype(tail) = muglue;
-}  /*:1060*/
+    s = curchr;
+    switch (s) {
+        case FIL_CODE:      curval = filglue; break;
+        case FILL_CODE:     curval = fillglue; break;
+        case SS_CODE:       curval = ssglue; break;
+        case FIL_NEG_CODE:  curval = filnegglue; break;
+        case SKIP_CODE:     scanglue(glueval); break;
+        case MSKIP_CODE:    scanglue(muval); break;
+    }
+    tailappend(newglue(curval));
+    if (s < SKIP_CODE) return;
+    (gluerefcount(curval))--;
+    if (s > SKIP_CODE) subtype(tail) = muglue;
+} /*:1060*/
 
 
 /*1061:*/
@@ -14016,14 +13787,13 @@ Static void package(SmallNumber c)
 /*:1086*/
 
 /*1091:*/
-Static SmallNumber normmin(long h)
-{
-  if (h <= 0)
-    return 1;
-  else if (h >= 63)
-    return 63;
-  else
-    return h;
+Static SmallNumber normmin(long h) {
+    if (h <= 0)
+        return 1;
+    else if (h >= 63)
+        return 63;
+    else
+        return h;
 }
 
 
@@ -14920,18 +14690,9 @@ Static void buildchoices(void) {
     unsave();
     p = finmlist(0);
     switch (saved(-1)) {
-        case 0:
-            displaymlist(tail) = p;
-            break;
-
-        case 1:
-            textmlist(tail) = p;
-            break;
-
-        case 2:
-            scriptmlist(tail) = p;
-            break;
-
+        case 0: displaymlist(tail) = p; break;
+        case 1: textmlist(tail) = p; break;
+        case 2: scriptmlist(tail) = p; break;
         case 3:
             scriptscriptmlist(tail) = p;
             saveptr--;
