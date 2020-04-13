@@ -439,15 +439,17 @@ void prune_movements(Integer l) {
 } // #615: prune_movements
 
 // #616
-void synch_h(Scaled curh, Scaled dvih) {
+Scaled synch_h(Scaled curh, Scaled dvih) {
     if (curh != dvih) {
         movement(curh - dvih, RIGHT1);
-        dvih = curh;
+        // dvih = curh;
     }
+    return curh;
 }
-void synch_v(Scaled curv, Scaled dviv) {
+Scaled synch_v(Scaled curv, Scaled dviv) {
     if (curv != dviv) {
-        movement(curv - dviv, RIGHT1);
-        dviv = curv;
+        movement(curv - dviv, DOWN1);
+        // dviv = curv;
     }
+    return curv;
 }

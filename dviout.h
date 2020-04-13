@@ -39,7 +39,7 @@ extern void dvipost(
     int totalpages,
     int fontptr
 );
-extern void synch_h(Scaled curh, Scaled dvih);
-extern void synch_v(Scaled curv, Scaled dviv);
+extern Scaled synch_h(Scaled curh, Scaled dvih);
+extern Scaled synch_v(Scaled curv, Scaled dviv);
 
 #endif // #ifndef DIV_OUT_H

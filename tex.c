@@ -290,8 +290,8 @@ Static Integer lq, lr;
 Static Scaled dvih, dviv,   // a DVI reader program thinks we are here
               curh, curv,   // TeX thinks we are here
               curmu;
-#define synchh() synch_h(curh, dvih)
-#define synchv() synch_v(curv, dviv)
+#define synchh() do { dvih = synch_h(curh, dvih); } while(0)
+#define synchv() do { dviv = synch_v(curv, dviv); } while(0)
 Static InternalFontNumber dvif; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 

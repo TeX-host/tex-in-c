@@ -66,7 +66,9 @@ enum DVICommands {
     // set current font to 0
     FNT_NUM_0 = 171,
     FNT_NUM_1,
-    FNT1,       // set current font
+    // emit fnt_num_(2~234)
+
+    FNT1 = 253, // set current font
     FNT2,
     FNT3,
     FNT4,
