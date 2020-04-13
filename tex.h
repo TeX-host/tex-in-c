@@ -99,8 +99,6 @@
 #define carriagereturn  13
 #define invalidcode     127
 
-
-#define hlistnode       0
 #define boxnodesize     7
 #define widthoffset     1
 #define depthoffset     2

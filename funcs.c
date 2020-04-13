@@ -171,7 +171,7 @@ int PASCAL_MAIN(int argc, char** argv) {
     return 0;
 }
 
-static int a_open_in1(char* name, char** path_lst, FILE** f);
+static Boolean a_open_in1(char* name, char** path_lst, FILE** f);
 
 int open_fmt(FILE** fmt, FILE* _not_use_) {
     char* fmt_name;
@@ -206,7 +206,7 @@ void trimspaces(void) {
     fprintf(stderr, "%s", my_buff);
 }
 
-static int a_open_in1(char* name, char** path_lst, FILE** f) {
+static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {
     /* XXXX Fixed buffer size */
     char path_buff[512];
     char* path_dir;
@@ -230,7 +230,7 @@ static int a_open_in1(char* name, char** path_lst, FILE** f) {
 }
 
 /// #51
-int a_open_in(FILE** f) {
+Boolean a_open_in(FILE** f) {
     char** path_lst;
     char* name;
     trimspaces();
@@ -250,11 +250,12 @@ int a_open_in(FILE** f) {
     return a_open_in1(name, path_lst, f);
 }
 
-int a_open_out(FILE** f) {
+Boolean a_open_out(FILE** f) {
     trimspaces();
-    if (!*f)
+    if (!*f) {
         *f = fopen(my_buff, "wb");
-    else
+    } else {
         *f = freopen(my_buff, "wb", *f);
+    }
     return *f != 0;
 }

@@ -44,13 +44,14 @@ enum ErrorLevel {
  * [ p50~57#133~161: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]
  * 
  */
-
+// #define HLIST_NODE 0
 enum NodeType {
-    VLIST_NODE = 1, // #137: type of vlist nodes
-    RULE_NODE,      // #138: type of rule nodes
-    INS_NODE,       // #140: type of insertion nodes
-    MARK_NODE,      // #141: type of a mark node
-    ADJUST_NODE,    // #142: type of an adjust node
+    HLIST_NODE,
+    VLIST_NODE,    // #137: type of vlist nodes
+    RULE_NODE,     // #138: type of rule nodes
+    INS_NODE,      // #140: type of insertion nodes
+    MARK_NODE,     // #141: type of a mark node
+    ADJUST_NODE,   // #142: type of an adjust node
 
     LIGATURE_NODE, // #143: type of a ligature node
     DISC_NODE,     // #145: type of a discretionary node
@@ -58,9 +59,9 @@ enum NodeType {
     MATH_NODE,     // #147: type of a math node
     GLUE_NODE,     // #150: number of words to allocate for a glue specification
 
-    KERN_NODE,    // #155: type of a kern node
-    PENALTY_NODE, // #157: type of a penalty node
-    UNSET_NODE,   // #159: type for an unset node
+    KERN_NODE,     // #155: type of a kern node
+    PENALTY_NODE,  // #157: type of a penalty node
+    UNSET_NODE,    // #159: type for an unset node
 };
 // #138: number of words to allocate for a rule node
 #define rulenodesize    4

@@ -30,185 +30,72 @@ enum DVISetting {
 };
 
 // P226#611
-#define NONE_SEEN   0
-#define Y_SEEN      6
-#define Z_SEEN      12
-
-// DVI byte number for a movement command
-#define location(x) ((x)->locationf)
-#define width(x) ((x)->widthf)
-#define link(x) ((x)->linkf)
-#define info(x) ((x)->infof)
-#define freenode(x, y) free(x)
-
-// #594: an index into the output buffer
-// [0, DVI_BUF_SIZE=800]
-typedef Pointer DVI_Index;
-static EightBits dvibuf[DVI_BUF_SIZE + 1];
-static DVI_Index half_buf, dvi_limit, dvi_ptr;
-static long dvi_offset, dvigone;
-static FILE* dvifile;
-static long lastbop;
+enum StackState {
+    NONE_SEEN = 0, // no y here or z here nodes have been encountered yet
+    Y_SEEN = 6,    // we have seen y here but not z here
+    Z_SEEN = 12    // we have seen z here but not y here
+};
 
 typedef struct move* MovePtr;
 #undef HalfWord
-#undef Pointer
 struct move {
     MovePtr linkf;
     long widthf;
     long locationf;
     char infof;
 };
-static MovePtr down_ptr, rightptr;
+// DVI byte number for a movement command
+#define LOCATION(x) ((x)->locationf)
+#define WIDTH(x)    ((x)->widthf)
+#define LINK(x)     ((x)->linkf)
+#define INFO(x)     ((x)->infof)
+#define FREE_NODE(x, y) free(x)
+
+// #594: an index into the output buffer
+// [0, DVI_BUF_SIZE=800]
+typedef Pointer DVI_Index;
+static EightBits dvibuf[DVI_BUF_SIZE + 1]; // buffer for DVI output
+static DVI_Index half_buf,  // half of dvi buf size
+                 dvi_limit, // end of the current half buffer
+                 dvi_ptr;   // the next available buffer address
+// `DVI_BUF_SIZE` times the number of times 
+// the output buffer has been fully emptied
+static Integer dvi_offset;
+static Integer dvigone; // the number of bytes already output to dvi file
+static FILE* dvifile;
+// LOCATION of previous bop in the DVI output
+// last_bop: [592], 593, 640, 642
+static Integer last_bop; 
+
+static MovePtr down_ptr, right_ptr;
 
 
 /*
-    functions
-*/
+ * 函数定义
+ * 
+ */
 
-int dvi_openout(void) { return a_open_out(&dvifile); }
-
-static MovePtr get_move_node(void) {
-    MovePtr pom = (MovePtr)malloc(sizeof(*pom));
-    if (pom) {
-        return pom;
-    } else {
-        fprintf(stderr, "dviout: Out of memory\n");
-        exit(31);
-    }
-}
-/* End quick hack */
-
-
-// dviout(PUSH)
-inline void dvi_out_push(void) { dviout(PUSH); }
-// dviout(POP)
-inline void dvi_out_pop(void) { dviout(POP); }
-// dviout(EOP)
-inline void dvi_out_eop(void) { dviout(EOP); }
-
-
-void dvi_set_font(int f) {
-    if (!fontused[f]) {
-        dvi_font_def(f);
-        fontused[f] = true;
-    }
-    f--;
-    if (f < 64) {
-        dviout(f + FNT_NUM_0);
-    } else if (f < 255) {
-        dviout(FNT1);
-        dviout(f);
-    }
-    #if 0
-    else { 
-            dviout(fnt2);
-            dviout(f>>8);
-            dviout(f&0xff);
-        }
-    #endif
-}
-
-void dvi_set_char(long c) {
-    if (c >= 128) {
-        dviout(SET1);
-    }
-    dviout(c);
-}
-
-void dvi_setrule(long ruleht, long rulewd) {
-    dviout(SET_RULE);
-    dvi_four(ruleht);
-    dvi_four(rulewd);
-}
-
-void dvi_putrule(long ruleht, long rulewd) {
-    dviout(PUT_RULE);
-    dvi_four(ruleht);
-    dvi_four(rulewd);
-}
-
-void dvi_pre(long num, long den, long mag) {
-    dviout(PRE);
-    dviout(ID_BYTE);
-    dvi_four(num);
-    dvi_four(den);
-    dvi_four(mag);
-}
-
-// #597: 
-static void write_dvi(DVI_Index a, DVI_Index b) {
-    fwrite(&dvibuf[a], b - a + 1, 1, dvifile);
-} // #597: write_dvi
-
+// 初始化 dviout 内部变量
 void dviout_init(void) {
-    /*596:*/
+    // #593
+    last_bop = -1;
+    // #596
     half_buf = DVI_BUF_SIZE / 2;
     dvi_limit = DVI_BUF_SIZE;
     dvi_ptr = 0;
     dvi_offset = 0;
-    dvigone = 0; /*:596*/
-    /*606:*/
-    down_ptr = 0;
-    rightptr = 0; /*:606*/
-    lastbop = -1;
-}
+    dvigone = 0;
+    // #606
+    down_ptr = NULL;
+    right_ptr = NULL;
+} // dviout_init
 
-long get_dvi_mark(void) { return dvi_offset + dvi_ptr; }
+// [#597]: The actual output of dvi_buf[a，b] to dvi file
+static void write_dvi(DVI_Index a, DVI_Index b) {
+    fwrite(&dvibuf[a], b - a + 1, 1, dvifile);
+} // #597: write_dvi
 
-void dvibop(long* counts) {
-    long pageloc = dvi_offset + dvi_ptr;
-    int k;
-    dviout(BOP);
-    for (k = 0; k <= 9; k++)
-        dvi_four(counts[k]);
-    dvi_four(lastbop);
-    lastbop = pageloc;
-}
-
-void dvipost(long num,
-             long den,
-             long mag,
-             long maxv,
-             long maxh,
-             int maxpush,
-             int totalpages,
-             int fontptr) {
-    dviout(POST);
-    dvi_four(lastbop);
-    lastbop = dvi_offset + dvi_ptr - 5;
-    dvi_four(num);
-    dvi_four(den);
-    dvi_four(mag);
-    dvi_four(maxv);
-    dvi_four(maxh);
-    dviout(maxpush / 256);
-    dviout(maxpush & 255);
-    dviout((totalpages / 256) & 255);
-    dviout(totalpages & 255); /*643:*/
-    while (fontptr > 0) {     /*:643*/
-        if (fontused[fontptr]) dvi_font_def(fontptr);
-        fontptr--;
-    }
-}
-
-long dviflush(void) {
-    int k;
-    dviout(POST_POST);
-    dvi_four(lastbop);
-    dviout(ID_BYTE);
-    k = ((DVI_BUF_SIZE - dvi_ptr) & 3) + 4;
-    while (k > 0) {
-        dviout(223);
-        k--;
-    } /*599:*/
-    if (dvi_limit == half_buf) write_dvi(half_buf, DVI_BUF_SIZE - 1);
-    if (dvi_ptr > 0) write_dvi(0, dvi_ptr - 1);
-    fclose(dvifile);
-    return dvi_offset + dvi_ptr;
-}
-
-// #598: outputs half of the buffer
+// [#598]: outputs half of the buffer
 static void dvi_swap(void) {
     if (dvi_limit == DVI_BUF_SIZE) {
         write_dvi(0, half_buf - 1);
@@ -222,14 +109,14 @@ static void dvi_swap(void) {
     dvigone += half_buf;
 } // #598: dvi_swap
 
-// #598
+// [#598]
 void dviout(int x) {
     dvibuf[dvi_ptr] = x;
     dvi_ptr++;
     if (dvi_ptr == dvi_limit) dvi_swap();
 }
 
-// #600: outputs four bytes in two’s complement notation, 
+// [#600]: outputs four bytes in two’s complement notation,
 // without risking arithmetic overflow.
 // TODO: check
 void dvi_four(Integer x) {
@@ -239,18 +126,18 @@ void dvi_four(Integer x) {
     dviout(x & 255);
 }
 
-// #601
+// [#601]
 void dvi_pop(Integer l) {
     if (l == (dvi_offset + dvi_ptr) && dvi_ptr > 0)
         dvi_ptr--;
     else {
-        dvi_out_pop();
+        dviout(POP);
     }
 }
 
 void dviout_helper(StrASCIICode c) { dviout(c); }
 
-// #602
+// [#602]
 void dvi_font_def(InternalFontNumber f) {
     FourQuarters fck = get_fontcheck(f);
     StrNumber fnm = get_fontname(f);
@@ -271,8 +158,22 @@ void dvi_font_def(InternalFontNumber f) {
     str_map(fnm, dviout_helper);
 } // #602: dvi_font_def
 
-// #607
-void movement(Scaled w, EightBits o) {
+static MovePtr get_move_node(void) {
+    MovePtr pom = (MovePtr)malloc(sizeof(*pom));
+    if (pom) {
+        return pom;
+    } else {
+        fprintf(stderr, "dviout: Out of memory\n");
+        exit(31);
+    }
+}
+
+// [p224#607]
+// produces a DVI command for some specified downward or rightward motion.
+// parameters:
+//  + w: the amount of motion
+//  + dvicmd: DOWN1 or RIGHT1
+static void movement(Scaled w, enum DVICommands dvicmd) {
     // have we seen a y or z?
     SmallNumber mstate; 
     // current and top nodes on the stack
@@ -280,35 +181,44 @@ void movement(Scaled w, EightBits o) {
     // index into dvi buf , modulo dvi buf size
     Integer k;
 
-    // new node for the top of the stack
+    // malloc new node
+    // TODO: check impl.
+    //  original code `get_node(movement_node_size)`
     q = get_move_node();
-    width(q) = w;
-    location(q) = dvi_offset + dvi_ptr;
-    if (o == DOWN1) {
-        link(q) = down_ptr;
+    WIDTH(q) = w;
+    LOCATION(q) = dvi_offset + dvi_ptr;
+    if (dvicmd == DOWN1) {
+        LINK(q) = down_ptr;
         down_ptr = q;
     } else {
-        link(q) = rightptr;
-        rightptr = q;
+        LINK(q) = right_ptr;
+        right_ptr = q;
     }
 
-    // p226#611
-    p = link(q);
+    // [p226#611]
+    // Look at the other stack entries until deciding 
+    // what sort of DVI command to generate; 
+    // goto found if node p is a "hit"
+    p = LINK(q);
     mstate = NONE_SEEN;
-    while (p != 0) {
-        if (width(p) == w) { // #612
-            switch (mstate + info(p)) {
+    while (p != NULL) {
+        if (WIDTH(p) == w) {
+            // [#612]: Consider a node with matching width; 
+            // goto found if it’s a hit
+            switch (mstate + INFO(p)) {
                 case NONE_SEEN + YZ_OK:
                 case NONE_SEEN + Y_OK:
                 case Z_SEEN + YZ_OK:
                 case Z_SEEN + Y_OK:
-                    if (location(p) < dvigone) {
-                        goto _Lnotfound;
-                    } else { // #613
-                        k = location(p) - dvi_offset;
+                    if (LOCATION(p) < dvigone) {
+                        goto _L_not_found;
+                    } else {
+                        // [#613]: Change buffered instruction to y or w 
+                        // and goto found
+                        k = LOCATION(p) - dvi_offset;
                         if (k < 0) k += DVI_BUF_SIZE;
-                        dvibuf[k] += Y1 - DOWN1;
-                        info(p) = Y_HERE;
+                        dvibuf[k] += (Y1 - DOWN1);
+                        INFO(p) = Y_HERE;
                         goto _Lfound;
                     }
                     break;
@@ -316,13 +226,15 @@ void movement(Scaled w, EightBits o) {
                 case NONE_SEEN + Z_OK:
                 case Y_SEEN + YZ_OK:
                 case Y_SEEN + Z_OK:
-                    if (location(p) < dvigone) {
-                        goto _Lnotfound;
-                    } else { // #614
-                        k = location(p) - dvi_offset;
+                    if (LOCATION(p) < dvigone) {
+                        goto _L_not_found;
+                    } else { 
+                        // [#614]: Change buffered instruction to z or x
+                        // and goto found
+                        k = LOCATION(p) - dvi_offset;
                         if (k < 0) k += DVI_BUF_SIZE;
-                        dvibuf[k] += Z1 - DOWN1;
-                        info(p) = Z_HERE;
+                        dvibuf[k] += (Z1 - DOWN1);
+                        INFO(p) = Z_HERE;
                         goto _Lfound;
                     }
                     break;
@@ -333,9 +245,12 @@ void movement(Scaled w, EightBits o) {
                 case Z_SEEN + Y_HERE:
                     goto _Lfound;
                     break;
-            } // switch (mstate + info(p))
-        } else { // #611
-            switch (mstate + info(p)) {
+
+                default: break;
+            } // switch (mstate + INFO(p))
+        } else { // WIDTH(p) != w
+            // [#611]
+            switch (mstate + INFO(p)) {
                 case NONE_SEEN + Y_HERE:
                     mstate = Y_SEEN;
                     break;
@@ -346,34 +261,36 @@ void movement(Scaled w, EightBits o) {
 
                 case Y_SEEN + Z_HERE:
                 case Z_SEEN + Y_HERE:
-                    goto _Lnotfound;
+                    goto _L_not_found;
                     break;
+
+                default: break;
             }
         }
-        p = link(p);
-    } // while (p != 0)
+        p = LINK(p);
+    } // while (p != NULL)
 
-_Lnotfound:
-    // p225#610: Generate a down or right command for w and return
-    info(q) = YZ_OK;
+_L_not_found:
+    // [p225#610]: Generate a `down` or `right` command for w and return
+    INFO(q) = YZ_OK;
     if (labs(w) >= 8388608L) {
-        dviout(o + 3); // down4 or right4
+        dviout(dvicmd + 3); // DOWN4 or RIGHT4
         dvi_four(w);
         return;
     }
     if (labs(w) >= 32768L) {
-        dviout(o + 2); // down3 or right3
+        dviout(dvicmd + 2); // DOWN3 or RIGHT3
         if (w < 0) w += 16777216L;
         dviout(w / 65536L);
         w %= 65536L;
         goto _L2;
     }
     if (labs(w) >= 128) {
-        dviout(o + 1); // down2 or right2
+        dviout(dvicmd + 1); // DOWN2 or RIGHT2
         if (w < 0) w += 65536L;
         goto _L2;
     }
-    dviout(o); // down1 or right1
+    dviout(dvicmd); // DOWN1 or RIGHT1
     if (w < 0) w += 256;
     goto _L1;
 
@@ -381,75 +298,178 @@ _L2:
     dviout(w / 256);
 
 _L1:
-    dviout(w & 255);
+    dviout(w % 256);
     return;
 
+// _not_found end
+
+
 _Lfound:
-    // p225#609: Generate a y0 or z0 command in order to reuse a previous
-    // appearance of w
-    info(q) = info(p);
-    if (info(q) == Y_HERE) {
-        dviout(o + Y0 - DOWN1);
-        while (link(q) != p) {
-            q = link(q);
-            switch (info(q)) {
-                case YZ_OK:
-                    info(q) = Z_OK;
-                    break;
-
-                case Y_OK:
-                    info(q) = D_FIXED;
-                    break;
-            } // switch (info(q))
-        } // while (link(q) != p)
-    } else { /*:609*/
-        dviout(o + Z0 - DOWN1);
-        while (link(q) != p) {
-            q = link(q);
-            switch (info(q)) {
-                case YZ_OK:
-                    info(q) = Y_OK;
-                    break;
-
-                case Z_OK:
-                    info(q) = D_FIXED;
-                    break;
-            } // switch (info(q))
-        } // while (link(q) != p)
-    } // _Lfound: if (info(q) == Y_HERE)
+    // [p225#609]:
+    // Generate a y0 or z0 command 
+    // in order to reuse a previous appearance of w
+    INFO(q) = INFO(p);
+    if (INFO(q) == Y_HERE) {
+        dviout(dvicmd + Y0 - DOWN1); // Y0 or W0
+        while (LINK(q) != p) {
+            q = LINK(q);
+            switch (INFO(q)) {
+                case YZ_OK: INFO(q) = Z_OK; break;
+                case Y_OK:  INFO(q) = D_FIXED; break;
+                default: break;
+            } // switch (INFO(q))
+        } // while (LINK(q) != p)
+    } else { // INFO(q) != Y_HERE
+        dviout(dvicmd + Z0 - DOWN1); // Z0 or X0
+        while (LINK(q) != p) {
+            q = LINK(q);
+            switch (INFO(q)) {
+                case YZ_OK: INFO(q) = Y_OK; break;
+                case Z_OK:  INFO(q) = D_FIXED; break;
+                default: break;
+            } // switch (INFO(q))
+        } // while (LINK(q) != p)
+    } // _Lfound: if (INFO(q) == Y_HERE)
 } // #607: movement
 
-// #615: delete movement nodes with location ≥ l
+// [p227#615]: delete movement nodes with LOCATION ≥ l
 void prune_movements(Integer l) {
     MovePtr p;
 
-    while (down_ptr != 0) {
-        if (location(down_ptr) < l) break;
+    while (down_ptr != NULL) {
+        if (LOCATION(down_ptr) < l) break; // goto => break
         p = down_ptr;
-        down_ptr = link(p);
-        freenode(p, MOVEMENT_NODE_SIZE);
+        down_ptr = LINK(p);
+        FREE_NODE(p, MOVEMENT_NODE_SIZE);
     }
 
-    while (rightptr != 0) {
-        if (location(rightptr) < l) break;
-        p = rightptr;
-        rightptr = link(p);
-        freenode(p, MOVEMENT_NODE_SIZE);
+    while (right_ptr != NULL) {
+        if (LOCATION(right_ptr) < l) break;
+        p = right_ptr;
+        right_ptr = LINK(p);
+        FREE_NODE(p, MOVEMENT_NODE_SIZE);
     }
 } // #615: prune_movements
 
 // #616
-Scaled synch_h(Scaled curh, Scaled dvih) {
-    if (curh != dvih) {
-        movement(curh - dvih, RIGHT1);
-        // dvih = curh;
+// 返回 cur_h 在 tex.c 中通过赋值更新 dvi_h
+Scaled synch_h(Scaled cur_h, Scaled dvi_h) {
+    if (cur_h != dvi_h) {
+        movement(cur_h - dvi_h, RIGHT1);
+        // dvi_h = cur_h;
     }
-    return curh;
+    return cur_h; 
 }
-Scaled synch_v(Scaled curv, Scaled dviv) {
-    if (curv != dviv) {
-        movement(curv - dviv, DOWN1);
-        // dviv = curv;
+// 返回 cur_v 在 tex.c 中通过赋值更新 dvi_v
+Scaled synch_v(Scaled cur_v, Scaled dvi_v) {
+    if (cur_v != dvi_v) {
+        movement(cur_v - dvi_v, DOWN1);
+        // dvi_v = cur_v;
     }
-    return curv;
+    return cur_v; 
+}
+
+
+/// 辅助函数
+/// 帮助访问/修改 dviout 的内部变量
+
+inline void dviout_ID_BYTE(void)    { dviout(ID_BYTE); }
+inline void dviout_SET_RULE(void)   { dviout(SET_RULE); }
+inline void dviout_PUT_RULE(void)   { dviout(PUT_RULE); }
+inline void dviout_EOP(void)        { dviout(EOP); }
+inline void dviout_PUSH(void)       { dviout(PUSH); }
+inline void dviout_POP(void)        { dviout(POP); }
+inline void dviout_PRE(void)        { dviout(PRE); }
+inline void dviout_POST(void)       { dviout(POST); }
+
+long get_dvi_mark(void) { return dvi_offset + dvi_ptr; }
+Boolean dvi_openout(void) { return a_open_out(&dvifile); }
+
+// used in [p236#638]: shipout
+void _dvibop(long counts[]) {
+    // page_loc: [638], 640
+    long pageloc = dvi_offset + dvi_ptr;
+    dviout(BOP);
+    for (int k = 0; k <= 9; k++) {
+        dvi_four(counts[k]);
+    }
+    dvi_four(last_bop);
+    last_bop = pageloc;
+}
+
+void _dvi_lastbop(void) {
+    dvi_four(last_bop);
+    last_bop = dvi_offset + dvi_ptr - 5;
+}
+
+void dvi_set_font(int f) {
+    if (!fontused[f]) {
+        dvi_font_def(f);
+        fontused[f] = true;
+    }
+    f--;
+    if (f < 64) {
+        dviout(f + FNT_NUM_0);
+    } else if (f < 255) {
+        dviout(FNT1);
+        dviout(f);
+    }
+    #if 0
+        else { 
+                dviout(fnt2);
+                dviout(f>>8);
+                dviout(f&0xff);
+            }
+    #endif
+}
+
+void dvi_set_char(long c) {
+    if (c >= 128) {
+        dviout(SET1);
+    }
+    dviout(c);
+}
+
+long dviflush(void) {
+    int k;
+    dviout(POST_POST);
+    dvi_four(last_bop);
+    dviout(ID_BYTE);
+    k = ((DVI_BUF_SIZE - dvi_ptr) % 4) + 4; // the number of 223’s
+    while (k > 0) {
+        dviout(223);
+        k--;
+    }
+    // #599: Empty the last bytes out of dvi buf
+    if (dvi_limit == half_buf) write_dvi(half_buf, DVI_BUF_SIZE - 1);
+    if (dvi_ptr > 0) write_dvi(0, dvi_ptr - 1);
+    fclose(dvifile);
+    return dvi_offset + dvi_ptr;
+}
+
+
+void dvipost(long num,
+             long den,
+             long mag_,
+             long maxv,
+             long maxh,
+             int maxpush,
+             int totalpages,
+             int fontptr) {
+    dviout(POST);
+    dvi_four(last_bop);
+    last_bop = dvi_offset + dvi_ptr - 5;
+    dvi_four(num);
+    dvi_four(den);
+    dvi_four(mag_);
+    dvi_four(maxv);
+    dvi_four(maxh);
+    dviout(maxpush / 256);
+    dviout(maxpush & 255);
+    dviout((totalpages / 256) & 255);
+    dviout(totalpages & 255);
+    while (fontptr > 0) {
+        if (fontused[fontptr]) dvi_font_def(fontptr);
+        fontptr--;
+    }
 }
