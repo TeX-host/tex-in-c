@@ -447,7 +447,7 @@ void synch_h(Scaled curh, Scaled dvih) {
 }
 void synch_v(Scaled curv, Scaled dviv) {
     if (curv != dviv) {
-        movement(curv - dviv, RIGHT1);
+        movement(curv - dviv, DOWN1);
         dviv = curv;
     }
 }
