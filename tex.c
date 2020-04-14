@@ -3,6 +3,7 @@
 
 // 前置声明
 Static void vlistout(void);
+Static void fatalerror(StrNumber s);
 
 
 /*
@@ -402,16 +403,17 @@ Static void initialize(void) {
 /*
     #54. On-line and off-line printing.
 
-# Basic printing procedures:
+# Basic printing procedures[13]:
     [57], [58], [59],   60,   [62],
     [63], [64], [65], [262], [263],
-    [518], [699], 1355.
+    [518], [699], [1355].
     println,  printchar,      print,               printnl,
     printesc, print_the_digs, print_int, print_cs, sprint_cs,
     print_file_name, print_size, print_write_whatsit
 */
 
-/// #57
+// #57: 输出换行
+//  全局变量: selector, log_file, term_offset, file_offset, write_file
 void println(void) {
     switch (selector) {
         case TERM_AND_LOG:
@@ -443,13 +445,15 @@ void println(void) {
     } // switch (selector)
 } // #57: println
 
-/// #58
+// #58: 输出一个 ASCII 字符
+// 根据 selector 选择输出位置
+//  全局变量:
+//      selector, log_file, term_offset, file_offset, write_file,
+//      tally, trick_count, trick_buf, xchr
 void print_char(ASCIICode s) {
-    if (s == newlinechar) {
-        if (selector < PSEUDO) {
-            println();
-            return;
-        }
+    if (newlinechar == s && selector < PSEUDO) {
+        println();
+        return;
     }
 
     switch (selector) {
@@ -458,14 +462,8 @@ void print_char(ASCIICode s) {
             fwrite(&xchr[s], 1, 1, log_file);
             term_offset++;
             file_offset++;
-            if (term_offset == MAX_PRINT_LINE) {
-                putc('\n', stdout);
-                term_offset = 0;
-            }
-            if (file_offset == MAX_PRINT_LINE) {
-                putc('\n', log_file);
-                file_offset = 0;
-            }
+            if (term_offset == MAX_PRINT_LINE) println();
+            if (file_offset == MAX_PRINT_LINE) println();
             break;
 
         case LOG_ONLY:
@@ -491,7 +489,7 @@ void print_char(ASCIICode s) {
             break;
 
         case NEW_STRING:
-            append_char(s);
+            append_char(s); // we drop characters if the string space is full
             break;
 
         default:
@@ -510,11 +508,9 @@ void print(StrNumber s) {
             print_char(s); // internal strings are not expanded
             return;
         }
-        if (s == newlinechar) { /// #244
-            if (selector < PSEUDO) {
-                println();
-                return;
-            }
+        if (newlinechar == s && selector < PSEUDO) { /// #244
+            println();
+            return;
         }
 
         // temporarily disable new-line character
@@ -522,48 +518,56 @@ void print(StrNumber s) {
         newlinechar = -1;
         str_print(s);
         newlinechar = nl;
-        return;
     } else {
-        // this can’t happen
+        // s < 0 || s > 255
+        // 错误处理在 str_print 函数内部
         str_print(s);
     } // if (0 <= s && s <= 255) - else
 } // #59: print
 
+// #60: `slow_print` 位于 str.c 中
+
 /// #62: prints string s at beginning of line
 void printnl(StrNumber s) {
-    if ((term_offset > 0 && (selector & 1)) ||
-        (file_offset > 0 && selector >= LOG_ONLY))
+    if (   (term_offset > 0 && (selector & 1)) 
+        || (file_offset > 0 && selector >= LOG_ONLY)) {
         println();
+    }
     print(s);
 } // #62: printnl
 
-/// #63: prints escape character
+/// #63: prints escape character, then s
 void print_esc(StrNumber s) {
-    long c;
+    Integer c = ESCAPE_CHAR; // the escape character code
 
-    c = ESCAPE_CHAR;
     if (0 <= c && c <= 255) {
         print(c);
     }
     slow_print(s);
 } // #63: print_esc
 
-/// #64: prints dig[k − 1]...dig[0]
+// #64: prints dig[k − 1]...dig[0]
+// dig[k] = [0, 15] (hex value: 0~F)
 Static void print_the_digs(EightBits k, char dig[]) {
     while (k > 0) {
         k--;
         if (dig[k] < 10) {
+            // 0~9
             print_char('0' + dig[k]);
         } else {
-            print_char('A' + dig[k] - 10);
+            // A~F
+            print_char('A' - 10 + dig[k]);
         }
     } // while (k > 0)
 } // #64: print_the_digs
 
 /// #65: prints an integer in decimal form
 void print_int(Integer n) {
-    int k = 0; // index to current digit; we assume that n < 10^23
-    Integer m; // used to negate n in possibly dangerous cases
+    // index to current digit; we assume that n < 10^23
+    // k = [0, 23]
+    int k = 0; 
+    // used to negate n in possibly dangerous cases
+    Integer m; 
     char dig[23];
 
     if (n < 0) {
@@ -571,7 +575,7 @@ void print_int(Integer n) {
         if (n > -100000000L) {
             n = -n;
         } else {
-            m = -n - 1;
+            m = -1 - n;
             n = m / 10;
             m = (m % 10) + 1;
             k = 1;
@@ -592,35 +596,113 @@ void print_int(Integer n) {
     print_the_digs(k, dig);
 } // #65: print_int
 
-/// #262: prints a purported control sequence
+/// #66: 打印两位数 (0 <= n <= 99)
+Static void print_two(Integer n) {
+    n = labs(n) % 100;
+    print_char('0' + n / 10);
+    print_char('0' + n % 10);
+}
+
+/// #67: 打印十六进制的非负整数 (n >= 0)
+void print_hex(Integer n) {
+    UChar k = 0; // [0, 22], 0<= n <= 16^22
+    char digs[23];
+
+    print_char('"');
+    do {
+        digs[k] = n % 16;
+        n /= 16;
+        k++;
+    } while (n != 0);
+    print_the_digs(k, digs);
+} // #67: print_hex
+
+// #69: 打印罗马数字
+// Notice: 1990 => "mcmxc", not "mxm"
+Static void print_roman_int(Integer n) {
+    int j, k;
+    NonNegativeInteger u, v;
+    const char romstr[] = "m2d5c2l5x2v5i";
+
+    j = 0;
+    v = 1000;
+    while (true) {
+        while (n >= v) {
+            print_char(romstr[j]);
+            n -= v;
+        }
+        // nonpositive input produces no output
+        if (n <= 0) break;
+
+        k = j + 2;
+        u = v / (romstr[k - 1] - '0');
+        if (romstr[k - 1] == '2') {
+            k += 2;
+            u /= romstr[k - 1] - '0';
+        }
+        if (n + u >= v) {
+            print_char(romstr[k]);
+            n += u;
+        } else {
+            j += 2;
+            v /= romstr[j - 1] - '0';
+        }
+    } // while (true)
+} // #69: print_roman_int
+
+// #70: print current string #str.c
+
+/// #71: gets a line from the terminal
+Static void term_input(void) {
+    UInt16 k; // [0, bufsize=5000]
+
+    // now the user sees the prompt for sure
+    fflush(stdout); // update terminal
+    if (!inputln(stdin, true)) {
+        fatalerror(S(302)); // "End of file on the terminal!"
+    }
+
+    term_offset = 0; // the user’s line ended with hreturni
+    selector--;      // prepare to echo the input
+    if (last != first) {
+        for (k = first; k < last; k++)
+            print(buffer[k]);
+    }
+    println();
+    selector++; // restore previous status
+} // #71: term_input
+
+
+// #262: prints a purported control sequence
+// [Basic printing procedures]
 Static void print_cs(long p) {
     if (p < hashbase) {
+        // single character
         if (p >= singlebase) {
             if (p == nullcs) {
-                print_esc(S(262));
-                print_esc(S(263));
-                return;
-            }
-            print_esc(p - singlebase);
-            if (catcode(p - singlebase) == letter) print_char(' ');
-            return;
-        }
-        if (p < activebase)
-            print_esc(S(264));
-        else
-            print(p - activebase);
-        return;
-    }
-    if (p >= undefinedcontrolsequence) {
-        print_esc(S(264));
-        return;
-    }
-    if (!str_valid(text(p)))
-        print_esc(S(265));
-    else {
+                print_esc(S(262)); // "csname"
+                print_esc(S(263)); // "endcsname"
+                print_char(' ');
+            } else {
+                print_esc(p - singlebase);
+                if (catcode(p - singlebase) == letter) 
+                    print_char(' ');
+            } // if (p == nullcs) - else
+        } else {
+            if (p < activebase) {
+                print_esc(S(264)); // "IMPOSSIBLE."
+            } else {
+                print(p - activebase);
+            } // if (p < activebase) - else
+        } // if (p >= singlebase) - else
+    } else if (p >= undefinedcontrolsequence) {
+        print_esc(S(264)); // "IMPOSSIBLE."
+    } else if (!str_valid(text(p))) {
+        print_esc(S(265)); // "NONEXISTENT."
+    } else {
         print_esc(text(p));
         print_char(' ');
-    }
+    } // if - elseif - ... - else
 } // #262: print_cs
 
 /// #263: prints a control sequence
@@ -633,11 +715,12 @@ void sprint_cs(HalfWord p) {
         print(p - activebase);
         return;
     }
-    if (p < nullcs)
+
+    if (p < nullcs) {
         print_esc(p - singlebase);
-    else {
-        print_esc(S(262));
-        print_esc(S(263));
+    } else {
+        print_esc(S(262)); // "csname"
+        print_esc(S(263)); // "endcsname"
     }
 } // #263: sprint_cs
 
@@ -651,25 +734,26 @@ void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
 /// #699
 void print_size(Integer s) {
     if (s == TEXT_SIZE) {
-        print_esc(S(266));
-        return;
+        print_esc(S(266)); // "textfont"
+    } else {
+        if (s == SCRIPT_SIZE) {
+            print_esc(S(267)); // "scriptfont"
+        } else {
+            print_esc(S(268)); // "scriptscriptfont"
+        }
     }
-    if (s == SCRIPT_SIZE)
-        print_esc(S(267));
-    else
-        print_esc(S(268));
 } // #699: print_size
 
 /// #1355
-Static void print_write_whatsit(StrNumber s, HalfWord p) {
+Static void print_write_whatsit(StrNumber s, Pointer p) {
     print_esc(s);
     if (writestream(p) < 16) {
         print_int(writestream(p));
     } else if (writestream(p) == 16) {
         print_char('*');
-    } else {
+    } else { // writestream(p) > 16
         print_char('-');
-    }
+    } // if (writestream(p) <> 16)
 } // #1355: print_write_whatsit
 
 
@@ -949,73 +1033,6 @@ Static Boolean initterminal(void) {
 /*:37*/
 
 
-/// #66
-Static void print_two(Integer n) {
-    n = labs(n) % 100;
-    print_char('0' + n / 10);
-    print_char('0' + n % 10);
-}
-
-/// #67
-void print_hex(Integer n) {
-    int k;
-    char digs[23];
-
-    k = 0;
-    print_char('"');
-    do {
-        digs[k] = n & 15;
-        n /= 16;
-        k++;
-    } while (n != 0);
-    print_the_digs(k, digs);
-}
-
-/// #69
-Static void print_roman_int(Integer n) {
-    int j, k;
-    NonNegativeInteger u, v;
-    static char romstr[] = "m2d5c2l5x2v5i";
-
-    j = 0;
-    v = 1000;
-    while (true) {
-        while (n >= v) {
-            print_char(romstr[j]);
-            n -= v;
-        }
-        if (n <= 0) return;
-        k = j + 2;
-        u = v / (romstr[k - 1] - '0');
-        if (romstr[k - 1] == '2') {
-            k += 2;
-            u /= romstr[k - 1] - '0';
-        }
-        if (n + u >= v) {
-            print_char(romstr[k]);
-            n += u;
-        } else {
-            j += 2;
-            v /= romstr[j - 1] - '0';
-        }
-    }
-}
-
-/// #71: gets a line from the terminal
-Static void term_input(void) {
-    short k;
-
-    fflush(stdout);
-    if (!inputln(stdin, true)) fatalerror(S(302));
-    term_offset = 0;
-    selector--;
-    if (last != first) {
-        for (k = first; k < last; k++)
-            print(buffer[k]);
-    }
-    println();
-    selector++;
-}
 
 
 /*

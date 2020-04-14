@@ -4,7 +4,8 @@
 #ifndef _INC_TEX_ONLY
 #define _INC_TEX_ONLY
 
-/// p24#54: On-line and off-line printing
+// p24#54: On-line and off-line printing
+// enum Selector = [16, 21]
 //     use by `selector`
 enum Selector {
     NO_PRINT = 16, // doesn’t print at all

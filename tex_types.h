@@ -43,7 +43,7 @@ typedef uint64_t    UInteger;   // UInteger(64) = [0, 2^64)
 typedef size_t      Pointer;    // Pointer::size_t(64)
 
 typedef int16_t     Int16;      // Int16(16) = [-(2^15), 2^15)
-typedef uint16_t    UInt16;     // UInt16(16) = [0, 2^16]
+typedef uint16_t    UInt16;     // UInt16(16) = [0, 2^16) = [0, 65536)
 #else
 // fallback
 typedef unsigned char   UChar;      // UChar(8) = [0, 255]
@@ -55,7 +55,7 @@ typedef unsigned long   UInteger;   // Integer::ulong(32/64) = [0, 2^32)
 typedef unsigned int    Pointer;    // Pointer::Uint(32)
 
 typedef short           Int16;      // Int16(16) = [-(2^15), 2^15)
-typedef unsigned short  UInt16;     // UInt16(16) = [0,2^16]
+typedef unsigned short  UInt16;     // UInt16(16) = [0, 2^16) = [0, 65536)
 #endif // _STDINT
 
 

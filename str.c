@@ -108,13 +108,15 @@ int get_strings_started(void) {
     63, 64, 65, 262, 263, 
     518, 699, 1355.
     slow_print, 
+
+    大多数放在 tex.c 中
 */
 /// #60: prints string s
 void slow_print(StrNumber s) {
     if (s >= str_ptr || s < 256) {
         print(s);
-        return;
     } else {
+        // 256 <= s <= str_ptr
         for (PoolPtr j = str_start[s]; j < str_end(s); j++) {
             print(pool_elem(j, 0));
         }
@@ -244,26 +246,26 @@ long str_adjust_to_room(long l) {
 }
 
 void str_cur_map(void (*f)(StrASCIICode)) {
-    PoolPtr s;
-    for (s = str_start[str_ptr]; s < pool_ptr; s++) {
+    for (PoolPtr s = str_start[str_ptr]; s < pool_ptr; s++) {
         f(pool_elem(s, 0));
     }
     pool_ptr = str_start[str_ptr];
 }
 
-void str_map(StrNumber k, void (*f)(StrASCIICode)) {
-    PoolPtr s;
-    PoolPtr s_end = str_start[k] + str_length(k);
-    for (s = str_start[k]; s < s_end; s++) {
-        f(pool_elem(s, 0));
+// 辅助函数对字符串的每一个字符调用 f
+void str_map(StrNumber str, void (*f)(StrASCIICode)) {
+    for (PoolPtr p = str_start[str]; p < str_end(str); p++) {
+        f(pool_elem(p, 0));
     }
 }
 
 // void print_char_helper(StrASCIICode c) { print_char(c); } // _not_use_
 
-void str_print(StrNumber k) {
-    if (k >= str_ptr) k = S(261);
-    str_map(k, print_char);
+// 辅助函数。自带 `s >= str_ptr` 检查
+// `print` 依赖的的内部实现
+void str_print(StrNumber s) {
+    if (s < 0 || s >= str_ptr) s = S(261); // "???"
+    str_map(s, print_char);
 }
 
 static void f_pool_helper(ASCIICode c) { fputc(c, stderr); }

@@ -580,6 +580,7 @@
 #define choicenode      (UNSET_NODE + 2)
 
 /// p258#699: Subroutines for math mode
+// enum FontSizeCode {};
 // size code for the largest size in a family
 #define TEXT_SIZE           0
 // size code for the medium size in a family

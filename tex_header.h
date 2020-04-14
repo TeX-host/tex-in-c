@@ -487,7 +487,7 @@ Static Boolean longhelpseen;
 Static FILE* fmtfile = NULL;
 /*:1305*/
 /*1342:*/
-Static FILE* write_file[16];
+Static FILE* write_file[16]; // [0~15]
 Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/
