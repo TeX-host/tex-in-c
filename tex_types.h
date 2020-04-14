@@ -141,6 +141,8 @@ typedef struct {
 
 // [p43#113]: FourQuarters(64)
 //  fq.b0, fq.b1, fq.b2, fq.b3
+// TODO: 应当还原为 16 bit
+//  font.c 中会依次读入 char 然后赋值
 typedef struct {
     QuarterWord b0, b1, b2, b3; // (16)
 } FourQuarters; // (16*4=64)

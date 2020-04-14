@@ -304,99 +304,189 @@ _Lbadfmt_:
     return 0;
 }
 
-/*560:*/
+// [p205#560]: input a TFM file
 InternalFontNumber
 readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
-    FontIndex k;
-    Boolean fileopened;
-    int lf, lh, bc, ec, nw, nh, nd, ni, nl, nk, ne, np;
-    InternalFontNumber f, g;
-    int a, b, c, d;
-    FourQuarters qw;
-    Scaled sw, z;
-    long bchlabel;
+    FontIndex k; // index into font info
+    Boolean fileopened; // was tfm file successfully opened?
+
+    // sizes of subfiles
+    int lf; // length of the entire file, in words
+    int lh; // length of the header data, in words
+    int bc; // smallest character code in the font
+    int ec; // largest character code in the font
+    int nw; // number of words in the width table
+    int nh; // number of words in the height table
+    int nd; // number of words in the depth table
+    int ni; // number of words in the italic correction table
+    int nl; // number of words in the lig/kern table
+    int nk; // number of words in the kern table
+    int ne; // number of words in the extensible character table
+    int np; // number of font parameter words
+
+    InternalFontNumber f; // the new font’s number
+    InternalFontNumber g; // the number to return
+    int a, b, c, d; // byte variables
+
+    // accumulators
+    FourQuarters qw; 
+    Scaled sw;
+
+    Scaled z;      // the design size or the “at” size
+    long bchlabel; // left boundary start location, or infinity
     short bchar;
-    long alpha;
+    Integer alpha; // auxiliary quantities used in fixed-point multiplication
     char beta;
     FontIndex FORLIM;
     FILE* tfmfile = 0;
 
-    g = NULL_FONT; /*562:*/
-    /*563:*/
+    g = NULL_FONT;
+
+    /*
+        [ #562 ]
+        Read and check the font data;
+            `abort` if the TFM file is malformed;
+        if there’s no room for this font,
+            say so and goto done;
+        otherwise
+            incr(font ptr) and goto done
+
+        [#563] Open tfm file for input 
+        [#565] Read the TFM size fields 
+        [#566] Use size fields to allocate font information 
+        [#568] Read the TFM header 
+        [#569] Read character data 
+        [#571] Read box dimensions 
+        [#573] Read ligature/kern program 
+        [#574] Read extensible character recipes 
+        [#575] Read font parameters 
+        [#576] Make final adjustments and goto done 
+
+    */
+
+    /// #563: Open tfm file for input
     fileopened = false;
-    if (aire == S(385))
-        packfilename(nom, S(1281), S(1282));
-    else
-        packfilename(nom, aire, S(1282));
+    if (aire == S(385)) { // ""
+        packfilename(nom, S(1281), S(1282)); 
+    } else {
+        packfilename(nom, aire, S(1282)); // ".tfm"
+    }
     if (!a_open_in(&tfmfile)) goto _Lbadtfm_;
-    fileopened = true; /*:563*/
-    /*565:*/
-    lf = getc(tfmfile);
-    if (lf > 127) goto _Lbadtfm_;
-    lf = lf * 256 + getc(tfmfile);
-    lh = getc(tfmfile);
-    if (lh > 127) goto _Lbadtfm_;
-    lh = lh * 256 + getc(tfmfile);
-    bc = getc(tfmfile);
-    if (bc > 127) goto _Lbadtfm_;
-    bc = bc * 256 + getc(tfmfile);
-    ec = getc(tfmfile);
-    if (ec > 127) goto _Lbadtfm_;
-    ec = ec * 256 + getc(tfmfile);
-    if (bc > ec + 1 || ec > 255) goto _Lbadtfm_;
-    if (bc > 255) {
+    fileopened = true;
+
+    #define READ_SIXTEEN(var) do {              \
+            var = getc(tfmfile);                \
+            if (var > 127) goto _Lbadtfm_;      \
+            var = var * 256 + getc(tfmfile);    \
+        } while (0)
+
+    // #565: Read the TFM size fields
+    #ifndef READ_SIXTEEN
+        lf = getc(tfmfile);
+        if (lf > 127) goto _Lbadtfm_;
+        lf = lf * 256 + getc(tfmfile);
+        lh = getc(tfmfile);
+        if (lh > 127) goto _Lbadtfm_;
+        lh = lh * 256 + getc(tfmfile);
+        bc = getc(tfmfile);
+        if (bc > 127) goto _Lbadtfm_;
+        bc = bc * 256 + getc(tfmfile);
+        ec = getc(tfmfile);
+        if (ec > 127) goto _Lbadtfm_;
+        ec = ec * 256 + getc(tfmfile);
+    #else
+        READ_SIXTEEN(lf);
+        READ_SIXTEEN(lh);
+        READ_SIXTEEN(bc);
+        READ_SIXTEEN(ec);
+    #endif // READ_SIXTEEN
+    
+    if (bc > (ec + 1) || ec > 255) goto _Lbadtfm_;
+    if (bc > 255) { // bc = 256 and ec = 255
         bc = 1;
         ec = 0;
     }
-    nw = getc(tfmfile);
-    if (nw > 127) goto _Lbadtfm_;
-    nw = nw * 256 + getc(tfmfile);
-    nh = getc(tfmfile);
-    if (nh > 127) goto _Lbadtfm_;
-    nh = nh * 256 + getc(tfmfile);
-    nd = getc(tfmfile);
-    if (nd > 127) goto _Lbadtfm_;
-    nd = nd * 256 + getc(tfmfile);
-    ni = getc(tfmfile);
-    if (ni > 127) goto _Lbadtfm_;
-    ni = ni * 256 + getc(tfmfile);
-    nl = getc(tfmfile);
-    if (nl > 127) goto _Lbadtfm_;
-    nl = nl * 256 + getc(tfmfile);
-    nk = getc(tfmfile);
-    if (nk > 127) goto _Lbadtfm_;
-    nk = nk * 256 + getc(tfmfile);
-    ne = getc(tfmfile);
-    if (ne > 127) goto _Lbadtfm_;
-    ne = ne * 256 + getc(tfmfile);
-    np = getc(tfmfile);
-    if (np > 127) goto _Lbadtfm_;
-    np = np * 256 + getc(tfmfile);
-    if (lf != lh + ec - bc + nw + nh + nd + ni + nl + nk + ne + np + 7) /*:565*/
-        goto _Lbadtfm_;
-    /*566:*/
-    lf += -lh - 6;
+    #ifndef READ_SIXTEEN
+        nw = getc(tfmfile);
+        if (nw > 127) goto _Lbadtfm_;
+        nw = nw * 256 + getc(tfmfile);
+        nh = getc(tfmfile);
+        if (nh > 127) goto _Lbadtfm_;
+        nh = nh * 256 + getc(tfmfile);
+        nd = getc(tfmfile);
+        if (nd > 127) goto _Lbadtfm_;
+        nd = nd * 256 + getc(tfmfile);
+        ni = getc(tfmfile);
+        if (ni > 127) goto _Lbadtfm_;
+        ni = ni * 256 + getc(tfmfile);
+        nl = getc(tfmfile);
+        if (nl > 127) goto _Lbadtfm_;
+        nl = nl * 256 + getc(tfmfile);
+        nk = getc(tfmfile);
+        if (nk > 127) goto _Lbadtfm_;
+        nk = nk * 256 + getc(tfmfile);
+        ne = getc(tfmfile);
+        if (ne > 127) goto _Lbadtfm_;
+        ne = ne * 256 + getc(tfmfile);
+        np = getc(tfmfile);
+        if (np > 127) goto _Lbadtfm_;
+        np = np * 256 + getc(tfmfile);
+    #else
+        READ_SIXTEEN(nw);
+        READ_SIXTEEN(nh);
+        READ_SIXTEEN(nd);
+        READ_SIXTEEN(ni);
+
+        READ_SIXTEEN(nl);
+        READ_SIXTEEN(nk);
+        READ_SIXTEEN(ne);
+        READ_SIXTEEN(np);
+    #endif // READ_SIXTEEN
+    
+    if (
+        lf != (
+            6 + lh 
+            + (ec - bc + 1)
+            + nw + nh + nd + ni 
+            + nl + nk + ne + np 
+        )
+    ) goto _Lbadtfm_;
+    if (nw == 0 || nh == 0 || nd == 0 || ni == 0) goto _Lbadtfm_;
+
+    /// #566: Use size fields to allocate font information
+    // lf words should be loaded into font info
+    lf += -lh - 6; 
+    // at least seven parameters will appear
     if (np < 7) lf += 7 - np;
-    if (fontptr == FONT_MAX || fmemptr + lf > FONT_MEM_SIZE) { /*567:*/
-        printnl(S(292));
-        print(S(588));
+    if (fontptr == FONT_MAX || (fmemptr + lf) > FONT_MEM_SIZE) {
+        // #567: Apologize for not loading the font, goto done
+
+        // #561: `start font error message`
+        // Report that the font won’t be loaded
+        printnl(S(292));    // "! "
+        print(S(588));      // "Font "
         sprint_cs(u);
         print_char('=');
-        print_file_name(nom, aire, S(385));
+        print_file_name(nom, aire, S(385)); // ""
         if (s >= 0) {
-            print(S(642));
+            print(S(642));  // " at "
             print_scaled(s);
-            print(S(459));
+            print(S(459));  // "pt"
         } else if (s != -1000) {
-            print(S(1283));
+            print(S(1283)); // " scaled "
             print_int(-s);
         }
-        print(S(1284));
+        print(S(1284)); // " not loaded: Not enough room left"
+
+        // "I´m afraid I won´t be able to make use of this font,"
+        // "because my memory for character−size data is too small."
+        // "If you´re really stuck, ask a wizard to enlarge me."
+        // "Or maybe try `I\font<same font id>=<name of loaded font>´."
         help4(S(1285), S(1286), S(1287), S(1288));
         error();
         goto _Ldone;
-    }
-    /*:567*/
+    } // if (fontptr == FONT_MAX || (fmemptr + lf) > FONT_MEM_SIZE)
+
     f = fontptr + 1;
     charbase[f] = fmemptr - bc;
     widthbase[f] = charbase[f] + ec + 1;
@@ -406,24 +496,47 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     ligkernbase[f] = italicbase[f] + ni;
     kernbase[f] = ligkernbase[f] + nl - kernbaseoffset;
     extenbase[f] = kernbase[f] + kernbaseoffset + nk;
-    parambase[f] = extenbase[f] + ne; /*:566*/
-    /*568:*/
+    parambase[f] = extenbase[f] + ne;
+
+    /// #568: Read the TFM header
     if (lh < 2) goto _Lbadtfm_;
-    a = getc(tfmfile);
-    qw.b0 = a;
-    b = getc(tfmfile);
-    qw.b1 = b;
-    c = getc(tfmfile);
-    qw.b2 = c;
-    d = getc(tfmfile);
-    qw.b3 = d;
+
+    // #564
+    #define STORE_FOUR_QUARTERS(_qw)    \
+        do {                            \
+            a = _qw.b0 = getc(tfmfile); \
+            b = _qw.b1 = getc(tfmfile); \
+            c = _qw.b2 = getc(tfmfile); \
+            d = _qw.b3 = getc(tfmfile); \
+        } while (0)
+
+    #ifndef STORE_FOUR_QUARTERS
+        a = getc(tfmfile);
+        qw.b0 = a;
+        b = getc(tfmfile);
+        qw.b1 = b;
+        c = getc(tfmfile);
+        qw.b2 = c;
+        d = getc(tfmfile);
+        qw.b3 = d;
+    #else
+        STORE_FOUR_QUARTERS(qw);
+    #endif // STORE_FOUR_QUARTERS
     fontcheck[f] = qw;
-    z = getc(tfmfile);
-    if (z > 127) goto _Lbadtfm_;
-    z = z * 256 + getc(tfmfile);
+
+    // this rejects a negative design size
+    #ifndef READ_SIXTEEN
+        z = getc(tfmfile);
+        if (z > 127) goto _Lbadtfm_;
+        z = z * 256 + getc(tfmfile);
+    #else
+        READ_SIXTEEN(z);
+    #endif
     z = z * 256 + getc(tfmfile);
     z = z * 16 + getc(tfmfile) / 16;
     if (z < UNITY) goto _Lbadtfm_;
+
+    // ignore the rest of the header
     while (lh > 2) {
         getc(tfmfile);
         getc(tfmfile);
@@ -433,28 +546,37 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     }
     fontdsize[f] = z;
     if (s != -1000) {
-        if (s >= 0)
+        if (s >= 0) {
             z = s;
-        else
+        } else {
             z = xn_over_d(z, -s, 1000);
+        }
     }
-    fontsize[f] = z; /*:568*/
-    /*569:*/
-    FORLIM = widthbase[f];
-    for (k = fmemptr; k < FORLIM; k++) { /*:569*/
-        a = getc(tfmfile);
-        qw.b0 = a;
-        b = getc(tfmfile);
-        qw.b1 = b;
-        c = getc(tfmfile);
-        qw.b2 = c;
-        d = getc(tfmfile);
-        qw.b3 = d;
-        fontinfo[k].qqqq = qw;
-        if (a >= nw || b / 16 >= nh || (b & 15) >= nd || c / 4 >= ni)
-            goto _Lbadtfm_;
-        switch (c & 3) {
+    fontsize[f] = z;
 
+    /// #569: Read character data
+    FORLIM = widthbase[f];
+    for (k = fmemptr; k < FORLIM; k++) {
+        #ifndef STORE_FOUR_QUARTERS
+            a = getc(tfmfile);
+            qw.b0 = a;
+            b = getc(tfmfile);
+            qw.b1 = b;
+            c = getc(tfmfile);
+            qw.b2 = c;
+            d = getc(tfmfile);
+            qw.b3 = d;
+        #else
+            STORE_FOUR_QUARTERS(qw);
+        #endif // STORE_FOUR_QUARTERS
+        fontinfo[k].qqqq = qw;
+        if (a >= nw 
+            || (b / 16) >= nh 
+            || (b % 16) >= nd 
+            || (c / 4)  >= ni
+        ) goto _Lbadtfm_;
+
+        switch (c % 4) {
             case LIG_TAG:
                 if (d >= nl) goto _Lbadtfm_;
                 break;
@@ -463,49 +585,58 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
                 if (d >= ne) goto _Lbadtfm_;
                 break;
 
-            case LIST_TAG: /*570:*/
+            case LIST_TAG: 
+                // #570: Check for charlist cycle
                 if (d < bc || d > ec) goto _Lbadtfm_;
-                while (d < k + bc - fmemptr) {
+                while (d < (k + bc - fmemptr)) {
+                    // N.B.: not qi(d), 
+                    // since char base[f] hasn't been adjusted yet
                     qw = charinfo(f, d);
-                    if (chartag(qw) != LIST_TAG) {
-                        goto _Lnotfound;
-                    }
+                    if (chartag(qw) != LIST_TAG) goto _Lnotfound;
+                    // next character on the list
                     d = rembyte(qw) - MIN_QUARTER_WORD;
                 }
-                if (d == k + bc - fmemptr) goto _Lbadtfm_;
+                if (d == (k + bc - fmemptr)) goto _Lbadtfm_;
+            
+            case NO_TAG:
+            default:
             _Lnotfound:;
                 break;
-                /*:570*/
-        }
-    }
-    /*571:*/
-    /*572:*/
+        } // switch (c % 4)
+    } // #569: for (k = fmemptr; k < FORLIM; k++)
+
+
+    /// #571: Read box dimensions
+    /// #572: Replace z by z 0 and compute α,β
     alpha = 16;
     while (z >= 8388608L) {
         z /= 2;
         alpha += alpha;
     }
     beta = 256 / alpha;
-    alpha *= z; /*:572*/
+    alpha *= z;
+
     FORLIM = ligkernbase[f];
     for (k = widthbase[f]; k < FORLIM; k++) {
+        // store scaled
         a = getc(tfmfile);
         b = getc(tfmfile);
         c = getc(tfmfile);
         d = getc(tfmfile);
-        sw = ((d * z / 256 + c * z) / 256 + b * z) / beta;
-        if (a == 0)
+        sw = (((d * z / 256) + (c * z)) / 256 + (b * z)) / beta;
+        if (a == 0) {
             fontinfo[k].sc = sw;
-        else if (a == 255)
+        } else if (a == 255) {
             fontinfo[k].sc = sw - alpha;
-        else
+        } else {
             goto _Lbadtfm_;
-    }
-    if (fontinfo[widthbase[f]].sc != 0) goto _Lbadtfm_;
+        }
+    } // for (k = widthbase[f]; k < FORLIM; k++)
+    if (fontinfo[widthbase[f]].sc  != 0) goto _Lbadtfm_;
     if (fontinfo[heightbase[f]].sc != 0) goto _Lbadtfm_;
-    if (fontinfo[depthbase[f]].sc != 0) goto _Lbadtfm_;
-    if (fontinfo[italicbase[f]].sc != 0) /*:571*/
-        goto _Lbadtfm_;
+    if (fontinfo[depthbase[f]].sc  != 0) goto _Lbadtfm_;
+    if (fontinfo[italicbase[f]].sc != 0) goto _Lbadtfm_;
+
     /*573:*/
     bchlabel = 32767;
     bchar = 256;
@@ -651,7 +782,10 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     g = f;
     goto _Ldone; /*:576*/
                  /*:562*/
-_Lbadtfm_:       /*561:*/
+
+_Lbadtfm_:
+    // Report that the font won’t be loaded
+    /*561:*/
     printnl(S(292));
     print(S(588));
     sprint_cs(u);
@@ -675,4 +809,4 @@ _Lbadtfm_:       /*561:*/
 _Ldone:
     if (fileopened) fclose(tfmfile);
     return g;
-}
+} // p205#560: readfontinfo
