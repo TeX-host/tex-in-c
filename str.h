@@ -10,15 +10,15 @@
 // inipool[2] only
 #define STRING_VACANCIES 8000
 // str[4], tex[4]
-#define POOL_SIZE 3200000
+#define POOL_SIZE (1024 * 1024 * 4 - 1) // 4 MB
 
 #define POOLPOINTER_IS_POINTER 1
 #if POOLPOINTER_IS_POINTER
-typedef ASCIICode* PoolPtr;
+typedef ASCIICode* PoolPtr; // pool_pointer
 #define POOL_TOP (str_pool + POOL_SIZE)
 #define POOL_ELEM(x, y) ((x)[(y)])
 #else
-typedef int PoolPtr;
+typedef Pointer PoolPtr; // PoolPtr = [0, POOL_SIZE=3200000]
 #define POOL_TOP POOL_SIZE
 #define POOL_ELEM(x, y) (str_pool[(x) + (y)])
 #endif
