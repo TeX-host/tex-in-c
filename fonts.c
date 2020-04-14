@@ -306,7 +306,7 @@ _Lbadfmt_:
 
 // [p205#560]: input a TFM file
 InternalFontNumber
-readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
+readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     FontIndex k; // index into font info
     Boolean fileopened; // was tfm file successfully opened?
 
@@ -333,12 +333,14 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     Scaled sw;
 
     Scaled z;      // the design size or the “at” size
-    long bchlabel; // left boundary start location, or infinity
-    short bchar;
-    Integer alpha; // auxiliary quantities used in fixed-point multiplication
-    char beta;
-    FontIndex FORLIM;
-    FILE* tfmfile = 0;
+    Integer bchlabel; // left boundary start location, or infinity
+    Char bchar;    // right boundary character, or 256
+    // auxiliary quantities used in fixed-point multiplication
+    Integer alpha;
+    UChar beta; // [1, 16]
+
+    FontIndex FORLIM; // for 循环上限
+    FILE* tfmfile = NULL;
 
     g = NULL_FONT;
 

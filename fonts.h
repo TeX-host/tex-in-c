@@ -31,7 +31,7 @@ extern Scaled charkern(InternalFontNumber x, FourQuarters y);
 extern FourQuarters get_fontcheck(InternalFontNumber x);
 extern void fonts_init(void);
 extern InternalFontNumber
-readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s);
+readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s);
 extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);
 extern long get_hyphenchar(InternalFontNumber x); // texmac.h

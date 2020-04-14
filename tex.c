@@ -706,7 +706,7 @@ Static void print_cs(long p) {
 } // #262: print_cs
 
 /// #263: prints a control sequence
-void sprint_cs(HalfWord p) {
+void sprint_cs(Pointer p) {
     if (p >= hashbase) {
         print_esc(text(p));
         return;
