@@ -637,12 +637,74 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     if (fontinfo[depthbase[f]].sc  != 0) goto _Lbadtfm_;
     if (fontinfo[italicbase[f]].sc != 0) goto _Lbadtfm_;
 
-    /*573:*/
-    bchlabel = 32767;
+    /// #573: Read ligature/kern program
+    bchlabel = 32767; // 077777
     bchar = 256;
     if (nl > 0) {
         FORLIM = kernbase[f] + kernbaseoffset;
         for (k = ligkernbase[f]; k < FORLIM; k++) {
+            #ifndef STORE_FOUR_QUARTERS
+                a = getc(tfmfile);
+                qw.b0 = a;
+                b = getc(tfmfile);
+                qw.b1 = b;
+                c = getc(tfmfile);
+                qw.b2 = c;
+                d = getc(tfmfile);
+                qw.b3 = d;
+            #else
+                STORE_FOUR_QUARTERS(qw);
+            #endif // STORE_FOUR_QUARTERS
+            fontinfo[k].qqqq = qw;
+        
+            if (a > 128) {
+                if ((c * 256 + d) >= nl) goto _Lbadtfm_;
+                if (a == 255 && k == ligkernbase[f]) bchar = b;
+            } else {
+                if (b != bchar) {
+                    // check_existence(b)
+                    if (b < bc || b > ec) goto _Lbadtfm_;
+                    qw = charinfo(f, b);
+                    if (!charexists(qw)) goto _Lbadtfm_;
+                }
+                if (c < 128) {
+                    // // check_existence(d)
+                    if (d < bc || d > ec) goto _Lbadtfm_;
+                    qw = charinfo(f, d);
+                    if (!charexists(qw)) goto _Lbadtfm_;
+                } else if ((256 * (c - 128) + d) >= nk) {
+                    goto _Lbadtfm_;
+                } // if (c < 128)
+                if (a < 128) {
+                    if ((k - ligkernbase[f] + a + 1) >= nl) goto _Lbadtfm_;
+                }
+            } // if (a > 128) - else
+        } // for (k = ligkernbase[f]; k < FORLIM; k++)
+        if (a == 255) bchlabel = c * 256 + d;
+    } // if (nl > 0)
+
+    FORLIM = extenbase[f];
+    for (k = kernbase[f] + kernbaseoffset; k < FORLIM; k++) {
+        // store scaled
+        a = getc(tfmfile);
+        b = getc(tfmfile);
+        c = getc(tfmfile);
+        d = getc(tfmfile);
+        sw = (((d * z / 256) + (c * z)) / 256 + (b * z)) / beta;
+        if (a == 0) {
+            fontinfo[k].sc = sw;
+        } else if (a == 255) {
+            fontinfo[k].sc = sw - alpha;
+        } else {
+            goto _Lbadtfm_;
+        }
+    }
+
+
+    /// #574: Read extensible character recipes
+    FORLIM = parambase[f];
+    for (k = extenbase[f]; k < FORLIM; k++) { /*:574*/
+        #ifndef STORE_FOUR_QUARTERS
             a = getc(tfmfile);
             qw.b0 = a;
             b = getc(tfmfile);
@@ -651,58 +713,11 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
             qw.b2 = c;
             d = getc(tfmfile);
             qw.b3 = d;
-            fontinfo[k].qqqq = qw;
-            if (a > 128) {
-                if (c * 256 + d >= nl) goto _Lbadtfm_;
-                if (a == 255) {
-                    if (k == ligkernbase[f]) bchar = b;
-                }
-            } else {
-                if (b != bchar) {
-                    if (b < bc || b > ec) goto _Lbadtfm_;
-                    qw = charinfo(f, b);
-                    if (!charexists(qw)) goto _Lbadtfm_;
-                }
-                if (c < 128) {
-                    if (d < bc || d > ec) goto _Lbadtfm_;
-                    qw = charinfo(f, d);
-                    if (!charexists(qw)) goto _Lbadtfm_;
-                } else if ((c - 128) * 256 + d >= nk)
-                    goto _Lbadtfm_;
-                if (a < 128) {
-                    if (k - ligkernbase[f] + a + 1 >= nl) goto _Lbadtfm_;
-                }
-            }
-        }
-        if (a == 255) bchlabel = c * 256 + d;
-    }
-    FORLIM = extenbase[f];
-    for (k = kernbase[f] + kernbaseoffset; k < FORLIM; k++) {
-        /*:573*/
-        a = getc(tfmfile);
-        b = getc(tfmfile);
-        c = getc(tfmfile);
-        d = getc(tfmfile);
-        sw = ((d * z / 256 + c * z) / 256 + b * z) / beta;
-        if (a == 0)
-            fontinfo[k].sc = sw;
-        else if (a == 255)
-            fontinfo[k].sc = sw - alpha;
-        else
-            goto _Lbadtfm_;
-    }
-    /*574:*/
-    FORLIM = parambase[f];
-    for (k = extenbase[f]; k < FORLIM; k++) { /*:574*/
-        a = getc(tfmfile);
-        qw.b0 = a;
-        b = getc(tfmfile);
-        qw.b1 = b;
-        c = getc(tfmfile);
-        qw.b2 = c;
-        d = getc(tfmfile);
-        qw.b3 = d;
+        #else
+            STORE_FOUR_QUARTERS(qw);
+        #endif // STORE_FOUR_QUARTERS
         fontinfo[k].qqqq = qw;
+    
         if (a != 0) {
             if (a < bc || a > ec) goto _Lbadtfm_;
             qw = charinfo(f, a);
@@ -721,8 +736,10 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
         if (d < bc || d > ec) goto _Lbadtfm_;
         qw = charinfo(f, d);
         if (!charexists(qw)) goto _Lbadtfm_;
-    }
-    /*575:*/
+    } // for (k = extenbase[f]; k < FORLIM; k++)
+
+
+    /// #575: Read font parameters
     for (k = 1; k <= np; k++) {
         if (k == 1) {
             sw = getc(tfmfile);
@@ -731,40 +748,43 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
             sw = sw * 256 + getc(tfmfile);
             fontinfo[parambase[f]].sc = sw * 16 + getc(tfmfile) / 16;
         } else {
+            // store scaled
             a = getc(tfmfile);
             b = getc(tfmfile);
             c = getc(tfmfile);
             d = getc(tfmfile);
             sw = ((d * z / 256 + c * z) / 256 + b * z) / beta;
-            if (a == 0)
+            if (a == 0) {
                 fontinfo[parambase[f] + k - 1].sc = sw;
-            else if (a == 255)
+            } else if (a == 255) {
                 fontinfo[parambase[f] + k - 1].sc = sw - alpha;
-            else
+            } else {
                 goto _Lbadtfm_;
-        }
-    }
+            }
+        } // if (k == 1) - else
+    } // for (k = 1; k <= np; k++)
     if (feof(tfmfile)) goto _Lbadtfm_;
-    for (k = np; k <= 6; k++) /*:575*/
-        fontinfo[parambase[f] + k].sc = 0;
-    /*576:*/
-    if (np >= 7)
+    for (k = np; k <= 6; k++) fontinfo[parambase[f] + k].sc = 0;
+
+
+    // #576: Make final adjustments and goto done
+    if (np >= 7) {
         fontparams[f] = np;
-    else
+    } else {
         fontparams[f] = 7;
+    }
     hyphenchar[f] = get_defaulthyphenchar();
     skewchar[f] = get_defaultskewchar();
-    if (bchlabel < nl)
+    if (bchlabel < nl) {
         bcharlabel[f] = bchlabel + ligkernbase[f];
-    else
+    } else {
         bcharlabel[f] = nonaddress;
+    }
     fontbchar[f] = bchar;
     fontfalsebchar[f] = bchar;
-    if (bchar <= ec) {
-        if (bchar >= bc) {
-            qw = charinfo(f, bchar);
-            if (charexists(qw)) fontfalsebchar[f] = nonchar;
-        }
+    if (bchar >= bc && bchar <= ec) {
+        qw = charinfo(f, bchar);
+        if (charexists(qw)) fontfalsebchar[f] = nonchar;
     }
     fontname[f] = nom;
     fontarea[f] = aire;
@@ -780,32 +800,38 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     fmemptr += lf;
     fontptr = f;
     g = f;
-    goto _Ldone; /*:576*/
-                 /*:562*/
+    goto _Ldone;
 
 _Lbadtfm_:
+    // #561: `start font error message`
     // Report that the font won’t be loaded
-    /*561:*/
-    printnl(S(292));
-    print(S(588));
+    printnl(S(292));    // "! "
+    print(S(588));      // "Font "
     sprint_cs(u);
     print_char('=');
-    print_file_name(nom, aire, S(385));
+    print_file_name(nom, aire, S(385)); // ""
     if (s >= 0) {
-        print(S(642));
+        print(S(642));  // " at "
         print_scaled(s);
-        print(S(459));
+        print(S(459));  // "pt"
     } else if (s != -1000) {
-        print(S(1283));
+        print(S(1283)); // " scaled "
         print_int(-s);
     }
-    if (fileopened)
-        print(S(1289));
-    else
-        print(S(1290));
+    if (fileopened) {
+        print(S(1289)); // " not loadable: Bad metric (TFM) file"
+    } else {
+        print(S(1290)); // " not loadable: Metric (TFM) file not found"
+    }
+
+    // "I wasn´t able to read the size data for this font,"
+    // "so I will ignore the font specification."
+    // "[Wizards can fix TFM files using TFtoPL/PLtoTF.]"
+    // "You might try inserting a different font spec;"
+    // "e.g., type `I\font<same font id>=<substitute font name>´."
     help5(S(1291), S(1292), S(1293), S(1294), S(1295));
-    /*:561*/
     error();
+
 _Ldone:
     if (fileopened) fclose(tfmfile);
     return g;
