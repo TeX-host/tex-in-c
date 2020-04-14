@@ -12,19 +12,29 @@
 // str[4], tex[4]
 #define POOL_SIZE 3200000
 
+#define POOLPOINTER_IS_POINTER 1
+#if POOLPOINTER_IS_POINTER
+typedef ASCIICode* PoolPtr;
+#define POOL_TOP (str_pool + POOL_SIZE)
+#define POOL_ELEM(x, y) ((x)[(y)])
+#else
+typedef int PoolPtr;
+#define POOL_TOP POOL_SIZE
+#define POOL_ELEM(x, y) (str_pool[(x) + (y)])
+#endif
+
+// [str], tex
+typedef struct {
+    PoolPtr val; // 暂存 pool_ptr::PoolPtr
+} StrPoolPtr;
+// dviout, fonts, funcs.h, global.h, str, tex
+typedef int StrNumber;
+
 
 #ifdef tt_INIT
 // [str], tex
 extern int get_strings_started(void); // #47
 #endif // tt_INIT
-
-// str, tex
-typedef struct {
-    long val;
-} StrPoolPtr;
-// dviout, fonts, funcs.h, global.h, str, tex
-typedef int StrNumber;
-
 
 // [str], dviout, tex
 extern void str_map(StrNumber k, void (*f)(ASCIICode));

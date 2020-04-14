@@ -7,20 +7,8 @@
 #include "texfunc.h" // [func] print_char
 #include "str.h"    // [export]
 
-#define MAX_STRINGS 300000
-#define POOLPOINTER_IS_POINTER 1
-#if POOLPOINTER_IS_POINTER
-typedef ASCIICode* PoolPtr;
-#define POOL_TOP (str_pool + POOL_SIZE)
-#define pool_elem(x, y) ((x)[(y)])
-#else
-typedef int PoolPtr;
-#define POOL_TOP POOL_SIZE
-#define pool_elem(x, y) (str_pool[(x) + (y)])
-#endif
-
 /// #39
-static ASCIICode str_pool[POOL_SIZE + 1];    // the characters
+static ASCIICode    str_pool[POOL_SIZE + 1];    // the characters
 static PoolPtr      str_start[MAX_STRINGS + 1]; // the starting pointers
 static PoolPtr      pool_ptr;   // first unused position in str pool 
 static StrNumber    str_ptr;    // number of the current string being created
@@ -42,7 +30,7 @@ int cur_length() { return pool_ptr - str_start[str_ptr]; }
 /// #42: put ASCII code s at the end of str pool
 void append_char(ASCIICode s) {
     str_room(1);
-    pool_elem(pool_ptr, 0) = s;
+    POOL_ELEM(pool_ptr, 0) = s;
     pool_ptr++;
 }
 // forget the last character in the pool
@@ -70,7 +58,7 @@ int str_cmp(StrNumber s, StrNumber t) {
     PoolPtr k = str_start[t];
     int l = 0, dif;
     while (l < str_length(s) && l < str_length(t)) {
-        dif = pool_elem(j, l) - pool_elem(k, l);
+        dif = POOL_ELEM(j, l) - POOL_ELEM(k, l);
         if (dif) {
             return dif;
         }
@@ -119,7 +107,7 @@ void slow_print(StrNumber s) {
     } else {
         // 256 <= s <= str_ptr
         for (PoolPtr j = str_start[s]; j < str_end(s); j++) {
-            print(pool_elem(j, 0));
+            print(POOL_ELEM(j, 0));
         }
     }
 } // #60: slow_print
@@ -130,13 +118,13 @@ void printcurrentstring(void) {
 
     j = str_start[str_ptr];
     while (j < pool_ptr) {
-        print_char(pool_elem(j, 0));
+        print_char(POOL_ELEM(j, 0));
         j++;
     }
 }
 
 
-int str_getc(StrNumber s, int k) { return pool_elem(str_start[s], k); }
+int str_getc(StrNumber s, int k) { return POOL_ELEM(str_start[s], k); }
 
 void str_set_init_ptrs(void) {
     init_str_ptr = str_ptr;
@@ -145,17 +133,17 @@ void str_set_init_ptrs(void) {
 
 StrPoolPtr str_mark(void) {
     StrPoolPtr res;
-    res.val = (long)pool_ptr;
+    res.val = pool_ptr;
     return res;
 }
 
 void str_map_from_mark(StrPoolPtr b, void (*f)(ASCIICode)) {
-    PoolPtr k = (PoolPtr)b.val;
+    PoolPtr k = b.val;
     while (k < pool_ptr) {
-        f(pool_elem(k, 0));
+        f(POOL_ELEM(k, 0));
         k++;
     }
-    pool_ptr = (PoolPtr)b.val;
+    pool_ptr = b.val;
 }
 
 void str_print_stats(FILE* f_log_file) {
@@ -248,7 +236,7 @@ long str_adjust_to_room(long l) {
 
 void str_cur_map(void (*f)(ASCIICode)) {
     for (PoolPtr s = str_start[str_ptr]; s < pool_ptr; s++) {
-        f(pool_elem(s, 0));
+        f(POOL_ELEM(s, 0));
     }
     pool_ptr = str_start[str_ptr];
 }
@@ -256,7 +244,7 @@ void str_cur_map(void (*f)(ASCIICode)) {
 // 辅助函数对字符串的每一个字符调用 f
 void str_map(StrNumber str, void (*f)(ASCIICode)) {
     for (PoolPtr p = str_start[str]; p < str_end(str); p++) {
-        f(pool_elem(p, 0));
+        f(POOL_ELEM(p, 0));
     }
 }
 
@@ -281,7 +269,7 @@ void f_pool(StrNumber s) {
 StrNumber idlookup_s(StrNumber s, int nonew) {
     PoolPtr k = str_start[s];
     int l = str_length(s);
-    return idlookup_p(&pool_elem(k, 0), l, nonew);
+    return idlookup_p(&POOL_ELEM(k, 0), l, nonew);
 }
 
 
@@ -296,8 +284,8 @@ int str_scmp(StrNumber s, short* buffp) {
     int hn = str_length(s);
     int j = 0;
     do {
-        if (pool_elem(u, j) < buffp[j]) return -1;
-        if (pool_elem(u, j) > buffp[j]) return 1;
+        if (POOL_ELEM(u, j) < buffp[j]) return -1;
+        if (POOL_ELEM(u, j) > buffp[j]) return 1;
         j++;
     } while (j < hn); /*932:*/
     return 0;
@@ -305,7 +293,7 @@ int str_scmp(StrNumber s, short* buffp) {
 
 int str_bcmp(unsigned char* buffp, long l, StrNumber s) {
     if (str_length(s) == l) {
-        if (!memcmp(&pool_elem(str_start[s], 0), buffp, l)) return 1;
+        if (!memcmp(&POOL_ELEM(str_start[s], 0), buffp, l)) return 1;
     }
     return 0;
 }
@@ -326,7 +314,7 @@ StrNumber str_insert(unsigned char* buffp, long l) {
     d = cur_length();
     while (pool_ptr > str_start[str_ptr]) {
         pool_ptr--;
-        pool_elem(pool_ptr, l) = pool_elem(pool_ptr, 0);
+        POOL_ELEM(pool_ptr, l) = POOL_ELEM(pool_ptr, 0);
     }
     for (k = 0; k < l; k++) {
         append_char(buffp[k]);
