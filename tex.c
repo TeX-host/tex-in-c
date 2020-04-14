@@ -772,7 +772,7 @@ Static void giveerrhelp(void);
 Static void debughelp(void);
 #endif // 78: tt_DEBUG
 Static jmp_buf _JLendofTEX;
-/*:78*/
+
 
 /*81:*/
 Static void jumpout(void) { longjmp(_JLendofTEX, 1); }
@@ -5730,7 +5730,7 @@ _Lreswitch:
 
 Pointer tex_global_p;
 
-Static void strtoks_helper(StrASCIICode t) {
+Static void strtoks_helper(ASCIICode t) {
     long tt = t;
     Pointer p = tex_global_p;
     if (tt == ' ')
@@ -6398,7 +6398,7 @@ Static void endname(void) {
 }
 
 long filename_k;
-Static void appendtoname(StrASCIICode x) {
+Static void appendtoname(ASCIICode x) {
     filename_k++;
     if (filename_k <= filenamesize) {
         name_of_file[filename_k - 1] = xchr[x];
@@ -6656,7 +6656,7 @@ Static void specialout(HalfWord p) {
     selector = old_setting;
     str_room(1);
     
-    int p_len = cur_length(); /* XXXX - Assumes byte=StrASCIICode */
+    int p_len = cur_length(); /* XXXX - Assumes byte=ASCIICode */
 
     if (p_len < 256) {
         dviout_XXX1();

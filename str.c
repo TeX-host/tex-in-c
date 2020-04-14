@@ -1,15 +1,16 @@
 #include <stdio.h>  // FILE
 #include <string.h> // memcmp
 #include "global_const.h"
-#include "tex.h"
+#include "tex.h"    // [macro] S
+    // [type] Boolean, false, MemoryWord, ASCIICode
 #include "macros.h" // [macro] pget, pput
-#include "texfunc.h"
+#include "texfunc.h" // [func] print_char
 #include "str.h"    // [export]
 
 #define MAX_STRINGS 300000
 #define POOLPOINTER_IS_POINTER 1
 #if POOLPOINTER_IS_POINTER
-typedef StrASCIICode* PoolPtr;
+typedef ASCIICode* PoolPtr;
 #define POOL_TOP (str_pool + POOL_SIZE)
 #define pool_elem(x, y) ((x)[(y)])
 #else
@@ -19,7 +20,7 @@ typedef int PoolPtr;
 #endif
 
 /// #39
-static StrASCIICode str_pool[POOL_SIZE + 1];    // the characters
+static ASCIICode str_pool[POOL_SIZE + 1];    // the characters
 static PoolPtr      str_start[MAX_STRINGS + 1]; // the starting pointers
 static PoolPtr      pool_ptr;   // first unused position in str pool 
 static StrNumber    str_ptr;    // number of the current string being created
@@ -39,7 +40,7 @@ int str_length(StrNumber x) { return str_start[(x) + 1] - str_start[(x)]; }
 int cur_length() { return pool_ptr - str_start[str_ptr]; }
 
 /// #42: put ASCII code s at the end of str pool
-void append_char(StrASCIICode s) {
+void append_char(ASCIICode s) {
     str_room(1);
     pool_elem(pool_ptr, 0) = s;
     pool_ptr++;
@@ -148,7 +149,7 @@ StrPoolPtr str_mark(void) {
     return res;
 }
 
-void str_map_from_mark(StrPoolPtr b, void (*f)(StrASCIICode)) {
+void str_map_from_mark(StrPoolPtr b, void (*f)(ASCIICode)) {
     PoolPtr k = (PoolPtr)b.val;
     while (k < pool_ptr) {
         f(pool_elem(k, 0));
@@ -245,7 +246,7 @@ long str_adjust_to_room(long l) {
     }
 }
 
-void str_cur_map(void (*f)(StrASCIICode)) {
+void str_cur_map(void (*f)(ASCIICode)) {
     for (PoolPtr s = str_start[str_ptr]; s < pool_ptr; s++) {
         f(pool_elem(s, 0));
     }
@@ -253,13 +254,13 @@ void str_cur_map(void (*f)(StrASCIICode)) {
 }
 
 // 辅助函数对字符串的每一个字符调用 f
-void str_map(StrNumber str, void (*f)(StrASCIICode)) {
+void str_map(StrNumber str, void (*f)(ASCIICode)) {
     for (PoolPtr p = str_start[str]; p < str_end(str); p++) {
         f(pool_elem(p, 0));
     }
 }
 
-// void print_char_helper(StrASCIICode c) { print_char(c); } // _not_use_
+// void print_char_helper(ASCIICode c) { print_char(c); } // _not_use_
 
 // 辅助函数。自带 `s >= str_ptr` 检查
 // `print` 依赖的的内部实现

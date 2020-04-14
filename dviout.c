@@ -4,7 +4,7 @@
     // [type] EightBits, FourQuarters, EightBits, SmallNumber
     // true
 #include "str.h"
-    // [type] StrASCIICode, StrNumber
+    // [type] StrNumber
     // [func] str_map, str_length
 #include "fonts.h"
     // [type] InternalFontNumber,
@@ -135,7 +135,7 @@ void dvi_pop(Integer l) {
     }
 }
 
-void dviout_helper(StrASCIICode c) { dviout(c); }
+void dviout_helper(ASCIICode c) { dviout(c); }
 
 // [#602]
 void dvi_font_def(InternalFontNumber f) {

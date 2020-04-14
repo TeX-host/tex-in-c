@@ -2,7 +2,6 @@
 #ifndef DIV_OUT_H
 #define DIV_OUT_H
 #include "fonts.h"  // [type] InternalFontNumber
-#include "str.h"    // [type] StrASCIICode
 
 // #11: size of the output buffer; must be a multiple of 8
 #define DVI_BUF_SIZE 800
@@ -15,7 +14,7 @@ extern void dvi_font_def(InternalFontNumber f);
 extern void prune_movements(Integer l);
 extern Scaled synch_h(Scaled cur_h, Scaled dvi_h);
 extern Scaled synch_v(Scaled cur_v, Scaled dvi_v);
-extern void dviout_helper(StrASCIICode c);
+extern void dviout_helper(ASCIICode c);
 
 // help func
 extern void dviout_ID_BYTE(void);
