@@ -55,12 +55,10 @@ Integer extenbase[FONT_MAX + 1];
 Integer parambase[FONT_MAX + 1];
 
 
-long        get_skewchar(InternalFontNumber x) { return skewchar[x]; }
-extern void set_skewchar(InternalFontNumber x, long c) { skewchar[x] = c; }
-
-long        get_hyphenchar(InternalFontNumber x) { return hyphenchar[x]; }
-extern void set_hyphenchar(InternalFontNumber x, long c) { hyphenchar[x] = c; }
-
+Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
+void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
+Integer get_hyphenchar(InternalFontNumber x) { return hyphenchar[x]; }
+void set_hyphenchar(InternalFontNumber x, Integer c) { hyphenchar[x] = c; }
 Scaled get_fontsize(InternalFontNumber x) { return fontsize[x]; }
 Scaled get_fontdsize(InternalFontNumber x) { return fontdsize[x]; }
 StrNumber get_fontname(InternalFontNumber x) { return fontname[x]; }
@@ -78,11 +76,11 @@ Scaled charitalic(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[italicbase[x] + ((y).b2 / 4)].sc);
 }
 
-Scaled charheight(InternalFontNumber x, int y) {
+Scaled charheight(InternalFontNumber x, Integer y) {
     return (fontinfo[heightbase[x] + ((y) / 16)].sc);
 }
 
-Scaled chardepth(InternalFontNumber x, int y) {
+Scaled chardepth(InternalFontNumber x, Integer y) {
     return (fontinfo[depthbase[x] + ((y) % 16)].sc);
 }
 
