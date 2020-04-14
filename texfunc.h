@@ -30,7 +30,7 @@ extern void printstyle(Integer c);
 extern void printnl(StrNumber s);
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
-extern void sprint_cs(HalfWord p);
+extern void sprint_cs(Pointer p);
 extern void error(void);
 extern Scaled xn_over_d(Scaled x, long n, long d);
 extern Integer get_defaultskewchar(void);
