@@ -91,16 +91,22 @@ Scaled charkern(InternalFontNumber x, FourQuarters y) {
 }
 
 // #552
+// TeX always knows at least one font, namely the null font. 
+// It has no characters, and its seven parameters are all equal to zero.
 void fonts_init(void) {
     fontptr = NULL_FONT;
     fmemptr = 7;
-    fontname[NULL_FONT] = S(1171);
-    fontarea[NULL_FONT] = S(385);
+
+    fontname[NULL_FONT] = S(1171); // "nullfont"
+    fontarea[NULL_FONT] = S(385);  // ""
     hyphenchar[NULL_FONT] = '-';
+
     skewchar[NULL_FONT] = -1;
+
     bcharlabel[NULL_FONT] = nonaddress;
     fontbchar[NULL_FONT] = nonchar;
     fontfalsebchar[NULL_FONT] = nonchar;
+
     fontbc[NULL_FONT] = 1;
     fontec[NULL_FONT] = 0;
     fontsize[NULL_FONT] = 0;
@@ -114,10 +120,12 @@ void fonts_init(void) {
     kernbase[NULL_FONT] = 0;
     extenbase[NULL_FONT] = 0;
     fontglue[NULL_FONT] = 0;
+
     fontparams[NULL_FONT] = 7;
     parambase[NULL_FONT] = -1;
-    for (int k = 0; k <= 6; k++)
+    for (int k = 0; k <= 6; k++) {
         fontinfo[k].sc = 0;
+    }
 } // #552: fonts_init
 
 void fonts_dump(FILE* fmtfile) {
