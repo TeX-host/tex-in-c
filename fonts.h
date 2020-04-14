@@ -2,11 +2,14 @@
 #ifndef FONTS_H
 #define FONTS_H
 #include <stdio.h> // FILE
-
+#include "global_const.h"
 // [fonts], dviout, tex
 
 // #548: [FONT_BASE, FONT_MAX] = [0, 75]
-typedef unsigned short InternalFontNumber;
+typedef UChar InternalFontNumber;
+static_assert(FONT_BASE == 0, "FONT_BASE == 0");
+static_assert(UMAXOF(InternalFontNumber) >= FONT_MAX,
+              "InternalFontNumber = [FONT_BASE, FONT_MAX] = [0, 75]");
 extern InternalFontNumber fontptr;
 extern Boolean fontused[FONT_MAX + 1];
 
@@ -17,6 +20,8 @@ extern StrNumber get_fontname(InternalFontNumber x);
 
 // [fonts], tex
 typedef Pointer FontIndex; // #548: [0, FONT_MEM_SIZE] = [0, 200000]
+static_assert(UMAXOF(FontIndex) >= FONT_MEM_SIZE,
+              "FontIndex = [0, FONT_MEM_SIZE] = [0, 200000]");
 extern FourQuarters charinfo(InternalFontNumber f, EightBits p);
 extern Scaled charwidth(InternalFontNumber x, FourQuarters y);
 extern Scaled charitalic(InternalFontNumber x, FourQuarters y);

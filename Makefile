@@ -1,4 +1,4 @@
-CFLAGS = -g -O0 -I.
+CFLAGS = -g -O0 -I. -std=c11
 CFLAGS += -pedantic -Wall -Wno-unused-result
 CFLAGS += --coverage -ftest-coverage -fprofile-arcs
 

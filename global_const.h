@@ -1,7 +1,10 @@
 #pragma once
 #ifndef _INC_GLOBAL_CONST
 #define _INC_GLOBAL_CONST
+#include <assert.h>
 
+
+#define UMAXOF(t) ((t) ~(t)0)
 
 /// #7
 //  MSVC debug mode || not in (GCC -O3 mode)
@@ -30,6 +33,7 @@
 #undef tt_DEBUG
 #undef tt_STAT
 #undef tt_INIT
+#define NDEBUG // no assertsion
 #endif
 
 #endif // _INC_GLOBAL_CONST

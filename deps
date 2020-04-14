@@ -1,16 +1,18 @@
 tex.o: tex.c tex_header.h global_const.h tex_inc.h tex.h tex_types.h \
  tex_constant.h str.h texmac.h macros.h funcs.h global.h printout.h \
  fonts.h inputln.h dviout.h pure_func.h texfunc.h
-funcs.o: funcs.c tex.h tex_types.h tex_constant.h str.h funcs.h global.h
-inipool.o: inipool.c tex.h tex_types.h tex_constant.h str.h pool_str.c
+funcs.o: funcs.c tex.h tex_types.h tex_constant.h str.h global_const.h \
+ funcs.h global.h
+inipool.o: inipool.c tex.h tex_types.h tex_constant.h str.h \
+ global_const.h pool_str.c
 inputln.o: inputln.c tex.h tex_types.h tex_constant.h global.h str.h \
- texfunc.h inputln.h
-printout.o: printout.c tex.h tex_types.h tex_constant.h str.h fonts.h \
- texfunc.h printout.h
+ global_const.h texfunc.h inputln.h
+printout.o: printout.c tex.h tex_types.h tex_constant.h str.h \
+ global_const.h fonts.h texfunc.h printout.h
 str.o: str.c global_const.h tex.h tex_types.h tex_constant.h macros.h \
  texfunc.h str.h
-fonts.o: fonts.c tex.h tex_types.h tex_constant.h macros.h str.h funcs.h \
- fonts.h texfunc.h
-dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h fonts.h funcs.h \
- dvicmd.h dviout.h
+fonts.o: fonts.c tex.h tex_types.h tex_constant.h macros.h str.h \
+ global_const.h funcs.h fonts.h texfunc.h
+dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
+ fonts.h funcs.h dvicmd.h dviout.h
 pure_func.o: pure_func.c pure_func.h

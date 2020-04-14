@@ -4,6 +4,8 @@
 // Need:
 // [type] Boolean@tex.h
 #include <stdio.h> // FILE
+#include <stdint.h> // int_fast32_t
+#include "global_const.h"
 
 // str[6], tex[1]
 #define MAX_STRINGS 300000
@@ -19,6 +21,8 @@ typedef ASCIICode* PoolPtr; // pool_pointer
 #define POOL_ELEM(x, y) ((x)[(y)])
 #else
 typedef Pointer PoolPtr; // PoolPtr = [0, POOL_SIZE=3200000]
+static_assert(UMAXOF(PoolPtr) >= POOL_SIZE,
+              "PoolPtr = [0, POOL_SIZE=3200000]");
 #define POOL_TOP POOL_SIZE
 #define POOL_ELEM(x, y) (str_pool[(x) + (y)])
 #endif
@@ -28,8 +32,9 @@ typedef struct {
     PoolPtr val; // 暂存 pool_ptr::PoolPtr
 } StrPoolPtr;
 // dviout, fonts, funcs.h, global.h, str, tex
-typedef int StrNumber;
-
+typedef uint_fast32_t StrNumber; // [0, MAX_STRINGS=300000]
+static_assert(UMAXOF(StrNumber) >= MAX_STRINGS,
+              "StrNumber = [0, MAX_STRINGS=300000]");
 
 #ifdef tt_INIT
 // [str], tex

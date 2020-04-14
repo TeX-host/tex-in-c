@@ -12,6 +12,7 @@
     // [func] get_fontsize, get_fontdsize, get_fontname
 #include "funcs.h"  // [func] a_open_out
 #include "dvicmd.h" // [enum] DVICommands
+#include "global_const.h" // [macro] assert, UMAXOF
 #include "dviout.h" // [export]
 
 // #587: identifies the kind of DVI files described here
@@ -54,6 +55,8 @@ struct move {
 // #594: an index into the output buffer
 // [0, DVI_BUF_SIZE=800]
 typedef Pointer DVI_Index;
+static_assert(UMAXOF(DVI_Index) >= DVI_BUF_SIZE,
+              "DVI_Index = [0, DVI_BUF_SIZE=800]");
 static EightBits dvibuf[DVI_BUF_SIZE + 1]; // buffer for DVI output
 static DVI_Index half_buf,  // half of dvi buf size
                  dvi_limit, // end of the current half buffer

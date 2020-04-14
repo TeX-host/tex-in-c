@@ -147,7 +147,7 @@ void str_map_from_mark(StrPoolPtr b, void (*f)(ASCIICode)) {
 }
 
 void str_print_stats(FILE* f_log_file) {
-    fprintf(f_log_file, " %d string", str_ptr - init_str_ptr);
+    fprintf(f_log_file, " %ld string", str_ptr - init_str_ptr);
     if (str_ptr != init_str_ptr + 1) {
         fprintf(f_log_file, "s");
     }
