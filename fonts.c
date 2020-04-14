@@ -13,44 +13,47 @@
     //  get_defaultskewchar, get_defaulthyphenchar,
     //  get_lo_mem_max
 
-/*549:*/
-#undef Static
-#define Static
-Static FontIndex fmemptr;
-Static InternalFontNumber fontptr;
-Static MemoryWord fontinfo[FONT_MEM_SIZE + 1];
-Static FontIndex fontparams[FONT_MAX + 1];
-Static EightBits fontbc[FONT_MAX + 1];
-Static EightBits fontec[FONT_MAX + 1];
-Static Pointer fontglue[FONT_MAX + 1];
-Static Boolean fontused[FONT_MAX + 1];
-Static FontIndex bcharlabel[FONT_MAX + 1];
-Static long fontbchar[FONT_MAX + 1];
-Static long fontfalsebchar[FONT_MAX + 1];
-/*:549*/
-/*550:*/
-Static long ligkernbase[FONT_MAX + 1];
-Static long extenbase[FONT_MAX + 1];
-Static long parambase[FONT_MAX + 1];
-/*555:*/
-#undef Static
-#define Static static
+// p201#549
+FontIndex fmemptr;
+InternalFontNumber fontptr;
+MemoryWord fontinfo[FONT_MEM_SIZE + 1];
+FontIndex fontparams[FONT_MAX + 1];
+EightBits fontbc[FONT_MAX + 1]; // beginning (smallest) character code
+EightBits fontec[FONT_MAX + 1]; // ending (largest) character code
+// glue specification for interword space, null if not allocated
+Pointer fontglue[FONT_MAX + 1];
+// has a character from this font actually appeared in the output?
+Boolean fontused[FONT_MAX + 1];
+// start of lig kern program for left boundary character, 
+// non address if there is none
+FontIndex bcharlabel[FONT_MAX + 1];
+// right boundary character, non char if there is none
+Integer fontbchar[FONT_MAX + 1];
+// font bchar if it doesn’t exist in the font, otherwise non char
+Integer fontfalsebchar[FONT_MAX + 1];
 
-Static long skewchar[FONT_MAX + 1];
-Static long hyphenchar[FONT_MAX + 1];
-Static StrNumber fontname[FONT_MAX + 1];
-Static StrNumber fontarea[FONT_MAX + 1];
-Static Scaled fontsize[FONT_MAX + 1];
-Static Scaled fontdsize[FONT_MAX + 1];
-Static FourQuarters fontcheck[FONT_MAX + 1];
+// #550
+// base addresses for ligature/kerning programs
+Integer ligkernbase[FONT_MAX + 1];
+// base addresses for extensible recipes
+Integer extenbase[FONT_MAX + 1];
+// base addresses for font parameters
+Integer parambase[FONT_MAX + 1];
 
+Static Integer skewchar[FONT_MAX + 1];   // current \skewchar values
+Static Integer hyphenchar[FONT_MAX + 1]; // current \hyphenchar values
+Static StrNumber fontname[FONT_MAX + 1]; // name of the font
+Static StrNumber fontarea[FONT_MAX + 1]; // area of the font
+Static Scaled fontsize[FONT_MAX + 1];    // "at" size
+Static Scaled fontdsize[FONT_MAX + 1];   // "design" size
+Static FourQuarters fontcheck[FONT_MAX + 1]; // check sum
 
-Static long charbase[FONT_MAX + 1];
-Static long widthbase[FONT_MAX + 1];
-Static long heightbase[FONT_MAX + 1];
-Static long depthbase[FONT_MAX + 1];
-Static long italicbase[FONT_MAX + 1];
-Static long kernbase[FONT_MAX + 1];
+Static long charbase[FONT_MAX + 1];   // base addresses for char info
+Static long widthbase[FONT_MAX + 1];  // base addresses for widths
+Static long heightbase[FONT_MAX + 1]; // base addresses for heights
+Static long depthbase[FONT_MAX + 1];  // base addresses for depths
+Static long italicbase[FONT_MAX + 1]; // base addresses for italic corrections
+Static long kernbase[FONT_MAX + 1];   // base addresses for kerns
 
 
 long        get_skewchar(InternalFontNumber x) { return skewchar[x]; }
@@ -311,6 +314,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     char beta;
     FontIndex FORLIM;
     FILE* tfmfile = 0;
+
     g = nullfont; /*562:*/
     /*563:*/
     fileopened = false;
