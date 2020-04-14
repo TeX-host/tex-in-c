@@ -7,7 +7,9 @@
 #define pput(x) fwrite(&x, 8, 1, fmtfile)
 
 // fonts, tex
-#define nonchar 256
+
+// a |halfword| code that can't match a real character}
+#define NON_CHAR 256 
 #define opbyte(x) (x.b2)
 #define rembyte(x) (x.b3)
 #define chartag(x) (((x).b2) % 4)

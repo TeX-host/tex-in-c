@@ -3,7 +3,7 @@
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
     // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
-#include "macros.h" // [macro] nonchar
+#include "macros.h" // [macro] NON_CHAR
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
 #include "fonts.h"  // [export], [func] fontidtext
@@ -102,8 +102,8 @@ void fonts_init(void) {
     skewchar[NULL_FONT] = -1;
 
     bcharlabel[NULL_FONT] = nonaddress;
-    fontbchar[NULL_FONT] = nonchar;
-    fontfalsebchar[NULL_FONT] = nonchar;
+    fontbchar[NULL_FONT] = NON_CHAR;
+    fontfalsebchar[NULL_FONT] = NON_CHAR;
 
     fontbc[NULL_FONT] = 1;
     fontec[NULL_FONT] = 0;
@@ -289,11 +289,11 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
         bcharlabel[k] = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > nonchar) goto _Lbadfmt_;
+        if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
         fontbchar[k] = x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if ((unsigned long)x > nonchar) goto _Lbadfmt_;
+        if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
         fontfalsebchar[k] = x;
     }
     /*:1323*/
@@ -784,7 +784,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     fontfalsebchar[f] = bchar;
     if (bchar >= bc && bchar <= ec) {
         qw = charinfo(f, bchar);
-        if (charexists(qw)) fontfalsebchar[f] = nonchar;
+        if (charexists(qw)) fontfalsebchar[f] = NON_CHAR;
     }
     fontname[f] = nom;
     fontarea[f] = aire;

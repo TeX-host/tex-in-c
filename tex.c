@@ -10467,13 +10467,13 @@ Static SmallNumber reconstitute(/* SmallNumber */ int j,
             appendcharnodetot(character(p));
             p = link(p);
         }
-    } else if (curl < nonchar) {
+    } else if (curl < NON_CHAR) {
         appendcharnodetot(curl);
     }
     ligstack = 0; /*:908*/
     setcurr();
 _Llabcontinue: /*909:*/
-    if (curl == nonchar) {
+    if (curl == NON_CHAR) {
         k = bcharlabel[hf];
         if (k == nonaddress) goto _Ldone;
         q = fontinfo[k].qqqq;
@@ -10489,27 +10489,27 @@ _Llabcontinue: /*909:*/
             q = fontinfo[k].qqqq;
         }
     }
-    if (currh < nonchar)
+    if (currh < NON_CHAR)
         testchar = currh;
     else
         testchar = curr;
     while (true) {
         if (nextchar(q) == testchar) {
             if (skipbyte(q) <= stopflag) {
-                if (currh < nonchar) {
+                if (currh < NON_CHAR) {
                     hyphenpassed = j;
-                    hchar = nonchar;
-                    currh = nonchar;
+                    hchar = NON_CHAR;
+                    currh = NON_CHAR;
                     goto _Llabcontinue;
                 } else {
-                    if (hchar < nonchar) {
+                    if (hchar < NON_CHAR) {
                         if (hyf[j] & 1) {
                             hyphenpassed = j;
-                            hchar = nonchar;
+                            hchar = NON_CHAR;
                         }
                     }
                     if (opbyte(q) < kernflag) { /*911:*/
-                        if (curl == nonchar) lfthit = true;
+                        if (curl == NON_CHAR) lfthit = true;
                         if (j == n) {
                             if (ligstack == 0) rthit = true;
                         }
@@ -10530,7 +10530,7 @@ _Llabcontinue: /*909:*/
                                 else {
                                     ligstack = newligitem(curr);
                                     if (j == n)
-                                        bchar = nonchar;
+                                        bchar = NON_CHAR;
                                     else {
                                         p = get_avail();
                                         ligptr(ligstack) = p;
@@ -10581,10 +10581,10 @@ _Llabcontinue: /*909:*/
             }
         }
         if (skipbyte(q) >= stopflag) {
-            if (currh == nonchar)
+            if (currh == NON_CHAR)
                 goto _Ldone;
             else {
-                currh = nonchar;
+                currh = NON_CHAR;
                 goto _Llabcontinue;
             }
         }
@@ -10784,7 +10784,7 @@ _Lcommonending:
                     FREE_AVAIL(hyfnode);
                 }
                 while (l <= i) {
-                    l = reconstitute(l, i, fontbchar[hf], nonchar) + 1;
+                    l = reconstitute(l, i, fontbchar[hf], NON_CHAR) + 1;
                     if (link(holdhead) <= 0) continue;
                     if (minortail == 0)
                         prebreak(r) = link(holdhead);
@@ -10811,7 +10811,7 @@ _Lcommonending:
                 }
                 while (l < j) { /*:916*/
                     do {
-                        l = reconstitute(l, hn, bchar, nonchar) + 1;
+                        l = reconstitute(l, hn, bchar, NON_CHAR) + 1;
                         if (cloc > 0) {
                             hu[cloc] = c;
                             cloc = 0;
@@ -10827,7 +10827,7 @@ _Lcommonending:
                         }
                     } while (l < j);
                     while (l > j) { /*917:*/
-                        j = reconstitute(j, hn, bchar, nonchar) + 1;
+                        j = reconstitute(j, hn, bchar, NON_CHAR) + 1;
                         link(majortail) = link(holdhead);
                         while (link(majortail) > 0) {
                             advancemajortail();
@@ -11457,7 +11457,7 @@ Static void linebreak(long finalwidowpenalty) {
                                     hn++;
                                     hu[hn] = c;
                                     hc[hn] = lccode(c);
-                                    hyfbchar = nonchar;
+                                    hyfbchar = NON_CHAR;
                                 } else if (type(s) == LIGATURE_NODE) {
                                     if (font_ligchar(s) != hf) {
                                         goto _Ldone3;
@@ -11479,7 +11479,7 @@ Static void linebreak(long finalwidowpenalty) {
                                     if ((subtype(s)) & 1)
                                         hyfbchar = fontbchar[hf];
                                     else
-                                        hyfbchar = nonchar;
+                                        hyfbchar = NON_CHAR;
                                 } else if ((type(s) == KERN_NODE) &
                                            (subtype(s) == NORMAL)) {
                                     hb = s;
@@ -16666,7 +16666,7 @@ _Lmainloop:
         maink = bcharlabel[mainf];
     if (maink == nonaddress) goto _Lmainloopmove2;
     curr = curl;
-    curl = nonchar;
+    curl = NON_CHAR;
     goto _Lmainligloop1;
 _Lmainloopwrapup:  /*1035:*/
     wrapup(rthit); /*:1035*/
@@ -16703,7 +16703,7 @@ _Lmainlooplookahead:      /*1038:*/
         curchr = curval;
         goto _Lmainlooplookahead1;
     }
-    if (curcmd == noboundary) bchar = nonchar;
+    if (curcmd == noboundary) bchar = NON_CHAR;
     curr = bchar;
     ligstack = 0;
     goto _Lmainligloop;
@@ -16713,7 +16713,7 @@ _Lmainlooplookahead1:
     font(ligstack) = mainf;
     curr = curchr;
     character(ligstack) = curr;
-    if (curr == falsebchar) curr = nonchar; /*:1038*/
+    if (curr == falsebchar) curr = NON_CHAR; /*:1038*/
 _Lmainligloop:                              /*1039:*/
     if (chartag(maini) != LIG_TAG) {
         goto _Lmainloopwrapup;
@@ -16732,7 +16732,7 @@ _Lmainligloop2:
                 tailappend(newkern(charkern(mainf, mainj)));
                 goto _Lmainloopmove;
             }
-            if (curl == nonchar)
+            if (curl == NON_CHAR)
                 lfthit = true;
             else if (ligstack == 0)
                 rthit = true;
@@ -16751,7 +16751,7 @@ _Lmainligloop2:
                     curr = rembyte(mainj);
                     if (ligstack == 0) {
                         ligstack = newligitem(curr);
-                        bchar = nonchar;
+                        bchar = NON_CHAR;
                     } else if (ischarnode(ligstack)) {
                         mainp = ligstack;
                         ligstack = newligitem(curr);
@@ -16788,7 +16788,7 @@ _Lmainligloop2:
             if (opbyte(mainj) > MIN_QUARTER_WORD + 4) {
                 if (opbyte(mainj) != MIN_QUARTER_WORD + 7) goto _Lmainloopwrapup;
             }
-            if (curl < nonchar) goto _Lmainligloop;
+            if (curl < NON_CHAR) goto _Lmainligloop;
             maink = bcharlabel[mainf];
             goto _Lmainligloop1;
         }

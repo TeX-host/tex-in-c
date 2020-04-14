@@ -262,8 +262,8 @@
 #define botmark  curmark[botmarkcode - topmarkcode]
 #define splitfirstmark  curmark[splitfirstmarkcode - topmarkcode]
 #define splitbotmark  curmark[splitbotmarkcode- topmarkcode]
-/*
-#define nonchar  qi(256) */ /* a |halfword| code that can't match a real character}*/
+
+
 #define stopflag  qi(128) /* value indicating `\.{STOP}' in a lig/kern program}*/
 #define kernflag  qi(128) /* op code for a kern step}*/
 #define defaultrulethickness  mathex(8) /* thickness of \.{\\over} bars}*/
@@ -490,7 +490,7 @@
 #define null 0
 
 #define wrapup(x)                                                              \
-    if (curl < nonchar) {                                                      \
+    if (curl < NON_CHAR) {                                                      \
         if (character(tail) == get_hyphenchar(mainf)) {                        \
             if (link(curq) > 0) insdisc = true;                                \
         }                                                                      \
@@ -562,7 +562,7 @@
         if (hyf[j] & 1) {                                                      \
             currh = hchar;                                                     \
         } else {                                                               \
-            currh = nonchar;                                                   \
+            currh = NON_CHAR;                                                   \
         }                                                                      \
     }
 
@@ -599,7 +599,7 @@
         } else {                                                               \
             curr = character(ligstack);                                        \
         }                                                                      \
-    } /* {if |ligstack| isn't |null| we have |currh=nonchar|} */
+    } /* {if |ligstack| isn't |null| we have |currh=NON_CHAR|} */
 
 #define advancemajortail()                                                     \
     {                                                                          \
