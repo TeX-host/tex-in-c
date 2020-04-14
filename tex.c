@@ -16848,7 +16848,7 @@ Static void giveerrhelp(void) { tokenshow(errhelp); }
 /*:1284*/
 
 /*1303:*/
-Static Boolean openfmtfile(void) { return open_fmt(&fmtfile, stdout); }
+Static Boolean openfmtfile(void) { return open_fmt(&fmtfile); }
 /*:524*/
 
 Static Boolean loadfmtfile(void) { /*1308:*/
