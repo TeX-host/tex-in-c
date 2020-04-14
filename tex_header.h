@@ -95,9 +95,13 @@ Static Integer tally; // the number of characters recently printed
 // the number of characters on the current terminal line
 // term_offset = [0, MAX_PRINT_LINE=79]
 Static UChar term_offset;
+static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
+              "term_offset = [0, MAX_PRINT_LINE=79]");
 // the number of characters on the current file line
 // file_offset = [0, MAX_PRINT_LINE=79]
 Static UChar file_offset;
+static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
+              "file_offset = [0, MAX_PRINT_LINE=79]");
 // circular buffer for pseudoprinting
 Static ASCIICode trick_buf[ERROR_LINE + 1];
 Static Integer trick_count; // threshold for pseudoprinting, explained later
@@ -180,6 +184,8 @@ Static UInt16 shown_mode; // most recent mode shown by \tracingcommands
 
 /// [ #220~255: THE TABLE OF EQUIVALENTS ]
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
+static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
+              "diag_oldsetting = [0, MAX_SELECTOR=21]");
 /// #253
 Static MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
 // store the eq level information

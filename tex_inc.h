@@ -18,7 +18,7 @@ enum Selector {
     NEW_STRING,    
 };
 // highest selector setting
-// NOTE: _not_use_
+// NOTE: _not_use_, only used in assert
 #define MAX_SELECTOR NEW_STRING 
 
 
