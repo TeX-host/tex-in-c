@@ -2,7 +2,7 @@
 #include "tex.h"
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
-    // [macro] FONT_MEM_SIZE, FONT_MAX, nullfont, nonaddress, kernbaseoffset
+    // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
 #include "macros.h" // [macro] nonchar
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
@@ -14,16 +14,23 @@
     //  get_lo_mem_max
 
 // p201#549
-FontIndex fmemptr;
-InternalFontNumber fontptr;
-MemoryWord fontinfo[FONT_MEM_SIZE + 1];
-FontIndex fontparams[FONT_MAX + 1];
+MemoryWord fontinfo[FONT_MEM_SIZE + 1]; // the big collection of font data
+FontIndex fmemptr; // first unused word of font info
+InternalFontNumber fontptr; // largest internal font number in use
+Static FourQuarters fontcheck[FONT_MAX + 1]; // check sum
+Static Scaled fontsize[FONT_MAX + 1];        // "at" size
+Static Scaled fontdsize[FONT_MAX + 1];       // "design" size
+FontIndex fontparams[FONT_MAX + 1]; // how many font parameters are present
+Static StrNumber fontname[FONT_MAX + 1];     // name of the font
+Static StrNumber fontarea[FONT_MAX + 1];     // area of the font
 EightBits fontbc[FONT_MAX + 1]; // beginning (smallest) character code
 EightBits fontec[FONT_MAX + 1]; // ending (largest) character code
 // glue specification for interword space, null if not allocated
 Pointer fontglue[FONT_MAX + 1];
 // has a character from this font actually appeared in the output?
 Boolean fontused[FONT_MAX + 1];
+Static Integer hyphenchar[FONT_MAX + 1]; // current \hyphenchar values
+Static Integer skewchar[FONT_MAX + 1];   // current \skewchar values
 // start of lig kern program for left boundary character, 
 // non address if there is none
 FontIndex bcharlabel[FONT_MAX + 1];
@@ -33,27 +40,19 @@ Integer fontbchar[FONT_MAX + 1];
 Integer fontfalsebchar[FONT_MAX + 1];
 
 // #550
+Static Integer charbase[FONT_MAX + 1]; // base addresses for char info
+Static Integer widthbase[FONT_MAX + 1]; // base addresses for widths
+Static Integer heightbase[FONT_MAX + 1]; // base addresses for heights
+Static Integer depthbase[FONT_MAX + 1];  // base addresses for depths
+// base addresses for italic corrections
+Static Integer italicbase[FONT_MAX + 1]; 
 // base addresses for ligature/kerning programs
 Integer ligkernbase[FONT_MAX + 1];
+Static Integer kernbase[FONT_MAX + 1]; // base addresses for kerns
 // base addresses for extensible recipes
 Integer extenbase[FONT_MAX + 1];
 // base addresses for font parameters
 Integer parambase[FONT_MAX + 1];
-
-Static Integer skewchar[FONT_MAX + 1];   // current \skewchar values
-Static Integer hyphenchar[FONT_MAX + 1]; // current \hyphenchar values
-Static StrNumber fontname[FONT_MAX + 1]; // name of the font
-Static StrNumber fontarea[FONT_MAX + 1]; // area of the font
-Static Scaled fontsize[FONT_MAX + 1];    // "at" size
-Static Scaled fontdsize[FONT_MAX + 1];   // "design" size
-Static FourQuarters fontcheck[FONT_MAX + 1]; // check sum
-
-Static long charbase[FONT_MAX + 1];   // base addresses for char info
-Static long widthbase[FONT_MAX + 1];  // base addresses for widths
-Static long heightbase[FONT_MAX + 1]; // base addresses for heights
-Static long depthbase[FONT_MAX + 1];  // base addresses for depths
-Static long italicbase[FONT_MAX + 1]; // base addresses for italic corrections
-Static long kernbase[FONT_MAX + 1];   // base addresses for kerns
 
 
 long        get_skewchar(InternalFontNumber x) { return skewchar[x]; }
@@ -91,36 +90,35 @@ Scaled charkern(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[kernbase[x] + 256 * opbyte(y) + rembyte(y)].sc);
 }
 
+// #552
 void fonts_init(void) {
-    /*552:*/
-    fontptr = nullfont;
+    fontptr = NULL_FONT;
     fmemptr = 7;
-    fontname[nullfont] = S(1171);
-    fontarea[nullfont] = S(385);
-    hyphenchar[nullfont] = '-';
-    skewchar[nullfont] = -1;
-    bcharlabel[nullfont] = nonaddress;
-    fontbchar[nullfont] = nonchar;
-    fontfalsebchar[nullfont] = nonchar;
-    fontbc[nullfont] = 1;
-    fontec[nullfont] = 0;
-    fontsize[nullfont] = 0;
-    fontdsize[nullfont] = 0;
-    charbase[nullfont] = 0;
-    widthbase[nullfont] = 0;
-    heightbase[nullfont] = 0;
-    depthbase[nullfont] = 0;
-    italicbase[nullfont] = 0;
-    ligkernbase[nullfont] = 0;
-    kernbase[nullfont] = 0;
-    extenbase[nullfont] = 0;
-    fontglue[nullfont] = 0;
-    fontparams[nullfont] = 7;
-    parambase[nullfont] = -1;
+    fontname[NULL_FONT] = S(1171);
+    fontarea[NULL_FONT] = S(385);
+    hyphenchar[NULL_FONT] = '-';
+    skewchar[NULL_FONT] = -1;
+    bcharlabel[NULL_FONT] = nonaddress;
+    fontbchar[NULL_FONT] = nonchar;
+    fontfalsebchar[NULL_FONT] = nonchar;
+    fontbc[NULL_FONT] = 1;
+    fontec[NULL_FONT] = 0;
+    fontsize[NULL_FONT] = 0;
+    fontdsize[NULL_FONT] = 0;
+    charbase[NULL_FONT] = 0;
+    widthbase[NULL_FONT] = 0;
+    heightbase[NULL_FONT] = 0;
+    depthbase[NULL_FONT] = 0;
+    italicbase[NULL_FONT] = 0;
+    ligkernbase[NULL_FONT] = 0;
+    kernbase[NULL_FONT] = 0;
+    extenbase[NULL_FONT] = 0;
+    fontglue[NULL_FONT] = 0;
+    fontparams[NULL_FONT] = 7;
+    parambase[NULL_FONT] = -1;
     for (int k = 0; k <= 6; k++)
         fontinfo[k].sc = 0;
-    /*:552*/
-}
+} // #552: fonts_init
 
 void fonts_dump(FILE* fmtfile) {
     MemoryWord pppfmtfile;
@@ -134,7 +132,7 @@ void fonts_dump(FILE* fmtfile) {
     }
     pppfmtfile.int_ = fontptr;
     pput(pppfmtfile);
-    for (k = nullfont; k <= fontptr; k++) { /*1322:*/
+    for (k = NULL_FONT; k <= fontptr; k++) { /*1322:*/
         pppfmtfile.qqqq = fontcheck[k];
         pput(pppfmtfile);
         pppfmtfile.int_ = fontsize[k];
@@ -226,7 +224,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
         goto _Lbadfmt_;
     }
     fontptr = x;
-    for (k = nullfont; k <= fontptr; k++) { /*1323:*/
+    for (k = NULL_FONT; k <= fontptr; k++) { /*1323:*/
         pget(pppfmtfile);
         fontcheck[k] = pppfmtfile.qqqq;
         pget(pppfmtfile);
@@ -315,7 +313,7 @@ readfontinfo(HalfWord u, StrNumber nom, StrNumber aire, long s) {
     FontIndex FORLIM;
     FILE* tfmfile = 0;
 
-    g = nullfont; /*562:*/
+    g = NULL_FONT; /*562:*/
     /*563:*/
     fileopened = false;
     if (aire == S(385))

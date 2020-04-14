@@ -286,9 +286,9 @@
 #define frozenrelax                 (frozencontrolsequence + 7)
 #define endwrite                    (frozencontrolsequence + 8)
 #define frozendontexpand            (frozencontrolsequence + 9)
-#define frozennullfont              (frozencontrolsequence + 10)
-#define fontidbase                  (frozennullfont)
-#define undefinedcontrolsequence    (frozennullfont + 257)
+#define FROZEN_NULL_FONT              (frozencontrolsequence + 10)
+#define fontidbase                  (FROZEN_NULL_FONT)
+#define undefinedcontrolsequence    (FROZEN_NULL_FONT + 257)
 #define gluebase                    (undefinedcontrolsequence + 1)
 
 // p83#224
@@ -683,7 +683,7 @@
 #define shipoutflag     (boxflag + 512)
 #define leaderflag      (boxflag + 513)
 
-#define nullfont        0
+#define NULL_FONT        0
 
 #define endwritetoken   (cstokenflag + endwrite)
 

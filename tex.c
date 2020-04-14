@@ -311,7 +311,7 @@ Static void initialize(void) {
         eqlevel(boxbase) = levelone;
         for (k = boxbase + 1; k <= boxbase + 255; k++)
             eqtb[k - activebase] = eqtb[boxbase - activebase];
-        curfont = nullfont;
+        curfont = NULL_FONT;
         eqtype(curfontloc) = data;
         eqlevel(curfontloc) = levelone;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
@@ -4973,7 +4973,7 @@ Static void scanfontident(void) { /*406:*/
         print(S(584));
         help2(S(585), S(586));
         backerror();
-        f = nullfont;
+        f = NULL_FONT;
     }
     curval = f;
 }
@@ -7192,7 +7192,7 @@ Static void shipout(Pointer p) {
     dvih = 0;
     dviv = 0;
     curh = hoffset;
-    dvif = nullfont;
+    dvif = NULL_FONT;
     // ensure dvi open
     if (outputfilename == 0) {
         if (jobname == 0) openlogfile();
@@ -7538,7 +7538,7 @@ _Lcommonending: /*663:*/
         print_int(line);
     }
     println();
-    font_in_short_display = nullfont;
+    font_in_short_display = NULL_FONT;
     shortdisplay(listptr(r));
     println();
     begindiagnostic();
@@ -7891,7 +7891,7 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
     SmallNumber z;
     Boolean largeattempt;
 
-    f = nullfont;
+    f = NULL_FONT;
     w = 0;
     largeattempt = false;
     z = smallfam(d);
@@ -7902,7 +7902,7 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
             do {
                 z -= 16;
                 g = famfnt(z);
-                if (g != nullfont) { /*708:*/
+                if (g != NULL_FONT) { /*708:*/
                     y = x;
                     if (y - MIN_QUARTER_WORD >= fontbc[g] &&
                         y - MIN_QUARTER_WORD <= fontec[g]) {
@@ -7938,7 +7938,7 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
         x = largechar(d);
     }
 _Lfound:
-    if (f != nullfont) {             /*710:*/
+    if (f != NULL_FONT) {             /*710:*/
         if (chartag(q) == EXT_TAG) { /*713:*/
             b = newnullbox();
             type(b) = VLIST_NODE;
@@ -8144,7 +8144,7 @@ _Lfound:
 Static void fetch(HalfWord a) {
     curc = character(a);
     curf = famfnt(fam(a) + cursize);
-    if (curf == nullfont) { /*723:*/
+    if (curf == NULL_FONT) { /*723:*/
         printnl(S(292));
         print(S(385));
         print_size(cursize);
@@ -11366,7 +11366,7 @@ Static void linebreak(long finalwidowpenalty) {
         passive = 0;
         printednode = temphead;
         passnumber = 0;
-        font_in_short_display = nullfont; /*:864*/
+        font_in_short_display = NULL_FONT; /*:864*/
         curp = link(temphead);
         autobreaking = true;
         prevp = curp;
@@ -14751,7 +14751,7 @@ Static void newfont(SmallNumber a) {
         str_room(1);
         t = makestring();
     }
-    define(u, setfont, nullfont);
+    define(u, setfont, NULL_FONT);
     scanoptionalequals();
     scanfilename(); /*1258:*/
     nameinprogress = true;
@@ -17484,9 +17484,9 @@ Static void initprim(void) {
     primitive(S(664), fiorelse, orcode);
     primitive(S(1170), fiorelse, elsecode); /*:491*/
     /*553:*/
-    primitive(S(1171), setfont, nullfont);
-    text(frozennullfont) = S(1171);
-    eqtb[frozennullfont - activebase] = eqtb[curval - activebase]; /*:553*/
+    primitive(S(1171), setfont, NULL_FONT);
+    text(FROZEN_NULL_FONT) = S(1171);
+    eqtb[FROZEN_NULL_FONT - activebase] = eqtb[curval - activebase]; /*:553*/
     /*780:*/
     primitive(S(1172), tabmark, spancode);
     primitive(S(737), carret, crcode);
@@ -17713,7 +17713,7 @@ Static void debughelp(void) {
                 break;
             }
             case 15: {
-                font_in_short_display = nullfont;
+                font_in_short_display = NULL_FONT;
                 shortdisplay(n);
                 break;
             }

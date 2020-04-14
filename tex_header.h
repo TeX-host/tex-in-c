@@ -309,7 +309,7 @@ Static Scaled dvih = 0, dviv = 0, // a DVI reader program thinks we are here
     do {                                                                       \
         dviv = synch_v(curv, dviv);                                            \
     } while (0)
-Static InternalFontNumber dvif = nullfont; // the current font
+Static InternalFontNumber dvif = NULL_FONT; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 
 /*646:*/
