@@ -334,7 +334,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 
     Scaled z;      // the design size or the “at” size
     Integer bchlabel; // left boundary start location, or infinity
-    Char bchar;    // right boundary character, or 256
+    UInt16 bchar;    // right boundary character, or 256
     // auxiliary quantities used in fixed-point multiplication
     Integer alpha;
     UChar beta; // [1, 16]
