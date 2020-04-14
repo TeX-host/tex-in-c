@@ -22,7 +22,7 @@ static StrNumber    init_str_ptr;   // the starting value of str ptr
 */
 
 /// #40: the number of characters in string number x
-int str_length(StrNumber x) { return str_start[(x) + 1] - str_start[(x)]; }
+int str_length(StrNumber x) { return str_end(x) - str_start[(x)]; }
 
 /// #41: The length of the current string
 int cur_length() { return pool_ptr - str_start[str_ptr]; }
