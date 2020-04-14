@@ -14873,7 +14873,7 @@ Static void prefixedcommand(void)
 	a -= 4;
       }
     } else {   /*:1214*/
-      if (~global) {
+      if (!global) {
 	a += 4;
       }
     }
@@ -14886,7 +14886,7 @@ Static void prefixedcommand(void)
 
   /*1218:*/
   case def:   /*:1218*/
-    if ((curchr & 1) && ~global && globaldefs >= 0) {
+    if ((curchr & 1) && !global && globaldefs >= 0) {
       a += 4;
     }
     e = (curchr >= 2);
