@@ -34,9 +34,9 @@ extern InternalFontNumber
 readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s);
 extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);
-extern long get_hyphenchar(InternalFontNumber x); // texmac.h
+extern Integer get_hyphenchar(InternalFontNumber x); // texmac.h
 extern void set_hyphenchar(InternalFontNumber x, Integer c);
-extern long get_skewchar(InternalFontNumber x);
+extern Integer get_skewchar(InternalFontNumber x);
 extern void set_skewchar(InternalFontNumber x, Integer c);
 
 extern FontIndex fmemptr;
