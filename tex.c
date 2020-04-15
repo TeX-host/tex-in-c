@@ -42,7 +42,7 @@ void set_help(UChar k, ...) {
     help_ptr = k;
     k--;
     while (k >= 0) {
-        help_line[k] = va_arg(ap, int);
+        help_line[k] = va_arg(ap, uint_fast32_t);
         k--;
     }
     va_end(ap);

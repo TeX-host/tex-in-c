@@ -20,3 +20,9 @@ deps.1
 # local test
 # load plain.tex, *.tmf
 _test/
+
+# CMake build: to gen compile_commands.json
+build/
+
+# static analysis
+Sourcetrail/
