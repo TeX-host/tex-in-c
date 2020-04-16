@@ -16580,7 +16580,7 @@ _Lappendnormalspace_:            /*1041:*/
 _Lexit:;
 } // #1030: main_control
 
-// #1303
+// #1303: call open_fmt@func.c
 Static Boolean open_fmt_file(void) { return open_fmt(&fmtfile); }
 
 Static Boolean load_fmt_file(void) { /*1308:*/
@@ -16740,9 +16740,9 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         goto _Lbadfmt_;
     }
     j = x;
-#ifdef tt_INIT
-    triemax = j;
-#endif // #1325.1: tt_INIT
+    #ifdef tt_INIT
+        triemax = j;
+    #endif // #1325.1: tt_INIT
     for (k = 0; k <= j; k++) {
         pget(pppfmtfile);
         trie[k] = pppfmtfile.hh;
@@ -16755,9 +16755,9 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         goto _Lbadfmt_;
     }
     j = x;
-#ifdef tt_INIT
-    trieopptr = j;
-#endif // #1325.2: tt_INIT
+    #ifdef tt_INIT
+        trieopptr = j;
+    #endif // #1325.2: tt_INIT
     for (k = 1; k <= j; k++) {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
@@ -16772,10 +16772,10 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         if ((unsigned long)x > MAX_QUARTER_WORD) goto _Lbadfmt_;
         hyfnext[k - 1] = x;
     }
-#ifdef tt_INIT
-    for (k = 0; k <= 255; k++)
-        trieused[k] = MIN_QUARTER_WORD;
-#endif // #1325.3: tt_INIT
+    #ifdef tt_INIT
+        for (k = 0; k <= 255; k++)
+            trieused[k] = MIN_QUARTER_WORD;
+    #endif // #1325.3: tt_INIT
     k = 256;
     while (j > 0) {
         pget(pppfmtfile);
@@ -16785,15 +16785,15 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         pget(pppfmtfile);
         x = pppfmtfile.int_;
         if (x < 1 || x > j) goto _Lbadfmt_;
-#ifdef tt_INIT
-        trieused[k] = x;
-#endif // #1325.4: tt_INIT
+        #ifdef tt_INIT
+            trieused[k] = x;
+        #endif // #1325.4: tt_INIT
         j -= x;
         opstart[k] = j - MIN_QUARTER_WORD;
     }
-#ifdef tt_INIT
-    trie_not_ready = false;
-#endif // #1325.5: tt_INIT
+    #ifdef tt_INIT
+        trie_not_ready = false;
+    #endif // #1325.5: tt_INIT
        /*:1325*/
 
     /*1327:*/
@@ -16810,9 +16810,11 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     if ((x != 69069L) | feof(fmtfile)) goto _Lbadfmt_; /*:1327*/
     Result = true;
     goto _Lexit;
+
 _Lbadfmt_:
     fprintf(stdout, "(Fatal format file error; I'm stymied)\n");
     Result = false;
+
 _Lexit:
     return Result;
 } // #1303: load_fmt_file
