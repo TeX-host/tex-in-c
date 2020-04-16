@@ -283,11 +283,11 @@ Static StrNumber extdelimiter;
 /*520:*/
 Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
-Static Boolean nameinprogress;
-Static StrNumber jobname;
-Static Boolean logopened; /*:527*/
+Static Boolean name_in_progress;
+Static StrNumber job_name;
+Static Boolean log_opened; /*:527*/
 /*532:*/
-Static StrNumber outputfilename, logname; /*:532*/
+Static StrNumber output_file_name, logname; /*:532*/
 /*555:*/
 Static FourQuarters nullcharacter;
 /*:555*/

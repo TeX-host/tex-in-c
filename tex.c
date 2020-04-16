@@ -955,7 +955,7 @@ _Lexit:;
 /// xref: 93, 94, 95, 1304
 Static void succumb(void) {
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
-    if (logopened) error();
+    if (log_opened) error();
 #ifdef tt_DEBUG
     if (interaction > BATCH_MODE) debughelp();
 #endif // #93: tt_DEBUG
@@ -1047,11 +1047,11 @@ Static void int_error(long n) {
 }
 /// #92
 Static void normalize_selector(void) {
-    if (logopened)
+    if (log_opened)
         selector = TERM_AND_LOG;
     else
         selector = TERM_ONLY;
-    if (jobname == 0) openlogfile();
+    if (job_name == 0) openlogfile();
     if (interaction == BATCH_MODE) selector--;
 }
 /// #98
@@ -4734,7 +4734,7 @@ Static void expand(void)
     case input:   /*378:*/
       if (curchr > 0)
 	forceeof = true;
-      else if (nameinprogress)
+      else if (name_in_progress)
 	insertrelax();
       else
 	startinput();
@@ -5835,7 +5835,7 @@ Static void convtoks(void) {
         case fontnamecode: scanfontident(); break;
 
         case jobnamecode:
-            if (jobname == 0) openlogfile();
+            if (job_name == 0) openlogfile();
             break;
     }
     old_setting = selector;
@@ -5866,7 +5866,7 @@ Static void convtoks(void) {
             }
             break;
 
-        case jobnamecode: print(jobname); break;
+        case jobnamecode: print(job_name); break;
     }
     selector = old_setting;
     link(garbage) = strtoks(b);
@@ -6440,7 +6440,7 @@ Static StrNumber wmakenamestring(void) { return (makenamestring()); }
 
 /*526:*/
 Static void scanfilename(void) {
-    nameinprogress = true;
+    name_in_progress = true;
     beginname();
     skip_spaces();
     while (true) {
@@ -6452,7 +6452,7 @@ Static void scanfilename(void) {
         getxtoken();
     }
     endname();
-    nameinprogress = false;
+    name_in_progress = false;
 }
 /*:526*/
 
@@ -6460,7 +6460,7 @@ Static void scanfilename(void) {
 Static void packjobname(StrNumber s) {
     curarea = S(385);
     curext = s;
-    curname = jobname;
+    curname = job_name;
     packfilename(curname, curarea, curext);
 }
 /*:529*/
@@ -6508,7 +6508,7 @@ Static void openlogfile(void) {
     short FORLIM;
 
     old_setting = selector;
-    if (jobname == 0) jobname = S(672);
+    if (job_name == 0) job_name = S(672);
     packjobname(S(673));
     while (!a_open_out(&log_file)) { /*535:*/
         selector = TERM_ONLY;
@@ -6517,7 +6517,7 @@ Static void openlogfile(void) {
     /*:535*/
     logname = amakenamestring();
     selector = LOG_ONLY;
-    logopened = true;
+    log_opened = true;
     /*536:*/
     fprintf(log_file, "%s", TEX_BANNER);
     slow_print(format_ident);
@@ -6562,8 +6562,8 @@ Static void startinput(void) {
     }
 
     name = amakenamestring();
-    if (jobname == 0) {
-        jobname = curname;
+    if (job_name == 0) {
+        job_name = curname;
         openlogfile();
     }
     if (term_offset + str_length(name) > MAX_PRINT_LINE - 2) {
@@ -7194,12 +7194,12 @@ Static void shipout(Pointer p) {
     curh = hoffset;
     dvif = NULL_FONT;
     // ensure dvi open
-    if (outputfilename == 0) {
-        if (jobname == 0) openlogfile();
+    if (output_file_name == 0) {
+        if (job_name == 0) openlogfile();
         packjobname(S(691));
         while (!dvi_openout())
             promptfilename(S(692), S(691));
-        outputfilename = bmakenamestring();
+        output_file_name = bmakenamestring();
     }
     if (totalpages == 0) {
         // output the preamble
@@ -14732,7 +14732,7 @@ Static void newfont(SmallNumber a) {
     enum Selector old_setting;
     /* XXXX  StrNumber flushablestring; */
 
-    if (jobname == 0) openlogfile();
+    if (job_name == 0) openlogfile();
     getrtoken();
     u = curcs;
     if (u >= hashbase) {
@@ -14754,7 +14754,7 @@ Static void newfont(SmallNumber a) {
     define(u, setfont, NULL_FONT);
     scanoptionalequals();
     scanfilename(); /*1258:*/
-    nameinprogress = true;
+    name_in_progress = true;
     if (scankeyword(S(951))) { /*1259:*/
         scannormaldimen();
         s = curval;
@@ -14781,7 +14781,7 @@ Static void newfont(SmallNumber a) {
     } else {
         s = -1000;
     }
-    nameinprogress = false;
+    name_in_progress = false;
     /*:1258*/
 
     /*1260:*/
@@ -14824,7 +14824,7 @@ Static void newinteraction(void) {
         selector = TERM_ONLY;
         /*:75*/
     }
-    if (logopened) selector += 2;
+    if (log_opened) selector += 2;
 } /*:1265*/
 
 
@@ -15428,7 +15428,7 @@ Static void storefmtfile(void) { /*1304:*/
     /*1328:*/
     selector = NEW_STRING;
     print(S(990));
-    print(jobname);
+    print(job_name);
     print_char(' ');
     print_int(year % 100);
     print_char('.');
@@ -17098,7 +17098,7 @@ Static void close_files_and_terminate(void) {
     }
 
     #ifdef tt_STAT
-        if (tracingstats > 0 && logopened) {
+        if (tracingstats > 0 && log_opened) {
             // #1334: Output statistics about this job
             fprintf(log_file, " \n");
             fprintf(log_file, "Here is how much of TeX's memory you used:\n");
@@ -17140,7 +17140,7 @@ Static void close_files_and_terminate(void) {
                     (long)paramsize,
                     (long)BUF_SIZE,
                     (long)SAVE_SIZE);
-        }  // if (tracingstats > 0 && logopened)
+        }  // if (tracingstats > 0 && log_opened)
     #endif // #1333: tt_STAT
 
     // #642: Finish the DVI file
@@ -17179,7 +17179,7 @@ Static void close_files_and_terminate(void) {
 
         total_dvi_bytes = dviflush();
         printnl(S(1014)); // "Output written on "
-        slow_print(outputfilename);
+        slow_print(output_file_name);
         print(S(303));  // " ("
         print_int(totalpages);
         print(S(1015)); // " page"
@@ -17189,7 +17189,7 @@ Static void close_files_and_terminate(void) {
         print(S(1017)); // " bytes)."
     } // if (totalpages == 0) - else
 
-    if (!logopened) return;
+    if (!log_opened) return;
     putc('\n', log_file);
     aclose(&log_file);
     selector -= 2;
@@ -17206,7 +17206,7 @@ Static void finalcleanup(void) {
     SmallNumber c;
 
     c = curchr;
-    if (jobname == 0) openlogfile();
+    if (job_name == 0) openlogfile();
     while (inputptr > 0) {
         if (state == TOKEN_LIST)
             endtokenlist();
@@ -17740,7 +17740,7 @@ Static void debughelp(void) {
 // [p8#14] 检查常量范围是否正确。
 // 有误则返回错误代码 bad
 // Check the "constant" values for consistency
-// xref: [14], 111, 290, 522, 1249, used in 1332
+// xref: [14], 111, 290, 522, 1249, used in 1332@main
 static Integer S14_Check_the_constant_values_for_consistency(void) {
     // bad: is some “constant” wrong?
     // xref: [13], 14, 111, 290, 522, 1249, 1332
@@ -17785,10 +17785,10 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     if ((2 * MAX_HALF_WORD) < (MEM_TOP - MEM_MIN)) bad = 41;
 
     return bad;
-}
+} // S14_Check_the_constant_values_for_consistency
 
-// #55: <Initialize the output routines> 
-// 55, 61, 528, 533 Used in section 1332.
+// [p24#55]: <Initialize the output routines> 
+// [55], 61, 528, 533 Used in section 1332@main.
 static void S55_Initialize_the_output_routines(void) {
     // #55
     selector = TERM_ONLY;
@@ -17797,22 +17797,22 @@ static void S55_Initialize_the_output_routines(void) {
     file_offset = 0;
 
     // #61
-    fprintf(stdout, "%s", TEX_BANNER);
+    fprintf(stdout, "%s", TEX_BANNER); // wterm(banner);
     if (format_ident == 0) {
         fprintf(stdout, " (no format preloaded)\n");
     } else {
         slow_print(format_ident);
         println();
     }
-    fflush(stdout);
+    fflush(stdout); // update terminal;
 
     // #528
-    jobname = 0;
-    nameinprogress = false;
-    logopened = false;
+    job_name = 0;
+    name_in_progress = false;
+    log_opened = false;
 
     // #533
-    outputfilename = 0;
+    output_file_name = 0;
 } // S55_Initialize_the_output_routines
 
 // #1337: Get the first line of input and prepare to start
