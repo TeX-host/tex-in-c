@@ -222,10 +222,10 @@ Static void initialize(void) {
     /// p59#164: Initialize table entries (done by INITEX only)
     #ifdef tt_INIT
         /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
-        for (k = membot + 1; k <= lomemstatmax; k++)
+        for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
             mem[k - memmin].sc = 0; // all glue dimensions are zeroed
 
-        k = membot;
+        k = MEM_BOT;
         while (k <= lomemstatmax) {
             // set first words of glue specifications
             gluerefcount(k) = 1;
@@ -251,7 +251,7 @@ Static void initialize(void) {
         link(lo_mem_max) = 0;
         info(lo_mem_max) = 0;
 
-        for (k = himemstatmin; k <= memtop; k++) {
+        for (k = himemstatmin; k <= MEM_TOP; k++) {
             // clear list heads
             mem[k - memmin].sc = 0;
             type(k) = charnodetype;
@@ -279,9 +279,9 @@ Static void initialize(void) {
 
         /// p59#164
         avail = 0;
-        mem_end = memtop;
+        mem_end = MEM_TOP;
         hi_mem_min = himemstatmin; // initialize the one-word memory
-        var_used = lomemstatmax - membot + 1;
+        var_used = lomemstatmax - MEM_BOT + 1;
         dyn_used = himemstatusage; // initialize statistics
 
         /// p82#222
@@ -1530,13 +1530,13 @@ Static void showcontext(void) { /*:315*/
                     m = tally - first_count;
                 else
                     m = trick_count - first_count;
-                if (l + first_count <= halfERROR_LINE) {
+                if (l + first_count <= HALF_ERROR_LINE) {
                     p = 0;
                     n = l + first_count;
                 } else {
                     print(S(284));
-                    p = l + first_count - halfERROR_LINE + 3;
-                    n = halfERROR_LINE;
+                    p = l + first_count - HALF_ERROR_LINE + 3;
+                    n = HALF_ERROR_LINE;
                 }
                 for (q = p; q < first_count; q++) {
                     print_char(trick_buf[q % ERROR_LINE]);
@@ -1658,7 +1658,7 @@ _Lrestart:
         goto _Lexit;
     }
     if (lo_mem_max + 2 < hi_mem_min) {
-        if (lo_mem_max + 2 <= membot + MAX_HALF_WORD) { /*126:*/
+        if (lo_mem_max + 2 <= MEM_BOT + MAX_HALF_WORD) { /*126:*/
             if (hi_mem_min - lo_mem_max >= 1998)
                 t = lo_mem_max + 1000;
             else
@@ -1667,7 +1667,7 @@ _Lrestart:
             q = lo_mem_max;
             rlink(p) = q;
             llink(rover) = q;
-            if (t > membot + MAX_HALF_WORD) t = membot + MAX_HALF_WORD;
+            if (t > MEM_BOT + MAX_HALF_WORD) t = MEM_BOT + MAX_HALF_WORD;
             rlink(q) = rover;
             llink(q) = p;
             link(q) = emptyflag;
@@ -3344,8 +3344,8 @@ HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
     h = buffp[0];
     for (k = 1; k < l; k++) {
         h += h + buffp[k];
-        while (h >= hashprime)
-            h -= hashprime;
+        while (h >= HASH_PRIME)
+            h -= HASH_PRIME;
     }
     p = h + hashbase;
     while (true) {
@@ -3359,7 +3359,7 @@ HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
                 if (text(p) > 0) {
                     do {
                         if (hashisfull) {
-                            overflow(S(475), hashsize);
+                            overflow(S(475), HASH_SIZE);
                         }
                         hash_used--;
                     } while (text(hash_used) != 0);
@@ -3758,8 +3758,8 @@ Static void inserror(void) {
 /*328:*/
 Static void beginfilereading(void)
 {
-  if (inopen == maxinopen)
-    overflow(S(510), maxinopen);
+  if (inopen == MAX_IN_OPEN)
+    overflow(S(510), MAX_IN_OPEN);
   if (first == bufsize)
     overflow(S(511), bufsize);
   inopen++;
@@ -15452,13 +15452,13 @@ Static void storefmtfile(void) { /*1304:*/
     slow_print(format_ident); /*1307:*/
     pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
-    pppfmtfile.int_ = membot;
+    pppfmtfile.int_ = MEM_BOT;
     pput(pppfmtfile);
-    pppfmtfile.int_ = memtop;
+    pppfmtfile.int_ = MEM_TOP;
     pput(pppfmtfile);
     pppfmtfile.int_ = eqtbsize;
     pput(pppfmtfile);
-    pppfmtfile.int_ = hashprime;
+    pppfmtfile.int_ = HASH_PRIME;
     pput(pppfmtfile);
     pppfmtfile.int_ = HYPH_SIZE;
     pput(pppfmtfile); /*:1307*/
@@ -15471,7 +15471,7 @@ Static void storefmtfile(void) { /*1304:*/
     pput(pppfmtfile);
     pppfmtfile.int_ = rover;
     pput(pppfmtfile);
-    p = membot;
+    p = MEM_BOT;
     q = rover;
     x = 0;
     do {
@@ -16862,16 +16862,16 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     if (x != 371982687L) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x != membot) goto _Lbadfmt_;
+    if (x != MEM_BOT) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x != memtop) goto _Lbadfmt_;
+    if (x != MEM_TOP) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x != eqtbsize) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x != hashprime) goto _Lbadfmt_;
+    if (x != HASH_PRIME) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x != HYPH_SIZE) /*1310:*/
@@ -16886,7 +16886,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x <= lomemstatmax || x > lo_mem_max) goto _Lbadfmt_;
     rover = x;
-    p = membot;
+    p = MEM_BOT;
     q = rover;
     do {
         for (k = p; k <= q + 1; k++) {
@@ -16902,7 +16902,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         pget(pppfmtfile);
         mem[k - memmin] = pppfmtfile;
     }
-    if (memmin < membot - 2) {
+    if (memmin < MEM_BOT - 2) {
         p = llink(rover);
         q = memmin + 1;
         link(memmin) = 0;
@@ -16912,7 +16912,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         rlink(q) = rover;
         llink(q) = p;
         link(q) = emptyflag;
-        nodesize(q) = membot - q;
+        nodesize(q) = MEM_BOT - q;
     }
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -16920,9 +16920,9 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     hi_mem_min = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if ((unsigned long)x > memtop) goto _Lbadfmt_;
+    if ((unsigned long)x > MEM_TOP) goto _Lbadfmt_;
     avail = x;
-    mem_end = memtop;
+    mem_end = MEM_TOP;
     for (k = hi_mem_min; k <= mem_end; k++) {
         pget(pppfmtfile);
         mem[k - memmin] = pppfmtfile;
@@ -17110,7 +17110,7 @@ Static void close_files_and_terminate(void) {
             fprintf(log_file,
                     " %ld multiletter control sequences out of %ld\n",
                     cs_count,
-                    (long)hashsize);
+                    (long)HASH_SIZE);
             fprintf(log_file,
                     " %d words of font info for %d font",
                     fmemptr,
@@ -17727,39 +17727,49 @@ Static void debughelp(void) {
 } // #1338: debughelp
 #endif // #1338: tt_DEBUG
 
+
+/* ----------------------------------------------------------------------------
+ * main 函数及其辅助函数
+ *
+ *  + int main(int argc, char* argv[])
+ *      + Integer S14_Check_the_constant_values_for_consistency(void)
+ *      + void S55_Initialize_the_output_routines(void)
+ *      + Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void)
+ */
+
 // [p8#14] 检查常量范围是否正确。
-// 有误则返回错误代码
-// Check the “constant” values for consistency
-// [14], 111, 290, 522, 1249, used in 1332
+// 有误则返回错误代码 bad
+// Check the "constant" values for consistency
+// xref: [14], 111, 290, 522, 1249, used in 1332
 static Integer S14_Check_the_constant_values_for_consistency(void) {
-    /// bad: is some “constant” wrong?
-    // [13], 14, 111, 290, 522, 1249, 1332
+    // bad: is some “constant” wrong?
+    // xref: [13], 14, 111, 290, 522, 1249, 1332
     Integer bad = 0;
 
     /// #14
     if (
-        halfERROR_LINE < 30 ||
-        halfERROR_LINE > (ERROR_LINE - 15)
+        HALF_ERROR_LINE < 30 ||
+        HALF_ERROR_LINE > (ERROR_LINE - 15)
     ) bad = 1;
     if (MAX_PRINT_LINE < 60) bad = 2;
-    if ((DVI_BUF_SIZE & 8) != 0) bad = 3;
-    if ((membot + 1100) > memtop) bad = 4;
-    if (hashprime > hashsize) bad = 5;
-    if (maxinopen >= 128) bad = 6;
-    if (memtop < (256 + 11)) bad = 7;
+    if ((DVI_BUF_SIZE % 8) != 0) bad = 3;
+    if ((MEM_BOT + 1100) > MEM_TOP) bad = 4;
+    if (HASH_PRIME > HASH_SIZE) bad = 5;
+    if (MAX_IN_OPEN >= 128) bad = 6;
+    if (MEM_TOP < (256 + 11)) bad = 7; // we will want null list > 255
 
     /// #111
     #ifdef tt_INIT
-        if (memmin != membot || memmax != memtop) bad = 10;
+        if (memmin != MEM_BOT || memmax != MEM_TOP) bad = 10;
     #endif // #111: tt_INIT
-    if (memmin > membot || memmax < memtop) bad = 10;
+    if (memmin > MEM_BOT || memmax < MEM_TOP) bad = 10;
     if (MIN_QUARTER_WORD > 0 || MAX_QUARTER_WORD < 127) bad = 11;
     if (MAX_HALF_WORD < 32767) bad = 12;
     if (MIN_QUARTER_WORD < 0 || MAX_QUARTER_WORD > MAX_HALF_WORD) bad = 13;
     if (
         memmin < 0 ||
         memmax >= MAX_HALF_WORD ||
-        (membot - memmin) > (MAX_HALF_WORD + 1)
+        (MEM_BOT - memmin) > (MAX_HALF_WORD + 1)
     ) bad = 14;
     if (0 < MIN_QUARTER_WORD || FONT_MAX > MAX_QUARTER_WORD) bad = 15;
     if (FONT_MAX > 256+0) bad = 16;
@@ -17772,7 +17782,7 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     /// #522
     if (formatdefaultlength > filenamesize) bad = 31;
     /// 1249
-    if ((MAX_HALF_WORD * 2) < (memtop - memmin)) bad = 41;
+    if ((MAX_HALF_WORD * 2) < (MEM_TOP - memmin)) bad = 41;
 
     return bad;
 }
@@ -17807,7 +17817,7 @@ static void S55_Initialize_the_output_routines(void) {
 
 // #1337: Get the first line of input and prepare to start
 // return has_error?
-static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start() {
+static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     Boolean HAS_ERROR = true, NO_ERROR = false;
 
     /// #331: Initialize the input routines

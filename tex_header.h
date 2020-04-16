@@ -220,9 +220,9 @@ Static UChar maxinstack;
 /*304:*/
 Static char inopen;
 Static char openparens;
-Static FILE* inputfile[maxinopen];
+Static FILE* inputfile[MAX_IN_OPEN];
 Static Integer line;
-Static Integer linestack[maxinopen];
+Static Integer linestack[MAX_IN_OPEN];
 /*:304*/
 /*305:*/
 Static char scanner_status;

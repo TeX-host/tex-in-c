@@ -14,10 +14,10 @@
 #define memmin          0
 #define bufsize         5000
 #define ERROR_LINE      72
-#define halfERROR_LINE  42
+#define HALF_ERROR_LINE  42
 #define MAX_PRINT_LINE  79
 #define stacksize       200
-#define maxinopen       6
+#define MAX_IN_OPEN       6
 #define FONT_BASE       0
 #define FONT_MAX        75
 #define FONT_MEM_SIZE   200000
@@ -49,8 +49,8 @@
 
 #define emptyflag       MAX_HALF_WORD
 
-#define memtop          3000000
-#define pageinshead     (memtop-charnodesize+1)
+#define MEM_TOP          3000000
+#define pageinshead     (MEM_TOP-charnodesize+1)
 #define contribhead     (pageinshead-charnodesize)
 #define pagehead        (contribhead-charnodesize)
 #define temphead        (pagehead-charnodesize)
@@ -87,9 +87,9 @@
 #define UNITY           65536L  // 2^16, rep 1.00000
 #define TWO             131072L // 2^17, rep 2.00000
 
-#define membot          0
-#define hashsize        210000
-#define hashprime       171553
+#define MEM_BOT          0
+#define HASH_SIZE        210000
+#define HASH_PRIME       171553
 // #12: another prime; the number of \hyphenation exceptions
 #define HYPH_SIZE       307
 #define empty           0
@@ -274,7 +274,7 @@
 #define singlebase                  (activebase + 256)
 #define nullcs                      (singlebase + 256)
 #define hashbase                    (nullcs + 1)
-#define frozencontrolsequence       (hashbase + hashsize)
+#define frozencontrolsequence       (hashbase + HASH_SIZE)
 
 #define frozenprotection            frozencontrolsequence
 #define frozencr                    (frozencontrolsequence + 1)
@@ -672,7 +672,7 @@
 #define endtemplatetoken  (cstokenflag + frozenendtemplate)
 
 #define kernbaseoffset  32768
-#define zeroglue        membot
+#define zeroglue        MEM_BOT
 #define filglue         (zeroglue + gluespecsize)
 #define fillglue        (filglue + gluespecsize)
 #define ssglue          (fillglue + gluespecsize)

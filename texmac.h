@@ -478,7 +478,7 @@
 
 #define settrick_count()                                                        \
     (first_count = tally,                                                       \
-     trick_count = tally + 1 + ERROR_LINE - halfERROR_LINE,                       \
+     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE,                       \
      ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
 #define popinput() /* leave an input level, re-enter the old */                \
