@@ -2,7 +2,7 @@
 #include <string.h> // memcpy, strlen, strcpy, strchr, strcmp, strcat, strncmp 
 #include <stdlib.h> // malloc, exit, getenv,
 #include <time.h>   // tm_struct, time, localtime
-#include "tex.h"    // [macro] BUF_SIZE, filenamesize
+#include "tex.h"    // [macro] BUF_SIZE, FILE_NAME_SIZE
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [export]
 #include "global.h" // [var] buffer, last, first, name_of_file
@@ -202,9 +202,9 @@ Boolean open_fmt(FILE** fmt) {
 
 static void trimspaces(void) {
     char* pp;
-    memcpy(my_buff, name_of_file, filenamesize);
-    my_buff[filenamesize] = 0;
-    my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : filenamesize] = 0;
+    memcpy(my_buff, name_of_file, FILE_NAME_SIZE);
+    my_buff[FILE_NAME_SIZE] = 0;
+    my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : FILE_NAME_SIZE] = 0;
     fprintf(stderr, "%s", my_buff);
 }
 

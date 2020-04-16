@@ -17,6 +17,6 @@ extern InStateRecord cur_input;
 extern ASCIICode xord[256];
 
 // funcs, [tex]
-extern Char name_of_file[filenamesize + 1];
+extern Char name_of_file[FILE_NAME_SIZE + 1];
 
 #endif // #ifndef GLOBAL_H

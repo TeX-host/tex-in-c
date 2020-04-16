@@ -29,7 +29,7 @@
 // should be larger for INITEX than it is in production versions of TeX
 #define TRIE_SIZE       131000
 #define trieopsize      5000
-#define filenamesize    240
+#define FILE_NAME_SIZE    240
 
 #define TEX_BANNER      "This is TeX, Version 3.14159"
 #define poolname        "TeXformats:TEX.POOL                     "
@@ -72,9 +72,9 @@
 
 #define varcode         28672
 /*
-#define cstokenflag     4095
+#define CS_TOKEN_FLAG     4095
 */
-#define cstokenflag     (dwa_do_8*16-1)
+#define CS_TOKEN_FLAG     (dwa_do_8*16-1)
 
 #define maxdimen        1073741823L
 #define nullflag        (-1073741824L)
@@ -288,8 +288,8 @@
 #define frozendontexpand            (frozencontrolsequence + 9)
 #define FROZEN_NULL_FONT              (frozencontrolsequence + 10)
 #define fontidbase                  (FROZEN_NULL_FONT)
-#define undefinedcontrolsequence    (FROZEN_NULL_FONT + 257)
-#define gluebase                    (undefinedcontrolsequence + 1)
+#define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
+#define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)
 
 // p83#224
 // enum SkipRegisters {
@@ -522,7 +522,7 @@
 #define ficode          2
 #define elsecode        3
 #define orcode          4
-#define formatdefaultlength  20
+#define FORMAT_DEFAULT_LENGTH  20
 #define formatarealength  11
 #define formatextlength  4
 
@@ -669,7 +669,7 @@
 
 #define languagenode    4
 
-#define endtemplatetoken  (cstokenflag + frozenendtemplate)
+#define endtemplatetoken  (CS_TOKEN_FLAG + frozenendtemplate)
 
 #define kernbaseoffset  32768
 #define zeroglue        MEM_BOT
@@ -685,6 +685,6 @@
 
 #define NULL_FONT        0
 
-#define endwritetoken   (cstokenflag + endwrite)
+#define endwritetoken   (CS_TOKEN_FLAG + endwrite)
 
 #endif // #ifndef TEX_H

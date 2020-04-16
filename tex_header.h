@@ -71,7 +71,7 @@ ASCIICode xord[256];   // specifies conversion of input characters
 Static Char xchr[256]; // specifies conversion of output characters
 
 /// [#26]: on some systems this may be a record variable
-Char name_of_file[filenamesize + 1];
+Char name_of_file[FILE_NAME_SIZE + 1];
 // #26: this many characters are actually relevant in `name_of_file`
 // (the rest are blank)
 Static UInt16 namelength;
@@ -191,7 +191,7 @@ Static MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
 // store the eq level information
 Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
 /// [#256]
-Static TwoHalves hash[undefinedcontrolsequence - hashbase]; // hash table
+Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - hashbase]; // hash table
 Static Pointer hash_used; // allocation pointer for hash
 // ? no_new_control_sequence // are new identifiers legal?
 Static Integer cs_count; // total number of known identifiers
@@ -281,7 +281,7 @@ Static StrNumber curname, curarea, curext;
 Static StrNumber extdelimiter;
 /*:513*/
 /*520:*/
-Static Char TEXformatdefault[formatdefaultlength]; /*:520*/
+Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
 Static Boolean nameinprogress;
 Static StrNumber jobname;

@@ -18,7 +18,7 @@ int pack_tok(int cs, int cmd, int chr) {
     if (cs == 0) {
         return dwa_do_8 * cmd + chr;
     } else {
-        return cstokenflag + cs;
+        return CS_TOKEN_FLAG + cs;
     }
 }
 
@@ -124,7 +124,7 @@ Static void initialize(void) {
 
         next(hashbase) = 0;
         text(hashbase) = 0;
-        for (k = hashbase + 1; k < undefinedcontrolsequence; k++) /*:257*/
+        for (k = hashbase + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) /*:257*/
             hash[k - hashbase] = hash[0];
         /*272:*/
         saveptr = 0;
@@ -154,7 +154,7 @@ Static void initialize(void) {
         curif = 0;
         ifline = 0; /*:490*/
         /*521:*/
-        memcpy(TEXformatdefault, "TeXformats:plain.fmt", formatdefaultlength);
+        memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
         /*:521*/
         /*551:*/
         for (int k = 0; k <= FONT_MAX; k++) {
@@ -285,11 +285,11 @@ Static void initialize(void) {
         dyn_used = himemstatusage; // initialize statistics
 
         /// p82#222
-        eqtype(undefinedcontrolsequence) = undefinedcs;
-        equiv(undefinedcontrolsequence) = 0;
-        eqlevel(undefinedcontrolsequence) = levelzero;
-        for (k = activebase; k < undefinedcontrolsequence; k++)
-            eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
+        eqtype(UNDEFINED_CONTROL_SEQUENCE) = undefinedcs;
+        equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
+        eqlevel(UNDEFINED_CONTROL_SEQUENCE) = levelzero;
+        for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
+            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
 
         /// #228
         equiv(gluebase) = zeroglue;
@@ -304,7 +304,7 @@ Static void initialize(void) {
         eqtype(parshapeloc) = shaperef;
         eqlevel(parshapeloc) = levelone;
         for (k = outputroutineloc; k <= toksbase + 255; k++)
-            eqtb[k - activebase] = eqtb[undefinedcontrolsequence - activebase];
+            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         box(0) = 0;
         eqtype(boxbase) = boxref;
         eqlevel(boxbase) = levelone;
@@ -694,7 +694,7 @@ Static void print_cs(long p) {
                 print(p - activebase);
             } // if (p < activebase) - else
         } // if (p >= singlebase) - else
-    } else if (p >= undefinedcontrolsequence) {
+    } else if (p >= UNDEFINED_CONTROL_SEQUENCE) {
         print_esc(S(264)); // "IMPOSSIBLE."
     } else if (!str_valid(text(p))) {
         print_esc(S(265)); // "NONEXISTENT."
@@ -1279,8 +1279,8 @@ Static void showtokenlist(long p, long q, long l) {
             print_esc(S(308));
             goto _Lexit;
         }
-        if (info(p) >= cstokenflag) {
-            print_cs(info(p) - cstokenflag);
+        if (info(p) >= CS_TOKEN_FLAG) {
+            print_cs(info(p) - CS_TOKEN_FLAG);
         } else { /*:293*/
             m = info(p) / dwa_do_8;
             c = (info(p)) & (dwa_do_8 - 1);
@@ -3354,7 +3354,7 @@ HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
         }
         if (next(p) == 0) {
             if (no_new) {
-                p = undefinedcontrolsequence;
+                p = UNDEFINED_CONTROL_SEQUENCE;
             } else {   
                 if (text(p) > 0) {
                     do {
@@ -3572,7 +3572,7 @@ Static void unsave(void) {
             l = savelevel(saveptr);
             saveptr--;
         } else {
-            savestack[saveptr] = eqtb[undefinedcontrolsequence - activebase];
+            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         }
         if (p < intbase) {
             if (eqlevel(p) == levelone) {
@@ -3810,7 +3810,7 @@ Static int check_outer_validity(int local_curcs) {
     if (local_curcs != 0) {   /*:337*/
         if (state == TOKEN_LIST || name < 1 || name > 17) {
             p = get_avail();
-            info(p) = cstokenflag + local_curcs;
+            info(p) = CS_TOKEN_FLAG + local_curcs;
             backlist(p);
         }
         curcmd = spacer;
@@ -3848,7 +3848,7 @@ Static int check_outer_validity(int local_curcs) {
                 q = p;
                 p = get_avail();
                 link(p) = q;
-                info(p) = cstokenflag + frozencr;
+                info(p) = CS_TOKEN_FLAG + frozencr;
                 alignstate = -1000000L;
                 break;
 
@@ -3873,7 +3873,7 @@ Static int check_outer_validity(int local_curcs) {
             curcs = 0;
         else
             help_line[2] = S(526);
-        curtok = cstokenflag + frozenfi;
+        curtok = CS_TOKEN_FLAG + frozenfi;
         inserror();
     }
     /*:338*/
@@ -4224,13 +4224,13 @@ _Lrestart:
         }
         t = info(loc);
         loc = link(loc);
-        if (t >= cstokenflag) {
-            cur_cs = t - cstokenflag;
+        if (t >= CS_TOKEN_FLAG) {
+            cur_cs = t - CS_TOKEN_FLAG;
             cur_cmd = eqtype(cur_cs);
             cur_chr = equiv(cur_cs);
             if (cur_cmd >= outercall) {
                 if (cur_cmd == dontexpand) { /*358:*/
-                    cur_cs = info(loc) - cstokenflag;
+                    cur_cs = info(loc) - CS_TOKEN_FLAG;
                     loc = 0;
                     cur_cmd = eqtype(cur_cs);
                     cur_chr = equiv(cur_cs);
@@ -4559,9 +4559,9 @@ _Lexit:
 /*379:*/
 Static void insertrelax(void)
 {
-  curtok = cstokenflag + curcs;
+  curtok = CS_TOKEN_FLAG + curcs;
   backinput();
-  curtok = cstokenflag + frozenrelax;
+  curtok = CS_TOKEN_FLAG + frozenrelax;
   backinput();
   token_type = INSERTED;
 }  /*:379*/
@@ -4640,9 +4640,9 @@ Static void expand(void)
       scanner_status = savescannerstatus;
       t = curtok;
       backinput();
-      if (t >= cstokenflag) {
+      if (t >= CS_TOKEN_FLAG) {
 	p = get_avail();
-	info(p) = cstokenflag + frozendontexpand;
+	info(p) = CS_TOKEN_FLAG + frozendontexpand;
 	link(p) = loc;
 	start = p;
 	loc = p;
@@ -4691,7 +4691,7 @@ Static void expand(void)
       flushlist(r);
       if (eqtype(curcs) == undefinedcs)
 	eqdefine(curcs, relax, 256);
-      curtok = curcs + cstokenflag;
+      curtok = curcs + CS_TOKEN_FLAG;
       backinput();
       break;
       /*:372*/
@@ -4756,7 +4756,7 @@ Static void expand(void)
   else if (curcmd < endtemplate)
     macrocall(curchr);
   else {
-    curtok = cstokenflag + frozenendv;
+    curtok = CS_TOKEN_FLAG + frozenendv;
     backinput();
   }
   curval = cvbackup;
@@ -5328,7 +5328,7 @@ Static void scanint(void) {
     } while (curtok == othertoken + '+');
     if (curtok == alphatoken) { /*442:*/
         gettoken();
-        if (curtok < cstokenflag) {
+        if (curtok < CS_TOKEN_FLAG) {
             curval = curchr;
             if (curcmd <= rightbrace) {
                 if (curcmd == rightbrace)
@@ -5336,10 +5336,10 @@ Static void scanint(void) {
                 else
                     alignstate--;
             }
-        } else if (curtok < cstokenflag + singlebase)
-            curval = curtok - cstokenflag - activebase;
+        } else if (curtok < CS_TOKEN_FLAG + singlebase)
+            curval = curtok - CS_TOKEN_FLAG - activebase;
         else
-            curval = curtok - cstokenflag - singlebase;
+            curval = curtok - CS_TOKEN_FLAG - singlebase;
         if (curval > 255) {
             printnl(S(292));
             print(S(605));
@@ -5764,7 +5764,7 @@ Static HalfWord thetoks(void) {
         p = temphead;
         link(p) = 0;
         if (curvallevel == identval) {
-            STORE_NEW_TOKEN(p, cstokenflag + curval);
+            STORE_NEW_TOKEN(p, CS_TOKEN_FLAG + curval);
             return p;
         }
         if (curval == 0) return p;
@@ -6131,7 +6131,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 #define getxtokenoractivechar()                                                \
     (getxtoken(),                                                              \
      ((curcmd == relax) && (curchr == noexpandflag))                           \
-         ? (curcmd = activechar, cur_chr = curtok - cstokenflag - activebase)  \
+         ? (curcmd = activechar, cur_chr = curtok - CS_TOKEN_FLAG - activebase)  \
          : (cur_chr = curchr))
 
 /*:497*/
@@ -6400,7 +6400,7 @@ Static void endname(void) {
 long filename_k;
 Static void appendtoname(ASCIICode x) {
     filename_k++;
-    if (filename_k <= filenamesize) {
+    if (filename_k <= FILE_NAME_SIZE) {
         name_of_file[filename_k - 1] = xchr[x];
     }
 }
@@ -6416,11 +6416,11 @@ void packfilename(StrNumber n, StrNumber a, StrNumber e) {
     str_map(n, appendtoname);
     str_map(e, appendtoname);
     k = filename_k;
-    if (k <= filenamesize)
+    if (k <= FILE_NAME_SIZE)
         namelength = k;
     else
-        namelength = filenamesize;
-    for (k = namelength; k < filenamesize; k++)
+        namelength = FILE_NAME_SIZE;
+    for (k = namelength; k < FILE_NAME_SIZE; k++)
         name_of_file[k] = ' ';
 } /*:519*/
 
@@ -12867,7 +12867,7 @@ Static void offsave(void)
   switch (curgroup) {   /*:1065*/
 
   case semisimplegroup:
-    info(p) = cstokenflag + frozenendgroup;
+    info(p) = CS_TOKEN_FLAG + frozenendgroup;
     print_esc(S(836));
     break;
 
@@ -12877,7 +12877,7 @@ Static void offsave(void)
     break;
 
   case mathleftgroup:
-    info(p) = cstokenflag + frozenright;
+    info(p) = CS_TOKEN_FLAG + frozenright;
     link(p) = get_avail();
     p = link(p);
     info(p) = othertoken + '.';
@@ -14489,7 +14489,7 @@ _Lrestart:
         S(940));
   if (curcs == 0)
     backinput();
-  curtok = cstokenflag + frozenprotection;
+  curtok = CS_TOKEN_FLAG + frozenprotection;
   inserror();
   goto _Lrestart;
 }
@@ -15335,7 +15335,7 @@ Static void shiftcase(void) {
     p = link(defref);
     while (p != 0) { /*1289:*/
         HalfWord t = info(p);
-        if (t < cstokenflag + singlebase) { /*:1289*/
+        if (t < CS_TOKEN_FLAG + singlebase) { /*:1289*/
             c = t & (dwa_do_8 - 1);
             if (equiv(b + c) != 0) info(p) = t - c + equiv(b + c);
         }
@@ -15595,7 +15595,7 @@ _Ldone2:
             cs_count++;
         }
     }
-    for (p = hash_used + 1; p < undefinedcontrolsequence; p++) {
+    for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
         pppfmtfile.hh = hash[p - hashbase];
         pput(pppfmtfile);
     }
@@ -15926,7 +15926,7 @@ Static void handlerightbrace(void) {
 
         case aligngroup: /*:1132*/
             backinput();
-            curtok = cstokenflag + frozencr;
+            curtok = CS_TOKEN_FLAG + frozencr;
             printnl(S(292));
             print(S(554));
             print_esc(S(737));
@@ -16954,7 +16954,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
     parloc = x;
-    partoken = cstokenflag + parloc;
+    partoken = CS_TOKEN_FLAG + parloc;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < hashbase || x > frozencontrolsequence) /*1319:*/
@@ -16973,7 +16973,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
         pget(pppfmtfile);
         hash[p - hashbase] = pppfmtfile.hh;
     } while (p != hash_used);
-    for (p = hash_used + 1; p < undefinedcontrolsequence; p++) {
+    for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
         pget(pppfmtfile);
         hash[p - hashbase] = pppfmtfile.hh;
     }
@@ -17424,7 +17424,7 @@ Static void initprim(void) {
     /*334:*/
     primitive(S(760), parend, 256);
     parloc = curval;
-    partoken = cstokenflag + parloc; /*:334*/
+    partoken = CS_TOKEN_FLAG + parloc; /*:334*/
     /*376:*/
     primitive(S(1128), input, 0);
     primitive(S(1129), input, 1); /*:376*/
@@ -17746,7 +17746,7 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     // xref: [13], 14, 111, 290, 522, 1249, 1332
     Integer bad = 0;
 
-    /// #14
+    /// [#14]
     if (    HALF_ERROR_LINE < 30 
         ||  HALF_ERROR_LINE > (ERROR_LINE - 15)
     ) bad = 1;
@@ -17757,7 +17757,7 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     if (MAX_IN_OPEN >= 128) bad = 6;
     if (MEM_TOP < (256 + 11)) bad = 7; // we will want null list > 255
 
-    /// #111
+    /// [#111]
     #ifdef tt_INIT
         if (MEM_MIN != MEM_BOT || MEM_MAX != MEM_TOP) bad = 10;
     #endif // #111: tt_INIT
@@ -17777,12 +17777,12 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     if (BUF_SIZE > MAX_HALF_WORD) bad = 18;
     if ((MAX_QUARTER_WORD - MIN_QUARTER_WORD) < 255) bad = 19;
 
-    /// #290
-    if ((cstokenflag + undefinedcontrolsequence) > MAX_HALF_WORD) bad = 21;
-    /// #522
-    if (formatdefaultlength > filenamesize) bad = 31;
-    /// 1249
-    if ((MAX_HALF_WORD * 2) < (MEM_TOP - MEM_MIN)) bad = 41;
+    /// [#290]
+    if ((CS_TOKEN_FLAG + UNDEFINED_CONTROL_SEQUENCE) > MAX_HALF_WORD) bad = 21;
+    /// [#522]
+    if (FORMAT_DEFAULT_LENGTH > FILE_NAME_SIZE) bad = 31;
+    /// [#1249]
+    if ((2 * MAX_HALF_WORD) < (MEM_TOP - MEM_MIN)) bad = 41;
 
     return bad;
 }
