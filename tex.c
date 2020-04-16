@@ -16004,7 +16004,7 @@ Static void handlerightbrace(void) {
 } /*:1068*/
 
 
-Static void maincontrol(void) {
+Static void main_control(void) {
     long t;
 
     if (everyjob != 0) begintokenlist(everyjob, EVERY_JOB_TEXT);
@@ -17202,7 +17202,7 @@ Static void close_files_and_terminate(void) {
 
 
 /// p468#1335: Last-minute procedures
-Static void finalcleanup(void) {
+Static void final_cleanup(void) {
     SmallNumber c;
 
     c = curchr;
@@ -17257,12 +17257,12 @@ Static void finalcleanup(void) {
             storefmtfile();
     #endif // #1335: tt_INIT
     }
-} // #1335: finalcleanup
+} // #1335: final_cleanup
 
 #ifdef tt_INIT
 // TeX 原语定义
 /// p468#1336: initialize all the primitives
-Static void initprim(void) {
+Static void init_prim(void) {
     /*226:*/
     primitive(S(341), assignglue, gluebase);
     primitive(S(342), assignglue, gluebase + baselineskipcode);
@@ -17654,7 +17654,7 @@ Static void initprim(void) {
     primitive(S(381), extension, specialnode);
     primitive(S(1252), extension, immediatecode);
     primitive(S(382), extension, setlanguagecode); /*:1344*/
-} // #1336: initprim
+} // #1336: init_prim
 #endif // #1336: tt_INIT
 
 #ifdef tt_DEBUG
@@ -17922,8 +17922,8 @@ int main(int argc, char* argv[]) {
     initialize(); // set global variables to their starting values
     #ifdef tt_INIT
         if (!get_strings_started()) goto _LN_main__final_end;
-        initprim(); // call primitive for each primitive
-        str_set_init_ptrs();
+        init_prim(); // call primitive for each primitive
+        str_set_init_ptrs(); // @str.c
         fix_date_and_time(&tex_time, &day, &month, &year);
     #endif // #1332: tt_INIT
     ready_already = 314159L;
@@ -17934,8 +17934,8 @@ _LN_main__start_of_TEX:
     if (has_error) goto _LN_main__final_end;
     // #1332
     history = SPOTLESS; // ready to go!
-    maincontrol();      // come to life
-    finalcleanup();     // prepare for death
+    main_control();     // come to life
+    final_cleanup();    // prepare for death
 
 _LN_main__end_of_TEX:
     close_files_and_terminate();
