@@ -213,8 +213,7 @@ Static void initialize(void) {
         aftertoken = 0; /*:1267*/
         /*1282:*/
         longhelpseen = false; /*:1282*/
-        /*1300:*/
-        formatident = 0; /*:1300*/
+        format_ident = 0; // #1300
         /*1343:*/
         for (k = 0; k <= 17; k++) /*:1343*/
             writeopen[k] = false;
@@ -388,7 +387,7 @@ Static void initialize(void) {
         // #1216
         text(frozenprotection) = S(258);
         // #1301
-        formatident = S(259);
+        format_ident = S(259); // " (INITEX)"
         // #1369
         text(endwrite) = S(260);
         eqlevel(endwrite) = levelone;
@@ -881,7 +880,7 @@ _Llabcontinue:
                         loc = first;
                     }
                     first = last;
-                    curinput.limitfield = last - 1;
+                    cur_input.limitfield = last - 1;
                     goto _Lexit;
                     break;
                     /*:87*/
@@ -1424,11 +1423,11 @@ Static void showcontext(void) { /*:315*/
     long p, q;
 
     baseptr = inputptr;
-    inputstack[baseptr] = curinput;
+    inputstack[baseptr] = cur_input;
     nn = -1;
     bottomline = false;
     while (true) {
-        curinput = inputstack[baseptr];
+        cur_input = inputstack[baseptr];
         if (state != TOKEN_LIST) {
             if (name > 17 || baseptr == 0) bottomline = true;
         }
@@ -1564,7 +1563,7 @@ Static void showcontext(void) { /*:315*/
         baseptr--;
     }
 _Ldone:
-    curinput = inputstack[inputptr];
+    cur_input = inputstack[inputptr];
 }
 /*:311*/
 
@@ -3643,7 +3642,7 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
     if (inputptr == stacksize)
       overflow(S(508), stacksize);
   }
-  inputstack[inputptr] = curinput;
+  inputstack[inputptr] = cur_input;
   inputptr++;
   state = TOKEN_LIST;
   start = p;
@@ -3728,7 +3727,7 @@ Static void backinput(void)
     if (inputptr == stacksize)
       overflow(S(508), stacksize);
   }
-  inputstack[inputptr] = curinput;
+  inputstack[inputptr] = cur_input;
   inputptr++;
   state = TOKEN_LIST;
   start = p;
@@ -3768,7 +3767,7 @@ Static void beginfilereading(void)
     if (inputptr == stacksize)
       overflow(S(508), stacksize);
   }
-  inputstack[inputptr] = curinput;
+  inputstack[inputptr] = cur_input;
   inputptr++;
   iindex = inopen;
   linestack[iindex - 1] = line;
@@ -6520,7 +6519,7 @@ Static void openlogfile(void) {
     logopened = true;
     /*536:*/
     fprintf(log_file, "%s", TEX_BANNER);
-    slow_print(formatident);
+    slow_print(format_ident);
     print(S(675));
     print_int(day);
     print_char(' ');
@@ -6534,7 +6533,7 @@ Static void openlogfile(void) {
     print_two(tex_time / 60);
     print_char(':');
     print_two(tex_time % 60); /*:536*/
-    inputstack[inputptr] = curinput;
+    inputstack[inputptr] = cur_input;
     printnl(S(676));
     l = inputstack[0].limitfield;
     if (buffer[l] == endlinechar) l--;
@@ -15441,7 +15440,7 @@ Static void storefmtfile(void) { /*1304:*/
     else
         selector = TERM_AND_LOG;
     str_room(1);
-    formatident = makestring();
+    format_ident = makestring();
     packjobname(formatextension);
     while (!wopenout(&fmtfile))
         promptfilename(S(991), formatextension);
@@ -15449,7 +15448,7 @@ Static void storefmtfile(void) { /*1304:*/
     slow_print(wmakenamestring());
     flush_string();
     printnl(S(385));        /*:1328*/
-    slow_print(formatident); /*1307:*/
+    slow_print(format_ident); /*1307:*/
     pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
     pppfmtfile.int_ = membot;
@@ -15662,7 +15661,7 @@ _Ldone2:
     }
     pppfmtfile.int_ = interaction;
     pput(pppfmtfile);
-    pppfmtfile.int_ = formatident;
+    pppfmtfile.int_ = format_ident;
     pput(pppfmtfile);
     pppfmtfile.int_ = 69069L;
     pput(pppfmtfile);
@@ -17072,7 +17071,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (!str_valid(x)) goto _Lbadfmt_;
-    formatident = x;
+    format_ident = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if ((x != 69069L) | feof(fmtfile)) goto _Lbadfmt_; /*:1327*/
@@ -17785,7 +17784,7 @@ int main(int argc, char* argv[]) {
 
     PASCAL_MAIN(argc, argv);
     if (setjmp(_JLendofTEX)) goto _L_end_of_TEX;
-    if (setjmp(_JLfinalend)) goto _L_final_end;
+    if (setjmp(_JL_final_end)) goto _L_final_end;
 
     history = FATAL_ERROR_STOP;
     if (ready_already == 314159L) goto _L_start_of_TEX;
@@ -17817,10 +17816,10 @@ _L_start_of_TEX: /*55:*/
     /*:55*/
     /*61:*/
     fprintf(stdout, "%s", TEX_BANNER);
-    if (formatident == 0)
+    if (format_ident == 0)
         fprintf(stdout, " (no format preloaded)\n");
     else {
-        slow_print(formatident);
+        slow_print(format_ident);
         println();
     }
     fflush(stdout); /*:61*/
@@ -17857,8 +17856,8 @@ _L_start_of_TEX: /*55:*/
     if (!initterminal()) goto _L_final_end;
     limit = last;
     first = last + 1; /*:331*/
-    if (need_to_load_format /* (formatident == 0) | (buffer[loc] == '&') */) {
-        if (formatident != 0) initialize();
+    if (need_to_load_format /* (format_ident == 0) | (buffer[loc] == '&') */) {
+        if (format_ident != 0) initialize();
         if (!openfmtfile()) goto _L_final_end;
         if (!loadfmtfile()) {
             wclose(&fmtfile);

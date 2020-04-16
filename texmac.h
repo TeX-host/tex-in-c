@@ -192,12 +192,12 @@
     ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
 
 // p121#302
-#define loc     curinput.locfield
-#define state   curinput.statefield // current scanner state
-#define iindex  curinput.indexfield // reference for buffer information
-#define start   curinput.startfield // starting position in |buffer|
-#define limit   curinput.limitfield // end of current line in |buffer|
-#define name    curinput.namefield  // name of the current file
+#define loc     cur_input.locfield
+#define state   cur_input.statefield // current scanner state
+#define iindex  cur_input.indexfield // reference for buffer information
+#define start   cur_input.startfield // starting position in |buffer|
+#define limit   cur_input.limitfield // end of current line in |buffer|
+#define name    cur_input.namefield  // name of the current file
 // #304
 #define terminal_input  (name==0)       // are we reading from the terminal? 
 #define curfile  (inputfile[iindex-1])  // the current |alphafile| variable 
@@ -481,7 +481,7 @@
      ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
 #define popinput() /* leave an input level, re-enter the old */                \
-    (inputptr--, curinput = inputstack[inputptr])
+    (inputptr--, cur_input = inputstack[inputptr])
 #define backlist(x)                                                            \
     begintokenlist((x), BACKED_UP) /* backs up a simple token list */
 #define inslist(x)                                                             \

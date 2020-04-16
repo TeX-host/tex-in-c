@@ -499,10 +499,13 @@ Static Boolean writeopen[18];
 /*1345:*/
 Static Pointer writeloc; /*:1345*/
 
-/// [#]
-StrNumber formatident;
-InStateRecord curinput;
-jmp_buf _JLfinalend;
+// #1299: a string that is printed right after the banner
+// format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
+StrNumber format_ident;
+// #301: the "top" input state, according to convention (1)
+// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
+InStateRecord cur_input;
+jmp_buf _JL_final_end;
 Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
 Static Pointer curcs, warningindex, defref;
 

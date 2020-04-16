@@ -10,9 +10,11 @@ all: ttex
 ttex: ${OBJS}
 	${CC} -o ttex ${OBJS} -lm ${CFLAGS}
 
+debug: clean_test ttex
+	cp ttex _test
+
 # clean && run && load plainTeX
-r: clean_test ttex
-	cp ttex _test 
+r: debug
 	cd _test && ./ttex plain
 
 .PHONY: clean deps test
