@@ -9030,9 +9030,9 @@ Static void mlisttohlist(void) {
         }
         /*766:*/
         if (rtype > 0) { /*:766*/
-            const char trans_table[] = "0234000122*4000133**3**344*0400400*"
-                                       "000000234000111*1111112341011";
-            switch (trans_table[rtype * 8 + t - ordnoad * 9]) {
+            const char math_spacing[] = "0234000122*4000133**3**344*0400400*"
+                                        "000000234000111*1111112341011";
+            switch (math_spacing[rtype * 8 + t - ordnoad * 9]) {
                 case '0': x = 0; break;
 
                 case '1':
@@ -17786,10 +17786,11 @@ int main(int argc, char* argv[]) {
     if (setjmp(_JLendofTEX)) goto _L_end_of_TEX;
     if (setjmp(_JL_final_end)) goto _L_final_end;
 
-    history = FATAL_ERROR_STOP;
+    history = FATAL_ERROR_STOP; // in case we quit during initialization
     if (ready_already == 314159L) goto _L_start_of_TEX;
 
     // 常量范围检查
+    // Check the "constant" values for consistency
     bad = check_constant();
     if (bad > 0) {
         fprintf(
@@ -17799,38 +17800,39 @@ int main(int argc, char* argv[]) {
         goto _L_final_end;
     }
 
-    initialize();
+    initialize(); // set global variables to their starting values
 #ifdef tt_INIT
     if (!get_strings_started()) goto _L_final_end;
-    initprim();
+    initprim(); // call primitive for each primitive
     str_set_init_ptrs();
     fixdateandtime(&tex_time, &day, &month, &year);
 #endif // #1332: tt_INIT
     ready_already = 314159L;
 
-_L_start_of_TEX: /*55:*/
+_L_start_of_TEX:
+    // #55: Initialize the output routines
     selector = TERM_ONLY;
     tally = 0;
     term_offset = 0;
     file_offset = 0;
-    /*:55*/
-    /*61:*/
+    // #61
     fprintf(stdout, "%s", TEX_BANNER);
-    if (format_ident == 0)
+    if (format_ident == 0) {
         fprintf(stdout, " (no format preloaded)\n");
-    else {
+    } else {
         slow_print(format_ident);
         println();
     }
-    fflush(stdout); /*:61*/
-    /*528:*/
+    fflush(stdout);
+    // #528
     jobname = 0;
     nameinprogress = false;
-    logopened = false; /*:528*/
-    /*533:*/
-    outputfilename = 0; /*:533*/
-    /*1337:*/
-    /*331:*/
+    logopened = false; 
+    // #533
+    outputfilename = 0;
+
+    /// #1337: Get the first line of input and prepare to start
+    /// #331: Initialize the input routines
     inputptr = 0;
     maxinstack = 0;
     inopen = 0;
@@ -17855,9 +17857,11 @@ _L_start_of_TEX: /*55:*/
     alignstate = 1000000L;
     if (!initterminal()) goto _L_final_end;
     limit = last;
-    first = last + 1; /*:331*/
+    first = last + 1; // `init_terminal` has set `loc` and `last`
+
+    // #1337
     if (need_to_load_format /* (format_ident == 0) | (buffer[loc] == '&') */) {
-        if (format_ident != 0) initialize();
+        if (format_ident != 0) initialize(); // erase preloaded format
         if (!openfmtfile()) goto _L_final_end;
         if (!loadfmtfile()) {
             wclose(&fmtfile);
@@ -17872,21 +17876,30 @@ _L_start_of_TEX: /*55:*/
     } else {
         buffer[limit] = endlinechar;
     }
-    fixdateandtime(&tex_time, &day, &month, &year); /*765:*/
-    /*75:*/
-    if (interaction == BATCH_MODE)
+    fixdateandtime(&tex_time, &day, &month, &year);
+
+    /// #765: Compute the magic offset
+    // _NOT_USE_
+    // ??? magic offset ← str start[math spacing] − 9 ∗ ord noad
+
+    /// #75: Initialize the print selector based on interaction
+    if (interaction == BATCH_MODE) {
         selector = NO_PRINT;
-    else {
-        selector = TERM_ONLY; /*:75*/
+    } else {
+        selector = TERM_ONLY;
     }
-    if ((loc < limit) & (catcode(buffer[loc]) != escape)) /*:1337*/
-        startinput();
-    history = SPOTLESS;
-    maincontrol();
-    finalcleanup();
+    if ((loc < limit) & (catcode(buffer[loc]) != escape)) {
+        startinput(); // \input assumed
+    }
+
+    // #1332
+    history = SPOTLESS; // ready to go!
+    maincontrol();      // come to life
+    finalcleanup();     // prepare for death
 
 _L_end_of_TEX:
     close_files_and_terminate();
+
 _L_final_end:
     ready_already = 0;
     exit(EXIT_SUCCESS);
