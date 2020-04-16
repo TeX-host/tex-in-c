@@ -327,7 +327,7 @@ Static void initialize(void) {
         }
         catcode(carriagereturn) = carret;
         catcode(' ') = spacer;
-        catcode('\\') = escape;
+        catcode('\\') = ESCAPE;
         catcode('%') = comment;
         catcode(invalidcode) = invalidchar;
         catcode(nullcode) = ignore;
@@ -353,7 +353,7 @@ Static void initialize(void) {
         hangafter = 1;
         maxdeadcycles = 25;
         ESCAPE_CHAR = '\\';
-        endlinechar = carriagereturn;
+        end_line_char = carriagereturn;
         for (k = 0; k <= 255; k++)
             delcode(k) = -1;
         delcode('.') = 0; // this null delimiter is used in error recovery
@@ -809,8 +809,8 @@ _Llabcontinue:
                         long s1 = curtok;
                         long s2 = curcmd;
                         long s3 = curchr;
-                        long s4 = alignstate;
-                        alignstate = 1000000L;
+                        long s4 = align_state;
+                        align_state = 1000000L;
                         OK_to_interrupt = false;
                         if ((last > first + 1) & (buffer[first + 1] >= '0') &
                             (buffer[first + 1] <= '9'))
@@ -824,7 +824,7 @@ _Llabcontinue:
                         curtok = s1;
                         curcmd = s2;
                         curchr = s3;
-                        alignstate = s4;
+                        align_state = s4;
                         OK_to_interrupt = true;
                         help2(S(270), S(271));
                         showcontext();
@@ -873,12 +873,12 @@ _Llabcontinue:
                 case 'I': /*87:*/
                     beginfilereading();
                     if (last > first + 1) {
-                        loc = first + 1;
+                        LOC = first + 1;
                         buffer[first] = ' ';
                     } else {
                         print(S(279));
                         term_input();
-                        loc = first;
+                        LOC = first;
                     }
                     first = last;
                     cur_input.limitfield = last - 1;
@@ -1010,7 +1010,7 @@ Static void confusion(StrNumber s) {
 /*37:*/
 Static Boolean initterminal(void) {
     if (initinc(1)) {
-        loc = first;
+        LOC = first;
         return true;
     }
     while (true) {
@@ -1021,10 +1021,10 @@ Static Boolean initterminal(void) {
             fprintf(stdout, "! End of file on the terminal... why?");
             return false;
         }
-        loc = first;
-        while ((loc < last) && (buffer[loc] == ' '))
-            loc++;
-        if (loc < last) {
+        LOC = first;
+        while ((LOC < last) && (buffer[LOC] == ' '))
+            LOC++;
+        if (LOC < last) {
             return true;
         }
         fprintf(stdout, "Please type the name of your input file.\n");
@@ -1429,17 +1429,17 @@ Static void showcontext(void) { /*:315*/
     bottomline = false;
     while (true) {
         cur_input = inputstack[baseptr];
-        if (state != TOKEN_LIST) {
-            if (name > 17 || baseptr == 0) bottomline = true;
+        if (STATE != TOKEN_LIST) {
+            if (NAME > 17 || baseptr == 0) bottomline = true;
         }
         if (baseptr == inputptr || bottomline || nn < errorcontextlines) {
             /*312:*/
-            if (baseptr == inputptr || state != TOKEN_LIST ||
-                token_type != BACKED_UP || loc != 0) {
+            if (baseptr == inputptr || STATE != TOKEN_LIST ||
+                token_type != BACKED_UP || LOC != 0) {
                 tally = 0;
                 old_setting = selector;
-                if (state != TOKEN_LIST) { /*313:*/
-                    if (name <= 17) {      /*:313*/
+                if (STATE != TOKEN_LIST) { /*313:*/
+                    if (NAME <= 17) {      /*:313*/
                         if (terminal_input) {
                             if (baseptr == 0)
                                 printnl(S(489));
@@ -1447,10 +1447,10 @@ Static void showcontext(void) { /*:315*/
                                 printnl(S(490));
                         } else {
                             printnl(S(491));
-                            if (name == 17)
+                            if (NAME == 17)
                                 print_char('*');
                             else
-                                print_int(name - 1);
+                                print_int(NAME - 1);
                             print_char('>');
                         }
                     } else {
@@ -1459,13 +1459,13 @@ Static void showcontext(void) { /*:315*/
                     }
                     print_char(' '); /*318:*/
                     beginpseudoprint();
-                    if (buffer[limit] == endlinechar)
-                        j = limit;
+                    if (buffer[LIMIT] == end_line_char)
+                        j = LIMIT;
                     else
-                        j = limit + 1;
+                        j = LIMIT + 1;
                     if (j > 0) {
-                        for (i = start; i < j; i++) { /*:318*/
-                            if (i == loc) {
+                        for (i = START; i < j; i++) { /*:318*/
+                            if (i == LOC) {
                                 settrick_count();
                             }
                             print(buffer[i]);
@@ -1480,7 +1480,7 @@ Static void showcontext(void) { /*:315*/
                         case V_TEMPLATE: printnl(S(494)); break;
 
                         case BACKED_UP:
-                            if (loc == 0)
+                            if (LOC == 0)
                                 printnl(S(495));
                             else
                                 printnl(S(496));
@@ -1490,7 +1490,7 @@ Static void showcontext(void) { /*:315*/
 
                         case MACRO:
                             println();
-                            print_cs(name);
+                            print_cs(NAME);
                             break;
 
                         case OUTPUT_TEXT: printnl(S(498)); break;
@@ -1518,9 +1518,9 @@ Static void showcontext(void) { /*:315*/
                     /*319:*/
                     beginpseudoprint();
                     if (token_type < MACRO)
-                        showtokenlist(start, loc, 100000L);
+                        showtokenlist(START, LOC, 100000L);
                     else /*:319*/
-                        showtokenlist(link(start), loc, 100000L);
+                        showtokenlist(link(START), LOC, 100000L);
                 }
                 selector = old_setting; /*317:*/
                 if (trick_count == 1000000L) {
@@ -3388,7 +3388,7 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
         curval = s + singlebase;
     } else {
         // TODO:
-        // k ← str start[s]; l ← str start[s + 1] − k;
+        // k ← str START[s]; l ← str START[s + 1] − k;
         // for j ← 0 to l − 1 do buffer[j] ← so(str pool[k + j]);
         curval = idlookup_s(s, false);
         flush_string();
@@ -3645,11 +3645,11 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
   }
   inputstack[inputptr] = cur_input;
   inputptr++;
-  state = TOKEN_LIST;
-  start = p;
+  STATE = TOKEN_LIST;
+  START = p;
   token_type = t;
   if (t < MACRO) {
-    loc = p;
+    LOC = p;
     return;
   }
   addtokenref(p);
@@ -3657,7 +3657,7 @@ Static void begintokenlist(HalfWord p, QuarterWord t)
     param_start = paramptr;
     return;
   }
-  loc = link(p);
+  LOC = link(p);
   if (tracingmacros <= 1)
     return;
   begindiagnostic();
@@ -3687,9 +3687,9 @@ Static void endtokenlist(void)
 {
   if (token_type >= BACKED_UP) {
     if (token_type <= INSERTED)
-      flushlist(start);
+      flushlist(START);
     else {
-      deletetokenref(start);
+      deletetokenref(START);
       if (token_type == MACRO) {
 	while (paramptr > param_start) {
 	  paramptr--;
@@ -3698,8 +3698,8 @@ Static void endtokenlist(void)
       }
     }
   } else if (token_type == U_TEMPLATE) {
-    if (alignstate > 500000L)
-      alignstate = 0;
+    if (align_state > 500000L)
+      align_state = 0;
     else
       fatalerror(S(509));
   }
@@ -3713,15 +3713,15 @@ Static void backinput(void)
 {
   Pointer p;
 
-  while (state == TOKEN_LIST && loc == 0)
+  while (STATE == TOKEN_LIST && LOC == 0)
     endtokenlist();
   p = get_avail();
   info(p) = curtok;
   if (curtok < rightbracelimit) {
     if (curtok < leftbracelimit)
-      alignstate--;
+      align_state--;
     else
-      alignstate++;
+      align_state++;
   }
   if (inputptr > maxinstack) {
     maxinstack = inputptr;
@@ -3730,10 +3730,10 @@ Static void backinput(void)
   }
   inputstack[inputptr] = cur_input;
   inputptr++;
-  state = TOKEN_LIST;
-  start = p;
+  STATE = TOKEN_LIST;
+  START = p;
   token_type = BACKED_UP;
-  loc = p;
+  LOC = p;
 }
 /*:325*/
 
@@ -3770,20 +3770,20 @@ Static void beginfilereading(void)
   }
   inputstack[inputptr] = cur_input;
   inputptr++;
-  iindex = inopen;
-  linestack[iindex - 1] = line;
-  start = first;
-  state = midline;
-  name = 0;
+  IINDEX = inopen;
+  linestack[IINDEX - 1] = line;
+  START = first;
+  STATE = midline;
+  NAME = 0;
 }  /*:328*/
 
 
 /*329:*/
 Static void endfilereading(void)
 {
-  first = start;
-  line = linestack[iindex - 1];
-  if (name > 17)
+  first = START;
+  line = linestack[IINDEX - 1];
+  if (NAME > 17)
     aclose(&curfile);
   popinput();
   inopen--;
@@ -3793,7 +3793,7 @@ Static void endfilereading(void)
 /*330:*/
 Static void clearforerrorprompt(void)
 {
-  while (state != TOKEN_LIST && terminal_input && inputptr > 0 && loc > limit) {
+  while (STATE != TOKEN_LIST && terminal_input && inputptr > 0 && LOC > LIMIT) {
     endfilereading();
   }
   println();
@@ -3808,7 +3808,7 @@ Static int check_outer_validity(int local_curcs) {
 
     deletions_allowed = false; /*337:*/
     if (local_curcs != 0) {   /*:337*/
-        if (state == TOKEN_LIST || name < 1 || name > 17) {
+        if (STATE == TOKEN_LIST || NAME < 1 || NAME > 17) {
             p = get_avail();
             info(p) = CS_TOKEN_FLAG + local_curcs;
             backlist(p);
@@ -3849,7 +3849,7 @@ Static int check_outer_validity(int local_curcs) {
                 p = get_avail();
                 link(p) = q;
                 info(p) = CS_TOKEN_FLAG + frozencr;
-                alignstate = -1000000L;
+                align_state = -1000000L;
                 break;
 
             case ABSORBING:
@@ -3859,7 +3859,7 @@ Static int check_outer_validity(int local_curcs) {
         }
         inslist(p); /*:339*/
         print(S(516));
-        sprint_cs(warningindex);
+        sprint_cs(warning_index);
         help4(S(517), S(518), S(519), S(520));
         error();
     } else {
@@ -3914,34 +3914,34 @@ Static void getnext_worker(Boolean no_new_control_sequence) {
 
 _Lrestart:
     cur_cs = 0;
-    if (state != TOKEN_LIST) { /*343:*/
+    if (STATE != TOKEN_LIST) { /*343:*/
     _Lswitch__:
-        if (loc > limit) {
-            state = newline; /*360:*/
-            if (name > 17) { /*362:*/
+        if (LOC > LIMIT) {
+            STATE = NEW_LINE; /*360:*/
+            if (NAME > 17) { /*362:*/
                 line++;
-                first = start;
-                if (!forceeof) {
+                first = START;
+                if (!force_eof) {
                     if (inputln(curfile, true))
                         firmuptheline();
                     else
-                        forceeof = true;
+                        force_eof = true;
                 }
-                if (forceeof) {
+                if (force_eof) {
                     print_char(')');
                     openparens--;
                     fflush(stdout);
-                    forceeof = false;
+                    force_eof = false;
                     endfilereading();
                     cur_cs = check_outer_validity(cur_cs);
                     goto _Lrestart;
                 }
-                if (endlinecharinactive) {
-                    limit--;
+                if (end_line_char_inactive) {
+                    LIMIT--;
                 } else
-                    buffer[limit] = endlinechar;
-                first = limit + 1;
-                loc = start;
+                    buffer[LIMIT] = end_line_char;
+                first = LIMIT + 1;
+                LOC = START;
             }      /*:362*/
             else { /*:360*/
                 if (!terminal_input) {
@@ -3955,72 +3955,72 @@ _Lrestart:
                 }
                 if (selector < LOG_ONLY) openlogfile();
                 if (interaction > NON_STOP_MODE) {
-                    if (endlinecharinactive) {
-                        limit++;
+                    if (end_line_char_inactive) {
+                        LIMIT++;
                     }
-                    if (limit == start) printnl(S(527));
+                    if (LIMIT == START) printnl(S(527));
                     println();
-                    first = start;
+                    first = START;
                     print('*');
                     term_input();
-                    limit = last;
-                    if (endlinecharinactive) {
-                        limit--;
+                    LIMIT = last;
+                    if (end_line_char_inactive) {
+                        LIMIT--;
                     } else
-                        buffer[limit] = endlinechar;
-                    first = limit + 1;
-                    loc = start;
+                        buffer[LIMIT] = end_line_char;
+                    first = LIMIT + 1;
+                    LOC = START;
                 } else
                     fatalerror(S(528));
             }
             checkinterrupt();
             goto _Lswitch__;
         }
-        cur_chr = buffer[loc];
-        loc++;
+        cur_chr = buffer[LOC];
+        LOC++;
     _Lreswitch:
         cur_cmd = catcode(cur_chr); /*344:*/
-        switch (state + cur_cmd) {  /*345:*/
+        switch (STATE + cur_cmd) {  /*345:*/
 
             case midline + ignore:
             case skipblanks + ignore:
-            case newline + ignore:
+            case NEW_LINE + ignore:
             case skipblanks + spacer:
-            case newline + spacer: /*:345*/
+            case NEW_LINE + spacer: /*:345*/
                 goto _Lswitch__;
                 break;
 
             case midline:
             case skipblanks:
-            case newline: /*354:*/
-                if (loc > limit)
+            case NEW_LINE: /*354:*/
+                if (LOC > LIMIT)
                     cur_cs = nullcs;
                 else {
                 _Lstartcs_:
-                    k = loc;
+                    k = LOC;
                     cur_chr = buffer[k];
                     cat = catcode(cur_chr);
                     k++;
                     if (cat == letter)
-                        state = skipblanks;
+                        STATE = skipblanks;
                     else if (cat == spacer)
-                        state = skipblanks;
+                        STATE = skipblanks;
                     else
-                        state = midline;
-                    if (cat == letter && k <= limit) { /*356:*/
+                        STATE = midline;
+                    if (cat == letter && k <= LIMIT) { /*356:*/
                         do {
                             cur_chr = buffer[k];
                             cat = catcode(cur_chr);
                             k++;
-                        } while (cat == letter && k <= limit); /*355:*/
+                        } while (cat == letter && k <= LIMIT); /*355:*/
                         if (buffer[k] == cur_chr) {            /*:355*/
                             if (cat == supmark) {
-                                if (k < limit) {
+                                if (k < LIMIT) {
                                     c = buffer[k + 1];
                                     if (c < 128) {
                                         d = 2;
                                         if (ishex(c)) {
-                                            if (k + 2 <= limit) {
+                                            if (k + 2 <= LIMIT) {
                                                 cc = buffer[k + 2];
                                                 if (ishex(cc)) {
                                                     d++;
@@ -4034,9 +4034,9 @@ _Lrestart:
                                             buffer[k - 1] = c + 64;
                                         else
                                             buffer[k - 1] = c - 64;
-                                        limit -= d;
+                                        LIMIT -= d;
                                         first -= d;
-                                        while (k <= limit) {
+                                        while (k <= LIMIT) {
                                             buffer[k] = buffer[k + d];
                                             k++;
                                         }
@@ -4046,22 +4046,22 @@ _Lrestart:
                             }
                         }
                         if (cat != letter) k--;
-                        if (k > loc + 1) {
+                        if (k > LOC + 1) {
                             cur_cs = idlookup_p(
-                                buffer + loc, k - loc, no_new_control_sequence);
-                            loc = k;
+                                buffer + LOC, k - LOC, no_new_control_sequence);
+                            LOC = k;
                             goto _Lfound;
                         }
                     } else /*355:*/
                     {      /*:355*/
                         if (buffer[k] == cur_chr) {
                             if (cat == supmark) {
-                                if (k < limit) {
+                                if (k < LIMIT) {
                                     c = buffer[k + 1];
                                     if (c < 128) {
                                         d = 2;
                                         if (ishex(c)) {
-                                            if (k + 2 <= limit) {
+                                            if (k + 2 <= LIMIT) {
                                                 cc = buffer[k + 2];
                                                 if (ishex(cc)) {
                                                     d++;
@@ -4075,9 +4075,9 @@ _Lrestart:
                                             buffer[k - 1] = c + 64;
                                         else
                                             buffer[k - 1] = c - 64;
-                                        limit -= d;
+                                        LIMIT -= d;
                                         first -= d;
-                                        while (k <= limit) {
+                                        while (k <= LIMIT) {
                                             buffer[k] = buffer[k + d];
                                             k++;
                                         }
@@ -4088,8 +4088,8 @@ _Lrestart:
                         }
                     }
                     /*:356*/
-                    cur_cs = singlebase + buffer[loc];
-                    loc++;
+                    cur_cs = singlebase + buffer[LOC];
+                    LOC++;
                 }
 
 
@@ -4099,28 +4099,28 @@ _Lrestart:
                     /*:354*/
 
                     case midline +
-                    activechar : case skipblanks + activechar : case newline +
+                    activechar : case skipblanks + activechar : case NEW_LINE +
                                                                 activechar
                     : /*353:*/
-                      state = midline;
+                      STATE = midline;
                 cur_cs = cur_chr + activebase;
                 Process_cs
                     /*:353*/
 
                     case midline +
-                    supmark : case skipblanks + supmark : case newline +
+                    supmark : case skipblanks + supmark : case NEW_LINE +
                                                           supmark
                     : /*352:*/
-                      if (cur_chr == buffer[loc]) {
-                    if (loc < limit) {
-                        c = buffer[loc + 1];
+                      if (cur_chr == buffer[LOC]) {
+                    if (LOC < LIMIT) {
+                        c = buffer[LOC + 1];
                         if (c < 128) {
-                            loc += 2;
+                            LOC += 2;
                             if (ishex(c)) {
-                                if (loc <= limit) {
-                                    cc = buffer[loc];
+                                if (LOC <= LIMIT) {
+                                    cc = buffer[LOC];
                                     if (ishex(cc)) {
-                                        loc++;
+                                        LOC++;
                                         cur_chr = hex_to_i(c, cc);
                                         goto _Lreswitch;
                                     }
@@ -4134,13 +4134,13 @@ _Lrestart:
                         }
                     }
                 }
-                state = midline;
+                STATE = midline;
                 break;
                 /*:352*/
 
             case midline + invalidchar:
             case skipblanks + invalidchar:
-            case newline + invalidchar: /*346:*/
+            case NEW_LINE + invalidchar: /*346:*/
                 printnl(S(292));
                 print(S(529));
                 help2(S(530), S(531));
@@ -4153,13 +4153,13 @@ _Lrestart:
                 /*347:*/
 
             case midline + spacer: /*349:*/
-                state = skipblanks;
+                STATE = skipblanks;
                 cur_chr = ' ';
                 break;
                 /*:349*/
 
             case midline + carret: /*348:*/
-                loc = limit + 1;
+                LOC = LIMIT + 1;
                 cur_cmd = spacer;
                 cur_chr = ' ';
                 break;
@@ -4168,36 +4168,36 @@ _Lrestart:
             case skipblanks + carret:
             case midline + comment:
             case skipblanks + comment:
-            case newline + comment: /*:350*/
+            case NEW_LINE + comment: /*:350*/
                 /*350:*/
-                loc = limit + 1;
+                LOC = LIMIT + 1;
                 goto _Lswitch__;
                 break;
 
-            case newline + carret: /*351:*/
-                loc = limit + 1;
+            case NEW_LINE + carret: /*351:*/
+                LOC = LIMIT + 1;
                 cur_cs = parloc;
                 Process_cs
                     /*:351*/
 
                     case midline +
-                    leftbrace : alignstate++;
+                    leftbrace : align_state++;
                 break;
 
             case skipblanks + leftbrace:
-            case newline + leftbrace:
-                state = midline;
-                alignstate++;
+            case NEW_LINE + leftbrace:
+                STATE = midline;
+                align_state++;
                 break;
 
             case midline + rightbrace:
-                alignstate--;
+                align_state--;
                 break;
 
             case skipblanks + rightbrace:
-            case newline + rightbrace:
-                state = midline;
-                alignstate--;
+            case NEW_LINE + rightbrace:
+                STATE = midline;
+                align_state--;
                 break;
 
             case skipblanks + mathshift:
@@ -4206,32 +4206,32 @@ _Lrestart:
             case skipblanks + submark:
             case skipblanks + letter:
             case skipblanks + otherchar:
-            case newline + mathshift:
-            case newline + tabmark:
-            case newline + macparam:
-            case newline + submark:
-            case newline + letter:
-            case newline + otherchar: /*:347*/
-                state = midline;
+            case NEW_LINE + mathshift:
+            case NEW_LINE + tabmark:
+            case NEW_LINE + macparam:
+            case NEW_LINE + submark:
+            case NEW_LINE + letter:
+            case NEW_LINE + otherchar: /*:347*/
+                STATE = midline;
                 break;
         }
         /*:344*/
     } else { /*357:*/
         HalfWord t;
-        if (loc == 0) {
+        if (LOC == 0) {
             endtokenlist();
             goto _Lrestart;
         }
-        t = info(loc);
-        loc = link(loc);
+        t = info(LOC);
+        LOC = link(LOC);
         if (t >= CS_TOKEN_FLAG) {
             cur_cs = t - CS_TOKEN_FLAG;
             cur_cmd = eqtype(cur_cs);
             cur_chr = equiv(cur_cs);
             if (cur_cmd >= outercall) {
                 if (cur_cmd == dontexpand) { /*358:*/
-                    cur_cs = info(loc) - CS_TOKEN_FLAG;
-                    loc = 0;
+                    cur_cs = info(LOC) - CS_TOKEN_FLAG;
+                    LOC = 0;
                     cur_cmd = eqtype(cur_cs);
                     cur_chr = equiv(cur_cs);
                     if (cur_cmd > maxcommand) {
@@ -4249,11 +4249,11 @@ _Lrestart:
             switch (cur_cmd) {
 
                 case leftbrace:
-                    alignstate++;
+                    align_state++;
                     break;
 
                 case rightbrace:
-                    alignstate--;
+                    align_state--;
                     break;
 
                 case outparam: /*359:*/
@@ -4269,7 +4269,7 @@ _Lrestart:
     /*342:*/
     if (cur_cmd <= carret) {
         if (cur_cmd >= tabmark) { /*789:*/
-            if (alignstate == 0) {
+            if (align_state == 0) {
                 if (scanner_status == ALIGNING) fatalerror(S(509));
                 cur_cmd = extrainfo(curalign);
                 extrainfo(curalign) = cur_chr;
@@ -4277,7 +4277,7 @@ _Lrestart:
                     begintokenlist(omittemplate, V_TEMPLATE);
                 else
                     begintokenlist(vpart(curalign), V_TEMPLATE);
-                alignstate = 1000000L;
+                align_state = 1000000L;
                 goto _Lrestart;
             }
             /*:789*/
@@ -4300,21 +4300,21 @@ static void getnext(void) { getnext_worker(true); }
 Static void firmuptheline(void) {
     short k;
 
-    limit = last;
+    LIMIT = last;
     if (pausing <= 0) return;
     if (interaction <= NON_STOP_MODE) return;
     println();
-    if (start < limit) {
-        for (k = start; k < limit; k++)
+    if (START < LIMIT) {
+        for (k = START; k < LIMIT; k++)
             print(buffer[k]);
     }
-    first = limit;
+    first = LIMIT;
     print(S(532));
     term_input();
     if (last <= first) return;
     for (k = first; k < last; k++)
-        buffer[k + start - first] = buffer[k];
-    limit = start + last - first;
+        buffer[k + START - first] = buffer[k];
+    LIMIT = START + last - first;
 }
 /*:363*/
 
@@ -4333,7 +4333,7 @@ Static void report_argument(HalfWord unbalance, int n, Pointer * pstack)
         runaway();
         printnl(S(292));
         print(S(533));
-        sprint_cs(warningindex);
+        sprint_cs(warning_index);
         print(S(534));
         help3(S(535),
               S(536),
@@ -4341,7 +4341,7 @@ Static void report_argument(HalfWord unbalance, int n, Pointer * pstack)
         backerror();
     }
     pstack[n] = link(temphead);
-    alignstate -= unbalance;
+    align_state -= unbalance;
     for (m = 0; m <= n; m++) {
          flushlist(pstack[m]);
     }
@@ -4359,14 +4359,14 @@ Static void macrocall(Pointer refcount)
   Pointer pstack[9];
 
   savescannerstatus = scanner_status;
-  savewarningindex = warningindex;
-  warningindex = curcs;
+  savewarningindex = warning_index;
+  warning_index = curcs;
   r = link(refcount);
   n = 0;
   if (tracingmacros > 0) {   /*401:*/
     begindiagnostic();
     println();
-    print_cs(warningindex);
+    print_cs(warning_index);
     tokenshow(refcount);
     enddiagnostic(false);
   }
@@ -4395,7 +4395,7 @@ _Llabcontinue:
 	r = link(r);
 	if ((info(r) >= matchtoken) & (info(r) <= endmatchtoken)) {
 	  if (curtok < leftbracelimit)
-	    alignstate--;
+	    align_state--;
 	  goto _Lfound;
 	} else
 	  goto _Llabcontinue;
@@ -4406,7 +4406,7 @@ _Llabcontinue:
 	if (s == 0) {   /*398:*/
 	  printnl(S(292));
 	  print(S(538));
-	  sprint_cs(warningindex);
+	  sprint_cs(warning_index);
 	  print(S(539));
 	  help4(S(540),
                 S(541),
@@ -4476,7 +4476,7 @@ _Ldone1:
 	  backinput();
 	  printnl(S(292));
 	  print(S(544));
-	  sprint_cs(warningindex);
+	  sprint_cs(warning_index);
 	  print(S(545));
 	  help6(
             S(546),
@@ -4485,7 +4485,7 @@ _Ldone1:
             S(549),
             S(550),
             S(551));
-	  alignstate++;
+	  align_state++;
 	  longstate = call;
 	  curtok = partoken;
 	  inserror();
@@ -4532,11 +4532,11 @@ _Lfound:
   }
   /*:391*/
   /*390:*/
-  while (state == TOKEN_LIST && loc == 0)
+  while (STATE == TOKEN_LIST && LOC == 0)
     endtokenlist();
   begintokenlist(refcount, MACRO);
-  name = warningindex;
-  loc = link(r);
+  NAME = warning_index;
+  LOC = link(r);
   if (n > 0) {   /*:390*/
     if (paramptr + n > maxparamstack) {
       maxparamstack = paramptr + n;
@@ -4549,7 +4549,7 @@ _Lfound:
   }
 _Lexit:
   scanner_status = savescannerstatus;
-  warningindex = savewarningindex;
+  warning_index = savewarningindex;
 
   /*:397*/
   /*:395*/
@@ -4643,9 +4643,9 @@ Static void expand(void)
       if (t >= CS_TOKEN_FLAG) {
 	p = get_avail();
 	info(p) = CS_TOKEN_FLAG + frozendontexpand;
-	link(p) = loc;
-	start = p;
-	loc = p;
+	link(p) = LOC;
+	START = p;
+	LOC = p;
       }
       break;
       /*:369*/
@@ -4733,7 +4733,7 @@ Static void expand(void)
 
     case input:   /*378:*/
       if (curchr > 0)
-	forceeof = true;
+	force_eof = true;
       else if (name_in_progress)
 	insertrelax();
       else
@@ -4814,7 +4814,7 @@ Static void scanleftbrace(void) {
     curtok = leftbracetoken + '{';
     curcmd = leftbrace;
     curchr = '{';
-    alignstate++;
+    align_state++;
 }
 /*:403*/
 
@@ -5332,9 +5332,9 @@ Static void scanint(void) {
             curval = curchr;
             if (curcmd <= rightbrace) {
                 if (curcmd == rightbrace)
-                    alignstate++;
+                    align_state++;
                 else
-                    alignstate--;
+                    align_state--;
             }
         } else if (curtok < CS_TOKEN_FLAG + singlebase)
             curval = curtok - CS_TOKEN_FLAG - activebase;
@@ -5882,7 +5882,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         scanner_status = DEFINING;
     else
         scanner_status = ABSORBING;
-    warningindex = curcs;
+    warning_index = curcs;
     defref = get_avail();
     tokenrefcount(defref) = 0;
     p = defref;
@@ -5925,7 +5925,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         if (curcmd == rightbrace) { /*475:*/
             printnl(S(292));
             print(S(566));
-            alignstate++;
+            align_state++;
             help2(S(648), S(649));
             error();
             goto _Lfound;
@@ -5975,7 +5975,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     if (curtok <= zerotoken || curtok > t) {
                         printnl(S(292));
                         print(S(650));
-                        sprint_cs(warningindex);
+                        sprint_cs(warning_index);
                         help3(S(651), S(652), S(653));
                         backerror();
                         curtok = s;
@@ -6003,7 +6003,7 @@ Static void readtoks(long n, HalfWord r) {
     /* SmallNumber */ int m; /* INT */
 
     scanner_status = DEFINING;
-    warningindex = r;
+    warning_index = r;
     defref = get_avail();
     tokenrefcount(defref) = 0;
     p = defref;
@@ -6012,11 +6012,11 @@ Static void readtoks(long n, HalfWord r) {
         m = 16;
     else
         m = n;
-    s = alignstate;
-    alignstate = 1000000L;
+    s = align_state;
+    align_state = 1000000L;
     do { /*483:*/
         beginfilereading();
-        name = m + 1;
+        NAME = m + 1;
         if (readopen[m] == closed) { /*484:*/
             if (interaction > NON_STOP_MODE) {
                 if (n < 0) {
@@ -6042,43 +6042,43 @@ Static void readtoks(long n, HalfWord r) {
             if (!inputln(readfile[m], true)) {
                 aclose(&readfile[m]);
                 readopen[m] = closed;
-                if (alignstate != 1000000L) {
+                if (align_state != 1000000L) {
                     runaway();
                     printnl(S(292));
                     print(S(655));
                     print_esc(S(656));
                     help1(S(657));
-                    alignstate = 1000000L;
+                    align_state = 1000000L;
                     error();
                 }
             }
         }
-        limit = last;
-        if (endlinecharinactive) {
-            limit--;
+        LIMIT = last;
+        if (end_line_char_inactive) {
+            LIMIT--;
         } else
-            buffer[limit] = endlinechar;
-        first = limit + 1;
-        loc = start;
-        state = newline;
+            buffer[LIMIT] = end_line_char;
+        first = LIMIT + 1;
+        LOC = START;
+        STATE = NEW_LINE;
         while (true) {
             gettoken();
             if (curtok == 0) goto _Ldone;
-            if (alignstate < 1000000L) {
+            if (align_state < 1000000L) {
                 do {
                     gettoken();
                 } while (curtok != 0);
-                alignstate = 1000000L;
+                align_state = 1000000L;
                 goto _Ldone;
             }
             STORE_NEW_TOKEN(p, curtok);
         }
 _Ldone: /*:483*/    
         endfilereading();
-    } while (alignstate != 1000000L);
+    } while (align_state != 1000000L);
     curval = defref;
     scanner_status = NORMAL;
-    alignstate = s;
+    align_state = s;
 
     /*485:*/
 }
@@ -6537,7 +6537,7 @@ Static void openlogfile(void) {
     inputstack[inputptr] = cur_input;
     printnl(S(676));
     l = inputstack[0].limitfield;
-    if (buffer[l] == endlinechar) l--;
+    if (buffer[l] == end_line_char) l--;
     for (k = 1; k <= l; k++)
         print(buffer[k]);
     println();
@@ -6561,39 +6561,39 @@ Static void startinput(void) {
         promptfilename(S(665), S(669));
     }
 
-    name = amakenamestring();
+    NAME = amakenamestring();
     if (job_name == 0) {
         job_name = curname;
         openlogfile();
     }
-    if (term_offset + str_length(name) > MAX_PRINT_LINE - 2) {
+    if (term_offset + str_length(NAME) > MAX_PRINT_LINE - 2) {
         println();
     } else if (term_offset > 0 || file_offset > 0)
         print_char(' ');
     print_char('(');
     openparens++;
-    slow_print(name);
+    slow_print(NAME);
     fflush(stdout);
-    state = newline;
+    STATE = NEW_LINE;
 
 #if 0
-  if (name == str_ptr - 1) {   /*538:*/
+  if (NAME == str_ptr - 1) {   /*538:*/
     flush_string();
-    name = curname;
+    NAME = curname;
   }
 #else
-    name = curname;
+    NAME = curname;
 #endif
 
     line = 1;
     inputln(curfile, false);
     firmuptheline();
-    if (endlinecharinactive) {
-        limit--;
+    if (end_line_char_inactive) {
+        LIMIT--;
     } else
-        buffer[limit] = endlinechar;
-    first = limit + 1;
-    loc = start; /*:538*/
+        buffer[LIMIT] = end_line_char;
+    first = LIMIT + 1;
+    LOC = START; /*:538*/
 }
 /*:537*/
 
@@ -9115,7 +9115,7 @@ Static void pushalignment(void) {
     llink(p) = preamble;
     rlink(p) = curspan;
     mem[p - MEM_MIN + 2].int_ = curloop;
-    mem[p - MEM_MIN + 3].int_ = alignstate;
+    mem[p - MEM_MIN + 3].int_ = align_state;
     info(p + 4) = curhead;
     link(p + 4) = curtail;
     alignptr = p;
@@ -9130,7 +9130,7 @@ Static void popalignment(void) {
     p = alignptr;
     curtail = link(p + 4);
     curhead = info(p + 4);
-    alignstate = mem[p - MEM_MIN + 3].int_;
+    align_state = mem[p - MEM_MIN + 3].int_;
     curloop = mem[p - MEM_MIN + 2].int_;
     curspan = rlink(p);
     preamble = llink(p);
@@ -9174,7 +9174,7 @@ Static void initalign(void) {
 
     savecsptr = curcs;
     pushalignment();
-    alignstate = -1000000L;                                        /*776:*/
+    align_state = -1000000L;                                        /*776:*/
     if (mode == M_MODE && (tail != head || incompleatnoad != 0)) { /*:776*/
         printnl(S(292));
         print(S(597));
@@ -9196,8 +9196,8 @@ Static void initalign(void) {
     curalign = alignhead;
     curloop = 0;
     scanner_status = ALIGNING;
-    warningindex = savecsptr;
-    alignstate = -1000000L;
+    warning_index = savecsptr;
+    align_state = -1000000L;
     while (true) { /*778:*/
         link(curalign) = newparamglue(tabskipcode);
         curalign = link(curalign); /*:778*/
@@ -9210,7 +9210,7 @@ Static void initalign(void) {
             getpreambletoken();
             if (curcmd == macparam) goto _Ldone1;
             if (curcmd <= carret && curcmd >= tabmark &&
-                alignstate == -1000000L) {
+                align_state == -1000000L) {
                 if (p == holdhead && curloop == 0 && curcmd == tabmark) {
                     curloop = curalign;
                     continue;
@@ -9242,7 +9242,7 @@ Static void initalign(void) {
         _Llabcontinue:
             getpreambletoken();
             if (curcmd <= carret && curcmd >= tabmark &&
-                alignstate == -1000000L)
+                align_state == -1000000L)
                 goto _Ldone2;
             if (curcmd == macparam) {
                 printnl(S(292));
@@ -9302,7 +9302,7 @@ Static void initrow(void) {
 Static void initcol(void) {
     extrainfo(curalign) = curcmd;
     if (curcmd == omit)
-        alignstate = 0;
+        align_state = 0;
     else {
         backinput();
         begintokenlist(upart(curalign), U_TEMPLATE);
@@ -9321,7 +9321,7 @@ Static Boolean fincol(void) {
     if (curalign == 0) confusion(S(735));
     q = link(curalign);
     if (q == 0) confusion(S(735));
-    if (alignstate < 500000L) fatalerror(S(509));
+    if (align_state < 500000L) fatalerror(S(509));
     p = link(q);
     /*792:*/
     if ((p == 0) & (extrainfo(curalign) < crcode)) {
@@ -9433,7 +9433,7 @@ Static Boolean fincol(void) {
         }
         initspan(p);
     }
-    alignstate = 1000000L;
+    align_state = 1000000L;
     skip_spaces();
     curalign = p;
     initcol();
@@ -9758,7 +9758,7 @@ Static void finalign(void) {
 
 Static void alignpeek(void) {
 _Lrestart:
-    alignstate = 1000000L;
+    align_state = 1000000L;
     skip_spaces();
     if (curcmd == noalign) {
         scanleftbrace();
@@ -12925,7 +12925,7 @@ Static void extrarightbrace(void)
         S(847),
         S(848));
   error();
-  alignstate++;
+  align_state++;
 }
 /*:1069*/
 
@@ -13587,7 +13587,7 @@ Static void makeaccent(void)
 /*1127:*/
 Static void alignerror(void)
 {
-  if (labs(alignstate) > 2) {   /*1128:*/
+  if (labs(align_state) > 2) {   /*1128:*/
     printnl(S(292));
     print(S(885));
     printcmdchr(curcmd, curchr);
@@ -13610,15 +13610,15 @@ Static void alignerror(void)
   }
   /*:1128*/
   backinput();
-  if (alignstate < 0) {
+  if (align_state < 0) {
     printnl(S(292));
     print(S(566));
-    alignstate++;
+    align_state++;
     curtok = leftbracetoken + '{';
   } else {
     printnl(S(292));
     print(S(893));
-    alignstate--;
+    align_state--;
     curtok = rightbracetoken + '}';
   }
   help3(S(894),
@@ -15669,7 +15669,7 @@ _Ldone2:
     tracingstats = 0; /*:1326*/
     /*1329:*/
     /*:1329*/
-    wclose(&fmtfile);
+    w_close(&fmtfile);
 } // storefmtfile
 #endif // #1302: tt_INIT
 
@@ -15878,7 +15878,7 @@ Static void handlerightbrace(void) {
             break;
 
         case outputgroup: /*1026:*/
-            if (loc != 0 ||
+            if (LOC != 0 ||
                 (token_type != OUTPUT_TEXT && token_type != BACKED_UP)) { /*:1027*/
                 printnl(S(292));
                 print(S(1005));
@@ -15886,7 +15886,7 @@ Static void handlerightbrace(void) {
                 error();
                 do {
                     gettoken();
-                } while (loc != 0);
+                } while (LOC != 0);
             }
             endtokenlist();
             endgraf();
@@ -16250,7 +16250,7 @@ _Lreswitch: /*1031:*/
             break;
 
         case H_MODE + parend:
-            if (alignstate < 0) offsave();
+            if (align_state < 0) offsave();
             endgraf();
             if (mode == V_MODE) buildpage();
             break;
@@ -16848,10 +16848,10 @@ Static void giveerrhelp(void) { tokenshow(errhelp); }
 /*:1284*/
 
 /*1303:*/
-Static Boolean openfmtfile(void) { return open_fmt(&fmtfile); }
+Static Boolean open_fmt_file(void) { return open_fmt(&fmtfile); }
 /*:524*/
 
-Static Boolean loadfmtfile(void) { /*1308:*/
+Static Boolean load_fmt_file(void) { /*1308:*/
     Boolean Result;
     long j, k, x;
     Pointer p, q;
@@ -17208,7 +17208,7 @@ Static void finalcleanup(void) {
     c = curchr;
     if (job_name == 0) openlogfile();
     while (inputptr > 0) {
-        if (state == TOKEN_LIST)
+        if (STATE == TOKEN_LIST)
             endtokenlist();
         else
             endfilereading();
@@ -17815,12 +17815,12 @@ static void S55_Initialize_the_output_routines(void) {
     output_file_name = 0;
 } // S55_Initialize_the_output_routines
 
-// #1337: Get the first line of input and prepare to start
+// [p469#1337]: Get the first line of input and prepare to START
 // return has_error?
 static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
-    Boolean HAS_ERROR = true, NO_ERROR = false;
+    const Boolean HAS_ERROR = true, NO_ERROR = false;
 
-    /// #331: Initialize the input routines
+    /// [#331]: Initialize the input routines
     inputptr = 0;
     maxinstack = 0;
     inopen = 0;
@@ -17829,54 +17829,62 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     paramptr = 0;
     maxparamstack = 0;
     first = BUF_SIZE;
+
     do {
         buffer[first] = 0;
         first--;
     } while (first != 0);
-    scanner_status = NORMAL;
-    warningindex = 0;
-    first = 1;
-    state = newline;
-    start = 1;
-    iindex = 0;
-    line = 0;
-    name = 0;
-    forceeof = false;
-    alignstate = 1000000L;
-    if (!initterminal()) return HAS_ERROR;
-    limit = last;
-    first = last + 1; // `init_terminal` has set `loc` and `last`
 
-    // #1337
-    if (need_to_load_format /* (format_ident == 0) | (buffer[loc] == '&') */) {
+    scanner_status = NORMAL;
+    warning_index = 0;
+    first = 1;
+    STATE = NEW_LINE;
+    START = 1;
+    IINDEX = 0;
+    line = 0;
+    NAME = 0;
+    force_eof = false;
+    align_state = 1000000L;
+    if (!initterminal()) return HAS_ERROR;
+    LIMIT = last;
+    first = last + 1; // `init_terminal` has set `LOC` and `last`
+
+    /// [#1337]
+    // TODO: check if
+    if (    need_to_load_format 
+        || (format_ident == 0) 
+        || (buffer[LOC] == '&')
+        ) {
         if (format_ident != 0) initialize(); // erase preloaded format
-        if (!openfmtfile()) return HAS_ERROR;
-        if (!loadfmtfile()) {
-            wclose(&fmtfile);
+        if (!open_fmt_file()) return HAS_ERROR;
+        if (!load_fmt_file()) {
+            w_close(&fmtfile);
             return HAS_ERROR;
         }
-        wclose(&fmtfile);
-        while ((loc < limit) & (buffer[loc] == ' '))
-            loc++;
+        w_close(&fmtfile);
+        while ((LOC < LIMIT) && (buffer[LOC] == ' '))
+            LOC++;
     }
-    if (endlinecharinactive) {
-        limit--;
+    if (end_line_char_inactive) {
+        LIMIT--;
     } else {
-        buffer[limit] = endlinechar;
+        buffer[LIMIT] = end_line_char;
     }
-    fixdateandtime(&tex_time, &day, &month, &year);
+    fix_date_and_time(&tex_time, &day, &month, &year);
 
-    /// #765: Compute the magic offset
+    /// [#765]: Compute the magic offset
     // _NOT_USE_
     // ??? magic offset ← str start[math spacing] − 9 ∗ ord noad
 
-    /// #75: Initialize the print selector based on interaction
+    /// [#75]: Initialize the print selector based on interaction
     if (interaction == BATCH_MODE) {
         selector = NO_PRINT;
     } else {
         selector = TERM_ONLY;
     }
-    if ((loc < limit) & (catcode(buffer[loc]) != escape)) {
+
+    /// [#1337]
+    if ((LOC < LIMIT) && (catcode(buffer[LOC]) != ESCAPE)) {
         startinput(); // \input assumed
     }
 
@@ -17916,7 +17924,7 @@ int main(int argc, char* argv[]) {
         if (!get_strings_started()) goto _LN_main__final_end;
         initprim(); // call primitive for each primitive
         str_set_init_ptrs();
-        fixdateandtime(&tex_time, &day, &month, &year);
+        fix_date_and_time(&tex_time, &day, &month, &year);
     #endif // #1332: tt_INIT
     ready_already = 314159L;
 

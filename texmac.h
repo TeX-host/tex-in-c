@@ -98,7 +98,7 @@
 #define ESCAPE_CHAR  intpar(ESCAPE_CHARcode)
 #define defaulthyphenchar  intpar(defaulthyphencharcode)
 #define defaultskewchar  intpar(defaultskewcharcode)
-#define endlinechar  intpar(endlinecharcode)
+#define end_line_char  intpar(endlinecharcode)
 #define newlinechar  intpar(newlinecharcode)
 #define language  intpar(languagecode)
 #define lefthyphenmin  intpar(lefthyphenmincode)
@@ -176,7 +176,7 @@
           ? (gluetemp = 1000000000.0)                                          \
           : ((gluetemp < -1000000000.0) ? (gluetemp = -1000000000.0) : 0)))
 #define scannormaldimen() scandimen(false, false, false)
-#define endlinecharinactive ((endlinechar < 0) || (endlinechar > 255))
+#define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
 #define ishex(x)                                                               \
     ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
 
@@ -193,18 +193,18 @@
     ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
 
 // p121#302
-#define loc     cur_input.locfield
-#define state   cur_input.statefield // current scanner state
-#define iindex  cur_input.indexfield // reference for buffer information
-#define start   cur_input.startfield // starting position in |buffer|
-#define limit   cur_input.limitfield // end of current line in |buffer|
-#define name    cur_input.namefield  // name of the current file
+#define LOC     cur_input.locfield
+#define STATE   cur_input.statefield // current scanner state
+#define IINDEX  cur_input.indexfield // reference for buffer information
+#define START   cur_input.startfield // starting position in |buffer|
+#define LIMIT   cur_input.limitfield // end of current line in |buffer|
+#define NAME    cur_input.namefield  // name of the current file
 // #304
-#define terminal_input  (name==0)       // are we reading from the terminal? 
-#define curfile  (inputfile[iindex-1])  // the current |alphafile| variable 
+#define terminal_input  (NAME==0)       // are we reading from the terminal? 
+#define curfile  (inputfile[IINDEX-1])  // the current |alphafile| variable 
 // p125#307
-#define token_type   iindex // type of current token list
-#define param_start  limit  // base of macro parameters in |paramstack|
+#define token_type   IINDEX // type of current token list
+#define param_start  LIMIT  // base of macro parameters in |paramstack|
 // #866
 #define actwidth  activewidth[0]    // length from first active node to current node
 

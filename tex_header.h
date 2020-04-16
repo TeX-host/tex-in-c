@@ -233,7 +233,7 @@ Static /* char */ int paramptr; /* INT */
 Static Integer maxparamstack;
 /*:308*/
 /*309:*/
-Static Integer alignstate;
+Static Integer align_state;
 /*:309*/
 /*310:*/
 Static UChar baseptr;
@@ -243,7 +243,7 @@ Static Pointer parloc;
 Static HalfWord partoken;
 /*:333*/
 /*361:*/
-Static Boolean forceeof; /*:361*/
+Static Boolean force_eof; /*:361*/
 /*382:*/
 Static Pointer curmark[splitbotmarkcode - topmarkcode + 1]; /*:382*/
 /*387:*/
@@ -443,7 +443,7 @@ Static TriePointer trieptr;
 Static TriePointer triehash[TRIE_SIZE + 1];
 
 /// #950
-// does a family start here?
+// does a family START here?
 Static UChar trietaken[(TRIE_SIZE + 7) / 8];
 // the first possible slot for each character
 Static TriePointer triemin[256];
@@ -507,6 +507,6 @@ StrNumber format_ident;
 InStateRecord cur_input;
 jmp_buf _JMP_global__final_end;
 Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
-Static Pointer curcs, warningindex, defref;
+Static Pointer curcs, warning_index, defref;
 
 #endif // INC_TEX_HEADER

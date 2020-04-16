@@ -124,7 +124,7 @@
 
 // };
 
-#define escape          0
+#define ESCAPE          0
 #define relax           0
 #define leftbrace       1
 #define rightbrace      2
@@ -475,7 +475,7 @@
 #define midline         1
 
 #define skipblanks      (maxcharcode + 2)
-#define newline         (maxcharcode + maxcharcode + 3)
+#define NEW_LINE         (maxcharcode + maxcharcode + 3)
 
 #define switch_         25
 #define startcs         26

@@ -15,7 +15,7 @@ void aclose(FILE** f) {
     *f = NULL;
 }
 
-void wclose(FILE** f) {
+void w_close(FILE** f) {
     if (*f != NULL) fclose(*f);
     *f = NULL;
 }

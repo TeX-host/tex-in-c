@@ -21,7 +21,7 @@ static char mybuff[MY_BUFSIZE];
 static Boolean use_independence_date = false;
 
 
-void fixdateandtime(long* tex_time_p,
+void fix_date_and_time(long* tex_time_p,
                     long* day_p,
                     long* month_p,
                     long* year_p) {
