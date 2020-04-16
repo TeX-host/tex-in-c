@@ -15736,6 +15736,8 @@ Static void debughelp(void) {
  *  + S1337_Get_the_first_line_of_input_and_prepare_to_start
  *      + open_fmt_file
  *      + load_fmt_file
+ *      ++ initterminal
+ *      ++ startinput
  *  + main_control
  *  + final_cleanup
  *  + close_files_and_terminate
