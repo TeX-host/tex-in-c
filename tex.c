@@ -3634,7 +3634,7 @@ _Lrestart:
         }
         cur_chr = buffer[LOC];
         LOC++;
-    _Lreswitch:
+    _LN_main_control__reswitch:
         cur_cmd = catcode(cur_chr); /*344:*/
         switch (STATE + cur_cmd) {  /*345:*/
 
@@ -3778,7 +3778,7 @@ _Lrestart:
                                     if (ishex(cc)) {
                                         LOC++;
                                         cur_chr = hex_to_i(c, cc);
-                                        goto _Lreswitch;
+                                        goto _LN_main_control__reswitch;
                                     }
                                 }
                             }
@@ -3786,7 +3786,7 @@ _Lrestart:
                                 cur_chr = c + 64;
                             else
                                 cur_chr = c - 64;
-                            goto _Lreswitch;
+                            goto _LN_main_control__reswitch;
                         }
                     }
                 }
@@ -5364,21 +5364,21 @@ Static HalfWord scanrulespec(void) {
         height(q) = defaultrule;
         depth(q) = 0;
     }
-_Lreswitch:
+_LN_main_control__reswitch:
     if (scankeyword(S(639))) {
         scannormaldimen();
         width(q) = curval;
-        goto _Lreswitch;
+        goto _LN_main_control__reswitch;
     }
     if (scankeyword(S(640))) {
         scannormaldimen();
         height(q) = curval;
-        goto _Lreswitch;
+        goto _LN_main_control__reswitch;
     }
     if (!scankeyword(S(641))) return q;
     scannormaldimen();
     depth(q) = curval;
-    goto _Lreswitch;
+    goto _LN_main_control__reswitch;
 }
 /*:463*/
 
@@ -6440,7 +6440,7 @@ Static void hlistout(void) {
         // #620 
         // Output node p for hlist out and move to the next node, 
         // maintaining the condition cur v = base line
-    _Lreswitch:
+    _LN_main_control__reswitch:
         if (ischarnode(p)) {
             synchh();
             synchv();
@@ -6577,7 +6577,7 @@ Static void hlistout(void) {
                 character(ligtrick) = character_ligchar(p);
                 link(ligtrick) = link(p);
                 p = ligtrick;
-                goto _Lreswitch;
+                goto _LN_main_control__reswitch;
                 break;
 
         } // switch (type(p))
@@ -6996,7 +6996,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
     totalstretch[FILLL - NORMAL] = 0;
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*651:*/
-    _Lreswitch:
+    _LN_main_control__reswitch:
         while (ischarnode(p)) { /*654:*/
             InternalFontNumber f = font(p);
             FourQuarters i = charinfo(f, character(p));
@@ -7077,7 +7077,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
                 character(ligtrick) = character_ligchar(p);
                 link(ligtrick) = link(p);
                 p = ligtrick;
-                goto _Lreswitch;
+                goto _LN_main_control__reswitch;
                 break;
                 /*:652*/
         }
@@ -8388,7 +8388,7 @@ Static void mlisttohlist(void) {
         cursize = (curstyle - textstyle) / 2 * 16;
     curmu = x_over_n(mathquad(cursize), 18); /*:703*/
     while (q != 0) {                         /*727:*/
-    _Lreswitch:
+    _LN_main_control__reswitch:
         delta = 0;
         switch (type(q)) {
 
@@ -8402,7 +8402,7 @@ Static void mlisttohlist(void) {
                     case punctnoad:
                     case leftnoad:
                         type(q) = ordnoad;
-                        goto _Lreswitch;
+                        goto _LN_main_control__reswitch;
                         break;
                 }
                 break;
@@ -11421,7 +11421,7 @@ Static void newhyphexceptions(void)
     int cur_chr;
     getxtoken();
     cur_chr = curchr;
-_Lreswitch:
+_LN_main_control__reswitch:
     switch (curcmd) {
 
     case letter:
@@ -11453,7 +11453,7 @@ _Lreswitch:
       scancharnum();
       cur_chr = curval;
       curcmd = chargiven;
-      goto _Lreswitch;
+      goto _LN_main_control__reswitch;
       break;
 
     case spacer:
@@ -13360,7 +13360,7 @@ Static void initmath(void)
       w = -maxdimen;
       p = listptr(justbox);
       while (p != 0) {  /*1147:*/
-_Lreswitch:
+_LN_main_control__reswitch:
 	if (ischarnode(p)) {
 	  f = font(p);
 	  d = charwidth(f, charinfo(f, character(p)));
@@ -13381,7 +13381,7 @@ _Lreswitch:
       character(ligtrick) = character_ligchar(p);
 	  link(ligtrick) = link(p);
 	  p = ligtrick;
-	  goto _Lreswitch;
+	  goto _LN_main_control__reswitch;
 	  break;
 	  /*:652*/
 
@@ -13490,7 +13490,7 @@ Static void scanmath(HalfWord p) {
 
 _Lrestart:
     skip_spaces_or_relax();
-_Lreswitch:
+_LN_main_control__reswitch:
     switch (curcmd) {
 
         case letter:
@@ -13511,7 +13511,7 @@ _Lreswitch:
             scancharnum();
             curchr = curval;
             curcmd = chargiven;
-            goto _Lreswitch;
+            goto _LN_main_control__reswitch;
             break;
 
         case mathcharnum:
@@ -15742,18 +15742,27 @@ Static void debughelp(void) {
  * 
  */
 
+// [#1030]: governs T E X’s activities
+// xref[17]:
+//      [1030], 1032, 1040, 1041,
+//  1052, 1054, 1055, 1056, 1057,
+//  1126, 1134, 1208, 1290, 1332,
+//  1337, 1344, 1347
 Static void main_control(void) {
-    long t;
+    Integer t;
 
     if (everyjob != 0) begintokenlist(everyjob, EVERY_JOB_TEXT);
-_Lbigswitch_:
+
+_LN_main_control__big_switch:
     getxtoken();
-_Lreswitch: /*1031:*/
+
+_LN_main_control__reswitch:
+    // #1031: Give diagnostic information, if requested
     if (interrupt != 0) {
         if (OK_to_interrupt) {
             backinput();
             checkinterrupt();
-            goto _Lbigswitch_;
+            goto _LN_main_control__big_switch;
         }
     }
     #ifdef tt_DEBUG
@@ -15779,7 +15788,7 @@ _Lreswitch: /*1031:*/
             if (curcmd == letter || curcmd == otherchar ||
                 curcmd == chargiven || curcmd == charnum)
                 cancelboundary = true;
-            goto _Lreswitch;
+            goto _LN_main_control__reswitch;
             break;
 
         case H_MODE + spacer:
@@ -15805,7 +15814,7 @@ _Lreswitch: /*1031:*/
         case H_MODE + ignorespaces:
         case M_MODE + ignorespaces:
             skip_spaces();
-            goto _Lreswitch;
+            goto _LN_main_control__reswitch;
             break;
 
         case V_MODE + stop: /*1048:*/
@@ -16382,9 +16391,14 @@ _Lreswitch: /*1031:*/
             break;
             /*:1045*/
     }
-    goto _Lbigswitch_;
+    goto _LN_main_control__big_switch;
+
+/// [#1030] 均从上方跳入
 _Lmainloop:
-    /*1034:*/
+    // [#1034]: Append character `cur_chr` and the following characters (if any)
+    // to the current hlist in the current font; 
+    // goto `_reswitch`
+    //      when a non-character has been fetched
     adjustspacefactor();
     mainf = curfont;
     bchar = fontbchar[mainf];
@@ -16406,27 +16420,32 @@ _Lmainloop:
     curr = curl;
     curl = NON_CHAR;
     goto _Lmainligloop1;
+
 _Lmainloopwrapup:  /*1035:*/
     wrapup(rthit); /*:1035*/
+
 _Lmainloopmove:    /*1036:*/
-    if (ligstack == 0) goto _Lreswitch;
+    if (ligstack == 0) goto _LN_main_control__reswitch;
     curq = tail;
     curl = character(ligstack);
+
 _Lmainloopmove1:
     if (!ischarnode(ligstack)) goto _Lmainloopmovelig;
+
 _Lmainloopmove2:
     if (curchr < fontbc[mainf] || curchr > fontec[mainf]) {
         charwarning(mainf, curchr);
         FREE_AVAIL(ligstack);
-        goto _Lbigswitch_;
+        goto _LN_main_control__big_switch;
     }
     maini = charinfo(mainf, curl);
     if (!charexists(maini)) {
         charwarning(mainf, curchr);
         FREE_AVAIL(ligstack);
-        goto _Lbigswitch_;
+        goto _LN_main_control__big_switch;
     }
     tailappend(ligstack); /*:1036*/
+
 _Lmainlooplookahead:      /*1038:*/
     getnext();
     if (curcmd == letter) goto _Lmainlooplookahead1;
@@ -16445,6 +16464,7 @@ _Lmainlooplookahead:      /*1038:*/
     curr = bchar;
     ligstack = 0;
     goto _Lmainligloop;
+
 _Lmainlooplookahead1:
     adjustspacefactor();
     FAST_GET_AVAIL(ligstack);
@@ -16452,6 +16472,7 @@ _Lmainlooplookahead1:
     curr = curchr;
     character(ligstack) = curr;
     if (curr == falsebchar) curr = NON_CHAR; /*:1038*/
+
 _Lmainligloop:                              /*1039:*/
     if (chartag(maini) != LIG_TAG) {
         goto _Lmainloopwrapup;
@@ -16460,8 +16481,10 @@ _Lmainligloop:                              /*1039:*/
     mainj = fontinfo[maink].qqqq;
     if (skipbyte(mainj) <= stopflag) goto _Lmainligloop2;
     maink = ligkernrestart(mainf, mainj);
+
 _Lmainligloop1:
     mainj = fontinfo[maink].qqqq;
+
 _Lmainligloop2:
     if (nextchar(mainj) == curr) {
         if (skipbyte(mainj) <= stopflag) { /*1040:*/
@@ -16539,6 +16562,7 @@ _Lmainligloop2:
         maink += skipbyte(mainj) - MIN_QUARTER_WORD + 1;
     }
     goto _Lmainligloop1; /*:1039*/
+
 _Lmainloopmovelig:       /*1037:*/
     mainp = ligptr(ligstack);
     if (mainp > 0) {
@@ -16556,7 +16580,11 @@ _Lmainloopmovelig:       /*1037:*/
         curr = character(ligstack);
     goto _Lmainligloop;          /*:1037*/
                                  /*:1034*/
-_Lappendnormalspace_:            /*1041:*/
+
+/// [#1030]
+_Lappendnormalspace_:
+    // #1041: Append a normal inter-word space to the current list, 
+    // then goto big switch
     if (spaceskip == zeroglue) { /*1042:*/
         mainp = fontglue[curfont];
         if (mainp == 0) { /*:1042*/
@@ -16576,7 +16604,8 @@ _Lappendnormalspace_:            /*1041:*/
         temp_ptr = newparamglue(spaceskipcode);
     link(tail) = temp_ptr;
     tail = temp_ptr;
-    goto _Lbigswitch_; /*:1041*/
+    goto _LN_main_control__big_switch;
+
 _Lexit:;
 } // #1030: main_control
 
