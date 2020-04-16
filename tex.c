@@ -17729,7 +17729,7 @@ Static void debughelp(void) {
 
 
 /* ----------------------------------------------------------------------------
- * main 函数及其辅助函数
+ * main 函数及其辅助函数(从 main 中拆分的函数)
  *
  *  + int main(int argc, char* argv[])
  *      + Integer S14_Check_the_constant_values_for_consistency(void)
