@@ -49,356 +49,6 @@ void set_help(UChar k, ...) {
 }
 
 
-// #4: this procedure gets things started properly
-Static void initialize(void) {
-    // Local variables for initialization
-    Integer i;
-    Integer k; // index into mem, eqtb, etc.
-    HyphPointer z; // runs through the exception dictionary
-
-    /// p5#8: Initialize whatever T E X might access
-
-    /// p11#21 Set initial values of key variables
-    {
-        /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
-        /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
-        /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
-        /// 1267, 1282, 1300, 1343.
-        /*23:*/
-        for (i = 0; i <= 255; i++)
-            xchr[i] = (Char)i;
-        /*:23*/
-        /*24:*/
-        for (i = firsttextchar; i <= lasttextchar; i++)
-            xord[(Char)i] = invalidcode;
-        for (i = 128; i <= 255; i++)
-            xord[xchr[i]] = i;
-        for (i = 0; i <= 126; i++) /*:24*/
-            xord[xchr[i]] = i;
-        /*74:*/
-        interaction = ERROR_STOP_MODE; /*:74*/
-        /*77:*/
-        deletions_allowed = true;
-        set_box_allowed = true;
-        errorcount = 0; /*:77*/
-        /*80:*/
-        help_ptr = 0;
-        use_err_help = false; /*:80*/
-        /*97:*/
-        interrupt = 0;
-        OK_to_interrupt = true; /*:97*/
-
-        /// p#95: 166
-        #ifdef tt_DEBUG
-            was_mem_end = MEM_MIN;
-            was_lo_max = MEM_MIN;
-            was_hi_min = MEM_MAX;
-            panicking = false;
-        #endif // #166: tt_DEBUG
-
-        /*215:*/
-        nest_ptr = 0;
-        max_nest_stack = 0;
-        mode = V_MODE;
-        head = contribhead;
-        tail = contribhead;
-        prevdepth = ignoredepth;
-        modeline = 0;
-        prevgraf = 0;
-        shown_mode = 0; /*991:*/
-        pagecontents = empty;
-        pagetail = pagehead;
-        link(pagehead) = 0;
-        lastglue = MAX_HALF_WORD;
-        lastpenalty = 0;
-        lastkern = 0;
-        pagedepth = 0;
-        pagemaxdepth = 0; /*:991*/
-        /*:215*/
-        /*254:*/
-        for (k = intbase; k <= eqtbsize; k++) {
-            xeqlevel[k - intbase] = levelone;
-        }
-        /*:254*/
-        /*257:*/
-
-        next(hashbase) = 0;
-        text(hashbase) = 0;
-        for (k = hashbase + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) /*:257*/
-            hash[k - hashbase] = hash[0];
-        /*272:*/
-        saveptr = 0;
-        curlevel = levelone;
-        curgroup = bottomlevel;
-        curboundary = 0;
-        maxsavestack = 0; /*:272*/
-        /*287:*/
-        magset = 0; /*:287*/
-        /*383:*/
-        topmark = 0;
-        firstmark = 0;
-        botmark = 0;
-        splitfirstmark = 0;
-        splitbotmark = 0; /*:383*/
-        /*439:*/
-        curval = 0;
-        curvallevel = intval;
-        radix = 0;
-        curorder = 0; /*:439*/
-        /*481:*/
-        for (k = 0; k <= 16; k++) /*:481*/
-            readopen[k] = closed;
-        /*490:*/
-        condptr = 0;
-        iflimit = NORMAL;
-        curif = 0;
-        ifline = 0; /*:490*/
-        /*521:*/
-        memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
-        /*:521*/
-        /*551:*/
-        for (int k = 0; k <= FONT_MAX; k++) {
-            fontused[k] = false;
-        }
-        /*:551*/
-        /*556:*/
-        nullcharacter.b0 = MIN_QUARTER_WORD;
-        nullcharacter.b1 = MIN_QUARTER_WORD;
-        nullcharacter.b2 = MIN_QUARTER_WORD;
-        nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
-        /*593:*/
-        totalpages = 0;
-        maxv = 0;
-        maxh = 0;
-        maxpush = 0;
-        doingleaders = false;
-        deadcycles = 0;
-        curs = -1; /*:593*/
-        dviout_init();
-        /*648:*/
-        adjusttail = 0;
-        lastbadness = 0; /*:648*/
-        /*662:*/
-        packbeginline = 0; /*:662*/
-        /*685:*/
-        emptyfield.rh = empty;
-        emptyfield.UU.lh = 0;
-        nulldelimiter.b0 = 0;
-        nulldelimiter.b1 = MIN_QUARTER_WORD;
-        nulldelimiter.b2 = 0;
-        nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
-        /*771:*/
-        alignptr = 0;
-        curalign = 0;
-        curspan = 0;
-        curloop = 0;
-        curhead = 0;
-        curtail = 0; /*:771*/
-        /*928:*/
-        for (z = 0; z <= HYPH_SIZE; z++) {
-            hyphword[z] = 0;
-            hyphlist[z] = 0;
-        }
-        hyphcount = 0; /*:928*/
-        /*990:*/
-        outputactive = false;
-        insertpenalties = 0; /*:990*/
-        /*1033:*/
-        ligaturepresent = false;
-        cancelboundary = false;
-        lfthit = false;
-        rthit = false;
-        insdisc = false; /*:1033*/
-        /*1267:*/
-        aftertoken = 0; /*:1267*/
-        /*1282:*/
-        longhelpseen = false; /*:1282*/
-        format_ident = 0; // #1300
-        /*1343:*/
-        for (k = 0; k <= 17; k++) /*:1343*/
-            writeopen[k] = false;
-    } // end block p11#21
-
-    /// p59#164: Initialize table entries (done by INITEX only)
-    #ifdef tt_INIT
-        /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
-        for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
-            mem[k - MEM_MIN].sc = 0; // all glue dimensions are zeroed
-
-        k = MEM_BOT;
-        while (k <= lomemstatmax) {
-            // set first words of glue specifications
-            gluerefcount(k) = 1;
-            stretchorder(k) = NORMAL;
-            shrinkorder(k) = NORMAL;
-            k += gluespecsize;
-        }
-
-        stretch(filglue)    =  UNITY; stretchorder(filglue)    = FIL;
-        stretch(fillglue)   =  UNITY; stretchorder(fillglue)   = FILL;
-        stretch(ssglue)     =  UNITY; stretchorder(ssglue)     = FIL;
-        shrink(ssglue)      =  UNITY; shrinkorder(ssglue)      = FIL;
-        stretch(filnegglue) = -UNITY; stretchorder(filnegglue) = FIL;
-
-        // now initialize the dynamic memory
-        rover = lomemstatmax + 1;
-        link(rover) = emptyflag;
-
-        nodesize(rover) = 1000; // which is a 1000-word available node
-        llink(rover) = rover;
-        rlink(rover) = rover;
-        lo_mem_max = rover + 1000;
-        link(lo_mem_max) = 0;
-        info(lo_mem_max) = 0;
-
-        for (k = himemstatmin; k <= MEM_TOP; k++) {
-            // clear list heads
-            mem[k - MEM_MIN].sc = 0;
-            type(k) = charnodetype;
-        }
-
-        // Initialize the special list heads and constant nodes
-        {
-            /// #790
-            info(omittemplate) = endtemplatetoken; // ink(omit template) = null
-            /// #797
-            link(endspan) = MAX_QUARTER_WORD + 1;
-            info(endspan) = 0;
-            /// #820
-            type(lastactive) = hyphenated;
-            linenumber(lastactive) = MAX_HALF_WORD;
-            subtype(lastactive) = 0; // the subtype is never examined by the algorithm
-            /// #981
-            subtype(pageinshead) = MIN_QUARTER_WORD + 255;
-            type(pageinshead) = splitup;
-            link(pageinshead) = pageinshead;
-            /// #988
-            type(pagehead) = GLUE_NODE;
-            subtype(pagehead) = NORMAL;
-        }
-
-        /// p59#164
-        avail = 0;
-        mem_end = MEM_TOP;
-        hi_mem_min = himemstatmin; // initialize the one-word memory
-        var_used = lomemstatmax - MEM_BOT + 1;
-        dyn_used = himemstatusage; // initialize statistics
-
-        /// p82#222
-        eqtype(UNDEFINED_CONTROL_SEQUENCE) = undefinedcs;
-        equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
-        eqlevel(UNDEFINED_CONTROL_SEQUENCE) = levelzero;
-        for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
-            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
-
-        /// #228
-        equiv(gluebase) = zeroglue;
-        eqlevel(gluebase) = levelone;
-        eqtype(gluebase) = glueref;
-        for (k = gluebase + 1; k < localbase; k++)
-            eqtb[k - activebase] = eqtb[gluebase - activebase];
-        gluerefcount(zeroglue) += localbase - gluebase;
-
-        // #232
-        parshapeptr = 0;
-        eqtype(parshapeloc) = shaperef;
-        eqlevel(parshapeloc) = levelone;
-        for (k = outputroutineloc; k <= toksbase + 255; k++)
-            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
-        box(0) = 0;
-        eqtype(boxbase) = boxref;
-        eqlevel(boxbase) = levelone;
-        for (k = boxbase + 1; k <= boxbase + 255; k++)
-            eqtb[k - activebase] = eqtb[boxbase - activebase];
-        curfont = NULL_FONT;
-        eqtype(curfontloc) = data;
-        eqlevel(curfontloc) = levelone;
-        for (k = mathfontbase; k <= mathfontbase + 47; k++)
-            eqtb[k - activebase] = eqtb[curfontloc - activebase];
-        equiv(catcodebase) = 0;
-        eqtype(catcodebase) = data;
-        eqlevel(catcodebase) = levelone;
-        for (k = catcodebase + 1; k < intbase; k++)
-            eqtb[k - activebase] = eqtb[catcodebase - activebase];
-        for (k = 0; k <= 255; k++) {
-            catcode(k) = otherchar;
-            mathcode(k) = k;
-            sfcode(k) = 1000;
-        }
-        catcode(carriagereturn) = carret;
-        catcode(' ') = spacer;
-        catcode('\\') = ESCAPE;
-        catcode('%') = comment;
-        catcode(invalidcode) = invalidchar;
-        catcode(nullcode) = ignore;
-        for (k = '0'; k <= '9'; k++)
-            mathcode(k) = k + varcode;
-        for (k = 'A'; k <= 'Z'; k++) {
-            catcode(k) = letter;
-            catcode(k + 'a' - 'A') = letter;
-            mathcode(k) = k + varcode + 256;
-            mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
-            lccode(k) = k + 'a' - 'A';
-            lccode(k + 'a' - 'A') = k + 'a' - 'A';
-            uccode(k) = k;
-            uccode(k + 'a' - 'A') = k;
-            sfcode(k) = 999;
-        }
-
-        // #240
-        for (k = intbase; k < delcodebase; k++)
-            eqtb[k - activebase].int_ = 0;
-        mag = 1000;
-        tolerance = 10000;
-        hangafter = 1;
-        maxdeadcycles = 25;
-        ESCAPE_CHAR = '\\';
-        end_line_char = carriagereturn;
-        for (k = 0; k <= 255; k++)
-            delcode(k) = -1;
-        delcode('.') = 0; // this null delimiter is used in error recovery
-
-        // #250
-        for (k = dimenbase; k <= eqtbsize; k++)
-            eqtb[k - activebase].sc = 0;
-
-        // #258
-        hash_used = frozencontrolsequence; // nothing is used
-        cs_count = 0;
-        eqtype(frozendontexpand) = dontexpand;
-        text(frozendontexpand) = S(257);
-
-        // #552
-        fonts_init();
-
-        // #946
-        for (k = -trieopsize; k <= trieopsize; k++)
-            trieophash[k + trieopsize] = 0;
-        for (k = 0; k <= 255; k++)
-            trieused[k] = MIN_QUARTER_WORD;
-        trieopptr = 0;
-
-        // #951
-        trie_not_ready = true;
-        trieroot = 0;
-        triec[0] = 0;
-        trieptr = 0;
-
-        // #1216
-        text(frozenprotection) = S(258);
-        // #1301
-        format_ident = S(259); // " (INITEX)"
-        // #1369
-        text(endwrite) = S(260);
-        eqlevel(endwrite) = levelone;
-        eqtype(endwrite) = outercall;
-        equiv(endwrite) = 0;
-
-
-    #endif // #164: tt_INIT
-} // initialize
-
-
 /*
     #54. On-line and off-line printing.
 
@@ -763,9 +413,9 @@ Static void term_input(void);
 Static void showcontext(void);
 Static void beginfilereading(void);
 Static void openlogfile(void);
-Static void close_files_and_terminate(void);
+// Static void close_files_and_terminate(void);
 Static void clearforerrorprompt(void);
-Static void giveerrhelp(void);
+// Static void giveerrhelp(void);
 
 #ifdef tt_DEBUG
 Static void debughelp(void);
@@ -776,6 +426,12 @@ Static jmp_buf _JMP_global__end_of_TEX;
 // #81: goto end of TEX
 // jump out: [81], 82, 84, 93
 Static void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
+
+Static void tokenshow(HalfWord p);
+
+/*1284:*/
+Static void giveerrhelp(void) { tokenshow(errhelp); }
+/*:1284*/
 
 
 /*82:*/
@@ -16003,6 +15659,88 @@ Static void handlerightbrace(void) {
     /*1027:*/
 } /*:1068*/
 
+#ifdef tt_DEBUG
+// 交互式 debug 环境
+/// p470#1338
+Static void debughelp(void) {
+    long k, l, m, n;
+
+    while (true) {
+        printnl(S(1253)); // "debug # (−1 to exit):"
+        fflush(stdout);
+
+        fscanf(stdin, " %ld", &m);
+        if (m < 0) {
+            return;
+        }
+        if (m == 0) {
+            goto _Lbreakpoint_;
+        _Lbreakpoint_:
+            m = 0;
+            continue;
+        }
+
+        fscanf(stdin, " %ld", &n);
+        switch (m) {
+            /// #1339
+            // display mem[n] in all forms
+            case 1: printword(mem[n - MEM_MIN]); break;
+            case 2: print_int(info(n)); break;
+            case 3: print_int(link(n)); break;
+            case 4: printword(eqtb[n - activebase]); break;
+            case 5: printword(fontinfo[n]); break;
+            case 6: printword(savestack[n]); break;
+            // show a box, abbreviated by show box depth and show box breadth
+            case 7: showbox(n); break;
+            case 8: {
+                breadth_max = 10000;
+                depth_threshold = str_adjust_to_room(POOL_SIZE) - 10;
+                shownodelist(n);
+                break;
+            }
+            case 9: showtokenlist(n, 0, 1000); break;
+            case 10: slow_print(n); break;
+            // check wellformedness; print new busy locations if n > 0
+            case 11: checkmem(n > 0); break;
+            // look for pointers to n
+            case 12: searchmem(n); break;
+            case 13: {
+                fscanf(stdin, " %ld", &l);
+                printcmdchr(n, l);
+                break;
+            }
+            case 14: {
+                for (k = 0; k <= n; k++)
+                    print(buffer[k]);
+                break;
+            }
+            case 15: {
+                font_in_short_display = NULL_FONT;
+                shortdisplay(n);
+                break;
+            }
+            case 16: panicking = !panicking; break;
+
+            default: print('?'); break;
+        } // switch (m)
+    }     // while (true)
+} // #1338: debughelp
+#endif // #1338: tt_DEBUG
+
+
+/*
+ * main 一次调用部分
+ *
+ *  + initialize
+ *  + init_prim
+ *  + S1337_Get_the_first_line_of_input_and_prepare_to_start
+ *      + open_fmt_file
+ *      + load_fmt_file
+ *  + main_control
+ *  + final_cleanup
+ *  + close_files_and_terminate
+ * 
+ */
 
 Static void main_control(void) {
     long t;
@@ -16018,9 +15756,9 @@ _Lreswitch: /*1031:*/
             goto _Lbigswitch_;
         }
     }
-#ifdef tt_DEBUG
-    if (panicking) checkmem(false);
-#endif // #1031: tt_DEBUG
+    #ifdef tt_DEBUG
+        if (panicking) checkmem(false);
+    #endif // #1031: tt_DEBUG
     if (tracingcommands > 0) /*:1031*/
         showcurcmdchr();
     switch (labs(mode) + curcmd) {
@@ -16825,9 +16563,9 @@ _Lappendnormalspace_:            /*1041:*/
             FontIndex mmaink;
             mainp = newspec(zeroglue);
             mmaink = parambase[curfont] + SPACE_CODE;
-#if 1
+    #if 1
             maink = mmaink;
-#endif
+    #endif
             width(mainp) = fontinfo[mmaink].sc;
             stretch(mainp) = fontinfo[mmaink + 1].sc;
             shrink(mainp) = fontinfo[mmaink + 2].sc;
@@ -16840,16 +16578,10 @@ _Lappendnormalspace_:            /*1041:*/
     tail = temp_ptr;
     goto _Lbigswitch_; /*:1041*/
 _Lexit:;
-}
-/*:1030*/
+} // #1030: main_control
 
-/*1284:*/
-Static void giveerrhelp(void) { tokenshow(errhelp); }
-/*:1284*/
-
-/*1303:*/
+// #1303
 Static Boolean open_fmt_file(void) { return open_fmt(&fmtfile); }
-/*:524*/
 
 Static Boolean load_fmt_file(void) { /*1308:*/
     Boolean Result;
@@ -17083,10 +16815,8 @@ _Lbadfmt_:
     Result = false;
 _Lexit:
     return Result;
-}
-/*:1303*/
+} // #1303: load_fmt_file
 
-/*1330:*/
 // #1333
 Static void close_files_and_terminate(void) {
     Integer k; // all-purpose index
@@ -17199,7 +16929,6 @@ Static void close_files_and_terminate(void) {
     print_char('.');
     println();
 } // #1333: void close_files_and_terminate(void)
-
 
 /// p468#1335: Last-minute procedures
 Static void final_cleanup(void) {
@@ -17657,75 +17386,354 @@ Static void init_prim(void) {
 } // #1336: init_prim
 #endif // #1336: tt_INIT
 
-#ifdef tt_DEBUG
-// 交互式 debug 环境
-/// p470#1338
-Static void debughelp(void) {
-    long k, l, m, n;
+// #4: this procedure gets things started properly
+Static void initialize(void) {
+    // Local variables for initialization
+    Integer i;
+    Integer k; // index into mem, eqtb, etc.
+    HyphPointer z; // runs through the exception dictionary
 
-    while (true) {
-        printnl(S(1253)); // "debug # (−1 to exit):"
-        fflush(stdout);
+    /// p5#8: Initialize whatever T E X might access
 
-        fscanf(stdin, " %ld", &m);
-        if (m < 0) {
-            return;
+    /// p11#21 Set initial values of key variables
+    {
+        /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
+        /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
+        /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
+        /// 1267, 1282, 1300, 1343.
+        /*23:*/
+        for (i = 0; i <= 255; i++)
+            xchr[i] = (Char)i;
+        /*:23*/
+        /*24:*/
+        for (i = firsttextchar; i <= lasttextchar; i++)
+            xord[(Char)i] = invalidcode;
+        for (i = 128; i <= 255; i++)
+            xord[xchr[i]] = i;
+        for (i = 0; i <= 126; i++) /*:24*/
+            xord[xchr[i]] = i;
+        /*74:*/
+        interaction = ERROR_STOP_MODE; /*:74*/
+        /*77:*/
+        deletions_allowed = true;
+        set_box_allowed = true;
+        errorcount = 0; /*:77*/
+        /*80:*/
+        help_ptr = 0;
+        use_err_help = false; /*:80*/
+        /*97:*/
+        interrupt = 0;
+        OK_to_interrupt = true; /*:97*/
+
+        /// p#95: 166
+        #ifdef tt_DEBUG
+            was_mem_end = MEM_MIN;
+            was_lo_max = MEM_MIN;
+            was_hi_min = MEM_MAX;
+            panicking = false;
+        #endif // #166: tt_DEBUG
+
+        /*215:*/
+        nest_ptr = 0;
+        max_nest_stack = 0;
+        mode = V_MODE;
+        head = contribhead;
+        tail = contribhead;
+        prevdepth = ignoredepth;
+        modeline = 0;
+        prevgraf = 0;
+        shown_mode = 0; /*991:*/
+        pagecontents = empty;
+        pagetail = pagehead;
+        link(pagehead) = 0;
+        lastglue = MAX_HALF_WORD;
+        lastpenalty = 0;
+        lastkern = 0;
+        pagedepth = 0;
+        pagemaxdepth = 0; /*:991*/
+        /*:215*/
+        /*254:*/
+        for (k = intbase; k <= eqtbsize; k++) {
+            xeqlevel[k - intbase] = levelone;
         }
-        if (m == 0) {
-            goto _Lbreakpoint_;
-        _Lbreakpoint_:
-            m = 0;
-            continue;
+        /*:254*/
+        /*257:*/
+
+        next(hashbase) = 0;
+        text(hashbase) = 0;
+        for (k = hashbase + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) /*:257*/
+            hash[k - hashbase] = hash[0];
+        /*272:*/
+        saveptr = 0;
+        curlevel = levelone;
+        curgroup = bottomlevel;
+        curboundary = 0;
+        maxsavestack = 0; /*:272*/
+        /*287:*/
+        magset = 0; /*:287*/
+        /*383:*/
+        topmark = 0;
+        firstmark = 0;
+        botmark = 0;
+        splitfirstmark = 0;
+        splitbotmark = 0; /*:383*/
+        /*439:*/
+        curval = 0;
+        curvallevel = intval;
+        radix = 0;
+        curorder = 0; /*:439*/
+        /*481:*/
+        for (k = 0; k <= 16; k++) /*:481*/
+            readopen[k] = closed;
+        /*490:*/
+        condptr = 0;
+        iflimit = NORMAL;
+        curif = 0;
+        ifline = 0; /*:490*/
+        /*521:*/
+        memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
+        /*:521*/
+        /*551:*/
+        for (int k = 0; k <= FONT_MAX; k++) {
+            fontused[k] = false;
+        }
+        /*:551*/
+        /*556:*/
+        nullcharacter.b0 = MIN_QUARTER_WORD;
+        nullcharacter.b1 = MIN_QUARTER_WORD;
+        nullcharacter.b2 = MIN_QUARTER_WORD;
+        nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
+        /*593:*/
+        totalpages = 0;
+        maxv = 0;
+        maxh = 0;
+        maxpush = 0;
+        doingleaders = false;
+        deadcycles = 0;
+        curs = -1; /*:593*/
+        dviout_init();
+        /*648:*/
+        adjusttail = 0;
+        lastbadness = 0; /*:648*/
+        /*662:*/
+        packbeginline = 0; /*:662*/
+        /*685:*/
+        emptyfield.rh = empty;
+        emptyfield.UU.lh = 0;
+        nulldelimiter.b0 = 0;
+        nulldelimiter.b1 = MIN_QUARTER_WORD;
+        nulldelimiter.b2 = 0;
+        nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
+        /*771:*/
+        alignptr = 0;
+        curalign = 0;
+        curspan = 0;
+        curloop = 0;
+        curhead = 0;
+        curtail = 0; /*:771*/
+        /*928:*/
+        for (z = 0; z <= HYPH_SIZE; z++) {
+            hyphword[z] = 0;
+            hyphlist[z] = 0;
+        }
+        hyphcount = 0; /*:928*/
+        /*990:*/
+        outputactive = false;
+        insertpenalties = 0; /*:990*/
+        /*1033:*/
+        ligaturepresent = false;
+        cancelboundary = false;
+        lfthit = false;
+        rthit = false;
+        insdisc = false; /*:1033*/
+        /*1267:*/
+        aftertoken = 0; /*:1267*/
+        /*1282:*/
+        longhelpseen = false; /*:1282*/
+        format_ident = 0; // #1300
+        /*1343:*/
+        for (k = 0; k <= 17; k++) /*:1343*/
+            writeopen[k] = false;
+    } // end block p11#21
+
+    /// p59#164: Initialize table entries (done by INITEX only)
+    #ifdef tt_INIT
+        /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
+        for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
+            mem[k - MEM_MIN].sc = 0; // all glue dimensions are zeroed
+
+        k = MEM_BOT;
+        while (k <= lomemstatmax) {
+            // set first words of glue specifications
+            gluerefcount(k) = 1;
+            stretchorder(k) = NORMAL;
+            shrinkorder(k) = NORMAL;
+            k += gluespecsize;
         }
 
-        fscanf(stdin, " %ld", &n);
-        switch (m) {
-            /// #1339
-            // display mem[n] in all forms
-            case 1: printword(mem[n - MEM_MIN]); break;
-            case 2: print_int(info(n)); break;
-            case 3: print_int(link(n)); break;
-            case 4: printword(eqtb[n - activebase]); break;
-            case 5: printword(fontinfo[n]); break;
-            case 6: printword(savestack[n]); break;
-            // show a box, abbreviated by show box depth and show box breadth
-            case 7: showbox(n); break;
-            case 8: {
-                breadth_max = 10000;
-                depth_threshold = str_adjust_to_room(POOL_SIZE) - 10;
-                shownodelist(n);
-                break;
-            }
-            case 9: showtokenlist(n, 0, 1000); break;
-            case 10: slow_print(n); break;
-            // check wellformedness; print new busy locations if n > 0
-            case 11: checkmem(n > 0); break;
-            // look for pointers to n
-            case 12: searchmem(n); break;
-            case 13: {
-                fscanf(stdin, " %ld", &l);
-                printcmdchr(n, l);
-                break;
-            }
-            case 14: {
-                for (k = 0; k <= n; k++)
-                    print(buffer[k]);
-                break;
-            }
-            case 15: {
-                font_in_short_display = NULL_FONT;
-                shortdisplay(n);
-                break;
-            }
-            case 16: panicking = !panicking; break;
+        stretch(filglue)    =  UNITY; stretchorder(filglue)    = FIL;
+        stretch(fillglue)   =  UNITY; stretchorder(fillglue)   = FILL;
+        stretch(ssglue)     =  UNITY; stretchorder(ssglue)     = FIL;
+        shrink(ssglue)      =  UNITY; shrinkorder(ssglue)      = FIL;
+        stretch(filnegglue) = -UNITY; stretchorder(filnegglue) = FIL;
 
-            default:
-                print('?');
-                break;
-        } // switch (m)
-    } // while (true)
-} // #1338: debughelp
-#endif // #1338: tt_DEBUG
+        // now initialize the dynamic memory
+        rover = lomemstatmax + 1;
+        link(rover) = emptyflag;
+
+        nodesize(rover) = 1000; // which is a 1000-word available node
+        llink(rover) = rover;
+        rlink(rover) = rover;
+        lo_mem_max = rover + 1000;
+        link(lo_mem_max) = 0;
+        info(lo_mem_max) = 0;
+
+        for (k = himemstatmin; k <= MEM_TOP; k++) {
+            // clear list heads
+            mem[k - MEM_MIN].sc = 0;
+            type(k) = charnodetype;
+        }
+
+        // Initialize the special list heads and constant nodes
+        {
+            /// #790
+            info(omittemplate) = endtemplatetoken; // ink(omit template) = null
+            /// #797
+            link(endspan) = MAX_QUARTER_WORD + 1;
+            info(endspan) = 0;
+            /// #820
+            type(lastactive) = hyphenated;
+            linenumber(lastactive) = MAX_HALF_WORD;
+            subtype(lastactive) = 0; // the subtype is never examined by the algorithm
+            /// #981
+            subtype(pageinshead) = MIN_QUARTER_WORD + 255;
+            type(pageinshead) = splitup;
+            link(pageinshead) = pageinshead;
+            /// #988
+            type(pagehead) = GLUE_NODE;
+            subtype(pagehead) = NORMAL;
+        }
+
+        /// p59#164
+        avail = 0;
+        mem_end = MEM_TOP;
+        hi_mem_min = himemstatmin; // initialize the one-word memory
+        var_used = lomemstatmax - MEM_BOT + 1;
+        dyn_used = himemstatusage; // initialize statistics
+
+        /// p82#222
+        eqtype(UNDEFINED_CONTROL_SEQUENCE) = undefinedcs;
+        equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
+        eqlevel(UNDEFINED_CONTROL_SEQUENCE) = levelzero;
+        for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
+            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
+
+        /// #228
+        equiv(gluebase) = zeroglue;
+        eqlevel(gluebase) = levelone;
+        eqtype(gluebase) = glueref;
+        for (k = gluebase + 1; k < localbase; k++)
+            eqtb[k - activebase] = eqtb[gluebase - activebase];
+        gluerefcount(zeroglue) += localbase - gluebase;
+
+        // #232
+        parshapeptr = 0;
+        eqtype(parshapeloc) = shaperef;
+        eqlevel(parshapeloc) = levelone;
+        for (k = outputroutineloc; k <= toksbase + 255; k++)
+            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
+        box(0) = 0;
+        eqtype(boxbase) = boxref;
+        eqlevel(boxbase) = levelone;
+        for (k = boxbase + 1; k <= boxbase + 255; k++)
+            eqtb[k - activebase] = eqtb[boxbase - activebase];
+        curfont = NULL_FONT;
+        eqtype(curfontloc) = data;
+        eqlevel(curfontloc) = levelone;
+        for (k = mathfontbase; k <= mathfontbase + 47; k++)
+            eqtb[k - activebase] = eqtb[curfontloc - activebase];
+        equiv(catcodebase) = 0;
+        eqtype(catcodebase) = data;
+        eqlevel(catcodebase) = levelone;
+        for (k = catcodebase + 1; k < intbase; k++)
+            eqtb[k - activebase] = eqtb[catcodebase - activebase];
+        for (k = 0; k <= 255; k++) {
+            catcode(k) = otherchar;
+            mathcode(k) = k;
+            sfcode(k) = 1000;
+        }
+        catcode(carriagereturn) = carret;
+        catcode(' ') = spacer;
+        catcode('\\') = ESCAPE;
+        catcode('%') = comment;
+        catcode(invalidcode) = invalidchar;
+        catcode(nullcode) = ignore;
+        for (k = '0'; k <= '9'; k++)
+            mathcode(k) = k + varcode;
+        for (k = 'A'; k <= 'Z'; k++) {
+            catcode(k) = letter;
+            catcode(k + 'a' - 'A') = letter;
+            mathcode(k) = k + varcode + 256;
+            mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
+            lccode(k) = k + 'a' - 'A';
+            lccode(k + 'a' - 'A') = k + 'a' - 'A';
+            uccode(k) = k;
+            uccode(k + 'a' - 'A') = k;
+            sfcode(k) = 999;
+        }
+
+        // #240
+        for (k = intbase; k < delcodebase; k++)
+            eqtb[k - activebase].int_ = 0;
+        mag = 1000;
+        tolerance = 10000;
+        hangafter = 1;
+        maxdeadcycles = 25;
+        ESCAPE_CHAR = '\\';
+        end_line_char = carriagereturn;
+        for (k = 0; k <= 255; k++)
+            delcode(k) = -1;
+        delcode('.') = 0; // this null delimiter is used in error recovery
+
+        // #250
+        for (k = dimenbase; k <= eqtbsize; k++)
+            eqtb[k - activebase].sc = 0;
+
+        // #258
+        hash_used = frozencontrolsequence; // nothing is used
+        cs_count = 0;
+        eqtype(frozendontexpand) = dontexpand;
+        text(frozendontexpand) = S(257);
+
+        // #552
+        fonts_init();
+
+        // #946
+        for (k = -trieopsize; k <= trieopsize; k++)
+            trieophash[k + trieopsize] = 0;
+        for (k = 0; k <= 255; k++)
+            trieused[k] = MIN_QUARTER_WORD;
+        trieopptr = 0;
+
+        // #951
+        trie_not_ready = true;
+        trieroot = 0;
+        triec[0] = 0;
+        trieptr = 0;
+
+        // #1216
+        text(frozenprotection) = S(258);
+        // #1301
+        format_ident = S(259); // " (INITEX)"
+        // #1369
+        text(endwrite) = S(260);
+        eqlevel(endwrite) = levelone;
+        eqtype(endwrite) = outercall;
+        equiv(endwrite) = 0;
+
+
+    #endif // #164: tt_INIT
+} // #4: initialize
 
 
 /* ----------------------------------------------------------------------------
@@ -17924,7 +17932,7 @@ int main(int argc, char* argv[]) {
         if (!get_strings_started()) goto _LN_main__final_end;
         init_prim(); // call primitive for each primitive
         str_set_init_ptrs(); // @str.c
-        fix_date_and_time(&tex_time, &day, &month, &year);
+        fix_date_and_time(&tex_time, &day, &month, &year); // @func.c
     #endif // #1332: tt_INIT
     ready_already = 314159L;
 
