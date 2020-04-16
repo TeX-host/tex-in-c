@@ -10,9 +10,9 @@
 
 /*11:*/
 #define dwa_do_8  ((int)16*1024*1024)
-#define memmax          3000000
-#define memmin          0
-#define bufsize         5000
+#define MEM_MAX          3000000
+#define MEM_MIN          0
+#define BUF_SIZE         5000
 #define ERROR_LINE      72
 #define HALF_ERROR_LINE  42
 #define MAX_PRINT_LINE  79
@@ -24,7 +24,7 @@
 #define paramsize       60
 #define nestsize        40
 
-#define savesize        600
+#define SAVE_SIZE        600
 // space for hyphenation patterns;
 // should be larger for INITEX than it is in production versions of TeX
 #define TRIE_SIZE       131000

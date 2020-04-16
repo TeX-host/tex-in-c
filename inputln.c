@@ -1,5 +1,5 @@
 #include <stdio.h>  // FILE, EOF, stderr
-#include "tex.h"    // [type] Boolean, [macro] true, false, bufsize
+#include "tex.h"    // [type] Boolean, [macro] true, false, BUF_SIZE
 #include "global.h"
     // [var] buffer, last, first, max_buf_stack
     //  _JMP_global__final_end, format_ident, cur_input, xord
@@ -25,14 +25,14 @@ Boolean inputln(FILE* f, Boolean bypasseoln) {
         while ((inp_c = getc(f)) != EOF && inp_c != '\n') {
             if (last >= max_buf_stack) {
                 max_buf_stack = last + 1;
-                if (max_buf_stack == bufsize) { /*35:*/
+                if (max_buf_stack == BUF_SIZE) { /*35:*/
                     if (format_ident == 0) {
                         fprintf(stderr, "Buffer size exceeded!\n");
                         longjmp(_JMP_global__final_end, 1);
                     } else { /*:35*/
                         cur_input.locfield = first;
                         cur_input.limitfield = last - 1;
-                        overflow(S(511), bufsize);
+                        overflow(S(511), BUF_SIZE);
                     }
                 }
             }

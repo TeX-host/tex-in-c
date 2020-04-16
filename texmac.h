@@ -421,7 +421,7 @@
 #define smallfam(x)  mem[x].qqqq.b0 /* |fam| for ``small'' delimiter}*/
 #define smallchar(x)  mem[x].qqqq.b1 /* |character| for ``small'' delimiter}*/
 #define largefam(x)  mem[x].qqqq.b2 /* |fam| for ``large'' delimiter}*/
-#define thickness(x) (mem[nucleus(x)-memmin].sc) /* |thickness| field in a fraction noad}*/
+#define thickness(x) (mem[nucleus(x)-MEM_MIN].sc) /* |thickness| field in a fraction noad}*/
 #define numerator  supscr /* |numerator| field in a fraction noad}*/
 #define denominator  subscr /* |denominator| field in a fraction noad}*/
 #define delimiter  nucleus /* |delimiter| field in left and right noads}*/

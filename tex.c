@@ -90,9 +90,9 @@ Static void initialize(void) {
 
         /// p#95: 166
         #ifdef tt_DEBUG
-            was_mem_end = memmin;
-            was_lo_max = memmin;
-            was_hi_min = memmax;
+            was_mem_end = MEM_MIN;
+            was_lo_max = MEM_MIN;
+            was_hi_min = MEM_MAX;
             panicking = false;
         #endif // #166: tt_DEBUG
 
@@ -223,7 +223,7 @@ Static void initialize(void) {
     #ifdef tt_INIT
         /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
         for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
-            mem[k - memmin].sc = 0; // all glue dimensions are zeroed
+            mem[k - MEM_MIN].sc = 0; // all glue dimensions are zeroed
 
         k = MEM_BOT;
         while (k <= lomemstatmax) {
@@ -253,7 +253,7 @@ Static void initialize(void) {
 
         for (k = himemstatmin; k <= MEM_TOP; k++) {
             // clear list heads
-            mem[k - memmin].sc = 0;
+            mem[k - MEM_MIN].sc = 0;
             type(k) = charnodetype;
         }
 
@@ -653,7 +653,7 @@ Static void print_roman_int(Integer n) {
 
 /// #71: gets a line from the terminal
 Static void term_input(void) {
-    UInt16 k; // [0, bufsize=5000]
+    UInt16 k; // [0, BUF_SIZE=5000]
 
     // now the user sees the prompt for sure
     fflush(stdout); // update terminal
@@ -1579,7 +1579,7 @@ Static Pointer get_avail(void) {
     p = avail;
     if (p != 0)
         avail = link(avail);
-    else if (mem_end + charnodesize <= memmax) {
+    else if (mem_end + charnodesize <= MEM_MAX) {
         p = mem_end + 1;
         mem_end += charnodesize;
     } else {
@@ -1587,7 +1587,7 @@ Static Pointer get_avail(void) {
         hi_mem_min -= charnodesize;
         if (hi_mem_min <= lo_mem_max) {
             runaway();
-            overflow(S(317), memmax - memmin + 1);
+            overflow(S(317), MEM_MAX - MEM_MIN + 1);
         }
     }
     set_as_char_node(p);
@@ -1680,7 +1680,7 @@ _Lrestart:
         }
         /*:126*/
     }
-    overflow(S(317), memmax - memmin + 1);
+    overflow(S(317), MEM_MAX - MEM_MIN + 1);
 _Lfound:
     link(r) = 0;
     #ifdef tt_STAT
@@ -1844,7 +1844,7 @@ Static Pointer newspec(Pointer p)
   Pointer q;
 
   q = getnode(gluespecsize);
-  mem[q - memmin] = mem[p - memmin];
+  mem[q - MEM_MIN] = mem[p - MEM_MIN];
   gluerefcount(q) = 0;
   width(q) = width(p);
   stretch(q) = stretch(p);
@@ -1932,10 +1932,10 @@ Static void checkmem(Boolean printlocs) {
     Boolean clobbered;
     HalfWord FORLIM;
 
-    for (p = memmin; p <= lo_mem_max; p++)
-        P_clrbits_B(free_cells, p - memmin, 0, 3);
+    for (p = MEM_MIN; p <= lo_mem_max; p++)
+        P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
     for (p = hi_mem_min; p <= mem_end; p++) /*168:*/
-        P_clrbits_B(free_cells, p - memmin, 0, 3);
+        P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
     p = avail;
     q = 0;
     clobbered = false;
@@ -1943,14 +1943,14 @@ Static void checkmem(Boolean printlocs) {
         if (p > mem_end || p < hi_mem_min)
             clobbered = true;
         else {
-            if (P_getbits_UB(free_cells, p - memmin, 0, 3)) clobbered = true;
+            if (P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) clobbered = true;
         }
         if (clobbered) {
             printnl(S(318));
             print_int(q);
             goto _Ldone1;
         }
-        P_putbits_UB(free_cells, p - memmin, 1, 0, 3);
+        P_putbits_UB(free_cells, p - MEM_MIN, 1, 0, 3);
         q = p;
         p = link(q);
     }
@@ -1961,9 +1961,9 @@ _Ldone1: /*:168*/
     q = 0;
     clobbered = false;
     do {
-        if (p >= lo_mem_max || p < memmin)
+        if (p >= lo_mem_max || p < MEM_MIN)
             clobbered = true;
-        else if ((rlink(p) >= lo_mem_max) | (rlink(p) < memmin))
+        else if ((rlink(p) >= lo_mem_max) | (rlink(p) < MEM_MIN))
             clobbered = true;
         else if ((!isempty(p)) | (nodesize(p) < 2) |
                  (p + nodesize(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
@@ -1976,12 +1976,12 @@ _Ldone1: /*:168*/
         }
         FORLIM = p + nodesize(p);
         for (q = p; q < FORLIM; q++) {
-            if (P_getbits_UB(free_cells, q - memmin, 0, 3)) {
+            if (P_getbits_UB(free_cells, q - MEM_MIN, 0, 3)) {
                 printnl(S(320));
                 print_int(q);
                 goto _Ldone2;
             }
-            P_putbits_UB(free_cells, q - memmin, 1, 0, 3);
+            P_putbits_UB(free_cells, q - MEM_MIN, 1, 0, 3);
         }
         q = p;
         p = rlink(p);
@@ -1989,46 +1989,46 @@ _Ldone1: /*:168*/
 
 _Ldone2: /*:169*/
     /*170:*/
-    p = memmin;
+    p = MEM_MIN;
     while (p <= lo_mem_max) { /*:170*/
         if (isempty(p)) {
             printnl(S(321));
             print_int(p);
         }
-        while ((p <= lo_mem_max) & (!P_getbits_UB(free_cells, p - memmin, 0, 3)))
+        while ((p <= lo_mem_max) & (!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)))
             p++;
-        while ((p <= lo_mem_max) &   P_getbits_UB(free_cells, p - memmin, 0, 3))
+        while ((p <= lo_mem_max) &   P_getbits_UB(free_cells, p - MEM_MIN, 0, 3))
             p++;
     }
     if (printlocs) { /*171:*/
         printnl(S(322));
         FORLIM = lo_mem_max;
-        for (p = memmin; p <= lo_mem_max; p++) {
-            if ((!P_getbits_UB(free_cells, p - memmin, 0, 3)) &
-                ((p > was_lo_max) | P_getbits_UB(was_free, p - memmin, 0, 3))) {
+        for (p = MEM_MIN; p <= lo_mem_max; p++) {
+            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
+                ((p > was_lo_max) | P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
                 print_char(' ');
                 print_int(p);
             }
         }
         for (p = hi_mem_min; p <= mem_end; p++) {
-            if ((!P_getbits_UB(free_cells, p - memmin, 0, 3)) &
+            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
                 ((p < was_hi_min || p > was_mem_end) |
-                 P_getbits_UB(was_free, p - memmin, 0, 3))) {
+                 P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
                 print_char(' ');
                 print_int(p);
             }
         }
     }
     /*:171*/
-    for (p = memmin; p <= lo_mem_max; p++) {
-        P_clrbits_B(was_free, p - memmin, 0, 3);
+    for (p = MEM_MIN; p <= lo_mem_max; p++) {
+        P_clrbits_B(was_free, p - MEM_MIN, 0, 3);
         P_putbits_UB(was_free,
-            p - memmin, P_getbits_UB(free_cells, p - memmin, 0, 3), 0, 3);
+            p - MEM_MIN, P_getbits_UB(free_cells, p - MEM_MIN, 0, 3), 0, 3);
     }
     for (p = hi_mem_min; p <= mem_end; p++) {
-        P_clrbits_B(was_free, p - memmin, 0, 3);
+        P_clrbits_B(was_free, p - MEM_MIN, 0, 3);
         P_putbits_UB(was_free, 
-            p - memmin, P_getbits_UB(free_cells, p - memmin, 0, 3), 0, 3);
+            p - MEM_MIN, P_getbits_UB(free_cells, p - MEM_MIN, 0, 3), 0, 3);
     }
     was_mem_end = mem_end;
     was_lo_max = lo_mem_max;
@@ -2039,7 +2039,7 @@ _Ldone2: /*:169*/
 Static void searchmem(Pointer p) {
     long q;
 
-    for (q = memmin; q <= lo_mem_max; q++) {
+    for (q = MEM_MIN; q <= lo_mem_max; q++) {
         if (link(q) == p) {
             printnl(S(323));
             print_int(q);
@@ -2094,7 +2094,7 @@ Static void searchmem(Pointer p) {
 Static void shortdisplay(Pointer p) {
     long n;
 
-    while (p > memmin) {
+    while (p > MEM_MIN) {
         if (ischarnode(p)) {
             if (p <= mem_end) {
                 if (font(p) != font_in_short_display) {
@@ -2326,7 +2326,7 @@ Static void shownodelist(long p) {
         goto _Lexit;
     }
     n = 0;
-    while (p > memmin) {
+    while (p > MEM_MIN) {
         println();
         printcurrentstring();
         if (p > mem_end) {
@@ -2377,7 +2377,7 @@ Static void shownodelist(long p) {
                         if ((g != 0.0) & (gluesign(p) != NORMAL)) { /*:186*/
                             print(S(368));
                             if (gluesign(p) == shrinking) print(S(369));
-                            if (0 /*labs(mem[p + glueoffset - memmin].int_) < 1048576L */)
+                            if (0 /*labs(mem[p + glueoffset - MEM_MIN].int_) < 1048576L */)
                                 print(S(370));
                             else {
                                 if (fabs(g) > 20000.0) {
@@ -2894,8 +2894,8 @@ Static HalfWord copynodelist(HalfWord p)
       case VLIST_NODE:
       case UNSET_NODE:
 	r = getnode(boxnodesize);
-	mem[r - memmin + 6] = mem[p - memmin + 6];
-	mem[r - memmin + 5] = mem[p - memmin + 5];
+	mem[r - MEM_MIN + 6] = mem[p - MEM_MIN + 6];
+	mem[r - MEM_MIN + 5] = mem[p - MEM_MIN + 5];
 	listptr(r) = copynodelist(listptr(p));
 	words = 5;
 	break;
@@ -2907,7 +2907,7 @@ Static HalfWord copynodelist(HalfWord p)
 
       case INS_NODE:
 	r = getnode(insnodesize);
-	mem[r - memmin + 4] = mem[p - memmin + 4];
+	mem[r - MEM_MIN + 4] = mem[p - MEM_MIN + 4];
 	addglueref(splittopptr(p));
 	insptr(r) = copynodelist(insptr(p));
 	words = insnodesize - 1;
@@ -2956,7 +2956,7 @@ Static HalfWord copynodelist(HalfWord p)
 
       case LIGATURE_NODE:
 	r = getnode(smallnodesize);
-	mem[ligchar(r) - memmin] = mem[ligchar(p) - memmin];
+	mem[ligchar(r) - MEM_MIN] = mem[ligchar(p) - MEM_MIN];
 	ligptr(r) = copynodelist(ligptr(p));
 	break;
 
@@ -2984,7 +2984,7 @@ Static HalfWord copynodelist(HalfWord p)
     }
     while (words > 0) {   /*:205*/
       words--;
-      mem[r + words - memmin] = mem[p + words - memmin];
+      mem[r + words - MEM_MIN] = mem[p + words - MEM_MIN];
     }
     link(q) = r;
     q = r;
@@ -3405,8 +3405,8 @@ Static void newsavelevel(GroupCode c)
 {
   if (saveptr > maxsavestack) {
     maxsavestack = saveptr;
-    if (maxsavestack > savesize - 6)
-      overflow(S(476), savesize);
+    if (maxsavestack > SAVE_SIZE - 6)
+      overflow(S(476), SAVE_SIZE);
   }
   savetype(saveptr) = levelboundary;
   savelevel(saveptr) = curgroup;
@@ -3456,8 +3456,8 @@ Static void eqsave(HalfWord p, QuarterWord l)
 {
   if (saveptr > maxsavestack) {
     maxsavestack = saveptr;
-    if (maxsavestack > savesize - 6)
-      overflow(S(476), savesize);
+    if (maxsavestack > SAVE_SIZE - 6)
+      overflow(S(476), SAVE_SIZE);
   }
   if (l == levelzero)
     savetype(saveptr) = restorezero;
@@ -3520,8 +3520,8 @@ Static void saveforafter(HalfWord t)
     return;
   if (saveptr > maxsavestack) {
     maxsavestack = saveptr;
-    if (maxsavestack > savesize - 6)
-      overflow(S(476), savesize);
+    if (maxsavestack > SAVE_SIZE - 6)
+      overflow(S(476), SAVE_SIZE);
   }
   savetype(saveptr) = inserttoken;
   savelevel(saveptr) = levelzero;
@@ -3760,8 +3760,8 @@ Static void beginfilereading(void)
 {
   if (inopen == MAX_IN_OPEN)
     overflow(S(510), MAX_IN_OPEN);
-  if (first == bufsize)
-    overflow(S(511), bufsize);
+  if (first == BUF_SIZE)
+    overflow(S(511), BUF_SIZE);
   inopen++;
   if (inputptr > maxinstack) {
     maxinstack = inputptr;
@@ -4675,8 +4675,8 @@ Static void expand(void)
       while (p != 0) {
 	if (j >= max_buf_stack) {
 	  max_buf_stack = j + 1;
-	  if (max_buf_stack == bufsize)
-	    overflow(S(511), bufsize);
+	  if (max_buf_stack == BUF_SIZE)
+	    overflow(S(511), BUF_SIZE);
 	}
 	buffer[j] = (info(p)) & (dwa_do_8-1);
 	j++;
@@ -5167,7 +5167,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative) {
             if (box(curval) == 0)
                 curval = 0;
             else
-                curval = mem[box(curval) + m - memmin].sc;
+                curval = mem[box(curval) + m - MEM_MIN].sc;
             curvallevel = dimenval;
             break;
             /*:420*/
@@ -7766,9 +7766,9 @@ Static HalfWord newnoad(void) {
 #ifdef BIG_CHARNODE
     for (i = 0; i < charnodesize; i++) {
 #endif
-        mem[nucleus(p) + i - memmin].hh = emptyfield;
-        mem[subscr(p) + i - memmin].hh = emptyfield;
-        mem[supscr(p) + i - memmin].hh = emptyfield;
+        mem[nucleus(p) + i - MEM_MIN].hh = emptyfield;
+        mem[subscr(p) + i - MEM_MIN].hh = emptyfield;
+        mem[supscr(p) + i - MEM_MIN].hh = emptyfield;
 #ifdef BIG_CHARNODE
     }
 #endif
@@ -8092,7 +8092,7 @@ Static HalfWord cleanbox(HalfWord p, SmallNumber s) {
 
         case mathchar:
             curmlist = newnoad();
-            mem[nucleus(curmlist) - memmin] = mem[p - memmin];
+            mem[nucleus(curmlist) - MEM_MIN] = mem[p - MEM_MIN];
             break;
 
         case subbox:
@@ -8297,11 +8297,11 @@ _Ldone: /*:740*/
         if (mathtype(nucleus(q)) == mathchar) { /*742:*/
             flushnodelist(x);
             x = newnoad();
-            mem[nucleus(x) - memmin] = mem[nucleus(q) - memmin];
-            mem[supscr(x) - memmin] = mem[supscr(q) - memmin];
-            mem[subscr(x) - memmin] = mem[subscr(q) - memmin];
-            mem[supscr(q) - memmin].hh = emptyfield;
-            mem[subscr(q) - memmin].hh = emptyfield;
+            mem[nucleus(x) - MEM_MIN] = mem[nucleus(q) - MEM_MIN];
+            mem[supscr(x) - MEM_MIN] = mem[supscr(q) - MEM_MIN];
+            mem[subscr(x) - MEM_MIN] = mem[subscr(q) - MEM_MIN];
+            mem[supscr(q) - MEM_MIN].hh = emptyfield;
+            mem[subscr(q) - MEM_MIN].hh = emptyfield;
             mathtype(nucleus(q)) = submlist;
             info(nucleus(q)) = x;
             x = cleanbox(nucleus(q), curstyle);
@@ -8572,13 +8572,13 @@ _Lrestart:
                                                                 nucleus(q)) =
                                                                 rembyte(curi);
                                                             mem[subscr(q) -
-                                                                memmin] =
+                                                                MEM_MIN] =
                                                                 mem[subscr(p) -
-                                                                    memmin];
+                                                                    MEM_MIN];
                                                             mem[supscr(q) -
-                                                                memmin] =
+                                                                MEM_MIN] =
                                                                 mem[supscr(p) -
-                                                                    memmin];
+                                                                    MEM_MIN];
                                                             freenode(p,
                                                                      noadsize);
                                                             break;
@@ -9114,8 +9114,8 @@ Static void pushalignment(void) {
     info(p) = curalign;
     llink(p) = preamble;
     rlink(p) = curspan;
-    mem[p - memmin + 2].int_ = curloop;
-    mem[p - memmin + 3].int_ = alignstate;
+    mem[p - MEM_MIN + 2].int_ = curloop;
+    mem[p - MEM_MIN + 3].int_ = alignstate;
     info(p + 4) = curhead;
     link(p + 4) = curtail;
     alignptr = p;
@@ -9130,8 +9130,8 @@ Static void popalignment(void) {
     p = alignptr;
     curtail = link(p + 4);
     curhead = info(p + 4);
-    alignstate = mem[p - memmin + 3].int_;
-    curloop = mem[p - memmin + 2].int_;
+    alignstate = mem[p - MEM_MIN + 3].int_;
+    curloop = mem[p - MEM_MIN + 2].int_;
     curspan = rlink(p);
     preamble = llink(p);
     curalign = info(p);
@@ -10075,7 +10075,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                 else if (parshapeptr == 0)
                     linewidth = firstwidth;
                 else
-                    linewidth = mem[parshapeptr + l * 2 - memmin].sc;
+                    linewidth = mem[parshapeptr + l * 2 - MEM_MIN].sc;
             } // if (l > easyline) - else
         } // if (l > oldl)
 
@@ -10382,8 +10382,8 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
             curwidth = firstwidth;
             curindent = firstindent;
         } else {
-            curwidth = mem[parshapeptr + curline * 2 - memmin].sc;
-            curindent = mem[parshapeptr + curline * 2 - memmin - 1].sc;
+            curwidth = mem[parshapeptr + curline * 2 - MEM_MIN].sc;
+            curindent = mem[parshapeptr + curline * 2 - MEM_MIN - 1].sc;
         }
         adjusttail = adjusthead;
         justbox = hpack(q, curwidth, exactly);
@@ -11309,8 +11309,8 @@ Static void linebreak(long finalwidowpenalty) {
         }
     } else {
         lastspecialline = info(parshapeptr) - 1;
-        secondwidth = mem[parshapeptr + (lastspecialline + 1) * 2 - memmin].sc;
-        secondindent = mem[parshapeptr + lastspecialline * 2 - memmin + 1].sc;
+        secondwidth = mem[parshapeptr + (lastspecialline + 1) * 2 - MEM_MIN].sc;
+        secondindent = mem[parshapeptr + lastspecialline * 2 - MEM_MIN + 1].sc;
     }
     if (looseness == 0)
         easyline = lastspecialline;
@@ -13793,8 +13793,8 @@ _Ldone: ;   /*:1146*/
 	p = parshapeptr + n * 2;
       else
 	p = parshapeptr + (prevgraf + 2) * 2;
-      s = mem[p - memmin - 1].sc;
-      l = mem[p - memmin].sc;
+      s = mem[p - MEM_MIN - 1].sc;
+      l = mem[p - MEM_MIN].sc;
     }
     pushmath(mathshiftgroup);
     mode = M_MODE;
@@ -13990,9 +13990,9 @@ Static void mathradical(void)
 #ifdef BIG_CHARNODE
   for(i=0;i<charnodesize;i++) {
 #endif
-  mem[nucleus(tail) + i - memmin].hh = emptyfield;
-  mem[subscr(tail) + i - memmin].hh = emptyfield;
-  mem[supscr(tail) + i - memmin].hh = emptyfield;
+  mem[nucleus(tail) + i - MEM_MIN].hh = emptyfield;
+  mem[subscr(tail) + i - MEM_MIN].hh = emptyfield;
+  mem[supscr(tail) + i - MEM_MIN].hh = emptyfield;
 #ifdef BIG_CHARNODE
   }
 #endif
@@ -14017,9 +14017,9 @@ Static void mathac(void)
   tailappend(getnode(accentnoadsize));
   type(tail) = accentnoad;
   subtype(tail) = NORMAL;
-  mem[nucleus(tail) - memmin].hh = emptyfield;
-  mem[subscr(tail) - memmin].hh = emptyfield;
-  mem[supscr(tail) - memmin].hh = emptyfield;
+  mem[nucleus(tail) - MEM_MIN].hh = emptyfield;
+  mem[subscr(tail) - MEM_MIN].hh = emptyfield;
+  mem[supscr(tail) - MEM_MIN].hh = emptyfield;
   mathtype(accentchr(tail)) = mathchar;
   scanfifteenbitint();
   character(accentchr(tail)) = curval & 255;
@@ -14162,9 +14162,9 @@ Static void mathfraction(void)
   subtype(incompleatnoad) = NORMAL;
   mathtype(numerator(incompleatnoad)) = submlist;
   info(numerator(incompleatnoad)) = link(head);
-  mem[denominator(incompleatnoad) - memmin].hh = emptyfield;
-  mem[leftdelimiter(incompleatnoad) - memmin].qqqq = nulldelimiter;
-  mem[rightdelimiter(incompleatnoad) - memmin].qqqq = nulldelimiter;
+  mem[denominator(incompleatnoad) - MEM_MIN].hh = emptyfield;
+  mem[leftdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
+  mem[rightdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
   link(head) = 0;
   tail = head;   /*1182:*/
   if (c >= delimitedcode) {
@@ -14719,7 +14719,7 @@ Static void alterboxdimen(void) {
     b = curval;
     scanoptionalequals();
     scannormaldimen();
-    if (box(b) != 0) mem[box(b) + c - memmin].sc = curval;
+    if (box(b) != 0) mem[box(b) + c - MEM_MIN].sc = curval;
 }
 /*:1247*/
 
@@ -15179,9 +15179,9 @@ Static void prefixedcommand(void)
       info(p) = n;
       for (j = 1; j <= n; j++) {
 	scannormaldimen();
-	mem[p + j * 2 - memmin - 1].sc = curval;
+	mem[p + j * 2 - MEM_MIN - 1].sc = curval;
 	scannormaldimen();
-	mem[p + j * 2 - memmin].sc = curval;
+	mem[p + j * 2 - MEM_MIN].sc = curval;
       }
     }
     define(parshapeloc, shaperef, p);
@@ -15476,7 +15476,7 @@ Static void storefmtfile(void) { /*1304:*/
     x = 0;
     do {
         for (k = p; k <= q + 1; k++) {
-            pppfmtfile = mem[k - memmin];
+            pppfmtfile = mem[k - MEM_MIN];
             pput(pppfmtfile);
         }
         x += q - p + 2;
@@ -15487,7 +15487,7 @@ Static void storefmtfile(void) { /*1304:*/
     var_used += lo_mem_max - p;
     dyn_used = mem_end - hi_mem_min + 1;
     for (k = p; k <= lo_mem_max; k++) {
-        pppfmtfile = mem[k - memmin];
+        pppfmtfile = mem[k - MEM_MIN];
         pput(pppfmtfile);
     }
     x += lo_mem_max - p + 1;
@@ -15496,7 +15496,7 @@ Static void storefmtfile(void) { /*1304:*/
     pppfmtfile.int_ = avail;
     pput(pppfmtfile);
     for (k = hi_mem_min; k <= mem_end; k++) {
-        pppfmtfile = mem[k - memmin];
+        pppfmtfile = mem[k - MEM_MIN];
         pput(pppfmtfile);
     }
     x += mem_end - hi_mem_min + 1;
@@ -15972,8 +15972,8 @@ Static void handlerightbrace(void) {
                     if (type(p) == ordnoad) {
                         if (mathtype(subscr(p)) == empty) {
                             if (mathtype(supscr(p)) == empty) {
-                                mem[saved(0) - memmin].hh =
-                                    mem[nucleus(p) - memmin].hh;
+                                mem[saved(0) - MEM_MIN].hh =
+                                    mem[nucleus(p) - MEM_MIN].hh;
                                 freenode(p, noadsize);
                             }
                         }
@@ -16891,7 +16891,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     do {
         for (k = p; k <= q + 1; k++) {
             pget(pppfmtfile);
-            mem[k - memmin] = pppfmtfile;
+            mem[k - MEM_MIN] = pppfmtfile;
         }
         p = q + nodesize(q);
         if ((p > lo_mem_max) | ((q >= rlink(q)) & (rlink(q) != rover)))
@@ -16900,13 +16900,13 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     } while (q != rover);
     for (k = p; k <= lo_mem_max; k++) {
         pget(pppfmtfile);
-        mem[k - memmin] = pppfmtfile;
+        mem[k - MEM_MIN] = pppfmtfile;
     }
-    if (memmin < MEM_BOT - 2) {
+    if (MEM_MIN < MEM_BOT - 2) {
         p = llink(rover);
-        q = memmin + 1;
-        link(memmin) = 0;
-        info(memmin) = 0;
+        q = MEM_MIN + 1;
+        link(MEM_MIN) = 0;
+        info(MEM_MIN) = 0;
         rlink(p) = q;
         llink(rover) = q;
         rlink(q) = rover;
@@ -16925,7 +16925,7 @@ Static Boolean loadfmtfile(void) { /*1308:*/
     mem_end = MEM_TOP;
     for (k = hi_mem_min; k <= mem_end; k++) {
         pget(pppfmtfile);
-        mem[k - memmin] = pppfmtfile;
+        mem[k - MEM_MIN] = pppfmtfile;
     }
     pget(pppfmtfile);
     var_used = pppfmtfile.int_;
@@ -17105,8 +17105,8 @@ Static void close_files_and_terminate(void) {
             str_print_stats(log_file);
             fprintf(log_file,
                     " %ld words of memory out of %ld\n",
-                    lo_mem_max - memmin + mem_end - hi_mem_min + 2L,
-                    mem_end - memmin + 1L);
+                    lo_mem_max - MEM_MIN + mem_end - hi_mem_min + 2L,
+                    mem_end - MEM_MIN + 1L);
             fprintf(log_file,
                     " %ld multiletter control sequences out of %ld\n",
                     cs_count,
@@ -17138,8 +17138,8 @@ Static void close_files_and_terminate(void) {
                     (long)stacksize,
                     (long)nestsize,
                     (long)paramsize,
-                    (long)bufsize,
-                    (long)savesize);
+                    (long)BUF_SIZE,
+                    (long)SAVE_SIZE);
         }  // if (tracingstats > 0 && logopened)
     #endif // #1333: tt_STAT
 
@@ -17682,7 +17682,7 @@ Static void debughelp(void) {
         switch (m) {
             /// #1339
             // display mem[n] in all forms
-            case 1: printword(mem[n - memmin]); break;
+            case 1: printword(mem[n - MEM_MIN]); break;
             case 2: print_int(info(n)); break;
             case 3: print_int(link(n)); break;
             case 4: printword(eqtb[n - activebase]); break;
@@ -17747,9 +17747,8 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
     Integer bad = 0;
 
     /// #14
-    if (
-        HALF_ERROR_LINE < 30 ||
-        HALF_ERROR_LINE > (ERROR_LINE - 15)
+    if (    HALF_ERROR_LINE < 30 
+        ||  HALF_ERROR_LINE > (ERROR_LINE - 15)
     ) bad = 1;
     if (MAX_PRINT_LINE < 60) bad = 2;
     if ((DVI_BUF_SIZE % 8) != 0) bad = 3;
@@ -17760,29 +17759,30 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
 
     /// #111
     #ifdef tt_INIT
-        if (memmin != MEM_BOT || memmax != MEM_TOP) bad = 10;
+        if (MEM_MIN != MEM_BOT || MEM_MAX != MEM_TOP) bad = 10;
     #endif // #111: tt_INIT
-    if (memmin > MEM_BOT || memmax < MEM_TOP) bad = 10;
+    if (MEM_MIN > MEM_BOT || MEM_MAX < MEM_TOP) bad = 10;
     if (MIN_QUARTER_WORD > 0 || MAX_QUARTER_WORD < 127) bad = 11;
-    if (MAX_HALF_WORD < 32767) bad = 12;
-    if (MIN_QUARTER_WORD < 0 || MAX_QUARTER_WORD > MAX_HALF_WORD) bad = 13;
-    if (
-        memmin < 0 ||
-        memmax >= MAX_HALF_WORD ||
-        (MEM_BOT - memmin) > (MAX_HALF_WORD + 1)
+    if (MIN_HALF_WORD > 0 || MAX_HALF_WORD < 32767) bad = 12;
+    if (    MIN_QUARTER_WORD < MIN_HALF_WORD 
+        ||  MAX_QUARTER_WORD > MAX_HALF_WORD
+    ) bad = 13;
+    if (    MEM_MIN <  MIN_HALF_WORD
+        ||  MEM_MAX >= MAX_HALF_WORD 
+        || (MEM_BOT - MEM_MIN) > (MAX_HALF_WORD + 1)
     ) bad = 14;
-    if (0 < MIN_QUARTER_WORD || FONT_MAX > MAX_QUARTER_WORD) bad = 15;
-    if (FONT_MAX > 256+0) bad = 16;
-    if (savesize > MAX_HALF_WORD || MAX_STRINGS > MAX_HALF_WORD) bad = 17;
-    if (bufsize > MAX_HALF_WORD) bad = 18;
-    if (MAX_QUARTER_WORD - MIN_QUARTER_WORD < 255) bad = 19;
+    if (FONT_BASE < MIN_QUARTER_WORD || FONT_MAX > MAX_QUARTER_WORD) bad = 15;
+    if (FONT_MAX > FONT_BASE + 256) bad = 16;
+    if (SAVE_SIZE > MAX_HALF_WORD || MAX_STRINGS > MAX_HALF_WORD) bad = 17;
+    if (BUF_SIZE > MAX_HALF_WORD) bad = 18;
+    if ((MAX_QUARTER_WORD - MIN_QUARTER_WORD) < 255) bad = 19;
 
     /// #290
     if ((cstokenflag + undefinedcontrolsequence) > MAX_HALF_WORD) bad = 21;
     /// #522
     if (formatdefaultlength > filenamesize) bad = 31;
     /// 1249
-    if ((MAX_HALF_WORD * 2) < (MEM_TOP - memmin)) bad = 41;
+    if ((MAX_HALF_WORD * 2) < (MEM_TOP - MEM_MIN)) bad = 41;
 
     return bad;
 }
@@ -17828,7 +17828,7 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     max_buf_stack = 0;
     paramptr = 0;
     maxparamstack = 0;
-    first = bufsize;
+    first = BUF_SIZE;
     do {
         buffer[first] = 0;
         first--;

@@ -2,7 +2,7 @@
 #include <string.h> // memcpy, strlen, strcpy, strchr, strcmp, strcat, strncmp 
 #include <stdlib.h> // malloc, exit, getenv,
 #include <time.h>   // tm_struct, time, localtime
-#include "tex.h"    // [macro] bufsize, filenamesize
+#include "tex.h"    // [macro] BUF_SIZE, filenamesize
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [export]
 #include "global.h" // [var] buffer, last, first, name_of_file
@@ -159,7 +159,7 @@ int PASCAL_MAIN(int argc, char** argv) {
         int j = 1;
         pos = 0;
         for (; j < argc; j++) {
-            if (strlen(argv[j]) + pos + 3 < bufsize) {
+            if (strlen(argv[j]) + pos + 3 < BUF_SIZE) {
                 strcpy(&(mybuff[pos]), argv[j]);
                 pos += strlen(argv[j]);
                 mybuff[pos++] = ' ';

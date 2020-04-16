@@ -77,7 +77,7 @@ Char name_of_file[filenamesize + 1];
 Static UInt16 namelength;
 
 /// [#30]
-ASCIICode buffer[bufsize + 1]; // lines of characters being read
+ASCIICode buffer[BUF_SIZE + 1]; // lines of characters being read
 UInt16 first;                  // the first unused position in `buffer`
 UInt16 last;                   // end of the line just input to `buffer`
 UInt16 max_buf_stack;          // largest index used in `buffer`
@@ -146,7 +146,7 @@ Static Scaled tex_remainder = 0; // amount subtracted to get an exact division
 /// [#115]
 Static Pointer temp_ptr; // for occasional emergency use
 /// [#116]
-Static MemoryWord mem[memmax - memmin + 1]; // the big dynamic storage area
+Static MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
 Static Pointer lo_mem_max; // the largest location of variable-size memory
 Static Pointer hi_mem_min; // the smallest location of one-word memory
 /// [#117]
@@ -161,8 +161,8 @@ Static Pointer rover; // points to some node in the list of empties
 /// [p95#165]
 #ifdef tt_DEBUG
 // 以 byte(8) 分配，按位取用
-Static UChar free_cells[(memmax - memmin + 8) / 8]; // free: free cells
-Static UChar was_free[(memmax - memmin + 8) / 8];   // previously free cells
+Static UChar free_cells[(MEM_MAX - MEM_MIN + 8) / 8]; // free: free cells
+Static UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];   // previously free cells
 // previous `mem_end`, `lo_mem_max`, and `hi_mem_min`
 Static Pointer was_mem_end, was_lo_max, was_hi_min;
 Static Boolean panicking; // do we want to check memory constantly?
@@ -199,7 +199,7 @@ Static Integer cs_count; // total number of known identifiers
 /// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
 
 /// [#271]
-Static MemoryWord savestack[savesize + 1];
+Static MemoryWord savestack[SAVE_SIZE + 1];
 Static UInt16 saveptr;
 Static UInt16 maxsavestack;
 Static QuarterWord curlevel;
