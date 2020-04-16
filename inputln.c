@@ -2,7 +2,7 @@
 #include "tex.h"    // [type] Boolean, [macro] true, false, bufsize
 #include "global.h"
     // [var] buffer, last, first, max_buf_stack
-    //  _JL_final_end, format_ident, cur_input, xord
+    //  _JMP_global__final_end, format_ident, cur_input, xord
 #include "texfunc.h" // [func] overflow
 #include "inputln.h" // [export] inputln
 
@@ -28,7 +28,7 @@ Boolean inputln(FILE* f, Boolean bypasseoln) {
                 if (max_buf_stack == bufsize) { /*35:*/
                     if (format_ident == 0) {
                         fprintf(stderr, "Buffer size exceeded!\n");
-                        longjmp(_JL_final_end, 1);
+                        longjmp(_JMP_global__final_end, 1);
                     } else { /*:35*/
                         cur_input.locfield = first;
                         cur_input.limitfield = last - 1;

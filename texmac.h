@@ -183,6 +183,7 @@
 
 #define precedesbreak(x) (type(x) < MATH_NODE)
 #define nondiscardable(x) (type(x) < MATH_NODE)
+// 无需打开输出流，直接使用 stdout
 // #define topenin() (termin = stdin) // 33, 37
 // #define topenout() (termout = stdout) // 33, 1332
 #define global (a >= 4)

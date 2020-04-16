@@ -11,7 +11,7 @@ extern UInt16 first;
 
 // inputln, [tex]
 extern UInt16 max_buf_stack;
-extern jmp_buf _JL_final_end;
+extern jmp_buf _JMP_global__final_end;
 extern StrNumber format_ident;
 extern InStateRecord cur_input;
 extern ASCIICode xord[256];

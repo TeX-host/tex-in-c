@@ -770,12 +770,13 @@ Static void giveerrhelp(void);
 #ifdef tt_DEBUG
 Static void debughelp(void);
 #endif // 78: tt_DEBUG
-Static jmp_buf _JLendofTEX;
+Static jmp_buf _JMP_global__end_of_TEX;
 
 
-/*81:*/
-Static void jumpout(void) { longjmp(_JLendofTEX, 1); }
-/*:81*/
+// #81: goto end of TEX
+// jump out: [81], 82, 84, 93
+Static void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
+
 
 /*82:*/
 void error(void) {
@@ -17726,13 +17727,13 @@ Static void debughelp(void) {
 } // #1338: debughelp
 #endif // #1338: tt_DEBUG
 
-// 检查常量范围是否正确。
+// [p8#14] 检查常量范围是否正确。
 // 有误则返回错误代码
 // Check the “constant” values for consistency
-// 14, 111, 290, 522, 1249, used in 1332
-int check_constant(void) {
+// [14], 111, 290, 522, 1249, used in 1332
+static Integer S14_Check_the_constant_values_for_consistency(void) {
     /// bad: is some “constant” wrong?
-    // 13, 14, 111, 290, 522, 1249, 1332
+    // [13], 14, 111, 290, 522, 1249, 1332
     Integer bad = 0;
 
     /// #14
@@ -17776,45 +17777,15 @@ int check_constant(void) {
     return bad;
 }
 
-/// 入口函数
-/// p466#1332: TeX starts and ends here.
-int main(int argc, char* argv[]) {
-    long ready_already = 0; /* 1331, 1332 */
-    int bad = 0;
-
-    PASCAL_MAIN(argc, argv);
-    if (setjmp(_JLendofTEX)) goto _L_end_of_TEX;
-    if (setjmp(_JL_final_end)) goto _L_final_end;
-
-    history = FATAL_ERROR_STOP; // in case we quit during initialization
-    if (ready_already == 314159L) goto _L_start_of_TEX;
-
-    // 常量范围检查
-    // Check the "constant" values for consistency
-    bad = check_constant();
-    if (bad > 0) {
-        fprintf(
-            stdout,
-            "Ouch---my internal constants have been clobbered!---case %d\n",
-            bad);
-        goto _L_final_end;
-    }
-
-    initialize(); // set global variables to their starting values
-#ifdef tt_INIT
-    if (!get_strings_started()) goto _L_final_end;
-    initprim(); // call primitive for each primitive
-    str_set_init_ptrs();
-    fixdateandtime(&tex_time, &day, &month, &year);
-#endif // #1332: tt_INIT
-    ready_already = 314159L;
-
-_L_start_of_TEX:
-    // #55: Initialize the output routines
+// #55: <Initialize the output routines> 
+// 55, 61, 528, 533 Used in section 1332.
+static void S55_Initialize_the_output_routines(void) {
+    // #55
     selector = TERM_ONLY;
     tally = 0;
     term_offset = 0;
     file_offset = 0;
+
     // #61
     fprintf(stdout, "%s", TEX_BANNER);
     if (format_ident == 0) {
@@ -17824,14 +17795,21 @@ _L_start_of_TEX:
         println();
     }
     fflush(stdout);
+
     // #528
     jobname = 0;
     nameinprogress = false;
-    logopened = false; 
+    logopened = false;
+
     // #533
     outputfilename = 0;
+} // S55_Initialize_the_output_routines
 
-    /// #1337: Get the first line of input and prepare to start
+// #1337: Get the first line of input and prepare to start
+// return has_error?
+static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start() {
+    Boolean HAS_ERROR = true, NO_ERROR = false;
+
     /// #331: Initialize the input routines
     inputptr = 0;
     maxinstack = 0;
@@ -17855,17 +17833,17 @@ _L_start_of_TEX:
     name = 0;
     forceeof = false;
     alignstate = 1000000L;
-    if (!initterminal()) goto _L_final_end;
+    if (!initterminal()) return HAS_ERROR;
     limit = last;
     first = last + 1; // `init_terminal` has set `loc` and `last`
 
     // #1337
     if (need_to_load_format /* (format_ident == 0) | (buffer[loc] == '&') */) {
         if (format_ident != 0) initialize(); // erase preloaded format
-        if (!openfmtfile()) goto _L_final_end;
+        if (!openfmtfile()) return HAS_ERROR;
         if (!loadfmtfile()) {
             wclose(&fmtfile);
-            goto _L_final_end;
+            return HAS_ERROR;
         }
         wclose(&fmtfile);
         while ((loc < limit) & (buffer[loc] == ' '))
@@ -17892,15 +17870,59 @@ _L_start_of_TEX:
         startinput(); // \input assumed
     }
 
+    return NO_ERROR;
+} // S1337_Get_the_first_line_of_input_and_prepare_to_start
+
+/// 入口函数
+/// [p466#1332]: TeX starts and ends here.
+int main(int argc, char* argv[]) {
+    // #13: a sacrifice of purity for economy
+    // TODO: remove this
+    Integer ready_already = 0;
+    int bad = 0;
+    Boolean has_error = false;
+
+    // 附加的初始化
+    PASCAL_MAIN(argc, argv);
+    if (setjmp(_JMP_global__end_of_TEX)) goto _LN_main__end_of_TEX;
+    if (setjmp(_JMP_global__final_end)) goto _LN_main__final_end;
+
+    /// [#1332]: TeX start here
+    history = FATAL_ERROR_STOP; // in case we quit during initialization
+    // t_open_out; // 无需打开输出流，直接使用 stdout
+    if (ready_already == 314159L) goto _LN_main__start_of_TEX;
+    // 常量范围检查
+    bad = S14_Check_the_constant_values_for_consistency();
+    if (bad > 0) {
+        fprintf(
+            stdout,
+            "Ouch---my internal constants have been clobbered!---case %d\n",
+            bad);
+        goto _LN_main__final_end;
+    }
+
+    initialize(); // set global variables to their starting values
+    #ifdef tt_INIT
+        if (!get_strings_started()) goto _LN_main__final_end;
+        initprim(); // call primitive for each primitive
+        str_set_init_ptrs();
+        fixdateandtime(&tex_time, &day, &month, &year);
+    #endif // #1332: tt_INIT
+    ready_already = 314159L;
+
+_LN_main__start_of_TEX:
+    S55_Initialize_the_output_routines();
+    has_error = S1337_Get_the_first_line_of_input_and_prepare_to_start();
+    if (has_error) goto _LN_main__final_end;
     // #1332
     history = SPOTLESS; // ready to go!
     maincontrol();      // come to life
     finalcleanup();     // prepare for death
 
-_L_end_of_TEX:
+_LN_main__end_of_TEX:
     close_files_and_terminate();
 
-_L_final_end:
+_LN_main__final_end:
     ready_already = 0;
     exit(EXIT_SUCCESS);
 } // main

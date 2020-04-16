@@ -505,7 +505,7 @@ StrNumber format_ident;
 // #301: the "top" input state, according to convention (1)
 // cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
 InStateRecord cur_input;
-jmp_buf _JL_final_end;
+jmp_buf _JMP_global__final_end;
 Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
 Static Pointer curcs, warningindex, defref;
 
