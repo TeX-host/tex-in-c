@@ -10487,10 +10487,17 @@ _Lexit:;
 /*:895*/
 
 
-/// p350#942: 944, 948, 949, 953, 957, 959, 960, and 966.
+/*
+ * [p350#942]: Declare procedures for preprocessing hyphenation patterns
+ * 
+ * xref[8]
+ *  944, 948, 949, 953, 957, 
+ *  959, 960, 966.
+ */
+
 #ifdef tt_INIT
 
-/// p351#944: Declare procedures for preprocessing hyphenation patterns
+/// p351#944
 Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
     QuarterWord Result;
     short h;
@@ -10498,7 +10505,8 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
     short l;
 
     h = abs(n + d * 313 + v * 361 + curlang * 1009) %
-            (trieopsize + trieopsize) - trieopsize;
+            (trieopsize + trieopsize) -
+        trieopsize;
     while (true) {
         l = trieophash[h + trieopsize];
         if (l == 0) {
@@ -10530,10 +10538,9 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
     } // while (true)
 
     return Result;
-} // newtrieop
+} // #944: newtrieop
 
-
-/// #948: Declare procedures for preprocessing hyphenation patterns
+/// #948
 Static TriePointer trienode(TriePointer p) {
     TriePointer Result, h, q;
 
@@ -10558,117 +10565,111 @@ Static TriePointer trienode(TriePointer p) {
     } // while (true)
 
     return Result;
-} // trienode
+} // #948: trienode
 
-
-/// #949: Declare procedures for preprocessing hyphenation patterns
-Static TriePointer compresstrie(TriePointer p)
-{
-  if (p == 0)
-    return 0;
-  else {
-    triel[p] = compresstrie(triel[p]);
-    trier[p] = compresstrie(trier[p]);
-    return (trienode(p));
-  }
-} // compresstrie
-
-/// #953: Declare procedures for preprocessing hyphenation patterns
-Static void firstfit(TriePointer p)
-{
-  TriePointer h, z, q;
-  ASCIICode c;
-  TriePointer l, r;
-  short ll;
-
-  c = triec[p];
-  z = triemin[c];
-  while (true) {
-    h = z - c;   /*954:*/
-    if (triemax < h + 256) {   /*:954*/
-      if (TRIE_SIZE <= h + 256)
-	overflow(S(769),TRIE_SIZE);
-      do {
-	triemax++;
-	P_clrbits_B(trietaken, triemax - 1, 0, 3);
-	trielink(triemax) = triemax + 1;
-	trieback(triemax) = triemax - 1;
-      } while (triemax != h + 256);
+/// #949
+Static TriePointer compresstrie(TriePointer p) {
+    if (p == 0) {
+        return 0;
+    } else {
+        triel[p] = compresstrie(triel[p]);
+        trier[p] = compresstrie(trier[p]);
+        return (trienode(p));
     }
-    if (P_getbits_UB(trietaken, h - 1, 0, 3))   /*955:*/
-      goto _Lnotfound;
-    q = trier[p];
-    while (q > 0) {
-      if (trielink(h + triec[q]) == 0)
-	goto _Lnotfound;
-      q = trier[q];
-    }
-    goto _Lfound;   /*:955*/
-_Lnotfound:
-    z = trielink(z);
-  }
-_Lfound:   /*956:*/
-  P_putbits_UB(trietaken, h - 1, 1, 0, 3);
-  triehash[p] = h;
-  q = p;
-  do {
-    z = h + triec[q];
-    l = trieback(z);
-    r = trielink(z);
-    trieback(r) = l;
-    trielink(l) = r;
-    trielink(z) = 0;
-    if (l < 256) {
-      if (z < 256)
-	ll = z;
-      else
-	ll = 256;
-      do {
-	triemin[l] = r;
-	l++;
-      } while (l != ll);
-    }
-    q = trier[q];   /*:956*/
-  } while (q != 0);
-} // firstfit
+} // #949: compresstrie
 
+/// #953
+Static void firstfit(TriePointer p) {
+    TriePointer h, z, q;
+    ASCIICode c;
+    TriePointer l, r;
+    short ll;
 
-/// #957: Declare procedures for preprocessing hyphenation patterns
-Static void triepack(TriePointer p)
-{
-  TriePointer q;
-
-  do {
-    q = triel[p];
-    if (q > 0 && triehash[q] == 0) {
-      firstfit(q);
-      triepack(q);
-    }
-    p = trier[p];
-  } while (p != 0);
-} // triepack
-
-/// #959: Declare procedures for preprocessing hyphenation patterns
-Static void triefix(TriePointer p)
-{
-  TriePointer q;
-  ASCIICode c;
-  TriePointer z;
-
-  z = triehash[p];
-  do {
-    q = triel[p];
     c = triec[p];
-    trielink(z + c) = triehash[q];
-    triechar(z + c) = c;
-    trieop(z + c) = trieo[p];
-    if (q > 0)
-      triefix(q);
-    p = trier[p];
-  } while (p != 0);
-} // triefix
+    z = triemin[c];
+    while (true) {
+        h = z - c;               /*954:*/
+        if (triemax < h + 256) { /*:954*/
+            if (TRIE_SIZE <= h + 256) overflow(S(769), TRIE_SIZE);
+            do {
+                triemax++;
+                P_clrbits_B(trietaken, triemax - 1, 0, 3);
+                trielink(triemax) = triemax + 1;
+                trieback(triemax) = triemax - 1;
+            } while (triemax != h + 256);
+        }
+        if (P_getbits_UB(trietaken, h - 1, 0, 3)) /*955:*/
+            goto _Lnotfound;
+        q = trier[p];
+        while (q > 0) {
+            if (trielink(h + triec[q]) == 0) goto _Lnotfound;
+            q = trier[q];
+        }
+        goto _Lfound; /*:955*/
 
-/// #960: Declare procedures for preprocessing hyphenation patterns
+    _Lnotfound:
+        z = trielink(z);
+    } // while (true)
+
+_Lfound: /*956:*/
+    P_putbits_UB(trietaken, h - 1, 1, 0, 3);
+    triehash[p] = h;
+    q = p;
+    do {
+        z = h + triec[q];
+        l = trieback(z);
+        r = trielink(z);
+        trieback(r) = l;
+        trielink(l) = r;
+        trielink(z) = 0;
+        if (l < 256) {
+            if (z < 256) {
+                ll = z;
+            } else {
+                ll = 256;
+            }
+            do {
+                triemin[l] = r;
+                l++;
+            } while (l != ll);
+        }
+        q = trier[q]; /*:956*/
+    } while (q != 0);
+} // #953: firstfit
+
+/// #957
+Static void triepack(TriePointer p) {
+    TriePointer q;
+
+    do {
+        q = triel[p];
+        if (q > 0 && triehash[q] == 0) {
+            firstfit(q);
+            triepack(q);
+        }
+        p = trier[p];
+    } while (p != 0);
+} // #957: triepack
+
+/// #959
+Static void triefix(TriePointer p) {
+    TriePointer q;
+    ASCIICode c;
+    TriePointer z;
+
+    z = triehash[p];
+    do {
+        q = triel[p];
+        c = triec[p];
+        trielink(z + c) = triehash[q];
+        triechar(z + c) = c;
+        trieop(z + c) = trieo[p];
+        if (q > 0) triefix(q);
+        p = trier[p];
+    } while (p != 0);
+} // #959: triefix
+
+/// #960
 Static void newpatterns(void) {
     unsigned char k, l; /* INT */
     Boolean digitsensed;
@@ -10687,14 +10688,13 @@ Static void newpatterns(void) {
         while (true) {
             getxtoken();
             switch (curcmd) {
-
                 case letter:
                 case otherchar: /*962:*/
                     if (digitsensed | (curchr < '0') | (curchr > '9')) {
                         int cur_chr;
-                        if (curchr == '.')
+                        if (curchr == '.') {
                             cur_chr = 0;
-                        else {
+                        } else {
                             cur_chr = lccode(curchr);
                             if (cur_chr == 0) {
                                 printnl(S(292));
@@ -10727,7 +10727,7 @@ Static void newpatterns(void) {
                             if (l <= 0) goto _Ldone1;
                             l--;
                         }
-_Ldone1: /*:965*/
+                    _Ldone1: /*:965*/
                         q = 0;
                         hc[0] = curlang;
                         while (l <= k) {
@@ -10741,8 +10741,8 @@ _Ldone1: /*:965*/
                                 firstchild = false;
                             }
                             if (p == 0 || c < triec[p]) { /*964:*/
-                                if (trieptr ==TRIE_SIZE)
-                                    overflow(S(769),TRIE_SIZE);
+                                if (trieptr == TRIE_SIZE)
+                                    overflow(S(769), TRIE_SIZE);
                                 trieptr++;
                                 trier[trieptr] = p;
                                 p = trieptr;
@@ -10780,11 +10780,12 @@ _Ldone1: /*:965*/
                     help1(S(771));
                     error();
                     break;
-            }
-        }
-_Ldone: /*:961*/
+            } // switch (curcmd)
+        } // while (true)
+    _Ldone: /*:961*/
         return;
-    }
+    } // if (trie_not_ready)
+
     printnl(S(292));
     print(S(775));
     print_esc(S(774));
@@ -10793,71 +10794,71 @@ _Ldone: /*:961*/
     link(garbage) = scantoks(false, false);
     flushlist(defref);
     /*:962*/
-} // newpatterns
+} // #960: newpatterns
 
-/// 966: Declare procedures for preprocessing hyphenation patterns
-Static void inittrie(void)
-{   /*952:*/
-  TriePointer p;
-  long j, k, t;
-  TriePointer r, s;
-  TwoHalves h;
+/// #966
+Static void inittrie(void) { /*952:*/
+    TriePointer p;
+    long j, k, t;
+    TriePointer r, s;
+    TwoHalves h;
 
-  /*945:*/
-  opstart[0] = -MIN_QUARTER_WORD;
-  for (j = 1; j <= 255; j++)
-    opstart[j] = opstart[j - 1] + trieused[j - 1] - MIN_QUARTER_WORD;
-  for (j = 1; j <= trieopptr; j++)
-    trieophash[j + trieopsize] = opstart[trieoplang[j - 1]] + trieopval[j - 1];
-  for (j = 1; j <= trieopptr; j++) {
-    while (trieophash[j + trieopsize] > j) {   /*:945*/
-      k = trieophash[j + trieopsize];
-      t = hyfdistance[k - 1];
-      hyfdistance[k - 1] = hyfdistance[j - 1];
-      hyfdistance[j - 1] = t;
-      t = hyfnum[k - 1];
-      hyfnum[k - 1] = hyfnum[j - 1];
-      hyfnum[j - 1] = t;
-      t = hyfnext[k - 1];
-      hyfnext[k - 1] = hyfnext[j - 1];
-      hyfnext[j - 1] = t;
-      trieophash[j + trieopsize] = trieophash[k + trieopsize];
-      trieophash[k + trieopsize] = k;
+    /*945:*/
+    opstart[0] = -MIN_QUARTER_WORD;
+    for (j = 1; j <= 255; j++)
+        opstart[j] = opstart[j - 1] + trieused[j - 1] - MIN_QUARTER_WORD;
+    for (j = 1; j <= trieopptr; j++)
+        trieophash[j + trieopsize] =
+            opstart[trieoplang[j - 1]] + trieopval[j - 1];
+    for (j = 1; j <= trieopptr; j++) {
+        while (trieophash[j + trieopsize] > j) { /*:945*/
+            k = trieophash[j + trieopsize];
+            t = hyfdistance[k - 1];
+            hyfdistance[k - 1] = hyfdistance[j - 1];
+            hyfdistance[j - 1] = t;
+            t = hyfnum[k - 1];
+            hyfnum[k - 1] = hyfnum[j - 1];
+            hyfnum[j - 1] = t;
+            t = hyfnext[k - 1];
+            hyfnext[k - 1] = hyfnext[j - 1];
+            hyfnext[j - 1] = t;
+            trieophash[j + trieopsize] = trieophash[k + trieopsize];
+            trieophash[k + trieopsize] = k;
+        }
     }
-  }
-  for (p = 0; p <=TRIE_SIZE; p++)
-    triehash[p] = 0;
-  trieroot = compresstrie(trieroot);
-  for (p = 0; p <= trieptr; p++)
-    triehash[p] = 0;
-  for (p = 0; p <= 255; p++)
-    triemin[p] = p + 1;
-  trielink(0) = 1;
-  triemax = 0;   /*:952*/
-  if (trieroot != 0) {
-    firstfit(trieroot);
-    triepack(trieroot);
-  }
-  /*958:*/
-  h.rh = 0;
-  h.UU.U2.b0 = MIN_QUARTER_WORD;
-  h.UU.U2.b1 = MIN_QUARTER_WORD;
-  if (trieroot == 0) {
-    for (r = 0; r <= 256; r++)
-      trie[r] = h;
-    triemax = 256;
-  } else {
-    triefix(trieroot);
-    r = 0;
-    do {
-      s = trielink(r);
-      trie[r] = h;
-      r = s;
-    } while (r <= triemax);
-  }
-  triechar(0) = '?';   /*:958*/
-  trie_not_ready = false;
-} // inittrie
+    for (p = 0; p <= TRIE_SIZE; p++)
+        triehash[p] = 0;
+    trieroot = compresstrie(trieroot);
+    for (p = 0; p <= trieptr; p++)
+        triehash[p] = 0;
+    for (p = 0; p <= 255; p++)
+        triemin[p] = p + 1;
+    trielink(0) = 1;
+    triemax = 0; /*:952*/
+    if (trieroot != 0) {
+        firstfit(trieroot);
+        triepack(trieroot);
+    }
+    /*958:*/
+    h.rh = 0;
+    h.UU.U2.b0 = MIN_QUARTER_WORD;
+    h.UU.U2.b1 = MIN_QUARTER_WORD;
+    if (trieroot == 0) {
+        for (r = 0; r <= 256; r++)
+            trie[r] = h;
+        triemax = 256;
+    } else {
+        triefix(trieroot);
+        r = 0;
+        do {
+            s = trielink(r);
+            trie[r] = h;
+            r = s;
+        } while (r <= triemax);
+    }
+    triechar(0) = '?'; /*:958*/
+    trie_not_ready = false;
+} // #966: inittrie
 
 #endif // #942: tt_INIT
 
