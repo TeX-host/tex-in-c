@@ -1,16 +1,35 @@
 #include "tex_header.h"
 
+/*
+ * 前置声明
+ * 
+ */
 
-// 前置声明
 Static void vlistout(void);
 Static void fatalerror(StrNumber s);
+
+/// [p31#78]: Error handling procedures
+Static void normalize_selector(void);
+Static void gettoken(void);
+Static void term_input(void);
+Static void showcontext(void);
+Static void beginfilereading(void);
+Static void openlogfile(void);
+// Static void close_files_and_terminate(void);
+Static void clearforerrorprompt(void);
+// Static void giveerrhelp(void);
+#ifdef tt_DEBUG
+Static void debughelp(void);
+#endif // 78: tt_DEBUG
+
+Static jmp_buf _JMP_global__end_of_TEX;
+Static void tokenshow(HalfWord p);
 
 
 /*
  * functions
  * 
  */
-
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
@@ -405,23 +424,6 @@ Static void print_write_whatsit(StrNumber s, Pointer p) {
     } // if (writestream(p) <> 16)
 } // #1355: print_write_whatsit
 
-
-/// p31#78
-Static void normalize_selector(void);
-Static void gettoken(void);
-Static void term_input(void);
-Static void showcontext(void);
-Static void beginfilereading(void);
-Static void openlogfile(void);
-// Static void close_files_and_terminate(void);
-Static void clearforerrorprompt(void);
-// Static void giveerrhelp(void);
-
-#ifdef tt_DEBUG
-Static void debughelp(void);
-#endif // 78: tt_DEBUG
-Static jmp_buf _JMP_global__end_of_TEX;
-Static void tokenshow(HalfWord p);
 
 // #1284
 Static void giveerrhelp(void) { tokenshow(errhelp); }
