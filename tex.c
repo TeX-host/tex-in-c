@@ -12338,95 +12338,101 @@ _Lexit:;
 /*:994*/
 
 /*1030:*/
-/*1043:*/
-Static void appspace(void)
-{
-  Pointer q;
 
-  if (spacefactor >= 2000 && xspaceskip != zeroglue)
-    q = newparamglue(xspaceskipcode);
-  else {
-    if (spaceskip != zeroglue)
-      mainp = spaceskip;
-    else {   /*1042:*/
-      mainp = fontglue[curfont ];
-      if (mainp == 0) {
-	FontIndex mmaink;
-	mainp = newspec(zeroglue);
-	mmaink = parambase[curfont ] + SPACE_CODE;
-#if 1
-	maink = mmaink;
-#endif
-	width(mainp) = fontinfo[maink].sc;
-	stretch(mainp) = fontinfo[mmaink + 1].sc;
-	shrink(mainp) = fontinfo[mmaink + 2].sc;
-	fontglue[curfont ] = mainp;
-      }
+
+/*
+ * [#1043]: Declare action procedures for use by `main_control
+ * `
+ * xref[57]:
+ *  1043, 1047, 1049, 1050, 1051,
+ *  1054, 1060, 1061, 1064, 1069,
+ *  1070, 1075, 1079, 1084, 1086,
+ *  1091, 1093, 1095, 1096, 1099,
+ *  1101, 1103, 1105, 1110, 1113,
+ *  1117, 1119, 1123, 1127, 1129,
+ *  1131, 1135, 1136, 1138, 1142,
+ *  1151, 1155, 1159, 1160, 1163,
+ *  1165, 1172, 1174, 1176, 1181,
+ *  1191, 1194, 1200, 1211, 1270,
+ *  1275, 1279, 1288, 1293, 1302,
+ *  1348, 1376.
+ */
+
+// #1043
+Static void appspace(void) {
+    Pointer q;
+
+    if (spacefactor >= 2000 && xspaceskip != zeroglue) {
+        q = newparamglue(xspaceskipcode);
+    } else {
+        if (spaceskip != zeroglue) {
+            mainp = spaceskip;
+        } else { /*1042:*/
+            mainp = fontglue[curfont];
+            if (mainp == 0) {
+                FontIndex mmaink;
+                mainp = newspec(zeroglue);
+                mmaink = parambase[curfont] + SPACE_CODE;
+            #if 1
+                maink = mmaink;
+            #endif
+                width(mainp) = fontinfo[maink].sc;
+                stretch(mainp) = fontinfo[mmaink + 1].sc;
+                shrink(mainp) = fontinfo[mmaink + 2].sc;
+                fontglue[curfont] = mainp;
+            }
+        }
+        mainp = newspec(mainp); /*1044:*/
+        if (spacefactor >= 2000) width(mainp) += extraspace(curfont);
+        stretch(mainp) = xn_over_d(stretch(mainp), spacefactor, 1000);
+        shrink(mainp) = xn_over_d(shrink(mainp), 1000, spacefactor);
+        /*:1044*/
+        q = newglue(mainp);
+        gluerefcount(mainp) = 0;
     }
-    mainp = newspec(mainp);   /*1044:*/
-    if (spacefactor >= 2000)
-      width(mainp) += extraspace(curfont);
-    stretch(mainp) = xn_over_d(stretch(mainp), spacefactor, 1000);
-    shrink(mainp) = xn_over_d(shrink(mainp), 1000, spacefactor);
-	/*:1044*/
-    q = newglue(mainp);
-    gluerefcount(mainp) = 0;
-  }
-  link(tail) = q;
-  tail = q;
+    link(tail) = q;
+    tail = q;
 
-  /*:1042*/
-}
-/*:1043*/
+    /*:1042*/
+} // #1043: appspace
 
-/*1047:*/
-Static void insertdollarsign(void)
-{
-  backinput();
-  curtok = mathshifttoken + '$';
-  printnl(S(292));
-  print(S(827));
-  help2(S(828),
-        S(829));
-  inserror();
-}
-/*:1047*/
+// #1047
+Static void insertdollarsign(void) {
+    backinput();
+    curtok = mathshifttoken + '$';
+    printnl(S(292));
+    print(S(827));
+    help2(S(828), S(829));
+    inserror();
+} // #1047: insertdollarsign
 
-/*1049:*/
-Static void youcant(void)
-{
-  printnl(S(292));
-  print(S(602));
-  printcmdchr(curcmd, curchr);
-  print(S(830));
-  print_mode(mode);
-}
-/*:1049*/
+// #1049
+Static void youcant(void) {
+    printnl(S(292));
+    print(S(602));
+    printcmdchr(curcmd, curchr);
+    print(S(830));
+    print_mode(mode);
+} // #1049: youcant
 
-/*1050:*/
-Static void reportillegalcase(void)
-{
-  youcant();
-  help4(S(831),
-        S(832),
-        S(833),
-        S(834));
-  error();
-}
-/*:1050*/
+// #1050
+Static void reportillegalcase(void) {
+    youcant();
+    help4(S(831), S(832), S(833), S(834));
+    error();
+} // #1050: reportillegalcase
 
-/*1051:*/
+// #1051
 Static Boolean privileged(void) {
-    if (mode > 0)
+    if (mode > 0) {
         return true;
-    else {
+    } else {
         reportillegalcase();
         return false;
     }
-}
-/*:1051*/
+} // #1051: privileged
 
-/*1054:*/
+// #1054
 Static Boolean itsallover(void) {
     if (privileged()) {
         if (pagehead == pagetail && head == tail && deadcycles == 0) {
@@ -12441,10 +12447,9 @@ Static Boolean itsallover(void) {
     }
 
     return false;
-}
-/*:1054*/
+}// #1054: itsallover
 
-/*1060:*/
+// #1060
 Static void appendglue(void) {
     SmallNumber s;
 
@@ -12459,105 +12464,82 @@ Static void appendglue(void) {
     }
     tailappend(newglue(curval));
     if (s < SKIP_CODE) return;
+
     (gluerefcount(curval))--;
     if (s > SKIP_CODE) subtype(tail) = muglue;
-} /*:1060*/
+} // #1060: appendglue
 
+// #1061
+Static void appendkern(void) {
+    QuarterWord s;
 
-/*1061:*/
-Static void appendkern(void)
-{
-  QuarterWord s;
+    s = curchr;
+    scandimen(s == muglue, false, false);
+    tailappend(newkern(curval));
+    subtype(tail) = s;
+} // #1061: appendkern
 
-  s = curchr;
-  scandimen(s == muglue, false, false);
-  tailappend(newkern(curval));
-  subtype(tail) = s;
-}
-/*:1061*/
+// #1064:
+Static void offsave(void) {
+    Pointer p;
 
-/*1064:*/
-Static void offsave(void)
-{
-  Pointer p;
-
-  if (curgroup == bottomlevel) {   /*1066:*/
+    if (curgroup == bottomlevel) { /*1066:*/
+        printnl(S(292));
+        print(S(558));
+        printcmdchr(curcmd, curchr);
+        help1(S(835));
+        error();
+        return;
+    } /*:1066*/
+    backinput();
+    p = get_avail();
+    link(temphead) = p;
     printnl(S(292));
-    print(S(558));
-    printcmdchr(curcmd, curchr);
-    help1(S(835));
+    print(S(554));      /*1065:*/
+    switch (curgroup) { /*:1065*/
+        case semisimplegroup:
+            info(p) = CS_TOKEN_FLAG + frozenendgroup;
+            print_esc(S(836));
+            break;
+
+        case mathshiftgroup:
+            info(p) = mathshifttoken + '$';
+            print_char('$');
+            break;
+
+        case mathleftgroup:
+            info(p) = CS_TOKEN_FLAG + frozenright;
+            link(p) = get_avail();
+            p = link(p);
+            info(p) = othertoken + '.';
+            print_esc(S(837));
+            break;
+
+        default:
+            info(p) = rightbracetoken + '}';
+            print_char('}');
+            break;
+    }
+    print(S(555));
+    inslist(link(temphead));
+    help5(S(838), S(839), S(840), S(841), S(842));
     error();
-    return;
-  }  /*:1066*/
-  backinput();
-  p = get_avail();
-  link(temphead) = p;
-  printnl(S(292));
-  print(S(554));   /*1065:*/
-  switch (curgroup) {   /*:1065*/
+} // #1064: offsave
 
-  case semisimplegroup:
-    info(p) = CS_TOKEN_FLAG + frozenendgroup;
-    print_esc(S(836));
-    break;
+// #1069:
+Static void extrarightbrace(void) {
+    printnl(S(292));
+    print(S(843));
+    switch (curgroup) {
+        case semisimplegroup: print_esc(S(836)); break;
+        case mathshiftgroup: print_char('$'); break;
+        case mathleftgroup: print_esc(S(419)); break;
+    }
+    help5(S(844), S(845), S(846), S(847), S(848));
+    error();
+    align_state++;
+} // #1069: extrarightbrace
 
-  case mathshiftgroup:
-    info(p) = mathshifttoken + '$';
-    print_char('$');
-    break;
-
-  case mathleftgroup:
-    info(p) = CS_TOKEN_FLAG + frozenright;
-    link(p) = get_avail();
-    p = link(p);
-    info(p) = othertoken + '.';
-    print_esc(S(837));
-    break;
-
-  default:
-    info(p) = rightbracetoken + '}';
-    print_char('}');
-    break;
-  }
-  print(S(555));
-  inslist(link(temphead));
-  help5(S(838),
-        S(839),
-        S(840),
-        S(841),
-        S(842));
-  error();
-}
-/*:1064*/
-
-/*1069:*/
-Static void extrarightbrace(void)
-{
-  printnl(S(292));
-  print(S(843));
-  switch (curgroup) {
-
-  case semisimplegroup:
-    print_esc(S(836));
-    break;
-
-  case mathshiftgroup:
-    print_char('$');
-    break;
-
-  case mathleftgroup:
-    print_esc(S(419));
-    break;
-  }
-  help5(S(844),
-        S(845),
-        S(846),
-        S(847),
-        S(848));
-  error();
-  align_state++;
-}
-/*:1069*/
 
 /*1070:*/
 Static void normalparagraph(void)
@@ -15430,6 +15412,8 @@ Static void fixlanguage(void) {
     whatrhm(tail) = normmin(righthyphenmin);
 }
 /*:1376*/
+
+
 
 /*1068:*/
 Static void handlerightbrace(void) {
