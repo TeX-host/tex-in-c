@@ -663,32 +663,6 @@ Static void confusion(StrNumber s) {
 }
 /*:95*/
 
-/*37:*/
-Static Boolean initterminal(void) {
-    if (initinc(1)) {
-        LOC = first;
-        return true;
-    }
-    while (true) {
-        fprintf(stdout, "**");
-        fflush(stdout);
-        if (!inputln(stdin, true)) {
-            putc('\n', stdout);
-            fprintf(stdout, "! End of file on the terminal... why?");
-            return false;
-        }
-        LOC = first;
-        while ((LOC < last) && (buffer[LOC] == ' '))
-            LOC++;
-        if (LOC < last) {
-            return true;
-        }
-        fprintf(stdout, "Please type the name of your input file.\n");
-    }
-}
-/*:37*/
-
-
 
 
 /*
@@ -15736,12 +15710,12 @@ Static void debughelp(void) {
  *  + S1337_Get_the_first_line_of_input_and_prepare_to_start
  *      + open_fmt_file
  *      + load_fmt_file
- *      ++ initterminal
+ *      + initterminal
  *      ++ startinput
  *  + main_control
  *  + final_cleanup
  *  + close_files_and_terminate
- * 
+ *
  */
 
 // [#1030]: governs T E X’s activities
@@ -16849,6 +16823,30 @@ _Lbadfmt_:
 _Lexit:
     return Result;
 } // #1303: load_fmt_file
+
+// #37
+Static Boolean initterminal(void) {
+    if (initinc(1)) { // initinc@func.c
+        LOC = first;
+        return true;
+    }
+    while (true) {
+        fprintf(stdout, "**");
+        fflush(stdout);
+        if (!inputln(stdin, true)) {
+            putc('\n', stdout);
+            fprintf(stdout, "! End of file on the terminal... why?");
+            return false;
+        }
+        LOC = first;
+        while ((LOC < last) && (buffer[LOC] == ' '))
+            LOC++;
+        if (LOC < last) {
+            return true;
+        }
+        fprintf(stdout, "Please type the name of your input file.\n");
+    }
+}
 
 // #1333
 Static void close_files_and_terminate(void) {
