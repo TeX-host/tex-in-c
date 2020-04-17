@@ -7802,6 +7802,15 @@ Static void fetch(HalfWord a) {
 /*:722*/
 
 /*726:*/
+
+/*
+ * [#726]: Declare math construction procedures 
+ * 
+ * xref[10]
+ *  734, 735, 736, 737, 738, 
+ *  743, 749, 752, 756, 762 
+ */
+
 /*734:*/
 Static void makeover(HalfWord q) {
     info(nucleus(q)) = overbar(cleanbox(nucleus(q), crampedstyle(curstyle)),
