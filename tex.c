@@ -421,28 +421,31 @@ Static void clearforerrorprompt(void);
 Static void debughelp(void);
 #endif // 78: tt_DEBUG
 Static jmp_buf _JMP_global__end_of_TEX;
+Static void tokenshow(HalfWord p);
 
+// #1284
+Static void giveerrhelp(void) { tokenshow(errhelp); }
+
+
+/*
+ * Error handling procedures
+ * 
+ * xref[4]: 81, 93, 94, 95, 1304
+ */
 
 // #81: goto end of TEX
 // jump out: [81], 82, 84, 93
 Static void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
 
-Static void tokenshow(HalfWord p);
-
-/*1284:*/
-Static void giveerrhelp(void) { tokenshow(errhelp); }
-/*:1284*/
-
-
-/*82:*/
+// #82:
 void error(void) {
+    ASCIICode c;
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
     print_char('.');
     showcontext();
     if (interaction == ERROR_STOP_MODE) { /*83:*/
-        while (true) {                  /*:83*/
-            ASCIICode c;
-_Llabcontinue:
+        while (true) {                    /*:83*/
+        _Llabcontinue:
             clearforerrorprompt();
             print(S(269));
             term_input();
@@ -490,10 +493,10 @@ _Llabcontinue:
                     break;
 
                 case 'D':
-#ifdef tt_DEBUG
+                #ifdef tt_DEBUG
                     debughelp();
                     goto _Llabcontinue;
-#endif // #84: tt_DEBUG
+                #endif // #84: tt_DEBUG
                     break;
 
                 case 'E':
@@ -554,13 +557,9 @@ _Llabcontinue:
                             selector--;
                             break;
 
-                        case 'R':
-                            print_esc(S(282));
-                            break;
+                        case 'R': print_esc(S(282)); break;
 
-                        case 'S':
-                            print_esc(S(283));
-                            break;
+                        case 'S': print_esc(S(283)); break;
                     }
                     print(S(284));
                     println();
@@ -573,7 +572,8 @@ _Llabcontinue:
                     interaction = SCROLL_MODE;
                     jumpout();
                     break;
-            } /*85:*/
+            } // switch (c)
+    
             print(S(285));
             printnl(S(286));
             printnl(S(287));
@@ -581,8 +581,9 @@ _Llabcontinue:
             if (deletions_allowed) printnl(S(289));
             printnl(S(290)); /*:85*/
             /*:84*/
-        }
-    }
+        } // while (true)
+    } // if (interaction == ERROR_STOP_MODE)
+
     errorcount++;
     if (errorcount == 100) {
         printnl(S(291));
@@ -603,23 +604,22 @@ _Llabcontinue:
     if (interaction > BATCH_MODE) /*:90*/
         selector++;
     println();
-_Lexit:;
-}
-/*:82*/
 
-/// p36#93: Error handling procedures
-/// xref: 93, 94, 95, 1304
+_Lexit:;
+} // #82: error
+
+// #93
 Static void succumb(void) {
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (log_opened) error();
-#ifdef tt_DEBUG
-    if (interaction > BATCH_MODE) debughelp();
-#endif // #93: tt_DEBUG
+    #ifdef tt_DEBUG
+        if (interaction > BATCH_MODE) debughelp();
+    #endif // #93: tt_DEBUG
     history = FATAL_ERROR_STOP;
     jumpout();
-}
+} // #93: succumb
 
-/// p36#93: 
+// #93
 Static void fatalerror(StrNumber s) {
     normalize_selector();
     printnl(S(292));
@@ -627,10 +627,9 @@ Static void fatalerror(StrNumber s) {
     help_ptr = 1;
     help_line[0] = s;
     succumb();
-}
+} // #93: fatalerror
 
-
-/*94:*/
+// #94
 void overflow(StrNumber s, Integer n) {
     normalize_selector();
     printnl(S(292));
@@ -641,11 +640,9 @@ void overflow(StrNumber s, Integer n) {
     print_char(']');
     help2(S(295), S(296));
     succumb();
-}
-/*:94*/
+} // #94: overflow
 
-
-/*95:*/
+// #95
 Static void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
@@ -660,9 +657,7 @@ Static void confusion(StrNumber s) {
         help2(S(300), S(301));
     }
     succumb();
-}
-/*:95*/
-
+} // #95: confusion
 
 
 /*
