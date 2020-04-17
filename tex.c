@@ -7801,7 +7801,6 @@ Static void fetch(HalfWord a) {
 }
 /*:722*/
 
-/*726:*/
 
 /*
  * [#726]: Declare math construction procedures 
@@ -7811,16 +7810,15 @@ Static void fetch(HalfWord a) {
  *  743, 749, 752, 756, 762 
  */
 
-/*734:*/
+// #734: makeover
 Static void makeover(HalfWord q) {
     info(nucleus(q)) = overbar(cleanbox(nucleus(q), crampedstyle(curstyle)),
                                defaultrulethickness * 3,
                                defaultrulethickness);
     mathtype(nucleus(q)) = subbox;
-}
-/*:734*/
+} // #734: makeover
 
-/*735:*/
+// #735: makeunder
 Static void makeunder(HalfWord q) {
     Pointer p, x, y;
     Scaled delta;
@@ -7835,10 +7833,9 @@ Static void makeunder(HalfWord q) {
     depth(y) = delta - height(y);
     info(nucleus(q)) = y;
     mathtype(nucleus(q)) = subbox;
-}
-/*:735*/
+} // #735: makeunder
 
-/*736:*/
+// #736
 Static void makevcenter(HalfWord q) {
     Pointer v;
     Scaled delta;
@@ -7848,10 +7845,9 @@ Static void makevcenter(HalfWord q) {
     delta = height(v) + depth(v);
     height(v) = axisheight(cursize) + half(delta);
     depth(v) = delta - height(v);
-}
-/*:736*/
+} // #736: makevcenter
 
-/*737:*/
+// #737
 Static void makeradical(HalfWord q) {
     Pointer x, y;
     Scaled delta, clr;
@@ -7872,10 +7868,9 @@ Static void makeradical(HalfWord q) {
     link(y) = overbar(x, clr, height(y));
     info(nucleus(q)) = hpack(y, 0, additional);
     mathtype(nucleus(q)) = subbox;
-}
-/*:737*/
+} // #737: makeradical
 
-/*738:*/
+// #738: makemathaccent
 Static void makemathaccent(HalfWord q) {
     Pointer p, x, y;
     long a;
@@ -7965,10 +7960,9 @@ _Ldone: /*:740*/
     } /*:739*/
     info(nucleus(q)) = y;
     mathtype(nucleus(q)) = subbox;
-}
-/*:738*/
+} // #738: makemathaccent
 
-/*743:*/
+// #743
 Static void makefraction(HalfWord q) {
     Pointer p, v, x, y, z;
     Scaled delta, delta1, delta2, shiftup, shiftdown, clr;
@@ -8042,10 +8036,9 @@ Static void makefraction(HalfWord q) {
     z = vardelimiter(rightdelimiter(q), cursize, delta);
     link(v) = z;
     newhlist(q) = hpack(x, 0, additional); /*:748*/
-} /*:743*/
+} // #743: makefraction
 
-
-/*749:*/
+// #749
 Static Integer makeop(HalfWord q) {
     Scaled delta, shiftup, shiftdown;
     Pointer p, v, x, y, z;
@@ -8119,10 +8112,9 @@ Static Integer makeop(HalfWord q) {
     }
     newhlist(q) = v;
     return delta;
-}
-/*:749*/
+} // #749: makeop
 
-/*752:*/
+// #752
 Static void makeord(HalfWord q) {
     long a;
     Pointer p, r;
@@ -8246,10 +8238,9 @@ _Lrestart:
         }
     }
 _Lexit:;
-}
-/*:752*/
+} // #752: makeord
 
-/*756:*/
+// #756
 Static void makescripts(HalfWord q, long delta) {
     Pointer p, x, y, z;
     Scaled shiftup, shiftdown, clr;
@@ -8324,10 +8315,9 @@ Static void makescripts(HalfWord q, long delta) {
     link(p) = x;
 
     /*:759*/
-} /*:756*/
+} // #756: makescripts
 
-
-/*762:*/
+// #762
 Static SmallNumber makeleftright(HalfWord q,
                                  SmallNumber style,
                                  long maxd,
@@ -8346,7 +8336,7 @@ Static SmallNumber makeleftright(HalfWord q,
     if (delta < delta2) delta = delta2;
     newhlist(q) = vardelimiter(delimiter(q), cursize, delta);
     return (type(q) - leftnoad + opennoad);
-} /*:762*/
+} // #762: makeleftright
 
 
 Static void mlisttohlist(void) {
