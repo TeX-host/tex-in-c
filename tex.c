@@ -14082,43 +14082,45 @@ Static void resumeafterdisplay(void)
 }
 /*:1200*/
 
-/*1211:*/
-/*1215:*/
-Static void getrtoken(void)
-{
-_Lrestart:
-  do {
-    gettoken();
-  } while (curtok == spacetoken);
-  if (curcs != 0 && curcs <= frozencontrolsequence)
-    return;
-  printnl(S(292));
-  print(S(935));
-  help5(S(936),
-        S(937),
-        S(938),
-        S(939),
-        S(940));
-  if (curcs == 0)
-    backinput();
-  curtok = CS_TOKEN_FLAG + frozenprotection;
-  inserror();
-  goto _Lrestart;
-}
-/*:1215*/
 
-/*1229:*/
+/*
+ * [#1215]: Declare subprocedures for prefixed command
+ * 
+ * xref[10]
+ *  1215, 1229, 1236, 1243, 1244, 
+ *  1245, 1246, 1247, 1257, 1265
+ *  used in [#1211]
+ */
+
+// #1215
+Static void getrtoken(void) {
+_Lrestart:
+    do {
+        gettoken();
+    } while (curtok == spacetoken);
+    if (curcs != 0 && curcs <= frozencontrolsequence) return;
+    printnl(S(292));
+    print(S(935));
+    help5(S(936), S(937), S(938), S(939), S(940));
+    if (curcs == 0) backinput();
+    curtok = CS_TOKEN_FLAG + frozenprotection;
+    inserror();
+    goto _Lrestart;
+} // #1215: getrtoken
+
+// #1229
 Static void trapzeroglue(void) {
-    if (!((width(curval) == 0) & (stretch(curval) == 0) &
-          (shrink(curval) == 0)))
-        return;
+    if (!( (width(curval) == 0) 
+        && (stretch(curval) == 0) 
+        && (shrink(curval) == 0)
+    )) return;
+
     addglueref(zeroglue);
     deleteglueref(curval);
     curval = zeroglue;
-}
-/*:1229*/
+} // #1229: trapzeroglue
 
-/*1236:*/
+// #1236
 Static void doregistercommand(SmallNumber a) {
     Pointer l = 0 /* XXXX */, q, r, s;
     char p;
@@ -14145,23 +14147,12 @@ Static void doregistercommand(SmallNumber a) {
     p = curchr;
     scaneightbitint();
     switch (p) {
-
-        case intval:
-            l = curval + countbase;
-            break;
-
-        case dimenval:
-            l = curval + scaledbase;
-            break;
-
-        case glueval:
-            l = curval + skipbase;
-            break;
-
-        case muval:
-            l = curval + muskipbase;
-            break;
+        case intval: l = curval + countbase; break;
+        case dimenval: l = curval + scaledbase; break;
+        case glueval: l = curval + skipbase; break;
+        case muval: l = curval + muskipbase; break;
     }
+
 _Lfound: /*:1237*/
     if (q == register_)
         scanoptionalequals();
@@ -14243,10 +14234,9 @@ _Lfound: /*:1237*/
         define(l, glueref, curval);
     }
 _Lexit:;
-}
-/*:1236*/
+} // #1236: doregistercommand
 
-/*1243:*/
+// #1243
 Static void alteraux(void) {
     HalfWord c;
 
@@ -14270,10 +14260,9 @@ Static void alteraux(void) {
     print(S(946));
     help1(S(947));
     int_error(curval);
-}
-/*:1243*/
+} // #1243: alteraux
 
-/*1244:*/
+// #1244
 Static void alterprevgraf(void) {
     int p;
 
@@ -14293,10 +14282,9 @@ Static void alterprevgraf(void) {
     print_esc(S(948));
     help1(S(949));
     int_error(curval);
-}
-/*:1244*/
+} // #1244: alterprevgraf
 
-/*1245:*/
+// #1245
 Static void alterpagesofar(void) {
     int c;
 
@@ -14304,10 +14292,9 @@ Static void alterpagesofar(void) {
     scanoptionalequals();
     scannormaldimen();
     pagesofar[c] = curval;
-} /*:1245*/
+} // #1245: alterpagesofar
 
-
-/*1246:*/
+// #1246
 Static void alterinteger(void) {
     char c;
 
@@ -14318,10 +14305,9 @@ Static void alterinteger(void) {
         deadcycles = curval;
     else
         insertpenalties = curval;
-} /*:1246*/
+} // #1246: alterinteger
 
-
-/*1247:*/
+// #1247
 Static void alterboxdimen(void) {
     SmallNumber c;
     EightBits b;
@@ -14332,10 +14318,9 @@ Static void alterboxdimen(void) {
     scanoptionalequals();
     scannormaldimen();
     if (box(b) != 0) mem[box(b) + c - MEM_MIN].sc = curval;
-}
-/*:1247*/
+} // #1247: alterboxdimen
 
-/*1257:*/
+// #1257
 Static void newfont(SmallNumber a) {
     Pointer u;
     Scaled s;
@@ -14366,6 +14351,7 @@ Static void newfont(SmallNumber a) {
     define(u, setfont, NULL_FONT);
     scanoptionalequals();
     scanfilename(); /*1258:*/
+
     name_in_progress = true;
     if (scankeyword(S(951))) { /*1259:*/
         scannormaldimen();
@@ -14402,7 +14388,7 @@ Static void newfont(SmallNumber a) {
     #endif
     for (f = 1; f <= fontptr; f++) {
         if (str_eq_str(get_fontname(f), curname) /* &
-	        str_eq_str(fontarea[f ], curarea) */ ) {   
+	        str_eq_str(fontarea[f ], curarea) */ ) {
             /*:1260*/
             #if 0
                 if (curname == flushablestring) {
@@ -14412,454 +14398,428 @@ Static void newfont(SmallNumber a) {
             #endif
             if (s > 0) {
                 if (s == get_fontsize(f)) goto _Lcommonending;
-            } else if (get_fontsize(f) == xn_over_d(get_fontdsize(f), -s, 1000)) {
+            } else if (get_fontsize(f) ==
+                       xn_over_d(get_fontdsize(f), -s, 1000)) {
                 goto _Lcommonending;
             }
         } // if(str_eq_str(...))
-    } // for (f = 1; f <= fontptr; f++)
+    }     // for (f = 1; f <= fontptr; f++)
     f = readfontinfo(u, curname, curarea, s);
 
 _Lcommonending:
     equiv(u) = f;
     eqtb[fontidbase + f - activebase] = eqtb[u - activebase];
     set_fontidtext(f, t);
-}
-/*:1257*/
+} // #1257: newfont
 
-/*1265:*/
+// #1265
 Static void newinteraction(void) {
     println();
     interaction = curchr; /*75:*/
-    if (interaction == BATCH_MODE)
+    if (interaction == BATCH_MODE) {
         selector = NO_PRINT;
-    else {
+    } else {
         selector = TERM_ONLY;
         /*:75*/
     }
     if (log_opened) selector += 2;
-} /*:1265*/
+} // #1265: newinteraction
 
 
-Static void prefixedcommand(void)
-{
-  SmallNumber a;
-  InternalFontNumber f;
-  HalfWord j;
-  FontIndex k;
-  Pointer p, q;
-  long n;
-  Boolean e;
+// [#1211]
+Static void prefixedcommand(void) {
+    SmallNumber a;
+    InternalFontNumber f;
+    HalfWord j;
+    FontIndex k;
+    Pointer p, q;
+    long n;
+    Boolean e;
 
-  a = 0;
-  while (curcmd == prefix) {
-    if (!((a / curchr) & 1))
-      a += curchr;
-    skip_spaces_or_relax();
-    if (curcmd > maxnonprefixedcommand)   /*1212:*/
-      continue;
-    /*:1212*/
-    printnl(S(292));
-    print(S(957));
-    printcmdchr(curcmd, curchr);
-    print_char('\'');
-    help1(S(958));
-    backerror();
-    goto _Lexit;
-  }  /*1213:*/
-  if (curcmd != def && (a & 3) != 0) {   /*:1213*/
-    printnl(S(292));
-    print(S(602));
-    print_esc(S(959));
-    print(S(960));
-    print_esc(S(961));
-    print(S(962));
-    printcmdchr(curcmd, curchr);
-    print_char('\'');
-    help1(S(963));
-    error();
-  }
-  /*1214:*/
-  if (globaldefs != 0) {
-    if (globaldefs < 0) {
-      if (global) {
-	a -= 4;
-      }
-    } else {   /*:1214*/
-      if (!global) {
-	a += 4;
-      }
+    a = 0;
+    while (curcmd == prefix) {
+        if (!((a / curchr) & 1)) a += curchr;
+        skip_spaces_or_relax();
+        if (curcmd > maxnonprefixedcommand) /*1212:*/
+            continue;
+        /*:1212*/
+        printnl(S(292));
+        print(S(957));
+        printcmdchr(curcmd, curchr);
+        print_char('\'');
+        help1(S(958));
+        backerror();
+        goto _Lexit;
+    }                                    /*1213:*/
+    if (curcmd != def && (a & 3) != 0) { /*:1213*/
+        printnl(S(292));
+        print(S(602));
+        print_esc(S(959));
+        print(S(960));
+        print_esc(S(961));
+        print(S(962));
+        printcmdchr(curcmd, curchr);
+        print_char('\'');
+        help1(S(963));
+        error();
     }
-  }
-  switch (curcmd) {   /*1217:*/
-
-  case setfont:   /*:1217*/
-    define(curfontloc, data, curchr);
-    break;
-
-  /*1218:*/
-  case def:   /*:1218*/
-    if ((curchr & 1) && !global && globaldefs >= 0) {
-      a += 4;
+    /*1214:*/
+    if (globaldefs != 0) {
+        if (globaldefs < 0) {
+            if (global) {
+                a -= 4;
+            }
+        } else { /*:1214*/
+            if (!global) {
+                a += 4;
+            }
+        }
     }
-    e = (curchr >= 2);
-    getrtoken();
-    p = curcs;
-    q = scantoks(true, e);
-    define(p, call + (a & 3), defref);
-    break;
-    /*1221:*/
+    switch (curcmd) { /*1217:*/
+        case setfont: /*:1217*/ define(curfontloc, data, curchr); break;
 
-  case let:
-    n = curchr;
-    getrtoken();
-    p = curcs;
-    if (n == NORMAL) {
-      do {
-	gettoken();
-      } while (curcmd == spacer);
-      if (curtok == othertoken + '=') {
-	gettoken();
-	if (curcmd == spacer)
-	  gettoken();
-      }
-    } else {
-      gettoken();
-      q = curtok;
-      gettoken();
-      backinput();
-      curtok = q;
-      backinput();
-    }
-    if (curcmd >= call) {
-      addtokenref(curchr);
-    }
-    define(p, curcmd, curchr);
-    break;
+        /*1218:*/
+        case def: /*:1218*/
+            if ((curchr & 1) && !global && globaldefs >= 0) {
+                a += 4;
+            }
+            e = (curchr >= 2);
+            getrtoken();
+            p = curcs;
+            q = scantoks(true, e);
+            define(p, call + (a & 3), defref);
+            break;
+            /*1221:*/
 
-  /*:1221*/
-  /*1224:*/
-  case shorthanddef:
-    n = curchr;
-    getrtoken();
-    p = curcs;
-    define(p, relax, 256);
-    scanoptionalequals();
-    switch (n) {
+        case let:
+            n = curchr;
+            getrtoken();
+            p = curcs;
+            if (n == NORMAL) {
+                do {
+                    gettoken();
+                } while (curcmd == spacer);
+                if (curtok == othertoken + '=') {
+                    gettoken();
+                    if (curcmd == spacer) gettoken();
+                }
+            } else {
+                gettoken();
+                q = curtok;
+                gettoken();
+                backinput();
+                curtok = q;
+                backinput();
+            }
+            if (curcmd >= call) {
+                addtokenref(curchr);
+            }
+            define(p, curcmd, curchr);
+            break;
 
-    case chardefcode:
-      scancharnum();
-      define(p, chargiven, curval);
-      break;
+        /*:1221*/
+        /*1224:*/
+        case shorthanddef:
+            n = curchr;
+            getrtoken();
+            p = curcs;
+            define(p, relax, 256);
+            scanoptionalequals();
+            switch (n) {
 
-    case mathchardefcode:
-      scanfifteenbitint();
-      define(p, mathgiven, curval);
-      break;
+                case chardefcode:
+                    scancharnum();
+                    define(p, chargiven, curval);
+                    break;
 
-    default:
-      scaneightbitint();
-      switch (n) {
+                case mathchardefcode:
+                    scanfifteenbitint();
+                    define(p, mathgiven, curval);
+                    break;
 
-      case countdefcode:
-	define(p, assignint, countbase + curval);
-	break;
+                default:
+                    scaneightbitint();
+                    switch (n) {
 
-      case dimendefcode:
-	define(p, assigndimen, scaledbase + curval);
-	break;
+                        case countdefcode:
+                            define(p, assignint, countbase + curval);
+                            break;
 
-      case skipdefcode:
-	define(p, assignglue, skipbase + curval);
-	break;
+                        case dimendefcode:
+                            define(p, assigndimen, scaledbase + curval);
+                            break;
 
-      case muskipdefcode:
-	define(p, assignmuglue, muskipbase + curval);
-	break;
+                        case skipdefcode:
+                            define(p, assignglue, skipbase + curval);
+                            break;
 
-      case toksdefcode:
-	define(p, assigntoks, toksbase + curval);
-	break;
-      }
-      break;
-    }
-    break;
-    /*:1224*/
+                        case muskipdefcode:
+                            define(p, assignmuglue, muskipbase + curval);
+                            break;
 
-  /*1225:*/
-  case readtocs:   /*:1225*/
-    scanint();
-    n = curval;
-    if (!scankeyword(S(697))) {
-      printnl(S(292));
-      print(S(856));
-      help2(S(964),
-            S(965));
-      error();
-    }
-    getrtoken();
-    p = curcs;
-    readtoks(n, p);
-    define(p, call, curval);
-    break;
-    /*1226:*/
+                        case toksdefcode:
+                            define(p, assigntoks, toksbase + curval);
+                            break;
+                    }
+                    break;
+            }
+            break;
+            /*:1224*/
 
-  case toksregister:
-  case assigntoks:   /*:1226*/
-    q = curcs;
-    if (curcmd == toksregister) {
-      scaneightbitint();
-      p = toksbase + curval;
-    } else
-      p = curchr;
-    scanoptionalequals();
-    skip_spaces_or_relax();
-    if (curcmd != leftbrace) {   /*1227:*/
-      int cur_chr = curchr;
-      if (curcmd == toksregister) {
-	scaneightbitint();
-	curcmd = assigntoks;
-	cur_chr = toksbase + curval;
-      }
-      if (curcmd == assigntoks) {
-	q = equiv(cur_chr);
-	if (q == 0) {
-	  define(p, undefinedcs, 0);
-	} else {
-	  addtokenref(q);
-	  define(p, call, q);
-	}
-	goto _Ldone;
-      }
-    }
-    /*:1227*/
-    backinput();
-    curcs = q;
-    q = scantoks(false, false);
-    if (link(defref) == 0) {
-      define(p, undefinedcs, 0);
-      FREE_AVAIL(defref);
-    } else {
-      if (p == outputroutineloc) {
-	link(q) = get_avail();
-	q = link(q);
-	info(q) = rightbracetoken + '}';
-	q = get_avail();
-	info(q) = leftbracetoken + '{';
-	link(q) = link(defref);
-	link(defref) = q;
-      }
-      define(p, call, defref);
-    }
-    break;
-    /*1228:*/
+        /*1225:*/
+        case readtocs: /*:1225*/
+            scanint();
+            n = curval;
+            if (!scankeyword(S(697))) {
+                printnl(S(292));
+                print(S(856));
+                help2(S(964), S(965));
+                error();
+            }
+            getrtoken();
+            p = curcs;
+            readtoks(n, p);
+            define(p, call, curval);
+            break;
+            /*1226:*/
 
-  case assignint:
-    p = curchr;
-    scanoptionalequals();
-    scanint();
-    worddefine(p, curval);
-    break;
+        case toksregister:
+        case assigntoks: /*:1226*/
+            q = curcs;
+            if (curcmd == toksregister) {
+                scaneightbitint();
+                p = toksbase + curval;
+            } else
+                p = curchr;
+            scanoptionalequals();
+            skip_spaces_or_relax();
+            if (curcmd != leftbrace) { /*1227:*/
+                int cur_chr = curchr;
+                if (curcmd == toksregister) {
+                    scaneightbitint();
+                    curcmd = assigntoks;
+                    cur_chr = toksbase + curval;
+                }
+                if (curcmd == assigntoks) {
+                    q = equiv(cur_chr);
+                    if (q == 0) {
+                        define(p, undefinedcs, 0);
+                    } else {
+                        addtokenref(q);
+                        define(p, call, q);
+                    }
+                    goto _Ldone;
+                }
+            }
+            /*:1227*/
+            backinput();
+            curcs = q;
+            q = scantoks(false, false);
+            if (link(defref) == 0) {
+                define(p, undefinedcs, 0);
+                FREE_AVAIL(defref);
+            } else {
+                if (p == outputroutineloc) {
+                    link(q) = get_avail();
+                    q = link(q);
+                    info(q) = rightbracetoken + '}';
+                    q = get_avail();
+                    info(q) = leftbracetoken + '{';
+                    link(q) = link(defref);
+                    link(defref) = q;
+                }
+                define(p, call, defref);
+            }
+            break;
+            /*1228:*/
 
-  case assigndimen:
-    p = curchr;
-    scanoptionalequals();
-    scannormaldimen();
-    worddefine(p, curval);
-    break;
+        case assignint:
+            p = curchr;
+            scanoptionalequals();
+            scanint();
+            worddefine(p, curval);
+            break;
 
-  case assignglue:
-  case assignmuglue:   /*:1228*/
-    p = curchr;
-    n = curcmd;
-    scanoptionalequals();
-    if (n == assignmuglue)
-      scanglue(muval);
-    else
-      scanglue(glueval);
-    trapzeroglue();
-    define(p, glueref, curval);
-    break;
-    /*1232:*/
+        case assigndimen:
+            p = curchr;
+            scanoptionalequals();
+            scannormaldimen();
+            worddefine(p, curval);
+            break;
 
-  case defcode:   /*:1232*/
-    /*1233:*/
-    if (curchr == catcodebase)
-      n = maxcharcode;
-    else if (curchr == mathcodebase)
-      n = 32768L;
-    else if (curchr == sfcodebase)
-      n = 32767;
-    else if (curchr == delcodebase)
-      n = 16777215L;
-    else
-      n = 255;   /*:1233*/
-    p = curchr;
-    scancharnum();
-    p += curval;
-    scanoptionalequals();
-    scanint();
-    if ( (curval < 0 && p < delcodebase) || curval > n) {
-      printnl(S(292));
-      print(S(966));
-      print_int(curval);
-      if (p < delcodebase)
-	print(S(967));
-      else
-	print(S(968));
-      print_int(n);
-      help1(S(969));
-      error();
-      curval = 0;
-    }
-    if (p < mathcodebase) {
-      define(p, data, curval);
-    } else if (p < delcodebase) {
-      define(p, data, curval);
-    } else {
-      worddefine(p, curval);
-    }
-    break;
-    /*1234:*/
+        case assignglue:
+        case assignmuglue: /*:1228*/
+            p = curchr;
+            n = curcmd;
+            scanoptionalequals();
+            if (n == assignmuglue)
+                scanglue(muval);
+            else
+                scanglue(glueval);
+            trapzeroglue();
+            define(p, glueref, curval);
+            break;
+            /*1232:*/
 
-  case deffamily:   /*:1234*/
-    p = curchr;
-    scanfourbitint();
-    p += curval;
-    scanoptionalequals();
-    scanfontident();
-    define(p, data, curval);
-    break;
-    /*1235:*/
+        case defcode: /*:1232*/
+            /*1233:*/
+            if (curchr == catcodebase)
+                n = maxcharcode;
+            else if (curchr == mathcodebase)
+                n = 32768L;
+            else if (curchr == sfcodebase)
+                n = 32767;
+            else if (curchr == delcodebase)
+                n = 16777215L;
+            else
+                n = 255; /*:1233*/
+            p = curchr;
+            scancharnum();
+            p += curval;
+            scanoptionalequals();
+            scanint();
+            if ((curval < 0 && p < delcodebase) || curval > n) {
+                printnl(S(292));
+                print(S(966));
+                print_int(curval);
+                if (p < delcodebase)
+                    print(S(967));
+                else
+                    print(S(968));
+                print_int(n);
+                help1(S(969));
+                error();
+                curval = 0;
+            }
+            if (p < mathcodebase) {
+                define(p, data, curval);
+            } else if (p < delcodebase) {
+                define(p, data, curval);
+            } else {
+                worddefine(p, curval);
+            }
+            break;
+            /*1234:*/
 
-  case register_:
-  case advance:
-  case multiply:
-  case divide:   /*:1235*/
-    doregistercommand(a);
-    break;
-    /*1241:*/
+        case deffamily: /*:1234*/
+            p = curchr;
+            scanfourbitint();
+            p += curval;
+            scanoptionalequals();
+            scanfontident();
+            define(p, data, curval);
+            break;
+            /*1235:*/
 
-  case setbox:   /*:1241*/
-    scaneightbitint();
-    if (global) {
-      n = curval + 256;
-    } else
-      n = curval;
-    scanoptionalequals();
-    if (set_box_allowed)
-      scanbox(boxflag + n);
-    else {
-      printnl(S(292));
-      print(S(597));
-      print_esc(S(970));
-      help2(S(971),
-            S(972));
-      error();
-    }
-    break;
-    /*1242:*/
+        case register_:
+        case advance:
+        case multiply:
+        case divide: /*:1235*/
+            doregistercommand(a);
+            break;
+            /*1241:*/
 
-  case setaux:
-    alteraux();
-    break;
+        case setbox: /*:1241*/
+            scaneightbitint();
+            if (global) {
+                n = curval + 256;
+            } else
+                n = curval;
+            scanoptionalequals();
+            if (set_box_allowed)
+                scanbox(boxflag + n);
+            else {
+                printnl(S(292));
+                print(S(597));
+                print_esc(S(970));
+                help2(S(971), S(972));
+                error();
+            }
+            break;
+            /*1242:*/
 
-  case setprevgraf:
-    alterprevgraf();
-    break;
+        case setaux: alteraux(); break;
+        case setprevgraf: alterprevgraf(); break;
+        case setpagedimen: alterpagesofar(); break;
+        case setpageint: alterinteger(); break;
+        case setboxdimen:  alterboxdimen(); break;
+            /*1248:*/
 
-  case setpagedimen:
-    alterpagesofar();
-    break;
+        case setshape: /*:1248*/
+            scanoptionalequals();
+            scanint();
+            n = curval;
+            if (n <= 0)
+                p = 0;
+            else {
+                p = getnode(n * 2 + 1);
+                info(p) = n;
+                for (j = 1; j <= n; j++) {
+                    scannormaldimen();
+                    mem[p + j * 2 - MEM_MIN - 1].sc = curval;
+                    scannormaldimen();
+                    mem[p + j * 2 - MEM_MIN].sc = curval;
+                }
+            }
+            define(parshapeloc, shaperef, p);
+            break;
 
-  case setpageint:
-    alterinteger();
-    break;
+        case hyphdata:
+            if (curchr == 1) {
+            #ifdef tt_INIT
+                /// #1252
+                newpatterns();
+                goto _Ldone;
+            #endif // #1252: tt_INIT
+            } else {
+                newhyphexceptions();
+                goto _Ldone;
+            }
+            break;
+            /*1253:*/
 
-  case setboxdimen:   /*:1242*/
-    alterboxdimen();
-    break;
-    /*1248:*/
+        case assignfontdimen:
+            findfontdimen(true);
+            k = curval;
+            scanoptionalequals();
+            scannormaldimen();
+            fontinfo[k].sc = curval;
+            break;
 
-  case setshape:   /*:1248*/
-    scanoptionalequals();
-    scanint();
-    n = curval;
-    if (n <= 0)
-      p = 0;
-    else {
-      p = getnode(n * 2 + 1);
-      info(p) = n;
-      for (j = 1; j <= n; j++) {
-	scannormaldimen();
-	mem[p + j * 2 - MEM_MIN - 1].sc = curval;
-	scannormaldimen();
-	mem[p + j * 2 - MEM_MIN].sc = curval;
-      }
-    }
-    define(parshapeloc, shaperef, p);
-    break;
+        case assignfontint:
+            n = curchr;
+            scanfontident();
+            f = curval;
+            scanoptionalequals();
+            scanint();
+            if (n == 0)
+                set_hyphenchar(f, curval);
+            else
+                set_skewchar(f, curval);
+            break;
+            /*:1253*/
 
-  case hyphdata:
-    if (curchr == 1) {
-#ifdef tt_INIT
-        /// #1252
-        newpatterns();
-        goto _Ldone;
-#endif // #1252: tt_INIT
-    } else {
-      newhyphexceptions();
-      goto _Ldone;
-    }
-    break;
-    /*1253:*/
+        /*1256:*/
+        case deffont: newfont(a); break;
 
-  case assignfontdimen:
-    findfontdimen(true);
-    k = curval;
-    scanoptionalequals();
-    scannormaldimen();
-    fontinfo[k].sc = curval;
-    break;
+        /*:1256*/
+        /*1264:*/
+        case setinteraction: newinteraction(); break;
 
-  case assignfontint:
-    n = curchr;
-    scanfontident();
-    f = curval;
-    scanoptionalequals();
-    scanint();
-    if (n == 0)
-      set_hyphenchar(f, curval);
-    else
-      set_skewchar(f, curval);
-    break;
-    /*:1253*/
+        /*:1264*/
+        default: confusion(S(973)); break;
+    } // switch (curcmd)
 
-  /*1256:*/
-  case deffont:
-    newfont(a);
-    break;
-
-  /*:1256*/
-  /*1264:*/
-  case setinteraction:
-    newinteraction();
-    break;
-
-  /*:1264*/
-  default:
-    confusion(S(973));
-    break;
-  }
 _Ldone:
-  /*1269:*/
-  if (aftertoken != 0) {   /*:1269*/
-    curtok = aftertoken;
-    backinput();
-    aftertoken = 0;
-  }
-_Lexit: ;
-}
-/*:1211*/
+    /*1269:*/
+    if (aftertoken != 0) { /*:1269*/
+        curtok = aftertoken;
+        backinput();
+        aftertoken = 0;
+    }
+_Lexit:;
+} // #1211: prefixedcommand
+
 
 /*1270:*/
 Static void doassignments(void) {
