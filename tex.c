@@ -1377,180 +1377,173 @@ Static void sort_avail(void)
 #endif // #131: tt_INIT
 
 
-/*136:*/
-Static Pointer newnullbox(void)
-{
-  Pointer p;
+/// [ #133~161 ] PART 10: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS
 
-  p = getnode(boxnodesize);
-  type(p) = HLIST_NODE;
-  subtype(p) = MIN_QUARTER_WORD;
-  width(p) = 0;
-  depth(p) = 0;
-  height(p) = 0;
-  shiftamount(p) = 0;
-  listptr(p) = 0;
-  gluesign(p) = NORMAL;
-  glueorder(p) = NORMAL;
-  glueset(p) = 0.0;
-  return p;
+/*136:*/
+Static Pointer newnullbox(void) {
+    Pointer p;
+
+    p = getnode(boxnodesize);
+    type(p) = HLIST_NODE;
+    subtype(p) = MIN_QUARTER_WORD;
+    width(p) = 0;
+    depth(p) = 0;
+    height(p) = 0;
+    shiftamount(p) = 0;
+    listptr(p) = 0;
+    gluesign(p) = NORMAL;
+    glueorder(p) = NORMAL;
+    glueset(p) = 0.0;
+    return p;
 }
 /*:136*/
 
 /*139:*/
-Static Pointer newrule(void)
-{
-  Pointer p;
+Static Pointer newrule(void) {
+    Pointer p;
 
-  p = getnode(rulenodesize);
-  type(p) = RULE_NODE;
-  subtype(p) = 0;
-  width(p) = nullflag;
-  depth(p) = nullflag;
-  height(p) = nullflag;
-  return p;
+    p = getnode(rulenodesize);
+    type(p) = RULE_NODE;
+    subtype(p) = 0;
+    width(p) = nullflag;
+    depth(p) = nullflag;
+    height(p) = nullflag;
+    return p;
 }
 /*:139*/
 
 /*144:*/
-Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q)
-{
-  Pointer p;
+Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = LIGATURE_NODE;
-  font_ligchar(p) = f;
-  character_ligchar(p) = c;
-  ligptr(p) = q;
-  subtype(p) = 0;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = LIGATURE_NODE;
+    font_ligchar(p) = f;
+    character_ligchar(p) = c;
+    ligptr(p) = q;
+    subtype(p) = 0;
+    return p;
 }
 
 
-Static Pointer newligitem(QuarterWord c)
-{
-  Pointer p;
+Static Pointer newligitem(QuarterWord c) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  character(p) = c;
-  ligptr(p) = 0;
-  return p;
+    p = getnode(smallnodesize);
+    character(p) = c;
+    ligptr(p) = 0;
+    return p;
 }
 /*:144*/
 
 /*145:*/
-Static Pointer newdisc(void)
-{
-  Pointer p;
+Static Pointer newdisc(void) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = DISC_NODE;
-  replacecount(p) = 0;
-  prebreak(p) = 0;
-  postbreak(p) = 0;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = DISC_NODE;
+    replacecount(p) = 0;
+    prebreak(p) = 0;
+    postbreak(p) = 0;
+    return p;
 }
 /*:145*/
 
 /*147:*/
-Static Pointer newmath(long w, SmallNumber s)
-{
-  Pointer p;
+Static Pointer newmath(long w, SmallNumber s) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = MATH_NODE;
-  subtype(p) = s;
-  width(p) = w;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = MATH_NODE;
+    subtype(p) = s;
+    width(p) = w;
+    return p;
 }
 /*:147*/
 
 /*151:*/
-Static Pointer newspec(Pointer p)
-{
-  Pointer q;
+Static Pointer newspec(Pointer p) {
+    Pointer q;
 
-  q = getnode(gluespecsize);
-  mem[q - MEM_MIN] = mem[p - MEM_MIN];
-  gluerefcount(q) = 0;
-  width(q) = width(p);
-  stretch(q) = stretch(p);
-  shrink(q) = shrink(p);
-  return q;
+    q = getnode(gluespecsize);
+    mem[q - MEM_MIN] = mem[p - MEM_MIN];
+    gluerefcount(q) = 0;
+    width(q) = width(p);
+    stretch(q) = stretch(p);
+    shrink(q) = shrink(p);
+    return q;
 }
 /*:151*/
 
 /*152:*/
-Static Pointer newparamglue(SmallNumber n)
-{
-  Pointer p, q;
+Static Pointer newparamglue(SmallNumber n) {
+    Pointer p, q;
 
-  p = getnode(smallnodesize);
-  type(p) = GLUE_NODE;
-  subtype(p) = n + 1;
-  leaderptr(p) = 0;
-  q = gluepar(n);   /*224:*/
-  /*:224*/
-  glueptr(p) = q;
-  (gluerefcount(q))++;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = GLUE_NODE;
+    subtype(p) = n + 1;
+    leaderptr(p) = 0;
+    q = gluepar(n); /*224:*/
+    /*:224*/
+    glueptr(p) = q;
+    (gluerefcount(q))++;
+    return p;
 }
 /*:152*/
 
 /*153:*/
-Static Pointer newglue(Pointer q)
-{
-  Pointer p;
+Static Pointer newglue(Pointer q) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = GLUE_NODE;
-  subtype(p) = NORMAL;
-  leaderptr(p) = 0;
-  glueptr(p) = q;
-  (gluerefcount(q))++;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = GLUE_NODE;
+    subtype(p) = NORMAL;
+    leaderptr(p) = 0;
+    glueptr(p) = q;
+    (gluerefcount(q))++;
+    return p;
 }
 /*:153*/
 
 /*154:*/
-Static Pointer newskipparam(SmallNumber n)
-{
-  Pointer p;
+Static Pointer newskipparam(SmallNumber n) {
+    Pointer p;
 
-  temp_ptr = newspec(gluepar(n));   /*224:*/
-  /*:224*/
-  p = newglue(temp_ptr);
-  gluerefcount(temp_ptr) = 0;
-  subtype(p) = n + 1;
-  return p;
+    temp_ptr = newspec(gluepar(n)); /*224:*/
+    /*:224*/
+    p = newglue(temp_ptr);
+    gluerefcount(temp_ptr) = 0;
+    subtype(p) = n + 1;
+    return p;
 }
 /*:154*/
 
 /*156:*/
-Static Pointer newkern(long w)
-{
-  Pointer p;
+Static Pointer newkern(long w) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = KERN_NODE;
-  subtype(p) = NORMAL;
-  width(p) = w;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = KERN_NODE;
+    subtype(p) = NORMAL;
+    width(p) = w;
+    return p;
 }
 /*:156*/
 
 /*158:*/
-Static Pointer newpenalty(long m)
-{
-  Pointer p;
+Static Pointer newpenalty(long m) {
+    Pointer p;
 
-  p = getnode(smallnodesize);
-  type(p) = PENALTY_NODE;
-  subtype(p) = 0;
-  penalty(p) = m;
-  return p;
+    p = getnode(smallnodesize);
+    type(p) = PENALTY_NODE;
+    subtype(p) = 0;
+    penalty(p) = m;
+    return p;
 }
 /*:158*/
+
+
+/// [ #162~172 ] PART 11: MEMORY LAYOUT
 
 /// p60#167
 #ifdef tt_DEBUG
