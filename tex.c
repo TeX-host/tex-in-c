@@ -7499,14 +7499,10 @@ Static HalfWord mathglue(HalfWord g, long m) {
     }
     p = getnode(gluespecsize);
     width(p) = MU_MULT(width(g));
-    // width(p) =
-    //     mult_and_add(n, width(g), xn_over_d(width(g), f, 65536L), 1073741823L);
 
     stretchorder(p) = stretchorder(g);
     if (stretchorder(p) == NORMAL) {
         stretch(p) = MU_MULT(stretch(g));
-        // stretch(p) = mult_and_add(
-        //     n, stretch(g), xn_over_d(stretch(g), f, 65536L), 1073741823L);
     } else {
         stretch(p) = stretch(g);
     }
@@ -7514,8 +7510,6 @@ Static HalfWord mathglue(HalfWord g, long m) {
     shrinkorder(p) = shrinkorder(g);
     if (shrinkorder(p) == NORMAL) {
         shrink(p) = MU_MULT(shrink(g));
-        // shrink(p) = mult_and_add(
-        //     n, shrink(g), xn_over_d(shrink(g), f, 65536L), 1073741823L);
     } else {
         shrink(p) = shrink(g);
     }
@@ -7536,7 +7530,6 @@ Static void mathkern(HalfWord p, long m) {
         f += 65536L;
     }
     width(p) = nx_plus_y(n, width(p), xn_over_d(width(p), f, 65536L));
-    // mult_and_add(n, width(p), xn_over_d(width(p), f, 65536L), 1073741823L);
     subtype(p) = explicit;
 }
 /*:717*/
@@ -14029,12 +14022,8 @@ _Lfound: /*:1237*/
             if (q == multiply) {
                 if (p == intval) {
                     curval = mult_integers(eqtb[l-activebase].int_, curval);
-                    // curval = mult_and_add(
-                    //     eqtb[l - activebase].int_, curval, 0, 2147483647L);
                 } else {
                     curval = nx_plus_y(eqtb[l-activebase].int_, curval, 0);
-                    // curval = mult_and_add(
-                    //     eqtb[l - activebase].int_, curval, 0, 1073741823L);
                 }
             } else {
                 curval = x_over_n(eqtb[l - activebase].int_, curval);
@@ -14043,9 +14032,6 @@ _Lfound: /*:1237*/
             s = equiv(l);
             r = newspec(s);
             if (q == multiply) {
-                // width(r) = mult_and_add(width(s), curval, 0, 1073741823L);
-                // stretch(r) = mult_and_add(stretch(s), curval, 0, 1073741823L);
-                // shrink(r) = mult_and_add(shrink(s), curval, 0, 1073741823L);
                 width(r)   = nx_plus_y(width(s), curval, 0);
                 stretch(r) = nx_plus_y(stretch(s), curval, 0);
                 shrink(r)  = nx_plus_y(shrink(s), curval, 0);
