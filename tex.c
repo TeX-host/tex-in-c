@@ -25,6 +25,38 @@ Static void debughelp(void);
 Static jmp_buf _JMP_global__end_of_TEX;
 Static void tokenshow(HalfWord p);
 
+Static void begindiagnostic(void);
+Static void enddiagnostic(Boolean blankline);
+Static void print_mode(Integer m);
+
+Static void showinfo(void);
+
+Static void printtotals(void);
+
+Static void backinput(void);
+
+/*340:*/
+Static void firmuptheline(void);
+/*:340*/
+
+Static void doassignments(void);
+Static void resumeafterdisplay(void);
+Static void buildpage(void);
+
+Static void passtext(void);
+Static void startinput(void);
+Static void conditional(void);
+Static void getxtoken(void);
+Static void convtoks(void);
+Static void insthetoks(void);
+
+Static void scanint(void);
+
+Static void mlisttohlist(void);
+
+Static void alignpeek(void);
+Static void normalparagraph(void);
+
 
 /*
  * functions
@@ -983,10 +1015,6 @@ Static void printmeaning(int cur_chr, int cur_cmd) {
 /*:296*/
 
 
-Static void begindiagnostic(void);
-Static void enddiagnostic(Boolean blankline);
-Static void print_mode(Integer m);
-
 /*299:*/
 Static void showcurcmdchr(void) {
     begindiagnostic();
@@ -1859,8 +1887,6 @@ Static void printdelimiter(HalfWord p) {
 /*:691*/
 
 /*692:*/
-Static void showinfo(void);
-
 
 Static void printsubsidiarydata(HalfWord p, ASCIICode c)
 {
@@ -2665,8 +2691,6 @@ Static void popnest(void)
 /*:217*/
 
 /*218:*/
-Static void printtotals(void);
-
 
 Static void showactivities(void)
 {
@@ -3165,9 +3189,6 @@ Static void restoretrace(HalfWord p, StrNumber s) {
 #endif // #284: tt_STAT
 
 
-Static void backinput(void);
-
-
 Static void unsave(void) {
     Pointer p;
     QuarterWord l = 0 /* XXXX */;
@@ -3500,10 +3521,6 @@ Static int check_outer_validity(int local_curcs) {
     deletions_allowed = true;
     return curcs;
 } // P134#336: check_outer_validity
-
-/*340:*/
-Static void firmuptheline(void);
-/*:340*/
 
 
 #define CHECK_OUTER                                                            \
@@ -4187,18 +4204,6 @@ Static void insertrelax(void)
 }  /*:379*/
 
 
-Static void passtext(void);
-
-Static void startinput(void);
-
-Static void conditional(void);
-
-Static void getxtoken(void);
-
-Static void convtoks(void);
-
-Static void insthetoks(void);
-
 Static void skip_spaces(void)
 {  /*406:*/
     do {
@@ -4511,8 +4516,6 @@ Static void muerror(void) {
 /*:408*/
 
 /*409:*/
-Static void scanint(void);
-
 
 /*433:*/
 Static void scaneightbitint(void) {
@@ -7701,8 +7704,6 @@ Static void flushmath(void) {
 /// [ #719. Typesetting math formulas. ]
 
 /*720:*/
-Static void mlisttohlist(void);
-
 
 Static HalfWord cleanbox(HalfWord p, SmallNumber s) {
     Pointer q, x, r;
@@ -8783,11 +8784,6 @@ _Lrestart:
 }
 /*:782*/
 
-Static void alignpeek(void);
-
-Static void normalparagraph(void);
-
-
 Static void initalign(void) {
     Pointer savecsptr, p;
 
@@ -9089,12 +9085,6 @@ Static void finrow(void) {
 /*:799*/
 
 /*800:*/
-Static void doassignments(void);
-
-Static void resumeafterdisplay(void);
-
-Static void buildpage(void);
-
 
 Static void finalign(void) {
     Pointer p, q, r, s, u, v;
