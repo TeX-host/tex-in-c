@@ -75,10 +75,9 @@ int pack_tok(int cs, int cmd, int chr) {
 
 int niezgodnosc(int x) { return x; }
 
+// [tex], fonts
 Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
-
 Integer get_defaultskewchar(void) { return defaultskewchar; }
-
 Pointer get_lo_mem_max(void) { return lo_mem_max; }
 
 StrNumber fontidtext(InternalFontNumber x) { return text(fontidbase + x); }
