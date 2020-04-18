@@ -469,10 +469,13 @@
 #define matchtoken      (13*dwa_do_8)
 #define endmatchtoken   (14*dwa_do_8)
 
-#define midline         1
-
-#define skipblanks      (maxcharcode + 2)
-#define NEW_LINE         (maxcharcode + maxcharcode + 3)
+// #303
+// `state` code when scanning a line of characters
+#define MID_LINE    1
+// `state` code when ignoring blanks
+#define SKIP_BLANKS (maxcharcode + 2)
+// `state` code at start of line
+#define NEW_LINE    (maxcharcode + maxcharcode + 3)
 
 #define switch_         25
 #define startcs         26

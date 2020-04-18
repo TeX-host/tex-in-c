@@ -2884,132 +2884,112 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
 #endif // #264: tt_INIT
 
 /*274:*/
-Static void newsavelevel(GroupCode c)
-{
-  if (saveptr > maxsavestack) {
-    maxsavestack = saveptr;
-    if (maxsavestack > SAVE_SIZE - 6)
-      overflow(S(476), SAVE_SIZE);
-  }
-  savetype(saveptr) = levelboundary;
-  savelevel(saveptr) = curgroup;
-  saveindex(saveptr) = curboundary;
-  if (curlevel == MAX_QUARTER_WORD)
-    overflow(S(477), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
-  curboundary = saveptr;
-  curlevel++;
-  saveptr++;
-  curgroup = c;
+Static void newsavelevel(GroupCode c) {
+    if (saveptr > maxsavestack) {
+        maxsavestack = saveptr;
+        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+    }
+    savetype(saveptr) = levelboundary;
+    savelevel(saveptr) = curgroup;
+    saveindex(saveptr) = curboundary;
+    if (curlevel == MAX_QUARTER_WORD)
+        overflow(S(477), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
+    curboundary = saveptr;
+    curlevel++;
+    saveptr++;
+    curgroup = c;
 }
 /*:274*/
 
 /*275:*/
-Static void eqdestroy(MemoryWord w)
-{
-  Pointer q;
+Static void eqdestroy(MemoryWord w) {
+    Pointer q;
 
-  switch (eqtypefield(w)) {
+    switch (eqtypefield(w)) {
+        case call:
+        case longcall:
+        case outercall:
+        case longoutercall: deletetokenref(equivfield(w)); break;
 
-  case call:
-  case longcall:
-  case outercall:
-  case longoutercall:
-    deletetokenref(equivfield(w));
-    break;
+        case glueref: deleteglueref(equivfield(w)); break;
 
-  case glueref:
-    deleteglueref(equivfield(w));
-    break;
+        case shaperef:
+            q = equivfield(w);
+            if (q != 0) freenode(q, info(q) + info(q) + 1);
+            break;
 
-  case shaperef:
-    q = equivfield(w);
-    if (q != 0)
-      freenode(q, info(q) + info(q) + 1);
-    break;
-
-  case boxref:
-    flushnodelist(equivfield(w));
-    break;
-  }
+        case boxref: flushnodelist(equivfield(w)); break;
+    }
 }
 /*:275*/
 
 /*276:*/
-Static void eqsave(HalfWord p, QuarterWord l)
-{
-  if (saveptr > maxsavestack) {
-    maxsavestack = saveptr;
-    if (maxsavestack > SAVE_SIZE - 6)
-      overflow(S(476), SAVE_SIZE);
-  }
-  if (l == levelzero)
-    savetype(saveptr) = restorezero;
-  else {
-    savestack[saveptr] = eqtb[p - activebase];
+Static void eqsave(HalfWord p, QuarterWord l) {
+    if (saveptr > maxsavestack) {
+        maxsavestack = saveptr;
+        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+    }
+    if (l == levelzero) {
+        savetype(saveptr) = restorezero;
+    } else {
+        savestack[saveptr] = eqtb[p - activebase];
+        saveptr++;
+        savetype(saveptr) = restoreoldvalue;
+    }
+    savelevel(saveptr) = l;
+    saveindex(saveptr) = p;
     saveptr++;
-    savetype(saveptr) = restoreoldvalue;
-  }
-  savelevel(saveptr) = l;
-  saveindex(saveptr) = p;
-  saveptr++;
 }
 /*:276*/
 
 /*277:*/
-Static void eqdefine(HalfWord p, QuarterWord t, HalfWord e)
-{
-  if (eqlevel(p) == curlevel)
-    eqdestroy(eqtb[p - activebase]);
-  else if (curlevel > levelone)
-    eqsave(p, eqlevel(p));
-  eqlevel(p) = curlevel;
-  eqtype(p) = t;
-  equiv(p) = e;
+Static void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
+    if (eqlevel(p) == curlevel)
+        eqdestroy(eqtb[p - activebase]);
+    else if (curlevel > levelone)
+        eqsave(p, eqlevel(p));
+    eqlevel(p) = curlevel;
+    eqtype(p) = t;
+    equiv(p) = e;
 }
 /*:277*/
 
 /*278:*/
-Static void eqworddefine(HalfWord p, long w)
-{
-  if (xeqlevel[p - intbase] != curlevel) {
-    eqsave(p, xeqlevel[p - intbase]);
-    xeqlevel[p - intbase] = curlevel;
-  }
-  eqtb[p - activebase].int_ = w;
+Static void eqworddefine(HalfWord p, long w) {
+    if (xeqlevel[p - intbase] != curlevel) {
+        eqsave(p, xeqlevel[p - intbase]);
+        xeqlevel[p - intbase] = curlevel;
+    }
+    eqtb[p - activebase].int_ = w;
 }
 /*:278*/
 
 /*279:*/
-Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e)
-{
-  eqdestroy(eqtb[p - activebase]);
-  eqlevel(p) = levelone;
-  eqtype(p) = t;
-  equiv(p) = e;
+Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
+    eqdestroy(eqtb[p - activebase]);
+    eqlevel(p) = levelone;
+    eqtype(p) = t;
+    equiv(p) = e;
 }
 
 
-Static void geqworddefine(HalfWord p, long w)
-{
-  eqtb[p - activebase].int_ = w;
-  xeqlevel[p - intbase] = levelone;
+Static void geqworddefine(HalfWord p, long w) {
+    eqtb[p - activebase].int_ = w;
+    xeqlevel[p - intbase] = levelone;
 }
 /*:279*/
 
 /*280:*/
-Static void saveforafter(HalfWord t)
-{
-  if (curlevel <= levelone)
-    return;
-  if (saveptr > maxsavestack) {
-    maxsavestack = saveptr;
-    if (maxsavestack > SAVE_SIZE - 6)
-      overflow(S(476), SAVE_SIZE);
-  }
-  savetype(saveptr) = inserttoken;
-  savelevel(saveptr) = levelzero;
-  saveindex(saveptr) = t;
-  saveptr++;
+Static void saveforafter(HalfWord t) {
+    if (curlevel <= levelone) return;
+    if (saveptr > maxsavestack) {
+        maxsavestack = saveptr;
+        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+    }
+    savetype(saveptr) = inserttoken;
+    savelevel(saveptr) = levelzero;
+    saveindex(saveptr) = t;
+    saveptr++;
 }
 /*:280*/
 
@@ -3112,108 +3092,93 @@ Static void preparemag(void) {
 /*:288*/
 
 
-
-
-
 /*323:*/
-Static void begintokenlist(HalfWord p, QuarterWord t)
-{
-  if (inputptr > maxinstack) {
-    maxinstack = inputptr;
-    if (inputptr == stacksize)
-      overflow(S(508), stacksize);
-  }
-  inputstack[inputptr] = cur_input;
-  inputptr++;
-  STATE = TOKEN_LIST;
-  START = p;
-  token_type = t;
-  if (t < MACRO) {
-    LOC = p;
-    return;
-  }
-  addtokenref(p);
-  if (t == MACRO) {
-    param_start = paramptr;
-    return;
-  }
-  LOC = link(p);
-  if (tracingmacros <= 1)
-    return;
-  begindiagnostic();
-  printnl(S(385));
-  switch (t) {
+Static void begintokenlist(HalfWord p, QuarterWord t) {
+    if (inputptr > maxinstack) {
+        maxinstack = inputptr;
+        if (inputptr == stacksize) overflow(S(508), stacksize);
+    }
+    inputstack[inputptr] = cur_input;
+    inputptr++;
+    STATE = TOKEN_LIST;
+    START = p;
+    token_type = t;
+    if (t < MACRO) {
+        LOC = p;
+        return;
+    }
+    addtokenref(p);
+    if (t == MACRO) {
+        param_start = paramptr;
+        return;
+    }
+    LOC = link(p);
+    if (tracingmacros <= 1) return;
+    begindiagnostic();
+    printnl(S(385));
+    switch (t) {
+        case MARK_TEXT: print_esc(S(402)); break;
+        case WRITE_TEXT: print_esc(S(379)); break;
 
-  case MARK_TEXT:
-    print_esc(S(402));
-    break;
-
-  case WRITE_TEXT:
-    print_esc(S(379));
-    break;
-
-  default:
-    printcmdchr(assigntoks, t - OUTPUT_TEXT + outputroutineloc);
-    break;
-  }
-  print(S(310));
-  tokenshow(p);
-  enddiagnostic(false);
+        default:
+            printcmdchr(assigntoks, t - OUTPUT_TEXT + outputroutineloc);
+            break;
+    }
+    print(S(310));
+    tokenshow(p);
+    enddiagnostic(false);
 }
 /*:323*/
 
 /*324:*/
-Static void endtokenlist(void)
-{
-  if (token_type >= BACKED_UP) {
-    if (token_type <= INSERTED)
-      flushlist(START);
-    else {
-      deletetokenref(START);
-      if (token_type == MACRO) {
-	while (paramptr > param_start) {
-	  paramptr--;
-	  flushlist(paramstack[paramptr]);
-	}
-      }
+Static void endtokenlist(void) {
+    if (token_type >= BACKED_UP) {
+        if (token_type <= INSERTED) {
+            flushlist(START);
+        } else {
+            deletetokenref(START);
+            if (token_type == MACRO) {
+                while (paramptr > param_start) {
+                    paramptr--;
+                    flushlist(paramstack[paramptr]);
+                }
+            }
+        }
+    } else if (token_type == U_TEMPLATE) {
+        if (align_state > 500000L)
+            align_state = 0;
+        else
+            fatalerror(S(509));
     }
-  } else if (token_type == U_TEMPLATE) {
-    if (align_state > 500000L)
-      align_state = 0;
-    else
-      fatalerror(S(509));
-  }
-  popinput();
-  checkinterrupt();
+    popinput();
+    checkinterrupt();
 }
 /*:324*/
 
 /*325:*/
-Static void backinput(void)
-{
-  Pointer p;
+Static void backinput(void) {
+    Pointer p;
 
-  while (STATE == TOKEN_LIST && LOC == 0)
-    endtokenlist();
-  p = get_avail();
-  info(p) = curtok;
-  if (curtok < rightbracelimit) {
-    if (curtok < leftbracelimit)
-      align_state--;
-    else
-      align_state++;
-  }
-  if (inputptr > maxinstack) {
-    maxinstack = inputptr;
-    if (inputptr == stacksize)
-      overflow(S(508), stacksize);
-  }
-  inputstack[inputptr] = cur_input;
-  inputptr++;
-  STATE = TOKEN_LIST;
-  START = p;
-  token_type = BACKED_UP;
-  LOC = p;
+    while (STATE == TOKEN_LIST && LOC == 0)
+        endtokenlist();
+    p = get_avail();
+    info(p) = curtok;
+    if (curtok < rightbracelimit) {
+        if (curtok < leftbracelimit)
+            align_state--;
+        else
+            align_state++;
+    }
+    if (inputptr > maxinstack) {
+        maxinstack = inputptr;
+        if (inputptr == stacksize) overflow(S(508), stacksize);
+    }
+    inputstack[inputptr] = cur_input;
+    inputptr++;
+    STATE = TOKEN_LIST;
+    START = p;
+    token_type = BACKED_UP;
+    LOC = p;
 }
 /*:325*/
 
@@ -3236,47 +3201,43 @@ Static void inserror(void) {
 /*:327*/
 
 /*328:*/
-Static void beginfilereading(void)
-{
-  if (inopen == MAX_IN_OPEN)
-    overflow(S(510), MAX_IN_OPEN);
-  if (first == BUF_SIZE)
-    overflow(S(511), BUF_SIZE);
-  inopen++;
-  if (inputptr > maxinstack) {
-    maxinstack = inputptr;
-    if (inputptr == stacksize)
-      overflow(S(508), stacksize);
-  }
-  inputstack[inputptr] = cur_input;
-  inputptr++;
-  IINDEX = inopen;
-  linestack[IINDEX - 1] = line;
-  START = first;
-  STATE = midline;
-  NAME = 0;
-}  /*:328*/
+Static void beginfilereading(void) {
+    if (inopen == MAX_IN_OPEN) overflow(S(510), MAX_IN_OPEN);
+    if (first == BUF_SIZE) overflow(S(511), BUF_SIZE);
+    inopen++;
+    if (inputptr > maxinstack) {
+        maxinstack = inputptr;
+        if (inputptr == stacksize) overflow(S(508), stacksize);
+    }
+    inputstack[inputptr] = cur_input;
+    inputptr++;
+    IINDEX = inopen;
+    linestack[IINDEX - 1] = line;
+    START = first;
+    STATE = MID_LINE;
+    NAME = 0;
+} /*:328*/
 
 
 /*329:*/
-Static void endfilereading(void)
-{
-  first = START;
-  line = linestack[IINDEX - 1];
-  if (NAME > 17)
-    aclose(&curfile);
-  popinput();
-  inopen--;
+Static void endfilereading(void) {
+    first = START;
+    line = linestack[IINDEX - 1];
+    if (NAME > 17) aclose(&curfile);
+    popinput();
+    inopen--;
 }
 /*:329*/
 
 /*330:*/
-Static void clearforerrorprompt(void)
-{
-  while (STATE != TOKEN_LIST && terminal_input && inputptr > 0 && LOC > LIMIT) {
-    endfilereading();
-  }
-  println();
+Static void clearforerrorprompt(void) {
+    while (STATE != TOKEN_LIST 
+            && terminal_input 
+            && inputptr > 0 
+            && LOC > LIMIT) {
+        endfilereading();
+    }
+    println();
 }
 /*:330*/
 
@@ -3475,18 +3436,18 @@ _Lrestart:
         // or goto reswitch if the current character changes to another
         switch (STATE + cur_cmd) { 
             // any state plus(ignore)
-            case midline + ignore:
-            case skipblanks + ignore:
+            case MID_LINE + ignore:
+            case SKIP_BLANKS + ignore:
             case NEW_LINE + ignore:
-            case skipblanks + spacer:
+            case SKIP_BLANKS + spacer:
             case NEW_LINE + spacer:
                 // [#345]: Cases where character is ignored
                 goto _Lswitch__;
                 break;
 
             // any state plus(escape)
-            case midline:
-            case skipblanks:
+            case MID_LINE:
+            case SKIP_BLANKS:
             case NEW_LINE:
                 // [#354] Scan a control sequence 
                 // and set state ← skip_blanks or mid line
@@ -3501,11 +3462,11 @@ _Lrestart:
                     k++;
                 
                     if (cat == letter) {
-                        STATE = skipblanks;
+                        STATE = SKIP_BLANKS;
                     } else if (cat == spacer) {
-                        STATE = skipblanks;
+                        STATE = SKIP_BLANKS;
                     } else {
-                        STATE = midline;
+                        STATE = MID_LINE;
                     } // if (cat == ...)
 
                     if (cat == letter && k <= LIMIT) {
@@ -3604,19 +3565,19 @@ _Lrestart:
                 /*:354*/
 
             // any state plus(active_char)
-            case midline + activechar: 
-            case skipblanks + activechar: 
+            case MID_LINE + activechar: 
+            case SKIP_BLANKS + activechar: 
             case NEW_LINE + activechar:
                 // [#353]: Process an active-character control sequence 
                 // and set state ← mid line 
-                STATE = midline;
+                STATE = MID_LINE;
                 cur_cs = cur_chr + activebase;
                 Process_cs;
                 break;
 
             // any state plus(supmark)
-            case midline + supmark: 
-            case skipblanks + supmark:
+            case MID_LINE + supmark: 
+            case SKIP_BLANKS + supmark:
             case NEW_LINE + supmark:
                 // [#352]
                 c = buffer[LOC + 1];
@@ -3639,12 +3600,12 @@ _Lrestart:
                     } // if (c <> 64)
                     goto _LN_getnext_worker__reswitch;
                 } // if - set
-                STATE = midline;
+                STATE = MID_LINE;
                 break;
 
             // any state plus(invalidchar)
-            case midline + invalidchar:
-            case skipblanks + invalidchar:
+            case MID_LINE + invalidchar:
+            case SKIP_BLANKS + invalidchar:
             case NEW_LINE + invalidchar:
                 // [#346] Decry the invalid character and goto restart
                 printnl(S(292)); 
@@ -3660,13 +3621,13 @@ _Lrestart:
 
             // [#347] Handle situations involving spaces, braces, changes of
             // state
-            case midline + spacer:
+            case MID_LINE + spacer:
                 // [#349] Enter skip blanks state, emit a space
-                STATE = skipblanks;
+                STATE = SKIP_BLANKS;
                 cur_chr = ' ';
                 break;
 
-            case midline + carret:
+            case MID_LINE + carret:
                 // [#348] Finish line, emit a space
                 LOC = LIMIT + 1;
                 cur_cmd = spacer;
@@ -3674,9 +3635,9 @@ _Lrestart:
                 break;
 
             // any state plus(comment)
-            case skipblanks + carret:
-            case midline + comment:
-            case skipblanks + comment:
+            case SKIP_BLANKS + carret:
+            case MID_LINE + comment:
+            case SKIP_BLANKS + comment:
             case NEW_LINE + comment:
                 // [#350] Finish line, goto switch
                 LOC = LIMIT + 1;
@@ -3690,41 +3651,41 @@ _Lrestart:
                 Process_cs;
                 break;
 
-            case midline + leftbrace: 
+            case MID_LINE + leftbrace: 
                 align_state++;
                 break;
 
-            case skipblanks + leftbrace:
+            case SKIP_BLANKS + leftbrace:
             case NEW_LINE + leftbrace:
-                STATE = midline;
+                STATE = MID_LINE;
                 align_state++;
                 break;
 
-            case midline + rightbrace:
+            case MID_LINE + rightbrace:
                 align_state--;
                 break;
 
-            case skipblanks + rightbrace:
+            case SKIP_BLANKS + rightbrace:
             case NEW_LINE + rightbrace:
-                STATE = midline;
+                STATE = MID_LINE;
                 align_state--;
                 break;
 
-            // add_delims_to(skipblanks)
+            // add_delims_to(SKIP_BLANKS)
             // add_delims_to(NEW_LINE)
-            case skipblanks + mathshift:
-            case skipblanks + tabmark:
-            case skipblanks + macparam:
-            case skipblanks + submark:
-            case skipblanks + letter:
-            case skipblanks + otherchar:
+            case SKIP_BLANKS + mathshift:
+            case SKIP_BLANKS + tabmark:
+            case SKIP_BLANKS + macparam:
+            case SKIP_BLANKS + submark:
+            case SKIP_BLANKS + letter:
+            case SKIP_BLANKS + otherchar:
             case NEW_LINE + mathshift:
             case NEW_LINE + tabmark:
             case NEW_LINE + macparam:
             case NEW_LINE + submark:
             case NEW_LINE + letter:
             case NEW_LINE + otherchar:
-                STATE = midline;
+                STATE = MID_LINE;
                 break;
 
             default: break;
