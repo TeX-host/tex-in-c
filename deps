@@ -1,5 +1,5 @@
-tex.o: tex.c tex_header.h global_const.h tex_inc.h tex.h tex_types.h \
- tex_constant.h str.h texmac.h macros.h funcs.h global.h printout.h \
+tex.o: tex.c tex_header.h global_const.h tex_inc.h texmath.h tex_types.h \
+ tex.h tex_constant.h str.h texmac.h macros.h funcs.h global.h printout.h \
  fonts.h inputln.h dviout.h pure_func.h texfunc.h
 funcs.o: funcs.c tex.h tex_types.h tex_constant.h str.h global_const.h \
  funcs.h global.h
@@ -16,3 +16,4 @@ fonts.o: fonts.c tex.h tex_types.h tex_constant.h macros.h str.h \
 dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
  fonts.h funcs.h dvicmd.h dviout.h
 pure_func.o: pure_func.c pure_func.h
+texmath.o: texmath.c texmath.h tex_types.h texfunc.h str.h global_const.h

@@ -25,7 +25,7 @@
 
 #include "global_const.h"
 #include "tex_inc.h"
-// #include "texmath.h"
+#include "texmath.h"
 #include "tex.h" // [export]
 #include "str.h"
 #include "texmac.h"
