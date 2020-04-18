@@ -3774,28 +3774,31 @@ _Lexit:;
 //  1038, 1126
 static void getnext(void) { getnext_worker(true); }
 
-
-/*363:*/
 Static void firmuptheline(void) {
     short k;
+// #363: 
+// 340, 362, [363], 538
 
     LIMIT = last;
     if (pausing <= 0) return;
     if (interaction <= NON_STOP_MODE) return;
+
     println();
     if (START < LIMIT) {
         for (k = START; k < LIMIT; k++)
             print(buffer[k]);
     }
+
     first = LIMIT;
-    print(S(532));
-    term_input();
+    print(S(532)); // "=>"
+    term_input(); // wait for user response
+
     if (last <= first) return;
     for (k = first; k < last; k++)
         buffer[k + START - first] = buffer[k];
     LIMIT = START + last - first;
-}
-/*:363*/
+} // #363: firm_up_the_line
+
 
 /*365:*/
 Static void gettoken(void) {
@@ -4237,7 +4240,8 @@ Static void expand(void)
 }
 /*:366*/
 
-// [#380]: sets cur_cmd, cur_chr, cur_tok, and expands macros
+// [#380]: get an expanded token
+//  sets cur_cmd, cur_chr, cur_tok, and expands macros
 //
 // xref[26]
 //  364, 366, 372, [380], 381,

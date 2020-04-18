@@ -204,9 +204,19 @@ Static UInt16 curboundary;
 /*286:*/
 Static Integer magset;
 /*:286*/
-/*297:*/
+
+// [#297]: current command set by `get_next`
+//  a *command code* from the long list of codes given above;
 Static EightBits curcmd;
-Static HalfWord curchr, curtok; /*:297*/
+// [#297]: operand of current command
+//  a *character code* or other *modifier* of the command code;
+Static HalfWord curchr;
+// [#297]: control sequence found here, zero if none found
+//  the `eqtb` location of the current control sequence
+Static Pointer curcs;
+// [#297]: packed representative of `curcmd` and `curchr`
+Static HalfWord curtok;
+
 /*301:*/
 Static InStateRecord inputstack[stacksize + 1];
 Static UChar inputptr;
@@ -502,6 +512,6 @@ StrNumber format_ident;
 InStateRecord cur_input;
 jmp_buf _JMP_global__final_end;
 Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
-Static Pointer curcs, warning_index, defref;
+Static Pointer warning_index, defref;
 
 #endif // INC_TEX_HEADER

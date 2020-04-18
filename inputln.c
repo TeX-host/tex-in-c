@@ -8,6 +8,8 @@
 
 
 Boolean inputln(FILE* f, Boolean bypasseoln) {
+// [#31] inputs the next line or returns false
+// 30, [31], 37, 58, 71, 362, 485, 486, 538
     short lastnonblank;
     if (bypasseoln) {
         int c = getc(f);
@@ -44,4 +46,4 @@ Boolean inputln(FILE* f, Boolean bypasseoln) {
         last = lastnonblank;
         return true;
     }
-}
+} // #31: inputln
