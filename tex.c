@@ -741,8 +741,9 @@ others:
     - Static HalfWord badness(Scaled t, Scaled s)
 
 */
-/// #100
-Static Integer half(Scaled x) {
+#ifndef INC_TEX_MATH
+/// #100 整除 2
+Static Integer half(Integer x) {
     if (x & 1)
         return ((x + 1) / 2);
     else
@@ -887,6 +888,7 @@ Static HalfWord badness(Scaled t, Scaled s) {
     }
 } // #108:badness
 
+#endif // INC_TEX_MATH
 
 /// p43#114
 #ifdef tt_DEBUG
