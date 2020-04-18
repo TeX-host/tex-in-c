@@ -46,7 +46,7 @@ Static void buildpage(void);
 Static void passtext(void);
 Static void startinput(void);
 Static void conditional(void);
-Static void getxtoken(void);
+Static void get_x_token(void);
 Static void convtoks(void);
 Static void insthetoks(void);
 
@@ -3382,15 +3382,22 @@ Static int check_outer_validity(int local_curcs) {
 
 /*341:*/
 Static void getnext_worker(Boolean no_new_control_sequence) {
-    short k;
-    char cat;
-    ASCIICode c, cc = 0;
-    char d;
+    UInt16 k; // an index into buffer; [0, BUF_SIZE=5000]
+    UChar cat; // cat_code(cur chr), usually
+    ASCIICode c, cc = 0; // constituents of a possible expanded code
+    UChar d; // number of excess characters in an expanded code
+
+    // getnext_worker 内部变量
     int cur_cs, cur_chr, cur_cmd;
 
+// go here to: get the next input token
 _Lrestart:
     cur_cs = 0;
-    if (STATE != TOKEN_LIST) { /*343:*/
+    if (STATE != TOKEN_LIST) {
+        // [#343] Input from external file, 
+        // goto _restart if no input found
+
+    // go here to: eat the next character from a file
     _Lswitch__:
         if (LOC > LIMIT) {
             STATE = NEW_LINE; /*360:*/
@@ -3454,7 +3461,9 @@ _Lrestart:
         }
         cur_chr = buffer[LOC];
         LOC++;
-    _LN_main_control__reswitch:
+
+    // go here to: digest it again
+    _LN_getnext_worker__reswitch:
         cur_cmd = catcode(cur_chr); /*344:*/
         switch (STATE + cur_cmd) {  /*345:*/
 
@@ -3472,6 +3481,7 @@ _Lrestart:
                 if (LOC > LIMIT)
                     cur_cs = nullcs;
                 else {
+                // go here to: start looking for a control sequence
                 _Lstartcs_:
                     k = LOC;
                     cur_chr = buffer[k];
@@ -3569,7 +3579,7 @@ _Lrestart:
                 }
 
 
-
+            // go here: when a control sequence has been found
             _Lfound:
                 Process_cs
                     /*:354*/
@@ -3598,7 +3608,7 @@ _Lrestart:
                                     if (ishex(cc)) {
                                         LOC++;
                                         cur_chr = hex_to_i(c, cc);
-                                        goto _LN_main_control__reswitch;
+                                        goto _LN_getnext_worker__reswitch;
                                     }
                                 }
                             }
@@ -3606,7 +3616,7 @@ _Lrestart:
                                 cur_chr = c + 64;
                             else
                                 cur_chr = c - 64;
-                            goto _LN_main_control__reswitch;
+                            goto _LN_getnext_worker__reswitch;
                         }
                     }
                 }
@@ -3692,7 +3702,9 @@ _Lrestart:
                 break;
         }
         /*:344*/
-    } else { /*357:*/
+    } else {
+        // [#357] Input from token list, 
+        // goto _restart if end of list or if a parameter needs to be expanded
         HalfWord t;
         if (LOC == 0) {
             endtokenlist();
@@ -3740,35 +3752,42 @@ _Lrestart:
                     /*:359*/
             }
         }
-    }
-    /*:343*/
-    /*342:*/
-    if (cur_cmd <= carret) {
-        if (cur_cmd >= tabmark) { /*789:*/
-            if (align_state == 0) {
-                if (scanner_status == ALIGNING) fatalerror(S(509));
-                cur_cmd = extrainfo(curalign);
-                extrainfo(curalign) = cur_chr;
-                if (cur_cmd == omit)
-                    begintokenlist(omittemplate, V_TEMPLATE);
-                else
-                    begintokenlist(vpart(curalign), V_TEMPLATE);
-                align_state = 1000000L;
-                goto _Lrestart;
-            }
-            /*:789*/
-            /*:342*/
+    } // #343: if (STATE <> TOKEN_LIST)
+
+    // [#342] If an alignment entry has just ended, take appropriate action
+    if (cur_cmd <= carret && cur_cmd >= tabmark && align_state == 0) {
+        // [#789] Insert the <v_j> template 
+        //  and goto _restart
+        if (scanner_status == ALIGNING || curalign == null) {
+            fatalerror(S(509)); // "(interwoven alignment preambles are not allowed)"
         }
-    }
+
+        cur_cmd = extrainfo(curalign);
+        extrainfo(curalign) = cur_chr;
+        if (cur_cmd == omit) {
+            begintokenlist(omittemplate, V_TEMPLATE);
+        } else {
+            begintokenlist(vpart(curalign), V_TEMPLATE);
+        }
+        align_state = 1000000L;
+        goto _Lrestart;
+    } // #342: if (cur_cmd <= carret)
+
+// [#341]: go here: when the next input token has been got
 _Lexit:;
     curcmd = cur_cmd;
     curchr = cur_chr;
     curcs = cur_cs;
+} // #341: getnext_worker
 
-    /*:357*/
-}
-/*:341*/
-
+// [#341] : sets cur cmd, cur chr, cur cs to next token
+//
+// xref[22]
+//   76, 297, 332, 336, 340,
+//  [341], 357, 360, 364, 365,
+//  366, 369, 380, 381, 387,
+//  389, 478, 494, 507, 644,
+//  1038, 1126
 static void getnext(void) { getnext_worker(true); }
 
 
@@ -4046,14 +4065,14 @@ Static void insertrelax(void)
 Static void skip_spaces(void)
 {  /*406:*/
     do {
-        getxtoken();
+        get_x_token();
     } while (curcmd == spacer); /*:406*/
 }
 
 Static void skip_spaces_or_relax(void)
 { /*404:*/
     do {
-        getxtoken();
+        get_x_token();
     } while (curcmd == spacer || curcmd == relax); /*:404*/
 }
 
@@ -4118,7 +4137,7 @@ Static void expand(void)
       r = get_avail();
       p = r;
       do {
-	getxtoken();
+	get_x_token();
 	if (curcs == 0) {
 	  STORE_NEW_TOKEN(p,curtok);
 	}
@@ -4234,25 +4253,34 @@ Static void expand(void)
 }
 /*:366*/
 
-/*380:*/
-Static void getxtoken(void) {
-_Lrestart:
-    getnext();
-    if (curcmd <= maxcommand) goto _Ldone;
-    if (curcmd >= call) {
-        if (curcmd >= endtemplate) {
-            curcs = frozenendv;
-            curcmd = endv;
-            goto _Ldone;
-        }
-        macrocall(curchr);
-    } else
-        expand();
-    goto _Lrestart;
-_Ldone:
+// [#380]: sets cur_cmd, cur_chr, cur_tok, and expands macros
+//
+// xref[26]
+//  364, 366, 372, [380], 381,
+//  402, 404, 406, 407, 443,
+//  444, 445, 452, 465, 479,
+//  506, 526, 780, 935, 961,
+//  1029, 1030, 1138, 1197, 1237,
+//  1375
+Static void get_x_token(void) {
+    while (true) {
+        getnext();
+        if (curcmd <= maxcommand) break;
+        if (curcmd >= call) {
+            if (curcmd < endtemplate) {
+                macrocall(curchr);
+            } else {
+                curcs = frozenendv;
+                curcmd = endv;
+                break; // cur_chr = null_list
+            } // if (curcmd <> endtemplate)
+        } else {
+            expand();
+        } // if (curcmd <> call)
+    } // while (true)
+
     curtok = pack_tok(curcs, curcmd, curchr);
-}
-/*:380*/
+} // #380: get_x_token
 
 /*381:*/
 Static void xtoken(void)
@@ -4309,7 +4337,7 @@ Static Boolean scankeyword(StrNumber s) {
 #if 0
   k = str_start[s];
   while (k < str_end(s) ) {
-    getxtoken();
+    get_x_token();
     if ((curcs == 0) & ((curchr == str_pool[k]) |
 			(curchr == str_pool[k] - 'a' + 'A'))) {
 #else
@@ -4317,7 +4345,7 @@ Static Boolean scankeyword(StrNumber s) {
     k_e = str_length(s);
     while (k < k_e) {
         int str_c = str_getc(s, k);
-        getxtoken();
+        get_x_token();
         if ((curcs == 0) &
             ((curchr == str_c) | (curchr == str_c - 'a' + 'A'))) {
 #endif
@@ -4809,7 +4837,7 @@ Static void scanint(void) {
             curval = '0';
             backerror();
         } else { /*443:*/
-            getxtoken();
+            get_x_token();
             if (curcmd != spacer) backinput();
         }
     } /*:442*/
@@ -4821,11 +4849,11 @@ Static void scanint(void) {
         if (curtok == octaltoken) {
             radix = 8;
             m = 268435456L;
-            getxtoken();
+            get_x_token();
         } else if (curtok == hextoken) {
             radix = 16;
             m = 134217728L;
-            getxtoken();
+            get_x_token();
         }
         vacuous = true;
         curval = 0; /*445:*/
@@ -4854,7 +4882,7 @@ Static void scanint(void) {
                 }
             } else
                 curval = curval * radix + d;
-            getxtoken();
+            get_x_token();
         }
     _Ldone:            /*:445*/
         if (vacuous) { /*446:*/
@@ -4934,7 +4962,7 @@ Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 	p = 0;
 	gettoken();
 	while (true) {
-	  getxtoken();
+	  get_x_token();
 	  if (curtok > zerotoken + 9 || curtok < zerotoken)
 	    goto _Ldone1;
 	  if (k >= 17)
@@ -5009,7 +5037,7 @@ _Ldone1:
     /*:559*/
   else
     goto _Lnotfound;
-  getxtoken();
+  get_x_token();
   if (curcmd != spacer)   /*:443*/
     backinput();
 _Lfound:
@@ -5091,7 +5119,7 @@ _Lattachfraction_:
     curval = curval * UNITY + f;
 _Ldone:   /*:453*/
   /*443:*/
-  getxtoken();
+  get_x_token();
   if (curcmd != spacer)   /*:443*/
     backinput();
 _Lattachsign_:
@@ -5170,21 +5198,21 @@ Static HalfWord scanrulespec(void) {
         height(q) = defaultrule;
         depth(q) = 0;
     }
-_LN_main_control__reswitch:
+_LN_scanrulespec__reswitch:
     if (scankeyword(S(639))) {
         scannormaldimen();
         width(q) = curval;
-        goto _LN_main_control__reswitch;
+        goto _LN_scanrulespec__reswitch;
     }
     if (scankeyword(S(640))) {
         scannormaldimen();
         height(q) = curval;
-        goto _LN_main_control__reswitch;
+        goto _LN_scanrulespec__reswitch;
     }
     if (!scankeyword(S(641))) return q;
     scannormaldimen();
     depth(q) = curval;
-    goto _LN_main_control__reswitch;
+    goto _LN_scanrulespec__reswitch;
 }
 /*:463*/
 
@@ -5220,7 +5248,7 @@ Static HalfWord thetoks(void) {
     enum Selector old_setting;
     Pointer p, r;
 
-    getxtoken();
+    get_x_token();
     scansomethinginternal(tokval, false);
     if (curvallevel >= identval) { /*466:*/
         p = temphead;
@@ -5430,7 +5458,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
             if (macrodef) { /*479:*/
                 s = curtok;
                 if (xpand)
-                    getxtoken();
+                    get_x_token();
                 else
                     gettoken();
                 if (curcmd != macparam) {
@@ -5591,7 +5619,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 }
 
 #define getxtokenoractivechar()                                                \
-    (getxtoken(),                                                              \
+    (get_x_token(),                                                              \
      ((curcmd == relax) && (curchr == noexpandflag))                           \
          ? (curcmd = activechar, cur_chr = curtok - CS_TOKEN_FLAG - activebase)  \
          : (cur_chr = curchr))
@@ -5911,7 +5939,7 @@ Static void scanfilename(void) {
             break;
         }
         if (!morename(curchr)) break;
-        getxtoken();
+        get_x_token();
     }
     endname();
     name_in_progress = false;
@@ -6246,7 +6274,7 @@ Static void hlistout(void) {
         // #620 
         // Output node p for hlist out and move to the next node, 
         // maintaining the condition cur v = base line
-    _LN_main_control__reswitch:
+    _LN_hlistout__reswitch:
         if (ischarnode(p)) {
             synchh();
             synchv();
@@ -6383,7 +6411,7 @@ Static void hlistout(void) {
                 character(ligtrick) = character_ligchar(p);
                 link(ligtrick) = link(p);
                 p = ligtrick;
-                goto _LN_main_control__reswitch;
+                goto _LN_hlistout__reswitch;
                 break;
 
         } // switch (type(p))
@@ -6802,7 +6830,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
     totalstretch[FILLL - NORMAL] = 0;
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*651:*/
-    _LN_main_control__reswitch:
+    _LN_hpack__reswitch:
         while (ischarnode(p)) { /*654:*/
             InternalFontNumber f = font(p);
             FourQuarters i = charinfo(f, character(p));
@@ -6883,7 +6911,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
                 character(ligtrick) = character_ligchar(p);
                 link(ligtrick) = link(p);
                 p = ligtrick;
-                goto _LN_main_control__reswitch;
+                goto _LN_hpack__reswitch;
                 break;
                 /*:652*/
         }
@@ -8194,7 +8222,7 @@ Static void mlisttohlist(void) {
         cursize = (curstyle - textstyle) / 2 * 16;
     curmu = x_over_n(mathquad(cursize), 18); /*:703*/
     while (q != 0) {                         /*727:*/
-    _LN_main_control__reswitch:
+    _LN_mlisttohlist__reswitch:
         delta = 0;
         switch (type(q)) {
 
@@ -8208,7 +8236,7 @@ Static void mlisttohlist(void) {
                     case punctnoad:
                     case leftnoad:
                         type(q) = ordnoad;
-                        goto _LN_main_control__reswitch;
+                        goto _LN_mlisttohlist__reswitch;
                         break;
                 }
                 break;
@@ -9176,7 +9204,7 @@ Static void finalign(void) {
             help2(S(726), S(727));
             backerror();
         } else { /*1197:*/
-            getxtoken();
+            get_x_token();
             if (curcmd != mathshift) {
                 printnl(S(292));
                 print(S(745));
@@ -10508,7 +10536,7 @@ Static void newpatterns(void) {
         hyf[0] = 0;
         digitsensed = false;
         while (true) {
-            getxtoken();
+            get_x_token();
             switch (curcmd) {
                 case letter:
                 case otherchar: /*962:*/
@@ -11215,9 +11243,9 @@ Static void newhyphexceptions(void)
   p = 0;
   while (true) {   /*:935*/
     int cur_chr;
-    getxtoken();
+    get_x_token();
     cur_chr = curchr;
-_LN_main_control__reswitch:
+_LN_newhyphexceptions__reswitch:
     switch (curcmd) {
 
     case letter:
@@ -11249,7 +11277,7 @@ _LN_main_control__reswitch:
       scancharnum();
       cur_chr = curval;
       curcmd = chargiven;
-      goto _LN_main_control__reswitch;
+      goto _LN_newhyphexceptions__reswitch;
       break;
 
     case spacer:
@@ -13138,7 +13166,7 @@ Static void initmath(void)
       w = -maxdimen;
       p = listptr(justbox);
       while (p != 0) {  /*1147:*/
-_LN_main_control__reswitch:
+_LN_initmath__reswitch:
 	if (ischarnode(p)) {
 	  f = font(p);
 	  d = charwidth(f, charinfo(f, character(p)));
@@ -13159,7 +13187,7 @@ _LN_main_control__reswitch:
       character(ligtrick) = character_ligchar(p);
 	  link(ligtrick) = link(p);
 	  p = ligtrick;
-	  goto _LN_main_control__reswitch;
+	  goto _LN_initmath__reswitch;
 	  break;
 	  /*:652*/
 
@@ -13268,7 +13296,7 @@ Static void scanmath(HalfWord p) {
 
 _Lrestart:
     skip_spaces_or_relax();
-_LN_main_control__reswitch:
+_LN_scanmath__reswitch:
     switch (curcmd) {
 
         case letter:
@@ -13289,7 +13317,7 @@ _LN_main_control__reswitch:
             scancharnum();
             curchr = curval;
             curcmd = chargiven;
-            goto _LN_main_control__reswitch;
+            goto _LN_scanmath__reswitch;
             break;
 
         case mathcharnum:
@@ -13705,7 +13733,7 @@ Static void aftermath(void)
   l = false;
   p = finmlist(0);
   if (mode == -m) {   /*1197:*/
-    getxtoken();
+    get_x_token();
     if (curcmd != mathshift) {   /*:1197*/
       printnl(S(292));
       print(S(745));
@@ -13770,7 +13798,7 @@ Static void aftermath(void)
   }
   /*:1196*/
   if (a == 0) {   /*1197:*/
-    getxtoken();
+    get_x_token();
     if (curcmd != mathshift) {
       printnl(S(292));
       print(S(745));
@@ -13896,7 +13924,7 @@ Static void resumeafterdisplay(void)
   prevgraf = (normmin(lefthyphenmin) * 64 + normmin(righthyphenmin)) * 65536L +
 	     curlang;
       /*443:*/
-  getxtoken();
+  get_x_token();
   if (curcmd != spacer)   /*:443*/
     backinput();
   if (nest_ptr == 1)
@@ -13949,7 +13977,7 @@ Static void doregistercommand(SmallNumber a) {
 
     q = curcmd; /*1237:*/
     if (q != register_) {
-        getxtoken();
+        get_x_token();
         if (curcmd >= assignint && curcmd <= assignmuglue) {
             l = curchr;
             p = curcmd - assignint;
@@ -15138,7 +15166,7 @@ Static void doextension(void)
     /*:1354*/
 
   case immediatecode:   /*1375:*/
-    getxtoken();
+    get_x_token();
     if (curcmd == extension && curchr <= closenode) {
       p = tail;
       doextension();
@@ -15496,7 +15524,7 @@ Static void main_control(void) {
     if (everyjob != 0) begintokenlist(everyjob, EVERY_JOB_TEXT);
 
 _LN_main_control__big_switch:
-    getxtoken();
+    get_x_token();
 
 _LN_main_control__reswitch:
     // #1031: Give diagnostic information, if requested
@@ -15526,7 +15554,7 @@ _LN_main_control__reswitch:
             break;
 
         case H_MODE + noboundary:
-            getxtoken();
+            get_x_token();
             if (curcmd == letter || curcmd == otherchar ||
                 curcmd == chargiven || curcmd == charnum)
                 cancelboundary = true;
