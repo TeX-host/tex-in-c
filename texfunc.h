@@ -14,7 +14,6 @@ extern void print_int(Integer n);
 
 // [tex], fonts, printout
 extern void print_esc(StrNumber s);
-extern void print_scaled(Scaled s);
 
 // [tex], fonts, str
 extern void print_char(ASCIICode s); 
@@ -32,7 +31,6 @@ extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
 extern void sprint_cs(Pointer p);
 extern void error(void);
-extern Scaled xn_over_d(Scaled x, long n, long d);
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
 extern Pointer get_lo_mem_max(void);

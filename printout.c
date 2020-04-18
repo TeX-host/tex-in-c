@@ -3,6 +3,7 @@
 #include "fonts.h" 
     // [func] get_fontsize, get_fontdsize, get_fontname
 #include "texfunc.h"  // [func] print_*
+#include "texmath.h"  // [func] print_scaled
 #include "printout.h" // [export]
 
 // #247: 

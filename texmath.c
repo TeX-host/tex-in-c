@@ -16,6 +16,8 @@
  */
 #include "texmath.h"
 #include "texfunc.h" // [func] print_char, print_int
+// #108: infinitely bad value
+#define INF_BAD 10000
 
 // [#104] has arithmetic overflow occurred recently?
 Boolean arith_error = false;

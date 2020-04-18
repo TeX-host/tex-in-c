@@ -465,9 +465,6 @@
 #define openname(x)    link(x+1) /* string number of file name to open}*/
 #define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
 #define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
-#ifndef INC_TEX_MATH
-#define nxplusy(n, x, y) (mult_and_add((n), (x), (y), 1073741823L))
-#endif // INC_TEX_MATH
 
 #define karmafastdeleteglueref(x)                                              \
     (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0)                   \

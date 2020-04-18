@@ -83,9 +83,6 @@
 #define awfulbad        1073741823L
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
-// #101
-#define UNITY           65536L  // 2^16, rep 1.00000
-#define TWO             131072L // 2^17, rep 2.00000
 
 #define MEM_BOT          0
 #define HASH_SIZE        210000

@@ -137,13 +137,6 @@ Static Boolean use_err_help;   // should the `errhelp` list be shown?
 Static Integer interrupt;       // should TeX pause for instructions?
 Static Boolean OK_to_interrupt; // should interrupts be observed?
 
-/// [ #99~109: ARITHMETIC WITH SCALED DIMENSIONS ]
-#ifndef INC_TEX_MATH
-// [#104] has arithmetic overflow occurred recently?
-Static Boolean arith_error = false;
-Static Scaled tex_remainder = 0; // amount subtracted to get an exact division
-#endif // INC_TEX_MATH
-
 /// [ #115~132: DYNAMIC MEMORY ALLOCATION ]
 /// [#115]
 Static Pointer temp_ptr; // for occasional emergency use

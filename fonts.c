@@ -9,9 +9,12 @@
 #include "fonts.h"  // [export], [func] fontidtext
 #include "texfunc.h"
     // [func] print_*,
-    //  packfilename, sprint_cs, error, xn_over_d,
+    //  packfilename, sprint_cs, error,
     //  get_defaultskewchar, get_defaulthyphenchar,
     //  get_lo_mem_max
+#include "texmath.h"
+    // [macro] UNITY
+    // [func] print_scaled, xn_over_d,
 
 // p201#549
 MemoryWord fontinfo[FONT_MEM_SIZE + 1]; // the big collection of font data
