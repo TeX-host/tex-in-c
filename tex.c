@@ -36,7 +36,7 @@ Static void printtotals(void);
 Static void backinput(void);
 
 /*340:*/
-Static void firmuptheline(void);
+Static void firm_up_the_line(void);
 /*:340*/
 
 Static void doassignments(void);
@@ -3370,7 +3370,7 @@ _Lrestart:
                 first = START;
                 if (!force_eof) {
                     if (inputln(curfile, true))
-                        firmuptheline();
+                        firm_up_the_line();
                     else
                         force_eof = true;
                 }
@@ -3774,7 +3774,7 @@ _Lexit:;
 //  1038, 1126
 static void getnext(void) { getnext_worker(true); }
 
-Static void firmuptheline(void) {
+Static void firm_up_the_line(void) {
     short k;
 // #363: 
 // 340, 362, [363], 538
@@ -3785,8 +3785,9 @@ Static void firmuptheline(void) {
 
     println();
     if (START < LIMIT) {
-        for (k = START; k < LIMIT; k++)
+        for (k = START; k < LIMIT; k++) {
             print(buffer[k]);
+        }
     }
 
     first = LIMIT;
@@ -3794,8 +3795,9 @@ Static void firmuptheline(void) {
     term_input(); // wait for user response
 
     if (last <= first) return;
-    for (k = first; k < last; k++)
+    for (k = first; k < last; k++) {
         buffer[k + START - first] = buffer[k];
+    }
     LIMIT = START + last - first;
 } // #363: firm_up_the_line
 
@@ -6065,7 +6067,7 @@ Static void startinput(void) {
 
     line = 1;
     inputln(curfile, false);
-    firmuptheline();
+    firm_up_the_line();
     if (end_line_char_inactive) {
         LIMIT--;
     } else
