@@ -3363,24 +3363,24 @@ Static int check_outer_validity(int local_curcs) {
 
 
 #define CHECK_OUTER                                                            \
-    {                                                                          \
+    do {                                                                       \
         curchr = cur_chr;                                                      \
         curcmd = cur_cmd;                                                      \
         cur_cs = check_outer_validity(cur_cs);                                 \
         cur_cmd = curcmd;                                                      \
         cur_chr = curchr;                                                      \
-    }
+    } while (0)
 
-#define process_cmd                                                            \
-    if (cur_cmd >= outercall) CHECK_OUTER;                                     \
-    break;
+#define process_cmd     if (cur_cmd >= outercall) CHECK_OUTER;
 
 #define Process_cs                                                             \
-    cur_cmd = eqtype(cur_cs);                                                  \
-    cur_chr = equiv(cur_cs);                                                   \
-    process_cmd
+    {                                                                          \
+        cur_cmd = eqtype(cur_cs);                                              \
+        cur_chr = equiv(cur_cs);                                               \
+        process_cmd                                                            \
+    }
 
-/*341:*/
+// #341: getnext_worker
 Static void getnext_worker(Boolean no_new_control_sequence) {
     UInt16 k; // an index into buffer; [0, BUF_SIZE=5000]
     UChar cat; // cat_code(cur chr), usually
@@ -3400,7 +3400,10 @@ _Lrestart:
     // go here to: eat the next character from a file
     _Lswitch__:
         if (LOC > LIMIT) {
-            STATE = NEW_LINE; /*360:*/
+            STATE = NEW_LINE;
+            // [#360] Move to next line of file, 
+            // or goto restart if there is no next line
+            //  or return if a \read line has finished
             if (NAME > 17) { /*362:*/
                 line++;
                 first = START;
@@ -3425,8 +3428,8 @@ _Lrestart:
                     buffer[LIMIT] = end_line_char;
                 first = LIMIT + 1;
                 LOC = START;
-            }      /*:362*/
-            else { /*:360*/
+            } else { // NAME <= 17 
+                /*:360*/
                 if (!terminal_input) {
                     cur_cmd = 0;
                     cur_chr = 0;
@@ -3455,219 +3458,240 @@ _Lrestart:
                     LOC = START;
                 } else
                     fatalerror(S(528));
-            }
+            } // if (NAME <> 17)
             checkinterrupt();
             goto _Lswitch__;
-        }
+        } // if (LOC > LIMIT)
+        // else: if (LOC <= LIMIT)
         cur_chr = buffer[LOC];
         LOC++;
 
     // go here to: digest it again
     _LN_getnext_worker__reswitch:
-        cur_cmd = catcode(cur_chr); /*344:*/
-        switch (STATE + cur_cmd) {  /*345:*/
+        cur_cmd = catcode(cur_chr);
 
+        // #344 Change state if necessary, 
+        // and goto switch if the current character should be ignored,
+        // or goto reswitch if the current character changes to another
+        switch (STATE + cur_cmd) { 
+            // any state plus(ignore)
             case midline + ignore:
             case skipblanks + ignore:
             case NEW_LINE + ignore:
             case skipblanks + spacer:
-            case NEW_LINE + spacer: /*:345*/
+            case NEW_LINE + spacer:
+                // [#345]: Cases where character is ignored
                 goto _Lswitch__;
                 break;
 
+            // any state plus(escape)
             case midline:
             case skipblanks:
-            case NEW_LINE: /*354:*/
-                if (LOC > LIMIT)
-                    cur_cs = nullcs;
-                else {
+            case NEW_LINE:
+                // [#354] Scan a control sequence 
+                // and set state ← skip_blanks or mid line
+                if (LOC > LIMIT) {
+                    cur_cs = nullcs; // state is irrelevant in this case
+                } else { // LOC <= LIMIT
                 // go here to: start looking for a control sequence
                 _Lstartcs_:
                     k = LOC;
                     cur_chr = buffer[k];
                     cat = catcode(cur_chr);
                     k++;
-                    if (cat == letter)
+                
+                    if (cat == letter) {
                         STATE = skipblanks;
-                    else if (cat == spacer)
+                    } else if (cat == spacer) {
                         STATE = skipblanks;
-                    else
+                    } else {
                         STATE = midline;
-                    if (cat == letter && k <= LIMIT) { /*356:*/
+                    } // if (cat == ...)
+
+                    if (cat == letter && k <= LIMIT) {
+                        // [#356] 
                         do {
                             cur_chr = buffer[k];
                             cat = catcode(cur_chr);
                             k++;
-                        } while (cat == letter && k <= LIMIT); /*355:*/
-                        if (buffer[k] == cur_chr) {            /*:355*/
-                            if (cat == supmark) {
-                                if (k < LIMIT) {
-                                    c = buffer[k + 1];
-                                    if (c < 128) {
-                                        d = 2;
-                                        if (ishex(c)) {
-                                            if (k + 2 <= LIMIT) {
-                                                cc = buffer[k + 2];
-                                                if (ishex(cc)) {
-                                                    d++;
-                                                }
-                                            }
-                                        }
-                                        if (d > 2) {
-                                            buffer[k - 1] = cur_chr =
-                                                hex_to_i(c, cc);
-                                        } else if (c < 64)
-                                            buffer[k - 1] = c + 64;
-                                        else
-                                            buffer[k - 1] = c - 64;
-                                        LIMIT -= d;
-                                        first -= d;
-                                        while (k <= LIMIT) {
-                                            buffer[k] = buffer[k + d];
-                                            k++;
-                                        }
-                                        goto _Lstartcs_;
-                                    }
-                                }
+                        } while (cat == letter && k <= LIMIT);
+                        
+                        // [#355] If an expanded code is present,
+                        // reduce it and goto start cs
+                        c = buffer[k + 1];
+                        if (    buffer[k] == cur_chr 
+                            &&  cat == supmark 
+                            &&  k < LIMIT 
+                            &&  c < 128) { // yes, one is indeed present
+                            d = 2;
+
+                            cc = buffer[k + 2];
+                            if (    ishex(c) 
+                                && (k + 2) <= LIMIT 
+                                &&  ishex(cc)) {
+                                d++;
                             }
+                            if (d > 2) {
+                                buffer[k - 1] = cur_chr = hex_to_i(c, cc);
+                            } else if (c < 64) {
+                                buffer[k - 1] = c + 64;
+                            } else {
+                                buffer[k - 1] = c - 64;
+                            }
+                            LIMIT -= d;
+                            first -= d;
+                            while (k <= LIMIT) {
+                                buffer[k] = buffer[k + d];
+                                k++;
+                            }
+                            goto _Lstartcs_;
+                        } // #355: if-set
+
+                        if (cat != letter) {
+                            k--; // now k points to first nonletter
                         }
-                        if (cat != letter) k--;
                         if (k > LOC + 1) {
+                            // multiletter control sequence has been scanned
                             cur_cs = idlookup_p(
-                                buffer + LOC, k - LOC, no_new_control_sequence);
+                                buffer + LOC, 
+                                k - LOC, 
+                                no_new_control_sequence
+                            );
                             LOC = k;
                             goto _Lfound;
                         }
-                    } else /*355:*/
-                    {      /*:355*/
-                        if (buffer[k] == cur_chr) {
-                            if (cat == supmark) {
-                                if (k < LIMIT) {
-                                    c = buffer[k + 1];
-                                    if (c < 128) {
-                                        d = 2;
-                                        if (ishex(c)) {
-                                            if (k + 2 <= LIMIT) {
-                                                cc = buffer[k + 2];
-                                                if (ishex(cc)) {
-                                                    d++;
-                                                }
-                                            }
-                                        }
-                                        if (d > 2) {
-                                            buffer[k - 1] = cur_chr =
-                                                hex_to_i(c, cc);
-                                        } else if (c < 64)
-                                            buffer[k - 1] = c + 64;
-                                        else
-                                            buffer[k - 1] = c - 64;
-                                        LIMIT -= d;
-                                        first -= d;
-                                        while (k <= LIMIT) {
-                                            buffer[k] = buffer[k + d];
-                                            k++;
-                                        }
-                                        goto _Lstartcs_;
-                                    }
-                                }
+                    } else {
+                        // [#355] If an expanded code is present,
+                        // reduce it and goto start cs
+                        c = buffer[k + 1];
+                        if (    buffer[k] == cur_chr 
+                            &&  cat == supmark 
+                            &&  k < LIMIT 
+                            &&  c < 128) { // yes, one is indeed present
+                            d = 2;
+
+                            cc = buffer[k + 2];
+                            if (    ishex(c) 
+                                && (k + 2) <= LIMIT 
+                                &&  ishex(cc)) {
+                                d++;
                             }
-                        }
-                    }
-                    /*:356*/
+                            if (d > 2) {
+                                buffer[k - 1] = cur_chr = hex_to_i(c, cc);
+                            } else if (c < 64) {
+                                buffer[k - 1] = c + 64;
+                            } else {
+                                buffer[k - 1] = c - 64;
+                            }
+                            LIMIT -= d;
+                            first -= d;
+                            while (k <= LIMIT) {
+                                buffer[k] = buffer[k + d];
+                                k++;
+                            }
+                            goto _Lstartcs_;
+                        } // #355: if-set
+                    } // if (cat == letter && k <= LIMIT)
+                    
                     cur_cs = singlebase + buffer[LOC];
                     LOC++;
-                }
-
+                } // if (LOC <> LIMIT)
 
             // go here: when a control sequence has been found
             _Lfound:
-                Process_cs
-                    /*:354*/
+                Process_cs;
+                break;
+                /*:354*/
 
-                    case midline +
-                    activechar : case skipblanks + activechar : case NEW_LINE +
-                                                                activechar
-                    : /*353:*/
-                      STATE = midline;
+            // any state plus(active_char)
+            case midline + activechar: 
+            case skipblanks + activechar: 
+            case NEW_LINE + activechar:
+                // [#353]: Process an active-character control sequence 
+                // and set state ← mid line 
+                STATE = midline;
                 cur_cs = cur_chr + activebase;
-                Process_cs
-                    /*:353*/
+                Process_cs;
+                break;
 
-                    case midline +
-                    supmark : case skipblanks + supmark : case NEW_LINE +
-                                                          supmark
-                    : /*352:*/
-                      if (cur_chr == buffer[LOC]) {
-                    if (LOC < LIMIT) {
-                        c = buffer[LOC + 1];
-                        if (c < 128) {
-                            LOC += 2;
-                            if (ishex(c)) {
-                                if (LOC <= LIMIT) {
-                                    cc = buffer[LOC];
-                                    if (ishex(cc)) {
-                                        LOC++;
-                                        cur_chr = hex_to_i(c, cc);
-                                        goto _LN_getnext_worker__reswitch;
-                                    }
-                                }
-                            }
-                            if (c < 64)
-                                cur_chr = c + 64;
-                            else
-                                cur_chr = c - 64;
-                            goto _LN_getnext_worker__reswitch;
-                        }
-                    }
-                }
+            // any state plus(supmark)
+            case midline + supmark: 
+            case skipblanks + supmark:
+            case NEW_LINE + supmark:
+                // [#352]
+                c = buffer[LOC + 1];
+                if (    cur_chr == buffer[LOC]
+                    &&  LOC < LIMIT
+                    &&  c < 128 ) {
+                    LOC += 2;
+                    cc = buffer[LOC];
+                    if (    ishex(c)
+                        &&  LOC <= LIMIT
+                        &&  ishex(cc) ) {
+                        LOC++;
+                        cur_chr = hex_to_i(c, cc);
+                        goto _LN_getnext_worker__reswitch;
+                    } // if - set
+                    if (c < 64) {
+                        cur_chr = c + 64;
+                    } else {
+                        cur_chr = c - 64;
+                    } // if (c <> 64)
+                    goto _LN_getnext_worker__reswitch;
+                } // if - set
                 STATE = midline;
                 break;
-                /*:352*/
 
+            // any state plus(invalidchar)
             case midline + invalidchar:
             case skipblanks + invalidchar:
-            case NEW_LINE + invalidchar: /*346:*/
-                printnl(S(292));
-                print(S(529));
-                help2(S(530), S(531));
+            case NEW_LINE + invalidchar:
+                // [#346] Decry the invalid character and goto restart
+                printnl(S(292)); 
+                print(S(529)); // "Text line contains an invalid character"
+                // "A funny symbol that I can´t read has just been input."
+                // "Continue, and I´ll forget that it ever happened."
+                help2(S(530), S(531)); 
                 deletions_allowed = false;
                 error();
                 deletions_allowed = true;
                 goto _Lrestart;
                 break;
-                /*:346*/
-                /*347:*/
 
-            case midline + spacer: /*349:*/
+            // [#347] Handle situations involving spaces, braces, changes of
+            // state
+            case midline + spacer:
+                // [#349] Enter skip blanks state, emit a space
                 STATE = skipblanks;
                 cur_chr = ' ';
                 break;
-                /*:349*/
 
-            case midline + carret: /*348:*/
+            case midline + carret:
+                // [#348] Finish line, emit a space
                 LOC = LIMIT + 1;
                 cur_cmd = spacer;
                 cur_chr = ' ';
                 break;
-                /*:348*/
 
+            // any state plus(comment)
             case skipblanks + carret:
             case midline + comment:
             case skipblanks + comment:
-            case NEW_LINE + comment: /*:350*/
-                /*350:*/
+            case NEW_LINE + comment:
+                // [#350] Finish line, goto switch
                 LOC = LIMIT + 1;
                 goto _Lswitch__;
                 break;
 
-            case NEW_LINE + carret: /*351:*/
+            case NEW_LINE + carret:
+                // [#351] Finish line, emit a \par
                 LOC = LIMIT + 1;
                 cur_cs = parloc;
-                Process_cs
-                    /*:351*/
+                Process_cs;
+                break;
 
-                    case midline +
-                    leftbrace : align_state++;
+            case midline + leftbrace: 
+                align_state++;
                 break;
 
             case skipblanks + leftbrace:
@@ -3686,6 +3710,8 @@ _Lrestart:
                 align_state--;
                 break;
 
+            // add_delims_to(skipblanks)
+            // add_delims_to(NEW_LINE)
             case skipblanks + mathshift:
             case skipblanks + tabmark:
             case skipblanks + macparam:
@@ -3697,27 +3723,32 @@ _Lrestart:
             case NEW_LINE + macparam:
             case NEW_LINE + submark:
             case NEW_LINE + letter:
-            case NEW_LINE + otherchar: /*:347*/
+            case NEW_LINE + otherchar:
                 STATE = midline;
                 break;
-        }
-        /*:344*/
-    } else {
+
+            default: break;
+        } // #344: switch (STATE + cur_cmd)
+    } else { // STATE == TOKEN_LIST
         // [#357] Input from token list, 
-        // goto _restart if end of list or if a parameter needs to be expanded
+        // goto _restart 
+        //  if end of list 
+        //  or if a parameter needs to be expanded
         HalfWord t;
-        if (LOC == 0) {
+        if (LOC == 0) { // we are done with this token list
             endtokenlist();
-            goto _Lrestart;
+            goto _Lrestart; // resume previous level
         }
+        // assert(LOC != 0)
         t = info(LOC);
-        LOC = link(LOC);
-        if (t >= CS_TOKEN_FLAG) {
+        LOC = link(LOC); // move to next
+        if (t >= CS_TOKEN_FLAG) { // a control sequence token
             cur_cs = t - CS_TOKEN_FLAG;
             cur_cmd = eqtype(cur_cs);
             cur_chr = equiv(cur_cs);
             if (cur_cmd >= outercall) {
-                if (cur_cmd == dontexpand) { /*358:*/
+                if (cur_cmd == dontexpand) {
+                    // [#358] Get the next token, suppressing expansion
                     cur_cs = info(LOC) - CS_TOKEN_FLAG;
                     LOC = 0;
                     cur_cmd = eqtype(cur_cs);
@@ -3728,30 +3759,21 @@ _Lrestart:
                     }
                 } else {
                     CHECK_OUTER;
-                }
-                /*:358*/
-            }
-        } else {
+                } // if (cur_cmd <> dontexpand)
+            } // if (cur_cmd >= outercall)
+        } else { // t < CS_TOKEN_FLAG
             cur_cmd = t / dwa_do_8;
-            cur_chr = t & (dwa_do_8 - 1);
+            cur_chr = t % dwa_do_8;
             switch (cur_cmd) {
-
-                case leftbrace:
-                    align_state++;
-                    break;
-
-                case rightbrace:
-                    align_state--;
-                    break;
-
-                case outparam: /*359:*/
+                case leftbrace: align_state++; break;
+                case rightbrace: align_state--; break;
+                case outparam:
                     begintokenlist(paramstack[param_start + cur_chr - 1],
                                    PARAMETER);
                     goto _Lrestart;
                     break;
-                    /*:359*/
-            }
-        }
+            } // switch (cur_cmd)
+        } // if (t <> CS_TOKEN_FLAG)
     } // #343: if (STATE <> TOKEN_LIST)
 
     // [#342] If an alignment entry has just ended, take appropriate action
@@ -3759,7 +3781,8 @@ _Lrestart:
         // [#789] Insert the <v_j> template 
         //  and goto _restart
         if (scanner_status == ALIGNING || curalign == null) {
-            fatalerror(S(509)); // "(interwoven alignment preambles are not allowed)"
+            // "(interwoven alignment preambles are not allowed)"
+            fatalerror(S(509)); 
         }
 
         cur_cmd = extrainfo(curalign);
