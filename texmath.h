@@ -1,5 +1,22 @@
 #pragma once
 #ifndef INC_TEX_MATH
+/*
+ * [ p38~41#99~109 ]: PART 7: ARITHMETIC WITH SCALED DIMENSIONS
+ *
+ * export:
+ *  + Boolean arith_error
+ *  + Scaled tex_remainder
+ *
+ *  - Integer half(Integer x)
+ *  - Scaled round_decimals(SmallNumber k, char digs[])
+ *  - Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans)
+ *  - Scaled x_over_n(Scaled x, Integer n)
+ *  - Scaled xn_over_d(Scaled x, Integer n, Integer d)
+ *  - HalfWord badness(Scaled t, Scaled s)
+ *
+ *  - void print_scaled(Scaled s);
+ *
+ */
 #define INC_TEX_MATH
 #include "tex_types.h"
 

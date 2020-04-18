@@ -1,22 +1,6 @@
-/*
- * [ p38~41#99~109 ]: PART 7: ARITHMETIC WITH SCALED DIMENSIONS
- *
- * export:
- *  + void print_scaled(Scaled s)
- *  + Scaled xn_over_d(Scaled x, long n, long d)
- *  +
- *
- * static:
- *  - Integer half(Scaled x)
- *  - Scaled round_decimals(int k, char digs[])
- *  - Scaled mult_and_add(long n, Scaled x, Scaled y, Scaled max_ans)
- *  - Scaled x_over_n(Scaled x, Scaled n)
- *  - HalfWord badness(Scaled t, Scaled s)
- * 
- */
 #include "texmath.h"
 #include "texfunc.h" // [func] print_char, print_int
-// #108: infinitely bad value
+// [#108]: infinitely bad value
 #define INF_BAD 10000
 
 // [#104] has arithmetic overflow occurred recently?
@@ -34,8 +18,8 @@ Integer half(Integer x) {
     }
 } // #100: half
 
-// #102:  create a scaled integer from a given decimal fraction
-// { dig[i], | i = k-1, 0 ≤ k ≤ 17 }
+// [#102]:  create a scaled integer from a given decimal fraction
+//  { dig[i], | i = k-1, 0 ≤ k ≤ 17 }
 Scaled round_decimals(SmallNumber k, char digs[]) {
     Integer a = 0; // the accumulator
 
@@ -46,7 +30,7 @@ Scaled round_decimals(SmallNumber k, char digs[]) {
     return (a + 1) / 2;
 } // #102: round_decimals
 
-// #103: prints scaled real, rounded to five digits
+// [#103]: prints scaled real, rounded to five digits
 void print_scaled(Scaled s) {
     Scaled delta; // amount of allowable inaccuracy
 
@@ -70,7 +54,7 @@ void print_scaled(Scaled s) {
     } while (s > delta);
 } // #103: print_scaled
 
-/// #105: return `nx + y`
+// [#105]: return `nx + y`
 Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans) {
     if (n < 0) {
         x = -x;
@@ -91,7 +75,7 @@ Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans) {
     } // if (n <> 0)
 } // #105: mult_and_add
 
-/// #106: `x / n`
+// [#106]: `x / n`
 Scaled x_over_n(Scaled x, Integer n) {
     Scaled result;
     // should remainder be negated?
@@ -123,7 +107,7 @@ Scaled x_over_n(Scaled x, Integer n) {
     return result;
 } // #106: x_over_n
 
-/// #107: `x * (n / d)`
+// [#107]: `x * (n / d)`
 Scaled xn_over_d(Scaled x, Integer n, Integer d) {
     Scaled result;
     // Note: 0100000L == 32768L == UNITY / 2
@@ -158,7 +142,7 @@ Scaled xn_over_d(Scaled x, Integer n, Integer d) {
     return result;
 } // #107: xn_over_d
 
-/// #108: compute the “badness” of glue, , given t >= 0
+// [#108]: compute the “badness” of glue, , given t >= 0
 // when a total t is supposed to be made from amounts that sum to s
 // badness = 100 * (t/s)^3
 // badness(t + 1,s) ≥ badness(t,s) ≥ badness(t,s + 1)
