@@ -1,5 +1,6 @@
 #pragma once
 #ifndef FUNCS_H
+// 一些辅助函数。
 #define FUNCS_H
 #include <stdio.h> // FILE
 

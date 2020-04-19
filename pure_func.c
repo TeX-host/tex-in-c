@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "pure_func.h"
-// 放置纯函数 / 无全局变量依赖的函数
 
 int hex_to_i(int c, int cc) {
     int res = (c <= '9') ? (c - '0') : (c - 'a' + 10);

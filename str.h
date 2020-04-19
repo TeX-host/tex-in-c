@@ -1,5 +1,6 @@
 #pragma once
 #ifndef STR_H
+// 字符串相关操作
 #define STR_H
 // Need:
 // [type] Boolean@tex.h

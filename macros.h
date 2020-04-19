@@ -1,5 +1,6 @@
 #pragma once
 #ifndef MACROS_H
+// 全局常用的宏
 #define MACROS_H
 
 // fonts, str, tex

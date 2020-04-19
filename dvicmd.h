@@ -1,5 +1,6 @@
 #pragma once
 #ifndef INC_DVI_CMD
+// 枚举 enum DVICommands 的定义
 #define INC_DVI_CMD
 
 // p215#585

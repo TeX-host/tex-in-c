@@ -1,5 +1,6 @@
 #pragma once
 #ifndef _INC_GLOBAL_CONST
+// 全局常量
 #define _INC_GLOBAL_CONST
 #include <assert.h>
 

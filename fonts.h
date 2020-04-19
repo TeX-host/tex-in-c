@@ -1,5 +1,6 @@
 #pragma once
 #ifndef FONTS_H
+// 字体相关函数
 #define FONTS_H
 #include <stdio.h> // FILE
 #include "global_const.h"

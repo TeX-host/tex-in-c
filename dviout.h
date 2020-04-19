@@ -1,5 +1,6 @@
 #pragma once
 #ifndef DIV_OUT_H
+// DVI 格式输出
 #define DIV_OUT_H
 #include "fonts.h"  // [type] InternalFontNumber
 

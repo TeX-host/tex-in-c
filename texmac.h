@@ -1,4 +1,6 @@
 #pragma once
+
+// tex.c 里使用的宏
 #undef labs
 
 /* P2C compatibility */

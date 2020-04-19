@@ -1,5 +1,6 @@
 #pragma once
 #ifndef INC_TEX_TYPES
+// tex 相关的类型
 #define INC_TEX_TYPES
 #include <stdbool.h>
 #include <stdint.h>

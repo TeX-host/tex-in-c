@@ -1,5 +1,7 @@
 #pragma once
 #ifndef INC_TEX_HEADER
+// 存放 tex.c 的头部。
+// 导入库、其他模块，声明 tex.c 的内部静态变量
 #define INC_TEX_HEADER
 
 #include <stdio.h>  // FILE

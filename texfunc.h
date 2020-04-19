@@ -1,5 +1,6 @@
 #pragma once
 #ifndef TEX_FUNC_H
+// tex.c 导出的函数
 #define TEX_FUNC_H
 #include "str.h" // StrNumber
 

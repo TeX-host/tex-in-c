@@ -1,5 +1,6 @@
 #pragma once
 #ifndef GLOBAL_H
+// 全局变量
 #define GLOBAL_H
 #include <setjmp.h> // setjmp
 #include "str.h"    // StrNumber
