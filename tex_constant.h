@@ -276,6 +276,16 @@ enum TokenType {
 };
 
 
+// [#468] command code for ...
+enum CmdCode {
+    numbercode = 0,   // \number
+    romannumeralcode, // \romannumeral
+    stringcode,       // \string
+    meaningcode,      // \meaning
+    fontnamecode,     // \fontname
+    jobnamecode = 5,  // \jobname
+}; // [#468] enum CmdCode
+
 // [ #487~510: CONDITIONAL PROCESSING ]
 
 // p181#487: Conditional processing

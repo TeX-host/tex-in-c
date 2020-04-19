@@ -448,12 +448,7 @@
 #define attachfraction  88
 #define attachsign      89
 #define defaultrule     26214
-#define numbercode      0
-#define romannumeralcode  1
-#define stringcode      2
-#define meaningcode     3
-#define fontnamecode    4
-#define jobnamecode     5
+
 #define closed          2
 #define justopen        1
 
