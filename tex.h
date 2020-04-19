@@ -8,65 +8,136 @@
 #define S(x) (x)
 #define Static static
 
-/*11:*/
+// #11: Constants in the outer block
 #define dwa_do_8  ((int)16*1024*1024)
-#define MEM_MAX          3000000
-#define MEM_MIN          0
-#define BUF_SIZE         5000
+// [30_000 => 3_000_000]
+// greatest index in TeX's internal `mem` array
+#define MEM_MAX         3000000
+// smallest index in TeX's internal `mem` array
+#define MEM_MIN         0
+// [500=>5000]
+// maximum number of characters simultaneously present in
+// current lines of open files and in 
+// control sequences between \csname and \endcsname
+#define BUF_SIZE        5000
+// width of context lines on terminal error messages
 #define ERROR_LINE      72
-#define HALF_ERROR_LINE  42
+// [30, ERROR_LINE-15=57]
+// width of first lines of contexts in terminal error messages
+#define HALF_ERROR_LINE 42
+// [60, ...]
+// width of longest text lines output; should be at least 60
 #define MAX_PRINT_LINE  79
+// maximum number of simultaneous input sources 
 #define stacksize       200
-#define MAX_IN_OPEN       6
+// maximum number of input files and
+// error insertions that can be going on simultaneously
+#define MAX_IN_OPEN     6
+// [#12] smallest internal font number
 #define FONT_BASE       0
+// maximum internal font number
 #define FONT_MAX        75
+// [20_000 => 200_000]
+// number of words of font_info for all fonts
 #define FONT_MEM_SIZE   200000
+// maximum number of simultaneous macro parameters
 #define paramsize       60
+// maximum number of semantic levels simultaneously active
 #define nestsize        40
 
+// space for saving values outside of current group
 #define SAVE_SIZE        600
+// [8_000 => 131_000]
 // space for hyphenation patterns;
 // should be larger for INITEX than it is in production versions of TeX
 #define TRIE_SIZE       131000
+// [500=>5000]
+// space for "opcodes" in the hyphenation patterns
 #define trieopsize      5000
+// [40=>240] 
+// file names shouldn’t be longer than this
 #define FILE_NAME_SIZE    240
 
 #define TEX_BANNER      "This is TeX, Version 3.14159"
+// string of length file name size; 
+// tells where the string pool appears
 #define poolname        "TeXformats:TEX.POOL                     "
 
+// [#12] smallest index in the `mem` array dumped by INITEX
+#define MEM_BOT     0
+// [#12] [30_000 => 3_000_000] 
+// largest index in the `mem` array dumped by INITEX
+#define MEM_TOP     3000000
+// [#12] [2100 => 210_000]
+// maximum number of control sequences
+#define HASH_SIZE   210000
+// [#12] [1777 => 171_553]
+// a prime number equal to about 85% of `HASH_SIZE`
+#define HASH_PRIME  171553
+// [#12] another prime; the number of \hyphenation exceptions
+#define HYPH_SIZE   307
 
-// #110: smallest allowable value in a QuarterWord
+// [#16] symbolic name for a null constant
+#define empty           0
+// [#19] ordinal number of the smallest element of text_char
+#define firsttextchar   0
+// [#19] ordinal number of the largest element of text_char
+#define lasttextchar    255
+// [#22] ASCII code that might disappear
+#define nullcode        0
+// [#22] ASCII code used at end of line
+#define carriagereturn  13
+// [#22] ASCII code that many systems prohibit in text files
+#define invalidcode     127
+
+
+// [#110]: smallest allowable value in a QuarterWord
 #define MIN_QUARTER_WORD    0
-// #110: largest allowable value in a QuarterWord
+// [#110]: largest allowable value in a QuarterWord
 // 1/4 word = (8bit)[0, 255]
 #define MAX_QUARTER_WORD    255
-// #110: smallest allowable value in a HalfWord
+// [#110]: smallest allowable value in a HalfWord
 #define MIN_HALF_WORD       0
-// #110: largest allowable value in a HalfWord
+// [#110]: largest allowable value in a HalfWord
 // 1/2 word = (16bit)[0, 65535]
 // mutst > 65535 (2^16-1)
 #define MAX_HALF_WORD       655350000L
 
+// [#124] the `link` of an empty variable-size node
 #define emptyflag       MAX_HALF_WORD
+// ??? nodesize
 
-#define MEM_TOP          3000000
+// [#162] list of insertion data for current page
 #define pageinshead     (MEM_TOP-charnodesize+1)
+// [#162] vlist of items not yet on current page
 #define contribhead     (pageinshead-charnodesize)
+// [#162] vlist for current page
 #define pagehead        (contribhead-charnodesize)
+// [#162] head of a temporary list of some kind
 #define temphead        (pagehead-charnodesize)
+// [#162] head of a temporary list of another kind
 #define holdhead        (temphead-charnodesize)
+// [#162] head of adjustment list returned by hpack
 #define adjusthead      (holdhead-charnodesize)
+// [#162] head of active list in line break, needs two words
 #define active          (adjusthead-charnodesize-charnodesize)
+// [#162]
 #define lastactive      active
+// [#162] head of preamble list for alignments
 #define alignhead       (active-charnodesize)
+// [#162] tail of spanned-width lists
 #define endspan         (alignhead-charnodesize)
+// [#162] a constant token list
 #define omittemplate    (endspan-charnodesize)
+// [#162] permanently empty list
 #define nulllist        (omittemplate-charnodesize)
+// [#162] a ligature masquerading as a `char_node`
 #define ligtrick        (nulllist-charnodesize)
+// [#162] used for scrap information
 #define garbage         (ligtrick)
-
+// [#162] head of token list built by `scan_keyword`
 #define backuphead      (ligtrick-charnodesize)
-
+// [#162] smallest statically allocated word in the one-word `mem`
 #define himemstatmin    (backuphead)
 
 
@@ -84,18 +155,6 @@
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 
-#define MEM_BOT          0
-#define HASH_SIZE        210000
-#define HASH_PRIME       171553
-// #12: another prime; the number of \hyphenation exceptions
-#define HYPH_SIZE       307
-#define empty           0
-#define firsttextchar   0
-#define lasttextchar    255
-#define nullcode        0
-#define carriagereturn  13
-#define invalidcode     127
-
 #define boxnodesize     7
 #define widthoffset     1
 #define depthoffset     2
@@ -105,8 +164,6 @@
 #define stretching      1
 #define shrinking       2
 #define glueoffset      6
-
-
 
 #define condmathglue    98
 #define muglue          99
@@ -236,7 +293,6 @@
 #define setinteraction  100
 
 #define maxcommand      100
-
 #define undefinedcs     (maxcommand + 1)
 #define expandafter     (maxcommand + 2)
 #define noexpand        (maxcommand + 3)
