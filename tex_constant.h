@@ -64,9 +64,6 @@ enum NodeType {
     UNSET_NODE,    // #159: type for an unset node
 };
 
-#define stylenode  (UNSET_NODE + 1)
-#define choicenode (UNSET_NODE + 2)
-
 // #138: number of words to allocate for a rule node
 #define rulenodesize    4
 // #138: -(2^30)  signifies a missing item
@@ -396,6 +393,22 @@ enum NoadType {
 #define fractionnoadsize    (6 * charnodesize)
 // [#687] number of mem words in an accent noad
 #define accentnoadsize      (5 * charnodesize)
+
+// [#688] type of a style node
+#define stylenode (UNSET_NODE + 1)
+// [#688] number of words in a style node
+#define stylenodesize 3
+// [#688]
+enum StyleNodeSubtype {
+    displaystyle = 0,      // subtype for \displaystyle
+    textstyle = 2,         // subtype for \textstyle
+    scriptstyle = 4,       // subtype for \scriptstyle
+    scriptscriptstyle = 6, // subtype for \scriptscriptstyle
+}; // [#688] StyleNodeSubtype
+// [#688] add this to an uncramped style if you want to cramp it
+#define cramped 1
+// [#689] type of a choice node
+#define choicenode (UNSET_NODE + 2)
 
 
 // [ #1055~1135: BUILDING BOXES AND LISTS ]

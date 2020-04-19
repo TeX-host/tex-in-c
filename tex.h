@@ -471,14 +471,6 @@
 #define mathtextchar    4
 
 
-#define stylenodesize   3
-#define displaystyle    0
-#define textstyle       2
-#define scriptstyle     4
-#define scriptscriptstyle  6
-#define cramped         1
-
-
 /// p258#699: Subroutines for math mode
 // enum FontSizeCode {};
 // size code for the largest size in a family
