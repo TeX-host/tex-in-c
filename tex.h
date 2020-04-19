@@ -375,12 +375,6 @@
 #define scaledbase      (dimenbase + dimenpars)
 #define eqtbsize        (scaledbase + 255)
 
-// #268
-// enum SaveType {};
-#define restoreoldvalue  0
-#define restorezero     1
-#define inserttoken     2
-#define levelboundary   3
 
 // #269
 // enum GroupCode {};

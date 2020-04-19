@@ -233,6 +233,13 @@ enum DimensionRegisters {
     dimenpars, // total number of dimension parameters
 }; // [p99#247] enum DimensionRegisters
 
+// [#268]
+enum SaveType {
+    restoreoldvalue, // when a value should be restored later
+    restorezero,     // when an undefined entry should be restored
+    inserttoken,     // when a token is being saved for later use
+    levelboundary,   // corresponding to beginning of group
+}; // [#268] SaveType
 
 // [ #300~320: INPUT STACKS AND STATES ]
 
