@@ -121,7 +121,7 @@ enum SkipRegisters {
     medmuskipcode,       // medium space in math formula
     thickmuskipcode,     // thick space in math formula
     gluepars             // total number of glue parameters
-};
+}; // [p83#224] enum SkipRegisters
 
 
 // [ #300~320: INPUT STACKS AND STATES ]

@@ -344,26 +344,6 @@
 #define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
 #define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)
 
-// #define lineskipcode    0
-// #define baselineskipcode  1
-// #define parskipcode     2
-// #define abovedisplayskipcode  3
-// #define belowdisplayskipcode  4
-// #define abovedisplayshortskipcode  5
-// #define belowdisplayshortskipcode  6
-// #define leftskipcode    7
-// #define rightskipcode   8
-// #define topskipcode     9
-// #define splittopskipcode  10
-// #define tabskipcode     11
-// #define spaceskipcode   12
-// #define xspaceskipcode  13
-// #define parfillskipcode  14
-// #define thinmuskipcode  15
-// #define medmuskipcode   16
-// #define thickmuskipcode  17
-// #define gluepars        18
-
 #define skipbase        (gluebase + gluepars)
 #define muskipbase      (skipbase + 256)
 #define localbase       (muskipbase + 256)
