@@ -63,6 +63,10 @@ enum NodeType {
     PENALTY_NODE,  // #157: type of a penalty node
     UNSET_NODE,    // #159: type for an unset node
 };
+
+#define stylenode  (UNSET_NODE + 1)
+#define choicenode (UNSET_NODE + 2)
+
 // #138: number of words to allocate for a rule node
 #define rulenodesize    4
 // #138: -(2^30)  signifies a missing item
@@ -344,6 +348,54 @@ enum TFMParamVal {
     QUAD_CODE,
     EXTRA_SPACE_CODE
 };
+
+
+// [ #~ : PART 34: DATA STRUCTURES FOR MATH MODE ]
+
+// [#682] type of noad classified ...
+// Each portion of a formula is classified as 
+//      Ord, Op, Bin, Rel, Ope, Clo, Pun, or Inn.
+// for purposes of spacing and line breaking
+enum NoadType {
+    // [#682] [UNSET_NODE=13 + 3 = 16]
+    // type of a noad classified Ord
+    ordnoad = (UNSET_NODE + 3),
+
+    // [#682]
+    opnoad,    // noad classified Op
+    binnoad,   // noad classified Bin
+    relnoad,   // noad classified Rel
+    opennoad,  // noad classified Ope
+    closenoad, // noad classified Clo
+    punctnoad, // noad classified Pun
+    innernoad, // noad classified Inn
+
+    // [#683]
+    radicalnoad,  // noad for square roots
+    fractionnoad, // noad for generalized fractions
+
+    // [#687]
+    undernoad,   // noad for underlining
+    overnoad,    // noad for overlining
+    accentnoad,  // noad for accented subformulas
+    vcenternoad, // noad for \vcenter
+    leftnoad,    // noad for \left
+    rightnoad,   // noad for \right
+};               // [#682] enum NoadType
+
+// [#682] `subtype` of `op_noad` whose scripts are to be above, below
+#define limits   1
+// [#682] `subtype` of `op_noad` whose scripts are to be normal
+#define nolimits 2
+
+// [#681] number of words in a normal noad
+#define noadsize            (4 * charnodesize)
+// [#683] number of mem words in a radical noad
+#define radicalnoadsize     (5 * charnodesize)
+// [#683] number of mem words in a fraction noad
+#define fractionnoadsize    (6 * charnodesize)
+// [#687] number of mem words in an accent noad
+#define accentnoadsize      (5 * charnodesize)
 
 
 // [ #1055~1135: BUILDING BOXES AND LISTS ]

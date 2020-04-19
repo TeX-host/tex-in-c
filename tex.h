@@ -470,35 +470,6 @@
 #define submlist        3
 #define mathtextchar    4
 
-// #682
-// enum NoadType {};
-#define ordnoad         (UNSET_NODE + 3)
-#define opnoad          (ordnoad + 1)
-#define binnoad         (ordnoad + 2)
-#define relnoad         (ordnoad + 3)
-#define opennoad        (ordnoad + 4)
-#define closenoad       (ordnoad + 5)
-#define punctnoad       (ordnoad + 6)
-#define innernoad       (ordnoad + 7)
-
-#define limits          1
-#define nolimits        2
-
-#define radicalnoad     (innernoad + 1)
-
-#define noadsize        (4*charnodesize)
-#define radicalnoadsize  (5*charnodesize)
-#define fractionnoadsize  (6*charnodesize)
-#define accentnoadsize  (5*charnodesize)
-
-#define fractionnoad    (radicalnoad + 1)
-#define undernoad       (fractionnoad + 1)
-#define overnoad        (undernoad + 1)
-#define accentnoad      (overnoad + 1)
-#define vcenternoad     (accentnoad + 1)
-#define leftnoad        (vcenternoad + 1)
-#define rightnoad       (leftnoad + 1)
-#define stylenode       (UNSET_NODE + 1)
 
 #define stylenodesize   3
 #define displaystyle    0
@@ -507,7 +478,6 @@
 #define scriptscriptstyle  6
 #define cramped         1
 
-#define choicenode      (UNSET_NODE + 2)
 
 /// p258#699: Subroutines for math mode
 // enum FontSizeCode {};
