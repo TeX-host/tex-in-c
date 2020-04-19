@@ -174,86 +174,105 @@
 
 #define himemstatusage  14
 
+// #207: CatCode
+enum CatCode {
+    ESCAPE,     // ['\\'] escape delimiter
+    leftbrace,  // ['{'] beginning of a group
+    rightbrace, // ['}'] ending of a group
+    mathshift,  // ['$'] mathematics shift character
+    tabmark,    // ['&' | "\span"] alignment delimiter
+
+    carret = 5, // ['\r' | "\cr" | "\crcr"] end of line
+    macparam,   // ['#'] macro parameter symbol
+    supmark,    // ['^'] superscript
+    submark,    // ['_'] subscript
+    ignore,     // ['\0' | "^^@"] characters to ignore
+
+    spacer = 10, // [' ' | '\t'] characters equivalent to blank space
+    letter,      // [A-Za-z] characters regarded as letters
+    otherchar,   // none of the special character types
+    activechar,  // ['~'] characters that invoke macros
+    comment,     // ['%'] characters that introduce comments
+
+    invalidchar = 15, // ['\127' | "^^?"] characters that shouldn't appear
+}; // #207: CatCode
+
+// [#207]
+#define relax       ESCAPE      // [" \relax"] do nothing
+#define outparam    carret      // output a macro parameter
+#define endv        ignore      // end of <v_j>  list in alignment template
+#define parend      activechar  // ["\par"] end of paragraph
+#define match       activechar  // match a macro parameter
+#define endmatch    comment     // end of parameters to macro
+#define stop        comment     // ["\end" | "\dump"] end of job
+#define delimnum    invalidchar // ["\delimiter"] specify delimiter numerically
+#define maxcharcode invalidchar // largest catcode for individual characters
+
+
 // #207
 // enum TexCommandCode {
 
 // };
-
-#define ESCAPE          0
-#define relax           0
-#define leftbrace       1
-#define rightbrace      2
-#define mathshift       3
-#define tabmark         4
-#define carret          5
-#define outparam        5
-#define macparam        6
-#define supmark         7
-#define submark         8
-#define ignore          9
-#define endv            9
-#define spacer          10
-#define letter          11
-#define otherchar       12
-#define activechar      13
-#define parend          13
-#define match           13
-#define comment         14
-#define endmatch        14
-#define stop            14
-#define invalidchar     15
-#define delimnum        15
-#define maxcharcode     15
 #define charnum         16
 #define mathcharnum     17
 #define mark_           18
 #define xray            19
 #define makebox         20
+
 #define hmove           21
 #define vmove           22
 #define unhbox          23
 #define unvbox          24
 #define removeitem      25
+
 #define hskip           26
 #define vskip           27
 #define mskip           28
 #define kern            29
 #define mkern           30
+
 #define leadership      31
 #define halign          32
 #define valign          33
 #define noalign         34
 #define vrule           35
+
 #define hrule           36
 #define insert_         37
 #define vadjust         38
 #define ignorespaces    39
 #define afterassignment  40
+
 #define aftergroup      41
 #define breakpenalty    42
 #define startpar        43
 #define italcorr        44
 #define accent          45
+
 #define mathaccent      46
 #define discretionary   47
 #define eqno            48
 #define leftright       49
 #define mathcomp        50
+
 #define limitswitch     51
 #define above           52
 #define mathstyle       53
 #define mathchoice      54
 #define nonscript       55
+
 #define vcenter         56
 #define caseshift       57
 #define message         58
 #define extension       59
 #define instream        60
+
 #define begingroup      61
 #define endgroup        62
 #define omit            63
 #define exspace         64
 #define noboundary      65
+
 #define radical         66
 #define endcsname       67
 #define mininternal     68
@@ -261,6 +280,7 @@
 #define mathgiven       69
 #define lastitem        70
 #define maxnonprefixedcommand  70
+
 #define toksregister    71
 #define assigntoks      72
 #define assignint       73

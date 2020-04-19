@@ -17451,7 +17451,7 @@ Static void initialize(void) {
             eqtb[k - activebase] = eqtb[gluebase - activebase];
         gluerefcount(zeroglue) += localbase - gluebase;
 
-        // #232
+        // [#232]
         parshapeptr = 0;
         eqtype(parshapeloc) = shaperef;
         eqlevel(parshapeloc) = levelone;
@@ -17467,11 +17467,14 @@ Static void initialize(void) {
         eqlevel(curfontloc) = levelone;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
             eqtb[k - activebase] = eqtb[curfontloc - activebase];
+        
+        // CatCode init
         equiv(catcodebase) = 0;
         eqtype(catcodebase) = data;
         eqlevel(catcodebase) = levelone;
-        for (k = catcodebase + 1; k < intbase; k++)
+        for (k = catcodebase + 1; k < intbase; k++) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
+        }
         for (k = 0; k <= 255; k++) {
             catcode(k) = otherchar;
             mathcode(k) = k;
@@ -17483,8 +17486,9 @@ Static void initialize(void) {
         catcode('%') = comment;
         catcode(invalidcode) = invalidchar;
         catcode(nullcode) = ignore;
-        for (k = '0'; k <= '9'; k++)
+        for (k = '0'; k <= '9'; k++) {
             mathcode(k) = k + varcode;
+        }
         for (k = 'A'; k <= 'Z'; k++) {
             catcode(k) = letter;
             catcode(k + 'a' - 'A') = letter;
