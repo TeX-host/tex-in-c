@@ -368,64 +368,6 @@
 #define mathcodebase    (sfcodebase + 256)
 #define intbase         (mathcodebase + 256)
 
-
-// #define pretolerancecode  0
-// #define tolerancecode   1
-// #define linepenaltycode  2
-// #define hyphenpenaltycode  3
-// #define exhyphenpenaltycode  4
-// #define clubpenaltycode  5
-// #define widowpenaltycode  6
-// #define displaywidowpenaltycode  7
-// #define brokenpenaltycode  8
-// #define binoppenaltycode  9
-// #define relpenaltycode  10
-// #define predisplaypenaltycode  11
-// #define postdisplaypenaltycode  12
-// #define interlinepenaltycode  13
-// #define doublehyphendemeritscode  14
-// #define finalhyphendemeritscode  15
-// #define adjdemeritscode  16
-// #define magcode         17
-// #define delimiterfactorcode  18
-// #define loosenesscode   19
-// #define timecode        20
-// #define daycode         21
-// #define monthcode       22
-// #define yearcode        23
-// #define showboxbreadthcode  24
-// #define showboxdepthcode  25
-// #define hbadnesscode    26
-// #define vbadnesscode    27
-// #define pausingcode     28
-// #define tracingonlinecode  29
-// #define tracingmacroscode  30
-// #define tracingstatscode  31
-// #define tracingparagraphscode  32
-// #define tracingpagescode  33
-// #define tracingoutputcode  34
-// #define tracinglostcharscode  35
-// #define tracingcommandscode  36
-// #define tracingrestorescode  37
-// #define uchyphcode      38
-// #define outputpenaltycode  39
-// #define maxdeadcyclescode  40
-// #define hangaftercode   41
-// #define floatingpenaltycode  42
-// #define globaldefscode  43
-// #define curfamcode      44
-// #define ESCAPE_CHARcode  45
-// #define defaulthyphencharcode  46
-// #define defaultskewcharcode  47
-// #define endlinecharcode  48
-// #define newlinecharcode  49
-// #define languagecode    50
-// #define lefthyphenmincode  51
-// #define righthyphenmincode  52
-// #define holdinginsertscode  53
-// #define errorcontextlinescode  54
-// #define intpars         55
-
 #define countbase       (intbase + intpars)
 #define delcodebase     (countbase + 256)
 #define dimenbase       (delcodebase + 256)
