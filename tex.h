@@ -372,29 +372,6 @@
 #define delcodebase     (countbase + 256)
 #define dimenbase       (delcodebase + 256)
 
-// #define parindentcode   0
-// #define mathsurroundcode  1
-// #define lineskiplimitcode  2
-// #define hsizecode       3
-// #define vsizecode       4
-// #define maxdepthcode    5
-// #define splitmaxdepthcode  6
-// #define boxmaxdepthcode  7
-// #define hfuzzcode       8
-// #define vfuzzcode       9
-// #define delimitershortfallcode  10
-// #define nulldelimiterspacecode  11
-// #define scriptspacecode  12
-// #define predisplaysizecode  13
-// #define displaywidthcode  14
-// #define displayindentcode  15
-// #define overfullrulecode  16
-// #define hangindentcode  17
-// #define hoffsetcode     18
-// #define voffsetcode     19
-// #define emergencystretchcode  20
-// #define dimenpars       21
-
 #define scaledbase      (dimenbase + dimenpars)
 #define eqtbsize        (scaledbase + 255)
 
