@@ -161,7 +161,7 @@ Static UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];   // previously free cells
 // previous `mem_end`, `lo_mem_max`, and `hi_mem_min`
 Static Pointer was_mem_end, was_lo_max, was_hi_min;
 Static Boolean panicking; // do we want to check memory constantly?
-#endif                    // #165: tt_DEBUG
+#endif // #165: tt_DEBUG
 
 /// [ #173~198: DISPLAYING BOXES ]
 Static Integer font_in_short_display; // an internal font number
@@ -170,7 +170,7 @@ Static Integer depth_threshold; // maximum nesting depth in box displays
 // maximum number of items shown at the same list level
 Static Integer breadth_max;
 
-/// [#213] [THE SEMANTIC NEST]
+/// [ #211~219: PART 16: THE SEMANTIC NEST ]
 Static ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
 Static UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
@@ -192,18 +192,18 @@ Static Pointer hash_used; // allocation pointer for hash
 Static Integer cs_count; // total number of known identifiers
 
 /// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
-
 /// [#271]
 Static MemoryWord savestack[SAVE_SIZE + 1];
-Static UInt16 saveptr;
-Static UInt16 maxsavestack;
-Static QuarterWord curlevel;
-Static GroupCode curgroup;
-Static UInt16 curboundary;
-/*:271*/
-/*286:*/
+Static UInt16 saveptr; // first unused entry on save stack
+Static UInt16 maxsavestack; // maximum usage of save stack
+Static QuarterWord curlevel; // current nesting level for groups
+Static GroupCode curgroup;   // current group type
+Static UInt16 curboundary;   // where the current level begins
+// [#286] if nonzero, 
+// this magnification should be used henceforth
 Static Integer magset;
-/*:286*/
+
+/// [ #29~299: PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES  ]
 
 // [#297]: current command set by `get_next`
 //  a *command code* from the long list of codes given above;
@@ -217,59 +217,73 @@ Static Pointer curcs;
 // [#297]: packed representative of `curcmd` and `curchr`
 Static HalfWord curtok;
 
-/*301:*/
+/// [ #300~320: PART 22: INPUT STACKS AND STATES ]
+// [#301]:
 Static InStateRecord inputstack[stacksize + 1];
+// [#301]: first unused location of input stack
 Static UChar inputptr;
+// [#301]: largest value of input ptr when pushing
 Static UChar maxinstack;
-/*:301*/
-/*304:*/
+// [#301]: the "top" input state, according to convention (1)
+// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
+InStateRecord cur_input;
+// [#304] the number of lines in the buffer, less one
 Static char inopen;
+// the number of open text files
 Static char openparens;
+Static Integer line; // current line number in the current source file
 Static FILE* inputfile[MAX_IN_OPEN];
-Static Integer line;
 Static Integer linestack[MAX_IN_OPEN];
-/*:304*/
-/*305:*/
+// [#305] can a subfile end now?
 Static char scanner_status;
-/*:305*/
-/*308:*/
+// identifier relevant to non-normal scanner status
+Static Pointer warning_index;
+// reference count of token list being defined
+Static Pointer defref;
+// [#308] token list pointers for parameters
 Static Pointer paramstack[paramsize + 1];
-Static /* char */ int paramptr; /* INT */
+// first unused entry in param stack
+Static int paramptr;
+// largest value of param ptr, will be ≤ param size + 9
 Static Integer maxparamstack;
-/*:308*/
-/*309:*/
+// [#309] group level with respect to current alignment
 Static Integer align_state;
-/*:309*/
-/*310:*/
+// [#310] shallowest level shown by show context
 Static UChar baseptr;
-/*:310*/
-/*333:*/
+
+/// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
+// [#333] location of ‘\par’ in eqtb
 Static Pointer parloc;
+// [#333] token representing ‘\par’
 Static HalfWord partoken;
-/*:333*/
-/*361:*/
-Static Boolean force_eof; /*:361*/
-/*382:*/
-Static Pointer curmark[splitbotmarkcode - topmarkcode + 1]; /*:382*/
-/*387:*/
+// [#361] should the next \input be aborted early?
+Static Boolean force_eof;
+
+/// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
+// [#382] token lists for marks
+Static Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+// [#387] governs the acceptance of \par
 Static char longstate;
-/*:387*/
-/*388:*/
-/*:388*/
-/*410:*/
+
+/// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
+// [#410] curval
 Static Integer curval;
+// [#410] the “level” of this value
 Static char curvallevel;
-/*:410*/
 /*438:*/
 Static SmallNumber radix;
 /*:438*/
 /*447:*/
 Static GlueOrd curorder;
 /*:447*/
+
+/// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/
 Static FILE* readfile[16];
 Static char readopen[17];
 /*:480*/
+
+
 /*489:*/
 Static Pointer condptr;
 Static char iflimit;
@@ -279,6 +293,8 @@ Static Integer ifline;
 /*493:*/
 Static Integer skipline;
 /*:493*/
+
+
 /*512:*/
 Static StrNumber curname, curarea, curext;
 /*:512*/
@@ -292,15 +308,21 @@ Static Boolean name_in_progress;
 Static StrNumber job_name;
 Static Boolean log_opened; /*:527*/
 /*532:*/
-Static StrNumber output_file_name, logname; /*:532*/
+Static StrNumber output_file_name, logname; 
+/*:532*/
+
+
 /*555:*/
 Static FourQuarters nullcharacter;
 /*:555*/
-/*592:*/
+
+
+// [#592]
+Static Scaled maxh, maxv;
 Static Integer totalpages, maxpush, deadcycles;
 Static Boolean doingleaders;
 Static Integer lq, lr;
-/*:592*/
+Static Scaled ruleht, ruledp, rulewd;
 
 // #616
 Static Scaled dvih = 0, dviv = 0, // a DVI reader program thinks we are here
@@ -317,6 +339,7 @@ Static Scaled dvih = 0, dviv = 0, // a DVI reader program thinks we are here
 Static InternalFontNumber dvif = NULL_FONT; // the current font
 Static Integer curs; // current depth of output box nesting, initially −1
 
+
 /*646:*/
 Static Scaled totalstretch[FILLL - NORMAL + 1], totalshrink[FILLL - NORMAL + 1];
 Static Integer lastbadness;
@@ -327,10 +350,14 @@ Static Pointer adjusttail;
 /*661:*/
 Static Integer packbeginline;
 /*:661*/
+
+
 /*684:*/
 Static TwoHalves emptyfield;
 Static FourQuarters nulldelimiter;
 /*:684*/
+
+
 /*719:*/
 Static Pointer curmlist;
 Static SmallNumber curstyle, cursize;
@@ -341,11 +368,14 @@ Static InternalFontNumber curf;
 Static QuarterWord curc;
 Static FourQuarters curi;
 /*:724*/
-/*764:*/
-/*:764*/
+
+
+
 /*770:*/
 Static Pointer curalign, curspan, curloop, alignptr, curhead, curtail;
 /*:770*/
+
+
 /*814:*/
 Static Pointer justbox;
 /*:814*/
@@ -378,12 +408,16 @@ Static Scaled discwidth, firstwidth, secondwidth, firstindent, secondindent;
 /*847:*/
 Static HalfWord easyline, lastspecialline;
 /*:847*/
+
+
 /*872:*/
 Static Pointer bestbet, ha, hb, initlist, curq, ligstack;
 Static Integer fewestdemerits;
 Static HalfWord bestline;
 Static Integer actuallooseness, linediff;
 /*:872*/
+
+
 /*892:*/
 Static short hc[66];
 Static /* SmallNumber */ int hn;
@@ -394,6 +428,8 @@ Static ASCIICode curlang, initcurlang;
 Static Integer lhyf, rhyf, initlhyf, initrhyf;
 Static HalfWord hyfbchar;
 /*:892*/
+
+
 /*900:*/
 Static char hyf[65];
 Static Boolean initlig, initlft;
@@ -405,6 +441,8 @@ Static SmallNumber hyphenpassed;
 Static HalfWord curl, curr;
 Static Boolean ligaturepresent, lfthit, rthit;
 /*:907*/
+
+
 /*921:*/
 Static TwoHalves trie[TRIE_SIZE + 1];
 Static SmallNumber hyfdistance[trieopsize];
@@ -418,7 +456,7 @@ Static Pointer hyphlist[HYPH_SIZE + 1];
 Static HyphPointer hyphcount;
 /*:926*/
 
-
+/// [ #942~966: PART 43: INITIALIZING THE HYPHENATION TABLES ]
 /// #943, 947, 950
 #ifdef tt_INIT
 /// #943
@@ -463,6 +501,8 @@ Static Boolean trie_not_ready;
 /*971:*/
 Static Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
 /*:971*/
+
+
 /*980:*/
 Static Pointer pagetail, bestpagebreak, lastglue, mainp;
 Static char pagecontents;
@@ -475,6 +515,8 @@ Static Integer lastpenalty, insertpenalties;
 /*989:*/
 Static Boolean outputactive;
 /*:989*/
+
+
 /*1032:*/
 Static InternalFontNumber mainf;
 Static FourQuarters maini, mainj;
@@ -483,35 +525,37 @@ Static Integer mains;
 Static HalfWord bchar, falsebchar;
 Static Boolean cancelboundary, insdisc;
 /*:1032*/
+
+
 /*1074:*/
 Static Pointer curbox;
 /*:1074*/
+
+
 /*1266:*/
 Static HalfWord aftertoken;
 /*:1266*/
 /*1281:*/
 Static Boolean longhelpseen;
 /*:1281*/
-/*1299:*/
-/*:1299*/
+// #1299: a string that is printed right after the banner
+// format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
+StrNumber format_ident;
+
 /*1305:*/
 Static FILE* fmtfile = NULL;
 /*:1305*/
+
+
 /*1342:*/
 Static FILE* write_file[16]; // [0~15]
 Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/
-Static Pointer writeloc; /*:1345*/
+Static Pointer writeloc; 
+/*:1345*/
 
-// #1299: a string that is printed right after the banner
-// format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
-StrNumber format_ident;
-// #301: the "top" input state, according to convention (1)
-// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
-InStateRecord cur_input;
+
 jmp_buf _JMP_global__final_end;
-Static Scaled maxh, maxv, ruleht, ruledp, rulewd;
-Static Pointer warning_index, defref;
 
 #endif // INC_TEX_HEADER
