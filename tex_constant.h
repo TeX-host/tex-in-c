@@ -123,6 +123,82 @@ enum SkipRegisters {
     gluepars             // total number of glue parameters
 }; // [p83#224] enum SkipRegisters
 
+// [#236] Region 5 of eqtb contains
+//  the integer parameters and registers defined here,
+//  as well as the del code table
+enum DelimiterCodesTable {
+    pretolerancecode = 0, // badness tolerance before hyphenation
+    tolerancecode,        // badness tolerance after hyphenation
+    linepenaltycode,      // added to the badness of every line
+    hyphenpenaltycode,    // penalty for break after discretionary hyphen
+    exhyphenpenaltycode,  // penalty for break after explicit hyphen
+
+    clubpenaltycode,         // penalty for creating a club line
+    widowpenaltycode,        // penalty for creating a widow line
+    displaywidowpenaltycode, // ditto, just before a display
+    brokenpenaltycode,       // penalty for breaking a page at a broken line
+    binoppenaltycode,        // penalty for breaking after a binary operation
+
+    // penalty for breaking after a relation
+    relpenaltycode = 10,
+    // penalty for breaking just before a displayed formula
+    predisplaypenaltycode,
+    // penalty for breaking just after a displayed formula
+    postdisplaypenaltycode,
+    interlinepenaltycode,     // additional penalty between lines
+    doublehyphendemeritscode, // demerits for double hyphen break
+
+    finalhyphendemeritscode, // demerits for final hyphen break
+    adjdemeritscode,         // demerits for adjacent incompatible lines
+    magcode,                 // magnification ratio
+    delimiterfactorcode,     // ratio for variable-size delimiters
+    loosenesscode,           // change in number of lines for a paragraph
+
+    timecode = 20,      // current time of day
+    daycode,            // current day of the month
+    monthcode,          // current month of the year
+    yearcode,           // current year of our Lord
+    showboxbreadthcode, // nodes per level in `show_box`
+
+    showboxdepthcode,  // maximum level in `show_box`
+    hbadnesscode,      // hboxes exceeding this badness will be shown by `hpack`
+    vbadnesscode,      // vboxes exceeding this badness will be shown by `vpack`
+    pausingcode,       // pause after each line is read from a file
+    tracingonlinecode, // show diagnostic output on terminal
+
+    tracingmacroscode = 30, // show macros as they are being expanded
+    tracingstatscode,       // show memory usage if T E X knows it
+    tracingparagraphscode,  // show line-break calculations
+    tracingpagescode,       // show page-break calculations
+    tracingoutputcode,      // show boxes when they are shipped out
+
+    tracinglostcharscode, // show characters that aren’t in the font
+    tracingcommandscode,  // show command codes at `big_switch`
+    tracingrestorescode,  // show equivalents when they are restored
+    uchyphcode,           // hyphenate words beginning with a capital letter
+    outputpenaltycode,    // penalty found at current page break
+
+    maxdeadcyclescode = 40, // bound on consecutive dead cycles of output
+    hangaftercode,          // hanging indentation changes after this many lines
+    floatingpenaltycode,    // penalty for insertions heldover after a split
+    globaldefscode,         // override \global specifications
+    curfamcode,             // current family
+
+    ESCAPE_CHARcode,       // escape character for token output
+    defaulthyphencharcode, // value of \hyphenchar when a font is loaded
+    defaultskewcharcode,   // value of \skewchar when a font is loaded
+    endlinecharcode,       // character placed at the right end of the buffer
+    newlinecharcode,       // character that prints as `println`
+
+    languagecode = 50,     // current hyphenation table
+    lefthyphenmincode,     // minimum left hyphenation fragment size
+    righthyphenmincode,    // minimum right hyphenation fragment size
+    holdinginsertscode,    // do not remove insertion nodes from \box255
+    errorcontextlinescode, // maximum intermediate line pairs shown
+
+    intpars = 55, // total number of integer parameters
+}; // [#236] enum DelimiterCodesTable
+
 
 // [ #300~320: INPUT STACKS AND STATES ]
 
