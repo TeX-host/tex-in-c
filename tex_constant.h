@@ -309,6 +309,17 @@ enum ConditionPrimitives {
     IF_CASE_CODE   // \ifcase
 };
 
+// number of words in stack entry for conditionals
+#define ifnodesize 2
+
+// [#489]
+enum IfCode {
+    ifcode = 1, // code for \if... being evaluated
+    ficode,     // code for \fi
+    elsecode,   // code for \else
+    orcode,     // code for \or
+}; // [#489] enum IfCode
+
 
 // [ #539~582: FONT METRIC DATA ]
 

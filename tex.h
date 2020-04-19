@@ -452,13 +452,6 @@
 #define closed          2
 #define justopen        1
 
-
-
-#define ifnodesize      2
-#define ifcode          1
-#define ficode          2
-#define elsecode        3
-#define orcode          4
 #define FORMAT_DEFAULT_LENGTH  20
 #define formatarealength  11
 #define formatextlength  4
