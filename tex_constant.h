@@ -199,6 +199,40 @@ enum DelimiterCodesTable {
     intpars = 55, // total number of integer parameters
 }; // [#236] enum DelimiterCodesTable
 
+// [p99#247]: final region of eqtb
+//  contains the dimension parameters defined here,
+//  and the 256 \dimen registers.
+enum DimensionRegisters {
+    parindentcode = 0, // indentation of paragraphs
+    mathsurroundcode,  // space around math in text
+    lineskiplimitcode, // threshold for line skip instead of baseline skip
+    hsizecode,         // line width in horizontal mode
+    vsizecode,         // page height in vertical mode
+
+    maxdepthcode,      // maximum depth of boxes on main pages
+    splitmaxdepthcode, // maximum depth of boxes on split pages
+    boxmaxdepthcode,   // maximum depth of explicit vboxes
+    hfuzzcode,         // tolerance for overfull hbox messages
+    vfuzzcode,         // tolerance for overfull vbox messages
+
+    // maximum amount uncovered by variable delimiters
+    delimitershortfallcode = 10,
+    nulldelimiterspacecode, // blank space in null delimiters
+    scriptspacecode,        // extra space after subscript or superscript
+    predisplaysizecode,     // length of text preceding a display
+    displaywidthcode,       // length of line for displayed equation
+
+    displayindentcode, // indentation of line for displayed equation
+    overfullrulecode,  // width of rule that identifies overfull hboxes
+    hangindentcode,    // amount of hanging indentation
+    hoffsetcode,       // amount of horizontal offset when shipping pages out
+    voffsetcode,       // amount of vertical offset when shipping pages out
+
+    // reduces badnesses on final pass of line-breaking
+    emergencystretchcode = 20,
+    dimenpars, // total number of dimension parameters
+}; // [p99#247] enum DimensionRegisters
+
 
 // [ #300~320: INPUT STACKS AND STATES ]
 
