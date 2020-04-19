@@ -95,6 +95,35 @@ enum InfinityOrder {
 #define EJECT_PENALTY   (-INF_PENALTY)
 
 
+// [p83#224] Region 3 of eqtb contains the 256 \skip registers
+enum SkipRegisters {
+    lineskipcode = 0,     // interline glue if baseline skip is infeasible
+    baselineskipcode,     // desired glue between baselines
+    parskipcode,          // extra glue just above a paragraph
+    abovedisplayskipcode, // extra glue just above displayed math
+    belowdisplayskipcode, // extra glue just below displayed math
+
+    // glue [above] displayed math following short lines
+    abovedisplayshortskipcode = 5,
+    // glue [below] displayed math following short lines
+    belowdisplayshortskipcode,
+    leftskipcode,  // glue at left of justified lines
+    rightskipcode, // glue at right of justified lines
+    topskipcode,   // glue at top of main pages
+
+    splittopskipcode = 10, // glue at top of split pages
+    tabskipcode,           // glue between aligned entries
+    spaceskipcode,         // glue between words (if not zero glue)
+    xspaceskipcode,        // glue after sentences (if not zero glue)
+    parfillskipcode,       // glue on last line of paragraph
+
+    thinmuskipcode = 15, // thin space in math formula
+    medmuskipcode,       // medium space in math formula
+    thickmuskipcode,     // thick space in math formula
+    gluepars             // total number of glue parameters
+};
+
+
 // [ #300~320: INPUT STACKS AND STATES ]
 
 // p124#305: scanner status
