@@ -174,39 +174,39 @@
 
 #define himemstatusage  14
 
-// #207: CatCode
+// #207:  
 enum CatCode {
-    ESCAPE,     // ['\\'] escape delimiter
-    leftbrace,  // ['{'] beginning of a group
-    rightbrace, // ['}'] ending of a group
-    mathshift,  // ['$'] mathematics shift character
-    tabmark,    // ['&' | "\span"] alignment delimiter
+    ESCAPE,      // ['\\'] escape delimiter
+    LEFT_BRACE,  // ['{'] beginning of a group
+    RIGHT_BRACE, // ['}'] ending of a group
+    MATH_SHIFT,  // ['$'] mathematics shift character
+    TAB_MARK,    // ['&' | "\span"] alignment delimiter
 
-    carret = 5, // ['\r' | "\cr" | "\crcr"] end of line
-    macparam,   // ['#'] macro parameter symbol
-    supmark,    // ['^'] superscript
-    submark,    // ['_'] subscript
-    ignore,     // ['\0' | "^^@"] characters to ignore
+    CAR_RET = 5, // ['\r' | "\cr" | "\crcr"] end of line
+    MAC_PARAM,   // ['#'] macro parameter symbol
+    SUP_MARK,    // ['^'] superscript
+    SUB_MARK,    // ['_'] subscript
+    IGNORE,      // ['\0' | "^^@"] characters to ignore
 
-    spacer = 10, // [' ' | '\t'] characters equivalent to blank space
-    letter,      // [A-Za-z] characters regarded as letters
-    otherchar,   // none of the special character types
-    activechar,  // ['~'] characters that invoke macros
-    comment,     // ['%'] characters that introduce comments
+    SPACER = 10, // [' ' | '\t'] characters equivalent to blank space
+    LETTER,      // [A-Za-z] characters regarded as letters
+    OTHER_CHAR,  // none of the special character types
+    ACTIVE_CHAR, // ['~'] characters that invoke macros
+    COMMENT,     // ['%'] characters that introduce comments
 
-    invalidchar = 15, // ['\127' | "^^?"] characters that shouldn't appear
+    INVALID_CHAR = 15, // ['\127' | "^^?"] characters that shouldn't appear
 }; // #207: CatCode
 
 // [#207]
-#define relax       ESCAPE      // [" \relax"] do nothing
-#define outparam    carret      // output a macro parameter
-#define endv        ignore      // end of <v_j>  list in alignment template
-#define parend      activechar  // ["\par"] end of paragraph
-#define match       activechar  // match a macro parameter
-#define endmatch    comment     // end of parameters to macro
-#define stop        comment     // ["\end" | "\dump"] end of job
-#define delimnum    invalidchar // ["\delimiter"] specify delimiter numerically
-#define maxcharcode invalidchar // largest catcode for individual characters
+#define relax       ESCAPE       // [" \relax"] do nothing
+#define outparam    CAR_RET      // output a macro parameter
+#define endv        IGNORE       // end of <v_j>  list in alignment template
+#define parend      ACTIVE_CHAR  // ["\par"] end of paragraph
+#define match       ACTIVE_CHAR  // match a macro parameter
+#define endmatch    COMMENT      // end of parameters to macro
+#define stop        COMMENT      // ["\end" | "\dump"] end of job
+#define delimnum    INVALID_CHAR // ["\delimiter"] specify delimiter numerically
+#define maxcharcode INVALID_CHAR // largest catcode for individual characters
 
 
 // #207

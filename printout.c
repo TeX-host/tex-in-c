@@ -101,16 +101,17 @@ void printparam(long n) {
 // #298
 void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
     switch (cmd) {
-        case leftbrace: chrcmd(S(1256)); break;
-        case rightbrace: chrcmd(S(1257)); break;
-        case mathshift: chrcmd(S(1258)); break;
-        case macparam: chrcmd(S(1259)); break;
-        case supmark: chrcmd(S(1260)); break;
-        case submark: chrcmd(S(1261)); break;
-        case endv: print(S(1262)); break;
-        case spacer: chrcmd(S(1263)); break;
-        case letter: chrcmd(S(1264)); break;
-        case otherchar: chrcmd(S(1265)); break;
+        case LEFT_BRACE: chrcmd(S(1256)); break;  // "begin−group character "
+        case RIGHT_BRACE: chrcmd(S(1257)); break; // "end−group character "
+        case MATH_SHIFT: chrcmd(S(1258)); break;  // "math shift character "
+        case MAC_PARAM: chrcmd(S(1259)); break;   // "macro parameter character "
+        case SUP_MARK: chrcmd(S(1260)); break;    // "superscript character "
+        case SUB_MARK: chrcmd(S(1261)); break;    // "subscript character "
+        case endv: print(S(1262)); break;        // "subscript character "
+        case SPACER: chrcmd(S(1263)); break;     // "blank space "
+        case LETTER: chrcmd(S(1264)); break;     // "the letter "
+        case OTHER_CHAR: chrcmd(S(1265)); break;  // "the character "
+    
         /*227:*/
         case assignglue:
         case assignmuglue: /*:227*/
@@ -312,14 +313,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(1170));
             break;
             /*781:*/
-        case tabmark:
+        case TAB_MARK:
             if (chrcode == spancode)
                 print_esc(S(1172));
             else {
                 chrcmd(S(1266));
             }
             break;
-        case carret: /*:781*/
+        case CAR_RET: /*:781*/
             if (chrcode == crcode)
                 print_esc(S(737));
             else

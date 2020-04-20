@@ -384,7 +384,7 @@ Static void print_cs(long p) {
                 print_char(' ');
             } else {
                 print_esc(p - singlebase);
-                if (catcode(p - singlebase) == letter) 
+                if (catcode(p - singlebase) == LETTER) 
                     print_char(' ');
             } // if (p == nullcs) - else
         } else {
@@ -787,17 +787,17 @@ Static void showtokenlist(long p, long q, long l) {
             } else {         /*294:*/
                 switch (m) { /*:294*/
 
-                    case leftbrace:
-                    case rightbrace:
-                    case mathshift:
-                    case tabmark:
-                    case supmark:
-                    case submark:
-                    case spacer:
-                    case letter:
-                    case otherchar: print(c); break;
+                    case LEFT_BRACE:
+                    case RIGHT_BRACE:
+                    case MATH_SHIFT:
+                    case TAB_MARK:
+                    case SUP_MARK:
+                    case SUB_MARK:
+                    case SPACER:
+                    case LETTER:
+                    case OTHER_CHAR: print(c); break;
 
-                    case macparam:
+                    case MAC_PARAM:
                         print(c);
                         print(c);
                         break;
@@ -3254,7 +3254,7 @@ Static int check_outer_validity(int local_curcs) {
             info(p) = CS_TOKEN_FLAG + local_curcs;
             backlist(p);
         }
-        curcmd = spacer;
+        curcmd = SPACER;
         curchr = ' ';
     }
     curcs = local_curcs;
@@ -3435,12 +3435,12 @@ _Lrestart:
         // and goto switch if the current character should be ignored,
         // or goto reswitch if the current character changes to another
         switch (STATE + cur_cmd) { 
-            // any state plus(ignore)
-            case MID_LINE + ignore:
-            case SKIP_BLANKS + ignore:
-            case NEW_LINE + ignore:
-            case SKIP_BLANKS + spacer:
-            case NEW_LINE + spacer:
+            // any state plus(IGNORE)
+            case MID_LINE + IGNORE:
+            case SKIP_BLANKS + IGNORE:
+            case NEW_LINE + IGNORE:
+            case SKIP_BLANKS + SPACER:
+            case NEW_LINE + SPACER:
                 // [#345]: Cases where character is ignored
                 goto _Lswitch__;
                 break;
@@ -3461,27 +3461,27 @@ _Lrestart:
                     cat = catcode(cur_chr);
                     k++;
                 
-                    if (cat == letter) {
+                    if (cat == LETTER) {
                         STATE = SKIP_BLANKS;
-                    } else if (cat == spacer) {
+                    } else if (cat == SPACER) {
                         STATE = SKIP_BLANKS;
                     } else {
                         STATE = MID_LINE;
                     } // if (cat == ...)
 
-                    if (cat == letter && k <= LIMIT) {
+                    if (cat == LETTER && k <= LIMIT) {
                         // [#356] 
                         do {
                             cur_chr = buffer[k];
                             cat = catcode(cur_chr);
                             k++;
-                        } while (cat == letter && k <= LIMIT);
+                        } while (cat == LETTER && k <= LIMIT);
                         
                         // [#355] If an expanded code is present,
                         // reduce it and goto start cs
                         c = buffer[k + 1];
                         if (    buffer[k] == cur_chr 
-                            &&  cat == supmark 
+                            &&  cat == SUP_MARK 
                             &&  k < LIMIT 
                             &&  c < 128) { // yes, one is indeed present
                             d = 2;
@@ -3508,7 +3508,7 @@ _Lrestart:
                             goto _Lstartcs_;
                         } // #355: if-set
 
-                        if (cat != letter) {
+                        if (cat != LETTER) {
                             k--; // now k points to first nonletter
                         }
                         if (k > LOC + 1) {
@@ -3526,7 +3526,7 @@ _Lrestart:
                         // reduce it and goto start cs
                         c = buffer[k + 1];
                         if (    buffer[k] == cur_chr 
-                            &&  cat == supmark 
+                            &&  cat == SUP_MARK 
                             &&  k < LIMIT 
                             &&  c < 128) { // yes, one is indeed present
                             d = 2;
@@ -3552,7 +3552,7 @@ _Lrestart:
                             }
                             goto _Lstartcs_;
                         } // #355: if-set
-                    } // if (cat == letter && k <= LIMIT)
+                    } // if (cat == LETTER && k <= LIMIT)
                     
                     cur_cs = singlebase + buffer[LOC];
                     LOC++;
@@ -3565,9 +3565,9 @@ _Lrestart:
                 /*:354*/
 
             // any state plus(active_char)
-            case MID_LINE + activechar: 
-            case SKIP_BLANKS + activechar: 
-            case NEW_LINE + activechar:
+            case MID_LINE + ACTIVE_CHAR: 
+            case SKIP_BLANKS + ACTIVE_CHAR: 
+            case NEW_LINE + ACTIVE_CHAR:
                 // [#353]: Process an active-character control sequence 
                 // and set state ← mid line 
                 STATE = MID_LINE;
@@ -3575,10 +3575,10 @@ _Lrestart:
                 Process_cs;
                 break;
 
-            // any state plus(supmark)
-            case MID_LINE + supmark: 
-            case SKIP_BLANKS + supmark:
-            case NEW_LINE + supmark:
+            // any state plus(SUP_MARK)
+            case MID_LINE + SUP_MARK: 
+            case SKIP_BLANKS + SUP_MARK:
+            case NEW_LINE + SUP_MARK:
                 // [#352]
                 c = buffer[LOC + 1];
                 if (    cur_chr == buffer[LOC]
@@ -3603,10 +3603,10 @@ _Lrestart:
                 STATE = MID_LINE;
                 break;
 
-            // any state plus(invalidchar)
-            case MID_LINE + invalidchar:
-            case SKIP_BLANKS + invalidchar:
-            case NEW_LINE + invalidchar:
+            // any state plus(INVALID_CHAR)
+            case MID_LINE + INVALID_CHAR:
+            case SKIP_BLANKS + INVALID_CHAR:
+            case NEW_LINE + INVALID_CHAR:
                 // [#346] Decry the invalid character and goto restart
                 printnl(S(292)); 
                 print(S(529)); // "Text line contains an invalid character"
@@ -3621,70 +3621,70 @@ _Lrestart:
 
             // [#347] Handle situations involving spaces, braces, changes of
             // state
-            case MID_LINE + spacer:
+            case MID_LINE + SPACER:
                 // [#349] Enter skip blanks state, emit a space
                 STATE = SKIP_BLANKS;
                 cur_chr = ' ';
                 break;
 
-            case MID_LINE + carret:
+            case MID_LINE + CAR_RET:
                 // [#348] Finish line, emit a space
                 LOC = LIMIT + 1;
-                cur_cmd = spacer;
+                cur_cmd = SPACER;
                 cur_chr = ' ';
                 break;
 
-            // any state plus(comment)
-            case SKIP_BLANKS + carret:
-            case MID_LINE + comment:
-            case SKIP_BLANKS + comment:
-            case NEW_LINE + comment:
+            // any state plus(COMMENT)
+            case SKIP_BLANKS + CAR_RET:
+            case MID_LINE + COMMENT:
+            case SKIP_BLANKS + COMMENT:
+            case NEW_LINE + COMMENT:
                 // [#350] Finish line, goto switch
                 LOC = LIMIT + 1;
                 goto _Lswitch__;
                 break;
 
-            case NEW_LINE + carret:
+            case NEW_LINE + CAR_RET:
                 // [#351] Finish line, emit a \par
                 LOC = LIMIT + 1;
                 cur_cs = parloc;
                 Process_cs;
                 break;
 
-            case MID_LINE + leftbrace: 
+            case MID_LINE + LEFT_BRACE: 
                 align_state++;
                 break;
 
-            case SKIP_BLANKS + leftbrace:
-            case NEW_LINE + leftbrace:
+            case SKIP_BLANKS + LEFT_BRACE:
+            case NEW_LINE + LEFT_BRACE:
                 STATE = MID_LINE;
                 align_state++;
                 break;
 
-            case MID_LINE + rightbrace:
+            case MID_LINE + RIGHT_BRACE:
                 align_state--;
                 break;
 
-            case SKIP_BLANKS + rightbrace:
-            case NEW_LINE + rightbrace:
+            case SKIP_BLANKS + RIGHT_BRACE:
+            case NEW_LINE + RIGHT_BRACE:
                 STATE = MID_LINE;
                 align_state--;
                 break;
 
             // add_delims_to(SKIP_BLANKS)
             // add_delims_to(NEW_LINE)
-            case SKIP_BLANKS + mathshift:
-            case SKIP_BLANKS + tabmark:
-            case SKIP_BLANKS + macparam:
-            case SKIP_BLANKS + submark:
-            case SKIP_BLANKS + letter:
-            case SKIP_BLANKS + otherchar:
-            case NEW_LINE + mathshift:
-            case NEW_LINE + tabmark:
-            case NEW_LINE + macparam:
-            case NEW_LINE + submark:
-            case NEW_LINE + letter:
-            case NEW_LINE + otherchar:
+            case SKIP_BLANKS + MATH_SHIFT:
+            case SKIP_BLANKS + TAB_MARK:
+            case SKIP_BLANKS + MAC_PARAM:
+            case SKIP_BLANKS + SUB_MARK:
+            case SKIP_BLANKS + LETTER:
+            case SKIP_BLANKS + OTHER_CHAR:
+            case NEW_LINE + MATH_SHIFT:
+            case NEW_LINE + TAB_MARK:
+            case NEW_LINE + MAC_PARAM:
+            case NEW_LINE + SUB_MARK:
+            case NEW_LINE + LETTER:
+            case NEW_LINE + OTHER_CHAR:
                 STATE = MID_LINE;
                 break;
 
@@ -3726,8 +3726,8 @@ _Lrestart:
             cur_cmd = t / dwa_do_8;
             cur_chr = t % dwa_do_8;
             switch (cur_cmd) {
-                case leftbrace: align_state++; break;
-                case rightbrace: align_state--; break;
+                case LEFT_BRACE: align_state++; break;
+                case RIGHT_BRACE: align_state--; break;
                 case outparam:
                     begintokenlist(paramstack[param_start + cur_chr - 1],
                                    PARAMETER);
@@ -3738,7 +3738,7 @@ _Lrestart:
     } // #343: if (STATE <> TOKEN_LIST)
 
     // [#342] If an alignment entry has just ended, take appropriate action
-    if (cur_cmd <= carret && cur_cmd >= tabmark && align_state == 0) {
+    if (cur_cmd <= CAR_RET && cur_cmd >= TAB_MARK && align_state == 0) {
         // [#789] Insert the <v_j> template 
         //  and goto _restart
         if (scanner_status == ALIGNING || curalign == null) {
@@ -3755,7 +3755,7 @@ _Lrestart:
         }
         align_state = 1000000L;
         goto _Lrestart;
-    } // #342: if (cur_cmd <= carret)
+    } // #342: if (cur_cmd <= CAR_RET)
 
 // [#341]: go here: when the next input token has been got
 _Lexit:;
@@ -4055,14 +4055,14 @@ Static void skip_spaces(void)
 {  /*406:*/
     do {
         get_x_token();
-    } while (curcmd == spacer); /*:406*/
+    } while (curcmd == SPACER); /*:406*/
 }
 
 Static void skip_spaces_or_relax(void)
 { /*404:*/
     do {
         get_x_token();
-    } while (curcmd == spacer || curcmd == relax); /*:404*/
+    } while (curcmd == SPACER || curcmd == relax); /*:404*/
 }
 
 
@@ -4288,13 +4288,13 @@ Static void xtoken(void)
 /*403:*/
 Static void scanleftbrace(void) {
     skip_spaces_or_relax();
-    if (curcmd == leftbrace) return;
+    if (curcmd == LEFT_BRACE) return;
     printnl(S(292));
     print(S(566));
     help4(S(567), S(568), S(569), S(570));
     backerror();
     curtok = leftbracetoken + '{';
-    curcmd = leftbrace;
+    curcmd = LEFT_BRACE;
     curchr = '{';
     align_state++;
 }
@@ -4344,7 +4344,7 @@ Static Boolean scankeyword(StrNumber s) {
     continue;
 }
 else {
-    if (curcmd == spacer && p == my_backup_head) continue;
+    if (curcmd == SPACER && p == my_backup_head) continue;
     backinput();
     if (p != my_backup_head) {
         backlist(link(my_backup_head));
@@ -4810,8 +4810,8 @@ Static void scanint(void) {
         gettoken();
         if (curtok < CS_TOKEN_FLAG) {
             curval = curchr;
-            if (curcmd <= rightbrace) {
-                if (curcmd == rightbrace)
+            if (curcmd <= RIGHT_BRACE) {
+                if (curcmd == RIGHT_BRACE)
                     align_state++;
                 else
                     align_state--;
@@ -4828,7 +4828,7 @@ Static void scanint(void) {
             backerror();
         } else { /*443:*/
             get_x_token();
-            if (curcmd != spacer) backinput();
+            if (curcmd != SPACER) backinput();
         }
     } /*:442*/
     else if (curcmd >= mininternal && curcmd <= maxinternal)
@@ -4881,7 +4881,7 @@ Static void scanint(void) {
             help3(S(594), S(595), S(596));
             backerror();
         } /*:446*/
-        else if (curcmd != spacer)
+        else if (curcmd != SPACER)
             backinput();
     }
     if (negative) curval = -curval;
@@ -4971,7 +4971,7 @@ _Ldone1:
 	  FREE_AVAIL(q);
 	}
 	f = round_decimals(k,digs);
-	if (curcmd != spacer)
+	if (curcmd != SPACER)
 	  backinput();
       }
       /*:452*/
@@ -5028,7 +5028,7 @@ _Ldone1:
   else
     goto _Lnotfound;
   get_x_token();
-  if (curcmd != spacer)   /*:443*/
+  if (curcmd != SPACER)   /*:443*/
     backinput();
 _Lfound:
   curval = nx_plus_y(savecurval, v, xn_over_d(v, f, 65536L));
@@ -5110,7 +5110,7 @@ _Lattachfraction_:
 _Ldone:   /*:453*/
   /*443:*/
   get_x_token();
-  if (curcmd != spacer)   /*:443*/
+  if (curcmd != SPACER)   /*:443*/
     backinput();
 _Lattachsign_:
   if (arith_error || labs(curval) >= 1073741824L) {   /*460:*/
@@ -5372,10 +5372,10 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         while (true) {
             gettoken();
             if (curtok < rightbracelimit) goto _Ldone1;
-            if (curcmd == macparam) { /*476:*/
+            if (curcmd == MAC_PARAM) { /*476:*/
                 s = matchtoken + curchr;
                 gettoken();
-                if (curcmd == leftbrace) {
+                if (curcmd == LEFT_BRACE) {
                     hashbrace = curtok;
                     STORE_NEW_TOKEN(p, curtok);
                     STORE_NEW_TOKEN(p, endmatchtoken);
@@ -5402,7 +5402,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         }
     _Ldone1:
         STORE_NEW_TOKEN(p, endmatchtoken);
-        if (curcmd == rightbrace) { /*475:*/
+        if (curcmd == RIGHT_BRACE) { /*475:*/
             printnl(S(292));
             print(S(566));
             align_state++;
@@ -5438,20 +5438,20 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
             gettoken();
         /*:478*/
         if (curtok < rightbracelimit) {
-            if (curcmd < rightbrace)
+            if (curcmd < RIGHT_BRACE)
                 unbalance++;
             else {
                 unbalance--;
                 if (unbalance == 0) goto _Lfound;
             }
-        } else if (curcmd == macparam) {
+        } else if (curcmd == MAC_PARAM) {
             if (macrodef) { /*479:*/
                 s = curtok;
                 if (xpand)
                     get_x_token();
                 else
                     gettoken();
-                if (curcmd != macparam) {
+                if (curcmd != MAC_PARAM) {
                     if (curtok <= zerotoken || curtok > t) {
                         printnl(S(292));
                         print(S(650));
@@ -5611,7 +5611,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 #define getxtokenoractivechar()                                                \
     (get_x_token(),                                                              \
      ((curcmd == relax) && (curchr == noexpandflag))                           \
-         ? (curcmd = activechar, cur_chr = curtok - CS_TOKEN_FLAG - activebase)  \
+         ? (curcmd = ACTIVE_CHAR, cur_chr = curtok - CS_TOKEN_FLAG - activebase)  \
          : (cur_chr = curchr))
 
 /*:497*/
@@ -5641,7 +5641,7 @@ Static void conditional(void) { /*495:*/
         {
             int cur_chr = curchr;
             getxtokenoractivechar();
-            if (curcmd > activechar || cur_chr > 255) {
+            if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
                 m = relax;
                 n = 256;
             } else {
@@ -5649,7 +5649,7 @@ Static void conditional(void) { /*495:*/
                 n = cur_chr;
             }
             getxtokenoractivechar();
-            if (curcmd > activechar || cur_chr > 255) {
+            if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
                 curcmd = relax;
                 cur_chr = 256;
             }
@@ -5924,7 +5924,7 @@ Static void scanfilename(void) {
     beginname();
     skip_spaces();
     while (true) {
-        if (curcmd > otherchar || curchr > 255) {
+        if (curcmd > OTHER_CHAR || curchr > 255) {
             backinput();
             break;
         }
@@ -8625,7 +8625,7 @@ Static void popalignment(void) {
 Static void getpreambletoken(void) {
 _Lrestart:
     gettoken();
-    while (curchr == spancode && curcmd == tabmark) {
+    while (curchr == spancode && curcmd == TAB_MARK) {
         gettoken();
         if (curcmd > maxcommand) {
             expand();
@@ -8676,17 +8676,17 @@ Static void initalign(void) {
     while (true) { /*778:*/
         link(curalign) = newparamglue(tabskipcode);
         curalign = link(curalign); /*:778*/
-        if (curcmd == carret) goto _Ldone;
+        if (curcmd == CAR_RET) goto _Ldone;
         /*779:*/
         /*783:*/
         p = holdhead;
         link(p) = 0;
         while (true) {
             getpreambletoken();
-            if (curcmd == macparam) goto _Ldone1;
-            if (curcmd <= carret && curcmd >= tabmark &&
+            if (curcmd == MAC_PARAM) goto _Ldone1;
+            if (curcmd <= CAR_RET && curcmd >= TAB_MARK &&
                 align_state == -1000000L) {
-                if (p == holdhead && curloop == 0 && curcmd == tabmark) {
+                if (p == holdhead && curloop == 0 && curcmd == TAB_MARK) {
                     curloop = curalign;
                     continue;
                 } else {
@@ -8697,7 +8697,7 @@ Static void initalign(void) {
                     goto _Ldone1;
                 }
             } else {
-                if (curcmd != spacer || p != holdhead) {
+                if (curcmd != SPACER || p != holdhead) {
                     link(p) = get_avail();
                     p = link(p);
                     info(p) = curtok;
@@ -8716,10 +8716,10 @@ Static void initalign(void) {
         while (true) {
         _Llabcontinue:
             getpreambletoken();
-            if (curcmd <= carret && curcmd >= tabmark &&
+            if (curcmd <= CAR_RET && curcmd >= TAB_MARK &&
                 align_state == -1000000L)
                 goto _Ldone2;
-            if (curcmd == macparam) {
+            if (curcmd == MAC_PARAM) {
                 printnl(S(292));
                 print(S(733));
                 help3(S(730), S(731), S(734));
@@ -9188,14 +9188,14 @@ Static void finalign(void) {
     popnest();
     if (mode == M_MODE) { /*1206:*/
         doassignments();
-        if (curcmd != mathshift) { /*1207:*/
+        if (curcmd != MATH_SHIFT) { /*1207:*/
             printnl(S(292));
             print(S(744));
             help2(S(726), S(727));
             backerror();
         } else { /*1197:*/
             get_x_token();
-            if (curcmd != mathshift) {
+            if (curcmd != MATH_SHIFT) {
                 printnl(S(292));
                 print(S(745));
                 help2(S(746), S(747));
@@ -9235,11 +9235,11 @@ _Lrestart:
         if (mode == -V_MODE) normalparagraph();
         return;
     }
-    if (curcmd == rightbrace) {
+    if (curcmd == RIGHT_BRACE) {
         finalign();
         return;
     }
-    if (curcmd == carret && curchr == crcrcode) goto _Lrestart;
+    if (curcmd == CAR_RET && curchr == crcrcode) goto _Lrestart;
     initrow();
     initcol();
 }
@@ -10528,8 +10528,8 @@ Static void newpatterns(void) {
         while (true) {
             get_x_token();
             switch (curcmd) {
-                case letter:
-                case otherchar: /*962:*/
+                case LETTER:
+                case OTHER_CHAR: /*962:*/
                     if (digitsensed | (curchr < '0') | (curchr > '9')) {
                         int cur_chr;
                         if (curchr == '.') {
@@ -10555,8 +10555,8 @@ Static void newpatterns(void) {
                     }
                     break;
 
-                case spacer:
-                case rightbrace:
+                case SPACER:
+                case RIGHT_BRACE:
                     if (k > 0) { /*963:*/
                         if (hc[1] == 0) hyf[0] = 0;
                         if (hc[k] == 0) hyf[k] = 0;
@@ -10607,7 +10607,7 @@ Static void newpatterns(void) {
                     }
                     /*965:*/
                     /*:963*/
-                    if (curcmd == rightbrace) goto _Ldone;
+                    if (curcmd == RIGHT_BRACE) goto _Ldone;
                     k = 0;
                     hyf[0] = 0;
                     digitsensed = false;
@@ -11238,8 +11238,8 @@ Static void newhyphexceptions(void)
 _LN_newhyphexceptions__reswitch:
     switch (curcmd) {
 
-    case letter:
-    case otherchar:
+    case LETTER:
+    case OTHER_CHAR:
     case chargiven:   /*937:*/
       if (cur_chr == '-') {   /*938:*/
 	if (n < 63) {
@@ -11270,8 +11270,8 @@ _LN_newhyphexceptions__reswitch:
       goto _LN_newhyphexceptions__reswitch;
       break;
 
-    case spacer:
-    case rightbrace:   /*936:*/
+    case SPACER:
+    case RIGHT_BRACE:   /*936:*/
       if (n > 1) {   /*939:*/
 	n++;
 	hc[n] = curlang;
@@ -11312,7 +11312,7 @@ _Lnotfound:   /*:941*/
 	hyphlist[h] = p;   /*:940*/
       }
       /*:939*/
-      if (curcmd == rightbrace)
+      if (curcmd == RIGHT_BRACE)
 	        goto _Lexit;
       n = 0;
       p = 0;
@@ -13001,7 +13001,7 @@ Static void makeaccent(void)
   doassignments();   /*1124:*/
   q = 0;
   f = curfont;
-  if (curcmd == letter || curcmd == otherchar || curcmd == chargiven)
+  if (curcmd == LETTER || curcmd == OTHER_CHAR || curcmd == chargiven)
     q = newcharacter(f, curchr);
   else if (curcmd == charnum) {
     scancharnum();
@@ -13146,7 +13146,7 @@ Static void initmath(void)
   long n;
 
   gettoken();
-  if (curcmd == mathshift && mode > 0) {   /*1145:*/
+  if (curcmd == MATH_SHIFT && mode > 0) {   /*1145:*/
     if (head == tail) {
       popnest();
       w = -maxdimen;
@@ -13289,8 +13289,8 @@ _Lrestart:
 _LN_scanmath__reswitch:
     switch (curcmd) {
 
-        case letter:
-        case otherchar:
+        case LETTER:
+        case OTHER_CHAR:
         case chargiven:
             c = mathcode(curchr);
             if (c == 32768L) { /*1152:*/
@@ -13398,8 +13398,8 @@ Static void scandelimiter(HalfWord p, Boolean r)
     skip_spaces_or_relax();
     switch (curcmd) {
 
-    case letter:
-    case otherchar:
+    case LETTER:
+    case OTHER_CHAR:
       curval = delcode(curchr);
       break;
 
@@ -13554,7 +13554,7 @@ Static void subsup(void)
   p = 0;
   if (tail != head) {
     if (scriptsallowed(tail)) {
-	if(curcmd == supmark) {
+	if(curcmd == SUP_MARK) {
 		p = supscr(tail);
 	} else {
 		p = subscr(tail);
@@ -13564,13 +13564,13 @@ Static void subsup(void)
   }
   if (p == 0 || t != empty) {   /*1177:*/
     tailappend(newnoad());
-    if(curcmd == supmark) {
+    if(curcmd == SUP_MARK) {
 	p = supscr(tail);
     } else {
 	p = subscr(tail);
     }
     if (t != empty) {
-      if (curcmd == supmark) {
+      if (curcmd == SUP_MARK) {
 	printnl(S(292));
 	print(S(917));
 	help1(S(918));
@@ -13724,7 +13724,7 @@ Static void aftermath(void)
   p = finmlist(0);
   if (mode == -m) {   /*1197:*/
     get_x_token();
-    if (curcmd != mathshift) {   /*:1197*/
+    if (curcmd != MATH_SHIFT) {   /*:1197*/
       printnl(S(292));
       print(S(745));
       help2(S(746),
@@ -13789,7 +13789,7 @@ Static void aftermath(void)
   /*:1196*/
   if (a == 0) {   /*1197:*/
     get_x_token();
-    if (curcmd != mathshift) {
+    if (curcmd != MATH_SHIFT) {
       printnl(S(292));
       print(S(745));
       help2(S(746),
@@ -13915,7 +13915,7 @@ Static void resumeafterdisplay(void)
 	     curlang;
       /*443:*/
   get_x_token();
-  if (curcmd != spacer)   /*:443*/
+  if (curcmd != SPACER)   /*:443*/
     backinput();
   if (nest_ptr == 1)
     buildpage();
@@ -14338,10 +14338,10 @@ Static void prefixedcommand(void) {
             if (n == NORMAL) {
                 do {
                     gettoken();
-                } while (curcmd == spacer);
+                } while (curcmd == SPACER);
                 if (curtok == othertoken + '=') {
                     gettoken();
-                    if (curcmd == spacer) gettoken();
+                    if (curcmd == SPACER) gettoken();
                 }
             } else {
                 gettoken();
@@ -14433,7 +14433,7 @@ Static void prefixedcommand(void) {
                 p = curchr;
             scanoptionalequals();
             skip_spaces_or_relax();
-            if (curcmd != leftbrace) { /*1227:*/
+            if (curcmd != LEFT_BRACE) { /*1227:*/
                 int cur_chr = curchr;
                 if (curcmd == toksregister) {
                     scaneightbitint();
@@ -15531,8 +15531,8 @@ _LN_main_control__reswitch:
     if (tracingcommands > 0) /*:1031*/
         showcurcmdchr();
     switch (labs(mode) + curcmd) {
-        case H_MODE + letter:
-        case H_MODE + otherchar:
+        case H_MODE + LETTER:
+        case H_MODE + OTHER_CHAR:
         case H_MODE + chargiven:
             goto _Lmainloop;
             break;
@@ -15545,13 +15545,13 @@ _LN_main_control__reswitch:
 
         case H_MODE + noboundary:
             get_x_token();
-            if (curcmd == letter || curcmd == otherchar ||
+            if (curcmd == LETTER || curcmd == OTHER_CHAR ||
                 curcmd == chargiven || curcmd == charnum)
                 cancelboundary = true;
             goto _LN_main_control__reswitch;
             break;
 
-        case H_MODE + spacer:
+        case H_MODE + SPACER:
             if (spacefactor == 1000) goto _Lappendnormalspace_;
             appspace();
             break;
@@ -15564,8 +15564,8 @@ _LN_main_control__reswitch:
         case V_MODE:
         case H_MODE:
         case M_MODE:
-        case V_MODE + spacer:
-        case M_MODE + spacer:
+        case V_MODE + SPACER:
+        case M_MODE + SPACER:
         case M_MODE + noboundary:
             /* blank case */
             break;
@@ -15591,17 +15591,17 @@ _LN_main_control__reswitch:
         case V_MODE + italcorr:
         case V_MODE + eqno:
         case H_MODE + eqno:
-        case V_MODE + macparam:
-        case H_MODE + macparam:
-        case M_MODE + macparam: /*:1048*/
+        case V_MODE + MAC_PARAM:
+        case H_MODE + MAC_PARAM:
+        case M_MODE + MAC_PARAM: /*:1048*/
             reportillegalcase();
             break;
             /*1046:*/
 
-        case V_MODE + supmark:
-        case H_MODE + supmark:
-        case V_MODE + submark:
-        case H_MODE + submark:
+        case V_MODE + SUP_MARK:
+        case H_MODE + SUP_MARK:
+        case V_MODE + SUB_MARK:
+        case H_MODE + SUB_MARK:
         case V_MODE + mathcharnum:
         case H_MODE + mathcharnum:
         case V_MODE + mathgiven:
@@ -15669,8 +15669,8 @@ _LN_main_control__reswitch:
             break;
             /*1063:*/
 
-        case V_MODE + leftbrace:
-        case H_MODE + leftbrace:
+        case V_MODE + LEFT_BRACE:
+        case H_MODE + LEFT_BRACE:
             newsavelevel(simplegroup);
             break;
 
@@ -15690,9 +15690,9 @@ _LN_main_control__reswitch:
             break;
             /*1067:*/
 
-        case V_MODE + rightbrace:
-        case H_MODE + rightbrace:
-        case M_MODE + rightbrace:
+        case V_MODE + RIGHT_BRACE:
+        case H_MODE + RIGHT_BRACE:
+        case M_MODE + RIGHT_BRACE:
             handlerightbrace();
             break;
 
@@ -15727,11 +15727,11 @@ _LN_main_control__reswitch:
             newgraf(curchr > 0);
             break;
 
-        case V_MODE + letter:
-        case V_MODE + otherchar:
+        case V_MODE + LETTER:
+        case V_MODE + OTHER_CHAR:
         case V_MODE + charnum:
         case V_MODE + chargiven:
-        case V_MODE + mathshift:
+        case V_MODE + MATH_SHIFT:
         case V_MODE + unhbox:
         case V_MODE + vrule:
         case V_MODE + accent:
@@ -15830,12 +15830,12 @@ _LN_main_control__reswitch:
 
         /*:1122*/
         /*1126:*/
-        case V_MODE + carret:
-        case H_MODE + carret:
-        case M_MODE + carret:
-        case V_MODE + tabmark:
-        case H_MODE + tabmark:
-        case M_MODE + tabmark:
+        case V_MODE + CAR_RET:
+        case H_MODE + CAR_RET:
+        case M_MODE + CAR_RET:
+        case V_MODE + TAB_MARK:
+        case H_MODE + TAB_MARK:
+        case M_MODE + TAB_MARK:
             alignerror();
             break;
 
@@ -15879,7 +15879,7 @@ _LN_main_control__reswitch:
             break;
             /*1137:*/
 
-        case H_MODE + mathshift: /*:1137*/
+        case H_MODE + MATH_SHIFT: /*:1137*/
             initmath();
             break;
             /*1140:*/
@@ -15894,15 +15894,15 @@ _LN_main_control__reswitch:
             break;
             /*1150:*/
 
-        case M_MODE + leftbrace: /*:1150*/
+        case M_MODE + LEFT_BRACE: /*:1150*/
             tailappend(newnoad());
             backinput();
             scanmath(nucleus(tail));
             break;
             /*1154:*/
 
-        case M_MODE + letter:
-        case M_MODE + otherchar:
+        case M_MODE + LETTER:
+        case M_MODE + OTHER_CHAR:
         case M_MODE + chargiven:
             setmathchar(mathcode(curchr));
             break;
@@ -15976,8 +15976,8 @@ _LN_main_control__reswitch:
 
         /*:1171*/
         /*1175:*/
-        case M_MODE + submark:
-        case M_MODE + supmark:
+        case M_MODE + SUB_MARK:
+        case M_MODE + SUP_MARK:
             subsup();
             break;
 
@@ -15994,7 +15994,7 @@ _LN_main_control__reswitch:
 
         /*:1190*/
         /*1193:*/
-        case M_MODE + mathshift:
+        case M_MODE + MATH_SHIFT:
             if (curgroup == mathshiftgroup)
                 aftermath();
             else
@@ -16208,12 +16208,12 @@ _Lmainloopmove2:
 
 _Lmainlooplookahead:      /*1038:*/
     getnext();
-    if (curcmd == letter) goto _Lmainlooplookahead1;
-    if (curcmd == otherchar) goto _Lmainlooplookahead1;
+    if (curcmd == LETTER) goto _Lmainlooplookahead1;
+    if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
     if (curcmd == chargiven) goto _Lmainlooplookahead1;
     xtoken();
-    if (curcmd == letter) goto _Lmainlooplookahead1;
-    if (curcmd == otherchar) goto _Lmainlooplookahead1;
+    if (curcmd == LETTER) goto _Lmainlooplookahead1;
+    if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
     if (curcmd == chargiven) goto _Lmainlooplookahead1;
     if (curcmd == charnum) {
         scancharnum();
@@ -17032,11 +17032,11 @@ Static void init_prim(void) {
     text(FROZEN_NULL_FONT) = S(1171);
     eqtb[FROZEN_NULL_FONT - activebase] = eqtb[curval - activebase]; /*:553*/
     /*780:*/
-    primitive(S(1172), tabmark, spancode);
-    primitive(S(737), carret, crcode);
+    primitive(S(1172), TAB_MARK, spancode);
+    primitive(S(737), CAR_RET, crcode);
     text(frozencr) = S(737);
     eqtb[frozencr - activebase] = eqtb[curval - activebase];
-    primitive(S(1173), carret, crcrcode);
+    primitive(S(1173), CAR_RET, crcrcode);
     text(frozenendtemplate) = S(1174);
     text(frozenendv) = S(1174);
     eqtype(frozenendv) = endv;
@@ -17476,22 +17476,22 @@ Static void initialize(void) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
         }
         for (k = 0; k <= 255; k++) {
-            catcode(k) = otherchar;
+            catcode(k) = OTHER_CHAR;
             mathcode(k) = k;
             sfcode(k) = 1000;
         }
-        catcode(carriagereturn) = carret;
-        catcode(' ') = spacer;
+        catcode(carriagereturn) = CAR_RET;
+        catcode(' ') = SPACER;
         catcode('\\') = ESCAPE;
-        catcode('%') = comment;
-        catcode(invalidcode) = invalidchar;
-        catcode(nullcode) = ignore;
+        catcode('%') = COMMENT;
+        catcode(invalidcode) = INVALID_CHAR;
+        catcode(nullcode) = IGNORE;
         for (k = '0'; k <= '9'; k++) {
             mathcode(k) = k + varcode;
         }
         for (k = 'A'; k <= 'Z'; k++) {
-            catcode(k) = letter;
-            catcode(k + 'a' - 'A') = letter;
+            catcode(k) = LETTER;
+            catcode(k + 'a' - 'A') = LETTER;
             mathcode(k) = k + varcode + 256;
             mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
             lccode(k) = k + 'a' - 'A';
