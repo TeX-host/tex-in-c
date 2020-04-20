@@ -17468,29 +17468,42 @@ Static void initialize(void) {
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
             eqtb[k - activebase] = eqtb[curfontloc - activebase];
         
-        // CatCode init
         equiv(catcodebase) = 0;
         eqtype(catcodebase) = data;
         eqlevel(catcodebase) = levelone;
         for (k = catcodebase + 1; k < intbase; k++) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
         }
+
+        // CatCode init
         for (k = 0; k <= 255; k++) {
-            catcode(k) = OTHER_CHAR;
+            catcode(k) = OTHER_CHAR; // 默认值 cat_12
             mathcode(k) = k;
             sfcode(k) = 1000;
         }
-        catcode(carriagereturn) = CAR_RET;
-        catcode(' ') = SPACER;
         catcode('\\') = ESCAPE;
-        catcode('%') = COMMENT;
-        catcode(invalidcode) = INVALID_CHAR;
-        catcode(nullcode) = IGNORE;
+        // TODO: 为什么忽略了一部分 catcode？
+        // ? cat_1 LEFT_BRACE
+        // ? cat_2 RIGHT_BRACE
+        // ? cat_3 MATH_SHIFT
+        // ? cat_4 TAB_MARK
+        catcode(carriagereturn) = CAR_RET; // cat_5
+        // ? cat_6 MAC_PARAM
+        // ? cat_7 SUP_MARK
+        // ? cat_8 SUB_MARK
+        catcode(nullcode) = IGNORE; // cat_9
+        catcode(' ') = SPACER; // cat_10
+        // cat_11 见下方
+        // cat_12 为默认值
+        // ? cat_13
+        catcode('%') = COMMENT; // cat_14
+        catcode(invalidcode) = INVALID_CHAR; // cat_15
+        
         for (k = '0'; k <= '9'; k++) {
             mathcode(k) = k + varcode;
         }
         for (k = 'A'; k <= 'Z'; k++) {
-            catcode(k) = LETTER;
+            catcode(k) = LETTER; // cat_11
             catcode(k + 'a' - 'A') = LETTER;
             mathcode(k) = k + varcode + 256;
             mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
@@ -17499,7 +17512,7 @@ Static void initialize(void) {
             uccode(k) = k;
             uccode(k + 'a' - 'A') = k;
             sfcode(k) = 999;
-        }
+        } // for (k = 'A'; k <= 'Z'; k++)
 
         // #240
         for (k = intbase; k < delcodebase; k++)

@@ -107,9 +107,9 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
         case MAC_PARAM: chrcmd(S(1259)); break;   // "macro parameter character "
         case SUP_MARK: chrcmd(S(1260)); break;    // "superscript character "
         case SUB_MARK: chrcmd(S(1261)); break;    // "subscript character "
-        case endv: print(S(1262)); break;        // "subscript character "
-        case SPACER: chrcmd(S(1263)); break;     // "blank space "
-        case LETTER: chrcmd(S(1264)); break;     // "the letter "
+        case endv: print(S(1262)); break;         // "subscript character "
+        case SPACER: chrcmd(S(1263)); break;      // "blank space "
+        case LETTER: chrcmd(S(1264)); break;      // "the letter "
         case OTHER_CHAR: chrcmd(S(1265)); break;  // "the character "
     
         /*227:*/
