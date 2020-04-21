@@ -3369,10 +3369,11 @@ _Lrestart:
                 line++;
                 first = START;
                 if (!force_eof) {
-                    if (inputln(curfile, true))
+                    if (inputln(curfile, true)) { // 这里读取了下一个字符
                         firm_up_the_line();
-                    else
+                    } else { 
                         force_eof = true;
+                    }
                 }
                 if (force_eof) {
                     print_char(')');
@@ -3385,8 +3386,9 @@ _Lrestart:
                 }
                 if (end_line_char_inactive) {
                     LIMIT--;
-                } else
+                } else {
                     buffer[LIMIT] = end_line_char;
+                }
                 first = LIMIT + 1;
                 LOC = START;
             } else { // NAME <= 17 
@@ -3413,12 +3415,14 @@ _Lrestart:
                     LIMIT = last;
                     if (end_line_char_inactive) {
                         LIMIT--;
-                    } else
+                    } else {
                         buffer[LIMIT] = end_line_char;
+                    }
                     first = LIMIT + 1;
                     LOC = START;
-                } else
+                } else {
                     fatalerror(S(528));
+                }
             } // if (NAME <> 17)
             checkinterrupt();
             goto _Lswitch__;
@@ -5536,8 +5540,9 @@ Static void readtoks(long n, HalfWord r) {
         LIMIT = last;
         if (end_line_char_inactive) {
             LIMIT--;
-        } else
+        } else {
             buffer[LIMIT] = end_line_char;
+        }
         first = LIMIT + 1;
         LOC = START;
         STATE = NEW_LINE;
@@ -6070,8 +6075,9 @@ Static void startinput(void) {
     firm_up_the_line();
     if (end_line_char_inactive) {
         LIMIT--;
-    } else
+    } else {
         buffer[LIMIT] = end_line_char;
+    }
     first = LIMIT + 1;
     LOC = START; /*:538*/
 }
