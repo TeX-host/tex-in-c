@@ -3365,7 +3365,9 @@ _Lrestart:
             // [#360] Move to next line of file, 
             // or goto restart if there is no next line
             //  or return if a \read line has finished
-            if (NAME > 17) { /*362:*/
+            if (NAME > 17) {
+                // #362: Read next line of file into buffer,
+                //   or goto restart if the file has ended
                 line++;
                 first = START;
                 if (!force_eof) {
@@ -3393,25 +3395,33 @@ _Lrestart:
                 LOC = START;
             } else { // NAME <= 17 
                 /*:360*/
+                // \read line has ended
                 if (!terminal_input) {
                     cur_cmd = 0;
                     cur_chr = 0;
                     goto _Lexit;
                 }
+                // text was inserted during error recovery
                 if (inputptr > 0) {
                     endfilereading();
-                    goto _Lrestart;
+                    goto _Lrestart; // resume previous level
                 }
                 if (selector < LOG_ONLY) openlogfile();
                 if (interaction > NON_STOP_MODE) {
                     if (end_line_char_inactive) {
                         LIMIT++;
                     }
-                    if (LIMIT == START) printnl(S(527));
+                    // previous line was empty
+                    if (LIMIT == START) {
+                        // "(Please type a command or say `\end´)"
+                        printnl(S(527));
+                    }
+                    // input on-line into `buffer`
                     println();
                     first = START;
                     print('*');
                     term_input();
+
                     LIMIT = last;
                     if (end_line_char_inactive) {
                         LIMIT--;
@@ -3420,9 +3430,12 @@ _Lrestart:
                     }
                     first = LIMIT + 1;
                     LOC = START;
-                } else {
+                } else { // nonstop mode
+                         // which is intended for overnight batch processing
+                         // never waits for on-line input
+                    // "*** (job aborted, no legal \end found)"
                     fatalerror(S(528));
-                }
+                } // if (interaction <> NON_STOP_MODE)
             } // if (NAME <> 17)
             checkinterrupt();
             goto _Lswitch__;
