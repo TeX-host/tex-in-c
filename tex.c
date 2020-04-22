@@ -2640,20 +2640,22 @@ Static void showactivities(void)
 }
 /*:218*/
 
-/*245:*/
+// [#245] prepare to do some tracing
 Static void begindiagnostic(void) {
     diag_oldsetting = selector;
     if (tracingonline > 0 || selector != TERM_AND_LOG) return;
+
     selector--;
     if (history == SPOTLESS) history = WARNING_ISSUED;
 }
 
+// [#245] restore proper conditions after tracing
 Static void enddiagnostic(Boolean blankline) {
-    printnl(S(385));
+    printnl(S(385)); // ""
     if (blankline) println();
     selector = diag_oldsetting;
 }
-/*:245*/
+
 
 #ifdef tt_STAT
 /// #252:
