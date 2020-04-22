@@ -266,10 +266,10 @@ void f_pool(StrNumber s) {
     fflush(stderr);
 }
 
-StrNumber idlookup_s(StrNumber s, int nonew) {
+StrNumber idlookup_s(StrNumber s, Boolean no_new_cs) {
     PoolPtr k = str_start[s];
     int l = str_length(s);
-    return idlookup_p(&POOL_ELEM(k, 0), l, nonew);
+    return idlookup_p(&POOL_ELEM(k, 0), l, no_new_cs);
 }
 
 
@@ -291,11 +291,9 @@ int str_scmp(StrNumber s, short* buffp) {
     return 0;
 }
 
-int str_bcmp(unsigned char* buffp, long l, StrNumber s) {
-    if (str_length(s) == l) {
-        if (!memcmp(&POOL_ELEM(str_start[s], 0), buffp, l)) return 1;
-    }
-    return 0;
+Boolean str_bcmp(ASCIICode buffp[], long l, StrNumber s) {
+    return str_length(s) == l 
+        && !memcmp(&POOL_ELEM(str_start[s], 0), buffp, l);
 }
 
 StrNumber str_ins(short* buffp, long l) {
@@ -307,9 +305,10 @@ StrNumber str_ins(short* buffp, long l) {
     return makestring();
 }
 
-StrNumber str_insert(unsigned char* buffp, long l) {
+StrNumber str_insert(ASCIICode buffp[], Integer l) {
     int d, k;
     StrNumber result;
+
     str_room(l);
     d = cur_length();
     while (pool_ptr > str_start[str_ptr]) {

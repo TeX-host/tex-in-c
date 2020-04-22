@@ -2822,58 +2822,67 @@ Static void showeqtb(HalfWord n) {
 #endif // #252: tt_STAT
 
 
-/*
-Static HalfWord idlookup(long j, long l)
-{
-	return idlookup_p(buffer+j,l);
-}
-*/
+// Static HalfWord idlookup(Integer j, Integer l, Boolean no_new_cs) { 
+//     return idlookup_p(buffer + j, l, no_new_cs); 
+// }
 
-/*259:*/
-HalfWord idlookup_p(unsigned char* buffp, long l, int no_new) {
-    /*261:*/
-    long h;
-    Pointer p, k;
+// [#259]  
+//  that matches a given string of length `l > 1`
+//  appearing in `buffer[j, (j + l − 1)]
+// 
+// xref[3]: 264, 356, 374
+HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs) {
+    // start index; 已经在调用时整合到 buf_ptr 和 len 中
+    Integer j = 0; 
 
-    h = buffp[0];
-    for (k = 1; k < l; k++) {
-        h += h + buffp[k];
-        while (h >= HASH_PRIME)
+    Integer h; // hash code
+    Pointer p; // index in hash array
+    Pointer k; // index in buffer array
+
+    // [#261] Compute the hash code h
+    h = buf_ptr[j];
+    for (k = j + 1; k <= j + len - 1; k++) {
+        h = h + h + buf_ptr[k];
+        while (h >= HASH_PRIME) {
             h -= HASH_PRIME;
-    }
+        }
+    } // [#261]
+
+    // we start searching here; 
+    // note that `0 ≤ h < HASH_PRIME`
     p = h + hashbase;
     while (true) {
-        if (text(p) > 0) {
-            if (str_bcmp(buffp, l, text(p))) goto _Lfound;
-        }
+        if (text(p) > 0 && str_bcmp(buf_ptr, len, text(p))) break;
         if (next(p) == 0) {
-            if (no_new) {
+            if (no_new_cs) {
                 p = UNDEFINED_CONTROL_SEQUENCE;
-            } else {   
+            } else {
+                // [#260] Insert a new control sequence after p, 
+                //  then make p point to it
                 if (text(p) > 0) {
-                    do {
+                    do { // search for an empty location in hash
                         if (hashisfull) {
-                            overflow(S(475), HASH_SIZE);
+                            overflow(S(475), HASH_SIZE); // "hash size
                         }
                         hash_used--;
                     } while (text(hash_used) != 0);
                     next(p) = hash_used;
                     p = hash_used;
-                }
-                text(p) = str_insert(buffp, l);
+                } // if (text(p) > 0)
+                text(p) = str_insert(buf_ptr, len);
 
                 #ifdef tt_STAT
                     cs_count++;
                 #endif // #260: tt_STAT
-            }
-            goto _Lfound;
-        }
+            } // if (no_new_cs <>)
+            break;
+        } // if (next(p) == 0)
+    
         p = next(p);
-    }
-_Lfound:
+    } // while (true)
+
     return p;
-}
-/*:259*/
+} // [#259] idlookup_p
 
 /// p105#264
 #ifdef tt_INIT

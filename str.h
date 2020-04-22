@@ -71,13 +71,13 @@ extern void str_cur_map(void (*f)(ASCIICode));
 extern int cur_length(void);
 extern void flush_string(void);
 extern void flush_char(void); // texmax.h
-extern StrNumber idlookup_s(StrNumber s, int nonew);
+extern StrNumber idlookup_s(StrNumber s, Boolean no_new_cs);
 extern void printcurrentstring(void);
 extern Boolean str_eq_str(StrNumber s, StrNumber t);
 extern void append_char(ASCIICode s);
 extern void str_print(StrNumber s);
 extern int str_valid(StrNumber s);
-extern int str_bcmp(unsigned char* buffp, long l, StrNumber s);
+extern Boolean str_bcmp(ASCIICode buffp[], long l, StrNumber s);
 extern int str_scmp(StrNumber s, short* buffp);
 extern StrNumber str_insert(unsigned char* buffp, long l);
 extern StrNumber str_ins(short* buffp, long l);
