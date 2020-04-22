@@ -82,7 +82,7 @@ Pointer get_lo_mem_max(void) { return lo_mem_max; }
 
 StrNumber fontidtext(InternalFontNumber x) { return text(fontidbase + x); }
 
-void set_fontidtext(InternalFontNumber x, StrNumber t) {
+static void set_fontidtext(InternalFontNumber x, StrNumber t) {
     text(fontidbase + x) = t;
 }
 
@@ -3516,18 +3516,17 @@ _getnext_worker__restart:
                         
                         // [#355] If an expanded code is present,
                         // reduce it and goto start cs
-                        c = buffer[k + 1];
+                        
                         if (    buffer[k] == cur_chr 
                             &&  cat == SUP_MARK 
-                            &&  k < LIMIT 
-                            &&  c < 128) { // yes, one is indeed present
+                            &&  k < LIMIT
+                            // yes, one is indeed present
+                            &&  (c = buffer[k + 1]) < 128) { 
                             d = 2;
 
-                            cc = buffer[k + 2];
-                            if (    ishex(c) 
-                                && (k + 2) <= LIMIT 
-                                &&  ishex(cc)) {
-                                d++;
+                            if ( ishex(c) && (k + 2) <= LIMIT ) {
+                                cc = buffer[k + 2];
+                                if (ishex(cc)) d++;
                             }
                             if (d > 2) {
                                 buffer[k - 1] = cur_chr = hex_to_i(c, cc);
