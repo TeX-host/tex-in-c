@@ -197,14 +197,30 @@
 
 // p121#302
 #define LOC     cur_input.locfield
-#define STATE   cur_input.statefield // current scanner state
+// [#302] current scanner state
+//
+// 1. `MID_LINE`    is the normal state.
+// 2. `SKIP_BLANKS` is like MID_LINE, but blanks are ignored.
+// 3. `NEW_LINE`    is the state at the beginning of a line.
+//
+// xref
+//  + 赋值[16]:
+//      323, 325, 328, 331, 343,
+//      347[3], 349, 352, 353, 354[3],
+//      483, 537,
+//  + 相等判断[8]: 
+//      == 325, 337, 390, 1335,
+//      != 311, 312[2], 330, 341, 
+//  + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
+//  
+#define STATE   cur_input.statefield 
 #define IINDEX  cur_input.indexfield // reference for buffer information
 #define START   cur_input.startfield // starting position in |buffer|
 #define LIMIT   cur_input.limitfield // end of current line in |buffer|
 #define NAME    cur_input.namefield  // name of the current file
 // #304
 #define terminal_input  (NAME==0)       // are we reading from the terminal? 
-#define curfile  (inputfile[IINDEX-1])  // the current |alphafile| variable 
+#define curfile  (inputfile[IINDEX-1])  // the current |alphafile| variable
 // p125#307
 #define token_type   IINDEX // type of current token list
 #define param_start  LIMIT  // base of macro parameters in |paramstack|
@@ -238,7 +254,8 @@
 #define vpack(x,y,z)  vpackage((x),(y),(z),maxdimen) /* special case of unconstrained depth}*/
 
 #define scriptsallowed(x)  ((type(x)>=ordnoad)&&(type(x)<leftnoad))
-// #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte) /* {beginning of lig/kern program} */
+// #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte) /* {beginning of
+// lig/kern program} */
 
 #define ligchar(x)  ((x)+1) /* {the word where the ligature is to be found} */
 /*

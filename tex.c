@@ -3352,14 +3352,14 @@ Static void getnext_worker(Boolean no_new_control_sequence) {
     int cur_cs, cur_chr, cur_cmd;
 
 // go here to: get the next input token
-_Lrestart:
+_getnext_worker__restart:
     cur_cs = 0;
     if (STATE != TOKEN_LIST) {
         // [#343] Input from external file, 
         // goto _restart if no input found
 
     // go here to: eat the next character from a file
-    _Lswitch__:
+    _getnext_worker__switch:
         if (LOC > LIMIT) {
             STATE = NEW_LINE;
             // [#360] Move to next line of file, 
@@ -3384,7 +3384,7 @@ _Lrestart:
                     force_eof = false;
                     endfilereading();
                     cur_cs = check_outer_validity(cur_cs);
-                    goto _Lrestart;
+                    goto _getnext_worker__restart;
                 }
                 if (end_line_char_inactive) {
                     LIMIT--;
@@ -3399,12 +3399,12 @@ _Lrestart:
                 if (!terminal_input) {
                     cur_cmd = 0;
                     cur_chr = 0;
-                    goto _Lexit;
+                    goto _getnext_worker__exit;
                 }
                 // text was inserted during error recovery
                 if (inputptr > 0) {
                     endfilereading();
-                    goto _Lrestart; // resume previous level
+                    goto _getnext_worker__restart; // resume previous level
                 }
                 if (selector < LOG_ONLY) openlogfile();
                 if (interaction > NON_STOP_MODE) {
@@ -3438,14 +3438,14 @@ _Lrestart:
                 } // if (interaction <> NON_STOP_MODE)
             } // if (NAME <> 17)
             checkinterrupt();
-            goto _Lswitch__;
+            goto _getnext_worker__switch;
         } // if (LOC > LIMIT)
         // else: if (LOC <= LIMIT)
         cur_chr = buffer[LOC];
         LOC++;
 
     // go here to: digest it again
-    _LN_getnext_worker__reswitch:
+    _getnext_worker__reswitch:
         cur_cmd = catcode(cur_chr);
 
         // #344 Change state if necessary, 
@@ -3459,20 +3459,20 @@ _Lrestart:
             case SKIP_BLANKS + SPACER:
             case NEW_LINE + SPACER:
                 // [#345]: Cases where character is ignored
-                goto _Lswitch__;
+                goto _getnext_worker__switch;
                 break;
 
             // any state plus(escape)
-            case MID_LINE:
-            case SKIP_BLANKS:
-            case NEW_LINE:
+            case MID_LINE + ESCAPE:
+            case SKIP_BLANKS + ESCAPE:
+            case NEW_LINE + ESCAPE:
                 // [#354] Scan a control sequence 
-                // and set state ← skip_blanks or mid line
+                //  and set state ← `SKIP_BLANKS` or `MID_LINE`
                 if (LOC > LIMIT) {
                     cur_cs = nullcs; // state is irrelevant in this case
                 } else { // LOC <= LIMIT
                 // go here to: start looking for a control sequence
-                _Lstartcs_:
+                _getnext_worker__startcs_:
                     k = LOC;
                     cur_chr = buffer[k];
                     cat = catcode(cur_chr);
@@ -3522,7 +3522,7 @@ _Lrestart:
                                 buffer[k] = buffer[k + d];
                                 k++;
                             }
-                            goto _Lstartcs_;
+                            goto _getnext_worker__startcs_;
                         } // #355: if-set
 
                         if (cat != LETTER) {
@@ -3536,7 +3536,7 @@ _Lrestart:
                                 no_new_control_sequence
                             );
                             LOC = k;
-                            goto _Lfound;
+                            goto _getnext_worker__found;
                         }
                     } else {
                         // [#355] If an expanded code is present,
@@ -3567,7 +3567,7 @@ _Lrestart:
                                 buffer[k] = buffer[k + d];
                                 k++;
                             }
-                            goto _Lstartcs_;
+                            goto _getnext_worker__startcs_;
                         } // #355: if-set
                     } // if (cat == LETTER && k <= LIMIT)
                     
@@ -3576,10 +3576,9 @@ _Lrestart:
                 } // if (LOC <> LIMIT)
 
             // go here: when a control sequence has been found
-            _Lfound:
+            _getnext_worker__found:
                 Process_cs;
-                break;
-                /*:354*/
+                break; // [#354]
 
             // any state plus(active_char)
             case MID_LINE + ACTIVE_CHAR: 
@@ -3590,7 +3589,7 @@ _Lrestart:
                 STATE = MID_LINE;
                 cur_cs = cur_chr + activebase;
                 Process_cs;
-                break;
+                break; // [#353]
 
             // any state plus(SUP_MARK)
             case MID_LINE + SUP_MARK: 
@@ -3608,17 +3607,17 @@ _Lrestart:
                         &&  ishex(cc) ) {
                         LOC++;
                         cur_chr = hex_to_i(c, cc);
-                        goto _LN_getnext_worker__reswitch;
+                        goto _getnext_worker__reswitch;
                     } // if - set
                     if (c < 64) {
                         cur_chr = c + 64;
                     } else {
                         cur_chr = c - 64;
                     } // if (c <> 64)
-                    goto _LN_getnext_worker__reswitch;
+                    goto _getnext_worker__reswitch;
                 } // if - set
                 STATE = MID_LINE;
-                break;
+                break; // [#352]
 
             // any state plus(INVALID_CHAR)
             case MID_LINE + INVALID_CHAR:
@@ -3633,8 +3632,8 @@ _Lrestart:
                 deletions_allowed = false;
                 error();
                 deletions_allowed = true;
-                goto _Lrestart;
-                break;
+                goto _getnext_worker__restart;
+                break; // [#346] 
 
             // [#347] Handle situations involving spaces, braces, changes of
             // state
@@ -3658,7 +3657,7 @@ _Lrestart:
             case NEW_LINE + COMMENT:
                 // [#350] Finish line, goto switch
                 LOC = LIMIT + 1;
-                goto _Lswitch__;
+                goto _getnext_worker__switch;
                 break;
 
             case NEW_LINE + CAR_RET:
@@ -3715,7 +3714,7 @@ _Lrestart:
         HalfWord t;
         if (LOC == 0) { // we are done with this token list
             endtokenlist();
-            goto _Lrestart; // resume previous level
+            goto _getnext_worker__restart; // resume previous level
         }
         // assert(LOC != 0)
         t = info(LOC);
@@ -3748,7 +3747,7 @@ _Lrestart:
                 case outparam:
                     begintokenlist(paramstack[param_start + cur_chr - 1],
                                    PARAMETER);
-                    goto _Lrestart;
+                    goto _getnext_worker__restart;
                     break;
             } // switch (cur_cmd)
         } // if (t <> CS_TOKEN_FLAG)
@@ -3771,11 +3770,12 @@ _Lrestart:
             begintokenlist(vpart(curalign), V_TEMPLATE);
         }
         align_state = 1000000L;
-        goto _Lrestart;
+        goto _getnext_worker__restart;
     } // #342: if (cur_cmd <= CAR_RET)
 
 // [#341]: go here: when the next input token has been got
-_Lexit:;
+// xref[1]: #360
+_getnext_worker__exit:;
     curcmd = cur_cmd;
     curchr = cur_chr;
     curcs = cur_cs;
