@@ -3092,43 +3092,52 @@ Static void preparemag(void) {
 /*:288*/
 
 
-/*323:*/
+// #323:  starts a new level of token-list input, 
+// given a token list p and its type t.
 Static void begintokenlist(HalfWord p, QuarterWord t) {
+    // [#321] push_input: enter a new input level, save the old
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
+        // "input stack size"
         if (inputptr == stacksize) overflow(S(508), stacksize);
+        // 此处已经报错跳出函数
     }
-    inputstack[inputptr] = cur_input;
+    // stack the record
+    inputstack[inputptr] = cur_input; 
     inputptr++;
+
     STATE = TOKEN_LIST;
     START = p;
     token_type = t;
+
     if (t < MACRO) {
         LOC = p;
         return;
     }
+    // @assert(t >= MACRO)
+    // the token list starts with a reference count
     addtokenref(p);
     if (t == MACRO) {
         param_start = paramptr;
         return;
     }
+    // assert(t > MACRO)
     LOC = link(p);
     if (tracingmacros <= 1) return;
-    begindiagnostic();
-    printnl(S(385));
-    switch (t) {
-        case MARK_TEXT: print_esc(S(402)); break;
-        case WRITE_TEXT: print_esc(S(379)); break;
 
+    begindiagnostic();
+    printnl(S(385)); // ""
+    switch (t) {
+        case MARK_TEXT: print_esc(S(402)); break; // "mark"
+        case WRITE_TEXT: print_esc(S(379)); break; // "write"
         default:
             printcmdchr(assigntoks, t - OUTPUT_TEXT + outputroutineloc);
             break;
     }
-    print(S(310));
+    print(S(310)); // "−>"
     tokenshow(p);
     enddiagnostic(false);
-}
-/*:323*/
+} // #323: begintokenlist
 
 /*324:*/
 Static void endtokenlist(void) {
