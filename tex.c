@@ -760,33 +760,35 @@ Static void printword(MemoryWord w) {
  */
 
 // #292
-Static void showtokenlist(long p, long q, long l) {
-    long m, c;
-    ASCIICode matchchr, n;
+Static void showtokenlist(Integer p, Integer q, Integer l) {
+    Integer m, c; // pieces of a token
+    ASCIICode matchchr; // character used in a 'match'
+    ASCIICode n;        // the highest parameter number, as an ASCII digit
 
     matchchr = '#';
     n = '0';
     tally = 0;
     while (p != 0 && tally < l) {
-        if (p == q) { /*320:*/
+        if (p == q) {
+            // #320 Do magic computation
             settrick_count();
         }
-        /*:320*/
-        /*293:*/
+
+        // [#293] Display token p, and return if there are problems
         if (p < hi_mem_min || p > mem_end) {
-            print_esc(S(308));
-            goto _Lexit;
+            print_esc(S(308)); // "CLOBBERED."
+            return;
         }
         if (info(p) >= CS_TOKEN_FLAG) {
             print_cs(info(p) - CS_TOKEN_FLAG);
-        } else { /*:293*/
+        } else { // info(p) < CS_TOKEN_FLA
             m = info(p) / dwa_do_8;
-            c = (info(p)) & (dwa_do_8 - 1);
+            c = info(p) % dwa_do_8;
             if (info(p) < 0) {
-                print_esc(S(309));
-            } else {         /*294:*/
-                switch (m) { /*:294*/
-
+                print_esc(S(309)); // "BAD."
+            } else {
+                // [#294] Display the token (m,c)
+                switch (m) {
                     case LEFT_BRACE:
                     case RIGHT_BRACE:
                     case MATH_SHIFT:
@@ -795,7 +797,9 @@ Static void showtokenlist(long p, long q, long l) {
                     case SUB_MARK:
                     case SPACER:
                     case LETTER:
-                    case OTHER_CHAR: print(c); break;
+                    case OTHER_CHAR:
+                        print(c);
+                        break;
 
                     case MAC_PARAM:
                         print(c);
@@ -806,7 +810,7 @@ Static void showtokenlist(long p, long q, long l) {
                         print(matchchr);
                         if (c > 9) {
                             print_char('!');
-                            goto _Lexit;
+                            return;
                         }
                         print_char(c + '0');
                         break;
@@ -816,21 +820,26 @@ Static void showtokenlist(long p, long q, long l) {
                         print(c);
                         n++;
                         print_char(n);
-                        if (n > '9') goto _Lexit;
+                        if (n > '9') return;
                         break;
 
-                    case endmatch: print(S(310)); break;
+                    case endmatch:
+                        print(S(310)); // "−>"
+                        break;
 
-                    default: print_esc(S(309)); break;
-                }
-            }
-        }
+                    default:
+                        print_esc(S(309)); // "BAD."
+                        break;
+                } // switch (m)
+            } // if (info(p) <> 0)
+        } // if (info(p) <> CS_TOKEN_FLAG)
+
         p = link(p);
-    }
-    if (p != 0) print_esc(S(311));
-_Lexit:;
+    } // while (p != 0 && tally < l)
+
+    if (p != 0) print_esc(S(311)); // "ETC."
 } // #292: showtokenlist
-/*:292*/
+
 
 // #295
 Static void tokenshow(HalfWord p) {
