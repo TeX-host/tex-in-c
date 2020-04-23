@@ -79,7 +79,7 @@ extern void str_print(StrNumber s);
 extern int str_valid(StrNumber s);
 extern Boolean str_bcmp(ASCIICode buffp[], long l, StrNumber s);
 extern int str_scmp(StrNumber s, short* buffp);
-extern StrNumber str_insert(unsigned char* buffp, long l);
+extern StrNumber str_insert(ASCIICode buffp[], Integer l);
 extern StrNumber str_ins(short* buffp, long l);
 
 // [inipool], str
