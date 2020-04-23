@@ -413,13 +413,13 @@ enum NoadType {
 #define nolimits 2
 
 // [#681] number of words in a normal noad
-#define noadsize            (4 * charnodesize)
+#define noadsize            (4 * CHAR_NODE_SIZE)
 // [#683] number of mem words in a radical noad
-#define radicalnoadsize     (5 * charnodesize)
+#define radicalnoadsize     (5 * CHAR_NODE_SIZE)
 // [#683] number of mem words in a fraction noad
-#define fractionnoadsize    (6 * charnodesize)
+#define fractionnoadsize    (6 * CHAR_NODE_SIZE)
 // [#687] number of mem words in an accent noad
-#define accentnoadsize      (5 * charnodesize)
+#define accentnoadsize      (5 * CHAR_NODE_SIZE)
 
 // [#688] type of a style node
 #define stylenode (UNSET_NODE + 1)

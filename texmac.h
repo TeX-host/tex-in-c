@@ -420,12 +420,12 @@
 #define extrep(x) x.b3 /* |rep| piece in a recipe}*/
 
 #if 1
-#define nucleus(x)  ((x)+charnodesize) /* the |nucleus| field of a noad}*/
-#define supscr(x)  (nucleus(x)+charnodesize) /* the |supscr| field of a noad}*/
-#define subscr(x)  (supscr(x)+charnodesize) /* the |subscr| field of a noad}*/
-#define leftdelimiter(x)  (subscr(x)+charnodesize) /* first delimiter field of a noad}*/
-#define rightdelimiter(x)  (leftdelimiter(x)+charnodesize) /* second delimiter field of a fraction noad}*/
-#define accentchr(x)  (subscr(x)+charnodesize) /* the |accentchr| field of an accent noad}*/
+#define nucleus(x)  ((x)+CHAR_NODE_SIZE) /* the |nucleus| field of a noad}*/
+#define supscr(x)  (nucleus(x)+CHAR_NODE_SIZE) /* the |supscr| field of a noad}*/
+#define subscr(x)  (supscr(x)+CHAR_NODE_SIZE) /* the |subscr| field of a noad}*/
+#define leftdelimiter(x)  (subscr(x)+CHAR_NODE_SIZE) /* first delimiter field of a noad}*/
+#define rightdelimiter(x)  (leftdelimiter(x)+CHAR_NODE_SIZE) /* second delimiter field of a fraction noad}*/
+#define accentchr(x)  (subscr(x)+CHAR_NODE_SIZE) /* the |accentchr| field of an accent noad}*/
 #else
 #define nucleus(x)  ((x)+1) /* the |nucleus| field of a noad}*/
 #define supscr(x)  ((x)+2) /* the |supscr| field of a noad}*/

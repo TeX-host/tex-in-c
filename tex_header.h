@@ -16,11 +16,11 @@
 #define BIG_NOAD
 
 #ifdef BIG_CHARNODE
-#define charnodesize 2
+#define CHAR_NODE_SIZE 2
 #define font_ligchar(x) type(ligchar(x))
 #define character_ligchar(x) subtype(ligchar(x))
 #else
-#define charnodesize 1
+#define CHAR_NODE_SIZE 1
 #define font_ligchar(x) font(ligchar(x))
 #define character_ligchar(x) character(ligchar(x))
 #endif // #ifdef BIG_CHARNODE

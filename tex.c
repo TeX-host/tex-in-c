@@ -1082,12 +1082,12 @@ Static Pointer get_avail(void) {
     p = avail;
     if (p != 0)
         avail = link(avail);
-    else if (mem_end + charnodesize <= MEM_MAX) {
+    else if (mem_end + CHAR_NODE_SIZE <= MEM_MAX) {
         p = mem_end + 1;
-        mem_end += charnodesize;
+        mem_end += CHAR_NODE_SIZE;
     } else {
         p = hi_mem_min - 1;
-        hi_mem_min -= charnodesize;
+        hi_mem_min -= CHAR_NODE_SIZE;
         if (hi_mem_min <= lo_mem_max) {
             runaway();
             overflow(S(317), MEM_MAX - MEM_MIN + 1);
@@ -1096,7 +1096,7 @@ Static Pointer get_avail(void) {
     set_as_char_node(p);
     link(p) = 0;
     #ifdef tt_STAT
-        dyn_used += charnodesize;
+        dyn_used += CHAR_NODE_SIZE;
     #endif // #120: tt_STAT
     return p;
 } // #120: get_avail
@@ -1111,7 +1111,7 @@ Static void flushlist(HalfWord p) {
         q = r;
         r = link(r);            
         #ifdef tt_STAT
-            dyn_used -= charnodesize;
+            dyn_used -= CHAR_NODE_SIZE;
         #endif // #123: tt_STAT
     } while (r != 0);
     link(q) = avail;
@@ -2379,7 +2379,7 @@ Static HalfWord copynodelist(HalfWord p)
     if (ischarnode(p)) {
       r = get_avail();
 #ifdef BIG_CHARNODE
-	words = charnodesize;
+	words = CHAR_NODE_SIZE;
 #endif
     } else {  /*206:*/
       switch (type(p)) {   /*:206*/
@@ -7291,7 +7291,7 @@ Static HalfWord newnoad(void) {
     type(p) = ordnoad;
     subtype(p) = NORMAL;
 #ifdef BIG_CHARNODE
-    for (i = 0; i < charnodesize; i++) {
+    for (i = 0; i < CHAR_NODE_SIZE; i++) {
 #endif
         mem[nucleus(p) + i - MEM_MIN].hh = emptyfield;
         mem[subscr(p) + i - MEM_MIN].hh = emptyfield;
@@ -13487,7 +13487,7 @@ Static void mathradical(void)
   type(tail) = radicalnoad;
   subtype(tail) = NORMAL;
 #ifdef BIG_CHARNODE
-  for(i=0;i<charnodesize;i++) {
+  for(i=0;i<CHAR_NODE_SIZE;i++) {
 #endif
   mem[nucleus(tail) + i - MEM_MIN].hh = emptyfield;
   mem[subscr(tail) + i - MEM_MIN].hh = emptyfield;
@@ -14961,7 +14961,7 @@ Static void storefmtfile(void) { /*1304:*/
     x += mem_end - hi_mem_min + 1;
     p = avail;
     while (p != 0) {
-        dyn_used -= charnodesize;
+        dyn_used -= CHAR_NODE_SIZE;
         p = link(p);
     }
     pppfmtfile.int_ = var_used;

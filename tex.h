@@ -109,35 +109,35 @@
 // ??? nodesize
 
 // [#162] list of insertion data for current page
-#define pageinshead     (MEM_TOP-charnodesize+1)
+#define pageinshead     (MEM_TOP-CHAR_NODE_SIZE+1)
 // [#162] vlist of items not yet on current page
-#define contribhead     (pageinshead-charnodesize)
+#define contribhead     (pageinshead-CHAR_NODE_SIZE)
 // [#162] vlist for current page
-#define pagehead        (contribhead-charnodesize)
+#define pagehead        (contribhead-CHAR_NODE_SIZE)
 // [#162] head of a temporary list of some kind
-#define temphead        (pagehead-charnodesize)
+#define temphead        (pagehead-CHAR_NODE_SIZE)
 // [#162] head of a temporary list of another kind
-#define holdhead        (temphead-charnodesize)
+#define holdhead        (temphead-CHAR_NODE_SIZE)
 // [#162] head of adjustment list returned by hpack
-#define adjusthead      (holdhead-charnodesize)
+#define adjusthead      (holdhead-CHAR_NODE_SIZE)
 // [#162] head of active list in line break, needs two words
-#define active          (adjusthead-charnodesize-charnodesize)
+#define active          (adjusthead-CHAR_NODE_SIZE-CHAR_NODE_SIZE)
 // [#162]
 #define lastactive      active
 // [#162] head of preamble list for alignments
-#define alignhead       (active-charnodesize)
+#define alignhead       (active-CHAR_NODE_SIZE)
 // [#162] tail of spanned-width lists
-#define endspan         (alignhead-charnodesize)
+#define endspan         (alignhead-CHAR_NODE_SIZE)
 // [#162] a constant token list
-#define omittemplate    (endspan-charnodesize)
+#define omittemplate    (endspan-CHAR_NODE_SIZE)
 // [#162] permanently empty list
-#define nulllist        (omittemplate-charnodesize)
+#define nulllist        (omittemplate-CHAR_NODE_SIZE)
 // [#162] a ligature masquerading as a `char_node`
-#define ligtrick        (nulllist-charnodesize)
+#define ligtrick        (nulllist-CHAR_NODE_SIZE)
 // [#162] used for scrap information
 #define garbage         (ligtrick)
 // [#162] head of token list built by `scan_keyword`
-#define backuphead      (ligtrick-charnodesize)
+#define backuphead      (ligtrick-CHAR_NODE_SIZE)
 // [#162] smallest statically allocated word in the one-word `mem`
 #define himemstatmin    (backuphead)
 
