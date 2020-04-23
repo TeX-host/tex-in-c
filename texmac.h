@@ -496,146 +496,146 @@
 
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
-#define beginpseudoprint()                                                     \
+#define beginpseudoprint() \
     (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
 
-#define settrick_count()                                                        \
-    (first_count = tally,                                                       \
-     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE,                       \
+#define settrick_count()                                     \
+    (first_count = tally,                                    \
+     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
      ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
-#define popinput() /* leave an input level, re-enter the old */                \
+#define popinput() /* leave an input level, re-enter the old */ \
     (inputptr--, cur_input = inputstack[inputptr])
-#define backlist(x)                                                            \
+#define backlist(x) \
     begintokenlist((x), BACKED_UP) /* backs up a simple token list */
-#define inslist(x)                                                             \
+#define inslist(x) \
     begintokenlist((x), INSERTED) /* inserts a simple token list */
 
 #define null 0
 
-#define wrapup(x)                                                              \
-    if (curl < NON_CHAR) {                                                      \
-        if (character(tail) == get_hyphenchar(mainf)) {                        \
-            if (link(curq) > 0) insdisc = true;                                \
-        }                                                                      \
-        if (ligaturepresent) {                                                 \
-            packlig(x);                                                        \
-        }                                                                      \
-        if (insdisc) {                                                         \
-            insdisc = false;                                                   \
-            if (mode > 0) {                                                    \
-                tailappend(newdisc());                                         \
-            }                                                                  \
-        }                                                                      \
+#define wrapup(x)                                       \
+    if (curl < NON_CHAR) {                              \
+        if (character(tail) == get_hyphenchar(mainf)) { \
+            if (link(curq) > 0) insdisc = true;         \
+        }                                               \
+        if (ligaturepresent) {                          \
+            packlig(x);                                 \
+        }                                               \
+        if (insdisc) {                                  \
+            insdisc = false;                            \
+            if (mode > 0) {                             \
+                tailappend(newdisc());                  \
+            }                                           \
+        }                                               \
     }
 
-#define adjustspacefactor()                                                    \
-    {                                                                          \
-        mains = sfcode(curchr);                                                \
-        if (mains == 1000) {                                                   \
-            spacefactor = 1000;                                                \
-        } else if (mains < 1000) {                                             \
-            if (mains > 0) {                                                   \
-                spacefactor = mains;                                           \
-            }                                                                  \
-        } else if (spacefactor < 1000) {                                       \
-            spacefactor = 1000;                                                \
-        } else                                                                 \
-            spacefactor = mains;                                               \
+#define adjustspacefactor()              \
+    {                                    \
+        mains = sfcode(curchr);          \
+        if (mains == 1000) {             \
+            spacefactor = 1000;          \
+        } else if (mains < 1000) {       \
+            if (mains > 0) {             \
+                spacefactor = mains;     \
+            }                            \
+        } else if (spacefactor < 1000) { \
+            spacefactor = 1000;          \
+        } else                           \
+            spacefactor = mains;         \
     }
 
-#define packlig(x)                                                             \
-    { /*{the PARAMETER is either |rthit| or |false|} */                        \
-        mainp = newligature(mainf, curl, link(curq));                          \
-        if (lfthit) {                                                          \
-            subtype(mainp) = 2;                                                \
-            lfthit = false;                                                    \
-        }                                                                      \
-        if ((x) && (ligstack == null)) {                                       \
-            subtype(mainp)++;                                                  \
-            rthit = false;                                                     \
-        }                                                                      \
-        link(curq) = mainp;                                                    \
-        tail = mainp;                                                          \
-        ligaturepresent = false;                                               \
+#define packlig(x)                                      \
+    { /*{the PARAMETER is either |rthit| or |false|} */ \
+        mainp = newligature(mainf, curl, link(curq));   \
+        if (lfthit) {                                   \
+            subtype(mainp) = 2;                         \
+            lfthit = false;                             \
+        }                                               \
+        if ((x) && (ligstack == null)) {                \
+            subtype(mainp)++;                           \
+            rthit = false;                              \
+        }                                               \
+        link(curq) = mainp;                             \
+        tail = mainp;                                   \
+        ligaturepresent = false;                        \
     }
 
-#define kernbreak()                                                            \
-    {                                                                          \
-        if (!ischarnode(link(curp)) && (autobreaking)) {                       \
-            if (type(link(curp)) == GLUE_NODE) trybreak(0, unhyphenated);       \
-        }                                                                      \
-        actwidth += width(curp);                                               \
+#define kernbreak()                                                       \
+    {                                                                     \
+        if (!ischarnode(link(curp)) && (autobreaking)) {                  \
+            if (type(link(curp)) == GLUE_NODE) trybreak(0, unhyphenated); \
+        }                                                                 \
+        actwidth += width(curp);                                          \
     }
 
-#define appendcharnodetot(x)                                                   \
-    {                                                                          \
-        link(t) = get_avail();                                                  \
-        t = link(t);                                                           \
-        font(t) = hf;                                                          \
-        character(t) = x;                                                      \
+#define appendcharnodetot(x)   \
+    {                          \
+        link(t) = get_avail(); \
+        t = link(t);           \
+        font(t) = hf;          \
+        character(t) = x;      \
     }
 
-#define setcurr()                                                              \
-    {                                                                          \
-        if (j < n) {                                                           \
-            curr = qi(hu[j + 1]);                                              \
-        } else {                                                               \
-            curr = bchar;                                                      \
-        }                                                                      \
-        if (hyf[j] & 1) {                                                      \
-            currh = hchar;                                                     \
-        } else {                                                               \
-            currh = NON_CHAR;                                                   \
-        }                                                                      \
+#define setcurr()                 \
+    {                             \
+        if (j < n) {              \
+            curr = qi(hu[j + 1]); \
+        } else {                  \
+            curr = bchar;         \
+        }                         \
+        if (hyf[j] & 1) {         \
+            currh = hchar;        \
+        } else {                  \
+            currh = NON_CHAR;     \
+        }                         \
     }
 
-#define wraplig(x)                                                             \
-    if (ligaturepresent) {                                                     \
-        p = newligature(hf, curl, link(curq));                                 \
-        if (lfthit) {                                                          \
-            subtype(p) = 2;                                                    \
-            lfthit = false;                                                    \
-        }                                                                      \
-        if (x)                                                                 \
-            if (ligstack == 0) {                                               \
-                (subtype(p))++;                                                \
-                rthit = false;                                                 \
-            }                                                                  \
-        link(curq) = p;                                                        \
-        t = p;                                                                 \
-        ligaturepresent = false;                                               \
+#define wraplig(x)                             \
+    if (ligaturepresent) {                     \
+        p = newligature(hf, curl, link(curq)); \
+        if (lfthit) {                          \
+            subtype(p) = 2;                    \
+            lfthit = false;                    \
+        }                                      \
+        if (x)                                 \
+            if (ligstack == 0) {               \
+                (subtype(p))++;                \
+                rthit = false;                 \
+            }                                  \
+        link(curq) = p;                        \
+        t = p;                                 \
+        ligaturepresent = false;               \
     }
 
-#define popligstack()                                                          \
-    {                                                                          \
-        if (ligptr(ligstack) > null) {                                         \
-            /* this is a charnode for |hu[j+1]| */                             \
-            link(t) = ligptr(ligstack);                                        \
-            t = link(t);                                                       \
-            j++;                                                               \
-        }                                                                      \
-        p = ligstack;                                                          \
-        ligstack = link(p);                                                    \
-        freenode(p, smallnodesize);                                            \
-        if (ligstack == null) {                                                \
-            setcurr();                                                         \
-        } else {                                                               \
-            curr = character(ligstack);                                        \
-        }                                                                      \
+#define popligstack()                              \
+    {                                              \
+        if (ligptr(ligstack) > null) {             \
+            /* this is a charnode for |hu[j+1]| */ \
+            link(t) = ligptr(ligstack);            \
+            t = link(t);                           \
+            j++;                                   \
+        }                                          \
+        p = ligstack;                              \
+        ligstack = link(p);                        \
+        freenode(p, smallnodesize);                \
+        if (ligstack == null) {                    \
+            setcurr();                             \
+        } else {                                   \
+            curr = character(ligstack);            \
+        }                                          \
     } /* {if |ligstack| isn't |null| we have |currh=NON_CHAR|} */
 
-#define advancemajortail()                                                     \
-    {                                                                          \
-        majortail = link(majortail);                                           \
-        rcount++;                                                              \
+#define advancemajortail()           \
+    {                                \
+        majortail = link(majortail); \
+        rcount++;                    \
     }
 
-#define advpast(x)                                                             \
-    {                                                                          \
-        if (subtype(x) == languagenode) {                                      \
-            curlang = whatlang(x);                                             \
-            lhyf = whatlhm(x);                                                 \
-            rhyf = whatrhm(x);                                                 \
-        }                                                                      \
+#define advpast(x)                        \
+    {                                     \
+        if (subtype(x) == languagenode) { \
+            curlang = whatlang(x);        \
+            lhyf = whatlhm(x);            \
+            rhyf = whatrhm(x);            \
+        }                                 \
     }
