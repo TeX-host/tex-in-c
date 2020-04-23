@@ -2,6 +2,7 @@
 
 // tex.c 里使用的宏
 #undef labs
+#define null 0
 
 /* P2C compatibility */
 #define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
