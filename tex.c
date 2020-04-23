@@ -2238,7 +2238,7 @@ Static void delete_glue_ref(HalfWord p) {
 
 
 // [#202] erase list of nodes starting at p
-Static void flushnodelist(HalfWord p) {
+Static void flush_node_list(HalfWord p) {
     Pointer q;
 
     while (p != 0) {
@@ -2250,7 +2250,7 @@ Static void flushnodelist(HalfWord p) {
                 case HLIST_NODE:
                 case VLIST_NODE:
                 case UNSET_NODE:
-                    flushnodelist(listptr(p));
+                    flush_node_list(listptr(p));
                     freenode(p, boxnodesize);
                     goto _Ldone;
                     break;
@@ -2261,7 +2261,7 @@ Static void flushnodelist(HalfWord p) {
                     break;
 
                 case INS_NODE:
-                    flushnodelist(insptr(p));
+                    flush_node_list(insptr(p));
                     delete_glue_ref(splittopptr(p));
                     freenode(p, insnodesize);
                     goto _Ldone;
@@ -2295,7 +2295,7 @@ Static void flushnodelist(HalfWord p) {
 
                 case GLUE_NODE:
                     delete_glue_ref(glueptr(p));
-                    if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
+                    if (leaderptr(p) != 0) flush_node_list(leaderptr(p));
                     break;
 
                 case KERN_NODE:
@@ -2304,17 +2304,17 @@ Static void flushnodelist(HalfWord p) {
                     /* blank case */
                     break;
 
-                case LIGATURE_NODE: flushnodelist(ligptr(p)); break;
+                case LIGATURE_NODE: flush_node_list(ligptr(p)); break;
                 case MARK_NODE: delete_token_ref(markptr(p)); break;
 
                 case DISC_NODE:
-                    flushnodelist(prebreak(p));
-                    flushnodelist(postbreak(p));
+                    flush_node_list(prebreak(p));
+                    flush_node_list(postbreak(p));
                     break;
 
                 // #698: Cases of flush node list that arise in mlists only
                 case ADJUST_NODE:
-                    flushnodelist(adjustptr(p));
+                    flush_node_list(adjustptr(p));
                     break;
 
                 case stylenode:
@@ -2323,10 +2323,10 @@ Static void flushnodelist(HalfWord p) {
                     break;
 
                 case choicenode:
-                    flushnodelist(displaymlist(p));
-                    flushnodelist(textmlist(p));
-                    flushnodelist(scriptmlist(p));
-                    flushnodelist(scriptscriptmlist(p));
+                    flush_node_list(displaymlist(p));
+                    flush_node_list(textmlist(p));
+                    flush_node_list(scriptmlist(p));
+                    flush_node_list(scriptscriptmlist(p));
                     freenode(p, stylenodesize);
                     goto _Ldone;
                     break;
@@ -2345,11 +2345,11 @@ Static void flushnodelist(HalfWord p) {
                 case vcenternoad:
                 case accentnoad:
                     if (mathtype(nucleus(p)) >= subbox)
-                        flushnodelist(info(nucleus(p)));
+                        flush_node_list(info(nucleus(p)));
                     if (mathtype(supscr(p)) >= subbox)
-                        flushnodelist(info(supscr(p)));
+                        flush_node_list(info(supscr(p)));
                     if (mathtype(subscr(p)) >= subbox)
-                        flushnodelist(info(subscr(p)));
+                        flush_node_list(info(subscr(p)));
                     
                     if (type(p) == radicalnoad) {
                         freenode(p, radicalnoadsize);
@@ -2368,8 +2368,8 @@ Static void flushnodelist(HalfWord p) {
                     break;
 
                 case fractionnoad:
-                    flushnodelist(info(numerator(p)));
-                    flushnodelist(info(denominator(p)));
+                    flush_node_list(info(numerator(p)));
+                    flush_node_list(info(denominator(p)));
                     freenode(p, fractionnoadsize);
                     goto _Ldone;
                     break;
@@ -2383,7 +2383,7 @@ Static void flushnodelist(HalfWord p) {
         }
         p = q;
     } // while (p != 0)
-} // [#202] flushnodelist
+} // [#202] flush_node_list
 
 /*204:*/
 Static HalfWord copynodelist(HalfWord p)
@@ -2957,7 +2957,7 @@ Static void eqdestroy(MemoryWord w) {
             if (q != 0) freenode(q, info(q) + info(q) + 1);
             break;
 
-        case boxref: flushnodelist(equivfield(w)); break;
+        case boxref: flush_node_list(equivfield(w)); break;
     }
 }
 /*:275*/
@@ -6810,7 +6810,7 @@ _L_shipout_done:
         }
     #endif // #639.1: tt_STAT
 
-    flushnodelist(p);
+    flush_node_list(p);
 
     #ifdef tt_STAT
         if (tracingstats > 1) {
@@ -7619,8 +7619,8 @@ Static void mathkern(HalfWord p, long m) {
 
 /*718:*/
 Static void flushmath(void) {
-    flushnodelist(link(head));
-    flushnodelist(incompleatnoad);
+    flush_node_list(link(head));
+    flush_node_list(incompleatnoad);
     link(head) = 0;
     tail = head;
     incompleatnoad = 0;
@@ -7846,7 +7846,7 @@ _Ldone: /*:740*/
         delta = xheight(f);
     if ((mathtype(supscr(q)) != empty) | (mathtype(subscr(q)) != empty)) {
         if (mathtype(nucleus(q)) == mathchar) { /*742:*/
-            flushnodelist(x);
+            flush_node_list(x);
             x = newnoad();
             mem[nucleus(x) - MEM_MIN] = mem[nucleus(q) - MEM_MIN];
             mem[supscr(x) - MEM_MIN] = mem[supscr(q) - MEM_MIN];
@@ -8371,10 +8371,10 @@ Static void mlisttohlist(void) {
                         scriptscriptmlist(q) = 0;
                         break;
                 }
-                flushnodelist(displaymlist(q));
-                flushnodelist(textmlist(q));
-                flushnodelist(scriptmlist(q));
-                flushnodelist(scriptscriptmlist(q));
+                flush_node_list(displaymlist(q));
+                flush_node_list(textmlist(q));
+                flush_node_list(scriptmlist(q));
+                flush_node_list(scriptscriptmlist(q));
                 type(q) = stylenode;
                 subtype(q) = curstyle;
                 width(q) = 0;
@@ -8417,7 +8417,7 @@ Static void mlisttohlist(void) {
                         if ((type(p) == GLUE_NODE) | (type(p) == KERN_NODE)) {
                             link(q) = link(p);
                             link(p) = 0;
-                            flushnodelist(p);
+                            flush_node_list(p);
                         }
                     }
                 }
@@ -9246,7 +9246,7 @@ Static void finalign(void) {
         s = q;
         q = link(q);
     }
-    flushnodelist(p);
+    flush_node_list(p);
     popalignment(); /*812:*/
     auxsave = aux;
     p = link(head);
@@ -9862,7 +9862,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
                     s = link(r);
                     r = link(s);
                     link(s) = 0;
-                    flushnodelist(link(q));
+                    flush_node_list(link(q));
                     replacecount(q) = 0;
                 }
                 if (postbreak(q) != 0) { /*884:*/
@@ -9963,7 +9963,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
             _Ldone1:
                 if (r != temphead) {
                     link(r) = 0;
-                    flushnodelist(link(temphead));
+                    flush_node_list(link(temphead));
                     link(temphead) = q;
                 }
             }
@@ -10283,7 +10283,7 @@ _Lfound2:
     initlig = false;
     initlist = 0;
 _Lcommonending:
-    flushnodelist(r); /*913:*/
+    flush_node_list(r); /*913:*/
     do {
         l = j;
         j = reconstitute(j, hn, bchar, hyfchar) + 1;
@@ -10374,7 +10374,7 @@ _Lcommonending:
                 if (rcount > 127) {
                     link(s) = link(r);
                     link(r) = 0;
-                    flushnodelist(r);
+                    flush_node_list(r);
                 } else {
                     link(s) = r;
                     replacecount(r) = rcount;
@@ -10788,7 +10788,7 @@ Static void linebreak(long finalwidowpenalty) {
     } else {
         type(tail) = PENALTY_NODE;
         delete_glue_ref(glueptr(tail));
-        flushnodelist(leaderptr(tail));
+        flush_node_list(leaderptr(tail));
         penalty(tail) = INF_PENALTY;
     }
     link(tail) = newparamglue(parfillskipcode);
@@ -11437,7 +11437,7 @@ Static HalfWord prunepagetop(HalfWord p)
       p = link(q);
       link(q) = 0;
       link(prevp) = p;
-      flushnodelist(q);
+      flush_node_list(q);
       break;
 
     default:
@@ -11712,7 +11712,7 @@ Static void boxerror(EightBits n)
   printnl(S(690));
   showbox(box(n));
   enddiagnostic(true);
-  flushnodelist(box(n));
+  flush_node_list(box(n));
   box(n) = 0;
 }
 /*:992*/
@@ -12232,7 +12232,7 @@ Static void buildpage(void) {
     _Ldone1:         /*999:*/
         link(contribhead) = link(p);
         link(p) = 0; /*:999*/
-        flushnodelist(p);
+        flush_node_list(p);
     _Ldone:;                          /*:997*/
     } while (link(contribhead) != 0); /*995:*/
     if (nest_ptr == 0)
@@ -12525,7 +12525,7 @@ Static void boxend(long boxcontext)
         S(851),
         S(852));
   backerror();
-  flushnodelist(curbox);
+  flush_node_list(curbox);
 }
 /*:1075*/
 
@@ -12873,7 +12873,7 @@ Static void deletelast(void) {
                 q = link(p);
             } while (q != tail);
             link(p) = 0;
-            flushnodelist(tail);
+            flush_node_list(tail);
             tail = p;
         }
         }
@@ -12987,7 +12987,7 @@ Static void builddiscretionary(void) {
                         printnl(S(878));
                         showbox(p);
                         enddiagnostic(true);
-                        flushnodelist(p);
+                        flush_node_list(p);
                         link(q) = 0;
                         break;
                     }
@@ -13018,7 +13018,7 @@ Static void builddiscretionary(void) {
                 print(S(879));
                 print_esc(S(400));
                 help2(S(880), S(881));
-                flushnodelist(p);
+                flush_node_list(p);
                 n = 0;
                 error();
             } else
@@ -15227,7 +15227,7 @@ Static void doextension(void)
       p = tail;
       doextension();
       outwhat(tail);
-      flushnodelist(tail);
+      flush_node_list(tail);
       tail = p;
       link(p) = 0;
     } else
