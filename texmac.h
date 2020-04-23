@@ -378,7 +378,8 @@
 #define gluestretch(x)  mem[x+glueoffset].sc /* total stretch in an unset node}*/
 #define glueshrink  shiftamount /* total shrink in an unset node}*/
 #define spancount  subtype /* indicates the number of spanned columns}*/
-#define tokenrefcount(x)    info(x) /* reference count preceding a token list}*/
+// [#200] reference count preceding a token list
+#define tokenrefcount(x) info(x)
 #define eqlevelfield(x)  x.hh.UU.U2.b1
 #define eqtypefield(x)  x.hh.UU.U2.b0
 #define equivfield(x)  x.hh.rh
@@ -486,9 +487,13 @@
 #define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
 #define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
 
-#define karmafastdeleteglueref(x)                                              \
-    (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0)                   \
+// #201: 使用封装好的函数
+#if 0
+#define karmafastdeleteglueref(x)                            \
+    (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0) \
                           : gluerefcount(x)--)
+#endif
+
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
 #define beginpseudoprint()                                                     \

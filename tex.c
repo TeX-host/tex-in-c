@@ -2214,23 +2214,30 @@ Static void showbox(HalfWord p)
 }
 /*:198*/
 
-/*200:*/
-Static void deletetokenref(HalfWord p) {
-    if (tokenrefcount(p) == 0)
+
+/// [ #199~202: PART 13: DESTROYING BOXES ]
+
+// [#200] p points to the reference count of a token list that
+//  is losing one reference
+Static void delete_token_ref(HalfWord p) {
+    if (tokenrefcount(p) == 0) {
         flushlist(p);
-    else
-        (tokenrefcount(p))--;
-}
-/*:200*/
+    } else {
+        tokenrefcount(p)--;
+    }
+} // [#200] delete_token_ref
 
-/*201:*/
-Static void deleteglueref(HalfWord p)
-{
-  karmafastdeleteglueref(p);
-}
-/*:201*/
+// [#201] p points to a glue specification
+Static void delete_glue_ref(HalfWord p) {
+    if (gluerefcount(p) == 0) {
+        freenode(p, gluespecsize);
+    } else {
+        gluerefcount(p)--;
+    }
+} // [#201] delete_glue_ref
 
-/*202:*/
+
+// [#202] erase list of nodes starting at p
 Static void flushnodelist(HalfWord p) {
     Pointer q;
 
@@ -2255,33 +2262,39 @@ Static void flushnodelist(HalfWord p) {
 
                 case INS_NODE:
                     flushnodelist(insptr(p));
-                    deleteglueref(splittopptr(p));
+                    delete_glue_ref(splittopptr(p));
                     freenode(p, insnodesize);
                     goto _Ldone;
                     break;
 
-                case WHATSIT_NODE: /*1358:*/
+                case WHATSIT_NODE:
+                    // #1358: Wipe out the whatsit node p and goto done
                     switch (subtype(p)) {
-                        case opennode: freenode(p, opennodesize); break;
-                    
+                        case opennode: 
+                            freenode(p, opennodesize); 
+                            break;
+
                         case writenode:
                         case specialnode:
-                            deletetokenref(writetokens(p));
+                            delete_token_ref(writetokens(p));
                             freenode(p, writenodesize);
                             goto _Ldone;
                             break;
 
                         case closenode:
-                        case languagenode: freenode(p, smallnodesize); break;
+                        case languagenode: 
+                            freenode(p, smallnodesize); 
+                            break;
 
-                        default: confusion(S(427)); break;
-                    }
+                        default:
+                            confusion(S(427)); // "ext3"
+                            break;
+                    } // switch (subtype(p))
                     goto _Ldone;
                     break;
-                    /*:1358*/
 
                 case GLUE_NODE:
-                    karmafastdeleteglueref(glueptr(p));
+                    delete_glue_ref(glueptr(p));
                     if (leaderptr(p) != 0) flushnodelist(leaderptr(p));
                     break;
 
@@ -2292,13 +2305,17 @@ Static void flushnodelist(HalfWord p) {
                     break;
 
                 case LIGATURE_NODE: flushnodelist(ligptr(p)); break;
-                case MARK_NODE: deletetokenref(markptr(p)); break;
+                case MARK_NODE: delete_token_ref(markptr(p)); break;
+
                 case DISC_NODE:
                     flushnodelist(prebreak(p));
                     flushnodelist(postbreak(p));
                     break;
 
-                case ADJUST_NODE: /*698:*/ flushnodelist(adjustptr(p)); break;
+                // #698: Cases of flush node list that arise in mlists only
+                case ADJUST_NODE:
+                    flushnodelist(adjustptr(p));
+                    break;
 
                 case stylenode:
                     freenode(p, stylenodesize);
@@ -2333,12 +2350,14 @@ Static void flushnodelist(HalfWord p) {
                         flushnodelist(info(supscr(p)));
                     if (mathtype(subscr(p)) >= subbox)
                         flushnodelist(info(subscr(p)));
-                    if (type(p) == radicalnoad)
+                    
+                    if (type(p) == radicalnoad) {
                         freenode(p, radicalnoadsize);
-                    else if (type(p) == accentnoad)
+                    } else if (type(p) == accentnoad) {
                         freenode(p, accentnoadsize);
-                    else
+                    } else {
                         freenode(p, noadsize);
+                    }
                     goto _Ldone;
                     break;
 
@@ -2354,17 +2373,17 @@ Static void flushnodelist(HalfWord p) {
                     freenode(p, fractionnoadsize);
                     goto _Ldone;
                     break;
-                    /*:698*/
 
-                default: confusion(S(428)); break;
+                default: 
+                    confusion(S(428)); // "flushing"
+                    break;
             }
             freenode(p, smallnodesize);
         _Ldone:;
         }
         p = q;
     } // while (p != 0)
-}
-/*:202*/
+} // [#202] flushnodelist
 
 /*204:*/
 Static HalfWord copynodelist(HalfWord p)
@@ -2929,9 +2948,9 @@ Static void eqdestroy(MemoryWord w) {
         case call:
         case longcall:
         case outercall:
-        case longoutercall: deletetokenref(equivfield(w)); break;
+        case longoutercall: delete_token_ref(equivfield(w)); break;
 
-        case glueref: deleteglueref(equivfield(w)); break;
+        case glueref: delete_glue_ref(equivfield(w)); break;
 
         case shaperef:
             q = equivfield(w);
@@ -3165,7 +3184,7 @@ Static void endtokenlist(void) {
         if (token_type <= INSERTED) {
             flushlist(START);
         } else {
-            deletetokenref(START);
+            delete_token_ref(START);
             if (token_type == MACRO) {
                 while (paramptr > param_start) {
                     paramptr--;
@@ -4518,7 +4537,7 @@ Static void findfontdimen(Boolean writing) {
     } else {
         if (writing && n <= SPACE_SHRINK_CODE && n >= SPACE_CODE &&
             fontglue[f] != 0) {
-            deleteglueref(fontglue[f]);
+            delete_glue_ref(fontglue[f]);
             fontglue[f] = 0;
         }
         if (n > fontparams[f]) {
@@ -4968,7 +4987,7 @@ Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 	scansomethinginternal(muval, false);   /*451:*/
 	if (curvallevel >= glueval) {   /*:451*/
 	  v = width(curval);
-	  deleteglueref(curval);
+	  delete_glue_ref(curval);
 	  curval = v;
 	}
 	if (curvallevel == muval)
@@ -5051,7 +5070,7 @@ _Ldone1:
       scansomethinginternal(muval, false);   /*451:*/
       if (curvallevel >= glueval) {   /*:451*/
 	v = width(curval);
-	deleteglueref(curval);
+	delete_glue_ref(curval);
 	curval = v;
       }
       if (curvallevel != muval)
@@ -5314,12 +5333,12 @@ Static HalfWord thetoks(void) {
 
             case glueval:
                 printspec(curval, S(459));
-                deleteglueref(curval);
+                delete_glue_ref(curval);
                 break;
 
             case muval:
                 printspec(curval, S(390));
-                deleteglueref(curval);
+                delete_glue_ref(curval);
                 break;
         }
         selector = old_setting;
@@ -8388,7 +8407,7 @@ Static void mlisttohlist(void) {
                 if (subtype(q) == muglue) {
                     x = glueptr(q);
                     y = mathglue(x, curmu);
-                    deleteglueref(x);
+                    delete_glue_ref(x);
                     glueptr(q) = y;
                     subtype(q) = NORMAL;
                 } else if ((cursize != TEXT_SIZE) &
@@ -9019,7 +9038,7 @@ Static void finalign(void) {
             s = glueptr(r);
             if (s != zeroglue) {
                 addglueref(zeroglue);
-                deleteglueref(s);
+                delete_glue_ref(s);
                 glueptr(r) = zeroglue;
             }
         }
@@ -9310,7 +9329,7 @@ Static HalfWord finiteshrink(HalfWord p) {
     }
     q = newspec(p);
     shrinkorder(q) = NORMAL;
-    deleteglueref(p);
+    delete_glue_ref(p);
     return q;
 } /*:826*/
 
@@ -9824,7 +9843,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
         postdiscbreak = false;
         if (q != 0) {
             if (type(q) == GLUE_NODE) {
-                deleteglueref(glueptr(q));
+                delete_glue_ref(glueptr(q));
                 glueptr(q) = rightskip;
                 subtype(q) = rightskipcode + 1;
                 addglueref(rightskip);
@@ -10768,7 +10787,7 @@ Static void linebreak(long finalwidowpenalty) {
         tailappend(newpenalty(INF_PENALTY));
     } else {
         type(tail) = PENALTY_NODE;
-        deleteglueref(glueptr(tail));
+        delete_glue_ref(glueptr(tail));
         flushnodelist(leaderptr(tail));
         penalty(tail) = INF_PENALTY;
     }
@@ -11542,7 +11561,7 @@ _Lupdateheights_:   /*976:*/
 	error();
 	r = newspec(q);
 	shrinkorder(r) = NORMAL;
-	deleteglueref(q);
+	delete_glue_ref(q);
 	glueptr(p) = r;
 	q = r;
       }
@@ -11569,9 +11588,9 @@ Static HalfWord vsplit(EightBits n, long h) {
 
     v = box(n);
     if (splitfirstmark != 0) {
-        deletetokenref(splitfirstmark);
+        delete_token_ref(splitfirstmark);
         splitfirstmark = 0;
-        deletetokenref(splitbotmark);
+        delete_token_ref(splitbotmark);
         splitbotmark = 0;
     }
     /*978:*/
@@ -11602,7 +11621,7 @@ Static HalfWord vsplit(EightBits n, long h) {
                     splitbotmark = splitfirstmark;
                     tokenrefcount(splitfirstmark) += 2;
                 } else {
-                    deletetokenref(splitbotmark);
+                    delete_token_ref(splitbotmark);
                     splitbotmark = markptr(p);
                     addtokenref(splitbotmark);
                 }
@@ -11734,10 +11753,10 @@ Static void fireup(HalfWord c)
     geqworddefine(intbase + outputpenaltycode, INF_PENALTY);
   if (botmark != 0) {   /*1014:*/
     if (topmark != 0)
-      deletetokenref(topmark);
+      delete_token_ref(topmark);
     topmark = botmark;
     addtokenref(topmark);
-    deletetokenref(firstmark);
+    delete_token_ref(firstmark);
     firstmark = 0;
   }
   if (c == bestpagebreak)   /*1015:*/
@@ -11821,7 +11840,7 @@ Static void fireup(HalfWord c)
 	  q = p;
 	  insertpenalties++;
 	} else {
-	  deleteglueref(splittopptr(p));
+	  delete_glue_ref(splittopptr(p));
 	  freenode(p, insnodesize);
 	}
 	p = prevp;   /*:1022*/
@@ -11833,7 +11852,7 @@ Static void fireup(HalfWord c)
 	addtokenref(firstmark);
       }
       if (botmark != 0)
-	deletetokenref(botmark);
+	delete_token_ref(botmark);
       botmark = markptr(p);
       addtokenref(botmark);
     }
@@ -11860,7 +11879,7 @@ Static void fireup(HalfWord c)
   vbadness = savevbadness;
   vfuzz = savevfuzz;
   if (lastglue != MAX_HALF_WORD)   /*991:*/
-    deleteglueref(lastglue);
+    delete_glue_ref(lastglue);
   pagecontents = empty;
   pagetail = pagehead;
   link(pagehead) = 0;
@@ -11938,7 +11957,7 @@ Static void buildpage(void) {
     do {
     _Llabcontinue:
         p = link(contribhead); /*996:*/
-        if (lastglue != MAX_HALF_WORD) deleteglueref(lastglue);
+        if (lastglue != MAX_HALF_WORD) delete_glue_ref(lastglue);
         lastpenalty = 0;
         lastkern = 0;
         if (type(p) == GLUE_NODE) { /*997:*/
@@ -12192,7 +12211,7 @@ Static void buildpage(void) {
                 error();
                 r = newspec(q);
                 shrinkorder(r) = NORMAL;
-                deleteglueref(q);
+                delete_glue_ref(q);
                 glueptr(p) = r;
                 q = r;
             }
@@ -14003,7 +14022,7 @@ Static void trapzeroglue(void) {
     )) return;
 
     addglueref(zeroglue);
-    deleteglueref(curval);
+    delete_glue_ref(curval);
     curval = zeroglue;
 } // #1229: trapzeroglue
 
@@ -14059,7 +14078,7 @@ _Lfound: /*:1237*/
             if (q == advance) { /*1239:*/
                 q = newspec(curval);
                 r = equiv(l);
-                deleteglueref(curval);
+                delete_glue_ref(curval);
                 width(q) += width(r);
                 if (stretch(q) == 0) stretchorder(q) = NORMAL;
                 if (stretchorder(q) == stretchorder(r))
@@ -15332,7 +15351,7 @@ Static void handlerightbrace(void) {
                 type(tail) = ADJUST_NODE;
                 subtype(tail) = 0;
                 adjustptr(tail) = listptr(p);
-                deleteglueref(q);
+                delete_glue_ref(q);
             }
             freenode(p, boxnodesize);
             if (nest_ptr == 0) buildpage();
@@ -16843,7 +16862,7 @@ Static void final_cleanup(void) {
     if (c == 1) {
     #ifdef tt_INIT
             for (int i = topmarkcode; i <= splitbotmarkcode; i++) {
-                if (curmark[i] != 0) deletetokenref(curmark[i]);
+                if (curmark[i] != 0) delete_token_ref(curmark[i]);
             }
             storefmtfile();
     #endif // #1335: tt_INIT
