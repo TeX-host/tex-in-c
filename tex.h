@@ -396,29 +396,6 @@ enum CatCode {
 #define scaledbase      (dimenbase + dimenpars)
 #define eqtbsize        (scaledbase + 255)
 
-
-// #269
-// enum GroupCode {};
-#define bottomlevel     0
-#define simplegroup     1
-#define hboxgroup       2
-#define adjustedhboxgroup  3
-#define vboxgroup       4
-#define vtopgroup       5
-#define aligngroup      6
-#define noaligngroup    7
-#define outputgroup     8
-#define mathgroup       9
-#define discgroup       10
-#define insertgroup     11
-#define vcentergroup    12
-#define mathchoicegroup  13
-#define semisimplegroup  14
-#define mathshiftgroup  15
-#define mathleftgroup   16
-#define MAX_GROUP_CODE      16
-
-
 #define leftbracetoken  (1*dwa_do_8)
 #define leftbracelimit  (2*dwa_do_8)
 #define rightbracetoken  (2*dwa_do_8)

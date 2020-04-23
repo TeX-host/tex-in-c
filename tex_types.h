@@ -180,6 +180,7 @@ typedef struct {
 } ListStateRecord; // (16+128+128+64) = (336)
 
 // #269: GroupCode(8)
+// save level for a level boundary
 // only need [0, MAX_GROUP_CODE] = [0, 16]
 typedef UChar GroupCode; 
 
