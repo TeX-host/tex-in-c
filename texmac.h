@@ -504,14 +504,12 @@
      trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
      ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
-#define popinput() /* leave an input level, re-enter the old */ \
-    (inputptr--, cur_input = inputstack[inputptr])
-#define backlist(x) \
-    begintokenlist((x), BACKED_UP) /* backs up a simple token list */
-#define inslist(x) \
-    begintokenlist((x), INSERTED) /* inserts a simple token list */
-
-#define null 0
+// leave an input level, re-enter the old
+#define popinput() (inputptr--, cur_input = inputstack[inputptr])
+// backs up a simple token list
+#define backlist(x) begintokenlist((x), BACKED_UP)
+// inserts a simple token list
+#define inslist(x) begintokenlist((x), INSERTED)
 
 #define wrapup(x)                                       \
     if (curl < NON_CHAR) {                              \
