@@ -1783,29 +1783,29 @@ void printstyle(Integer c) {
 }
 /*:694*/
 
-// #225:
+// [#225]: 打印 glue 参数的名称
 void print_skip_param(Integer n) {
     switch (n) {
-        case lineskipcode: print_esc(S(341)); break;
-        case baselineskipcode: print_esc(S(342)); break;
-        case parskipcode: print_esc(S(343)); break;
-        case abovedisplayskipcode: print_esc(S(344)); break;
-        case belowdisplayskipcode: print_esc(S(345)); break;
-        case abovedisplayshortskipcode: print_esc(S(346)); break;
-        case belowdisplayshortskipcode: print_esc(S(347)); break;
-        case leftskipcode: print_esc(S(348)); break;
-        case rightskipcode: print_esc(S(349)); break;
-        case topskipcode: print_esc(S(350)); break;
-        case splittopskipcode: print_esc(S(351)); break;
-        case tabskipcode: print_esc(S(352)); break;
-        case spaceskipcode: print_esc(S(353)); break;
-        case xspaceskipcode: print_esc(S(354)); break;
-        case parfillskipcode: print_esc(S(355)); break;
-        case thinmuskipcode: print_esc(S(356)); break;
-        case medmuskipcode: print_esc(S(357)); break;
-        case thickmuskipcode: print_esc(S(358)); break;
+        case LINE_SKIP_CODE: print_esc(S(341)); break; // "lineskip"
+        case BASELINE_SKIP_CODE: print_esc(S(342)); break; // "baselineskip"
+        case PAR_SKIP_CODE: print_esc(S(343)); break;
+        case ABOVE_DISPLAY_SKIP_CODE: print_esc(S(344)); break;
+        case BELOW_DISPLAY_SKIP_CODE: print_esc(S(345)); break;
+        case ABOVE_DISPLAY_SHORT_SKIP_CODE: print_esc(S(346)); break;
+        case BELOW_DISPLAY_SHORT_SKIP_CODE: print_esc(S(347)); break;
+        case LEFT_SKIP_CODE: print_esc(S(348)); break;
+        case RIGHT_SKIP_CODE: print_esc(S(349)); break;
+        case TOP_SKIP_CODE: print_esc(S(350)); break;
+        case SPLIT_TOP_SKIP_CODE: print_esc(S(351)); break;
+        case TAB_SKIP_CODE: print_esc(S(352)); break;
+        case SPACE_SKIP_CODE: print_esc(S(353)); break;
+        case XSPACE_SKIP_CODE: print_esc(S(354)); break;
+        case PAR_FILL_SKIP_CODE: print_esc(S(355)); break;
+        case THIN_MU_SKIP_CODE: print_esc(S(356)); break;
+        case MED_MU_SKIP_CODE: print_esc(S(357)); break;
+        case THICK_MU_SKIP_CODE: print_esc(S(358)); break;
 
-        default: print(S(359)); break;
+        default: print(S(359)); break; // "[unknown glue parameter!]"
     } // switch (n)
 } // #225: print_skip_param
 
@@ -2707,7 +2707,7 @@ Static void showeqtb(HalfWord n) {
         if (n < skipbase) {
             print_skip_param(n - gluebase);
             print_char('=');
-            if (n < gluebase + thinmuskipcode)
+            if (n < gluebase + THIN_MU_SKIP_CODE)
                 printspec(equiv(n), S(459));
             else
                 printspec(equiv(n), S(390));
@@ -7288,9 +7288,9 @@ Static void appendtovlist(HalfWord b) {
     if (prevdepth > ignoredepth) {
         d = width(baselineskip) - prevdepth - height(b);
         if (d < lineskiplimit)
-            p = newparamglue(lineskipcode);
+            p = newparamglue(LINE_SKIP_CODE);
         else {
-            p = newskipparam(baselineskipcode);
+            p = newskipparam(BASELINE_SKIP_CODE);
             width(temp_ptr) = d;
         }
         link(tail) = p;
@@ -8584,23 +8584,23 @@ Static void mlisttohlist(void) {
 
                 case '1':
                     if (curstyle < scriptstyle)
-                        x = thinmuskipcode;
+                        x = THIN_MU_SKIP_CODE;
                     else
                         x = 0;
                     break;
 
-                case '2': x = thinmuskipcode; break;
+                case '2': x = THIN_MU_SKIP_CODE; break;
 
                 case '3':
                     if (curstyle < scriptstyle)
-                        x = medmuskipcode;
+                        x = MED_MU_SKIP_CODE;
                     else
                         x = 0;
                     break;
 
                 case '4':
                     if (curstyle < scriptstyle)
-                        x = thickmuskipcode;
+                        x = THICK_MU_SKIP_CODE;
                     else
                         x = 0;
                     break;
@@ -8699,13 +8699,13 @@ _Lrestart:
         }
     }
     if (curcmd == endv) fatalerror(S(509));
-    if (curcmd != assignglue || curchr != gluebase + tabskipcode) return;
+    if (curcmd != assignglue || curchr != gluebase + TAB_SKIP_CODE) return;
     scanoptionalequals();
     scanglue(glueval);
     if (globaldefs > 0)
-        geqdefine(gluebase + tabskipcode, glueref, curval);
+        geqdefine(gluebase + TAB_SKIP_CODE, glueref, curval);
     else
-        eqdefine(gluebase + tabskipcode, glueref, curval);
+        eqdefine(gluebase + TAB_SKIP_CODE, glueref, curval);
     goto _Lrestart;
 }
 /*:782*/
@@ -8740,7 +8740,7 @@ Static void initalign(void) {
     warning_index = savecsptr;
     align_state = -1000000L;
     while (true) { /*778:*/
-        link(curalign) = newparamglue(tabskipcode);
+        link(curalign) = newparamglue(TAB_SKIP_CODE);
         curalign = link(curalign); /*:778*/
         if (curcmd == CAR_RET) goto _Ldone;
         /*779:*/
@@ -8832,7 +8832,7 @@ Static void initrow(void) {
     else
         prevdepth = 0;
     tailappend(newglue(glueptr(preamble)));
-    subtype(tail) = tabskipcode + 1;
+    subtype(tail) = TAB_SKIP_CODE + 1;
     curalign = link(preamble);
     curtail = curhead;
     initspan(curalign);
@@ -8967,7 +8967,7 @@ Static Boolean fincol(void) {
         tail = u; /*:796*/
         /*795:*/
         tailappend(newglue(glueptr(link(curalign))));
-        subtype(tail) = tabskipcode + 1; /*:795*/
+        subtype(tail) = TAB_SKIP_CODE + 1; /*:795*/
         if (extrainfo(curalign) >= crcode) {
             Result = true;
             goto _Lexit;
@@ -9133,7 +9133,7 @@ Static void finalign(void) {
                         v = glueptr(s);
                         link(u) = newglue(v);
                         u = link(u);
-                        subtype(u) = tabskipcode + 1;
+                        subtype(u) = TAB_SKIP_CODE + 1;
                         t += width(v);
                         if (gluesign(p) == stretching) {
                             if (stretchorder(v) == glueorder(p))
@@ -9271,11 +9271,11 @@ Static void finalign(void) {
         /*:1207*/
         popnest();
         tailappend(newpenalty(predisplaypenalty));
-        tailappend(newparamglue(abovedisplayskipcode));
+        tailappend(newparamglue(ABOVE_DISPLAY_SKIP_CODE));
         link(tail) = p;
         if (p != 0) tail = q;
         tailappend(newpenalty(postdisplaypenalty));
-        tailappend(newparamglue(belowdisplayskipcode));
+        tailappend(newparamglue(BELOW_DISPLAY_SKIP_CODE));
         prevdepth = auxsave.sc;
         resumeafterdisplay();
         return;
@@ -9845,7 +9845,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
             if (type(q) == GLUE_NODE) {
                 delete_glue_ref(glueptr(q));
                 glueptr(q) = rightskip;
-                subtype(q) = rightskipcode + 1;
+                subtype(q) = RIGHT_SKIP_CODE + 1;
                 addglueref(rightskip);
                 goto _Ldone;
             }
@@ -9894,7 +9894,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
                 q = link(q);
         }
         /*886:*/
-        r = newparamglue(rightskipcode);
+        r = newparamglue(RIGHT_SKIP_CODE);
         link(r) = link(q);
         link(q) = r;
         q = r; /*:886*/
@@ -9905,7 +9905,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
         q = link(temphead);
         link(temphead) = r;
         if (leftskip != zeroglue) { /*:887*/
-            r = newparamglue(leftskipcode);
+            r = newparamglue(LEFT_SKIP_CODE);
             link(r) = q;
             q = r;
         }
@@ -10791,7 +10791,7 @@ Static void linebreak(long finalwidowpenalty) {
         flush_node_list(leaderptr(tail));
         penalty(tail) = INF_PENALTY;
     }
-    link(tail) = newparamglue(parfillskipcode);
+    link(tail) = newparamglue(PAR_FILL_SKIP_CODE);
     initcurlang = prevgraf % 65536L;
     initlhyf = prevgraf / 4194304L;
     initrhyf = (prevgraf / 65536L) & 63;
@@ -11412,7 +11412,7 @@ Static HalfWord prunepagetop(HalfWord p)
     case HLIST_NODE:
     case VLIST_NODE:
     case RULE_NODE:   /*969:*/
-      q = newskipparam(splittopskipcode);
+      q = newskipparam(SPLIT_TOP_SKIP_CODE);
       link(prevp) = q;
       link(q) = p;
       if (width(temp_ptr) > height(p))
@@ -11981,7 +11981,7 @@ Static void buildpage(void) {
                         freezepagespecs(boxthere);
                     else
                         pagecontents = boxthere;
-                    q = newskipparam(topskipcode);
+                    q = newskipparam(TOP_SKIP_CODE);
                     if (width(temp_ptr) > height(p))
                         width(temp_ptr) -= height(p);
                     else
@@ -12269,7 +12269,7 @@ Static void appspace(void) {
     Pointer q;
 
     if (spacefactor >= 2000 && xspaceskip != zeroglue) {
-        q = newparamglue(xspaceskipcode);
+        q = newparamglue(XSPACE_SKIP_CODE);
     } else {
         if (spaceskip != zeroglue) {
             mainp = spaceskip;
@@ -12706,7 +12706,7 @@ Static void newgraf(Boolean indented)
 {
   prevgraf = 0;
   if (mode == V_MODE || head != tail) {
-    tailappend(newparamglue(parskipcode));
+    tailappend(newparamglue(PAR_SKIP_CODE));
   }
   pushnest();
   mode = H_MODE;
@@ -13916,11 +13916,11 @@ Static void aftermath(void)
   /*1203:*/
   tailappend(newpenalty(predisplaypenalty));
   if (d + s <= predisplaysize || l) {
-    g1 = abovedisplayskipcode;
-    g2 = belowdisplayskipcode;
+    g1 = ABOVE_DISPLAY_SKIP_CODE;
+    g2 = BELOW_DISPLAY_SKIP_CODE;
   } else {
-    g1 = abovedisplayshortskipcode;
-    g2 = belowdisplayshortskipcode;
+    g1 = ABOVE_DISPLAY_SHORT_SKIP_CODE;
+    g2 = BELOW_DISPLAY_SHORT_SKIP_CODE;
   }
   if (l && e == 0) {   /*1204:*/
     shiftamount(a) = s;
@@ -16427,7 +16427,7 @@ _Lappendnormalspace_:
         }
         temp_ptr = newglue(mainp);
     } else
-        temp_ptr = newparamglue(spaceskipcode);
+        temp_ptr = newparamglue(SPACE_SKIP_CODE);
     link(tail) = temp_ptr;
     tail = temp_ptr;
     goto _LN_main_control__big_switch;
@@ -16875,23 +16875,23 @@ Static void final_cleanup(void) {
 Static void init_prim(void) {
     /*226:*/
     primitive(S(341), assignglue, gluebase);
-    primitive(S(342), assignglue, gluebase + baselineskipcode);
-    primitive(S(343), assignglue, gluebase + parskipcode);
-    primitive(S(344), assignglue, gluebase + abovedisplayskipcode);
-    primitive(S(345), assignglue, gluebase + belowdisplayskipcode);
-    primitive(S(346), assignglue, gluebase + abovedisplayshortskipcode);
-    primitive(S(347), assignglue, gluebase + belowdisplayshortskipcode);
-    primitive(S(348), assignglue, gluebase + leftskipcode);
-    primitive(S(349), assignglue, gluebase + rightskipcode);
-    primitive(S(350), assignglue, gluebase + topskipcode);
-    primitive(S(351), assignglue, gluebase + splittopskipcode);
-    primitive(S(352), assignglue, gluebase + tabskipcode);
-    primitive(S(353), assignglue, gluebase + spaceskipcode);
-    primitive(S(354), assignglue, gluebase + xspaceskipcode);
-    primitive(S(355), assignglue, gluebase + parfillskipcode);
-    primitive(S(356), assignmuglue, gluebase + thinmuskipcode);
-    primitive(S(357), assignmuglue, gluebase + medmuskipcode);
-    primitive(S(358), assignmuglue, gluebase + thickmuskipcode);
+    primitive(S(342), assignglue, gluebase + BASELINE_SKIP_CODE);
+    primitive(S(343), assignglue, gluebase + PAR_SKIP_CODE);
+    primitive(S(344), assignglue, gluebase + ABOVE_DISPLAY_SKIP_CODE);
+    primitive(S(345), assignglue, gluebase + BELOW_DISPLAY_SKIP_CODE);
+    primitive(S(346), assignglue, gluebase + ABOVE_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(347), assignglue, gluebase + BELOW_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(348), assignglue, gluebase + LEFT_SKIP_CODE);
+    primitive(S(349), assignglue, gluebase + RIGHT_SKIP_CODE);
+    primitive(S(350), assignglue, gluebase + TOP_SKIP_CODE);
+    primitive(S(351), assignglue, gluebase + SPLIT_TOP_SKIP_CODE);
+    primitive(S(352), assignglue, gluebase + TAB_SKIP_CODE);
+    primitive(S(353), assignglue, gluebase + SPACE_SKIP_CODE);
+    primitive(S(354), assignglue, gluebase + XSPACE_SKIP_CODE);
+    primitive(S(355), assignglue, gluebase + PAR_FILL_SKIP_CODE);
+    primitive(S(356), assignmuglue, gluebase + THIN_MU_SKIP_CODE);
+    primitive(S(357), assignmuglue, gluebase + MED_MU_SKIP_CODE);
+    primitive(S(358), assignmuglue, gluebase + THICK_MU_SKIP_CODE);
     /*:226*/
     /*230:*/
     primitive(S(1026), assigntoks, outputroutineloc);

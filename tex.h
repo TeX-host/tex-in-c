@@ -365,9 +365,10 @@ enum CatCode {
 #define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
 #define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)
 
-#define skipbase        (gluebase + gluepars)
+#define skipbase        (gluebase + GLUE_PARS)
 #define muskipbase      (skipbase + 256)
 #define localbase       (muskipbase + 256)
+
 #define parshapeloc     localbase
 #define outputroutineloc  (localbase + 1)
 #define everyparloc     (localbase + 2)
@@ -379,6 +380,7 @@ enum CatCode {
 #define everycrloc      (localbase + 8)
 #define errhelploc      (localbase + 9)
 #define toksbase        (localbase + 10)
+
 #define boxbase         (toksbase + 256)
 #define curfontloc      (boxbase + 256)
 #define mathfontbase    (curfontloc + 1)
