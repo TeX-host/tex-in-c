@@ -1783,7 +1783,14 @@ void printstyle(Integer c) {
 }
 /*:694*/
 
-// [#225]: 打印 glue 参数的名称
+/** [#225]: 打印 \c glue 参数的名称
+ * 
+ * \param[in] n
+ * \return void 无返回值
+ * 
+ * 函数会打印参数对应的字符串。
+ * 如果没有对应的字符串，则打印 \c "[unknown glue parameter!]"
+ */
 void print_skip_param(Integer n) {
     switch (n) {
         case LINE_SKIP_CODE: print_esc(S(341)); break; // "lineskip"
