@@ -95,33 +95,35 @@ enum InfinityOrder {
 // #157: "negatively infinite penalty value
 #define EJECT_PENALTY   (-INF_PENALTY)
 
-
-// [p83#224] Region 3 of eqtb contains the 256 \skip registers
+/** [p83#224] Region 3 of \c eqtb contains the 256 \c \skip registers
+ *
+ */
 enum SkipRegisters {
-    LINE_SKIP_CODE = 0,      // interline glue if baseline skip is infeasible
-    BASELINE_SKIP_CODE,      // desired glue between baselines
-    PAR_SKIP_CODE,           // extra glue just above a paragraph
-    ABOVE_DISPLAY_SKIP_CODE, // extra glue just above displayed math
-    BELOW_DISPLAY_SKIP_CODE, // extra glue just below displayed math
+    LINE_SKIP_CODE = 0,      ///< interline glue if baseline skip is infeasible
+    BASELINE_SKIP_CODE,      ///< desired glue between baselines
+    PAR_SKIP_CODE,           ///< extra glue just above a paragraph
+    ABOVE_DISPLAY_SKIP_CODE, ///< extra glue just above displayed math
+    BELOW_DISPLAY_SKIP_CODE, ///< extra glue just below displayed math
+    ///<
 
-    // glue [above] displayed math following short lines
+    /// glue [above] displayed math following short lines
     ABOVE_DISPLAY_SHORT_SKIP_CODE = 5,
-    // glue [below] displayed math following short lines
+    ///  glue [below] displayed math following short lines
     BELOW_DISPLAY_SHORT_SKIP_CODE,
-    LEFT_SKIP_CODE,  // glue at left of justified lines
-    RIGHT_SKIP_CODE, // glue at right of justified lines
-    TOP_SKIP_CODE,   // glue at top of main pages
+    LEFT_SKIP_CODE,  ///< glue at left of justified lines
+    RIGHT_SKIP_CODE, ///< glue at right of justified lines
+    TOP_SKIP_CODE,   ///< glue at top of main pages
 
-    SPLIT_TOP_SKIP_CODE = 10, // glue at top of split pages
-    TAB_SKIP_CODE,            // glue between aligned entries
-    SPACE_SKIP_CODE,          // glue between words (if not zero glue)
-    XSPACE_SKIP_CODE,         // glue after sentences (if not zero glue)
-    PAR_FILL_SKIP_CODE,       // glue on last line of paragraph
+    SPLIT_TOP_SKIP_CODE = 10, ///< glue at top of split pages
+    TAB_SKIP_CODE,            ///< glue between aligned entries
+    SPACE_SKIP_CODE,          ///< glue between words (if not zero glue)
+    XSPACE_SKIP_CODE,         ///< glue after sentences (if not zero glue)
+    PAR_FILL_SKIP_CODE,       ///< glue on last line of paragraph
 
-    THIN_MU_SKIP_CODE = 15, // thin space in math formula
-    MED_MU_SKIP_CODE,       // medium space in math formula
-    THICK_MU_SKIP_CODE,     // thick space in math formula
-    GLUE_PARS               // total number of glue parameters
+    THIN_MU_SKIP_CODE = 15, ///< thin space in math formula
+    MED_MU_SKIP_CODE,       ///< medium space in math formula
+    THICK_MU_SKIP_CODE,     ///< thick space in math formula
+    GLUE_PARS               ///< total number of glue parameters
 }; // [p83#224] enum SkipRegisters
 
 // [#236] Region 5 of eqtb contains
