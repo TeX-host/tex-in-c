@@ -26,3 +26,6 @@ build/
 
 # static analysis
 Sourcetrail/
+
+# docs
+docs/
