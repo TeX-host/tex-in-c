@@ -192,12 +192,12 @@ enum DelimiterCodesTable {
     maxdeadcyclescode = 40, ///< bound on consecutive dead cycles of output
     hangaftercode,          ///< hanging indentation changes after this many lines
     floatingpenaltycode,    ///< penalty for insertions heldover after a split
-    globaldefscode,         ///< override \global specifications
+    globaldefscode,         ///< override `\global` specifications
     curfamcode,             ///< current family
 
     ESCAPE_CHARcode,       ///< escape character for token output
-    defaulthyphencharcode, ///< value of \hyphenchar when a font is loaded
-    defaultskewcharcode,   ///< value of \skewchar when a font is loaded
+    defaulthyphencharcode, ///< value of `\hyphenchar` when a font is loaded
+    defaultskewcharcode,   ///< value of `\skewchar` when a font is loaded
     endlinecharcode,       ///< character placed at the right end of the buffer
     newlinecharcode,       ///< character that prints as `println`
 
@@ -420,9 +420,9 @@ enum NoadType {
     undernoad,   ///< noad for underlining
     overnoad,    ///< noad for overlining
     accentnoad,  ///< noad for accented subformulas
-    vcenternoad, ///< noad for \vcenter
-    leftnoad,    ///< noad for \left
-    rightnoad,   ///< noad for \right
+    vcenternoad, ///< noad for `\vcenter`
+    leftnoad,    ///< noad for `\left`
+    rightnoad,   ///< noad for `\right`
 }; // [#682] enum NoadType
 
 /// [#682] `subtype` of `op_noad` whose scripts are to be above, below
