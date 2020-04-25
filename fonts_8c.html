@@ -150,69 +150,98 @@ fonts.c 的引用(Include)关系图:</div>
 <tr class="memitem:a8541d63d7925401ca227d735f1c25c40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a8541d63d7925401ca227d735f1c25c40">charkern</a> (<a class="el" href="fonts_8h.html#aaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> x, <a class="el" href="struct_four_quarters.html">FourQuarters</a> y)</td></tr>
 <tr class="separator:a8541d63d7925401ca227d735f1c25c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe4d63cf4f492bd65d76245975ed2310"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#abe4d63cf4f492bd65d76245975ed2310">fonts_init</a> (void)</td></tr>
+<tr class="memdesc:abe4d63cf4f492bd65d76245975ed2310"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#552] TeX always knows at least one font, namely the null font.  <a href="fonts_8c.html#abe4d63cf4f492bd65d76245975ed2310">更多...</a><br /></td></tr>
 <tr class="separator:abe4d63cf4f492bd65d76245975ed2310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af813ccd0d6c345698d414e96f1c3a5bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#af813ccd0d6c345698d414e96f1c3a5bd">fonts_dump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>)</td></tr>
 <tr class="separator:af813ccd0d6c345698d414e96f1c3a5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6475f91a663c2b2ac67d1781b54c9b09"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a6475f91a663c2b2ac67d1781b54c9b09">fonts_undump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>, FILE *_not_use_)</td></tr>
 <tr class="separator:a6475f91a663c2b2ac67d1781b54c9b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d5f4558348ee498d4ebcd54de19097c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fonts_8h.html#aaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a7d5f4558348ee498d4ebcd54de19097c">readfontinfo</a> (<a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> u, <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> nom, <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> aire, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> s)</td></tr>
+<tr class="memdesc:a7d5f4558348ee498d4ebcd54de19097c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p205#560]: input a TFM file  <a href="fonts_8c.html#a7d5f4558348ee498d4ebcd54de19097c">更多...</a><br /></td></tr>
 <tr class="separator:a7d5f4558348ee498d4ebcd54de19097c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 变量</h2></td></tr>
 <tr class="memitem:a3a55db1e6c469b6ec5d05134353562fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="union_memory_word.html">MemoryWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a3a55db1e6c469b6ec5d05134353562fc">fontinfo</a> [<a class="el" href="tex_8h.html#a7760883fa2312d07dcc1e90e34f16ea2">FONT_MEM_SIZE</a>+1]</td></tr>
+<tr class="memdesc:a3a55db1e6c469b6ec5d05134353562fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">the big collection of font data  <a href="fonts_8c.html#a3a55db1e6c469b6ec5d05134353562fc">更多...</a><br /></td></tr>
 <tr class="separator:a3a55db1e6c469b6ec5d05134353562fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97eb7fd8ae4fda8c555bf5f67a1d3ead"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fonts_8h.html#aaef3941dc3cddf697b3713e877af0255">FontIndex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a97eb7fd8ae4fda8c555bf5f67a1d3ead">fmemptr</a></td></tr>
+<tr class="memdesc:a97eb7fd8ae4fda8c555bf5f67a1d3ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">first unused word of font info  <a href="fonts_8c.html#a97eb7fd8ae4fda8c555bf5f67a1d3ead">更多...</a><br /></td></tr>
 <tr class="separator:a97eb7fd8ae4fda8c555bf5f67a1d3ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92630e00153f8e4a0cfc496786f1653a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fonts_8h.html#aaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a92630e00153f8e4a0cfc496786f1653a">fontptr</a></td></tr>
+<tr class="memdesc:a92630e00153f8e4a0cfc496786f1653a"><td class="mdescLeft">&#160;</td><td class="mdescRight">largest internal font number in use  <a href="fonts_8c.html#a92630e00153f8e4a0cfc496786f1653a">更多...</a><br /></td></tr>
 <tr class="separator:a92630e00153f8e4a0cfc496786f1653a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6813bc7b7317c69bb9072172153cfac2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="struct_four_quarters.html">FourQuarters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a6813bc7b7317c69bb9072172153cfac2">fontcheck</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a6813bc7b7317c69bb9072172153cfac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">check sum  <a href="fonts_8c.html#a6813bc7b7317c69bb9072172153cfac2">更多...</a><br /></td></tr>
 <tr class="separator:a6813bc7b7317c69bb9072172153cfac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7246a0f3ea8da46833b0314a7928bb19"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a7246a0f3ea8da46833b0314a7928bb19">fontsize</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a7246a0f3ea8da46833b0314a7928bb19"><td class="mdescLeft">&#160;</td><td class="mdescRight">"at" size  <a href="fonts_8c.html#a7246a0f3ea8da46833b0314a7928bb19">更多...</a><br /></td></tr>
 <tr class="separator:a7246a0f3ea8da46833b0314a7928bb19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56a6937f2248d83c28464f8bfa8afee4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a56a6937f2248d83c28464f8bfa8afee4">fontdsize</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a56a6937f2248d83c28464f8bfa8afee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">"design" size  <a href="fonts_8c.html#a56a6937f2248d83c28464f8bfa8afee4">更多...</a><br /></td></tr>
 <tr class="separator:a56a6937f2248d83c28464f8bfa8afee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac757ee353c445a06acaf0daf192e073c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fonts_8h.html#aaef3941dc3cddf697b3713e877af0255">FontIndex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#ac757ee353c445a06acaf0daf192e073c">fontparams</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:ac757ee353c445a06acaf0daf192e073c"><td class="mdescLeft">&#160;</td><td class="mdescRight">how many font parameters are present  <a href="fonts_8c.html#ac757ee353c445a06acaf0daf192e073c">更多...</a><br /></td></tr>
 <tr class="separator:ac757ee353c445a06acaf0daf192e073c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa570acb386c82cf264a42e65b960ec4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#aa570acb386c82cf264a42e65b960ec4e">fontname</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:aa570acb386c82cf264a42e65b960ec4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">name of the font  <a href="fonts_8c.html#aa570acb386c82cf264a42e65b960ec4e">更多...</a><br /></td></tr>
 <tr class="separator:aa570acb386c82cf264a42e65b960ec4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdbd47c60bfdfd77b3e9f00de2b62f9c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#abdbd47c60bfdfd77b3e9f00de2b62f9c">fontarea</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:abdbd47c60bfdfd77b3e9f00de2b62f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">area of the font  <a href="fonts_8c.html#abdbd47c60bfdfd77b3e9f00de2b62f9c">更多...</a><br /></td></tr>
 <tr class="separator:abdbd47c60bfdfd77b3e9f00de2b62f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94a08dbc7d5f41dcd1618c3d5ad9ed58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a94a08dbc7d5f41dcd1618c3d5ad9ed58">fontbc</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a94a08dbc7d5f41dcd1618c3d5ad9ed58"><td class="mdescLeft">&#160;</td><td class="mdescRight">beginning (smallest) character code  <a href="fonts_8c.html#a94a08dbc7d5f41dcd1618c3d5ad9ed58">更多...</a><br /></td></tr>
 <tr class="separator:a94a08dbc7d5f41dcd1618c3d5ad9ed58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d601af9b09ee408f3a2254ea073bbdc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a5d601af9b09ee408f3a2254ea073bbdc">fontec</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a5d601af9b09ee408f3a2254ea073bbdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">ending (largest) character code  <a href="fonts_8c.html#a5d601af9b09ee408f3a2254ea073bbdc">更多...</a><br /></td></tr>
 <tr class="separator:a5d601af9b09ee408f3a2254ea073bbdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefda3a659343cda4818a41c62e40c957"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#aefda3a659343cda4818a41c62e40c957">fontglue</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:aefda3a659343cda4818a41c62e40c957"><td class="mdescLeft">&#160;</td><td class="mdescRight">glue specification for interword space, null if not allocated  <a href="fonts_8c.html#aefda3a659343cda4818a41c62e40c957">更多...</a><br /></td></tr>
 <tr class="separator:aefda3a659343cda4818a41c62e40c957"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa543b8a7d77c218ff34845191f71772c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#aa543b8a7d77c218ff34845191f71772c">fontused</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:aa543b8a7d77c218ff34845191f71772c"><td class="mdescLeft">&#160;</td><td class="mdescRight">has a character from this font actually appeared in the output?  <a href="fonts_8c.html#aa543b8a7d77c218ff34845191f71772c">更多...</a><br /></td></tr>
 <tr class="separator:aa543b8a7d77c218ff34845191f71772c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03250dfd6e3155febc978e31f4703ee4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a03250dfd6e3155febc978e31f4703ee4">hyphenchar</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a03250dfd6e3155febc978e31f4703ee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">current <code>\hyphenchar</code> values  <a href="fonts_8c.html#a03250dfd6e3155febc978e31f4703ee4">更多...</a><br /></td></tr>
 <tr class="separator:a03250dfd6e3155febc978e31f4703ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cb2d6d4a93dedd231f0bcb2255ba93c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a5cb2d6d4a93dedd231f0bcb2255ba93c">skewchar</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a5cb2d6d4a93dedd231f0bcb2255ba93c"><td class="mdescLeft">&#160;</td><td class="mdescRight">current <code>\skewchar</code> values  <a href="fonts_8c.html#a5cb2d6d4a93dedd231f0bcb2255ba93c">更多...</a><br /></td></tr>
 <tr class="separator:a5cb2d6d4a93dedd231f0bcb2255ba93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc8ad1db634446c70453f21bb36c788b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="fonts_8h.html#aaef3941dc3cddf697b3713e877af0255">FontIndex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#acc8ad1db634446c70453f21bb36c788b">bcharlabel</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:acc8ad1db634446c70453f21bb36c788b"><td class="mdescLeft">&#160;</td><td class="mdescRight">start of lig kern program for left boundary character, non address if there is none.  <a href="fonts_8c.html#acc8ad1db634446c70453f21bb36c788b">更多...</a><br /></td></tr>
 <tr class="separator:acc8ad1db634446c70453f21bb36c788b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab75c70057a1f4dfed81049624436430a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#ab75c70057a1f4dfed81049624436430a">fontbchar</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:ab75c70057a1f4dfed81049624436430a"><td class="mdescLeft">&#160;</td><td class="mdescRight">right boundary character, non char if there is none  <a href="fonts_8c.html#ab75c70057a1f4dfed81049624436430a">更多...</a><br /></td></tr>
 <tr class="separator:ab75c70057a1f4dfed81049624436430a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad02e184eff02d2eb4feaec925574a2e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#ad02e184eff02d2eb4feaec925574a2e7">fontfalsebchar</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:ad02e184eff02d2eb4feaec925574a2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">font bchar if it doesn’t exist in the font, otherwise non char  <a href="fonts_8c.html#ad02e184eff02d2eb4feaec925574a2e7">更多...</a><br /></td></tr>
 <tr class="separator:ad02e184eff02d2eb4feaec925574a2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dadafbcedb836bc2920cd39e0702003"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a8dadafbcedb836bc2920cd39e0702003">charbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a8dadafbcedb836bc2920cd39e0702003"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for char info  <a href="fonts_8c.html#a8dadafbcedb836bc2920cd39e0702003">更多...</a><br /></td></tr>
 <tr class="separator:a8dadafbcedb836bc2920cd39e0702003"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ebfaadef569e7ef35d6d3c34fe266c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a3ebfaadef569e7ef35d6d3c34fe266c1">widthbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a3ebfaadef569e7ef35d6d3c34fe266c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for widths  <a href="fonts_8c.html#a3ebfaadef569e7ef35d6d3c34fe266c1">更多...</a><br /></td></tr>
 <tr class="separator:a3ebfaadef569e7ef35d6d3c34fe266c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34a1825e894dea81f9ab9a3bf088dcd7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a34a1825e894dea81f9ab9a3bf088dcd7">heightbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a34a1825e894dea81f9ab9a3bf088dcd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for heights  <a href="fonts_8c.html#a34a1825e894dea81f9ab9a3bf088dcd7">更多...</a><br /></td></tr>
 <tr class="separator:a34a1825e894dea81f9ab9a3bf088dcd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aede90bb3b8451d9d96187ed48fd721e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#aede90bb3b8451d9d96187ed48fd721e1">depthbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:aede90bb3b8451d9d96187ed48fd721e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for depths  <a href="fonts_8c.html#aede90bb3b8451d9d96187ed48fd721e1">更多...</a><br /></td></tr>
 <tr class="separator:aede90bb3b8451d9d96187ed48fd721e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2ddfd559328d78c1f1a139d5914a253"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#ac2ddfd559328d78c1f1a139d5914a253">italicbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:ac2ddfd559328d78c1f1a139d5914a253"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for italic corrections  <a href="fonts_8c.html#ac2ddfd559328d78c1f1a139d5914a253">更多...</a><br /></td></tr>
 <tr class="separator:ac2ddfd559328d78c1f1a139d5914a253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38679ef8c62853b8c4e1ff03e25977ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a38679ef8c62853b8c4e1ff03e25977ec">ligkernbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a38679ef8c62853b8c4e1ff03e25977ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for ligature/kerning programs  <a href="fonts_8c.html#a38679ef8c62853b8c4e1ff03e25977ec">更多...</a><br /></td></tr>
 <tr class="separator:a38679ef8c62853b8c4e1ff03e25977ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abba483a72cebd78d4575c1fdbd2d3ad9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#abba483a72cebd78d4575c1fdbd2d3ad9">kernbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:abba483a72cebd78d4575c1fdbd2d3ad9"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for kerns  <a href="fonts_8c.html#abba483a72cebd78d4575c1fdbd2d3ad9">更多...</a><br /></td></tr>
 <tr class="separator:abba483a72cebd78d4575c1fdbd2d3ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b148ff1f23e42bab14f129393937961"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a5b148ff1f23e42bab14f129393937961">extenbase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a5b148ff1f23e42bab14f129393937961"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for extensible recipes  <a href="fonts_8c.html#a5b148ff1f23e42bab14f129393937961">更多...</a><br /></td></tr>
 <tr class="separator:a5b148ff1f23e42bab14f129393937961"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78072e43fc01484d070b9384002a76ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fonts_8c.html#a78072e43fc01484d070b9384002a76ba">parambase</a> [<a class="el" href="tex_8h.html#a2ce66e0d3c49ed90ef67a5fafc6899c0">FONT_MAX</a>+1]</td></tr>
+<tr class="memdesc:a78072e43fc01484d070b9384002a76ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">base addresses for font parameters  <a href="fonts_8c.html#a78072e43fc01484d070b9384002a76ba">更多...</a><br /></td></tr>
 <tr class="separator:a78072e43fc01484d070b9384002a76ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">宏定义说明</h2>
@@ -466,6 +495,9 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>[#552] TeX always knows at least one font, namely the null font. </p>
+<p>It has no characters, and its seven parameters are all equal to zero. </p>
+
 </div>
 </div>
 <a id="a6475f91a663c2b2ac67d1781b54c9b09"></a>
@@ -641,6 +673,10 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>[p205#560]: input a TFM file </p>
+<p>&lt; index into font info</p>
+<p>&lt; was tfm file successfully opened?</p>
 <p>#563: Open tfm file for input</p>
 <p>#566: Use size fields to allocate font information</p>
 <p>#568: Read the TFM header</p>
@@ -721,6 +757,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>start of lig kern program for left boundary character, non address if there is none. </p>
+
 </div>
 </div>
 <a id="a8dadafbcedb836bc2920cd39e0702003"></a>
@@ -734,6 +772,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for char info </p>
 
 </div>
 </div>
@@ -749,6 +789,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>base addresses for depths </p>
+
 </div>
 </div>
 <a id="a5b148ff1f23e42bab14f129393937961"></a>
@@ -762,6 +804,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for extensible recipes </p>
 
 </div>
 </div>
@@ -777,6 +821,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>first unused word of font info </p>
+
 </div>
 </div>
 <a id="abdbd47c60bfdfd77b3e9f00de2b62f9c"></a>
@@ -790,6 +836,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>area of the font </p>
 
 </div>
 </div>
@@ -805,6 +853,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>beginning (smallest) character code </p>
+
 </div>
 </div>
 <a id="ab75c70057a1f4dfed81049624436430a"></a>
@@ -818,6 +868,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>right boundary character, non char if there is none </p>
 
 </div>
 </div>
@@ -833,6 +885,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>check sum </p>
+
 </div>
 </div>
 <a id="a56a6937f2248d83c28464f8bfa8afee4"></a>
@@ -846,6 +900,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>"design" size </p>
 
 </div>
 </div>
@@ -861,6 +917,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>ending (largest) character code </p>
+
 </div>
 </div>
 <a id="ad02e184eff02d2eb4feaec925574a2e7"></a>
@@ -874,6 +932,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>font bchar if it doesn’t exist in the font, otherwise non char </p>
 
 </div>
 </div>
@@ -889,6 +949,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>glue specification for interword space, null if not allocated </p>
+
 </div>
 </div>
 <a id="a3a55db1e6c469b6ec5d05134353562fc"></a>
@@ -902,6 +964,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>the big collection of font data </p>
 
 </div>
 </div>
@@ -917,6 +981,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>name of the font </p>
+
 </div>
 </div>
 <a id="ac757ee353c445a06acaf0daf192e073c"></a>
@@ -930,6 +996,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>how many font parameters are present </p>
 
 </div>
 </div>
@@ -945,6 +1013,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>largest internal font number in use </p>
+
 </div>
 </div>
 <a id="a7246a0f3ea8da46833b0314a7928bb19"></a>
@@ -958,6 +1028,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>"at" size </p>
 
 </div>
 </div>
@@ -973,6 +1045,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>has a character from this font actually appeared in the output? </p>
+
 </div>
 </div>
 <a id="a34a1825e894dea81f9ab9a3bf088dcd7"></a>
@@ -986,6 +1060,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for heights </p>
 
 </div>
 </div>
@@ -1001,6 +1077,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>current <code>\hyphenchar</code> values </p>
+
 </div>
 </div>
 <a id="ac2ddfd559328d78c1f1a139d5914a253"></a>
@@ -1014,6 +1092,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for italic corrections </p>
 
 </div>
 </div>
@@ -1029,6 +1109,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>base addresses for kerns </p>
+
 </div>
 </div>
 <a id="a38679ef8c62853b8c4e1ff03e25977ec"></a>
@@ -1042,6 +1124,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for ligature/kerning programs </p>
 
 </div>
 </div>
@@ -1057,6 +1141,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>base addresses for font parameters </p>
+
 </div>
 </div>
 <a id="a5cb2d6d4a93dedd231f0bcb2255ba93c"></a>
@@ -1071,6 +1157,8 @@ fonts.c 的引用(Include)关系图:</div>
       </table>
 </div><div class="memdoc">
 
+<p>current <code>\skewchar</code> values </p>
+
 </div>
 </div>
 <a id="a3ebfaadef569e7ef35d6d3c34fe266c1"></a>
@@ -1084,6 +1172,8 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>base addresses for widths </p>
 
 </div>
 </div>
