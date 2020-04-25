@@ -15,26 +15,26 @@
 #include "global_const.h" // [macro] assert, UMAXOF
 #include "dviout.h" // [export]
 
-// #587: identifies the kind of DVI files described here
+/// [#587]: identifies the kind of DVI files described here
 #define ID_BYTE 2
-// #605: number of words per entry in the down and right stacks
+/// [#605]: number of words per entry in the down and right stacks
 #define MOVEMENT_NODE_SIZE 3
 
-// p224#608
+/// p224#608
 enum DVISetting {
-    Y_HERE = 1, // info when the movement entry points to a y command
-    Z_HERE,     // info when the movement entry points to a z command
-    YZ_OK,      // info corresponding to an unconstrained down command
-    Y_OK,       // info corresponding to a down that can’t become a z
-    Z_OK,       // info corresponding to a down that can’t become a y
-    D_FIXED,    // info corresponding to a down that can’t change
+    Y_HERE = 1, ///< info when the movement entry points to a y command
+    Z_HERE,     ///< info when the movement entry points to a z command
+    YZ_OK,      ///< info corresponding to an unconstrained down command
+    Y_OK,       ///< info corresponding to a down that can’t become a z
+    Z_OK,       ///< info corresponding to a down that can’t become a y
+    D_FIXED,    ///< info corresponding to a down that can’t change.
 };
 
-// P226#611
+/// P226#611
 enum StackState {
-    NONE_SEEN = 0, // no y here or z here nodes have been encountered yet
-    Y_SEEN = 6,    // we have seen y here but not z here
-    Z_SEEN = 12    // we have seen z here but not y here
+    NONE_SEEN = 0, ///< no y here or z here nodes have been encountered yet
+    Y_SEEN = 6,    ///< we have seen y here but not z here
+    Z_SEEN = 12    ///< we have seen z here but not y here
 };
 
 typedef struct move* MovePtr;
@@ -45,29 +45,32 @@ struct move {
     long locationf;
     char infof;
 };
-// DVI byte number for a movement command
+
+/// DVI byte number for a movement command
 #define LOCATION(x) ((x)->locationf)
 #define WIDTH(x)    ((x)->widthf)
 #define LINK(x)     ((x)->linkf)
 #define INFO(x)     ((x)->infof)
 #define FREE_NODE(x, y) free(x)
 
-// #594: an index into the output buffer
-// [0, DVI_BUF_SIZE=800]
+/// [#594]: an index into the output buffer.
+/// [0, DVI_BUF_SIZE=800]
 typedef Pointer DVI_Index;
 static_assert(UMAXOF(DVI_Index) >= DVI_BUF_SIZE,
               "DVI_Index = [0, DVI_BUF_SIZE=800]");
-static EightBits dvibuf[DVI_BUF_SIZE + 1]; // buffer for DVI output
-static DVI_Index half_buf,  // half of dvi buf size
-                 dvi_limit, // end of the current half buffer
-                 dvi_ptr;   // the next available buffer address
-// `DVI_BUF_SIZE` times the number of times 
-// the output buffer has been fully emptied
+static EightBits dvibuf[DVI_BUF_SIZE + 1]; ///< buffer for DVI output
+static DVI_Index half_buf,  ///< half of dvi buf size
+                 dvi_limit, ///< end of the current half buffer
+                 dvi_ptr;   ///< the next available buffer address.
+
+/// `DVI_BUF_SIZE` times the number of times
+/// the output buffer has been fully emptied.
 static Integer dvi_offset;
-static Integer dvigone; // the number of bytes already output to dvi file
+static Integer dvigone; ///< the number of bytes already output to dvi file
 static FILE* dvifile;
-// LOCATION of previous bop in the DVI output
-// last_bop: [592], 593, 640, 642
+
+/// LOCATION of previous bop in the DVI output.
+/// last_bop: [592], 593, 640, 642
 static Integer last_bop; 
 
 static MovePtr down_ptr, right_ptr;
@@ -78,7 +81,7 @@ static MovePtr down_ptr, right_ptr;
  * 
  */
 
-// 初始化 dviout 内部变量
+/// 初始化 dviout 内部变量
 void dviout_init(void) {
     // #593
     last_bop = -1;
@@ -93,12 +96,12 @@ void dviout_init(void) {
     right_ptr = NULL;
 } // dviout_init
 
-// [#597]: The actual output of dvi_buf[a，b] to dvi file
+/// [#597]: The actual output of dvi_buf[a，b] to dvi file.
 static void write_dvi(DVI_Index a, DVI_Index b) {
     fwrite(&dvibuf[a], b - a + 1, 1, dvifile);
 } // #597: write_dvi
 
-// [#598]: outputs half of the buffer
+/// [#598]: outputs half of the buffer.
 static void dvi_swap(void) {
     if (dvi_limit == DVI_BUF_SIZE) {
         write_dvi(0, half_buf - 1);
@@ -112,16 +115,16 @@ static void dvi_swap(void) {
     dvigone += half_buf;
 } // #598: dvi_swap
 
-// [#598]
+/// [#598]
 void dviout(int x) {
     dvibuf[dvi_ptr] = x;
     dvi_ptr++;
     if (dvi_ptr == dvi_limit) dvi_swap();
 }
 
-// [#600]: outputs four bytes in two’s complement notation,
-// without risking arithmetic overflow.
-// TODO: check
+/// [#600]: outputs four bytes in two’s complement notation,
+/// without risking arithmetic overflow.
+/// TODO: check
 void dvi_four(Integer x) {
     dviout(x >> 24);
     dviout((x >> 16) & 255);
@@ -129,7 +132,7 @@ void dvi_four(Integer x) {
     dviout(x & 255);
 }
 
-// [#601]
+/// [#601]
 void dvi_pop(Integer l) {
     if (l == (dvi_offset + dvi_ptr) && dvi_ptr > 0)
         dvi_ptr--;
@@ -140,7 +143,7 @@ void dvi_pop(Integer l) {
 
 void dviout_helper(ASCIICode c) { dviout(c); }
 
-// [#602]
+/// [#602]
 void dvi_font_def(InternalFontNumber f) {
     FourQuarters fck = get_fontcheck(f);
     StrNumber fnm = get_fontname(f);
@@ -171,17 +174,18 @@ static MovePtr get_move_node(void) {
     }
 }
 
-// [p224#607]
-// produces a DVI command for some specified downward or rightward motion.
-// parameters:
-//  + w: the amount of motion
-//  + dvicmd: DOWN1 or RIGHT1
+/// [p224#607]
+/// produces a DVI command for some specified downward or rightward motion.
+/// 
+/// parameters:
+///  + w: the amount of motion
+///  + dvicmd: DOWN1 or RIGHT1
 static void movement(Scaled w, enum DVICommands dvicmd) {
-    // have we seen a y or z?
+    /// have we seen a y or z?
     SmallNumber mstate; 
-    // current and top nodes on the stack
+    /// current and top nodes on the stack
     MovePtr p, q;
-    // index into dvi buf , modulo dvi buf size
+    /// index into dvi buf , modulo dvi buf size
     Integer k;
 
     // malloc new node
@@ -335,7 +339,7 @@ _Lfound:
     } // _Lfound: if (INFO(q) == Y_HERE)
 } // #607: movement
 
-// [p227#615]: delete movement nodes with LOCATION ≥ l
+/// [p227#615]: delete movement nodes with LOCATION ≥ l.
 void prune_movements(Integer l) {
     MovePtr p;
 
@@ -354,8 +358,8 @@ void prune_movements(Integer l) {
     }
 } // #615: prune_movements
 
-// #616
-// 返回 cur_h 在 tex.c 中通过赋值更新 dvi_h
+/// [#616]
+/// 返回 cur_h 在 tex.c 中通过赋值更新 dvi_h.
 Scaled synch_h(Scaled cur_h, Scaled dvi_h) {
     if (cur_h != dvi_h) {
         movement(cur_h - dvi_h, RIGHT1);
@@ -363,7 +367,8 @@ Scaled synch_h(Scaled cur_h, Scaled dvi_h) {
     }
     return cur_h; 
 }
-// 返回 cur_v 在 tex.c 中通过赋值更新 dvi_v
+
+// 返回 cur_v 在 tex.c 中通过赋值更新 dvi_v.
 Scaled synch_v(Scaled cur_v, Scaled dvi_v) {
     if (cur_v != dvi_v) {
         movement(cur_v - dvi_v, DOWN1);
@@ -373,8 +378,8 @@ Scaled synch_v(Scaled cur_v, Scaled dvi_v) {
 }
 
 
-/// 辅助函数
-/// 帮助访问/修改 dviout 的内部变量
+// 辅助函数
+// 帮助访问/修改 dviout 的内部变量
 
 inline void dviout_ID_BYTE(void)    { dviout(ID_BYTE); }
 inline void dviout_SET_RULE(void)   { dviout(SET_RULE); }
@@ -390,7 +395,7 @@ inline void dviout_XXX4(void)       { dviout(XXX4); }
 long get_dvi_mark(void) { return dvi_offset + dvi_ptr; }
 Boolean dvi_openout(void) { return a_open_out(&dvifile); }
 
-// used in [p236#638]: shipout
+/// used in [p236#638]: shipout
 void _dvibop(long counts[]) {
     // page_loc: [638], 640
     long pageloc = dvi_offset + dvi_ptr;
