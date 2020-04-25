@@ -1,12 +1,12 @@
 #pragma once
 #ifndef FONTS_H
-// 字体相关函数
+/// 字体相关函数
 #define FONTS_H
 #include <stdio.h> // FILE
 #include "global_const.h"
 // [fonts], dviout, tex
 
-// #548: [FONT_BASE, FONT_MAX] = [0, 75]
+/// [#548]: [FONT_BASE, FONT_MAX] = [0, 75]
 typedef UChar InternalFontNumber;
 static_assert(FONT_BASE == 0, "FONT_BASE == 0");
 static_assert(UMAXOF(InternalFontNumber) >= FONT_MAX,

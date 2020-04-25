@@ -17,44 +17,44 @@
     // [func] print_scaled, xn_over_d,
 
 // p201#549
-MemoryWord fontinfo[FONT_MEM_SIZE + 1]; // the big collection of font data
-FontIndex fmemptr; // first unused word of font info
-InternalFontNumber fontptr; // largest internal font number in use
-Static FourQuarters fontcheck[FONT_MAX + 1]; // check sum
-Static Scaled fontsize[FONT_MAX + 1];        // "at" size
-Static Scaled fontdsize[FONT_MAX + 1];       // "design" size
-FontIndex fontparams[FONT_MAX + 1]; // how many font parameters are present
-Static StrNumber fontname[FONT_MAX + 1];     // name of the font
-Static StrNumber fontarea[FONT_MAX + 1];     // area of the font
-EightBits fontbc[FONT_MAX + 1]; // beginning (smallest) character code
-EightBits fontec[FONT_MAX + 1]; // ending (largest) character code
-// glue specification for interword space, null if not allocated
+MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
+FontIndex fmemptr; ///< first unused word of font info
+InternalFontNumber fontptr; ///< largest internal font number in use
+Static FourQuarters fontcheck[FONT_MAX + 1]; ///< check sum
+Static Scaled fontsize[FONT_MAX + 1];        ///< "at" size
+Static Scaled fontdsize[FONT_MAX + 1];       ///< "design" size
+FontIndex fontparams[FONT_MAX + 1]; ///< how many font parameters are present
+Static StrNumber fontname[FONT_MAX + 1];     ///< name of the font
+Static StrNumber fontarea[FONT_MAX + 1];     ///< area of the font
+EightBits fontbc[FONT_MAX + 1]; ///< beginning (smallest) character code
+EightBits fontec[FONT_MAX + 1]; ///< ending (largest) character code
+/// glue specification for interword space, null if not allocated
 Pointer fontglue[FONT_MAX + 1];
-// has a character from this font actually appeared in the output?
+/// has a character from this font actually appeared in the output?
 Boolean fontused[FONT_MAX + 1];
-Static Integer hyphenchar[FONT_MAX + 1]; // current \hyphenchar values
-Static Integer skewchar[FONT_MAX + 1];   // current \skewchar values
-// start of lig kern program for left boundary character, 
-// non address if there is none
+Static Integer hyphenchar[FONT_MAX + 1]; ///< current `\hyphenchar` values
+Static Integer skewchar[FONT_MAX + 1];   ///< current `\skewchar` values
+/// start of lig kern program for left boundary character, 
+/// non address if there is none.
 FontIndex bcharlabel[FONT_MAX + 1];
-// right boundary character, non char if there is none
+/// right boundary character, non char if there is none
 Integer fontbchar[FONT_MAX + 1];
-// font bchar if it doesn’t exist in the font, otherwise non char
+/// font bchar if it doesn’t exist in the font, otherwise non char
 Integer fontfalsebchar[FONT_MAX + 1];
 
 // #550
-Static Integer charbase[FONT_MAX + 1]; // base addresses for char info
-Static Integer widthbase[FONT_MAX + 1]; // base addresses for widths
-Static Integer heightbase[FONT_MAX + 1]; // base addresses for heights
-Static Integer depthbase[FONT_MAX + 1];  // base addresses for depths
-// base addresses for italic corrections
+Static Integer charbase[FONT_MAX + 1]; ///< base addresses for char info
+Static Integer widthbase[FONT_MAX + 1]; ///< base addresses for widths
+Static Integer heightbase[FONT_MAX + 1]; ///< base addresses for heights
+Static Integer depthbase[FONT_MAX + 1];  ///< base addresses for depths
+/// base addresses for italic corrections
 Static Integer italicbase[FONT_MAX + 1]; 
-// base addresses for ligature/kerning programs
+/// base addresses for ligature/kerning programs
 Integer ligkernbase[FONT_MAX + 1];
-Static Integer kernbase[FONT_MAX + 1]; // base addresses for kerns
-// base addresses for extensible recipes
+Static Integer kernbase[FONT_MAX + 1]; ///< base addresses for kerns
+/// base addresses for extensible recipes
 Integer extenbase[FONT_MAX + 1];
-// base addresses for font parameters
+/// base addresses for font parameters
 Integer parambase[FONT_MAX + 1];
 
 
@@ -91,9 +91,10 @@ Scaled charkern(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[kernbase[x] + 256 * opbyte(y) + rembyte(y)].sc);
 }
 
-// #552
-// TeX always knows at least one font, namely the null font. 
-// It has no characters, and its seven parameters are all equal to zero.
+/// [#552]
+/// TeX always knows at least one font, namely the null font. 
+/// 
+/// It has no characters, and its seven parameters are all equal to zero.
 void fonts_init(void) {
     fontptr = NULL_FONT;
     fmemptr = 7;
@@ -305,11 +306,11 @@ _Lbadfmt_:
     return 0;
 }
 
-// [p205#560]: input a TFM file
+/// [p205#560]: input a TFM file
 InternalFontNumber
 readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
-    FontIndex k; // index into font info
-    Boolean fileopened; // was tfm file successfully opened?
+    FontIndex k; ///< index into font info
+    Boolean fileopened; ///< was tfm file successfully opened?
 
     // sizes of subfiles
     int lf; // length of the entire file, in words
