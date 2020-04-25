@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: macros.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('macros_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">macros.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="macros_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef MACROS_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// 全局常用的宏</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define MACROS_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="macros_8h.html#a3b0d58df33d14577c0022f631774a5e3">    5</a></span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// fonts, str, tex</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define pget(x) fread(&amp;x, 8, 1, fmtfile)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="macros_8h.html#aeab5df1e30bdc8ca08e6b9b3450db0a4">    8</a></span>&#160;<span class="preprocessor">#define pput(x) fwrite(&amp;x, 8, 1, fmtfile)</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="macros_8h.html#aedd65168720a93139164bccf7ab1ad9e">    9</a></span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// fonts, tex</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// a |halfword| code that can&#39;t match a real character}</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define NON_CHAR 256 </span></div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112">   14</a></span>&#160;<span class="preprocessor">#define opbyte(x) (x.b2)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="macros_8h.html#af5864224e50350a4279278a916685959">   15</a></span>&#160;<span class="preprocessor">#define rembyte(x) (x.b3)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="macros_8h.html#ad4dfd72dc4d195c3c40f35e395ee9418">   16</a></span>&#160;<span class="preprocessor">#define chartag(x) (((x).b2) % 4)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="macros_8h.html#aaa08111c2d3dfbdad2e7207ecd4e9b5c">   17</a></span>&#160;<span class="preprocessor">#define charexists(x) ((x).b0 &gt; MIN_QUARTER_WORD)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="macros_8h.html#a0eb0898a6cae8ba19bf74324d1ccf61f">   18</a></span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// tex only</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define help1(x1) set_help(1, x1)</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="macros_8h.html#a8da013a1bb18edf91cbacc094848b17f">   21</a></span>&#160;<span class="preprocessor">#define help2(x1, x2) set_help(2, x1, x2)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="macros_8h.html#ab7ada5e9ae9ef4f865638e6a06913c7b">   22</a></span>&#160;<span class="preprocessor">#define help3(x1, x2, x3) set_help(3, x1, x2, x3)</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="macros_8h.html#ae6e250c5c6e0e84cf564237557f455df">   23</a></span>&#160;<span class="comment">// fonts, tex</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define help4(x1, x2, x3, x4) set_help(4, x1, x2, x3, x4)</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="macros_8h.html#a16fe42a0eed3bd39434cbacf2e6be371">   25</a></span>&#160;<span class="preprocessor">#define help5(x1, x2, x3, x4, x5) set_help(5, x1, x2, x3, x4, x5)</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="macros_8h.html#a4d8ceb2b7934cd5b7e9744a566892891">   26</a></span>&#160;<span class="comment">// tex only</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define help6(x1, x2, x3, x4, x5, x6) set_help(6, x1, x2, x3, x4, x5, x6)</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="macros_8h.html#a8161d183f59f084fab4d1a83831c0dd9">   28</a></span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif // #ifndef MACROS_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="macros_8h.html">macros.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

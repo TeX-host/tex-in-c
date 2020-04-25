@@ -1,0 +1,613 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: tex_types.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('tex__types_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#typedef-members">类型定义</a>  </div>
+  <div class="headertitle">
+<div class="title">tex_types.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+tex_types.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="tex__types_8h__incl.svg" width="195" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="tex__types_8h__dep__incl.svg" width="928" height="272"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div>
+<p><a href="tex__types_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_two_halves.html">TwoHalves</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="struct_two_halves.html" title="[p43#113]: TwoHalves(64) .">TwoHalves(64)</a> .  <a href="struct_two_halves.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_four_quarters.html">FourQuarters</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="struct_four_quarters.html" title="[p43#113]: FourQuarters(64) .">FourQuarters(64)</a> .  <a href="struct_four_quarters.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_memory_word.html">MemoryWord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="union_memory_word.html" title="[p43#113]: MemoryWord(64) .">MemoryWord(64)</a> .  <a href="union_memory_word.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_list_state_record.html">ListStateRecord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#212]: <a class="el" href="struct_list_state_record.html" title="[#212]: ListStateRecord(366) .">ListStateRecord(366)</a> .  <a href="struct_list_state_record.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_in_state_record.html">InStateRecord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#300]: <a class="el" href="struct_in_state_record.html" title="[#300]: InStateRecord(1344) .">InStateRecord(1344)</a> .  <a href="struct_in_state_record.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:aed14a6c2a0bd00ce3c078900cd800eb2"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2">INC_TEX_TYPES</a></td></tr>
+<tr class="memdesc:aed14a6c2a0bd00ce3c078900cd800eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">tex 相关的类型  <a href="tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2">更多...</a><br /></td></tr>
+<tr class="separator:aed14a6c2a0bd00ce3c078900cd800eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:a3790b6de8c45ebee9af548380c3fb8d2"><td class="memItemLeft" align="right" valign="top">typedef bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></td></tr>
+<tr class="memdesc:a3790b6de8c45ebee9af548380c3fb8d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">布尔类型定义  <a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">更多...</a><br /></td></tr>
+<tr class="separator:a3790b6de8c45ebee9af548380c3fb8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a445a5f0e2a34c9d97d69a3c2d1957907"><td class="memItemLeft" align="right" valign="top">typedef double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a445a5f0e2a34c9d97d69a3c2d1957907">Real</a></td></tr>
+<tr class="memdesc:a445a5f0e2a34c9d97d69a3c2d1957907"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Real::double(64)</code> .  <a href="tex__types_8h.html#a445a5f0e2a34c9d97d69a3c2d1957907">更多...</a><br /></td></tr>
+<tr class="separator:a445a5f0e2a34c9d97d69a3c2d1957907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a521f7b9ccda5094078d29f82f06de886"><td class="memItemLeft" align="right" valign="top">typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a></td></tr>
+<tr class="memdesc:a521f7b9ccda5094078d29f82f06de886"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>UChar(8)</code> = [0, 255]  <a href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">更多...</a><br /></td></tr>
+<tr class="separator:a521f7b9ccda5094078d29f82f06de886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a8a3aa6ed721f4b27ed73a5563c0fb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb">Char</a></td></tr>
+<tr class="memdesc:ae4a8a3aa6ed721f4b27ed73a5563c0fb"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Char(8)</code> = [0, 255]  <a href="tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb">更多...</a><br /></td></tr>
+<tr class="separator:ae4a8a3aa6ed721f4b27ed73a5563c0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7845d348421009f965132d7f4d10095f"><td class="memItemLeft" align="right" valign="top">typedef int8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a7845d348421009f965132d7f4d10095f">SChar</a></td></tr>
+<tr class="memdesc:a7845d348421009f965132d7f4d10095f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>SChar(8)</code> = [−127, +127]  <a href="tex__types_8h.html#a7845d348421009f965132d7f4d10095f">更多...</a><br /></td></tr>
+<tr class="separator:a7845d348421009f965132d7f4d10095f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23abc5a95167751b01dabc5eb2396241"><td class="memItemLeft" align="right" valign="top">typedef int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></td></tr>
+<tr class="memdesc:a23abc5a95167751b01dabc5eb2396241"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Integer(64)</code> = \( [−2^{64}, 2^{64}) \)  <a href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">更多...</a><br /></td></tr>
+<tr class="separator:a23abc5a95167751b01dabc5eb2396241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3ac1f9ee0999d938ffe663d7928132e"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#ae3ac1f9ee0999d938ffe663d7928132e">UInteger</a></td></tr>
+<tr class="memdesc:ae3ac1f9ee0999d938ffe663d7928132e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>UInteger(64)</code> = \( [0, 2^{64}) \)  <a href="tex__types_8h.html#ae3ac1f9ee0999d938ffe663d7928132e">更多...</a><br /></td></tr>
+<tr class="separator:ae3ac1f9ee0999d938ffe663d7928132e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3597948313fb049b8a41160f601b7c78"><td class="memItemLeft" align="right" valign="top">typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></td></tr>
+<tr class="memdesc:a3597948313fb049b8a41160f601b7c78"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Pointer::size_t(64)</code>  <a href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">更多...</a><br /></td></tr>
+<tr class="separator:a3597948313fb049b8a41160f601b7c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d70d2452bc784cc9a499c567e4b5a77"><td class="memItemLeft" align="right" valign="top">typedef int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a6d70d2452bc784cc9a499c567e4b5a77">Int16</a></td></tr>
+<tr class="memdesc:a6d70d2452bc784cc9a499c567e4b5a77"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>Int16(16)</code> = \( [-2^{15}, 2^{15}) \)  <a href="tex__types_8h.html#a6d70d2452bc784cc9a499c567e4b5a77">更多...</a><br /></td></tr>
+<tr class="separator:a6d70d2452bc784cc9a499c567e4b5a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c7e64bfcbd67be1699ac1e4d2a8d6cd"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a></td></tr>
+<tr class="memdesc:a8c7e64bfcbd67be1699ac1e4d2a8d6cd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>UInt16(16)</code> = \( [0, 2^{16}) \) = [0, 65536)  <a href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">更多...</a><br /></td></tr>
+<tr class="separator:a8c7e64bfcbd67be1699ac1e4d2a8d6cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cbca5ee07f5cfd4cbdea1039388f9d7"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a></td></tr>
+<tr class="memdesc:a0cbca5ee07f5cfd4cbdea1039388f9d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">#18: <code>ASCIICode::UChar(8)</code> = [0, 255]  <a href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">更多...</a><br /></td></tr>
+<tr class="separator:a0cbca5ee07f5cfd4cbdea1039388f9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae754f98edb4d28aea7fd715d2d0d16a4"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a></td></tr>
+<tr class="memdesc:ae754f98edb4d28aea7fd715d2d0d16a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">#25: <code>EightBits::UChar(8)</code> = [0, 255]  <a href="tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4">更多...</a><br /></td></tr>
+<tr class="separator:ae754f98edb4d28aea7fd715d2d0d16a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a469f07b872d5b153540e04edac4bc84f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f">PackedASCIICode</a></td></tr>
+<tr class="memdesc:a469f07b872d5b153540e04edac4bc84f"><td class="mdescLeft">&#160;</td><td class="mdescRight">#38: <code>PackedASCIICode::UChar(8)</code> = [0, 255]  <a href="tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f">更多...</a><br /></td></tr>
+<tr class="separator:a469f07b872d5b153540e04edac4bc84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2706245419f72401a8d6b15c5d0248a8"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a></td></tr>
+<tr class="memdesc:a2706245419f72401a8d6b15c5d0248a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p38#101]: <code>Scaled::Integer(64)</code> = \( [−2^{64}, 2^{64}) \) we need Pascal's <code>Integer(32/64)</code>, dependent upon the bit size of the target machine .  <a href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">更多...</a><br /></td></tr>
+<tr class="separator:a2706245419f72401a8d6b15c5d0248a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9500418dd1548584b1079e4fb79a27e3"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#ae3ac1f9ee0999d938ffe663d7928132e">UInteger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a9500418dd1548584b1079e4fb79a27e3">NonNegativeInteger</a></td></tr>
+<tr class="memdesc:a9500418dd1548584b1079e4fb79a27e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p38#101]: <code>NonNegativeInteger::UInteger(64)</code> = \( [0, 2^{64}) \) only need: (31bit)[0, 2^31) .  <a href="tex__types_8h.html#a9500418dd1548584b1079e4fb79a27e3">更多...</a><br /></td></tr>
+<tr class="separator:a9500418dd1548584b1079e4fb79a27e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e4f531097beff3efa03761e6ee8d288"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a></td></tr>
+<tr class="memdesc:a8e4f531097beff3efa03761e6ee8d288"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p38#101]: <code>SmallNumber::UChar(8)</code> = [0, 255] only need: (6bit)[0, 63] .  <a href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">更多...</a><br /></td></tr>
+<tr class="separator:a8e4f531097beff3efa03761e6ee8d288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20144c1a3dcaab6ffdf6ad15a15c8f90"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a445a5f0e2a34c9d97d69a3c2d1957907">Real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90">GlueRatio</a></td></tr>
+<tr class="memdesc:a20144c1a3dcaab6ffdf6ad15a15c8f90"><td class="mdescLeft">&#160;</td><td class="mdescRight">one-word representation of a glue expansion factor.  <a href="tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90">更多...</a><br /></td></tr>
+<tr class="separator:a20144c1a3dcaab6ffdf6ad15a15c8f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822fdaa4ebe79f27c8d991278c23b1fe"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a></td></tr>
+<tr class="memdesc:a822fdaa4ebe79f27c8d991278c23b1fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <code>QuarterWord(8=&gt;16)</code> .  <a href="tex__types_8h.html#a822fdaa4ebe79f27c8d991278c23b1fe">更多...</a><br /></td></tr>
+<tr class="separator:a822fdaa4ebe79f27c8d991278c23b1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8a834ed7aca6d10c5906b333ecd4a2a"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></td></tr>
+<tr class="memdesc:aa8a834ed7aca6d10c5906b333ecd4a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <code>HalfWord(16=&gt;32)</code> .  <a href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">更多...</a><br /></td></tr>
+<tr class="separator:aa8a834ed7aca6d10c5906b333ecd4a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5222c678ee04a51b87796fb24c64afa"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa">GlueOrd</a></td></tr>
+<tr class="memdesc:ad5222c678ee04a51b87796fb24c64afa"><td class="mdescLeft">&#160;</td><td class="mdescRight">infinity to the 0, 1, 2, or 3 power.  <a href="tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa">更多...</a><br /></td></tr>
+<tr class="separator:ad5222c678ee04a51b87796fb24c64afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c97a39fcf6353b6b420c55366d13d9"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a19c97a39fcf6353b6b420c55366d13d9">GroupCode</a></td></tr>
+<tr class="memdesc:a19c97a39fcf6353b6b420c55366d13d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">#269: <code>GroupCode(8)</code> save level for a level boundary.  <a href="tex__types_8h.html#a19c97a39fcf6353b6b420c55366d13d9">更多...</a><br /></td></tr>
+<tr class="separator:a19c97a39fcf6353b6b420c55366d13d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab80f07985d5fc40ccd04b953bed15a2"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a></td></tr>
+<tr class="memdesc:aab80f07985d5fc40ccd04b953bed15a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">an index into trie; <code>[0, TRIE_SIZE=131000]</code>.  <a href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">更多...</a><br /></td></tr>
+<tr class="separator:aab80f07985d5fc40ccd04b953bed15a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a733a84ca55c8ad34587808c5eb6d6c5a"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__types_8h.html#a733a84ca55c8ad34587808c5eb6d6c5a">HyphPointer</a></td></tr>
+<tr class="memdesc:a733a84ca55c8ad34587808c5eb6d6c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">an index into the ordered hash table; <code>[0, HYPH_SIZE=307]</code>.  <a href="tex__types_8h.html#a733a84ca55c8ad34587808c5eb6d6c5a">更多...</a><br /></td></tr>
+<tr class="separator:a733a84ca55c8ad34587808c5eb6d6c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="aed14a6c2a0bd00ce3c078900cd800eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed14a6c2a0bd00ce3c078900cd800eb2">&#9670;&nbsp;</a></span>INC_TEX_TYPES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> INC_TEX_TYPES</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>tex 相关的类型 </p>
+
+</div>
+</div>
+<h2 class="groupheader">类型定义说明</h2>
+<a id="a0cbca5ee07f5cfd4cbdea1039388f9d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cbca5ee07f5cfd4cbdea1039388f9d7">&#9670;&nbsp;</a></span>ASCIICode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#18: <code>ASCIICode::UChar(8)</code> = [0, 255] </p>
+
+</div>
+</div>
+<a id="a3790b6de8c45ebee9af548380c3fb8d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3790b6de8c45ebee9af548380c3fb8d2">&#9670;&nbsp;</a></span>Boolean</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef bool <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>布尔类型定义 </p>
+
+</div>
+</div>
+<a id="ae4a8a3aa6ed721f4b27ed73a5563c0fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4a8a3aa6ed721f4b27ed73a5563c0fb">&#9670;&nbsp;</a></span>Char</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb">Char</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>Char(8)</code> = [0, 255] </p>
+
+</div>
+</div>
+<a id="ae754f98edb4d28aea7fd715d2d0d16a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae754f98edb4d28aea7fd715d2d0d16a4">&#9670;&nbsp;</a></span>EightBits</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#25: <code>EightBits::UChar(8)</code> = [0, 255] </p>
+
+</div>
+</div>
+<a id="ad5222c678ee04a51b87796fb24c64afa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5222c678ee04a51b87796fb24c64afa">&#9670;&nbsp;</a></span>GlueOrd</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa">GlueOrd</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>infinity to the 0, 1, 2, or 3 power. </p>
+<p>only need: <code>[normal, filll] = [0, 3]</code> </p>
+
+</div>
+</div>
+<a id="a20144c1a3dcaab6ffdf6ad15a15c8f90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20144c1a3dcaab6ffdf6ad15a15c8f90">&#9670;&nbsp;</a></span>GlueRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a445a5f0e2a34c9d97d69a3c2d1957907">Real</a> <a class="el" href="tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90">GlueRatio</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>one-word representation of a glue expansion factor. </p>
+
+</div>
+</div>
+<a id="a19c97a39fcf6353b6b420c55366d13d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19c97a39fcf6353b6b420c55366d13d9">&#9670;&nbsp;</a></span>GroupCode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__constant_8h.html#af479e28d591782caf87471ba46820285">GroupCode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#269: <code>GroupCode(8)</code> save level for a level boundary. </p>
+<p>only need <code>[0, MAX_GROUP_CODE] = [0, 16]</code> </p>
+
+</div>
+</div>
+<a id="aa8a834ed7aca6d10c5906b333ecd4a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8a834ed7aca6d10c5906b333ecd4a2a">&#9670;&nbsp;</a></span>HalfWord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint32_t <a class="el" href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p43#113]: <code>HalfWord(16=&gt;32)</code> . </p>
+
+</div>
+</div>
+<a id="a733a84ca55c8ad34587808c5eb6d6c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a733a84ca55c8ad34587808c5eb6d6c5a">&#9670;&nbsp;</a></span>HyphPointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="el" href="tex__types_8h.html#a733a84ca55c8ad34587808c5eb6d6c5a">HyphPointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>an index into the ordered hash table; <code>[0, HYPH_SIZE=307]</code>. </p>
+
+</div>
+</div>
+<a id="a6d70d2452bc784cc9a499c567e4b5a77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d70d2452bc784cc9a499c567e4b5a77">&#9670;&nbsp;</a></span>Int16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int16_t <a class="el" href="tex__types_8h.html#a6d70d2452bc784cc9a499c567e4b5a77">Int16</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>Int16(16)</code> = \( [-2^{15}, 2^{15}) \) </p>
+
+</div>
+</div>
+<a id="a23abc5a95167751b01dabc5eb2396241"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23abc5a95167751b01dabc5eb2396241">&#9670;&nbsp;</a></span>Integer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int64_t <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>Integer(64)</code> = \( [−2^{64}, 2^{64}) \) </p>
+
+</div>
+</div>
+<a id="a9500418dd1548584b1079e4fb79a27e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9500418dd1548584b1079e4fb79a27e3">&#9670;&nbsp;</a></span>NonNegativeInteger</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#ae3ac1f9ee0999d938ffe663d7928132e">UInteger</a> <a class="el" href="tex__types_8h.html#a9500418dd1548584b1079e4fb79a27e3">NonNegativeInteger</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p38#101]: <code>NonNegativeInteger::UInteger(64)</code> = \( [0, 2^{64}) \) only need: (31bit)[0, 2^31) . </p>
+
+</div>
+</div>
+<a id="a469f07b872d5b153540e04edac4bc84f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a469f07b872d5b153540e04edac4bc84f">&#9670;&nbsp;</a></span>PackedASCIICode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f">PackedASCIICode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#38: <code>PackedASCIICode::UChar(8)</code> = [0, 255] </p>
+
+</div>
+</div>
+<a id="a3597948313fb049b8a41160f601b7c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3597948313fb049b8a41160f601b7c78">&#9670;&nbsp;</a></span>Pointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef size_t <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>Pointer::size_t(64)</code> </p>
+
+</div>
+</div>
+<a id="a822fdaa4ebe79f27c8d991278c23b1fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a822fdaa4ebe79f27c8d991278c23b1fe">&#9670;&nbsp;</a></span>QuarterWord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint16_t <a class="el" href="tex__types_8h.html#a822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p43#113]: <code>QuarterWord(8=&gt;16)</code> . </p>
+
+</div>
+</div>
+<a id="a445a5f0e2a34c9d97d69a3c2d1957907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a445a5f0e2a34c9d97d69a3c2d1957907">&#9670;&nbsp;</a></span>Real</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef double <a class="el" href="tex__types_8h.html#a445a5f0e2a34c9d97d69a3c2d1957907">Real</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>Real::double(64)</code> . </p>
+
+</div>
+</div>
+<a id="a2706245419f72401a8d6b15c5d0248a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2706245419f72401a8d6b15c5d0248a8">&#9670;&nbsp;</a></span>Scaled</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p38#101]: <code>Scaled::Integer(64)</code> = \( [−2^{64}, 2^{64}) \) we need Pascal's <code>Integer(32/64)</code>, dependent upon the bit size of the target machine . </p>
+
+</div>
+</div>
+<a id="a7845d348421009f965132d7f4d10095f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7845d348421009f965132d7f4d10095f">&#9670;&nbsp;</a></span>SChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int8_t <a class="el" href="tex__types_8h.html#a7845d348421009f965132d7f4d10095f">SChar</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>SChar(8)</code> = [−127, +127] </p>
+
+</div>
+</div>
+<a id="a8e4f531097beff3efa03761e6ee8d288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e4f531097beff3efa03761e6ee8d288">&#9670;&nbsp;</a></span>SmallNumber</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p38#101]: <code>SmallNumber::UChar(8)</code> = [0, 255] only need: (6bit)[0, 63] . </p>
+
+</div>
+</div>
+<a id="aab80f07985d5fc40ccd04b953bed15a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab80f07985d5fc40ccd04b953bed15a2">&#9670;&nbsp;</a></span>TriePointer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>an index into trie; <code>[0, TRIE_SIZE=131000]</code>. </p>
+
+</div>
+</div>
+<a id="a521f7b9ccda5094078d29f82f06de886"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a521f7b9ccda5094078d29f82f06de886">&#9670;&nbsp;</a></span>UChar</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint8_t <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>UChar(8)</code> = [0, 255] </p>
+
+</div>
+</div>
+<a id="a8c7e64bfcbd67be1699ac1e4d2a8d6cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">&#9670;&nbsp;</a></span>UInt16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint16_t <a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>UInt16(16)</code> = \( [0, 2^{16}) \) = [0, 65536) </p>
+
+</div>
+</div>
+<a id="ae3ac1f9ee0999d938ffe663d7928132e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3ac1f9ee0999d938ffe663d7928132e">&#9670;&nbsp;</a></span>UInteger</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint64_t <a class="el" href="tex__types_8h.html#ae3ac1f9ee0999d938ffe663d7928132e">UInteger</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>UInteger(64)</code> = \( [0, 2^{64}) \) </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="tex__types_8h.html">tex_types.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: texmath.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('texmath_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">texmath.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="texmath_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_TEX_MATH</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define INC_TEX_MATH</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="texmath_8h.html#a4f4558a7d468e4d0cc9a99a8ab21168f">   20</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__types_8h.html">tex_types.h</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// #101</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#define UNITY   65536L  </span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="texmath_8h.html#ae8e6dc0c42ccacb112eb4b836357f991">   24</a></span>&#160;<span class="preprocessor">#define TWO     131072L </span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="texmath_8h.html#a888e15353eb3d330c743dbdeb47117e2">   25</a></span>&#160;<span class="preprocessor"></span> </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define nx_plus_y(n, x, y)      mult_and_add((n), (x), (y),  07777777777L)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="texmath_8h.html#a660acb7aecae0e7a286c8387d46eac02">   29</a></span>&#160;<span class="preprocessor">#define mult_integers(n, x)     mult_and_add((n), (x),  0,  017777777777L)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="texmath_8h.html#a760113805e0674644aed3bd4972cb997">   32</a></span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> <a class="code" href="texmath_8h.html#a65aaf598f8090d4021f27374765fa642">arith_error</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="texmath_8h.html#a7300ff42f54cddf76d68ff4285b77959">tex_remainder</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> <a class="code" href="texmath_8h.html#a6c2ac4c8f4613a28ebc7b86cc561293d">half</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> x);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="texmath_8h.html#ab8eba113baa6ca8efe3a98f28e53bbea">round_decimals</a>(<a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> k, <span class="keywordtype">char</span> digs[]);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="texmath_8h.html#ae2543995cfa97538bb56d49121091d2c">print_scaled</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> s);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// only used in [macro] nx_plus_y, mult_integers</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="texmath_8h.html#adea6ca6cc579592807c52802b8820c39">mult_and_add</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> y, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> max_ans);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="texmath_8h.html#a2dafa71ac1ef3f6b4b985fc54f818516">x_over_n</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="texmath_8h.html#a96d9687c9a4fddb08d146e72b22df1c9">xn_over_d</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n, <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> d);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> <a class="code" href="texmath_8h.html#adb0743119eba9fc49e4f03b586ae1bf7">badness</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> t, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> s);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif // INC_TEX_MATH</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="atexmath_8h_html_ab8eba113baa6ca8efe3a98f28e53bbea"><div class="ttname"><a href="texmath_8h.html#ab8eba113baa6ca8efe3a98f28e53bbea">round_decimals</a></div><div class="ttdeci">Scaled round_decimals(SmallNumber k, char digs[])</div><div class="ttdoc">[#102]: create a scaled integer from a given decimal fraction.</div><div class="ttdef"><b>Definition:</b> texmath.c:23</div></div>
+<div class="ttc" id="atexmath_8h_html_a96d9687c9a4fddb08d146e72b22df1c9"><div class="ttname"><a href="texmath_8h.html#a96d9687c9a4fddb08d146e72b22df1c9">xn_over_d</a></div><div class="ttdeci">Scaled xn_over_d(Scaled x, Integer n, Integer d)</div><div class="ttdoc">[#107]: x * (n / d)</div><div class="ttdef"><b>Definition:</b> texmath.c:111</div></div>
+<div class="ttc" id="atex__types_8h_html_a23abc5a95167751b01dabc5eb2396241"><div class="ttname"><a href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></div><div class="ttdeci">int64_t Integer</div><div class="ttdoc">Integer(64) =</div><div class="ttdef"><b>Definition:</b> tex_types.h:42</div></div>
+<div class="ttc" id="atex__types_8h_html_a8e4f531097beff3efa03761e6ee8d288"><div class="ttname"><a href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a></div><div class="ttdeci">UChar SmallNumber</div><div class="ttdoc">[p38#101]: SmallNumber::UChar(8) = [0, 255] only need: (6bit)[0, 63] .</div><div class="ttdef"><b>Definition:</b> tex_types.h:106</div></div>
+<div class="ttc" id="atex__types_8h_html_aa8a834ed7aca6d10c5906b333ecd4a2a"><div class="ttname"><a href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></div><div class="ttdeci">uint32_t HalfWord</div><div class="ttdoc">[p43#113]: HalfWord(16=&gt;32) .</div><div class="ttdef"><b>Definition:</b> tex_types.h:116</div></div>
+<div class="ttc" id="atexmath_8h_html_ae2543995cfa97538bb56d49121091d2c"><div class="ttname"><a href="texmath_8h.html#ae2543995cfa97538bb56d49121091d2c">print_scaled</a></div><div class="ttdeci">void print_scaled(Scaled s)</div><div class="ttdoc">[#103]: prints scaled real, rounded to five digits</div><div class="ttdef"><b>Definition:</b> texmath.c:34</div></div>
+<div class="ttc" id="atexmath_8h_html_a6c2ac4c8f4613a28ebc7b86cc561293d"><div class="ttname"><a href="texmath_8h.html#a6c2ac4c8f4613a28ebc7b86cc561293d">half</a></div><div class="ttdeci">Integer half(Integer x)</div><div class="ttdoc">[#100] 整除 2</div><div class="ttdef"><b>Definition:</b> texmath.c:13</div></div>
+<div class="ttc" id="atex__types_8h_html"><div class="ttname"><a href="tex__types_8h.html">tex_types.h</a></div></div>
+<div class="ttc" id="atex__types_8h_html_a2706245419f72401a8d6b15c5d0248a8"><div class="ttname"><a href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a></div><div class="ttdeci">Integer Scaled</div><div class="ttdoc">[p38#101]: Scaled::Integer(64) =  we need Pascal's Integer(32/64), dependent upon the bit size of the...</div><div class="ttdef"><b>Definition:</b> tex_types.h:100</div></div>
+<div class="ttc" id="atexmath_8h_html_adea6ca6cc579592807c52802b8820c39"><div class="ttname"><a href="texmath_8h.html#adea6ca6cc579592807c52802b8820c39">mult_and_add</a></div><div class="ttdeci">Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans)</div><div class="ttdoc">[#105]: return nx + y</div><div class="ttdef"><b>Definition:</b> texmath.c:58</div></div>
+<div class="ttc" id="atexmath_8h_html_a65aaf598f8090d4021f27374765fa642"><div class="ttname"><a href="texmath_8h.html#a65aaf598f8090d4021f27374765fa642">arith_error</a></div><div class="ttdeci">Boolean arith_error</div><div class="ttdoc">[#104] has arithmetic overflow occurred recently?</div><div class="ttdef"><b>Definition:</b> texmath.c:7</div></div>
+<div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
+<div class="ttc" id="atexmath_8h_html_adb0743119eba9fc49e4f03b586ae1bf7"><div class="ttname"><a href="texmath_8h.html#adb0743119eba9fc49e4f03b586ae1bf7">badness</a></div><div class="ttdeci">HalfWord badness(Scaled t, Scaled s)</div><div class="ttdoc">[#108]: compute the “badness” of glue.</div><div class="ttdef"><b>Definition:</b> texmath.c:151</div></div>
+<div class="ttc" id="atexmath_8h_html_a7300ff42f54cddf76d68ff4285b77959"><div class="ttname"><a href="texmath_8h.html#a7300ff42f54cddf76d68ff4285b77959">tex_remainder</a></div><div class="ttdeci">Scaled tex_remainder</div><div class="ttdoc">[#104] amount subtracted to get an exact division</div><div class="ttdef"><b>Definition:</b> texmath.c:9</div></div>
+<div class="ttc" id="atexmath_8h_html_a2dafa71ac1ef3f6b4b985fc54f818516"><div class="ttname"><a href="texmath_8h.html#a2dafa71ac1ef3f6b4b985fc54f818516">x_over_n</a></div><div class="ttdeci">Scaled x_over_n(Scaled x, Integer n)</div><div class="ttdoc">[#106]: x / n</div><div class="ttdef"><b>Definition:</b> texmath.c:79</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="texmath_8h.html">texmath.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

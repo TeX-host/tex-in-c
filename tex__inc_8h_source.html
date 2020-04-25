@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: tex_inc.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('tex__inc_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">tex_inc.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="tex__inc_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef _INC_TEX_ONLY</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define _INC_TEX_ONLY</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a227f2df49b49687729640fd964786229">    5</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global__const_8h.html">global_const.h</a>&quot;</span> <span class="comment">// tt_STAT</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8">   10</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8">Selector</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a811008a9866377aa10643ae72ec144da">   11</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a811008a9866377aa10643ae72ec144da">NO_PRINT</a> = 16, </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a9f5e6f38c6f12f7abf85be3a507c8477">   12</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a9f5e6f38c6f12f7abf85be3a507c8477">TERM_ONLY</a>,     </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a06abd9492241241081d99a4fc90f8824">   13</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a06abd9492241241081d99a4fc90f8824">LOG_ONLY</a>,      </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a630d5555d5431b36f8de1556859466d1">   14</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a630d5555d5431b36f8de1556859466d1">TERM_AND_LOG</a>,  </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da">   18</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da">PSEUDO</a> = 20,</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff">   20</a></span>&#160;    <a class="code" href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff">NEW_STRING</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}; <span class="comment">// [p24#54] enum Selector</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define MAX_SELECTOR NEW_STRING </span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a220ba33ebb22b730f0e50a558a920721">   26</a></span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifdef tt_STAT</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define FREE_AVAIL(x) \</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#ab47b16359226d4d7429011d72cb1a288">   32</a></span>&#160;<span class="preprocessor">    (mem[(x)].hh.rh = avail, avail = (x), dyn_used -= CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// end #define FREE_AVAIL(x)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define FAST_GET_AVAIL(x)               \</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a83d7532b1b98ad65516b3388cf6d348f">   37</a></span>&#160;<span class="preprocessor">    do {                                \</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">        if (((x) = avail)) {            \</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">            type(x) = charnodetype;     \</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">            avail = link(x);            \</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">            link(x) = 0;                \</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">            dyn_used += CHAR_NODE_SIZE; \</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">        } else {                        \</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">            (x) = get_avail();          \</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">        }                               \</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">    } while (0)</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">// end #define FAST_GET_AVAIL(x)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// not defined(tt_STAT)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#define FREE_AVAIL(x) (mem[(x)].hh.rh = avail, avail = (x))</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#define FAST_GET_AVAIL(x)           \</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">    do {                            \</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">        if (((x) = avail)) {        \</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">            type(x) = charnodetype; \</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">            avail = link(x);        \</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">            link(x) = 0;            \</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">        } else {                    \</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">            (x) = get_avail();      \</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">        }                           \</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">    } while (0)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">// end #define FAST_GET_AVAIL(x)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif // #121,122: tt_STAT</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#define STORE_NEW_TOKEN(p, x) \</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a130cf00e6f6bdf658188a11e7d889e87">   69</a></span>&#160;<span class="preprocessor">    do {                      \</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">        int q = get_avail();  \</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">        link(p) = q;          \</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">        info(q) = (x);        \</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">        p = q;                \</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">    } while (0)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">// end #define STORE_NEW_TOKEN(p, x)</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define FAST_STORE_NEW_TOKEN(p, x) \</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#aaaeb0aae883995b2f24c20b28b2854af">   79</a></span>&#160;<span class="preprocessor">    do {                           \</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">        int q;                     \</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">        FAST_GET_AVAIL(q);         \</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">        link(p) = q;               \</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">        info(q) = (x);             \</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">        p = q;                     \</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">    } while (0)</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">// end #define FAST_STORE_NEW_TOKEN(p, x)</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif // _INC_TEX_ONLY</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8">Selector</a></div><div class="ttdeci">Selector</div><div class="ttdoc">[p24#54]: On-line and off-line printing.</div><div class="ttdef"><b>Definition:</b> tex_inc.h:10</div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a06abd9492241241081d99a4fc90f8824"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a06abd9492241241081d99a4fc90f8824">LOG_ONLY</a></div><div class="ttdeci">@ LOG_ONLY</div><div class="ttdoc">prints only on the transcript file</div><div class="ttdef"><b>Definition:</b> tex_inc.h:13</div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da">PSEUDO</a></div><div class="ttdeci">@ PSEUDO</div><div class="ttdoc">puts output into a cyclic buffer that is used by the show context routine</div><div class="ttdef"><b>Definition:</b> tex_inc.h:18</div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff">NEW_STRING</a></div><div class="ttdeci">@ NEW_STRING</div><div class="ttdoc">appends the output to the current string in the string pool</div><div class="ttdef"><b>Definition:</b> tex_inc.h:20</div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a630d5555d5431b36f8de1556859466d1"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a630d5555d5431b36f8de1556859466d1">TERM_AND_LOG</a></div><div class="ttdeci">@ TERM_AND_LOG</div><div class="ttdoc">normal selector setting.</div><div class="ttdef"><b>Definition:</b> tex_inc.h:14</div></div>
+<div class="ttc" id="aglobal__const_8h_html"><div class="ttname"><a href="global__const_8h.html">global_const.h</a></div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a811008a9866377aa10643ae72ec144da"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a811008a9866377aa10643ae72ec144da">NO_PRINT</a></div><div class="ttdeci">@ NO_PRINT</div><div class="ttdoc">doesn't print at all</div><div class="ttdef"><b>Definition:</b> tex_inc.h:11</div></div>
+<div class="ttc" id="atex__inc_8h_html_a4da995632f9196a87e0f5a39a55fe0a8a9f5e6f38c6f12f7abf85be3a507c8477"><div class="ttname"><a href="tex__inc_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a9f5e6f38c6f12f7abf85be3a507c8477">TERM_ONLY</a></div><div class="ttdeci">@ TERM_ONLY</div><div class="ttdoc">prints only on the terminal</div><div class="ttdef"><b>Definition:</b> tex_inc.h:12</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="tex__inc_8h.html">tex_inc.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

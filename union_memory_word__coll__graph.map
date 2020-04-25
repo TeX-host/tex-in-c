@@ -1,0 +1,5 @@
+<map id="MemoryWord" name="MemoryWord">
+<area shape="rect" id="node1" title="[p43#113]: MemoryWord(64) ." alt="" coords="71,100,190,129"/>
+<area shape="rect" id="node2" href="$struct_four_quarters.html" title="[p43#113]: FourQuarters(64) ." alt="" coords="5,5,123,35"/>
+<area shape="rect" id="node3" href="$struct_two_halves.html" title="[p43#113]: TwoHalves(64) ." alt="" coords="147,5,250,35"/>
+</map>

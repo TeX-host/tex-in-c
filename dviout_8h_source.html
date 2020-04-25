@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: dviout.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('dviout_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">dviout.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="dviout_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef DIV_OUT_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// DVI 格式输出</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#define DIV_OUT_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="dviout_8h.html#a651b2b29e0cdc9fa6d482d0ebddfbd1b">    5</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span>  <span class="comment">// [type] InternalFontNumber</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// #11: size of the output buffer; must be a multiple of 8</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define DVI_BUF_SIZE 800</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="dviout_8h.html#a80347c5d0aa8958463808f2f1aa717b1">    9</a></span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// [dviout], tex</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#af6a11ea7715b0bb1552548f8a0fa615e">dviout</a>(<span class="keywordtype">int</span> x);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a85e142366e0344dab160b89a36ed2c8c">dvi_four</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> x);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a39d5b9a39d8201a5692576d16c2674ba">dvi_pop</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a7d4c09eed90e56fd4cce1caf0252aadd">dvi_font_def</a>(<a class="code" href="fonts_8h.html#aaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a222f9ed360dd5146bf03999793218519">prune_movements</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="dviout_8h.html#a572f0c49a8e91a2d400d74f52e5c0ef3">synch_h</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_h, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_h);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="dviout_8h.html#ae1f8e357a378f50f78272fbd967824a6">synch_v</a>(<a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_v, <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_v);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#ae0384bdc3a11b7b427fd8f00d386abb5">dviout_helper</a>(<a class="code" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> c);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// help func</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a62fd7619dde4e0823e7d6fbb0a2742b3">dviout_ID_BYTE</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a8cac9a46577e2188fb0e31a01ea52a7b">dviout_SET_RULE</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a8529555b9b56ba27c60a310061e8b700">dviout_PUT_RULE</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a505f6d5555baeecbe63b239b32d6b458">dviout_EOP</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#aa51394b85f1cd6969deb6167dd48e493">dviout_PUSH</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#ac63d30d53eed743ff75080e426ee185f">dviout_POP</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a995c6055b53512676f743a6b1ccb0ef6">dviout_PRE</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a0c98c20bfe37c6f7e9ddecc73a0fd993">dviout_POST</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a76649a0a78a9f52e1348c336a51fc9f1">dviout_XXX1</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#ac57748975ed2a1f89d94b1f677374f0c">dviout_XXX4</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">long</span> <a class="code" href="dviout_8h.html#af0eb279c5e583f9455ae8faf51422fb8">get_dvi_mark</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> <a class="code" href="dviout_8h.html#a165559d2a5c3f9cf509f53bfafe6e917">dvi_openout</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#ab043719c412e39d11e805cc720fd45ad">_dvibop</a>(<span class="keywordtype">long</span> counts[]);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#ad9296e21fea6252b2d1c9c392e227ad3">_dvi_lastbop</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#adcaf486c888c27458cc367a8291cab94">dvi_set_font</a>(<span class="keywordtype">int</span> f);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#aee9c823da531a1f5120c5ec253840f52">dvi_set_char</a>(<span class="keywordtype">long</span> c);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="dviout_8h.html#a230144ba4c2a56318721e4e298bd3987">dviout_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">long</span> <a class="code" href="dviout_8h.html#a787d42f7be761d2818506ccd51c85395">dviflush</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#endif // #ifndef DIV_OUT_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="adviout_8h_html_a7d4c09eed90e56fd4cce1caf0252aadd"><div class="ttname"><a href="dviout_8h.html#a7d4c09eed90e56fd4cce1caf0252aadd">dvi_font_def</a></div><div class="ttdeci">void dvi_font_def(InternalFontNumber f)</div><div class="ttdef"><b>Definition:</b> dviout.c:144</div></div>
+<div class="ttc" id="adviout_8h_html_a165559d2a5c3f9cf509f53bfafe6e917"><div class="ttname"><a href="dviout_8h.html#a165559d2a5c3f9cf509f53bfafe6e917">dvi_openout</a></div><div class="ttdeci">Boolean dvi_openout(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:391</div></div>
+<div class="ttc" id="adviout_8h_html_a8529555b9b56ba27c60a310061e8b700"><div class="ttname"><a href="dviout_8h.html#a8529555b9b56ba27c60a310061e8b700">dviout_PUT_RULE</a></div><div class="ttdeci">void dviout_PUT_RULE(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:381</div></div>
+<div class="ttc" id="adviout_8h_html_ae1f8e357a378f50f78272fbd967824a6"><div class="ttname"><a href="dviout_8h.html#ae1f8e357a378f50f78272fbd967824a6">synch_v</a></div><div class="ttdeci">Scaled synch_v(Scaled cur_v, Scaled dvi_v)</div><div class="ttdef"><b>Definition:</b> dviout.c:367</div></div>
+<div class="ttc" id="atex__types_8h_html_a23abc5a95167751b01dabc5eb2396241"><div class="ttname"><a href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></div><div class="ttdeci">int64_t Integer</div><div class="ttdoc">Integer(64) =</div><div class="ttdef"><b>Definition:</b> tex_types.h:42</div></div>
+<div class="ttc" id="adviout_8h_html_ac63d30d53eed743ff75080e426ee185f"><div class="ttname"><a href="dviout_8h.html#ac63d30d53eed743ff75080e426ee185f">dviout_POP</a></div><div class="ttdeci">void dviout_POP(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:384</div></div>
+<div class="ttc" id="adviout_8h_html_a572f0c49a8e91a2d400d74f52e5c0ef3"><div class="ttname"><a href="dviout_8h.html#a572f0c49a8e91a2d400d74f52e5c0ef3">synch_h</a></div><div class="ttdeci">Scaled synch_h(Scaled cur_h, Scaled dvi_h)</div><div class="ttdef"><b>Definition:</b> dviout.c:359</div></div>
+<div class="ttc" id="adviout_8h_html_a995c6055b53512676f743a6b1ccb0ef6"><div class="ttname"><a href="dviout_8h.html#a995c6055b53512676f743a6b1ccb0ef6">dviout_PRE</a></div><div class="ttdeci">void dviout_PRE(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:385</div></div>
+<div class="ttc" id="adviout_8h_html_af0eb279c5e583f9455ae8faf51422fb8"><div class="ttname"><a href="dviout_8h.html#af0eb279c5e583f9455ae8faf51422fb8">get_dvi_mark</a></div><div class="ttdeci">long get_dvi_mark(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:390</div></div>
+<div class="ttc" id="adviout_8h_html_a8cac9a46577e2188fb0e31a01ea52a7b"><div class="ttname"><a href="dviout_8h.html#a8cac9a46577e2188fb0e31a01ea52a7b">dviout_SET_RULE</a></div><div class="ttdeci">void dviout_SET_RULE(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:380</div></div>
+<div class="ttc" id="adviout_8h_html_ad9296e21fea6252b2d1c9c392e227ad3"><div class="ttname"><a href="dviout_8h.html#ad9296e21fea6252b2d1c9c392e227ad3">_dvi_lastbop</a></div><div class="ttdeci">void _dvi_lastbop(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:405</div></div>
+<div class="ttc" id="adviout_8h_html_a0c98c20bfe37c6f7e9ddecc73a0fd993"><div class="ttname"><a href="dviout_8h.html#a0c98c20bfe37c6f7e9ddecc73a0fd993">dviout_POST</a></div><div class="ttdeci">void dviout_POST(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:386</div></div>
+<div class="ttc" id="adviout_8h_html_a230144ba4c2a56318721e4e298bd3987"><div class="ttname"><a href="dviout_8h.html#a230144ba4c2a56318721e4e298bd3987">dviout_init</a></div><div class="ttdeci">void dviout_init(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:82</div></div>
+<div class="ttc" id="adviout_8h_html_af6a11ea7715b0bb1552548f8a0fa615e"><div class="ttname"><a href="dviout_8h.html#af6a11ea7715b0bb1552548f8a0fa615e">dviout</a></div><div class="ttdeci">void dviout(int x)</div><div class="ttdef"><b>Definition:</b> dviout.c:116</div></div>
+<div class="ttc" id="adviout_8h_html_a85e142366e0344dab160b89a36ed2c8c"><div class="ttname"><a href="dviout_8h.html#a85e142366e0344dab160b89a36ed2c8c">dvi_four</a></div><div class="ttdeci">void dvi_four(Integer x)</div><div class="ttdef"><b>Definition:</b> dviout.c:125</div></div>
+<div class="ttc" id="atex__types_8h_html_a0cbca5ee07f5cfd4cbdea1039388f9d7"><div class="ttname"><a href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a></div><div class="ttdeci">UChar ASCIICode</div><div class="ttdoc">#18: ASCIICode::UChar(8) = [0, 255]</div><div class="ttdef"><b>Definition:</b> tex_types.h:93</div></div>
+<div class="ttc" id="adviout_8h_html_a39d5b9a39d8201a5692576d16c2674ba"><div class="ttname"><a href="dviout_8h.html#a39d5b9a39d8201a5692576d16c2674ba">dvi_pop</a></div><div class="ttdeci">void dvi_pop(Integer l)</div><div class="ttdef"><b>Definition:</b> dviout.c:133</div></div>
+<div class="ttc" id="atex__types_8h_html_a2706245419f72401a8d6b15c5d0248a8"><div class="ttname"><a href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a></div><div class="ttdeci">Integer Scaled</div><div class="ttdoc">[p38#101]: Scaled::Integer(64) =  we need Pascal's Integer(32/64), dependent upon the bit size of the...</div><div class="ttdef"><b>Definition:</b> tex_types.h:100</div></div>
+<div class="ttc" id="adviout_8h_html_a222f9ed360dd5146bf03999793218519"><div class="ttname"><a href="dviout_8h.html#a222f9ed360dd5146bf03999793218519">prune_movements</a></div><div class="ttdeci">void prune_movements(Integer l)</div><div class="ttdef"><b>Definition:</b> dviout.c:339</div></div>
+<div class="ttc" id="adviout_8h_html_aa51394b85f1cd6969deb6167dd48e493"><div class="ttname"><a href="dviout_8h.html#aa51394b85f1cd6969deb6167dd48e493">dviout_PUSH</a></div><div class="ttdeci">void dviout_PUSH(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:383</div></div>
+<div class="ttc" id="adviout_8h_html_adcaf486c888c27458cc367a8291cab94"><div class="ttname"><a href="dviout_8h.html#adcaf486c888c27458cc367a8291cab94">dvi_set_font</a></div><div class="ttdeci">void dvi_set_font(int f)</div><div class="ttdef"><b>Definition:</b> dviout.c:410</div></div>
+<div class="ttc" id="adviout_8h_html_a62fd7619dde4e0823e7d6fbb0a2742b3"><div class="ttname"><a href="dviout_8h.html#a62fd7619dde4e0823e7d6fbb0a2742b3">dviout_ID_BYTE</a></div><div class="ttdeci">void dviout_ID_BYTE(void)</div><div class="ttdoc">辅助函数 帮助访问/修改 dviout 的内部变量</div><div class="ttdef"><b>Definition:</b> dviout.c:379</div></div>
+<div class="ttc" id="adviout_8h_html_a505f6d5555baeecbe63b239b32d6b458"><div class="ttname"><a href="dviout_8h.html#a505f6d5555baeecbe63b239b32d6b458">dviout_EOP</a></div><div class="ttdeci">void dviout_EOP(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:382</div></div>
+<div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
+<div class="ttc" id="afonts_8h_html_aaef1f9b0b74b433ed58a80276b7befbf"><div class="ttname"><a href="fonts_8h.html#aaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a></div><div class="ttdeci">UChar InternalFontNumber</div><div class="ttdef"><b>Definition:</b> fonts.h:10</div></div>
+<div class="ttc" id="adviout_8h_html_ac57748975ed2a1f89d94b1f677374f0c"><div class="ttname"><a href="dviout_8h.html#ac57748975ed2a1f89d94b1f677374f0c">dviout_XXX4</a></div><div class="ttdeci">void dviout_XXX4(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:388</div></div>
+<div class="ttc" id="adviout_8h_html_a787d42f7be761d2818506ccd51c85395"><div class="ttname"><a href="dviout_8h.html#a787d42f7be761d2818506ccd51c85395">dviflush</a></div><div class="ttdeci">long dviflush(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:438</div></div>
+<div class="ttc" id="adviout_8h_html_ab043719c412e39d11e805cc720fd45ad"><div class="ttname"><a href="dviout_8h.html#ab043719c412e39d11e805cc720fd45ad">_dvibop</a></div><div class="ttdeci">void _dvibop(long counts[])</div><div class="ttdef"><b>Definition:</b> dviout.c:394</div></div>
+<div class="ttc" id="adviout_8h_html_a76649a0a78a9f52e1348c336a51fc9f1"><div class="ttname"><a href="dviout_8h.html#a76649a0a78a9f52e1348c336a51fc9f1">dviout_XXX1</a></div><div class="ttdeci">void dviout_XXX1(void)</div><div class="ttdef"><b>Definition:</b> dviout.c:387</div></div>
+<div class="ttc" id="adviout_8h_html_aee9c823da531a1f5120c5ec253840f52"><div class="ttname"><a href="dviout_8h.html#aee9c823da531a1f5120c5ec253840f52">dvi_set_char</a></div><div class="ttdeci">void dvi_set_char(long c)</div><div class="ttdef"><b>Definition:</b> dviout.c:431</div></div>
+<div class="ttc" id="afonts_8h_html"><div class="ttname"><a href="fonts_8h.html">fonts.h</a></div></div>
+<div class="ttc" id="adviout_8h_html_ae0384bdc3a11b7b427fd8f00d386abb5"><div class="ttname"><a href="dviout_8h.html#ae0384bdc3a11b7b427fd8f00d386abb5">dviout_helper</a></div><div class="ttdeci">void dviout_helper(ASCIICode c)</div><div class="ttdef"><b>Definition:</b> dviout.c:141</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dviout_8h.html">dviout.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

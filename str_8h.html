@@ -1,0 +1,1051 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: str.h 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('str_8h.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">str.h 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="global__const_8h_source.html">global_const.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+str.h 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__incl.svg" width="327" height="195"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><div class="textblock"><div class="dynheader">
+此图展示该文件直接或间接的被哪些文件引用了:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__dep__incl.svg" width="722" height="272"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div>
+<p><a href="str_8h_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a8652fec210d1ca270182e37e4c2f67da"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a8652fec210d1ca270182e37e4c2f67da">STR_H</a></td></tr>
+<tr class="separator:a8652fec210d1ca270182e37e4c2f67da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56616411e56f79c8ef71d13a76713622"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a56616411e56f79c8ef71d13a76713622">MAX_STRINGS</a>&#160;&#160;&#160;300000</td></tr>
+<tr class="separator:a56616411e56f79c8ef71d13a76713622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c4128ce58b9b87220d89080327aa30"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a68c4128ce58b9b87220d89080327aa30">STRING_VACANCIES</a>&#160;&#160;&#160;8000</td></tr>
+<tr class="separator:a68c4128ce58b9b87220d89080327aa30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2ac54564b3514084afd2c5dafe9d232"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>&#160;&#160;&#160;(1024 * 1024 * 4 - 1)</td></tr>
+<tr class="separator:aa2ac54564b3514084afd2c5dafe9d232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3e1a47d94c456e975fbae727075c4c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a3a3e1a47d94c456e975fbae727075c4c">POOLPOINTER_IS_POINTER</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a3a3e1a47d94c456e975fbae727075c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a158e9203fe11b0854dfeaaa384dca8a1"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a158e9203fe11b0854dfeaaa384dca8a1">POOL_TOP</a>&#160;&#160;&#160;(str_pool + <a class="el" href="str_8h.html#aa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>)</td></tr>
+<tr class="separator:a158e9203fe11b0854dfeaaa384dca8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1aba8653b36c542591a985295534e96"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ab1aba8653b36c542591a985295534e96">POOL_ELEM</a>(x,  y)&#160;&#160;&#160;((x)[(y)])</td></tr>
+<tr class="separator:ab1aba8653b36c542591a985295534e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:aa1a7d9c05ade2f46952e99c061943621"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aa1a7d9c05ade2f46952e99c061943621">PoolPtr</a></td></tr>
+<tr class="separator:aa1a7d9c05ade2f46952e99c061943621"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07525edfa2983cba57700272d6a51827"><td class="memItemLeft" align="right" valign="top">typedef uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a></td></tr>
+<tr class="separator:a07525edfa2983cba57700272d6a51827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ac2d0b7634d4f1a40de920a899b45ae93"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ac2d0b7634d4f1a40de920a899b45ae93">get_strings_started</a> (void)</td></tr>
+<tr class="memdesc:ac2d0b7634d4f1a40de920a899b45ae93"><td class="mdescLeft">&#160;</td><td class="mdescRight">#47: initializes the string pool, but returns false if something goes wrong  <a href="str_8h.html#ac2d0b7634d4f1a40de920a899b45ae93">更多...</a><br /></td></tr>
+<tr class="separator:ac2d0b7634d4f1a40de920a899b45ae93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f56258cfcf815dade9d19c0231764c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a2f56258cfcf815dade9d19c0231764c8">str_map</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> k, void(*f)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="separator:a2f56258cfcf815dade9d19c0231764c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1a206878db9322ec27b1f219363f9f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a8e1a206878db9322ec27b1f219363f9f">str_length</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="memdesc:a8e1a206878db9322ec27b1f219363f9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">#40: the number of characters in string number x  <a href="str_8h.html#a8e1a206878db9322ec27b1f219363f9f">更多...</a><br /></td></tr>
+<tr class="separator:a8e1a206878db9322ec27b1f219363f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a430568bca849d64793d4e48cdde12ed9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a430568bca849d64793d4e48cdde12ed9">slow_print</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="memdesc:a430568bca849d64793d4e48cdde12ed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">#48~53  <a href="str_8h.html#a430568bca849d64793d4e48cdde12ed9">更多...</a><br /></td></tr>
+<tr class="separator:a430568bca849d64793d4e48cdde12ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab74b464503ab9e9265cbf5ec1a16f392"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ab74b464503ab9e9265cbf5ec1a16f392">str_adjust_to_room</a> (long l)</td></tr>
+<tr class="separator:ab74b464503ab9e9265cbf5ec1a16f392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1f5b7f90f4bbb9b53b431afbae4b65a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ab1f5b7f90f4bbb9b53b431afbae4b65a">makestring</a> (void)</td></tr>
+<tr class="memdesc:ab1f5b7f90f4bbb9b53b431afbae4b65a"><td class="mdescLeft">&#160;</td><td class="mdescRight">#43: current string enters the pool  <a href="str_8h.html#ab1f5b7f90f4bbb9b53b431afbae4b65a">更多...</a><br /></td></tr>
+<tr class="separator:ab1f5b7f90f4bbb9b53b431afbae4b65a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a358f9645bda7e23c32106052a2dd27bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a358f9645bda7e23c32106052a2dd27bd">str_mark</a> (void)</td></tr>
+<tr class="separator:a358f9645bda7e23c32106052a2dd27bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0b5ed41251f3598633000ea519c47a0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ac0b5ed41251f3598633000ea519c47a0">str_cmp</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s, <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> t)</td></tr>
+<tr class="separator:ac0b5ed41251f3598633000ea519c47a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90ad04d9eb9a1ca9435e147a003636e1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a90ad04d9eb9a1ca9435e147a003636e1">str_getc</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s, int k)</td></tr>
+<tr class="separator:a90ad04d9eb9a1ca9435e147a003636e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a926d70d28b0e665e6ee69da92d90fb9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a926d70d28b0e665e6ee69da92d90fb9e">str_map_from_mark</a> (<a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a> b, void(*f)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="separator:a926d70d28b0e665e6ee69da92d90fb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a744437416f97405a0d1963c207ee03e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a744437416f97405a0d1963c207ee03e7">str_room</a> (long l)</td></tr>
+<tr class="separator:a744437416f97405a0d1963c207ee03e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ca7453a64987bbd517da1f89e2a74d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a1ca7453a64987bbd517da1f89e2a74d8">str_set_init_ptrs</a> (void)</td></tr>
+<tr class="separator:a1ca7453a64987bbd517da1f89e2a74d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37d01718ce3c3b67e52b35d42a8a1614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a37d01718ce3c3b67e52b35d42a8a1614">str_print_stats</a> (FILE *f_log_file)</td></tr>
+<tr class="separator:a37d01718ce3c3b67e52b35d42a8a1614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5ebefdd3a20760c675a2e98cb2451b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ad5ebefdd3a20760c675a2e98cb2451b1">str_dump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>)</td></tr>
+<tr class="separator:ad5ebefdd3a20760c675a2e98cb2451b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb239d357f1aa59a8f47eab64540a61"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a7bb239d357f1aa59a8f47eab64540a61">str_undump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>, FILE *_not_use_)</td></tr>
+<tr class="separator:a7bb239d357f1aa59a8f47eab64540a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88121bc5ee5bfd7ba03e73e04a9cb9ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a88121bc5ee5bfd7ba03e73e04a9cb9ca">str_cur_map</a> (void(*f)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="separator:a88121bc5ee5bfd7ba03e73e04a9cb9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c3887078a0917e85a82b9a6b3cb8a6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aa4c3887078a0917e85a82b9a6b3cb8a6">cur_length</a> (void)</td></tr>
+<tr class="memdesc:aa4c3887078a0917e85a82b9a6b3cb8a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">#41: The length of the current string  <a href="str_8h.html#aa4c3887078a0917e85a82b9a6b3cb8a6">更多...</a><br /></td></tr>
+<tr class="separator:aa4c3887078a0917e85a82b9a6b3cb8a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a365fc2db0bbb423d6744bf74872c9cbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a365fc2db0bbb423d6744bf74872c9cbe">flush_string</a> (void)</td></tr>
+<tr class="memdesc:a365fc2db0bbb423d6744bf74872c9cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">#44: destroy the most recently made string  <a href="str_8h.html#a365fc2db0bbb423d6744bf74872c9cbe">更多...</a><br /></td></tr>
+<tr class="separator:a365fc2db0bbb423d6744bf74872c9cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaec9f1cb143a75bb36cbff10d45ca30f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aaec9f1cb143a75bb36cbff10d45ca30f">flush_char</a> (void)</td></tr>
+<tr class="separator:aaec9f1cb143a75bb36cbff10d45ca30f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c27e47045be81f1fa2e258eb60ad2ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a9c27e47045be81f1fa2e258eb60ad2ac">idlookup_s</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s, <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> no_new_cs)</td></tr>
+<tr class="separator:a9c27e47045be81f1fa2e258eb60ad2ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a0425c4eae7c260660d39a0806e78c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a5a0425c4eae7c260660d39a0806e78c8">printcurrentstring</a> (void)</td></tr>
+<tr class="memdesc:a5a0425c4eae7c260660d39a0806e78c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">#70  <a href="str_8h.html#a5a0425c4eae7c260660d39a0806e78c8">更多...</a><br /></td></tr>
+<tr class="separator:a5a0425c4eae7c260660d39a0806e78c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5154128050b273866e3f18cb3ce7848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#af5154128050b273866e3f18cb3ce7848">str_eq_str</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s, <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> t)</td></tr>
+<tr class="memdesc:af5154128050b273866e3f18cb3ce7848"><td class="mdescLeft">&#160;</td><td class="mdescRight">p21#46:  <a href="str_8h.html#af5154128050b273866e3f18cb3ce7848">更多...</a><br /></td></tr>
+<tr class="separator:af5154128050b273866e3f18cb3ce7848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd0a0b8cbdc9c2682890bb1af9225855"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#afd0a0b8cbdc9c2682890bb1af9225855">append_char</a> (<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> s)</td></tr>
+<tr class="memdesc:afd0a0b8cbdc9c2682890bb1af9225855"><td class="mdescLeft">&#160;</td><td class="mdescRight">#42: put ASCII code s at the end of str pool  <a href="str_8h.html#afd0a0b8cbdc9c2682890bb1af9225855">更多...</a><br /></td></tr>
+<tr class="separator:afd0a0b8cbdc9c2682890bb1af9225855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72f0f470fafde698340558f9e2401450"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a72f0f470fafde698340558f9e2401450">str_print</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="separator:a72f0f470fafde698340558f9e2401450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a014c3cfdf95e47010534c518b6efe13c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a014c3cfdf95e47010534c518b6efe13c">str_valid</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="separator:a014c3cfdf95e47010534c518b6efe13c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24f861d1283938060a9958db41bbb054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a24f861d1283938060a9958db41bbb054">str_bcmp</a> (<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], long l, <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="separator:a24f861d1283938060a9958db41bbb054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4538e3fed329b86bcf530340d84433d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#af4538e3fed329b86bcf530340d84433d">str_scmp</a> (<a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s, short *buffp)</td></tr>
+<tr class="separator:af4538e3fed329b86bcf530340d84433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed595ee9c4c9ef0a7179709403cfbcc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aed595ee9c4c9ef0a7179709403cfbcc2">str_insert</a> (<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
+<tr class="separator:aed595ee9c4c9ef0a7179709403cfbcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa6d70d071490bedeaa35a7b75fe51c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#afa6d70d071490bedeaa35a7b75fe51c0">str_ins</a> (short *buffp, long l)</td></tr>
+<tr class="separator:afa6d70d071490bedeaa35a7b75fe51c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ab7cf6ead7d9a532ca6435e2d1fcad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a25ab7cf6ead7d9a532ca6435e2d1fcad">str_pool_init</a> (void)</td></tr>
+<tr class="separator:a25ab7cf6ead7d9a532ca6435e2d1fcad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a56616411e56f79c8ef71d13a76713622"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56616411e56f79c8ef71d13a76713622">&#9670;&nbsp;</a></span>MAX_STRINGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MAX_STRINGS&#160;&#160;&#160;300000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1aba8653b36c542591a985295534e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1aba8653b36c542591a985295534e96">&#9670;&nbsp;</a></span>POOL_ELEM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> POOL_ELEM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((x)[(y)])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa2ac54564b3514084afd2c5dafe9d232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2ac54564b3514084afd2c5dafe9d232">&#9670;&nbsp;</a></span>POOL_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> POOL_SIZE&#160;&#160;&#160;(1024 * 1024 * 4 - 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a158e9203fe11b0854dfeaaa384dca8a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a158e9203fe11b0854dfeaaa384dca8a1">&#9670;&nbsp;</a></span>POOL_TOP</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> POOL_TOP&#160;&#160;&#160;(str_pool + <a class="el" href="str_8h.html#aa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a3e1a47d94c456e975fbae727075c4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a3e1a47d94c456e975fbae727075c4c">&#9670;&nbsp;</a></span>POOLPOINTER_IS_POINTER</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> POOLPOINTER_IS_POINTER&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8652fec210d1ca270182e37e4c2f67da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8652fec210d1ca270182e37e4c2f67da">&#9670;&nbsp;</a></span>STR_H</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> STR_H</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a68c4128ce58b9b87220d89080327aa30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c4128ce58b9b87220d89080327aa30">&#9670;&nbsp;</a></span>STRING_VACANCIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> STRING_VACANCIES&#160;&#160;&#160;8000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">类型定义说明</h2>
+<a id="aa1a7d9c05ade2f46952e99c061943621"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a7d9c05ade2f46952e99c061943621">&#9670;&nbsp;</a></span>PoolPtr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>* <a class="el" href="str_8h.html#aa1a7d9c05ade2f46952e99c061943621">PoolPtr</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07525edfa2983cba57700272d6a51827"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07525edfa2983cba57700272d6a51827">&#9670;&nbsp;</a></span>StrNumber</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint_fast32_t <a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="afd0a0b8cbdc9c2682890bb1af9225855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd0a0b8cbdc9c2682890bb1af9225855">&#9670;&nbsp;</a></span>append_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void append_char </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#42: put ASCII code s at the end of str pool </p>
+
+</div>
+</div>
+<a id="aa4c3887078a0917e85a82b9a6b3cb8a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4c3887078a0917e85a82b9a6b3cb8a6">&#9670;&nbsp;</a></span>cur_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int cur_length </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#41: The length of the current string </p>
+
+</div>
+</div>
+<a id="aaec9f1cb143a75bb36cbff10d45ca30f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaec9f1cb143a75bb36cbff10d45ca30f">&#9670;&nbsp;</a></span>flush_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flush_char </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a365fc2db0bbb423d6744bf74872c9cbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a365fc2db0bbb423d6744bf74872c9cbe">&#9670;&nbsp;</a></span>flush_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flush_string </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#44: destroy the most recently made string </p>
+
+</div>
+</div>
+<a id="ac2d0b7634d4f1a40de920a899b45ae93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2d0b7634d4f1a40de920a899b45ae93">&#9670;&nbsp;</a></span>get_strings_started()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_strings_started </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#47: initializes the string pool, but returns false if something goes wrong </p>
+
+</div>
+</div>
+<a id="a9c27e47045be81f1fa2e258eb60ad2ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c27e47045be81f1fa2e258eb60ad2ac">&#9670;&nbsp;</a></span>idlookup_s()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> idlookup_s </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td>
+          <td class="paramname"><em>no_new_cs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1f5b7f90f4bbb9b53b431afbae4b65a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1f5b7f90f4bbb9b53b431afbae4b65a">&#9670;&nbsp;</a></span>makestring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> makestring </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#43: current string enters the pool </p>
+
+</div>
+</div>
+<a id="a5a0425c4eae7c260660d39a0806e78c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a0425c4eae7c260660d39a0806e78c8">&#9670;&nbsp;</a></span>printcurrentstring()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printcurrentstring </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#70 </p>
+
+</div>
+</div>
+<a id="a430568bca849d64793d4e48cdde12ed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a430568bca849d64793d4e48cdde12ed9">&#9670;&nbsp;</a></span>slow_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void slow_print </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#48~53 </p>
+<p>#60: prints string s </p>
+
+</div>
+</div>
+<a id="ab74b464503ab9e9265cbf5ec1a16f392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab74b464503ab9e9265cbf5ec1a16f392">&#9670;&nbsp;</a></span>str_adjust_to_room()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">long str_adjust_to_room </td>
+          <td>(</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24f861d1283938060a9958db41bbb054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f861d1283938060a9958db41bbb054">&#9670;&nbsp;</a></span>str_bcmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> str_bcmp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
+          <td class="paramname"><em>buffp</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac0b5ed41251f3598633000ea519c47a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0b5ed41251f3598633000ea519c47a0">&#9670;&nbsp;</a></span>str_cmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_cmp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a88121bc5ee5bfd7ba03e73e04a9cb9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88121bc5ee5bfd7ba03e73e04a9cb9ca">&#9670;&nbsp;</a></span>str_cur_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_cur_map </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad5ebefdd3a20760c675a2e98cb2451b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5ebefdd3a20760c675a2e98cb2451b1">&#9670;&nbsp;</a></span>str_dump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_dump </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>fmtfile</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af5154128050b273866e3f18cb3ce7848"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5154128050b273866e3f18cb3ce7848">&#9670;&nbsp;</a></span>str_eq_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> str_eq_str </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>p21#46: </p>
+
+</div>
+</div>
+<a id="a90ad04d9eb9a1ca9435e147a003636e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90ad04d9eb9a1ca9435e147a003636e1">&#9670;&nbsp;</a></span>str_getc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_getc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afa6d70d071490bedeaa35a7b75fe51c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa6d70d071490bedeaa35a7b75fe51c0">&#9670;&nbsp;</a></span>str_ins()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> str_ins </td>
+          <td>(</td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>buffp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aed595ee9c4c9ef0a7179709403cfbcc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed595ee9c4c9ef0a7179709403cfbcc2">&#9670;&nbsp;</a></span>str_insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> str_insert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
+          <td class="paramname"><em>buffp</em>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>l</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e1a206878db9322ec27b1f219363f9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1a206878db9322ec27b1f219363f9f">&#9670;&nbsp;</a></span>str_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_length </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#40: the number of characters in string number x </p>
+
+</div>
+</div>
+<a id="a2f56258cfcf815dade9d19c0231764c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f56258cfcf815dade9d19c0231764c8">&#9670;&nbsp;</a></span>str_map()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_map </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(*)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramname"><em>f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a926d70d28b0e665e6ee69da92d90fb9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a926d70d28b0e665e6ee69da92d90fb9e">&#9670;&nbsp;</a></span>str_map_from_mark()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_map_from_mark </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(*)(<a class="el" href="tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramname"><em>f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a358f9645bda7e23c32106052a2dd27bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a358f9645bda7e23c32106052a2dd27bd">&#9670;&nbsp;</a></span>str_mark()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a> str_mark </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25ab7cf6ead7d9a532ca6435e2d1fcad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25ab7cf6ead7d9a532ca6435e2d1fcad">&#9670;&nbsp;</a></span>str_pool_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_pool_init </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>#48</p>
+
+</div>
+</div>
+<a id="a72f0f470fafde698340558f9e2401450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72f0f470fafde698340558f9e2401450">&#9670;&nbsp;</a></span>str_print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_print </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37d01718ce3c3b67e52b35d42a8a1614"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d01718ce3c3b67e52b35d42a8a1614">&#9670;&nbsp;</a></span>str_print_stats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_print_stats </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>f_log_file</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a744437416f97405a0d1963c207ee03e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a744437416f97405a0d1963c207ee03e7">&#9670;&nbsp;</a></span>str_room()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_room </td>
+          <td>(</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4538e3fed329b86bcf530340d84433d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4538e3fed329b86bcf530340d84433d">&#9670;&nbsp;</a></span>str_scmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_scmp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">short *&#160;</td>
+          <td class="paramname"><em>buffp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ca7453a64987bbd517da1f89e2a74d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ca7453a64987bbd517da1f89e2a74d8">&#9670;&nbsp;</a></span>str_set_init_ptrs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void str_set_init_ptrs </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bb239d357f1aa59a8f47eab64540a61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb239d357f1aa59a8f47eab64540a61">&#9670;&nbsp;</a></span>str_undump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_undump </td>
+          <td>(</td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>fmtfile</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE *&#160;</td>
+          <td class="paramname"><em>_not_use_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a014c3cfdf95e47010534c518b6efe13c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a014c3cfdf95e47010534c518b6efe13c">&#9670;&nbsp;</a></span>str_valid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int str_valid </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="str_8h.html">str.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>
