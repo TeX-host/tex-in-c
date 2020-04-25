@@ -95,8 +95,9 @@ enum InfinityOrder {
 // #157: "negatively infinite penalty value
 #define EJECT_PENALTY   (-INF_PENALTY)
 
-/** [p83#224] Region 3 of \c eqtb contains the 256 \c \skip registers
- *
+/** [p83#224] Region 3 of `eqtb` contains the 256 `\skip` registers
+ * 
+ * 值得注意的点: `muskip` 比其他参数大
  */
 enum SkipRegisters {
     LINE_SKIP_CODE = 0,      ///< interline glue if baseline skip is infeasible
