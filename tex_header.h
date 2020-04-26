@@ -72,7 +72,11 @@
 
 /// [#20]
 ASCIICode xord[256];   // specifies conversion of input characters
+#ifndef USE_SPLIT_MOD
 Static Char xchr[256]; // specifies conversion of output characters
+#else
+Char xchr[256]; // specifies conversion of output characters
+#endif // USE_SPLIT_MOD
 
 /// [#26]: on some systems this may be a record variable
 Char name_of_file[FILE_NAME_SIZE + 1];
@@ -187,8 +191,10 @@ Static UInt16 shown_mode; // most recent mode shown by \tracingcommands
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
 static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
               "diag_oldsetting = [0, MAX_SELECTOR=21]");
+#ifndef USE_SPLIT_MOD
 /// #253
 Static MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
+#endif                                             // USE_SPLIT_MOD
 // store the eq level information
 Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
 /// [#256]

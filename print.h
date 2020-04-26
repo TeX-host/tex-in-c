@@ -6,7 +6,10 @@
  */
 #define INC_PRINT
 #include "tex_types.h" // Integer, UChar, ASCIICode
+#include "tex.h"       // MAX_PRINT_LINE
+#include "texmac.h"    // newlinechar
 #include "str.h"       // StrNumber
+#include "global.h" // [var]
 
 /// [p24#54]: On-line and off-line printing.
 /// `enum Selector` = [16, 21],
@@ -27,37 +30,25 @@ enum Selector {
     MAX_SELECTOR = NEW_STRING,
 }; // [p24#54] enum Selector
 
-/// [p24#54]: On-line and off-line printing
-FILE* log_file = NULL;  // transcript of TeX session
-enum Selector selector; // where to print a message
-// ? dig[23] // digits in a number being output
-Integer tally; // the number of characters recently printed
-// the number of characters on the current terminal line
-// term_offset = [0, MAX_PRINT_LINE=79]
-UChar term_offset;
-static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
-              "term_offset = [0, MAX_PRINT_LINE=79]");
-// the number of characters on the current file line
-// file_offset = [0, MAX_PRINT_LINE=79]
-UChar file_offset;
-static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
-              "file_offset = [0, MAX_PRINT_LINE=79]");
-// circular buffer for pseudoprinting
-ASCIICode trick_buf[ERROR_LINE + 1];
-Integer trick_count; // threshold for pseudoprinting, explained later
-Integer first_count; // another variable for pseudoprinting
+extern FILE* log_file;
+extern enum Selector selector;
+extern Integer tally;
+extern UChar term_offset;
+extern UChar file_offset;
+extern ASCIICode trick_buf[ERROR_LINE + 1];
+extern Integer trick_count;
+extern Integer first_count;
 
-
-void println(void);
-void print_char(ASCIICode s);
-void print(StrNumber s);
-void printnl(StrNumber s);
-void print_esc(StrNumber s);
-void print_the_digs(EightBits k, char dig[]);
-void print_int(Integer n);
-void print_two(Integer n);
-void print_hex(Integer n);
-void print_roman_int(Integer n);
+extern void println(void);
+extern void print_char(ASCIICode s);
+extern void print(StrNumber s);
+extern void printnl(StrNumber s);
+extern void print_esc(StrNumber s);
+extern void print_the_digs(EightBits k, char dig[]);
+extern void print_int(Integer n);
+extern void print_two(Integer n);
+extern void print_hex(Integer n);
+extern void print_roman_int(Integer n);
 
 #endif // INC_PRINT
 #endif // USE_SPLIT_MOD

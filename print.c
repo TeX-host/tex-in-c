@@ -1,5 +1,28 @@
-#include "tex_header.h"
+#include <stdlib.h> // labs, 
+#include "global_const.h"
 #include "print.h"
+
+
+/// [p24#54]: On-line and off-line printing
+FILE* log_file = NULL;  // transcript of TeX session
+enum Selector selector; // where to print a message
+// ? dig[23] // digits in a number being output
+Integer tally; // the number of characters recently printed
+// the number of characters on the current terminal line
+// term_offset = [0, MAX_PRINT_LINE=79]
+UChar term_offset;
+static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
+              "term_offset = [0, MAX_PRINT_LINE=79]");
+// the number of characters on the current file line
+// file_offset = [0, MAX_PRINT_LINE=79]
+UChar file_offset;
+static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
+              "file_offset = [0, MAX_PRINT_LINE=79]");
+// circular buffer for pseudoprinting
+ASCIICode trick_buf[ERROR_LINE + 1];
+Integer trick_count; // threshold for pseudoprinting, explained later
+Integer first_count; // another variable for pseudoprinting
+
 
 /*
     #54. On-line and off-line printing.

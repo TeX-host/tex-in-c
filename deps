@@ -17,3 +17,5 @@ dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
  fonts.h funcs.h dvicmd.h dviout.h
 pure_func.o: pure_func.c pure_func.h
 texmath.o: texmath.c texmath.h tex_types.h texfunc.h str.h global_const.h
+print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
+ texmac.h str.h global.h
