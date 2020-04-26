@@ -1,7 +1,7 @@
 #pragma once
 #ifdef USE_SPLIT_MOD
 #ifndef INC_PRINT
-/** 
+/** print 输出相关函数 .
  *
  */
 #define INC_PRINT
@@ -9,9 +9,8 @@
 #include "tex.h"       // MAX_PRINT_LINE
 #include "texmac.h"    // newlinechar
 #include "str.h"       // StrNumber
-#include "global.h" // [var]
 
-/// [p24#54]: On-line and off-line printing.
+/// [p24#54]:  
 /// `enum Selector` = [16, 21],
 ///     use by #selector
 enum Selector {

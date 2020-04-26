@@ -1,27 +1,32 @@
-#include <stdlib.h> // labs, 
+#include <stdlib.h> // [func] labs, 
 #include "global_const.h"
 #include "print.h"
+#include "global.h" // [func] xchr, eqtb, write_file
 
+// [p24#54]: On-line and off-line printing
+// ? dig[23]    // digits in a number being output
+                // 作为函数参数
 
-/// [p24#54]: On-line and off-line printing
-FILE* log_file = NULL;  // transcript of TeX session
-enum Selector selector; // where to print a message
-// ? dig[23] // digits in a number being output
-Integer tally; // the number of characters recently printed
-// the number of characters on the current terminal line
-// term_offset = [0, MAX_PRINT_LINE=79]
+FILE* log_file = NULL;  ///< transcript of TeX session.
+enum Selector selector; ///< where to print a message.
+Integer tally; ///< the number of characters recently printed.
+
+/// the number of characters on the current terminal line.
+/// #term_offset = [0, MAX_PRINT_LINE=79]
 UChar term_offset;
 static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
               "term_offset = [0, MAX_PRINT_LINE=79]");
-// the number of characters on the current file line
-// file_offset = [0, MAX_PRINT_LINE=79]
+
+/// the number of characters on the current file line.
+/// #file_offset = [0, MAX_PRINT_LINE=79]
 UChar file_offset;
 static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
               "file_offset = [0, MAX_PRINT_LINE=79]");
-// circular buffer for pseudoprinting
+
+/// circular buffer for pseudoprinting.
 ASCIICode trick_buf[ERROR_LINE + 1];
-Integer trick_count; // threshold for pseudoprinting, explained later
-Integer first_count; // another variable for pseudoprinting
+Integer trick_count; ///< threshold for pseudoprinting, explained later.
+Integer first_count; ///< another variable for pseudoprinting.
 
 
 /*
@@ -33,10 +38,17 @@ Integer first_count; // another variable for pseudoprinting
 
 */
 
-/// [p25#57]: 输出换行.
-/// 
-/// 全局变量: #selector, #write_file,
-/// print.h 导出变量: #log_file, #term_offset, #file_offset, 
+/** [p25#57]: 输出换行 .
+ *
+ * 全局变量:
+ *  + [in]  #selector
+ *  + [out] #write_file
+ *
+ * print.h 导出变量:
+ *  + [out] #log_file
+ *  + [out] #term_offset
+ *  + [out] #file_offset
+ */
 void println(void) {
     switch (selector) {
         case TERM_AND_LOG:
@@ -68,13 +80,23 @@ void println(void) {
     } // switch (selector)
 } // #57: println
 
-/// [p25#58]: 输出单个 ASCII 字符.
-///
-/// 根据 selector 选择输出位置.
-///
-/// 全局变量: #selector, #write_file, #xchr,
-/// print.h 导出变量: #log_file, #term_offset, #file_offset,
-///     #tally, #trick_count, #trick_buf,
+/** [p25#58]: 输出单个 ASCII 字符 .
+ *
+ * 根据 #selector 选择输出位置.
+ *
+ * 全局变量:
+ *  + [in]  #selector
+ *  + [in]  #xchr
+ *  + [out] #write_file
+ *
+ * print.h 导出变量:
+ *  + [out] #log_file
+ *  + [out] #term_offset
+ *  + [out] #file_offset
+ *  + [out] #tally
+ *  + [out] #trick_count
+ *  + [out] #trick_buf
+ */
 void print_char(ASCIICode c) {
     if (newlinechar == c && selector < PSEUDO) {
         println();
@@ -129,7 +151,12 @@ void print_char(ASCIICode c) {
     tally++;
 } // #58: print_char
 
-/// [p26#59]: prints string `s`
+/** [p26#59]: prints string `s` .
+ *
+ * 全局变量:
+ *  + [in]  #selector
+ *  + [in]  #eqtb       由 #newlinechar 间接引用
+ */
 void print(StrNumber s) {
     long nl; // new-line character to restore
 
@@ -138,7 +165,7 @@ void print(StrNumber s) {
             print_char(s); // internal strings are not expanded
             return;
         }
-        if (newlinechar == s && selector < PSEUDO) { /// #244
+        if (newlinechar == s && selector < PSEUDO) { // #244
             println();
             return;
         }
@@ -157,7 +184,15 @@ void print(StrNumber s) {
 
 // #60: `slow_print` 位于 str.c 中
 
-/// [#62]: prints string s at beginning of line
+/** [#62]: prints string s at beginning of line.
+ *
+ * 全局变量:
+ *  + [in]  #selector
+ *
+ * print.h 导出变量:
+ *  + [out] #term_offset
+ *  + [out] #file_offset
+ */
 void printnl(StrNumber s) {
     if (    (term_offset > 0 && (selector % 2)) 
         ||  (file_offset > 0 && selector >= LOG_ONLY) ) {
@@ -166,7 +201,9 @@ void printnl(StrNumber s) {
     print(s);
 } // #62: printnl
 
-/// [#63]: prints escape character, then s
+/** [#63]: prints escape character, then `s` .
+ * 
+ */
 void print_esc(StrNumber s) {
     Integer c = ESCAPE_CHAR; // the escape character code
 
@@ -176,8 +213,10 @@ void print_esc(StrNumber s) {
     slow_print(s);
 } // #63: print_esc
 
-/// [#64]: prints `dig[k − 1]...dig[0]` .
-/// dig[k] = [0, 15] (hex value: 0~F)
+/** [#64]: prints `dig[k − 1]...dig[0]` .
+ * 
+ * `dig[k] = [0, 15]` (hex value: `0~F`)
+ */
 void print_the_digs(EightBits k, char dig[]) {
     while (k > 0) {
         k--;
@@ -189,7 +228,9 @@ void print_the_digs(EightBits k, char dig[]) {
     } // while (k > 0)
 } // #64: print_the_digs
 
-/// [#65]: prints an integer in decimal form
+/** [#65]: prints an integer in decimal form.
+ * 
+ */
 void print_int(Integer n) {
     // index to current digit; we assume that n < 10^23
     // k = [0, 23]
@@ -214,7 +255,7 @@ void print_int(Integer n) {
                 n++;
             }
         } // if (n > -100000000L) - else
-    }     // if (n < 0)
+    } // if (n < 0)
 
     do {
         dig[k] = n % 10;
@@ -224,14 +265,18 @@ void print_int(Integer n) {
     print_the_digs(k, dig);
 } // #65: print_int
 
-/// [#66]: 打印两位数 (0 <= n <= 99)
+/** [#69]: 打印两位数字 `(0 <= n <= 99)`.
+ *
+ */
 void print_two(Integer n) {
     n = labs(n) % 100;
     print_char('0' + n / 10);
     print_char('0' + n % 10);
-}
+} // #66 print_two
 
-/// [#67]: 打印十六进制的非负整数 (n >= 0)
+/** [#67]: 打印十六进制的非负整数 `(n >= 0)`.
+ * 
+ */
 void print_hex(Integer n) {
     UChar k = 0; // [0, 22], 0<= n <= 16^22
     char digs[23];
@@ -245,8 +290,10 @@ void print_hex(Integer n) {
     print_the_digs(k, digs);
 } // #67: print_hex
 
-/// [#69]: 打印罗马数字 .
-/// Notice: 1990 => "mcmxc", not "mxm"
+/** [#69]: 打印罗马数字 .
+ * 
+ * Notice: 1990 => "mcmxc", not "mxm"
+ */
 void print_roman_int(Integer n) {
     int j, k;
     NonNegativeInteger u, v;
