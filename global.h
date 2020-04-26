@@ -20,7 +20,7 @@ extern ASCIICode xord[256];
 // funcs, [tex]
 extern Char name_of_file[FILE_NAME_SIZE + 1];
 
-// [tex], print
+// [tex], 仅在 print 中使用
 Char xchr[256];
 MemoryWord eqtb[eqtbsize - activebase + 1];
 FILE* write_file[16];

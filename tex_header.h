@@ -72,11 +72,7 @@
 
 /// [#20]
 ASCIICode xord[256];   // specifies conversion of input characters
-#ifndef USE_SPLIT_MOD
-Static Char xchr[256]; // specifies conversion of output characters
-#else
 Char xchr[256]; // specifies conversion of output characters
-#endif // USE_SPLIT_MOD
 
 /// [#26]: on some systems this may be a record variable
 Char name_of_file[FILE_NAME_SIZE + 1];
@@ -95,28 +91,6 @@ UInt16 max_buf_stack;          // largest index used in `buffer`
 Static FILE *termin = NULL, *termout = NULL;
 #endif
 
-#ifndef USE_SPLIT_MOD
-/// [p24#54]: On-line and off-line printing
-Static FILE* log_file = NULL;  // transcript of TeX session
-Static enum Selector selector; // where to print a message
-// ? dig[23] // digits in a number being output
-Static Integer tally; // the number of characters recently printed
-// the number of characters on the current terminal line
-// term_offset = [0, MAX_PRINT_LINE=79]
-Static UChar term_offset;
-static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
-              "term_offset = [0, MAX_PRINT_LINE=79]");
-// the number of characters on the current file line
-// file_offset = [0, MAX_PRINT_LINE=79]
-Static UChar file_offset;
-static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
-              "file_offset = [0, MAX_PRINT_LINE=79]");
-// circular buffer for pseudoprinting
-Static ASCIICode trick_buf[ERROR_LINE + 1];
-Static Integer trick_count; // threshold for pseudoprinting, explained later
-Static Integer first_count; // another variable for pseudoprinting
-
-#endif // USE_SPLIT_MOD
 
 /*
  * [ #72~98: REPORTING ERRORS ]
@@ -191,10 +165,9 @@ Static UInt16 shown_mode; // most recent mode shown by \tracingcommands
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
 static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
               "diag_oldsetting = [0, MAX_SELECTOR=21]");
-#ifndef USE_SPLIT_MOD
+
 /// #253
-Static MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
-#endif                                             // USE_SPLIT_MOD
+MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
 // store the eq level information
 Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
 /// [#256]
@@ -560,11 +533,7 @@ Static FILE* fmtfile = NULL;
 
 
 /*1342:*/
-#ifndef USE_SPLIT_MOD
-Static FILE* write_file[16]; // [0~15]
-#else
 FILE* write_file[16]; // [0~15]
-#endif // USE_SPLIT_MOD
 Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/

@@ -1,5 +1,4 @@
 #pragma once
-#ifdef USE_SPLIT_MOD
 #ifndef INC_PRINT
 /** print 输出相关函数 .
  *
@@ -50,4 +49,3 @@ extern void print_hex(Integer n);
 extern void print_roman_int(Integer n);
 
 #endif // INC_PRINT
-#endif // USE_SPLIT_MOD

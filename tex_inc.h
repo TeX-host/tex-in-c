@@ -4,27 +4,6 @@
 #define _INC_TEX_ONLY
 #include "global_const.h" // tt_STAT
 
-#ifndef USE_SPLIT_MOD
-/// [p24#54]: On-line and off-line printing.
-/// `enum Selector` = [16, 21], 
-///     use by #selector
-enum Selector {
-    NO_PRINT = 16, ///< doesn't print at all
-    TERM_ONLY,     ///< prints only on the terminal
-    LOG_ONLY,      ///< prints only on the transcript file
-    TERM_AND_LOG,  ///< normal #selector setting.
-
-    /// puts output into a cyclic buffer that is used by the show context
-    /// routine
-    PSEUDO = 20,
-    /// appends the output to the current string in the string pool
-    NEW_STRING,
-}; // [p24#54] enum Selector
-
-/// highest selector setting.
-/// NOTE: _not_use_, only used in assert
-#define MAX_SELECTOR NEW_STRING
-#endif // USE_SPLIT_MOD
 
 #ifdef tt_STAT
 /// [p45#121] single-word node liberation.
