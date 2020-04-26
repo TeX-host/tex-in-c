@@ -14,6 +14,8 @@ var files_dup =
     [ "inputln.h", "inputln_8h.html", "inputln_8h" ],
     [ "macros.h", "macros_8h.html", "macros_8h" ],
     [ "pool_str.c", "pool__str_8c.html", "pool__str_8c" ],
+    [ "print.c", "print_8c.html", "print_8c" ],
+    [ "print.h", "print_8h.html", null ],
     [ "printout.c", "printout_8c.html", "printout_8c" ],
     [ "printout.h", "printout_8h.html", "printout_8h" ],
     [ "pure_func.c", "pure__func_8c.html", "pure__func_8c" ],

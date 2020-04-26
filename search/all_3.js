@@ -5,7 +5,7 @@ var searchData=
   ['car_5fret_179',['CAR_RET',['../tex_8h.html#ac5d1010907c89d6760e8e410e227e6efa1a769af2649dbb458dd2d99404915074',1,'tex.h']]],
   ['carriagereturn_180',['carriagereturn',['../tex_8h.html#a2e5d31bea007467ebc71915c24c77d25',1,'tex.h']]],
   ['caseshift_181',['caseshift',['../tex_8h.html#ad96100296ddbd1a25cc9d20065fad380',1,'tex.h']]],
-  ['catcode_182',['catcode',['../texmac_8h.html#a8264bce230c3cf6439a3632d5f915b0d',1,'catcode():&#160;texmac.h'],['../tex_8h.html#ac5d1010907c89d6760e8e410e227e6ef',1,'CatCode():&#160;tex.h']]],
+  ['catcode_182',['CatCode',['../tex_8h.html#ac5d1010907c89d6760e8e410e227e6ef',1,'CatCode():&#160;tex.h'],['../texmac_8h.html#a8264bce230c3cf6439a3632d5f915b0d',1,'catcode():&#160;texmac.h']]],
   ['catcodebase_183',['catcodebase',['../tex_8h.html#a477af3c00904693ca5fbd1430f851755',1,'tex.h']]],
   ['changeiflimit_184',['changeiflimit',['../tex_8c.html#afcc7853ddb0a51c78c706abe327b92a7',1,'tex.c']]],
   ['char_185',['Char',['../tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb',1,'tex_types.h']]],
