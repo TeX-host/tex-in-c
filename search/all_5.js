@@ -35,7 +35,7 @@ var searchData=
   ['eqlevelfield_450',['eqlevelfield',['../texmac_8h.html#a77a2a3402832caef854b3b21bd43bcfa',1,'texmac.h']]],
   ['eqno_451',['eqno',['../tex_8h.html#ae36f95cefb6aaf5662c5e49f3e490f4e',1,'tex.h']]],
   ['eqsave_452',['eqsave',['../tex_8c.html#aeb10223729284dffab11461ba5a70f32',1,'tex.c']]],
-  ['eqtb_453',['eqtb',['../global_8h.html#a29611b219acef3b4f4c7f03d2aacd2c5',1,'global.h']]],
+  ['eqtb_453',['eqtb',['../global_8h.html#a29611b219acef3b4f4c7f03d2aacd2c5',1,'eqtb():&#160;global.h'],['../tex__header_8h.html#a29611b219acef3b4f4c7f03d2aacd2c5',1,'eqtb():&#160;tex_header.h']]],
   ['eqtbsize_454',['eqtbsize',['../tex_8h.html#ada2661ebff90644dff1923d14ff57804',1,'tex.h']]],
   ['eqtype_455',['eqtype',['../texmac_8h.html#a018b850a8c0a52f30b93b95abeddd5cf',1,'texmac.h']]],
   ['eqtypefield_456',['eqtypefield',['../texmac_8h.html#ae2ac63885808c16b630c0d379fb360af',1,'texmac.h']]],

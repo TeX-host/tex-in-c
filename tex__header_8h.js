@@ -87,6 +87,7 @@ var tex__header_8h =
     [ "dyn_used", "tex__header_8h.html#aba4edd6ac01e89322ac7180830957e71", null ],
     [ "easyline", "tex__header_8h.html#a13694f221f6ac3e0c4071fbb26909593", null ],
     [ "emptyfield", "tex__header_8h.html#ae917a46dfa66d7de21ca80d154fe1b59", null ],
+    [ "eqtb", "tex__header_8h.html#a29611b219acef3b4f4c7f03d2aacd2c5", null ],
     [ "errorcount", "tex__header_8h.html#ac35c5baecfc22fd651c2528fcd1ddef3", null ],
     [ "extdelimiter", "tex__header_8h.html#ad8312e9bd67d16f938a4998a346521c7", null ],
     [ "falsebchar", "tex__header_8h.html#a1ab057e190763026606ea5fb3fe77af6", null ],

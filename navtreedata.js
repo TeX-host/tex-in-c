@@ -52,14 +52,14 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "functions.html",
-"str_8c.html#ac0b5ed41251f3598633000ea519c47a0",
-"tex_8c.html#a82bacd6475decdee92e26b4f3077e046",
-"tex_8h.html#a422d4c06de05185025c3a6493605db52",
-"tex_8h.html#ae1a3448afb207677426b44cc0265047f",
-"tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313",
-"tex__header_8h.html#aac4e21f0a8846038c2292553319d8aaa",
-"texmac_8h.html#a4736780b3641ccec01c0262c859d6345",
-"texmac_8h.html#af2b529bd20f756279d5527b0af842266"
+"pure__func_8h.html#a9f154f2dfeb0b8da49f2cf43144bc00b",
+"tex_8c.html#a68900cf5ed043c853505cd2b400fd4ac",
+"tex_8h.html#a2d92324369f2ad060dd2c2e1b31507a1",
+"tex_8h.html#acbe67c8d530c8b4d1464aecf3c231a81",
+"tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3a0e32f778d9f1676305cf27b9b11cdb31",
+"tex__header_8h.html#a92313b680d1634f4c6d9bd78153b9b0f",
+"texmac_8h.html#a31668762ff824114092817ba506620f9",
+"texmac_8h.html#add6880e4507b739feb4d70ea7c9cf779"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

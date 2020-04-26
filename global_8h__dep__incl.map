@@ -1,9 +1,8 @@
 <map id="global.h" name="global.h">
-<area shape="rect" id="node1" title=" " alt="" coords="153,5,231,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="152,5,229,35"/>
 <area shape="rect" id="node2" href="$funcs_8c.html" title=" " alt="" coords="5,83,77,112"/>
 <area shape="rect" id="node3" href="$inputln_8c.html" title=" " alt="" coords="102,83,183,112"/>
-<area shape="rect" id="node4" href="$print_8h.html" title=" " alt="" coords="208,83,275,112"/>
-<area shape="rect" id="node6" href="$tex__header_8h.html" title=" " alt="" coords="255,160,369,189"/>
-<area shape="rect" id="node5" href="$print_8c.html" title=" " alt="" coords="165,160,230,189"/>
-<area shape="rect" id="node7" href="$tex_8c.html" title=" " alt="" coords="285,237,339,267"/>
+<area shape="rect" id="node4" href="$print_8c.html" title=" " alt="" coords="207,83,273,112"/>
+<area shape="rect" id="node5" href="$tex__header_8h.html" title=" " alt="" coords="297,83,412,112"/>
+<area shape="rect" id="node6" href="$tex_8c.html" title=" " alt="" coords="327,160,382,189"/>
 </map>
