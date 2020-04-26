@@ -6,8 +6,8 @@
 #include "texfunc.h" // [func] overflow
 #include "inputln.h" // [export] inputln
 
-// [#31] inputs the next line or returns false
-// 30, [31], 37, 58, 71, 362, 485, 486, 538
+/// [#31] inputs the next line or returns false.
+/// 30, [31], 37, 58, 71, 362, 485, 486, 538
 Boolean inputln(FILE* f, Boolean bypass_eoln) {
     UInt16 lastnonblank;
     int c, inp_c;

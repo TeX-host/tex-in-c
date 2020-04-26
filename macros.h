@@ -1,6 +1,6 @@
 #pragma once
 #ifndef MACROS_H
-// 全局常用的宏
+/// 全局常用的宏
 #define MACROS_H
 
 // fonts, str, tex
@@ -9,7 +9,7 @@
 
 // fonts, tex
 
-// a |halfword| code that can't match a real character}
+/// a |halfword| code that can't match a real character}
 #define NON_CHAR 256 
 #define opbyte(x) (x.b2)
 #define rembyte(x) (x.b3)

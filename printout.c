@@ -6,7 +6,7 @@
 #include "texmath.h"  // [func] print_scaled
 #include "printout.h" // [export]
 
-// #247: 
+/// #247: 
 void printlengthparam(long n) {
     switch (n) {
         case parindentcode: print_esc(S(1089)); break;
@@ -35,7 +35,7 @@ void printlengthparam(long n) {
     } // switch (n)
 } // #247: printlengthparam
 
-// 237
+/// 237
 void printparam(long n) {
     switch (n) {
         case pretolerancecode: print_esc(S(1035)); break;
@@ -98,7 +98,7 @@ void printparam(long n) {
     } // switch (n)
 } // 237: printparam
 
-// #298
+/// #298
 void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
     switch (cmd) {
         case LEFT_BRACE: chrcmd(S(1256)); break;  // "begin−group character "
