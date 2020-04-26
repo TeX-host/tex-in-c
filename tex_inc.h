@@ -4,6 +4,7 @@
 #define _INC_TEX_ONLY
 #include "global_const.h" // tt_STAT
 
+#ifndef USE_SPLIT_MOD
 /// [p24#54]: On-line and off-line printing.
 /// `enum Selector` = [16, 21], 
 ///     use by #selector
@@ -22,8 +23,8 @@ enum Selector {
 
 /// highest selector setting.
 /// NOTE: _not_use_, only used in assert
-#define MAX_SELECTOR NEW_STRING 
-
+#define MAX_SELECTOR NEW_STRING
+#endif // USE_SPLIT_MOD
 
 #ifdef tt_STAT
 /// [p45#121] single-word node liberation.

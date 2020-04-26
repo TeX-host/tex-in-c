@@ -39,6 +39,7 @@
 #include "inputln.h" // [func] inputln
 #include "dviout.h"
 #include "pure_func.h" // [func] 导入纯函数
+#include "print.h"     // 打印函数
 #include "texfunc.h"   // [export]
 
 #define formatextension S(256)
@@ -90,6 +91,7 @@ UInt16 max_buf_stack;          // largest index used in `buffer`
 Static FILE *termin = NULL, *termout = NULL;
 #endif
 
+#ifndef USE_SPLIT_MOD
 /// [p24#54]: On-line and off-line printing
 Static FILE* log_file = NULL;  // transcript of TeX session
 Static enum Selector selector; // where to print a message
@@ -109,6 +111,8 @@ static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
 Static ASCIICode trick_buf[ERROR_LINE + 1];
 Static Integer trick_count; // threshold for pseudoprinting, explained later
 Static Integer first_count; // another variable for pseudoprinting
+
+#endif // USE_SPLIT_MOD
 
 /*
  * [ #72~98: REPORTING ERRORS ]
@@ -550,7 +554,11 @@ Static FILE* fmtfile = NULL;
 
 
 /*1342:*/
+#ifndef USE_SPLIT_MOD
 Static FILE* write_file[16]; // [0~15]
+#else
+FILE* write_file[16]; // [0~15]
+#endif // USE_SPLIT_MOD
 Static Boolean writeopen[18];
 /*:1342*/
 /*1345:*/

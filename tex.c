@@ -98,7 +98,7 @@ void set_help(UChar k, ...) {
     va_end(ap);
 }
 
-
+#ifndef USE_SPLIT_MOD
 /*
     #54. On-line and off-line printing.
 
@@ -348,6 +348,7 @@ Static void print_roman_int(Integer n) {
         }
     } // while (true)
 } // #69: print_roman_int
+#endif // USE_SPLIT_MOD
 
 // #70: print current string #str.c
 
