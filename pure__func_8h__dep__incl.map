@@ -1,6 +1,7 @@
 <map id="pure_func.h" name="pure_func.h">
-<area shape="rect" id="node1" title=" " alt="" coords="71,5,178,35"/>
-<area shape="rect" id="node2" href="$pure__func_8c.html" title=" " alt="" coords="5,83,111,112"/>
-<area shape="rect" id="node3" href="$tex__header_8h.html" title=" " alt="" coords="135,83,250,112"/>
-<area shape="rect" id="node4" href="$tex_8c.html" title=" " alt="" coords="165,160,220,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="97,5,203,35"/>
+<area shape="rect" id="node2" href="$lexer_8c.html" title=" " alt="" coords="5,83,73,112"/>
+<area shape="rect" id="node3" href="$pure__func_8c.html" title=" " alt="" coords="97,83,203,112"/>
+<area shape="rect" id="node4" href="$tex__header_8h.html" title=" " alt="" coords="227,83,342,112"/>
+<area shape="rect" id="node5" href="$tex_8c.html" title=" " alt="" coords="257,160,312,189"/>
 </map>

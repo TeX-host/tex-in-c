@@ -2,13 +2,14 @@ var indexSectionsWithContent =
 {
   0: "_abcdefghijklmnopqrstuvwxyz",
   1: "filmst",
-  2: "dfgimpst",
+  2: "dfgilmpst",
   3: "_abcdefghijlmnoprstuvwxy",
   4: "_abcdefghijklmnopqrstuvwx",
   5: "abcdefghinpqrstu",
   6: "cdeghinstu",
   7: "abcdefghijklmnopqrstuvwxyz",
-  8: "_abcdefghijklmnopqrstuvwxyz"
+  8: "_abcdefghijklmnopqrstuvwxyz",
+  9: "p"
 };
 
 var indexSectionNames =
@@ -21,7 +22,8 @@ var indexSectionNames =
   5: "typedefs",
   6: "enums",
   7: "enumvalues",
-  8: "defines"
+  8: "defines",
+  9: "groups"
 };
 
 var indexSectionLabels =
@@ -34,6 +36,7 @@ var indexSectionLabels =
   5: "类型定义",
   6: "枚举",
   7: "枚举值",
-  8: "宏定义"
+  8: "宏定义",
+  9: "组"
 };
 

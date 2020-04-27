@@ -117,9 +117,25 @@ $(document).ready(function(){initNavTree('global__const_8h_source.html',''); ini
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#define NDEBUG // no assertsion</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define USE_SPLIT_MOD</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30">   44</a></span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif // _INC_GLOBAL_CONST</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#define charnodetype 0xfff</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="global__const_8h.html#a2a4899201bee368bebee21be9daa02aa">   43</a></span>&#160;<span class="preprocessor">#undef BIG_CHARNODE</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#define BIG_CHARNODE</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="global__const_8h.html#a41105d8096bbce2f9bcaa58b59499037">   45</a></span>&#160;<span class="preprocessor">#define BIG_NOAD</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="global__const_8h.html#a171d0cf1db8d76d7f268969f5711374b">   46</a></span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#ifdef BIG_CHARNODE</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define CHAR_NODE_SIZE 2</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e">   49</a></span>&#160;<span class="preprocessor">#define font_ligchar(x) type(ligchar(x))</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="global__const_8h.html#a92313b680d1634f4c6d9bd78153b9b0f">   50</a></span>&#160;<span class="preprocessor">#define character_ligchar(x) subtype(ligchar(x))</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="global__const_8h.html#aeb2cddaa4d613eab1ea5c64489b11085">   51</a></span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#define CHAR_NODE_SIZE 1</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#define font_ligchar(x) font(ligchar(x))</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define character_ligchar(x) character(ligchar(x))</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif // #ifdef BIG_CHARNODE</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define USE_SPLIT_MOD</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30">   60</a></span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif // _INC_GLOBAL_CONST</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

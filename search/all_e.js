@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['name_1132',['NAME',['../texmac_8h.html#a47f2e62c0dbebc787052c165afcada0e',1,'texmac.h']]],
+  ['name_1132',['NAME',['../group___s300x320.html#ga47f2e62c0dbebc787052c165afcada0e',1,'lexer.h']]],
   ['name_5fin_5fprogress_1133',['name_in_progress',['../tex__header_8h.html#a78136f54a8dda6b940c88bfc5fdb2e92',1,'tex_header.h']]],
   ['name_5fof_5ffile_1134',['name_of_file',['../global_8h.html#ade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h'],['../tex__header_8h.html#ade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h']]],
   ['namefield_1135',['namefield',['../struct_in_state_record.html#a8ee90fd33b05a6945ddf700a07046c29',1,'InStateRecord']]],
@@ -9,7 +9,7 @@ var searchData=
   ['nest_1138',['nest',['../tex__header_8h.html#a0c7d3f10948ea237965aaa53fc3952eb',1,'tex_header.h']]],
   ['nest_5fptr_1139',['nest_ptr',['../tex__header_8h.html#a92f742af7e96cf6dcdcdf123010be2f8',1,'tex_header.h']]],
   ['nestsize_1140',['nestsize',['../tex_8h.html#a80fff46b1ffa013c19fb178af7dd5d32',1,'tex.h']]],
-  ['new_5fline_1141',['NEW_LINE',['../tex_8h.html#a7b99dc1e1c86b4897498c2d436ead1b5',1,'tex.h']]],
+  ['new_5fline_1141',['NEW_LINE',['../group___s300x320.html#ga7b99dc1e1c86b4897498c2d436ead1b5',1,'lexer.h']]],
   ['new_5fstring_1142',['NEW_STRING',['../print_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff',1,'print.h']]],
   ['newcharacter_1143',['newcharacter',['../tex_8c.html#a9b819afbdd010bd4e28b0ab164b2971f',1,'tex.c']]],
   ['newchoice_1144',['newchoice',['../tex_8c.html#acb96c8504a920fa3beb3701726b66a00',1,'tex.c']]],

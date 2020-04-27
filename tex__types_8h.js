@@ -4,7 +4,6 @@ var tex__types_8h =
     [ "FourQuarters", "struct_four_quarters.html", "struct_four_quarters" ],
     [ "MemoryWord", "union_memory_word.html", "union_memory_word" ],
     [ "ListStateRecord", "struct_list_state_record.html", "struct_list_state_record" ],
-    [ "InStateRecord", "struct_in_state_record.html", "struct_in_state_record" ],
     [ "INC_TEX_TYPES", "tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2", null ],
     [ "ASCIICode", "tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7", null ],
     [ "Boolean", "tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2", null ],

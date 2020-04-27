@@ -12,6 +12,8 @@ var files_dup =
     [ "inipool.c", "inipool_8c.html", "inipool_8c" ],
     [ "inputln.c", "inputln_8c.html", "inputln_8c" ],
     [ "inputln.h", "inputln_8h.html", "inputln_8h" ],
+    [ "lexer.c", "lexer_8c.html", "lexer_8c" ],
+    [ "lexer.h", "lexer_8h.html", "lexer_8h" ],
     [ "macros.h", "macros_8h.html", "macros_8h" ],
     [ "pool_str.c", "pool__str_8c.html", "pool__str_8c" ],
     [ "print.c", "print_8c.html", "print_8c" ],

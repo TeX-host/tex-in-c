@@ -25,7 +25,6 @@ var tex__constant_8h =
     [ "smallnodesize", "tex__constant_8h.html#a90994401f7b678ca05c15ad4c76678c1", null ],
     [ "stylenode", "tex__constant_8h.html#ae06c57a740560693094499e435650d66", null ],
     [ "stylenodesize", "tex__constant_8h.html#a20a0412ec4b5c1775f9e5430557212e7", null ],
-    [ "TOKEN_LIST", "tex__constant_8h.html#ad388d09b1c4e346165f34e31e7842e6d", null ],
     [ "CharTag", "tex__constant_8h.html#ad917104abdfd25fb170d2a560c85c454", [
       [ "NO_TAG", "tex__constant_8h.html#ad917104abdfd25fb170d2a560c85c454a33ca3be4d5e7ce4b0ef99a4819746d6c", null ],
       [ "LIG_TAG", "tex__constant_8h.html#ad917104abdfd25fb170d2a560c85c454a80d2cf51d2bb5aebe6787ef6a9737f0f", null ],
@@ -226,13 +225,6 @@ var tex__constant_8h =
       [ "inserttoken", "tex__constant_8h.html#a09f34f578c5d3e58cccaab2cb469eec4a7a873cd4cb7e2ae33f27fecc6971a939", null ],
       [ "levelboundary", "tex__constant_8h.html#a09f34f578c5d3e58cccaab2cb469eec4ae11c3914ad8015c891e4a6dd334f38dc", null ]
     ] ],
-    [ "ScannerStatus", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917d", [
-      [ "SKIPPING", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2", null ],
-      [ "DEFINING", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917da638c27b7580307a0168713bcb4e9eb88", null ],
-      [ "MATCHING", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917da8675ba912c8e36b1fa6e12e54d39bbc9", null ],
-      [ "ALIGNING", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917da14c8a1a916a2de0ea78a88f0a39b135f", null ],
-      [ "ABSORBING", "tex__constant_8h.html#aaef195df981ef5801e8a98f7d559917da800b2b229a408c3f50bb165976d512c4", null ]
-    ] ],
     [ "SkipRegisters", "tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573", [
       [ "LINE_SKIP_CODE", "tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573a7e5ab7c0925aa858bb92594fbdf3d27c", null ],
       [ "BASELINE_SKIP_CODE", "tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573aa0214616ca1f155e2c5aecfc7b8ae337", null ],
@@ -269,24 +261,6 @@ var tex__constant_8h =
       [ "X_HEIGHT_CODE", "tex__constant_8h.html#a30c4242c16131fe77688070a9108d63ba7134eb32cff80666580282d0c1a7b2bd", null ],
       [ "QUAD_CODE", "tex__constant_8h.html#a30c4242c16131fe77688070a9108d63ba466f17626c1a560afb1c2b5c6950f635", null ],
       [ "EXTRA_SPACE_CODE", "tex__constant_8h.html#a30c4242c16131fe77688070a9108d63baf7ccc3e409a97a372a519bfe165f07e9", null ]
-    ] ],
-    [ "TokenType", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921", [
-      [ "PARAMETER", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a194cde856bd2d79eac8adb9741c55940", null ],
-      [ "U_TEMPLATE", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921ac02cbf9bd93b0eeb63301a25c2e4894f", null ],
-      [ "V_TEMPLATE", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de", null ],
-      [ "BACKED_UP", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7", null ],
-      [ "INSERTED", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202", null ],
-      [ "MACRO", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a3d1738a931468da77c233f1126436b81", null ],
-      [ "OUTPUT_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a3bb0dca181ca457a07bc8cbd1285ed89", null ],
-      [ "EVERY_PAR_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a77a59c340556e777dee98be24a3a82e2", null ],
-      [ "EVERY_MATH_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921adbbfd800a60f8fdc891205568bfeb167", null ],
-      [ "EVERY_DISPLAY_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a22d72a40ff849916d4f0c8d33ddfa036", null ],
-      [ "EVERY_HBOX_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921ac23adee5567df50548b842d8e0e60957", null ],
-      [ "EVERY_VBOX_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921afb8a72ba0f9add48111ed42f07f02fc6", null ],
-      [ "EVERY_JOB_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a3065be20590bfae506f2dea28255987d", null ],
-      [ "EVERY_CR_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921af5f362a775e1ae0504555a9c15777191", null ],
-      [ "MARK_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2", null ],
-      [ "WRITE_TEXT", "tex__constant_8h.html#aa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313", null ]
     ] ],
     [ "UserInteractionMode", "tex__constant_8h.html#acf712bc9fc9deb7b38a84a32339e06be", [
       [ "BATCH_MODE", "tex__constant_8h.html#acf712bc9fc9deb7b38a84a32339e06bea4ca5f681398ece50290f5bdd58dc2da2", null ],

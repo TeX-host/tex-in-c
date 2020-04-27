@@ -1,7 +1,8 @@
 <map id="macros.h" name="macros.h">
-<area shape="rect" id="node1" title=" " alt="" coords="80,5,167,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="129,5,216,35"/>
 <area shape="rect" id="node2" href="$fonts_8c.html" title=" " alt="" coords="5,83,73,112"/>
-<area shape="rect" id="node3" href="$str_8c.html" title=" " alt="" coords="98,83,149,112"/>
-<area shape="rect" id="node4" href="$tex__header_8h.html" title=" " alt="" coords="173,83,287,112"/>
-<area shape="rect" id="node5" href="$tex_8c.html" title=" " alt="" coords="203,160,257,189"/>
+<area shape="rect" id="node3" href="$lexer_8c.html" title=" " alt="" coords="97,83,165,112"/>
+<area shape="rect" id="node4" href="$str_8c.html" title=" " alt="" coords="190,83,241,112"/>
+<area shape="rect" id="node5" href="$tex__header_8h.html" title=" " alt="" coords="265,83,379,112"/>
+<area shape="rect" id="node6" href="$tex_8c.html" title=" " alt="" coords="295,160,349,189"/>
 </map>

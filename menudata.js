@@ -24,6 +24,7 @@
 */
 var menudata={children:[
 {text:"首页",url:"index.html"},
+{text:"模块",url:"modules.html"},
 {text:"结构体",url:"annotated.html",children:[
 {text:"结构体",url:"annotated.html"},
 {text:"结构体索引",url:"classes.html"},
