@@ -1,8 +1,13 @@
 #pragma once
+#ifndef TEXMAC_H
+#define TEXMAC_H
 
 // tex.c 里使用的宏
 #undef labs
 #define null 0
+
+#define formatextension S(256)
+#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 /* P2C compatibility */
 #define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
@@ -196,35 +201,6 @@
 #define worddefine(x, y)                                                       \
     ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
 
-// p121#302
-#define LOC     cur_input.locfield
-// [#302] current scanner state
-//
-// 1. `MID_LINE`    is the normal state.
-// 2. `SKIP_BLANKS` is like MID_LINE, but blanks are ignored.
-// 3. `NEW_LINE`    is the state at the beginning of a line.
-//
-// xref
-//  + 赋值[16]:
-//      323, 325, 328, 331, 343,
-//      347[3], 349, 352, 353, 354[3],
-//      483, 537,
-//  + 相等判断[8]: 
-//      == 325, 337, 390, 1335,
-//      != 311, 312[2], 330, 341, 
-//  + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
-//  
-#define STATE   cur_input.statefield 
-#define IINDEX  cur_input.indexfield // reference for buffer information
-#define START   cur_input.startfield // starting position in |buffer|
-#define LIMIT   cur_input.limitfield // end of current line in |buffer|
-#define NAME    cur_input.namefield  // name of the current file
-// #304
-#define terminal_input  (NAME==0)       // are we reading from the terminal? 
-#define curfile  (inputfile[IINDEX-1])  // the current |alphafile| variable
-// p125#307
-#define token_type   IINDEX // type of current token list
-#define param_start  LIMIT  // base of macro parameters in |paramstack|
 // #866
 #define actwidth  activewidth[0]    // length from first active node to current node
 
@@ -497,13 +473,6 @@
 
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
-#define beginpseudoprint() \
-    (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
-
-#define settrick_count()                                     \
-    (first_count = tally,                                    \
-     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
-     ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
 // leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])
@@ -638,3 +607,5 @@
             rhyf = whatrhm(x);            \
         }                                 \
     }
+
+#endif // TEXMAC_H

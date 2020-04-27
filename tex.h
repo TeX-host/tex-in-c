@@ -143,10 +143,7 @@
 
 
 #define varcode         28672
-/*
-#define CS_TOKEN_FLAG     4095
-*/
-#define CS_TOKEN_FLAG     (dwa_do_8*16-1)
+
 
 #define maxdimen        1073741823L
 #define nullflag        (-1073741824L)
@@ -398,26 +395,6 @@ enum CatCode {
 #define scaledbase      (dimenbase + dimenpars)
 #define eqtbsize        (scaledbase + 255)
 
-#define leftbracetoken  (1*dwa_do_8)
-#define leftbracelimit  (2*dwa_do_8)
-#define rightbracetoken  (2*dwa_do_8)
-#define rightbracelimit  (3*dwa_do_8)
-#define mathshifttoken  (3*dwa_do_8)
-#define tabtoken        (4*dwa_do_8)
-#define outparamtoken   (5*dwa_do_8)
-#define spacetoken      (10*dwa_do_8 + 32)
-#define lettertoken     (11*dwa_do_8)
-#define othertoken      (12*dwa_do_8)
-#define matchtoken      (13*dwa_do_8)
-#define endmatchtoken   (14*dwa_do_8)
-
-// #303
-// `state` code when scanning a line of characters
-#define MID_LINE    1
-// `state` code when ignoring blanks
-#define SKIP_BLANKS (maxcharcode + 2)
-// `state` code at start of line
-#define NEW_LINE    (maxcharcode + maxcharcode + 3)
 
 #define switch_         25
 #define startcs         26

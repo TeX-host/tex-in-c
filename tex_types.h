@@ -185,22 +185,7 @@ typedef struct {
 /// save level for a level boundary.
 /// 
 /// only need `[0, MAX_GROUP_CODE] = [0, 16]`
-typedef UChar GroupCode; 
-
-/** [#300]: InStateRecord(1344) .
- *
- * field:
- *  + QuarterWord(16): statefield, indexfield
- *  + HalfWord(32): startfield, locfield, limitfield, namefield
- *  + QuarterWord(16): tok_type
- *  + Pointer(64): tok_list, tok_loc, tok_name, tok_param
- */
-typedef struct {
-    QuarterWord statefield, indexfield;
-    HalfWord startfield, locfield, limitfield, namefield;
-    QuarterWord tok_type;
-    Pointer tok_list, tok_loc, tok_name, tok_param;
-} InStateRecord;
+typedef UChar GroupCode;
 
 /// [#920]: `TriePointer::Pointer(64)`
 /// an index into trie; `[0, TRIE_SIZE=131000]`.

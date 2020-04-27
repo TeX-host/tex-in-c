@@ -10,21 +10,6 @@
 #include <string.h> // memcpy
 #include <math.h>   // fabs
 
-#define charnodetype 0xfff
-#undef BIG_CHARNODE
-#define BIG_CHARNODE
-#define BIG_NOAD
-
-#ifdef BIG_CHARNODE
-#define CHAR_NODE_SIZE 2
-#define font_ligchar(x) type(ligchar(x))
-#define character_ligchar(x) subtype(ligchar(x))
-#else
-#define CHAR_NODE_SIZE 1
-#define font_ligchar(x) font(ligchar(x))
-#define character_ligchar(x) character(ligchar(x))
-#endif // #ifdef BIG_CHARNODE
-
 #include "global_const.h"
 #include "tex_inc.h"
 #include "texmath.h"
@@ -40,10 +25,8 @@
 #include "dviout.h"
 #include "pure_func.h" // [func] 导入纯函数
 #include "print.h"     // 打印函数
+#include "lexer.h"     // lexer
 #include "texfunc.h"   // [export]
-
-#define formatextension S(256)
-#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 
 /*
@@ -100,10 +83,10 @@ Static FILE *termin = NULL, *termout = NULL;
 // [p30#73] current level of interaction
 // interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
 // [REPORTING ERRORS]
-Static UChar interaction;
+UChar interaction;
 
 /// [p31#76]
-Static Boolean deletions_allowed; // is it safe for error to call get token?
+Boolean deletions_allowed; // is it safe for error to call get token?
 Static Boolean set_box_allowed;   // is it safe to do a \setbox assignment?
 // has the source input been clean so far?
 // [SPOTLESS, FATAL_ERROR_STOP]
@@ -113,26 +96,26 @@ Static enum ErrorLevel history;
 Static SChar errorcount;
 
 /// [#79]
-Static StrNumber help_line[6]; // helps for the `nexterror`
+StrNumber help_line[6]; // helps for the `nexterror`
 Static UChar help_ptr;         // the number of help lines present
 Static Boolean use_err_help;   // should the `errhelp` list be shown?
 
 /// [#96]
-Static Integer interrupt;       // should TeX pause for instructions?
-Static Boolean OK_to_interrupt; // should interrupts be observed?
+Integer interrupt;       // should TeX pause for instructions?
+Boolean OK_to_interrupt; // should interrupts be observed?
 
 /// [ #115~132: DYNAMIC MEMORY ALLOCATION ]
 /// [#115]
 Static Pointer temp_ptr; // for occasional emergency use
 /// [#116]
-Static MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
-Static Pointer lo_mem_max; // the largest location of variable-size memory
-Static Pointer hi_mem_min; // the smallest location of one-word memory
+MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
+Pointer lo_mem_max; // the largest location of variable-size memory
+Pointer hi_mem_min; // the smallest location of one-word memory
 /// [#117]
 Static Integer var_used, dyn_used; // how much memory is in use
 /// [#118]
 Static Pointer avail;   // head of the list of available one-word nodes
-Static Pointer mem_end; // the last one-word node used in mem
+Pointer mem_end; // the last one-word node used in mem
 /// [#124]
 Static Pointer rover; // points to some node in the list of empties
 
@@ -158,8 +141,8 @@ Static Integer breadth_max;
 Static ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
 Static UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
-Static ListStateRecord cur_list;           // the "top" semantic state
-Static UInt16 shown_mode; // most recent mode shown by \tracingcommands
+ListStateRecord cur_list;           // the "top" semantic state
+UInt16 shown_mode; // most recent mode shown by \tracingcommands
 
 /// [ #220~255: THE TABLE OF EQUIVALENTS ]
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
@@ -188,67 +171,19 @@ Static UInt16 curboundary;   // where the current level begins
 // this magnification should be used henceforth
 Static Integer magset;
 
-/// [ #29~299: PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES  ]
-
-// [#297]: current command set by `get_next`
-//  a *command code* from the long list of codes given above;
-Static EightBits curcmd;
-// [#297]: operand of current command
-//  a *character code* or other *modifier* of the command code;
-Static HalfWord curchr;
-// [#297]: control sequence found here, zero if none found
-//  the `eqtb` location of the current control sequence
-Static Pointer curcs;
-// [#297]: packed representative of `curcmd` and `curchr`
-Static HalfWord curtok;
-
-/// [ #300~320: PART 22: INPUT STACKS AND STATES ]
-// [#301]:
-Static InStateRecord inputstack[stacksize + 1];
-// [#301]: first unused location of input stack
-Static UChar inputptr;
-// [#301]: largest value of input ptr when pushing
-Static UChar maxinstack;
-// [#301]: the "top" input state, according to convention (1)
-// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
-InStateRecord cur_input;
-// [#304] the number of lines in the buffer, less one
-Static char inopen;
-// the number of open text files
-Static char openparens;
-Static Integer line; // current line number in the current source file
-Static FILE* inputfile[MAX_IN_OPEN];
-Static Integer linestack[MAX_IN_OPEN];
-// [#305] can a subfile end now?
-Static char scanner_status;
-// identifier relevant to non-normal scanner status
-Static Pointer warning_index;
-// reference count of token list being defined
-Static Pointer defref;
-// [#308] token list pointers for parameters
-Static Pointer paramstack[paramsize + 1];
-// first unused entry in param stack
-Static int paramptr;
-// largest value of param ptr, will be ≤ param size + 9
-Static Integer maxparamstack;
-// [#309] group level with respect to current alignment
-Static Integer align_state;
-// [#310] shallowest level shown by show context
-Static UChar baseptr;
-
 /// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb
-Static Pointer parloc;
+Pointer parloc;
 // [#333] token representing ‘\par’
-Static HalfWord partoken;
+HalfWord partoken;
 // [#361] should the next \input be aborted early?
-Static Boolean force_eof;
+Boolean force_eof;
 
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
-Static Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 // [#387] governs the acceptance of \par
-Static char longstate;
+char longstate;
 
 /// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
 // [#410] curval
@@ -272,11 +207,11 @@ Static char readopen[17];
 /*489:*/
 Static Pointer condptr;
 Static char iflimit;
-Static SmallNumber curif;
+SmallNumber curif;
 Static Integer ifline;
 /*:489*/
 /*493:*/
-Static Integer skipline;
+Integer skipline;
 /*:493*/
 
 
@@ -357,7 +292,8 @@ Static FourQuarters curi;
 
 
 /*770:*/
-Static Pointer curalign, curspan, curloop, alignptr, curhead, curtail;
+Pointer curalign;
+Static Pointer curspan, curloop, alignptr, curhead, curtail;
 /*:770*/
 
 

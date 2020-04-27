@@ -282,43 +282,6 @@ enum GroupCode {
     MAX_GROUP_CODE = 16,
 }; // [#269] GroupCode
 
-
-// [ #300~320: INPUT STACKS AND STATES ]
-
-/// [p124#305]: scanner status
-enum ScannerStatus {
-    SKIPPING = 1, ///< when passing conditional text
-    DEFINING,     ///< when reading a macro definition
-    MATCHING,     ///< when reading macro arguments
-    ALIGNING,     ///< when reading an alignment preamble
-    ABSORBING     ///< when reading a balanced text
-};
-
-/// [p125#307]
-#define TOKEN_LIST 0
-
-/// [p125#307]
-enum TokenType {
-    PARAMETER,   ///< parameter
-    U_TEMPLATE,  ///< `<u_j>` template
-    V_TEMPLATE,  ///< `<v_j>` template
-    BACKED_UP,   ///< text to be reread
-    INSERTED,    ///< inserted texts
-    MACRO,       ///< defined control sequences
-    OUTPUT_TEXT, ///< output routines
-
-    EVERY_PAR_TEXT,     ///< `\everypar`
-    EVERY_MATH_TEXT,    ///< `\everymath`
-    EVERY_DISPLAY_TEXT, ///< `\everydisplay`
-    EVERY_HBOX_TEXT,    ///< `\everyhbox`
-    EVERY_VBOX_TEXT,    ///< `\everyvbox`
-    EVERY_JOB_TEXT,     ///< `\everyjob`
-    EVERY_CR_TEXT,      ///< `\everycr`
-    MARK_TEXT,          ///< `\topmark`, etc.
-    WRITE_TEXT          ///< `\write`
-};
-
-
 /// [#468] command code for ...
 enum CmdCode {
     numbercode = 0,   ///< `\number`

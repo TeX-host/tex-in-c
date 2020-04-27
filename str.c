@@ -6,7 +6,7 @@
 #include "macros.h" // [macro] pget, pput
 #include "texfunc.h" // [func] print_char
 #include "str.h"    // [export]
-
+ 
 /// #39
 static ASCIICode    str_pool[POOL_SIZE + 1];    // the characters
 static PoolPtr      str_start[MAX_STRINGS + 1]; // the starting pointers

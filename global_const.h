@@ -39,6 +39,22 @@
 #define NDEBUG // no assertsion
 #endif
 
+#define charnodetype 0xfff
+#undef BIG_CHARNODE
+#define BIG_CHARNODE
+#define BIG_NOAD
+
+#ifdef BIG_CHARNODE
+#define CHAR_NODE_SIZE 2
+#define font_ligchar(x) type(ligchar(x))
+#define character_ligchar(x) subtype(ligchar(x))
+#else
+#define CHAR_NODE_SIZE 1
+#define font_ligchar(x) font(ligchar(x))
+#define character_ligchar(x) character(ligchar(x))
+#endif // #ifdef BIG_CHARNODE
+
+
 /// 辅助宏定义, 用于拆分模块是使用.
 #define USE_SPLIT_MOD
 
