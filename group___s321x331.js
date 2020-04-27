@@ -7,5 +7,6 @@ var group___s321x331 =
     [ "clearforerrorprompt", "group___s321x331.html#ga282ee6bcdd54bf75b357628da499c970", null ],
     [ "endfilereading", "group___s321x331.html#ga305fe4c17f929987d609b10d7bbd4d96", null ],
     [ "endtokenlist", "group___s321x331.html#gad2e3230595ca73c26847af5794f01651", null ],
+    [ "init_lexer", "group___s321x331.html#gacbe7dfc60906568e0f5ecdd024846d3f", null ],
     [ "inserror", "group___s321x331.html#ga78ba8096cd55b7c51db15c721de975b2", null ]
 ];

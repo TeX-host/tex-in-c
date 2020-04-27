@@ -4,6 +4,7 @@ var str_8c =
     [ "append_char", "str_8c.html#afd0a0b8cbdc9c2682890bb1af9225855", null ],
     [ "cur_length", "str_8c.html#aceeffa82bcc961461f4fb75bb850f40a", null ],
     [ "f_pool", "str_8c.html#aa7e58a9bf00c0ed3182f0bece08825ec", null ],
+    [ "f_pool_helper", "str_8c.html#ac559e2ef641248f85885c76f4cbef12f", null ],
     [ "flush_char", "str_8c.html#aaec9f1cb143a75bb36cbff10d45ca30f", null ],
     [ "flush_string", "str_8c.html#a365fc2db0bbb423d6744bf74872c9cbe", null ],
     [ "get_strings_started", "str_8c.html#ac2d0b7634d4f1a40de920a899b45ae93", null ],
@@ -30,5 +31,11 @@ var str_8c =
     [ "str_scmp", "str_8c.html#af4538e3fed329b86bcf530340d84433d", null ],
     [ "str_set_init_ptrs", "str_8c.html#a1ca7453a64987bbd517da1f89e2a74d8", null ],
     [ "str_undump", "str_8c.html#a7bb239d357f1aa59a8f47eab64540a61", null ],
-    [ "str_valid", "str_8c.html#a014c3cfdf95e47010534c518b6efe13c", null ]
+    [ "str_valid", "str_8c.html#a014c3cfdf95e47010534c518b6efe13c", null ],
+    [ "init_pool_ptr", "str_8c.html#a7884d6c973e1f2e8434bf7f61b9127a1", null ],
+    [ "init_str_ptr", "str_8c.html#a66baef2ff8f6e9e39a76138309c16d69", null ],
+    [ "pool_ptr", "str_8c.html#a237b76c2fd1c09d8479da33238c57cac", null ],
+    [ "str_pool", "str_8c.html#a123161ed756585e87af6fa7e9de80ec3", null ],
+    [ "str_ptr", "str_8c.html#a8b2520356d09b31b3ad67de7dad86e65", null ],
+    [ "str_start", "str_8c.html#af3d00585a204d2b4aba071714080288f", null ]
 ];

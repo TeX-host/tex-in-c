@@ -64,7 +64,7 @@ var lexer_8h =
     [ "get_maxinstack", "lexer_8h.html#ad81e7a6ef0185b94066d4b04e2c08ec2", null ],
     [ "getnext", "group___s332x365.html#ga18d0a6eddff65d623650e09b4c866f11", null ],
     [ "gettoken", "group___s332x365.html#ga1c0927e54ff31ab87d043a2147e3b218", null ],
-    [ "init_lexer", "group___s300x320.html#gacbe7dfc60906568e0f5ecdd024846d3f", null ],
+    [ "init_lexer", "group___s321x331.html#gacbe7dfc60906568e0f5ecdd024846d3f", null ],
     [ "inserror", "group___s321x331.html#ga78ba8096cd55b7c51db15c721de975b2", null ],
     [ "pack_tok", "lexer_8h.html#a3460d673e502f07a6dac47e0d18dadcd", null ],
     [ "printmeaning", "group___s289x296.html#ga01a356c4dd8fa8c8c4498995c6336b0a", null ],

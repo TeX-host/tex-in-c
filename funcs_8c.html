@@ -123,10 +123,16 @@ funcs.c 的引用(Include)关系图:</div>
 <tr class="separator:a859f35e60fecb88783843d2dd4501cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadec5fbb8dd724bd9330dc00a72ec565"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#aadec5fbb8dd724bd9330dc00a72ec565">initinc</a> (int _not_use_)</td></tr>
 <tr class="separator:aadec5fbb8dd724bd9330dc00a72ec565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac385db70ea72b18e35fadc69d512aea6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ac385db70ea72b18e35fadc69d512aea6">env_to_path</a> (char ***path, char **buf, char *env_var)</td></tr>
+<tr class="separator:ac385db70ea72b18e35fadc69d512aea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c62ad6247b0b1e437fc921ba4c7b780"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a2c62ad6247b0b1e437fc921ba4c7b780">PASCAL_MAIN</a> (int argc, char **argv)</td></tr>
 <tr class="separator:a2c62ad6247b0b1e437fc921ba4c7b780"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb3f53c21cb36b4092fd64d917647194"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#acb3f53c21cb36b4092fd64d917647194">a_open_in1</a> (char *name, char **path_lst, FILE **f)</td></tr>
+<tr class="separator:acb3f53c21cb36b4092fd64d917647194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54de46ce4e384b8e55227b1fe284b7f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a54de46ce4e384b8e55227b1fe284b7f5">open_fmt</a> (FILE **fmt)</td></tr>
 <tr class="separator:a54de46ce4e384b8e55227b1fe284b7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ef1820def3021c6a96e788fe66c0de"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a50ef1820def3021c6a96e788fe66c0de">trimspaces</a> (void)</td></tr>
+<tr class="separator:a50ef1820def3021c6a96e788fe66c0de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e4ddc0fdcdd5309a467fd404cb97a33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a5e4ddc0fdcdd5309a467fd404cb97a33">a_open_in</a> (FILE **f)</td></tr>
 <tr class="separator:a5e4ddc0fdcdd5309a467fd404cb97a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad799676c859f77ee4169bd73ede2deff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ad799676c859f77ee4169bd73ede2deff">a_open_out</a> (FILE **f)</td></tr>
@@ -134,8 +140,34 @@ funcs.c 的引用(Include)关系图:</div>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 变量</h2></td></tr>
+<tr class="memitem:a6e141b1387205979ad8d383309d746e6"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a6e141b1387205979ad8d383309d746e6">my_buff</a> [256]</td></tr>
+<tr class="separator:a6e141b1387205979ad8d383309d746e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1910d262855b71da353ed0d07a6c7823"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a1910d262855b71da353ed0d07a6c7823">pos</a> = 0</td></tr>
+<tr class="separator:a1910d262855b71da353ed0d07a6c7823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a430145ebce8e264d4b05c7a2c1209176"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a430145ebce8e264d4b05c7a2c1209176">in_c_flag</a> = false</td></tr>
+<tr class="separator:a430145ebce8e264d4b05c7a2c1209176"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af60be62152264d4c145b30b353108b4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#af60be62152264d4c145b30b353108b4e">need_to_load_format</a> = false</td></tr>
 <tr class="separator:af60be62152264d4c145b30b353108b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5c0837858c4076b117a1f8cbb49d283"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ad5c0837858c4076b117a1f8cbb49d283">mybuff</a> [<a class="el" href="funcs_8c.html#a6079b3b36c54787d2dca2de2fb2c96df">MY_BUFSIZE</a>]</td></tr>
+<tr class="separator:ad5c0837858c4076b117a1f8cbb49d283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aded2829a9552aa2804634cb3a9a2b673"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#aded2829a9552aa2804634cb3a9a2b673">use_independence_date</a> = false</td></tr>
+<tr class="separator:aded2829a9552aa2804634cb3a9a2b673"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a096d86c167323f81f1e40e1d9c399fcb"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a096d86c167323f81f1e40e1d9c399fcb">format_name</a></td></tr>
+<tr class="separator:a096d86c167323f81f1e40e1d9c399fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22cc4fb65e3c0c5aada16ca7b3d3152b"><td class="memItemLeft" align="right" valign="top">static char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a22cc4fb65e3c0c5aada16ca7b3d3152b">font_path</a></td></tr>
+<tr class="separator:a22cc4fb65e3c0c5aada16ca7b3d3152b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59acbbb5a9a82297d9f5f2f23a6091f6"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a59acbbb5a9a82297d9f5f2f23a6091f6">font_path_buf</a></td></tr>
+<tr class="separator:a59acbbb5a9a82297d9f5f2f23a6091f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41793f9bb53e47f5bae5ccfcd673d4bb"><td class="memItemLeft" align="right" valign="top">static char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a41793f9bb53e47f5bae5ccfcd673d4bb">input_path</a></td></tr>
+<tr class="separator:a41793f9bb53e47f5bae5ccfcd673d4bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac19109fd3325a1bb6b54994a4ee1d858"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ac19109fd3325a1bb6b54994a4ee1d858">input_path_buf</a></td></tr>
+<tr class="separator:ac19109fd3325a1bb6b54994a4ee1d858"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55315cfdb4141adad97255520810cea4"><td class="memItemLeft" align="right" valign="top">static char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a55315cfdb4141adad97255520810cea4">format_path</a></td></tr>
+<tr class="separator:a55315cfdb4141adad97255520810cea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab53ab594045b5d70acb8954f8446145f"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ab53ab594045b5d70acb8954f8446145f">format_path_buf</a></td></tr>
+<tr class="separator:ab53ab594045b5d70acb8954f8446145f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6b4cc36838a3c316865f35f93f3f3a"><td class="memItemLeft" align="right" valign="top">static char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#a5c6b4cc36838a3c316865f35f93f3f3a">font_path_default</a> []</td></tr>
+<tr class="separator:a5c6b4cc36838a3c316865f35f93f3f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad53370dffc37094d84e1401504d5983d"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="funcs_8c.html#ad53370dffc37094d84e1401504d5983d">p_path</a> [] = {&quot;&quot;, 0}</td></tr>
 <tr class="separator:ad53370dffc37094d84e1401504d5983d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -173,6 +205,48 @@ funcs.c 的引用(Include)关系图:</div>
 
 </div>
 </div>
+<a id="acb3f53c21cb36b4092fd64d917647194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb3f53c21cb36b4092fd64d917647194">&#9670;&nbsp;</a></span>a_open_in1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> a_open_in1 </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>path_lst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FILE **&#160;</td>
+          <td class="paramname"><em>f</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad799676c859f77ee4169bd73ede2deff"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad799676c859f77ee4169bd73ede2deff">&#9670;&nbsp;</a></span>a_open_out()</h2>
 
@@ -187,6 +261,48 @@ funcs.c 的引用(Include)关系图:</div>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac385db70ea72b18e35fadc69d512aea6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac385db70ea72b18e35fadc69d512aea6">&#9670;&nbsp;</a></span>env_to_path()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void env_to_path </td>
+          <td>(</td>
+          <td class="paramtype">char ***&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>env_var</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -295,7 +411,290 @@ funcs.c 的引用(Include)关系图:</div>
 
 </div>
 </div>
+<a id="a50ef1820def3021c6a96e788fe66c0de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50ef1820def3021c6a96e788fe66c0de">&#9670;&nbsp;</a></span>trimspaces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void trimspaces </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">变量说明</h2>
+<a id="a22cc4fb65e3c0c5aada16ca7b3d3152b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22cc4fb65e3c0c5aada16ca7b3d3152b">&#9670;&nbsp;</a></span>font_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** font_path</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a59acbbb5a9a82297d9f5f2f23a6091f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59acbbb5a9a82297d9f5f2f23a6091f6">&#9670;&nbsp;</a></span>font_path_buf</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* font_path_buf</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c6b4cc36838a3c316865f35f93f3f3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c6b4cc36838a3c316865f35f93f3f3a">&#9670;&nbsp;</a></span>font_path_default</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* font_path_default[]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>初始值:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/cm/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/latex/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/ae/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/cmextra/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/mflogo&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/public/misc/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/ams/cmextra/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/ams/cyrillic/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/ams/euler/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/usr/share/texmf/fonts/tfm/ams/symbols/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/var/lib/texmf/tfm/public/plfonts/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;/var/lib/texmf/tfm/jknappen/ec/&quot;</span>,</div>
+<div class="line">    <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line">    0}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a096d86c167323f81f1e40e1d9c399fcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a096d86c167323f81f1e40e1d9c399fcb">&#9670;&nbsp;</a></span>format_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* format_name</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55315cfdb4141adad97255520810cea4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55315cfdb4141adad97255520810cea4">&#9670;&nbsp;</a></span>format_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** format_path</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab53ab594045b5d70acb8954f8446145f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab53ab594045b5d70acb8954f8446145f">&#9670;&nbsp;</a></span>format_path_buf</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* format_path_buf</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a430145ebce8e264d4b05c7a2c1209176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a430145ebce8e264d4b05c7a2c1209176">&#9670;&nbsp;</a></span>in_c_flag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> in_c_flag = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41793f9bb53e47f5bae5ccfcd673d4bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41793f9bb53e47f5bae5ccfcd673d4bb">&#9670;&nbsp;</a></span>input_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** input_path</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac19109fd3325a1bb6b54994a4ee1d858"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac19109fd3325a1bb6b54994a4ee1d858">&#9670;&nbsp;</a></span>input_path_buf</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char* input_path_buf</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e141b1387205979ad8d383309d746e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e141b1387205979ad8d383309d746e6">&#9670;&nbsp;</a></span>my_buff</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char my_buff[256]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad5c0837858c4076b117a1f8cbb49d283"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5c0837858c4076b117a1f8cbb49d283">&#9670;&nbsp;</a></span>mybuff</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char mybuff[<a class="el" href="funcs_8c.html#a6079b3b36c54787d2dca2de2fb2c96df">MY_BUFSIZE</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="af60be62152264d4c145b30b353108b4e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af60be62152264d4c145b30b353108b4e">&#9670;&nbsp;</a></span>need_to_load_format</h2>
 
@@ -320,6 +719,50 @@ funcs.c 的引用(Include)关系图:</div>
           <td class="memname">char* p_path[] = {&quot;&quot;, 0}</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1910d262855b71da353ed0d07a6c7823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1910d262855b71da353ed0d07a6c7823">&#9670;&nbsp;</a></span>pos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int pos = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aded2829a9552aa2804634cb3a9a2b673"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aded2829a9552aa2804634cb3a9a2b673">&#9670;&nbsp;</a></span>use_independence_date</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> use_independence_date = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
