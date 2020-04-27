@@ -53,5 +53,8 @@ extern Pointer get_avail(void);
 extern void flushlist(HalfWord p);
 extern void delete_token_ref(HalfWord p);
 extern void pause_for_instructions(void);
+extern void term_input(void);
+extern void openlogfile(void);
+
 
 #endif // TEX_FUNC_H

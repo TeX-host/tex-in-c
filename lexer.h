@@ -129,4 +129,12 @@ extern void beginfilereading(void);
 extern void endfilereading(void);
 extern void clearforerrorprompt(void);
 
+// [ #332~365: PART 24: GETTING THE NEXT TOKEN ]
+extern int check_outer_validity(int local_curcs);
+extern void getnext_worker(Boolean no_new_control_sequence);
+extern void getnext(void);
+extern void firm_up_the_line(void);
+extern void gettoken(void);
+extern int pack_tok(int cs, int cmd, int chr);
+
 #endif // INC_LEXER_H

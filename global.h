@@ -35,5 +35,15 @@ extern UInt16 shown_mode;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 extern Boolean OK_to_interrupt;
 extern Integer interrupt;
+extern Boolean deletions_allowed;
+extern Pointer parloc;
+extern HalfWord partoken;
+extern Boolean force_eof;
+extern char longstate;
+extern SmallNumber curif;
+extern Integer skipline;
+extern StrNumber help_line[6];
+extern UChar interaction;
+extern Pointer curalign;
 
 #endif // #ifndef GLOBAL_H

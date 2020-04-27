@@ -83,10 +83,10 @@ Static FILE *termin = NULL, *termout = NULL;
 // [p30#73] current level of interaction
 // interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
 // [REPORTING ERRORS]
-Static UChar interaction;
+UChar interaction;
 
 /// [p31#76]
-Static Boolean deletions_allowed; // is it safe for error to call get token?
+Boolean deletions_allowed; // is it safe for error to call get token?
 Static Boolean set_box_allowed;   // is it safe to do a \setbox assignment?
 // has the source input been clean so far?
 // [SPOTLESS, FATAL_ERROR_STOP]
@@ -96,7 +96,7 @@ Static enum ErrorLevel history;
 Static SChar errorcount;
 
 /// [#79]
-Static StrNumber help_line[6]; // helps for the `nexterror`
+StrNumber help_line[6]; // helps for the `nexterror`
 Static UChar help_ptr;         // the number of help lines present
 Static Boolean use_err_help;   // should the `errhelp` list be shown?
 
@@ -173,17 +173,17 @@ Static Integer magset;
 
 /// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb
-Static Pointer parloc;
+Pointer parloc;
 // [#333] token representing ‘\par’
-Static HalfWord partoken;
+HalfWord partoken;
 // [#361] should the next \input be aborted early?
-Static Boolean force_eof;
+Boolean force_eof;
 
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 // [#387] governs the acceptance of \par
-Static char longstate;
+char longstate;
 
 /// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
 // [#410] curval
@@ -207,11 +207,11 @@ Static char readopen[17];
 /*489:*/
 Static Pointer condptr;
 Static char iflimit;
-Static SmallNumber curif;
+SmallNumber curif;
 Static Integer ifline;
 /*:489*/
 /*493:*/
-Static Integer skipline;
+Integer skipline;
 /*:493*/
 
 
@@ -292,7 +292,8 @@ Static FourQuarters curi;
 
 
 /*770:*/
-Static Pointer curalign, curspan, curloop, alignptr, curhead, curtail;
+Pointer curalign;
+Static Pointer curspan, curloop, alignptr, curhead, curtail;
 /*:770*/
 
 
