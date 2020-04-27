@@ -107,7 +107,7 @@ enum TokenType {
  *  + 相等判断[8]:
  *      `==`: 325, 337, 390, 1335,
  *      `!=`: 311, 312[2], 330, 341,
- * + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
+ *  + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
  */
 #define STATE   cur_input.statefield 
 #define IINDEX  cur_input.indexfield ///< reference for #buffer information
