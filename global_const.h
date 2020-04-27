@@ -54,6 +54,7 @@
 #define character_ligchar(x) character(ligchar(x))
 #endif // #ifdef BIG_CHARNODE
 
+
 /// 辅助宏定义, 用于拆分模块是使用.
 #define USE_SPLIT_MOD
 

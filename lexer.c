@@ -5,6 +5,7 @@
 #include "pure_func.h"  // [func] aclose
 #include "macros.h"     // [macro] help4, help3, help2
 #include "inputln.h"    // [func] inputln
+#include "funcs.h"      // [func] initinc
 #include "lexer.h"
 
 
@@ -33,22 +34,32 @@ HalfWord curtok;
  */
 
 /// [#301]:
+///
+/// xref[2]: only tex.c
+///     #error, #openlogfile
 InStateRecord inputstack[stacksize + 1];
 /// [#301]: first unused location of input stack.
+///
+/// xref[3, only tex.c]:
+///     #openlogfile, #final_cleanup,
+///     #S1337_Get_the_first_line_of_input_and_prepare_to_start
 UChar inputptr;
 /// [#301]: largest value of input ptr when pushing.
-UChar maxinstack;
+static UChar maxinstack;
 /// [#301]: the "top" input state, according to convention.
-/// xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
+/// xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131,
+///     #error, #openlogfile
 InStateRecord cur_input;
 
 /// [#304] the number of lines in the buffer, less one
-char inopen;
+static UChar inopen;
 /// the number of open text files
+/// xref[2, only tex.c]: #startinput, #final_cleanup
 char openparens;
 Integer line; ///< current line number in the current source file.
+/// xref[]: #startinput
 FILE* inputfile[MAX_IN_OPEN];
-Integer linestack[MAX_IN_OPEN];
+static Integer linestack[MAX_IN_OPEN];
 
 /// [#305] can a subfile end now?
 char scanner_status;
@@ -57,17 +68,50 @@ Pointer warning_index;
 /// [#305] reference count of token list being defined
 Pointer defref;
 
-/// [#308] token list pointers for parameters
+/// [#308] token list pointers for parameters.
+//// xref[only tex.c]: #macrocall
 Pointer paramstack[paramsize + 1];
-/// [#308] first unused entry in param stack
+/// [#308] first unused entry in param stack.
+//// xref[only tex.c]: #macrocall
 int paramptr;
-/// [#308] largest value of param ptr, will be ≤ param size + 9
+/// [#308] largest value of param ptr, will be ≤ param size + 9 .
+//// xref[only tex.c]: #macrocall
 Integer maxparamstack;
-/// [#309] group level with respect to current alignment
+/// [#309] group level with respect to current alignment.
 Integer align_state;
-/// [#310] shallowest level shown by show context
+/// [#310] shallowest level shown by show context.
+/// xref[only tex.c]: #error
 UChar baseptr;
 /** @}*/ // end group S300x320
+
+
+// 辅助函数
+UChar get_maxinstack() { return maxinstack; }
+
+
+// [#37]
+static Boolean initterminal(void) {
+    if (initinc(1)) { // initinc@func.c
+        LOC = first;
+        return true;
+    }
+    while (true) {
+        fprintf(stdout, "**");
+        fflush(stdout);
+        if (!inputln(stdin, true)) {
+            putc('\n', stdout);
+            fprintf(stdout, "! End of file on the terminal... why?");
+            return false;
+        }
+        LOC = first;
+        while ((LOC < last) && (buffer[LOC] == ' '))
+            LOC++;
+        if (LOC < last) {
+            return true;
+        }
+        fprintf(stdout, "Please type the name of your input file.\n");
+    } // while (true) {
+} // [#37] initterminal
 
 
 /** @defgroup S289x296 PART 20: TOKEN LISTS
@@ -402,8 +446,39 @@ _Ldone:
  * 
  * [#331, ]
  */
-void init_lexer(void) {
+Boolean init_lexer(void) {
+    const Boolean HAS_ERROR = true, NO_ERROR = false;
 
+    /// [#331]: Initialize the input routines
+    inputptr = 0;
+    maxinstack = 0;
+    inopen = 0;
+    openparens = 0;
+    max_buf_stack = 0;
+    paramptr = 0;
+    maxparamstack = 0;
+    first = BUF_SIZE;
+
+    do {
+        buffer[first] = 0;
+        first--;
+    } while (first != 0);
+
+    scanner_status = NORMAL;
+    warning_index = 0;
+    first = 1;
+    STATE = NEW_LINE;
+    START = 1;
+    IINDEX = 0;
+    line = 0;
+    NAME = 0;
+    force_eof = false;
+    align_state = 1000000L;
+    if (!initterminal()) return HAS_ERROR;
+    LIMIT = last;
+    first = last + 1; // `init_terminal` has set `LOC` and `last`
+
+    return NO_ERROR;
 } // [#331, ] init_lexer
 /** @}*/ // end group S300x320
 
@@ -594,7 +669,7 @@ void clearforerrorprompt(void) {
  */
 
 // P134#336
-int check_outer_validity(int local_curcs) {
+static int check_outer_validity(int local_curcs) {
     Pointer p, q;
 
     if (scanner_status == NORMAL) return local_curcs;
@@ -695,7 +770,7 @@ int check_outer_validity(int local_curcs) {
     }
 
 // #341: getnext_worker
-void getnext_worker(Boolean no_new_control_sequence) {
+static void getnext_worker(Boolean no_new_control_sequence) {
     UInt16 k;            // an index into buffer; [0, BUF_SIZE=5000]
     UChar cat;           // cat_code(cur chr), usually
     ASCIICode c, cc = 0; // constituents of a possible expanded code

@@ -14261,7 +14261,6 @@ Static void debughelp(void) {
  *  + S1337_Get_the_first_line_of_input_and_prepare_to_start
  *      + open_fmt_file
  *      + load_fmt_file
- *      + initterminal
  *      ++ startinput
  *  + main_control
  *  + final_cleanup
@@ -15375,29 +15374,7 @@ _Lexit:
     return Result;
 } // #1303: load_fmt_file
 
-// #37
-Static Boolean initterminal(void) {
-    if (initinc(1)) { // initinc@func.c
-        LOC = first;
-        return true;
-    }
-    while (true) {
-        fprintf(stdout, "**");
-        fflush(stdout);
-        if (!inputln(stdin, true)) {
-            putc('\n', stdout);
-            fprintf(stdout, "! End of file on the terminal... why?");
-            return false;
-        }
-        LOC = first;
-        while ((LOC < last) && (buffer[LOC] == ' '))
-            LOC++;
-        if (LOC < last) {
-            return true;
-        }
-        fprintf(stdout, "Please type the name of your input file.\n");
-    }
-}
+// #37: initterminal @lexer.c
 
 // #1333
 Static void close_files_and_terminate(void) {
@@ -15442,7 +15419,7 @@ Static void close_files_and_terminate(void) {
             fprintf(log_file,
                     " %di,%dn,%ldp,%db,%ds stack positions out of "
                     "%ldi,%ldn,%ldp,%ldb,%lds\n",
-                    maxinstack,
+                    get_maxinstack(),
                     max_nest_stack,
                     maxparamstack,
                     max_buf_stack + 1,
@@ -16427,34 +16404,8 @@ static void S55_Initialize_the_output_routines(void) {
 static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     const Boolean HAS_ERROR = true, NO_ERROR = false;
 
-    /// [#331]: Initialize the input routines
-    inputptr = 0;
-    maxinstack = 0;
-    inopen = 0;
-    openparens = 0;
-    max_buf_stack = 0;
-    paramptr = 0;
-    maxparamstack = 0;
-    first = BUF_SIZE;
-
-    do {
-        buffer[first] = 0;
-        first--;
-    } while (first != 0);
-
-    scanner_status = NORMAL;
-    warning_index = 0;
-    first = 1;
-    STATE = NEW_LINE;
-    START = 1;
-    IINDEX = 0;
-    line = 0;
-    NAME = 0;
-    force_eof = false;
-    align_state = 1000000L;
-    if (!initterminal()) return HAS_ERROR;
-    LIMIT = last;
-    first = last + 1; // `init_terminal` has set `LOC` and `last`
+    // [#331]: Initialize the input routines
+    if (init_lexer()==HAS_ERROR) return HAS_ERROR;
 
     /// [#1337]
     // TODO: check if

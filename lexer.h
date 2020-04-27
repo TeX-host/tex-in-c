@@ -141,14 +141,11 @@ extern HalfWord curtok;
 
 extern InStateRecord inputstack[stacksize + 1];
 extern UChar inputptr;
-extern UChar maxinstack;
 extern InStateRecord cur_input;
 
-extern char inopen;
 extern char openparens;
 extern Integer line;
 extern FILE* inputfile[MAX_IN_OPEN];
-extern Integer linestack[MAX_IN_OPEN];
 extern char scanner_status;
 extern Pointer warning_index;
 extern Pointer defref;
@@ -165,6 +162,7 @@ extern void printmeaning(int cur_chr, int cur_cmd);
 extern void showcurcmdchr(void);
 extern void runaway(void);
 extern void showcontext(void);
+extern Boolean init_lexer(void);
 
 extern void begintokenlist(HalfWord p, QuarterWord t);
 extern void endtokenlist(void);
@@ -175,12 +173,11 @@ extern void beginfilereading(void);
 extern void endfilereading(void);
 extern void clearforerrorprompt(void);
 
-extern int check_outer_validity(int local_curcs);
-extern void getnext_worker(Boolean no_new_control_sequence);
 extern void getnext(void);
 extern void firm_up_the_line(void);
 extern void gettoken(void);
 
 extern int pack_tok(int cs, int cmd, int chr);
+extern UChar get_maxinstack();
 
 #endif // INC_LEXER_H
