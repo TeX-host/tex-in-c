@@ -1,7 +1,6 @@
 #include "print.h" // [var] tally,
 #include "global.h" // [var] mem, lo_mem_max, hi_mem_min, mem_end,
 #include "texfunc.h" // [func] print_cs
-// #include "texmac.h"  // [macro] temphead, holdhead,
 #include "printout.h" // [func] printcmdchr,
 #include "pure_func.h" // [func] aclose
 #include "macros.h"    // [macro] help4, help3, help2
@@ -58,10 +57,6 @@ Integer maxparamstack;
 Integer align_state;
 // [#310] shallowest level shown by show context
 UChar baseptr;
-
-void init_lexer_var(void) {
-
-} // init_lexer_var
 
 
 /*

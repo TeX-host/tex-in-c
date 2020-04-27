@@ -2557,9 +2557,11 @@ Static void preparemag(void) {
 
 /** [ #366~402: PART 25: EXPANDING THE NEXT TOKEN ]
  *
- * + report_argument
  * + macrocall
  * + insertrelax
+ * + expand
+ * + get_x_token
+ * + xtoken
  */
 
 
@@ -2805,25 +2807,8 @@ Static void insertrelax(void)
 }  /*:379*/
 
 
-/** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
- * 
- */
 
-Static void skip_spaces(void)
-{  /*406:*/
-    do {
-        get_x_token();
-    } while (curcmd == SPACER); /*:406*/
-}
-
-Static void skip_spaces_or_relax(void)
-{ /*404:*/
-    do {
-        get_x_token();
-    } while (curcmd == SPACER || curcmd == relax); /*:404*/
-}
-
-
+/// [p143#366]
 Static void expand(void)
 {
   HalfWord t;
@@ -2997,8 +2982,7 @@ Static void expand(void)
   link(backuphead) = backupbackup;
 
   /*:378*/
-}
-/*:366*/
+} // [#366] expand
 
 // [#380]: get an expanded token
 //  sets cur_cmd, cur_chr, cur_tok, and expands macros
@@ -3040,6 +3024,26 @@ Static void xtoken(void)
   curtok = pack_tok(curcs,curcmd,curchr);
 }
 /*:381*/
+
+
+/** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
+ *
+ * + scanleftbrace
+ * + muerror
+ * + 
+ */
+
+Static void skip_spaces(void) { /*406:*/
+    do {
+        get_x_token();
+    } while (curcmd == SPACER); /*:406*/
+}
+
+Static void skip_spaces_or_relax(void) { /*404:*/
+    do {
+        get_x_token();
+    } while (curcmd == SPACER || curcmd == relax); /*:404*/
+}
 
 /// [ #402 : scan left brace ]
 
@@ -3191,6 +3195,9 @@ Static void scantwentysevenbitint(void) {
     curval = 0;
 }
 /*:437*/
+
+
+/// [ #539~582: PART 30: FONT METRIC DATA ]
 
 /*577:*/
 Static void scanfontident(void) { /*406:*/
