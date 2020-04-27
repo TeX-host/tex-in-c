@@ -96,7 +96,7 @@ extern HalfWord curtok;
 extern InStateRecord inputstack[stacksize + 1];
 extern UChar inputptr;
 extern UChar maxinstack;
-InStateRecord cur_input;
+extern InStateRecord cur_input;
 extern char inopen;
 extern char openparens;
 extern Integer line;
@@ -114,5 +114,19 @@ extern UChar baseptr;
 
 extern void showtokenlist(Integer p, Integer q, Integer l);
 extern void tokenshow(HalfWord p);
+extern void printmeaning(int cur_chr, int cur_cmd);
+extern void showcurcmdchr(void);
+extern void runaway(void);
+extern void showcontext(void);
+
+// [ #321~331: PART 23: MAINTAINING THE INPUT STACKS ]
+extern void begintokenlist(HalfWord p, QuarterWord t);
+extern void endtokenlist(void);
+extern void backinput(void);
+extern void backerror(void);
+extern void inserror(void);
+extern void beginfilereading(void);
+extern void endfilereading(void);
+extern void clearforerrorprompt(void);
 
 #endif // INC_LEXER_H

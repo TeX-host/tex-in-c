@@ -10,21 +10,6 @@
 #include <string.h> // memcpy
 #include <math.h>   // fabs
 
-#define charnodetype 0xfff
-#undef BIG_CHARNODE
-#define BIG_CHARNODE
-#define BIG_NOAD
-
-#ifdef BIG_CHARNODE
-#define CHAR_NODE_SIZE 2
-#define font_ligchar(x) type(ligchar(x))
-#define character_ligchar(x) subtype(ligchar(x))
-#else
-#define CHAR_NODE_SIZE 1
-#define font_ligchar(x) font(ligchar(x))
-#define character_ligchar(x) character(ligchar(x))
-#endif // #ifdef BIG_CHARNODE
-
 #include "global_const.h"
 #include "tex_inc.h"
 #include "texmath.h"
@@ -42,9 +27,6 @@
 #include "print.h"     // 打印函数
 #include "lexer.h"     // lexer
 #include "texfunc.h"   // [export]
-
-#define formatextension S(256)
-#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 
 /*
@@ -119,8 +101,8 @@ Static UChar help_ptr;         // the number of help lines present
 Static Boolean use_err_help;   // should the `errhelp` list be shown?
 
 /// [#96]
-Static Integer interrupt;       // should TeX pause for instructions?
-Static Boolean OK_to_interrupt; // should interrupts be observed?
+Integer interrupt;       // should TeX pause for instructions?
+Boolean OK_to_interrupt; // should interrupts be observed?
 
 /// [ #115~132: DYNAMIC MEMORY ALLOCATION ]
 /// [#115]
@@ -159,8 +141,8 @@ Static Integer breadth_max;
 Static ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
 Static UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
-Static ListStateRecord cur_list;           // the "top" semantic state
-Static UInt16 shown_mode; // most recent mode shown by \tracingcommands
+ListStateRecord cur_list;           // the "top" semantic state
+UInt16 shown_mode; // most recent mode shown by \tracingcommands
 
 /// [ #220~255: THE TABLE OF EQUIVALENTS ]
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
@@ -199,7 +181,7 @@ Static Boolean force_eof;
 
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
-Static Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 // [#387] governs the acceptance of \par
 Static char longstate;
 

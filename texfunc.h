@@ -45,5 +45,13 @@ extern void set_help(UChar k, ...);
 
 // [tex] lexer
 extern void print_cs(long p);
+extern void begindiagnostic(void);
+extern void enddiagnostic(Boolean blankline);
+extern void print_mode(Integer m);
+extern void fatalerror(StrNumber s);
+extern Pointer get_avail(void);
+extern void flushlist(HalfWord p);
+extern void delete_token_ref(HalfWord p);
+extern void pause_for_instructions(void);
 
 #endif // TEX_FUNC_H

@@ -30,5 +30,10 @@ extern MemoryWord mem[MEM_MAX - MEM_MIN + 1];
 extern Pointer lo_mem_max;
 extern Pointer hi_mem_min;
 extern Pointer mem_end;
+extern ListStateRecord cur_list;
+extern UInt16 shown_mode;
+extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+extern Boolean OK_to_interrupt;
+extern Integer interrupt;
 
 #endif // #ifndef GLOBAL_H

@@ -1,8 +1,13 @@
 #pragma once
+#ifndef TEXMAC_H
+#define TEXMAC_H
 
 // tex.c 里使用的宏
 #undef labs
 #define null 0
+
+#define formatextension S(256)
+#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 /* P2C compatibility */
 #define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
@@ -609,3 +614,5 @@
             rhyf = whatrhm(x);            \
         }                                 \
     }
+
+#endif // TEXMAC_H
