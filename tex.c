@@ -23,7 +23,6 @@ Static void debughelp(void);
 #endif // 78: tt_DEBUG
 
 Static jmp_buf _JMP_global__end_of_TEX;
-Static void tokenshow(HalfWord p);
 
 Static void begindiagnostic(void);
 Static void enddiagnostic(Boolean blankline);
@@ -136,7 +135,7 @@ Static void term_input(void) {
 
 // #262: prints a purported control sequence
 // [Basic printing procedures]
-Static void print_cs(long p) {
+void print_cs(long p) {
     if (p < hashbase) {
         // single character
         if (p >= singlebase) {
@@ -517,97 +516,6 @@ Static void printword(MemoryWord w) {
 #endif // #114: tt_DEBUG
 
 
-/*
- * [ #289: TOKEN LISTS  ]
- */
-
-// #292
-Static void showtokenlist(Integer p, Integer q, Integer l) {
-    Integer m, c; // pieces of a token
-    ASCIICode matchchr; // character used in a 'match'
-    ASCIICode n;        // the highest parameter number, as an ASCII digit
-
-    matchchr = '#';
-    n = '0';
-    tally = 0;
-    while (p != 0 && tally < l) {
-        if (p == q) {
-            // #320 Do magic computation
-            settrick_count();
-        }
-
-        // [#293] Display token p, and return if there are problems
-        if (p < hi_mem_min || p > mem_end) {
-            print_esc(S(308)); // "CLOBBERED."
-            return;
-        }
-        if (info(p) >= CS_TOKEN_FLAG) {
-            print_cs(info(p) - CS_TOKEN_FLAG);
-        } else { // info(p) < CS_TOKEN_FLA
-            m = info(p) / dwa_do_8;
-            c = info(p) % dwa_do_8;
-            if (info(p) < 0) {
-                print_esc(S(309)); // "BAD."
-            } else {
-                // [#294] Display the token (m,c)
-                switch (m) {
-                    case LEFT_BRACE:
-                    case RIGHT_BRACE:
-                    case MATH_SHIFT:
-                    case TAB_MARK:
-                    case SUP_MARK:
-                    case SUB_MARK:
-                    case SPACER:
-                    case LETTER:
-                    case OTHER_CHAR:
-                        print(c);
-                        break;
-
-                    case MAC_PARAM:
-                        print(c);
-                        print(c);
-                        break;
-
-                    case outparam:
-                        print(matchchr);
-                        if (c > 9) {
-                            print_char('!');
-                            return;
-                        }
-                        print_char(c + '0');
-                        break;
-
-                    case match:
-                        matchchr = c;
-                        print(c);
-                        n++;
-                        print_char(n);
-                        if (n > '9') return;
-                        break;
-
-                    case endmatch:
-                        print(S(310)); // "−>"
-                        break;
-
-                    default:
-                        print_esc(S(309)); // "BAD."
-                        break;
-                } // switch (m)
-            } // if (info(p) <> 0)
-        } // if (info(p) <> CS_TOKEN_FLAG)
-
-        p = link(p);
-    } // while (p != 0 && tally < l)
-
-    if (p != 0) print_esc(S(311)); // "ETC."
-} // #292: showtokenlist
-
-
-// #295
-Static void tokenshow(HalfWord p) {
-    if (p != 0) showtokenlist(link(p), 0, 10000000L);
-} // #295 : tokenshow
-
 /*296:*/
 Static void printmeaning(int cur_chr, int cur_cmd) {
     printcmdchr(cur_cmd, cur_chr);
@@ -639,6 +547,7 @@ Static void showcurcmdchr(void) {
     enddiagnostic(false);
 }
 /*:299*/
+
 
 /*306:*/
 Static void runaway(void) {
@@ -674,7 +583,6 @@ Static void runaway(void) {
 }
 /*:306*/
 /*:119*/
-
 
 /*311:*/
 Static void showcontext(void) { /*:315*/
@@ -832,9 +740,6 @@ _Ldone:
     cur_input = inputstack[inputptr];
 }
 /*:311*/
-
-
-
 
 
 /// p46#120: single-word node allocation
@@ -2900,6 +2805,18 @@ Static void preparemag(void) {
 /*:288*/
 
 
+/** [ #321~331: PART 23: MAINTAINING THE INPUT STACKS ].
+ * 
+ * + begintokenlist
+ * + endtokenlist
+ * + backinput
+ * + backerror
+ * + inserror
+ * + beginfilereading
+ * + endfilereading
+ * + clearforerrorprompt
+ */
+
 // #323:  starts a new level of token-list input, 
 // given a token list p and its type t.
 Static void begintokenlist(HalfWord p, QuarterWord t) {
@@ -3057,6 +2974,15 @@ Static void clearforerrorprompt(void) {
     println();
 }
 /*:330*/
+
+/** [ #332~365: PART 24: GETTING THE NEXT TOKEN ]
+ *
+ * + check_outer_validity
+ * + getnext_worker
+ * + getnext
+ * + firm_up_the_line
+ * + gettoken
+ */
 
 // P134#336
 Static int check_outer_validity(int local_curcs) {
@@ -3642,6 +3568,15 @@ Static void gettoken(void) {
 }
 /*:365*/
 
+
+/** [ #366~402: PART 25: EXPANDING THE NEXT TOKEN ]
+ *
+ * + report_argument
+ * + macrocall
+ * + insertrelax
+ */
+
+
 /*396:*/
 Static void report_argument(HalfWord unbalance, int n, Pointer * pstack)
 {
@@ -3883,6 +3818,10 @@ Static void insertrelax(void)
   token_type = INSERTED;
 }  /*:379*/
 
+
+/** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
+ * 
+ */
 
 Static void skip_spaces(void)
 {  /*406:*/

@@ -4,6 +4,7 @@
     // [var] buffer, last, first, max_buf_stack
     //  _JMP_global__final_end, format_ident, cur_input, xord
 #include "texfunc.h" // [func] overflow
+#include "lexer.h"   // [var] cur_input
 #include "inputln.h" // [export] inputln
 
 /// [#31] inputs the next line or returns false.

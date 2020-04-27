@@ -40,6 +40,7 @@
 #include "dviout.h"
 #include "pure_func.h" // [func] 导入纯函数
 #include "print.h"     // 打印函数
+#include "lexer.h"     // lexer
 #include "texfunc.h"   // [export]
 
 #define formatextension S(256)
@@ -125,14 +126,14 @@ Static Boolean OK_to_interrupt; // should interrupts be observed?
 /// [#115]
 Static Pointer temp_ptr; // for occasional emergency use
 /// [#116]
-Static MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
-Static Pointer lo_mem_max; // the largest location of variable-size memory
-Static Pointer hi_mem_min; // the smallest location of one-word memory
+MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
+Pointer lo_mem_max; // the largest location of variable-size memory
+Pointer hi_mem_min; // the smallest location of one-word memory
 /// [#117]
 Static Integer var_used, dyn_used; // how much memory is in use
 /// [#118]
 Static Pointer avail;   // head of the list of available one-word nodes
-Static Pointer mem_end; // the last one-word node used in mem
+Pointer mem_end; // the last one-word node used in mem
 /// [#124]
 Static Pointer rover; // points to some node in the list of empties
 
@@ -187,54 +188,6 @@ Static UInt16 curboundary;   // where the current level begins
 // [#286] if nonzero, 
 // this magnification should be used henceforth
 Static Integer magset;
-
-/// [ #29~299: PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES  ]
-
-// [#297]: current command set by `get_next`
-//  a *command code* from the long list of codes given above;
-Static EightBits curcmd;
-// [#297]: operand of current command
-//  a *character code* or other *modifier* of the command code;
-Static HalfWord curchr;
-// [#297]: control sequence found here, zero if none found
-//  the `eqtb` location of the current control sequence
-Static Pointer curcs;
-// [#297]: packed representative of `curcmd` and `curchr`
-Static HalfWord curtok;
-
-/// [ #300~320: PART 22: INPUT STACKS AND STATES ]
-// [#301]:
-Static InStateRecord inputstack[stacksize + 1];
-// [#301]: first unused location of input stack
-Static UChar inputptr;
-// [#301]: largest value of input ptr when pushing
-Static UChar maxinstack;
-// [#301]: the "top" input state, according to convention (1)
-// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
-InStateRecord cur_input;
-// [#304] the number of lines in the buffer, less one
-Static char inopen;
-// the number of open text files
-Static char openparens;
-Static Integer line; // current line number in the current source file
-Static FILE* inputfile[MAX_IN_OPEN];
-Static Integer linestack[MAX_IN_OPEN];
-// [#305] can a subfile end now?
-Static char scanner_status;
-// identifier relevant to non-normal scanner status
-Static Pointer warning_index;
-// reference count of token list being defined
-Static Pointer defref;
-// [#308] token list pointers for parameters
-Static Pointer paramstack[paramsize + 1];
-// first unused entry in param stack
-Static int paramptr;
-// largest value of param ptr, will be ≤ param size + 9
-Static Integer maxparamstack;
-// [#309] group level with respect to current alignment
-Static Integer align_state;
-// [#310] shallowest level shown by show context
-Static UChar baseptr;
 
 /// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb

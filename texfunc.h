@@ -43,4 +43,7 @@ extern HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs);
 // [tex]
 extern void set_help(UChar k, ...);
 
+// [tex] lexer
+extern void print_cs(long p);
+
 #endif // TEX_FUNC_H
