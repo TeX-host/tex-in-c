@@ -8,62 +8,79 @@
 #include "lexer.h"
 
 
-// [ #29~299: PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES  ]
-
-// [#297]: current command set by `get_next`
-//  a *command code* from the long list of codes given above;
-EightBits curcmd;
-// [#297]: operand of current command
-//  a *character code* or other *modifier* of the command code;
-HalfWord curchr;
-// [#297]: control sequence found here, zero if none found
-//  the `eqtb` location of the current control sequence
-Pointer curcs;
-// [#297]: packed representative of `curcmd` and `curchr`
-HalfWord curtok;
-
-
-// [ #300~320: PART 22: INPUT STACKS AND STATES ]
-
-// [#301]:
-InStateRecord inputstack[stacksize + 1];
-// [#301]: first unused location of input stack
-UChar inputptr;
-// [#301]: largest value of input ptr when pushing
-UChar maxinstack;
-// [#301]: the "top" input state, according to convention (1)
-// cur input: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
-InStateRecord cur_input;
-// [#304] the number of lines in the buffer, less one
-char inopen;
-// the number of open text files
-char openparens;
-Integer line; // current line number in the current source file
-FILE* inputfile[MAX_IN_OPEN];
-Integer linestack[MAX_IN_OPEN];
-// [#305] can a subfile end now?
-char scanner_status;
-// identifier relevant to non-normal scanner status
-Pointer warning_index;
-// reference count of token list being defined
-Pointer defref;
-// [#308] token list pointers for parameters
-Pointer paramstack[paramsize + 1];
-// first unused entry in param stack
-int paramptr;
-// largest value of param ptr, will be ≤ param size + 9
-Integer maxparamstack;
-// [#309] group level with respect to current alignment
-Integer align_state;
-// [#310] shallowest level shown by show context
-UChar baseptr;
-
-
-/*
- * [ #289~296: PART 20: TOKEN LISTS ]
+/** @defgroup S297x299 PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES.
+ * [ p115#289~299 ]
+ *  @{
  */
 
-/// [#292]
+/// [#297]: current command set by `get_next`
+///  a *command code* from the long list of codes given above.
+EightBits curcmd;
+/// [#297]: operand of current command
+///  a *character code* or other *modifier* of the command code.
+HalfWord curchr;
+/// [#297]: control sequence found here, zero if none found
+///  the `eqtb` location of the current control sequence.
+Pointer curcs;
+/// [#297]: packed representative of `curcmd` and `curchr`.
+HalfWord curtok;
+/** @}*/ // end group S297x299
+
+
+/** @defgroup S300x320 PART 22: INPUT STACKS AND STATES
+ * [ #300~320 ]
+ *  @{
+ */
+
+/// [#301]:
+InStateRecord inputstack[stacksize + 1];
+/// [#301]: first unused location of input stack.
+UChar inputptr;
+/// [#301]: largest value of input ptr when pushing.
+UChar maxinstack;
+/// [#301]: the "top" input state, according to convention.
+/// xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131
+InStateRecord cur_input;
+
+/// [#304] the number of lines in the buffer, less one
+char inopen;
+/// the number of open text files
+char openparens;
+Integer line; ///< current line number in the current source file.
+FILE* inputfile[MAX_IN_OPEN];
+Integer linestack[MAX_IN_OPEN];
+
+/// [#305] can a subfile end now?
+char scanner_status;
+/// [#305] identifier relevant to non-normal scanner status
+Pointer warning_index;
+/// [#305] reference count of token list being defined
+Pointer defref;
+
+/// [#308] token list pointers for parameters
+Pointer paramstack[paramsize + 1];
+/// [#308] first unused entry in param stack
+int paramptr;
+/// [#308] largest value of param ptr, will be ≤ param size + 9
+Integer maxparamstack;
+/// [#309] group level with respect to current alignment
+Integer align_state;
+/// [#310] shallowest level shown by show context
+UChar baseptr;
+/** @}*/ // end group S300x320
+
+
+/** @defgroup S289x296 PART 20: TOKEN LISTS
+ * [ #289~296 ].
+ *
+ * + #showtokenlist
+ * + #tokenshow
+ * + #printmeaning
+ *
+ *  @{
+ */
+
+/// [p117#292]
 void showtokenlist(Integer p, Integer q, Integer l) {
     Integer m, c;       // pieces of a token
     ASCIICode matchchr; // character used in a 'match'
@@ -162,6 +179,14 @@ void printmeaning(int cur_chr, int cur_cmd) {
     println();
     tokenshow(curmark[cur_chr - topmarkcode]);
 } // [#296] printmeaning
+/** @}*/ // end group S289x296
+
+
+/** @addtogroup S297x299
+ * + #printcmdchr
+ * + #showcurcmdchr
+ * @{
+ */
 
 /// [p120#299] displays the current command.
 void showcurcmdchr(void) {
@@ -176,6 +201,12 @@ void showcurcmdchr(void) {
     print_char('}');
     enddiagnostic(false);
 } /// [#299] showcurcmdchr
+/** @}*/ // end group S297x299
+
+
+/** @addtogroup S300x320
+ *  @{
+ */
 
 /// [#306] uses scanner status to print a warning message
 ///  when a subfile has ended, and at certain other crucial times.
@@ -210,7 +241,6 @@ void runaway(void) {
     println();
     showtokenlist(link(p), 0, ERROR_LINE - 10);
 } // [#306] runaway
-
 
 /// [#311] prints where the scanner is.
 void showcontext(void) { /*:315*/
@@ -368,17 +398,29 @@ _Ldone:
     cur_input = inputstack[inputptr];
 } // [#311] showcontext
 
+/** 初始化变量.
+ * 
+ * [#331, ]
+ */
+void init_lexer(void) {
 
-/** [ #321~331: PART 23: MAINTAINING THE INPUT STACKS ].
+} // [#331, ] init_lexer
+/** @}*/ // end group S300x320
+
+
+/** @defgroup S321x331 PART 23: MAINTAINING THE INPUT STACKS
+ * [ #321~331 ].
  *
- * + begintokenlist
- * + endtokenlist
- * + backinput
- * + backerror
- * + inserror
- * + beginfilereading
- * + endfilereading
- * + clearforerrorprompt
+ * + #begintokenlist
+ * + #endtokenlist
+ * + #backinput
+ * + #backerror
+ * + #inserror
+ * + #beginfilereading
+ * + #endfilereading
+ * + #clearforerrorprompt
+ * 
+ * @{
  */
 
 // #323:  starts a new level of token-list input,
@@ -536,15 +578,18 @@ void clearforerrorprompt(void) {
     println();
 }
 /*:330*/
+/** @}*/ // end group S321x331
 
-
-/** [ #332~365: PART 24: GETTING THE NEXT TOKEN ]
+/** @defgroup S332x365 PART 24: GETTING THE NEXT TOKEN
+ * [ #332~365 ].
  *
- * + check_outer_validity
- * + getnext_worker
- * + getnext
- * + firm_up_the_line
- * + gettoken
+ * + #check_outer_validity
+ * + #getnext_worker
+ * + #getnext
+ * + #firm_up_the_line
+ * + #gettoken
+ *
+ * @{
  */
 
 // P134#336
@@ -1121,3 +1166,5 @@ void gettoken(void) {
     curtok = pack_tok(curcs, curcmd, curchr);
 }
 /*:365*/
+
+/** @}*/ // end group S332x365

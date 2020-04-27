@@ -10,7 +10,37 @@
  */
 #define INC_LEXER_H
 #include <stdio.h>
-#include "tex.h"
+#include "tex.h" // [macro] dwa_do_8
+
+
+/** @addtogroup S289x296
+ *  @{
+ */
+
+/// [#298] amount added to the #eqtb location in a token that
+///     stands for a control sequence.
+/// 
+///  is a multiple of 256, less 1.
+/// [4096 - 1 => dwa_do_8 * 16 - 1]
+#define CS_TOKEN_FLAG (dwa_do_8 * 16 - 1)
+#define leftbracetoken  (dwa_do_8 * LEFT_BRACE)
+#define leftbracelimit  (dwa_do_8 * (LEFT_BRACE + 1))
+#define rightbracetoken (dwa_do_8 * RIGHT_BRACE)
+#define rightbracelimit (dwa_do_8 * (RIGHT_BRACE + 1))
+#define mathshifttoken  (dwa_do_8 * MATH_SHIFT)
+#define tabtoken        (dwa_do_8 * TAB_MARK)
+#define outparamtoken   (dwa_do_8 * outparam)
+#define spacetoken      (dwa_do_8 * SPACER + ' ')
+#define lettertoken     (dwa_do_8 * LETTER)
+#define othertoken      (dwa_do_8 * OTHER_CHAR)
+#define matchtoken      (dwa_do_8 * match)
+#define endmatchtoken   (dwa_do_8 * endmatch)
+/** @}*/ // end group S289x296
+
+
+/** @addtogroup S300x320
+ *  @{
+ */
 
 /** [#300]: InStateRecord(1344) .
  *
@@ -27,9 +57,6 @@ typedef struct {
     Pointer tok_list, tok_loc, tok_name, tok_param;
 } InStateRecord;
 
-
-// [ #300~320: INPUT STACKS AND STATES ]
-
 /// [p124#305]: scanner status
 enum ScannerStatus {
     SKIPPING = 1, ///< when passing conditional text
@@ -38,9 +65,6 @@ enum ScannerStatus {
     ALIGNING,     ///< when reading an alignment preamble
     ABSORBING     ///< when reading a balanced text
 };
-
-/// [p125#307]
-#define TOKEN_LIST 0
 
 /// [p125#307]
 enum TokenType {
@@ -63,36 +87,51 @@ enum TokenType {
     WRITE_TEXT          ///< `\write`
 };
 
+/// [p125#307]
+#define TOKEN_LIST 0
 
-// p121#302
+/// [p121#302]
 #define LOC     cur_input.locfield
-// [#302] current scanner state
-//
-// 1. `MID_LINE`    is the normal state.
-// 2. `SKIP_BLANKS` is like MID_LINE, but blanks are ignored.
-// 3. `NEW_LINE`    is the state at the beginning of a line.
-//
-// xref
-//  + 赋值[16]:
-//      323, 325, 328, 331, 343,
-//      347[3], 349, 352, 353, 354[3],
-//      483, 537,
-//  + 相等判断[8]: 
-//      == 325, 337, 390, 1335,
-//      != 311, 312[2], 330, 341, 
-//  + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
-//  
+/** [#302] current scanner state.
+ *
+ * 1. `MID_LINE`    is the normal state.
+ * 2. `SKIP_BLANKS` is like MID_LINE, but blanks are ignored.
+ * 3. `NEW_LINE`    is the state at the beginning of a line.
+ *
+ * xref
+ *  + 赋值[16]:
+ *      323, 325, 328, 331, 343,
+ *      347[3], 349, 352, 353, 354[3],
+ *      483, 537,
+ *  + 相等判断[8]:
+ *      `==`: 325, 337, 390, 1335,
+ *      `!=`: 311, 312[2], 330, 341,
+ * + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
+ */
 #define STATE   cur_input.statefield 
-#define IINDEX  cur_input.indexfield // reference for buffer information
-#define START   cur_input.startfield // starting position in |buffer|
-#define LIMIT   cur_input.limitfield // end of current line in |buffer|
-#define NAME    cur_input.namefield  // name of the current file
-// #304
-#define terminal_input  (NAME==0)       // are we reading from the terminal? 
-#define curfile  (inputfile[IINDEX-1])  // the current |alphafile| variable
-// p125#307
-#define token_type   IINDEX // type of current token list
-#define param_start  LIMIT  // base of macro parameters in |paramstack|
+#define IINDEX  cur_input.indexfield ///< reference for #buffer information
+#define START   cur_input.startfield ///< starting position in #buffer
+#define LIMIT   cur_input.limitfield ///< end of current line in #buffer
+#define NAME    cur_input.namefield  ///< name of the current file.
+
+/// [#303] `state` code when scanning a line of characters.
+#define MID_LINE    1
+/// [#303] `state` code when ignoring blanks.
+#define SKIP_BLANKS (maxcharcode + 2)
+/// [#303] `state` code at start of line.
+#define NEW_LINE    (maxcharcode + maxcharcode + 3)
+
+/// [#304] are we reading from the terminal?
+#define terminal_input (NAME == 0) 
+/// [#304] the current alphafile variable.
+#define curfile     (inputfile[IINDEX - 1])
+
+/// [p125#307] type of current token list.
+#define token_type  IINDEX 
+/// [p125#307] base of macro parameters in paramstack.
+#define param_start LIMIT
+/** @}*/ // end group S300x320
+
 
 extern EightBits curcmd;
 extern HalfWord curchr;
@@ -103,6 +142,7 @@ extern InStateRecord inputstack[stacksize + 1];
 extern UChar inputptr;
 extern UChar maxinstack;
 extern InStateRecord cur_input;
+
 extern char inopen;
 extern char openparens;
 extern Integer line;
@@ -125,7 +165,6 @@ extern void showcurcmdchr(void);
 extern void runaway(void);
 extern void showcontext(void);
 
-// [ #321~331: PART 23: MAINTAINING THE INPUT STACKS ]
 extern void begintokenlist(HalfWord p, QuarterWord t);
 extern void endtokenlist(void);
 extern void backinput(void);
@@ -135,7 +174,6 @@ extern void beginfilereading(void);
 extern void endfilereading(void);
 extern void clearforerrorprompt(void);
 
-// [ #332~365: PART 24: GETTING THE NEXT TOKEN ]
 extern int check_outer_validity(int local_curcs);
 extern void getnext_worker(Boolean no_new_control_sequence);
 extern void getnext(void);
