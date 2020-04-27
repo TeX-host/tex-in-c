@@ -473,13 +473,6 @@
 
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
-#define beginpseudoprint() \
-    (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
-
-#define settrick_count()                                     \
-    (first_count = tally,                                    \
-     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
-     ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
 // leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])

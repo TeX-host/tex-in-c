@@ -8,6 +8,20 @@
 #include "funcs.h"      // [func] initinc
 #include "lexer.h"
 
+/** @addtogroup S300x320
+ *  @{
+ */
+
+#define beginpseudoprint() \
+    (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
+
+#define settrick_count()                                     \
+    (first_count = tally,                                    \
+     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
+     ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
+
+/** @}*/ // end group S300x320
+
 
 /** @defgroup S297x299 PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES.
  * [ p115#289~299 ]
@@ -227,7 +241,7 @@ void printmeaning(int cur_chr, int cur_cmd) {
 
 
 /** @addtogroup S297x299
- * + #printcmdchr
+ * + #printcmdchr 放在 printout.c 中
  * + #showcurcmdchr
  * @{
  */
@@ -249,6 +263,8 @@ void showcurcmdchr(void) {
 
 
 /** @addtogroup S300x320
+ * + #runaway
+ * + #showcontext
  *  @{
  */
 
@@ -441,45 +457,6 @@ void showcontext(void) { /*:315*/
 _Ldone:
     cur_input = inputstack[inputptr];
 } // [#311] showcontext
-
-/** 初始化变量.
- * 
- * [#331, ]
- */
-Boolean init_lexer(void) {
-    const Boolean HAS_ERROR = true, NO_ERROR = false;
-
-    /// [#331]: Initialize the input routines
-    inputptr = 0;
-    maxinstack = 0;
-    inopen = 0;
-    openparens = 0;
-    max_buf_stack = 0;
-    paramptr = 0;
-    maxparamstack = 0;
-    first = BUF_SIZE;
-
-    do {
-        buffer[first] = 0;
-        first--;
-    } while (first != 0);
-
-    scanner_status = NORMAL;
-    warning_index = 0;
-    first = 1;
-    STATE = NEW_LINE;
-    START = 1;
-    IINDEX = 0;
-    line = 0;
-    NAME = 0;
-    force_eof = false;
-    align_state = 1000000L;
-    if (!initterminal()) return HAS_ERROR;
-    LIMIT = last;
-    first = last + 1; // `init_terminal` has set `LOC` and `last`
-
-    return NO_ERROR;
-} // [#331, ] init_lexer
 /** @}*/ // end group S300x320
 
 
@@ -545,7 +522,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
     enddiagnostic(false);
 } // #323: begintokenlist
 
-/*324:*/
+/// [#324] leave a token-list input level
 void endtokenlist(void) {
     if (token_type >= BACKED_UP) {
         if (token_type <= INSERTED) {
@@ -567,10 +544,9 @@ void endtokenlist(void) {
     }
     popinput();
     checkinterrupt();
-}
-/*:324*/
+} // [#324] endtokenlist
 
-/*325:*/
+/// [#325] undoes one token of input
 void backinput(void) {
     Pointer p;
 
@@ -594,28 +570,27 @@ void backinput(void) {
     START = p;
     token_type = BACKED_UP;
     LOC = p;
-}
-/*:325*/
+} // [#325] backinput
 
-/*327:*/
+/// [#327] back up one token and call #error
 void backerror(void) {
     OK_to_interrupt = false;
     backinput();
     OK_to_interrupt = true;
     error();
-}
+} // [#327] backerror
 
-
+/// [#327] back up one inserted token and call #error
 void inserror(void) {
     OK_to_interrupt = false;
     backinput();
     token_type = INSERTED;
     OK_to_interrupt = true;
     error();
-}
-/*:327*/
+} // [#327] inserror
 
-/*328:*/
+/// [#328] starts a new level of input for lines of characters to be read from
+/// a file, or as an insertion from the terminal.
 void beginfilereading(void) {
     if (inopen == MAX_IN_OPEN) overflow(S(510), MAX_IN_OPEN);
     if (first == BUF_SIZE) overflow(S(511), BUF_SIZE);
@@ -631,28 +606,63 @@ void beginfilereading(void) {
     START = first;
     STATE = MID_LINE;
     NAME = 0;
-} /*:328*/
+} // [#328] beginfilereading
 
-
-/*329:*/
+/// [#329] variables must be downdated when such a level of input is finished
 void endfilereading(void) {
     first = START;
     line = linestack[IINDEX - 1];
     if (NAME > 17) aclose(&curfile);
     popinput();
     inopen--;
-}
-/*:329*/
+} // [#329] endfilereading
 
-/*330:*/
+/// [#330] removes completed error-inserted lines from memory
 void clearforerrorprompt(void) {
-    while (STATE != TOKEN_LIST && terminal_input && inputptr > 0 &&
-           LOC > LIMIT) {
+    while (STATE != TOKEN_LIST 
+            && terminal_input 
+            && inputptr > 0 
+            && LOC > LIMIT) {
         endfilereading();
-    }
+    } // while
     println();
-}
-/*:330*/
+} // [#330] clearforerrorprompt
+
+/// [#331] 初始化变量
+Boolean init_lexer(void) {
+    const Boolean HAS_ERROR = true, NO_ERROR = false;
+
+    /// [#331]: Initialize the input routines
+    inputptr = 0;
+    maxinstack = 0;
+    inopen = 0;
+    openparens = 0;
+    max_buf_stack = 0;
+    paramptr = 0;
+    maxparamstack = 0;
+    first = BUF_SIZE;
+
+    do {
+        buffer[first] = 0;
+        first--;
+    } while (first != 0);
+
+    scanner_status = NORMAL;
+    warning_index = 0;
+    first = 1;
+    STATE = NEW_LINE;
+    START = 1;
+    IINDEX = 0;
+    line = 0;
+    NAME = 0;
+    force_eof = false;
+    align_state = 1000000L;
+    if (!initterminal()) return HAS_ERROR;
+    LIMIT = last;
+    first = last + 1; // `init_terminal` has set `LOC` and `last`
+
+    return NO_ERROR;
+} // [#331, ] init_lexer
 /** @}*/ // end group S321x331
 
 
@@ -668,7 +678,7 @@ void clearforerrorprompt(void) {
  * @{
  */
 
-// P134#336
+/// [P134#336]
 static int check_outer_validity(int local_curcs) {
     Pointer p, q;
 
@@ -747,7 +757,7 @@ static int check_outer_validity(int local_curcs) {
     /*:338*/
     deletions_allowed = true;
     return curcs;
-} // P134#336: check_outer_validity
+} // [P134#336]: check_outer_validity
 
 
 #define CHECK_OUTER                            \
@@ -769,7 +779,7 @@ static int check_outer_validity(int local_curcs) {
         process_cmd               \
     }
 
-// #341: getnext_worker
+/// [#341]: getnext_worker
 static void getnext_worker(Boolean no_new_control_sequence) {
     UInt16 k;            // an index into buffer; [0, BUF_SIZE=5000]
     UChar cat;           // cat_code(cur chr), usually
@@ -1191,7 +1201,7 @@ _getnext_worker__exit:;
     curcs = cur_cs;
 } // #341: getnext_worker
 
-// [#341] : sets cur cmd, cur chr, cur cs to next token
+// [#341] : sets #curcmd, #curchr, #curcs to next token.
 //
 // xref[22]
 //   76, 297, 332, 336, 340,
@@ -1201,6 +1211,8 @@ _getnext_worker__exit:;
 //  1038, 1126
 void getnext(void) { getnext_worker(true); }
 
+/// [#363] If the user has set the pausing parameter to some positive value, and
+/// if nonstop mode has not beenselected.
 void firm_up_the_line(void) {
     short k;
     // #363:
@@ -1228,19 +1240,17 @@ void firm_up_the_line(void) {
     LIMIT = START + last - first;
 } // #363: firm_up_the_line
 
-/*365:*/
+/// [#365] 
 void gettoken(void) {
     getnext_worker(false);
     curtok = pack_tok(curcs, curcmd, curchr);
-}
-/*:365*/
-
+} // [#365] gettoken
 /** @}*/ // end group S332x365
 
-
+/// [#365] 辅助函数
 int pack_tok(int cs, int cmd, int chr) {
     if (cs == 0) {
-        return dwa_do_8 * cmd + chr;
+        return (cmd * dwa_do_8) + chr;
     } else {
         return CS_TOKEN_FLAG + cs;
     }
