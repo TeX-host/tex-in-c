@@ -1,10 +1,10 @@
-#include "print.h" // [var] tally,
-#include "global.h" // [var] mem, lo_mem_max, hi_mem_min, mem_end,
-#include "texfunc.h" // [func] print_cs
-#include "printout.h" // [func] printcmdchr,
-#include "pure_func.h" // [func] aclose
-#include "macros.h"    // [macro] help4, help3, help2
-#include "inputln.h"   // [func] inputln
+#include "print.h"      // [var] tally,
+#include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
+#include "texfunc.h"    // [func] print_cs
+#include "printout.h"   // [func] printcmdchr,
+#include "pure_func.h"  // [func] aclose
+#include "macros.h"     // [macro] help4, help3, help2
+#include "inputln.h"    // [func] inputln
 #include "lexer.h"
 
 
@@ -580,6 +580,7 @@ void clearforerrorprompt(void) {
 /*:330*/
 /** @}*/ // end group S321x331
 
+
 /** @defgroup S332x365 PART 24: GETTING THE NEXT TOKEN
  * [ #332~365 ].
  *
@@ -1152,14 +1153,6 @@ void firm_up_the_line(void) {
     LIMIT = START + last - first;
 } // #363: firm_up_the_line
 
-int pack_tok(int cs, int cmd, int chr) {
-    if (cs == 0) {
-        return dwa_do_8 * cmd + chr;
-    } else {
-        return CS_TOKEN_FLAG + cs;
-    }
-}
-
 /*365:*/
 void gettoken(void) {
     getnext_worker(false);
@@ -1168,3 +1161,12 @@ void gettoken(void) {
 /*:365*/
 
 /** @}*/ // end group S332x365
+
+
+int pack_tok(int cs, int cmd, int chr) {
+    if (cs == 0) {
+        return dwa_do_8 * cmd + chr;
+    } else {
+        return CS_TOKEN_FLAG + cs;
+    }
+}

@@ -2,11 +2,11 @@
 #ifndef INC_LEXER_H
 /** PART 20~24: lexer.
  *
- *  + PART 20: TOKEN LISTS
- *  + PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES
- *  + PART 22: INPUT STACKS AND STATES
- *  + PART 23: MAINTAINING THE INPUT STACKS
- *  + PART 24: GETTING THE NEXT TOKEN
+ *  + @ref S289x296 "PART 20: TOKEN LISTS"
+ *  + @ref S297x299 "PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES"
+ *  + @ref S300x320 "PART 22: INPUT STACKS AND STATES"
+ *  + @ref S321x331 "PART 23: MAINTAINING THE INPUT STACKS"
+ *  + @ref S332x365 "PART 24: GETTING THE NEXT TOKEN"
  */
 #define INC_LEXER_H
 #include <stdio.h>
@@ -22,7 +22,8 @@
 /// 
 ///  is a multiple of 256, less 1.
 /// [4096 - 1 => dwa_do_8 * 16 - 1]
-#define CS_TOKEN_FLAG (dwa_do_8 * 16 - 1)
+#define CS_TOKEN_FLAG   (dwa_do_8 * 16 - 1)
+
 #define leftbracetoken  (dwa_do_8 * LEFT_BRACE)
 #define leftbracelimit  (dwa_do_8 * (LEFT_BRACE + 1))
 #define rightbracetoken (dwa_do_8 * RIGHT_BRACE)
@@ -179,6 +180,7 @@ extern void getnext_worker(Boolean no_new_control_sequence);
 extern void getnext(void);
 extern void firm_up_the_line(void);
 extern void gettoken(void);
+
 extern int pack_tok(int cs, int cmd, int chr);
 
 #endif // INC_LEXER_H
