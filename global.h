@@ -46,4 +46,16 @@ extern StrNumber help_line[6];
 extern UChar interaction;
 extern Pointer curalign;
 
+// [tex], expand
+extern Integer curval;
+extern char curvallevel;
+extern SmallNumber radix;
+extern GlueOrd curorder;
+extern Pointer condptr;
+extern char iflimit;
+extern Integer ifline;
+extern Boolean name_in_progress;
+extern Pointer avail;
+extern Integer dyn_used;
+
 #endif // #ifndef GLOBAL_H

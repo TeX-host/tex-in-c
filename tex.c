@@ -26,13 +26,6 @@ Static void doassignments(void);
 Static void resumeafterdisplay(void);
 Static void buildpage(void);
 
-Static void passtext(void);
-Static void startinput(void);
-Static void conditional(void);
-Static void get_x_token(void);
-Static void convtoks(void);
-Static void insthetoks(void);
-
 Static void scanint(void);
 
 Static void mlisttohlist(void);
@@ -612,7 +605,7 @@ _Lexit:
 } // #125: getnode
 
 /// p48#130: variable-size node liberation
-Static void freenode(Pointer p, HalfWord s) {
+void freenode(Pointer p, HalfWord s) {
     Pointer q;
 
     nodesize(p) = s;
@@ -2406,7 +2399,7 @@ Static void eqsave(HalfWord p, QuarterWord l) {
 /*:276*/
 
 /*277:*/
-Static void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
+void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     if (eqlevel(p) == curlevel)
         eqdestroy(eqtb[p - activebase]);
     else if (curlevel > levelone)
@@ -2555,6 +2548,7 @@ Static void preparemag(void) {
 /*:288*/
 
 
+#ifndef USE_SPLIT_MOD
 /** [ #366~402: PART 25: EXPANDING THE NEXT TOKEN ]
  *
  * + macrocall
@@ -3025,6 +3019,8 @@ Static void xtoken(void)
   curtok = pack_tok(curcs,curcmd,curchr);
 }
 /*:381*/
+
+#endif // USE_SPLIT_MOD
 
 
 /** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
@@ -4052,14 +4048,14 @@ Static HalfWord thetoks(void) {
 /*:465*/
 
 /*467:*/
-Static void insthetoks(void) {
+void insthetoks(void) {
     link(garbage) = thetoks();
     inslist(link(temphead));
 } /*:467*/
 
 
 /*470:*/
-Static void convtoks(void) {
+void convtoks(void) {
     enum Selector old_setting;
     char c;
     SmallNumber savescannerstatus;
@@ -4335,7 +4331,7 @@ _Ldone: /*:483*/
 /// [ #487. Conditional processing ]
 
 /*494:*/
-Static void passtext(void) {
+void passtext(void) {
     long l;
     SmallNumber savescannerstatus;
 
@@ -4384,7 +4380,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 /*:497*/
 
 /*498:*/
-Static void conditional(void) { /*495:*/
+void conditional(void) { /*495:*/
     Boolean b = false /* XXXX */;
     long r;
     long m, n;
@@ -4793,7 +4789,7 @@ void openlogfile(void) {
 /*:534*/
 
 /*537:*/
-Static void startinput(void) {
+void startinput(void) {
     scanfilename();
     if (curext == S(385)) curext = S(669);
     packfilename(curname, curarea, curext);

@@ -56,5 +56,13 @@ extern void pause_for_instructions(void);
 extern void term_input(void);
 extern void openlogfile(void);
 
+// [tex] expand
+extern void conditional(void);
+extern void insthetoks(void);
+extern void convtoks(void);
+extern void passtext(void);
+extern void startinput(void);
+extern void freenode(Pointer p, HalfWord s);
+extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
 
 #endif // TEX_FUNC_H

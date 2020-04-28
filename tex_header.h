@@ -113,9 +113,9 @@ MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
 Pointer lo_mem_max; // the largest location of variable-size memory
 Pointer hi_mem_min; // the smallest location of one-word memory
 /// [#117]
-Static Integer var_used, dyn_used; // how much memory is in use
+Integer var_used, dyn_used; // how much memory is in use
 /// [#118]
-Static Pointer avail;   // head of the list of available one-word nodes
+Pointer avail;   // head of the list of available one-word nodes
 Pointer mem_end; // the last one-word node used in mem
 /// [#124]
 Static Pointer rover; // points to some node in the list of empties
@@ -188,14 +188,14 @@ char longstate;
 
 /// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
 // [#410] curval
-Static Integer curval;
+Integer curval;
 // [#410] the “level” of this value
-Static char curvallevel;
+char curvallevel;
 /*438:*/
-Static SmallNumber radix;
+SmallNumber radix;
 /*:438*/
 /*447:*/
-Static GlueOrd curorder;
+GlueOrd curorder;
 /*:447*/
 
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
@@ -206,10 +206,10 @@ Static char readopen[17];
 
 
 /*489:*/
-Static Pointer condptr;
-Static char iflimit;
+Pointer condptr;
+char iflimit;
 SmallNumber curif;
-Static Integer ifline;
+Integer ifline;
 /*:489*/
 /*493:*/
 Integer skipline;
@@ -225,7 +225,7 @@ Static StrNumber extdelimiter;
 /*520:*/
 Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
-Static Boolean name_in_progress;
+Boolean name_in_progress;
 Static StrNumber job_name;
 Static Boolean log_opened; /*:527*/
 /*532:*/
