@@ -23,10 +23,11 @@
 #include "fonts.h"
 #include "inputln.h" // [func] inputln
 #include "dviout.h"
-#include "pure_func.h" // [func] 导入纯函数
-#include "print.h"     // 打印函数
-#include "lexer.h"     // lexer
-#include "texfunc.h"   // [export]
+#include "pure_func.h"  // [func] 导入纯函数
+#include "print.h"      // 打印函数
+#include "lexer.h"      // lexer
+#include "expand.h"     // expand
+#include "texfunc.h"    // [export]
 
 
 /*
