@@ -25,4 +25,4 @@ dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
  fonts.h funcs.h dvicmd.h dviout.h
 expand.o: expand.c tex.h tex_types.h tex_constant.h texmac.h tex_inc.h \
  global_const.h macros.h global.h str.h texfunc.h lexer.h printout.h \
- expand.h
+ print.h fonts.h texmath.h expand.h

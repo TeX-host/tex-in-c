@@ -3195,7 +3195,7 @@ Static void scantwentysevenbitint(void) {
 /// [ #539~582: PART 30: FONT METRIC DATA ]
 
 /*577:*/
-Static void scanfontident(void) { /*406:*/
+void scanfontident(void) { /*406:*/
     InternalFontNumber f;
     HalfWord m;
 
@@ -3981,7 +3981,7 @@ Static void strtoks_helper(ASCIICode t) {
     tex_global_p = p;
 }
 
-Static HalfWord strtoks(StrPoolPtr b) {
+HalfWord strtoks(StrPoolPtr b) {
     Pointer p;
     str_room(1);
     p = temphead;
@@ -4052,66 +4052,7 @@ void insthetoks(void) {
 } /*:467*/
 
 
-/*470:*/
-void convtoks(void) {
-    enum Selector old_setting;
-    char c;
-    SmallNumber savescannerstatus;
-    StrPoolPtr b;
 
-    c = curchr;  /*471:*/
-    switch (c) { /*:471*/
-        case numbercode:
-        case romannumeralcode: scanint(); break;
-
-        case stringcode:
-        case meaningcode:
-            savescannerstatus = scanner_status;
-            scanner_status = NORMAL;
-            gettoken();
-            scanner_status = savescannerstatus;
-            break;
-
-        case fontnamecode: scanfontident(); break;
-
-        case jobnamecode:
-            if (job_name == 0) openlogfile();
-            break;
-    }
-    old_setting = selector;
-    selector = NEW_STRING;
-    b = str_mark();
-    /*472:*/
-    switch (c) { /*:472*/
-
-        case numbercode: print_int(curval); break;
-
-        case romannumeralcode: print_roman_int(curval); break;
-
-        case stringcode:
-            if (curcs != 0)
-                sprint_cs(curcs);
-            else
-                print_char(curchr);
-            break;
-
-        case meaningcode: printmeaning(curchr, curcmd); break;
-
-        case fontnamecode:
-            print(get_fontname(curval));
-            if (get_fontsize(curval) != get_fontdsize(curval)) {
-                print(S(642));
-                print_scaled(get_fontsize(curval));
-                print(S(459));
-            }
-            break;
-
-        case jobnamecode: print(job_name); break;
-    }
-    selector = old_setting;
-    link(garbage) = strtoks(b);
-    inslist(link(temphead));
-} /*:470*/
 
 /*473:*/
 Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {

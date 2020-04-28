@@ -214,7 +214,7 @@ Static StrNumber extdelimiter;
 Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
 Boolean name_in_progress;
-Static StrNumber job_name;
+StrNumber job_name;
 Static Boolean log_opened; /*:527*/
 /*532:*/
 Static StrNumber output_file_name, logname; 

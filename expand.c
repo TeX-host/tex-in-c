@@ -7,6 +7,9 @@
 #include "texfunc.h"
 #include "lexer.h" // [var] warning_index,
 #include "printout.h" // [func] printcmdchr
+#include "print.h"    // [var] selector
+#include "fonts.h"    // [func] get_fontname, get_fontsize
+#include "texmath.h"  // [func] print_scaled
 #include "expand.h"
 
 /** @addtogroup S487x510
@@ -473,6 +476,76 @@ void xtoken(void) {
 /* @} */ // end group S366x401
 
 
+/** @addtogroup S464x486 PART 27: BUILDING TOKEN LISTS
+ * 
+ * @{
+ */
+
+/*470:*/
+void convtoks(void) {
+    enum Selector old_setting;
+    char c;
+    SmallNumber savescannerstatus;
+    StrPoolPtr b;
+
+    c = curchr;  /*471:*/
+    switch (c) { /*:471*/
+        case numbercode:
+        case romannumeralcode:
+            scanint(); 
+            break;
+
+        case stringcode:
+        case meaningcode:
+            savescannerstatus = scanner_status;
+            scanner_status = NORMAL;
+            gettoken();
+            scanner_status = savescannerstatus;
+            break;
+
+        case fontnamecode: 
+            scanfontident(); 
+            break;
+
+        case jobnamecode:
+            if (job_name == 0) openlogfile();
+            break;
+    }
+    old_setting = selector;
+    selector = NEW_STRING;
+    b = str_mark();
+    /*472:*/
+    switch (c) { /*:472*/
+        case numbercode: print_int(curval); break;
+        case romannumeralcode: print_roman_int(curval); break;
+
+        case stringcode:
+            if (curcs != 0)
+                sprint_cs(curcs);
+            else
+                print_char(curchr);
+            break;
+
+        case meaningcode: printmeaning(curchr, curcmd); break;
+
+        case fontnamecode:
+            print(get_fontname(curval));
+            if (get_fontsize(curval) != get_fontdsize(curval)) {
+                print(S(642));
+                print_scaled(get_fontsize(curval));
+                print(S(459));
+            }
+            break;
+
+        case jobnamecode: print(job_name); break;
+    }
+    selector = old_setting;
+    link(garbage) = strtoks(b);
+    inslist(link(temphead));
+} /*:470*/
+/* @} */ // end group S464x486
+
+
 /** @defgroup S487x510 PART 28: CONDITIONAL PROCESSING
  * [ p181~187#487~510 ]
  *
@@ -759,3 +832,5 @@ _Lexit:;
 } // [#498] conditional
 
 /* @} */ // end group S487x510
+
+

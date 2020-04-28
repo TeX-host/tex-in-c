@@ -59,5 +59,6 @@ extern Pointer avail;
 extern Integer dyn_used;
 
 extern char readopen[17];
+extern StrNumber job_name;
 
 #endif // #ifndef GLOBAL_H

@@ -70,5 +70,8 @@ extern void scanint(void);
 extern void scandimen(Boolean mu, Boolean inf, Boolean shortcut);
 extern void scaneightbitint(void);
 extern void scanfourbitint(void);
+extern void scanfontident(void);
+extern HalfWord strtoks(StrPoolPtr b);
+
 
 #endif // TEX_FUNC_H
