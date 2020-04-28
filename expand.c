@@ -24,6 +24,9 @@ Integer skipline;
 /*:493*/
 /* @} */ // end group S487x510
 
+static void conditional(void);
+static void passtext(void);
+
 
 /** @defgroup S366x401 PART 25: EXPANDING THE NEXT TOKEN
  * [ p144~155#366~401 ]
@@ -34,10 +37,8 @@ Integer skipline;
  * + #xtoken
  * + #macrocall
  * 
- * + #pass text
- * + #start input
- * + #conditional
- * + #conv toks
+ * + #startinput
+ * + #convtoks
  * + #ins the toks
  * 
  * @{
@@ -483,7 +484,7 @@ void xtoken(void) {
  */
 
 /*494:*/
-void passtext(void) {
+static void passtext(void) {
     long l;
     SmallNumber savescannerstatus;
 
@@ -505,7 +506,7 @@ void passtext(void) {
 /*:494*/
 
 /*497:*/
-Static void changeiflimit(SmallNumber l, HalfWord p) {
+static void changeiflimit(SmallNumber l, HalfWord p) {
     Pointer q;
 
     if (p == condptr)
@@ -532,7 +533,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 /*:497*/
 
 /// [#498] conditional
-void conditional(void) { /*495:*/
+static void conditional(void) { /*495:*/
     Boolean b = false /* XXXX */;
     long r;
     long m, n;
