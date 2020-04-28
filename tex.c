@@ -3994,7 +3994,7 @@ HalfWord strtoks(StrPoolPtr b) {
 /*:464*/
 
 /*465:*/
-Static HalfWord thetoks(void) {
+HalfWord thetoks(void) {
     enum Selector old_setting;
     Pointer p, r;
 
@@ -4044,14 +4044,6 @@ Static HalfWord thetoks(void) {
     /*:466*/
 }
 /*:465*/
-
-/*467:*/
-void insthetoks(void) {
-    link(garbage) = thetoks();
-    inslist(link(temphead));
-} /*:467*/
-
-
 
 
 /*473:*/

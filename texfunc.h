@@ -57,8 +57,6 @@ extern void term_input(void);
 extern void openlogfile(void);
 
 // [tex] expand
-extern void insthetoks(void);
-extern void convtoks(void);
 extern void startinput(void);
 extern void freenode(Pointer p, HalfWord s);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
@@ -72,6 +70,6 @@ extern void scaneightbitint(void);
 extern void scanfourbitint(void);
 extern void scanfontident(void);
 extern HalfWord strtoks(StrPoolPtr b);
-
+extern HalfWord thetoks(void);
 
 #endif // TEX_FUNC_H

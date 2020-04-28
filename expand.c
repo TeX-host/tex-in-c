@@ -29,6 +29,8 @@ Integer skipline;
 
 static void conditional(void);
 static void passtext(void);
+static void convtoks(void);
+static void insthetoks(void);
 
 
 /** @defgroup S366x401 PART 25: EXPANDING THE NEXT TOKEN
@@ -41,8 +43,6 @@ static void passtext(void);
  * + #macrocall
  * 
  * + #startinput
- * + #convtoks
- * + #ins the toks
  * 
  * @{
  */
@@ -481,8 +481,15 @@ void xtoken(void) {
  * @{
  */
 
+
+/*467:*/
+static void insthetoks(void) {
+    link(garbage) = thetoks();
+    inslist(link(temphead));
+} /*:467*/
+
 /*470:*/
-void convtoks(void) {
+static void convtoks(void) {
     enum Selector old_setting;
     char c;
     SmallNumber savescannerstatus;
@@ -832,5 +839,4 @@ _Lexit:;
 } // [#498] conditional
 
 /* @} */ // end group S487x510
-
 
