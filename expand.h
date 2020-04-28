@@ -1,5 +1,8 @@
 #pragma once
 #ifndef INC_EXPAND_H
+/** expand .
+ * 
+ */
 #define INC_EXPAND_H
 
 
@@ -50,6 +53,7 @@ extern SmallNumber curif;
 extern Integer ifline;
 // lexer
 extern Integer skipline;
+extern char longstate;
 
 extern void expand(void);
 extern void get_x_token(void);

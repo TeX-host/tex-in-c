@@ -183,8 +183,6 @@ Boolean force_eof;
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
-// [#387] governs the acceptance of \par
-char longstate;
 
 /// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
 // [#410] curval

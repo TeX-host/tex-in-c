@@ -39,7 +39,6 @@ extern Boolean deletions_allowed;
 extern Pointer parloc;
 extern HalfWord partoken;
 extern Boolean force_eof;
-extern char longstate;
 extern SmallNumber curif;
 extern Integer skipline;
 extern StrNumber help_line[6];

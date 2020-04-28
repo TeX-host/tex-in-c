@@ -27,6 +27,9 @@ Integer skipline;
 /*:493*/
 /* @} */ // end group S487x510
 
+// [#387] governs the acceptance of \par
+char longstate;
+
 static void conditional(void);
 static void passtext(void);
 static void convtoks(void);
