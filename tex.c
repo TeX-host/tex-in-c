@@ -26,8 +26,6 @@ Static void doassignments(void);
 Static void resumeafterdisplay(void);
 Static void buildpage(void);
 
-Static void scanint(void);
-
 Static void mlisttohlist(void);
 
 Static void alignpeek(void);
@@ -406,7 +404,7 @@ void overflow(StrNumber s, Integer n) {
 } // #94: overflow
 
 // #95
-Static void confusion(StrNumber s) {
+void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
         printnl(S(292));
@@ -530,7 +528,7 @@ void flushlist(HalfWord p) {
 
 
 /// #125
-Static HalfWord getnode(long s) {
+HalfWord getnode(long s) {
     HalfWord Result;
     Pointer p, q;
     long r, t;
@@ -3030,7 +3028,7 @@ Static void xtoken(void)
  * + 
  */
 
-Static void skip_spaces(void) { /*406:*/
+void skip_spaces(void) { /*406:*/
     do {
         get_x_token();
     } while (curcmd == SPACER); /*:406*/
@@ -3134,7 +3132,7 @@ Static void muerror(void) {
 /*409:*/
 
 /*433:*/
-Static void scaneightbitint(void) {
+void scaneightbitint(void) {
     scanint();
     if ((unsigned long)curval <= 255) return;
     printnl(S(292));
@@ -3158,7 +3156,7 @@ Static void scancharnum(void) {
 /*:434*/
 
 /*435:*/
-Static void scanfourbitint(void) {
+void scanfourbitint(void) {
     scanint();
     if ((unsigned long)curval <= 15) return;
     printnl(S(292));
@@ -3552,7 +3550,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative) {
 /*:413*/
 
 /*440:*/
-Static void scanint(void) {
+void scanint(void) {
     Boolean negative;
     long m;
     SmallNumber d;
@@ -3655,7 +3653,7 @@ Static void scanint(void) {
 /*:440*/
 
 /*448:*/
-Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
+void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 {
   Boolean negative;
   long f;
@@ -4327,7 +4325,7 @@ _Ldone: /*:483*/
 }
 /*:482*/
 
-
+#ifndef USE_SPLIT_MOD
 /// [ #487. Conditional processing ]
 
 /*494:*/
@@ -4378,6 +4376,7 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
          : (cur_chr = curchr))
 
 /*:497*/
+
 
 /*498:*/
 void conditional(void) { /*495:*/
@@ -4605,7 +4604,7 @@ _Lexit:;
     /*:508*/
 }
 /*:498*/
-
+#endif // USE_SPLIT_MOD
 
 /// [ #511. File names. ] 
 

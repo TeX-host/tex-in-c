@@ -65,4 +65,12 @@ extern void startinput(void);
 extern void freenode(Pointer p, HalfWord s);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
 
+extern void confusion(StrNumber s);
+extern void skip_spaces(void);
+extern HalfWord getnode(long s);
+extern void scanint(void);
+extern void scandimen(Boolean mu, Boolean inf, Boolean shortcut);
+extern void scaneightbitint(void);
+extern void scanfourbitint(void);
+
 #endif // TEX_FUNC_H

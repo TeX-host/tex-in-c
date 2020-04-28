@@ -1,3 +1,4 @@
+#include <stdlib.h> // [func] labs
 #include "tex.h"
 #include "texmac.h" // [macro] link
 #include "tex_inc.h" // [macro] STORE_NEW_TOKEN, FAST_STORE_NEW_TOKEN, FREE_AVAIL
@@ -8,21 +9,37 @@
 #include "printout.h" // [func] printcmdchr
 #include "expand.h"
 
+/** @addtogroup S487x510
+ *
+ */
+
+/*489:*/
+Pointer condptr;
+char iflimit;
+SmallNumber curif;
+Integer ifline;
+/*:489*/
+/*493:*/
+Integer skipline;
+/*:493*/
+/* @} */ // end group S487x510
+
 
 /** @defgroup S366x401 PART 25: EXPANDING THE NEXT TOKEN
  * [ p144~155#366~401 ]
  *
- * + #macrocall
+ * + #expand
  * + #insertrelax
+ * + #get_x_token
+ * + #xtoken
+ * + #macrocall
+ * 
  * + #pass text
  * + #start input
  * + #conditional
- * + #get_x_token
  * + #conv toks
  * + #ins the toks
- * + #expand
- *
- * + #xtoken
+ * 
  * @{
  */
 
@@ -453,3 +470,291 @@ void xtoken(void) {
 /*:381*/
 
 /* @} */ // end group S366x401
+
+
+/** @defgroup S487x510 PART 28: CONDITIONAL PROCESSING
+ * [ p181~187#487~510 ]
+ *
+ * + #passtext
+ * + #conditional
+ * + #changeiflimit
+ *
+ * @{
+ */
+
+/*494:*/
+void passtext(void) {
+    long l;
+    SmallNumber savescannerstatus;
+
+    savescannerstatus = scanner_status;
+    scanner_status = SKIPPING;
+    l = 0;
+    skipline = line;
+    while (true) {
+        getnext();
+        if (curcmd == fiorelse) {
+            if (l == 0) break;
+            if (curchr == ficode) l--;
+        } else if (curcmd == iftest) {
+            l++;
+        }
+    }
+    scanner_status = savescannerstatus;
+}
+/*:494*/
+
+/*497:*/
+Static void changeiflimit(SmallNumber l, HalfWord p) {
+    Pointer q;
+
+    if (p == condptr)
+        iflimit = l;
+    else {
+        q = condptr;
+        while (true) {
+            if (q == 0) confusion(S(658));
+            if (link(q) == p) {
+                type(q) = l;
+                return;
+            }
+            q = link(q);
+        }
+    }
+}
+
+#define getxtokenoractivechar()                                           \
+    (get_x_token(), ((curcmd == relax) && (curchr == noexpandflag))       \
+                        ? (curcmd = ACTIVE_CHAR,                          \
+                           cur_chr = curtok - CS_TOKEN_FLAG - activebase) \
+                        : (cur_chr = curchr))
+
+/*:497*/
+
+/// [#498] conditional
+void conditional(void) { /*495:*/
+    Boolean b = false /* XXXX */;
+    long r;
+    long m, n;
+    Pointer p, q, savecondptr;
+    SmallNumber savescannerstatus, thisif;
+
+    p = getnode(ifnodesize);
+    link(p) = condptr;
+    type(p) = iflimit;
+    subtype(p) = curif;
+    iflinefield(p) = ifline;
+    condptr = p;
+    curif = curchr;
+    iflimit = ifcode;
+    ifline = line; /*:495*/
+    savecondptr = condptr;
+    thisif = curchr;  /*501:*/
+    switch (thisif) { /*:501*/
+        case IF_CHAR_CODE:
+        case IF_CAT_CODE: /*506:*/
+        {
+            int cur_chr = curchr;
+            getxtokenoractivechar();
+            if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
+                m = relax;
+                n = 256;
+            } else {
+                m = curcmd;
+                n = cur_chr;
+            }
+            getxtokenoractivechar();
+            if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
+                curcmd = relax;
+                cur_chr = 256;
+            }
+            if (thisif == IF_CHAR_CODE)
+                b = (n == cur_chr);
+            else
+                b = (m == curcmd);
+        } break;
+            /*:506*/
+
+        case IF_INT_CODE:
+        case IF_DIM_CODE: /*503:*/
+            if (thisif == IF_INT_CODE)
+                scanint();
+            else {
+                scannormaldimen();
+            }
+            n = curval;
+            skip_spaces();
+            if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
+                r = curtok - othertoken;
+            else {
+                printnl(S(292));
+                print(S(659));
+                printcmdchr(iftest, thisif);
+                help1(S(660));
+                backerror();
+                r = '=';
+            }
+            if (thisif == IF_INT_CODE)
+                scanint();
+            else {
+                scannormaldimen();
+            }
+            switch (r) {
+                case '<': b = (n < curval); break;
+                case '=': b = (n == curval); break;
+                case '>': b = (n > curval); break;
+            }
+            break;
+            /*:503*/
+
+        case IF_ODD_CODE: /*504:*/
+            scanint();
+            b = curval & 1;
+            break;
+            /*:504*/
+
+        case IF_VMODE_CODE: b = (labs(mode) == V_MODE); break;
+        case IF_HMODE_CODE: b = (labs(mode) == H_MODE); break;
+        case IF_MMODE_CODE: b = (labs(mode) == M_MODE); break;
+        case IF_INNER_CODE: b = (mode < 0); break;
+
+        case IF_VOID_CODE:
+        case IF_HBOX_CODE:
+        case IF_VBOX_CODE: /*505:*/
+            scaneightbitint();
+            p = box(curval);
+            if (thisif == IF_VOID_CODE)
+                b = (p == 0);
+            else if (p == 0)
+                b = false;
+            else if (thisif == IF_HBOX_CODE)
+                b = (type(p) == HLIST_NODE);
+            else
+                b = (type(p) == VLIST_NODE);
+            break;
+            /*:505*/
+
+        case IF_X_CODE: /*507:*/
+            savescannerstatus = scanner_status;
+            scanner_status = NORMAL;
+            getnext();
+            n = curcs;
+            p = curcmd;
+            q = curchr;
+            getnext();
+            if (curcmd != p)
+                b = false;
+            else if (curcmd < call)
+                b = (curchr == q);
+            else {
+                /* 508:*/
+                p = link(curchr);
+                q = link(equiv(n));
+                if (p == q)
+                    b = true;
+                else {
+                    while (p != 0 && q != 0) {
+                        if (info(p) != info(q))
+                            p = 0;
+                        else {
+                            p = link(p);
+                            q = link(q);
+                        }
+                    }
+                    b = (p == 0 && q == 0);
+                }
+            }
+            scanner_status = savescannerstatus;
+            break;
+            /*:507*/
+
+        case IF_EOF_CODE:
+            scanfourbitint();
+            b = (readopen[curval] == closed);
+            break;
+
+        case IF_TRUE_CODE: b = true; break;
+        case IF_FALSE_CODE: b = false; break;
+        case IF_CASE_CODE: /*509:*/
+            scanint();
+            n = curval;
+            if (tracingcommands > 1) {
+                begindiagnostic();
+                print(S(661));
+                print_int(n);
+                print_char('}');
+                enddiagnostic(false);
+            }
+            while (n != 0) {
+                passtext();
+                if (condptr == savecondptr) {
+                    if (curchr != orcode) goto _Lcommonending;
+                    n--;
+                    continue;
+                }
+                if (curchr != ficode) /*496:*/
+                    continue;
+                /*:496*/
+                p = condptr;
+                ifline = iflinefield(p);
+                curif = subtype(p);
+                iflimit = type(p);
+                condptr = link(p);
+                freenode(p, ifnodesize);
+            }
+            changeiflimit(orcode, savecondptr);
+            goto _Lexit;
+            break;
+            /*:509*/
+    }
+    if (tracingcommands > 1) { /*502:*/
+        begindiagnostic();
+        if (b)
+            print(S(662));
+        else
+            print(S(663));
+        enddiagnostic(false);
+    }
+    /*:502*/
+    if (b) {
+        changeiflimit(elsecode, savecondptr);
+        goto _Lexit;
+    }              /*500:*/
+    while (true) { /*:500*/
+        passtext();
+        if (condptr == savecondptr) {
+            if (curchr != orcode) goto _Lcommonending;
+            printnl(S(292));
+            print(S(558));
+            print_esc(S(664));
+            help1(S(559));
+            error();
+            continue;
+        }
+        if (curchr != ficode) /*496:*/
+            continue;
+        /*:496*/
+        p = condptr;
+        ifline = iflinefield(p);
+        curif = subtype(p);
+        iflimit = type(p);
+        condptr = link(p);
+        freenode(p, ifnodesize);
+    }
+_Lcommonending:
+    if (curchr == ficode) { /*496:*/
+        p = condptr;
+        ifline = iflinefield(p);
+        curif = subtype(p);
+        iflimit = type(p);
+        condptr = link(p);
+        freenode(p, ifnodesize);
+    } /*:496*/
+    else
+        iflimit = ficode;
+_Lexit:;
+
+    /*:508*/
+} // [#498] conditional
+
+/* @} */ // end group S487x510

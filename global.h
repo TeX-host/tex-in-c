@@ -58,4 +58,6 @@ extern Boolean name_in_progress;
 extern Pointer avail;
 extern Integer dyn_used;
 
+extern char readopen[17];
+
 #endif // #ifndef GLOBAL_H

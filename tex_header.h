@@ -201,20 +201,8 @@ GlueOrd curorder;
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/
 Static FILE* readfile[16];
-Static char readopen[17];
+char readopen[17];
 /*:480*/
-
-
-/*489:*/
-Pointer condptr;
-char iflimit;
-SmallNumber curif;
-Integer ifline;
-/*:489*/
-/*493:*/
-Integer skipline;
-/*:493*/
-
 
 /*512:*/
 Static StrNumber curname, curarea, curext;
