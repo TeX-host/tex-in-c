@@ -3007,6 +3007,7 @@ Static void get_x_token(void) {
                 break; // cur_chr = null_list
             } // if (curcmd <> endtemplate)
         } else {
+            // maxcommand < curcmd < call
             expand();
         } // if (curcmd <> call)
     } // while (true)
