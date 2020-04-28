@@ -22,3 +22,4 @@ print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h str.h \
  global_const.h global.h texfunc.h printout.h pure_func.h macros.h \
  inputln.h funcs.h lexer.h
+expand.o: expand.c expand.h

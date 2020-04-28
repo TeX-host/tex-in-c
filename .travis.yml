@@ -4,8 +4,8 @@ compiler:
   - gcc
 
 script:
-    - make && make test
+    - CFLAGS="-g -O0 -I. -std=c11 -pedantic -Wall -Wno-unused-result --coverage -ftest-coverage -fprofile-arcs" make
+    - make codecov
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-  
