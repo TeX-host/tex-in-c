@@ -13,7 +13,7 @@
 #include "expand.h"
 
 /** @addtogroup S487x510
- *
+ * @{
  */
 
 /*489:*/
@@ -25,7 +25,7 @@ Integer ifline;
 /*493:*/
 Integer skipline;
 /*:493*/
-/* @} */ // end group S487x510
+/** @} */ // end group S487x510
 
 // [#387] governs the acceptance of \par
 char longstate;
@@ -476,14 +476,13 @@ void xtoken(void) {
 }
 /*:381*/
 
-/* @} */ // end group S366x401
+/** @} */ // end group S366x401
 
 
 /** @addtogroup S464x486 PART 27: BUILDING TOKEN LISTS
  * 
  * @{
  */
-
 
 /*467:*/
 static void insthetoks(void) {
@@ -553,7 +552,7 @@ static void convtoks(void) {
     link(garbage) = strtoks(b);
     inslist(link(temphead));
 } /*:470*/
-/* @} */ // end group S464x486
+/** @} */ // end group S464x486
 
 
 /** @defgroup S487x510 PART 28: CONDITIONAL PROCESSING
@@ -841,5 +840,5 @@ _Lexit:;
     /*:508*/
 } // [#498] conditional
 
-/* @} */ // end group S487x510
+/** @} */ // end group S487x510
 

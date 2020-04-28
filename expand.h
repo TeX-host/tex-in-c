@@ -42,7 +42,7 @@ enum IfCode {
     orcode,     ///< code for `\or`
 };              // [#489] enum IfCode
 
-/* @} */ // end group S487x510
+/** @} */ // end group S487x510
 
 
 extern Pointer condptr;
