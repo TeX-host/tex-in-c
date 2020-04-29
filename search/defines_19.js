@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['year_4060',['year',['../texmac_8h.html#a0ff38e9e9fee26cf01d6d2748238ea1e',1,'texmac.h']]]
+  ['year_4067',['year',['../texmac_8h.html#a0ff38e9e9fee26cf01d6d2748238ea1e',1,'texmac.h']]]
 ];

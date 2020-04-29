@@ -126,5 +126,5 @@ var searchData=
   ['dvisetting_424',['DVISetting',['../dviout_8c.html#a81579d54c33287da8dfbbc424316db9c',1,'dviout.c']]],
   ['dviv_425',['dviv',['../tex__header_8h.html#a5412ddd2e55e9f9a00915cc231342853',1,'tex_header.h']]],
   ['dwa_5fdo_5f8_426',['dwa_do_8',['../tex_8h.html#a5106ac2b3de7b15e93d9962bbd0d9d23',1,'tex.h']]],
-  ['dyn_5fused_427',['dyn_used',['../tex__header_8h.html#aba4edd6ac01e89322ac7180830957e71',1,'tex_header.h']]]
+  ['dyn_5fused_427',['dyn_used',['../global_8h.html#a18d4b80a9be42ff4d43577bfff002586',1,'dyn_used():&#160;tex_header.h'],['../tex__header_8h.html#a18d4b80a9be42ff4d43577bfff002586',1,'dyn_used():&#160;tex_header.h']]]
 ];

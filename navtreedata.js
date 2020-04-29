@@ -52,16 +52,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"funcs_8c.html#a430145ebce8e264d4b05c7a2c1209176",
-"group___s297x299.html#ga0f4542e18af4ff837c267c4727977fd5",
-"print_8c.html#ab936051f5aaca44c6c3c41dee0d19c36",
-"tex_8c.html#a3d01ef5f388b82268b30549184afd850",
-"tex_8h.html#a18b2303c33f64aa6834341bf30b58c93",
-"tex_8h.html#ac5d1010907c89d6760e8e410e227e6efa720e33700869f857881e7f50bdfb6943",
-"tex__constant_8h.html#a8ff17b6afac8a3f24b743e19f1c576eea9d05e0bbbbc422c5edd08c92e8255863",
-"tex__header_8h.html#aa7aad7ddbc9401a430010db201108292",
-"texmac_8h.html#a44ed0b87218e0e0bc4849175745d032c",
-"texmac_8h.html#af64f873e88910c59b686d2c252e5af96"
+"funcs_8c.html",
+"group___s289x296.html#gaac2d7b88a5b699874ff2d5afe3829487",
+"group___s487x510.html#ga80f723c712356d36d3638ddf51960cea",
+"struct_in_state_record.html#a48b6620fa8a9b9d5e3625adfc24e6294",
+"tex_8c.html#acf8a78a71ef15e327cbfce097c00d1f1",
+"tex_8h.html#a82527439839b6b050e110cec068169b8",
+"tex__constant_8h.html#a5338380f915a15dd39900b967e4d9229a27da5104ce10c677bd29cfaf4bc5eada",
+"tex__header_8h.html#a4cc5959a337df50dc1bd352df68131f2",
+"texmac_8h.html#a0492a72691ed9a04cff4f83fd97430c1",
+"texmac_8h.html#abe99f2e3e4f8c0f645af8494cb25aae4"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

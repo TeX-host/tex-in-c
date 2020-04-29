@@ -1,18 +1,19 @@
 <map id="str.h" name="str.h">
-<area shape="rect" id="node1" title=" " alt="" coords="425,5,477,35"/>
-<area shape="rect" id="node2" href="$dviout_8c.html" title=" " alt="" coords="114,83,191,112"/>
-<area shape="rect" id="node3" href="$fonts_8c.html" title=" " alt="" coords="5,160,73,189"/>
-<area shape="rect" id="node4" href="$texfunc_8h.html" title=" " alt="" coords="368,83,455,112"/>
-<area shape="rect" id="node7" href="$printout_8c.html" title=" " alt="" coords="97,160,184,189"/>
-<area shape="rect" id="node8" href="$str_8c.html" title=" " alt="" coords="209,160,259,189"/>
-<area shape="rect" id="node9" href="$tex__header_8h.html" title=" " alt="" coords="505,160,619,189"/>
-<area shape="rect" id="node12" href="$funcs_8c.html" title=" " alt="" coords="826,160,898,189"/>
-<area shape="rect" id="node13" href="$global_8h.html" title=" " alt="" coords="530,83,607,112"/>
-<area shape="rect" id="node15" href="$inipool_8c.html" title=" " alt="" coords="723,83,804,112"/>
-<area shape="rect" id="node16" href="$print_8h.html" title=" " alt="" coords="631,83,698,112"/>
-<area shape="rect" id="node5" href="$inputln_8c.html" title=" " alt="" coords="399,160,480,189"/>
-<area shape="rect" id="node6" href="$lexer_8c.html" title=" " alt="" coords="644,160,712,189"/>
-<area shape="rect" id="node11" href="$texmath_8c.html" title=" " alt="" coords="283,160,374,189"/>
-<area shape="rect" id="node10" href="$tex_8c.html" title=" " alt="" coords="535,237,589,267"/>
-<area shape="rect" id="node14" href="$print_8c.html" title=" " alt="" coords="736,160,801,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="543,5,595,35"/>
+<area shape="rect" id="node2" href="$dviout_8c.html" title=" " alt="" coords="143,83,220,112"/>
+<area shape="rect" id="node3" href="$global_8h.html" title=" " alt="" coords="295,83,372,112"/>
+<area shape="rect" id="node5" href="$funcs_8c.html" title=" " alt="" coords="5,160,77,189"/>
+<area shape="rect" id="node9" href="$tex__header_8h.html" title=" " alt="" coords="500,160,615,189"/>
+<area shape="rect" id="node11" href="$texfunc_8h.html" title=" " alt="" coords="567,83,654,112"/>
+<area shape="rect" id="node12" href="$fonts_8c.html" title=" " alt="" coords="754,160,822,189"/>
+<area shape="rect" id="node13" href="$printout_8c.html" title=" " alt="" coords="846,160,933,189"/>
+<area shape="rect" id="node14" href="$str_8c.html" title=" " alt="" coords="957,160,1008,189"/>
+<area shape="rect" id="node16" href="$print_8h.html" title=" " alt="" coords="399,83,465,112"/>
+<area shape="rect" id="node17" href="$inipool_8c.html" title=" " alt="" coords="831,83,913,112"/>
+<area shape="rect" id="node4" href="$expand_8c.html" title=" " alt="" coords="389,160,475,189"/>
+<area shape="rect" id="node6" href="$inputln_8c.html" title=" " alt="" coords="191,160,273,189"/>
+<area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="297,160,365,189"/>
+<area shape="rect" id="node8" href="$print_8c.html" title=" " alt="" coords="102,160,167,189"/>
+<area shape="rect" id="node10" href="$tex_8c.html" title=" " alt="" coords="530,237,585,267"/>
+<area shape="rect" id="node15" href="$texmath_8c.html" title=" " alt="" coords="639,160,729,189"/>
 </map>

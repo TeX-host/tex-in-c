@@ -10,7 +10,6 @@ var tex__constant_8h =
     [ "explicit", "tex__constant_8h.html#aa3d8ce7e244e1597fab629118fbf9e5a", null ],
     [ "fractionnoadsize", "tex__constant_8h.html#ae3190f863d501f39b5fc56ffdf53c902", null ],
     [ "gluespecsize", "tex__constant_8h.html#a140164f7ee7c5d732ad442483f917401", null ],
-    [ "ifnodesize", "tex__constant_8h.html#ad8a7335e64893bdaaf5bbda1ac29b89a", null ],
     [ "INC_TEX_CONSTANT", "tex__constant_8h.html#a52e828f14a4521cf0c92fd9c848d162b", null ],
     [ "INF_BAD", "tex__constant_8h.html#a539a2643ee8399d71d80da3fff4e2e70", null ],
     [ "INF_PENALTY", "tex__constant_8h.html#add34e5fc5532df32bf5f1f0428889fbb", null ],
@@ -38,25 +37,6 @@ var tex__constant_8h =
       [ "meaningcode", "tex__constant_8h.html#a97c1681aecc2ceb57a8e7814a13506e8afc6f9677f0ff64be05245b83a0a88cd0", null ],
       [ "fontnamecode", "tex__constant_8h.html#a97c1681aecc2ceb57a8e7814a13506e8ac20eec3f45e02ba5a2a7ccafea093f3b", null ],
       [ "jobnamecode", "tex__constant_8h.html#a97c1681aecc2ceb57a8e7814a13506e8a3dfbe0e4fbe13ee54727c59687771cca", null ]
-    ] ],
-    [ "ConditionPrimitives", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7", [
-      [ "IF_CHAR_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7aef7d4afba70c04f7374bf715bc7a7ead", null ],
-      [ "IF_CAT_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7ab3ae3b0711d849e17bad7448372b945e", null ],
-      [ "IF_INT_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7adcf9d83ae3db4c94801fac7bcdc39c94", null ],
-      [ "IF_DIM_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a976962929e88dd6bf1593ecf60b4c571", null ],
-      [ "IF_ODD_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a9eb0b9ee717142b73c88143440c07df6", null ],
-      [ "IF_VMODE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a585d68e0794dda39fd52ea92bf4d20e8", null ],
-      [ "IF_HMODE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7aedbd2b15f20d658b4c7bfe89d313a946", null ],
-      [ "IF_MMODE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a84ffb9754ce1cb56d5572297fd28e637", null ],
-      [ "IF_INNER_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a5f162a69b32ce6769158a0e028d0f068", null ],
-      [ "IF_VOID_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a96b576646e81b5b0b4ff72d5e93ed557", null ],
-      [ "IF_HBOX_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a0dc724d6ce9b987bcc6bd325b6f6b8c2", null ],
-      [ "IF_VBOX_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a678373019579d205fc6be8cde0792f0a", null ],
-      [ "IF_X_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a37e8e7dfd90075210033e5ce413b1c45", null ],
-      [ "IF_EOF_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7ae45eda5fe01206bc26ced6d2f0378375", null ],
-      [ "IF_TRUE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7acd447c345b42e736d3cd0bd7f62e4e62", null ],
-      [ "IF_FALSE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7aa716a7b1248ad63e98902a9b6ba55543", null ],
-      [ "IF_CASE_CODE", "tex__constant_8h.html#a3dbefe2dcd01e7607e10d1b9219543a7a21ef903c8ee72b63fcddb5bc55ccc6dd", null ]
     ] ],
     [ "DelimiterCodesTable", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56d", [
       [ "pretolerancecode", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da40301566b36ba1003feb50d30087b22c", null ],
@@ -173,12 +153,6 @@ var tex__constant_8h =
       [ "FIL_NEG_CODE", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823a99b86b3323831ab272f4da8911a64934", null ],
       [ "SKIP_CODE", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823a7b4677de177cce446bb593e6c7dc959f", null ],
       [ "MSKIP_CODE", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823a5b3efb8f53d8a33475c656427ee6e260", null ]
-    ] ],
-    [ "IfCode", "tex__constant_8h.html#af595cb28c3306dd722e1b51c108a4fff", [
-      [ "ifcode", "tex__constant_8h.html#af595cb28c3306dd722e1b51c108a4fffa37c74bb09915586acb9fe4f6606033c0", null ],
-      [ "ficode", "tex__constant_8h.html#af595cb28c3306dd722e1b51c108a4fffa4f57b2acb920356f442460c927f03da6", null ],
-      [ "elsecode", "tex__constant_8h.html#af595cb28c3306dd722e1b51c108a4fffa2d77ef8fa259e959b4aee217119a33ab", null ],
-      [ "orcode", "tex__constant_8h.html#af595cb28c3306dd722e1b51c108a4fffa55fdafa77bf1b1c8d2557745221a4a3e", null ]
     ] ],
     [ "InfinityOrder", "tex__constant_8h.html#a2cad1bc7b42b016cc06580acc3c0be4e", [
       [ "FIL", "tex__constant_8h.html#a2cad1bc7b42b016cc06580acc3c0be4eae6335447c5d4f7fe221483771aa94568", null ],

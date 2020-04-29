@@ -87,7 +87,7 @@ var searchData=
   ['attachsign_90',['attachsign',['../tex_8h.html#a1b0bfffa92e8d811ca97261640096aba',1,'tex.h']]],
   ['aux_91',['aux',['../texmac_8h.html#af64f873e88910c59b686d2c252e5af96',1,'texmac.h']]],
   ['auxfield_92',['auxfield',['../struct_list_state_record.html#acfcaeb83c745064a1a6908a5f44b7bb6',1,'ListStateRecord']]],
-  ['avail_93',['avail',['../tex__header_8h.html#a80b4c090571072f5cbf199349f9f94cf',1,'tex_header.h']]],
+  ['avail_93',['avail',['../global_8h.html#ab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h'],['../tex__header_8h.html#ab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h']]],
   ['awfulbad_94',['awfulbad',['../tex_8h.html#afb8d08b641bc03250576f3f8ada33d23',1,'tex.h']]],
   ['axisheight_95',['axisheight',['../texmac_8h.html#a413170ded90a3fa13de732cc07f73b65',1,'texmac.h']]]
 ];
