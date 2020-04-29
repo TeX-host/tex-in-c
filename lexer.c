@@ -6,6 +6,7 @@
 #include "macros.h"     // [macro] help4, help3, help2
 #include "inputln.h"    // [func] inputln
 #include "funcs.h"      // [func] initinc
+#include "expand.h"     // [var] longstate
 #include "lexer.h"
 
 /** @addtogroup S300x320
