@@ -39,11 +39,25 @@ extern Boolean deletions_allowed;
 extern Pointer parloc;
 extern HalfWord partoken;
 extern Boolean force_eof;
-extern char longstate;
 extern SmallNumber curif;
 extern Integer skipline;
 extern StrNumber help_line[6];
 extern UChar interaction;
 extern Pointer curalign;
+
+// [tex], expand
+extern Integer curval;
+extern char curvallevel;
+extern SmallNumber radix;
+extern GlueOrd curorder;
+extern Pointer condptr;
+extern char iflimit;
+extern Integer ifline;
+extern Boolean name_in_progress;
+extern Pointer avail;
+extern Integer dyn_used;
+
+extern char readopen[17];
+extern StrNumber job_name;
 
 #endif // #ifndef GLOBAL_H

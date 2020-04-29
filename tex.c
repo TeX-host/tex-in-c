@@ -26,15 +26,6 @@ Static void doassignments(void);
 Static void resumeafterdisplay(void);
 Static void buildpage(void);
 
-Static void passtext(void);
-Static void startinput(void);
-Static void conditional(void);
-Static void get_x_token(void);
-Static void convtoks(void);
-Static void insthetoks(void);
-
-Static void scanint(void);
-
 Static void mlisttohlist(void);
 
 Static void alignpeek(void);
@@ -413,7 +404,7 @@ void overflow(StrNumber s, Integer n) {
 } // #94: overflow
 
 // #95
-Static void confusion(StrNumber s) {
+void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
         printnl(S(292));
@@ -537,7 +528,7 @@ void flushlist(HalfWord p) {
 
 
 /// #125
-Static HalfWord getnode(long s) {
+HalfWord getnode(long s) {
     HalfWord Result;
     Pointer p, q;
     long r, t;
@@ -612,7 +603,7 @@ _Lexit:
 } // #125: getnode
 
 /// p48#130: variable-size node liberation
-Static void freenode(Pointer p, HalfWord s) {
+void freenode(Pointer p, HalfWord s) {
     Pointer q;
 
     nodesize(p) = s;
@@ -2406,7 +2397,7 @@ Static void eqsave(HalfWord p, QuarterWord l) {
 /*:276*/
 
 /*277:*/
-Static void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
+void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     if (eqlevel(p) == curlevel)
         eqdestroy(eqtb[p - activebase]);
     else if (curlevel > levelone)
@@ -2555,6 +2546,7 @@ Static void preparemag(void) {
 /*:288*/
 
 
+#ifndef USE_SPLIT_MOD
 /** [ #366~402: PART 25: EXPANDING THE NEXT TOKEN ]
  *
  * + macrocall
@@ -3026,6 +3018,8 @@ Static void xtoken(void)
 }
 /*:381*/
 
+#endif // USE_SPLIT_MOD
+
 
 /** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
  *
@@ -3034,7 +3028,7 @@ Static void xtoken(void)
  * + 
  */
 
-Static void skip_spaces(void) { /*406:*/
+void skip_spaces(void) { /*406:*/
     do {
         get_x_token();
     } while (curcmd == SPACER); /*:406*/
@@ -3138,7 +3132,7 @@ Static void muerror(void) {
 /*409:*/
 
 /*433:*/
-Static void scaneightbitint(void) {
+void scaneightbitint(void) {
     scanint();
     if ((unsigned long)curval <= 255) return;
     printnl(S(292));
@@ -3162,7 +3156,7 @@ Static void scancharnum(void) {
 /*:434*/
 
 /*435:*/
-Static void scanfourbitint(void) {
+void scanfourbitint(void) {
     scanint();
     if ((unsigned long)curval <= 15) return;
     printnl(S(292));
@@ -3201,7 +3195,7 @@ Static void scantwentysevenbitint(void) {
 /// [ #539~582: PART 30: FONT METRIC DATA ]
 
 /*577:*/
-Static void scanfontident(void) { /*406:*/
+void scanfontident(void) { /*406:*/
     InternalFontNumber f;
     HalfWord m;
 
@@ -3556,7 +3550,7 @@ Static void scansomethinginternal(SmallNumber level, Boolean negative) {
 /*:413*/
 
 /*440:*/
-Static void scanint(void) {
+void scanint(void) {
     Boolean negative;
     long m;
     SmallNumber d;
@@ -3659,7 +3653,7 @@ Static void scanint(void) {
 /*:440*/
 
 /*448:*/
-Static void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
+void scandimen(Boolean mu, Boolean inf, Boolean shortcut)
 {
   Boolean negative;
   long f;
@@ -3987,7 +3981,7 @@ Static void strtoks_helper(ASCIICode t) {
     tex_global_p = p;
 }
 
-Static HalfWord strtoks(StrPoolPtr b) {
+HalfWord strtoks(StrPoolPtr b) {
     Pointer p;
     str_room(1);
     p = temphead;
@@ -4000,7 +3994,7 @@ Static HalfWord strtoks(StrPoolPtr b) {
 /*:464*/
 
 /*465:*/
-Static HalfWord thetoks(void) {
+HalfWord thetoks(void) {
     enum Selector old_setting;
     Pointer p, r;
 
@@ -4051,73 +4045,6 @@ Static HalfWord thetoks(void) {
 }
 /*:465*/
 
-/*467:*/
-Static void insthetoks(void) {
-    link(garbage) = thetoks();
-    inslist(link(temphead));
-} /*:467*/
-
-
-/*470:*/
-Static void convtoks(void) {
-    enum Selector old_setting;
-    char c;
-    SmallNumber savescannerstatus;
-    StrPoolPtr b;
-
-    c = curchr;  /*471:*/
-    switch (c) { /*:471*/
-        case numbercode:
-        case romannumeralcode: scanint(); break;
-
-        case stringcode:
-        case meaningcode:
-            savescannerstatus = scanner_status;
-            scanner_status = NORMAL;
-            gettoken();
-            scanner_status = savescannerstatus;
-            break;
-
-        case fontnamecode: scanfontident(); break;
-
-        case jobnamecode:
-            if (job_name == 0) openlogfile();
-            break;
-    }
-    old_setting = selector;
-    selector = NEW_STRING;
-    b = str_mark();
-    /*472:*/
-    switch (c) { /*:472*/
-
-        case numbercode: print_int(curval); break;
-
-        case romannumeralcode: print_roman_int(curval); break;
-
-        case stringcode:
-            if (curcs != 0)
-                sprint_cs(curcs);
-            else
-                print_char(curchr);
-            break;
-
-        case meaningcode: printmeaning(curchr, curcmd); break;
-
-        case fontnamecode:
-            print(get_fontname(curval));
-            if (get_fontsize(curval) != get_fontdsize(curval)) {
-                print(S(642));
-                print_scaled(get_fontsize(curval));
-                print(S(459));
-            }
-            break;
-
-        case jobnamecode: print(job_name); break;
-    }
-    selector = old_setting;
-    link(garbage) = strtoks(b);
-    inslist(link(temphead));
-} /*:470*/
 
 /*473:*/
 Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
@@ -4331,11 +4258,11 @@ _Ldone: /*:483*/
 }
 /*:482*/
 
-
+#ifndef USE_SPLIT_MOD
 /// [ #487. Conditional processing ]
 
 /*494:*/
-Static void passtext(void) {
+void passtext(void) {
     long l;
     SmallNumber savescannerstatus;
 
@@ -4383,8 +4310,9 @@ Static void changeiflimit(SmallNumber l, HalfWord p) {
 
 /*:497*/
 
+
 /*498:*/
-Static void conditional(void) { /*495:*/
+void conditional(void) { /*495:*/
     Boolean b = false /* XXXX */;
     long r;
     long m, n;
@@ -4609,7 +4537,7 @@ _Lexit:;
     /*:508*/
 }
 /*:498*/
-
+#endif // USE_SPLIT_MOD
 
 /// [ #511. File names. ] 
 
@@ -4793,7 +4721,7 @@ void openlogfile(void) {
 /*:534*/
 
 /*537:*/
-Static void startinput(void) {
+void startinput(void) {
     scanfilename();
     if (curext == S(385)) curext = S(669);
     packfilename(curname, curarea, curext);

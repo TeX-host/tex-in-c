@@ -23,10 +23,11 @@
 #include "fonts.h"
 #include "inputln.h" // [func] inputln
 #include "dviout.h"
-#include "pure_func.h" // [func] 导入纯函数
-#include "print.h"     // 打印函数
-#include "lexer.h"     // lexer
-#include "texfunc.h"   // [export]
+#include "pure_func.h"  // [func] 导入纯函数
+#include "print.h"      // 打印函数
+#include "lexer.h"      // lexer
+#include "expand.h"     // expand
+#include "texfunc.h"    // [export]
 
 
 /*
@@ -112,9 +113,9 @@ MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
 Pointer lo_mem_max; // the largest location of variable-size memory
 Pointer hi_mem_min; // the smallest location of one-word memory
 /// [#117]
-Static Integer var_used, dyn_used; // how much memory is in use
+Integer var_used, dyn_used; // how much memory is in use
 /// [#118]
-Static Pointer avail;   // head of the list of available one-word nodes
+Pointer avail;   // head of the list of available one-word nodes
 Pointer mem_end; // the last one-word node used in mem
 /// [#124]
 Static Pointer rover; // points to some node in the list of empties
@@ -182,38 +183,24 @@ Boolean force_eof;
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
-// [#387] governs the acceptance of \par
-char longstate;
 
 /// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
 // [#410] curval
-Static Integer curval;
+Integer curval;
 // [#410] the “level” of this value
-Static char curvallevel;
+char curvallevel;
 /*438:*/
-Static SmallNumber radix;
+SmallNumber radix;
 /*:438*/
 /*447:*/
-Static GlueOrd curorder;
+GlueOrd curorder;
 /*:447*/
 
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/
 Static FILE* readfile[16];
-Static char readopen[17];
+char readopen[17];
 /*:480*/
-
-
-/*489:*/
-Static Pointer condptr;
-Static char iflimit;
-SmallNumber curif;
-Static Integer ifline;
-/*:489*/
-/*493:*/
-Integer skipline;
-/*:493*/
-
 
 /*512:*/
 Static StrNumber curname, curarea, curext;
@@ -224,8 +211,8 @@ Static StrNumber extdelimiter;
 /*520:*/
 Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
-Static Boolean name_in_progress;
-Static StrNumber job_name;
+Boolean name_in_progress;
+StrNumber job_name;
 Static Boolean log_opened; /*:527*/
 /*532:*/
 Static StrNumber output_file_name, logname; 
