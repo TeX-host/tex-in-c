@@ -1,6 +1,6 @@
 tex.o: tex.c tex_header.h global_const.h tex_inc.h texmath.h tex_types.h \
  tex.h tex_constant.h str.h texmac.h macros.h funcs.h global.h printout.h \
- fonts.h inputln.h dviout.h pure_func.h print.h lexer.h expand.h \
+ fonts.h inputln.h dviout.h pure_func.h print.h lexer.h expand.h scan.h \
  texfunc.h
 inipool.o: inipool.c tex.h tex_types.h tex_constant.h str.h \
  global_const.h pool_str.c
@@ -18,7 +18,7 @@ print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
  texmac.h str.h global.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h str.h \
  global_const.h global.h texfunc.h printout.h pure_func.h macros.h \
- inputln.h funcs.h lexer.h
+ inputln.h funcs.h expand.h lexer.h
 fonts.o: fonts.c tex.h tex_types.h tex_constant.h macros.h str.h \
  global_const.h funcs.h fonts.h texfunc.h texmath.h
 dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
@@ -26,3 +26,4 @@ dviout.o: dviout.c tex.h tex_types.h tex_constant.h str.h global_const.h \
 expand.o: expand.c tex.h tex_types.h tex_constant.h texmac.h tex_inc.h \
  global_const.h macros.h global.h str.h texfunc.h lexer.h printout.h \
  print.h fonts.h texmath.h expand.h
+scan.o: scan.c scan.h

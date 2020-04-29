@@ -7,7 +7,7 @@ SRCS  = tex
 SRCS += inipool pure_func
 SRCS += funcs inputln
 SRCS += texmath str printout print
-SRCS += lexer fonts dviout expand
+SRCS += lexer fonts dviout expand scan
 CSRCS = $(addsuffix .c,${SRCS})
 OBJS  = $(addsuffix .o,${SRCS})
 
