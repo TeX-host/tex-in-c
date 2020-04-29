@@ -1,7 +1,10 @@
 #pragma once
 #ifndef INC_EXPAND_H
 /** expand .
- * 
+ *
+ * + @ref S366x401 "PART 25: EXPANDING THE NEXT TOKEN"
+ * + @ref S464x486 "PART 27: BUILDING TOKEN LISTS"
+ * + @ref S487x510 "PART 28: CONDITIONAL PROCESSING"
  */
 #define INC_EXPAND_H
 
@@ -29,9 +32,9 @@ enum ConditionPrimitives {
     IF_TRUE_CODE,  ///< `\iftrue`
     IF_FALSE_CODE, ///< `\iffalse`
     IF_CASE_CODE   ///< `\ifcase`
-};
+}; // [p181#487]: enum ConditionPrimitives
 
-/// number of words in stack entry for conditionals
+/// number of words in stack entry for conditionals.
 #define ifnodesize 2
 
 /// [#489]
@@ -40,7 +43,7 @@ enum IfCode {
     ficode,     ///< code for `\fi`
     elsecode,   ///< code for `\else`
     orcode,     ///< code for `\or`
-};              // [#489] enum IfCode
+}; // [#489] enum IfCode
 
 /** @} */ // end group S487x510
 

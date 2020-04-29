@@ -16,18 +16,21 @@
  * @{
  */
 
-/*489:*/
+/// [#489] top of the condition stack.
 Pointer condptr;
+/// [#489] upper bound on `fi_or_else` codes
 char iflimit;
+/// [#489] type of conditional being worked on
 SmallNumber curif;
+/// [#489] line where that conditional began
 Integer ifline;
-/*:489*/
-/*493:*/
+
+/// [#493] skipping began here
 Integer skipline;
-/*:493*/
+
 /** @} */ // end group S487x510
 
-// [#387] governs the acceptance of \par
+/// [#387] governs the acceptance of `\par` .
 char longstate;
 
 static void conditional(void);
@@ -50,8 +53,8 @@ static void insthetoks(void);
  * @{
  */
 
-
-/*396:*/
+/// [#396] If `longstate == outer_call`, 
+/// a runaway argument has already been reported.
 void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     HalfWord m;
     if (longstate == call) {
@@ -68,11 +71,9 @@ void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     for (m = 0; m <= n; m++) {
         flushlist(pstack[m]);
     }
-}
-/*:396*/
+} // [#396] report_argument
 
-/*366:*/
-/*389:*/
+/// [#389] invokes a user-defined control sequence
 void macrocall(Pointer refcount) {
     Pointer r, p = 0 /* XXXX */, s, t, u, v, rbraceptr = 0 /* XXXX */,
                savewarningindex;
@@ -260,18 +261,18 @@ _Lexit:
 
     /*:397*/
     /*:395*/
-}
-/*:389*/
+} // [#389] macrocall
 
-/*379:*/
+/// [#379] 插入 `\relax` .
+/// Sometimes the expansion looks too far ahead,
+/// so we want to insert a harmless `\relax` into the user’s input.
 void insertrelax(void) {
     curtok = CS_TOKEN_FLAG + curcs;
     backinput();
     curtok = CS_TOKEN_FLAG + frozenrelax;
     backinput();
     token_type = INSERTED;
-} /*:379*/
-
+} // [#379] insertrelax
 
 /// [p143#366]
 void expand(void) {
@@ -466,15 +467,14 @@ void get_x_token(void) {
     curtok = pack_tok(curcs, curcmd, curchr);
 } // #380: get_x_token
 
-/*381:*/
+/// [#381] #get_x_token without the initial #getnext
 void xtoken(void) {
     while (curcmd > maxcommand) {
         expand();
         getnext();
     }
     curtok = pack_tok(curcs, curcmd, curchr);
-}
-/*:381*/
+} // [#381] 
 
 /** @} */ // end group S366x401
 
@@ -484,13 +484,16 @@ void xtoken(void) {
  * @{
  */
 
-/*467:*/
+/// [#467] Here’s part of the expand subroutine 
+//// that we are now ready to complete.
 static void insthetoks(void) {
     link(garbage) = thetoks();
     inslist(link(temphead));
-} /*:467*/
+} // [#467] insthetoks
 
-/*470:*/
+/// [#470] The procedure conv toks uses str toks to 
+/// insert the token list for convert functions into the scanner;
+/// `\outer` control sequences are allowed to follow `\string` and `\meaning`.
 static void convtoks(void) {
     enum Selector old_setting;
     char c;
@@ -551,7 +554,7 @@ static void convtoks(void) {
     selector = old_setting;
     link(garbage) = strtoks(b);
     inslist(link(temphead));
-} /*:470*/
+} // [#470] convtoks
 /** @} */ // end group S464x486
 
 
@@ -565,7 +568,8 @@ static void convtoks(void) {
  * @{
  */
 
-/*494:*/
+/// [#494] ignores text until coming to an 
+/// `\or`, `\else`, or `\fi` at level zero of `\if...\fi` nesting.
 static void passtext(void) {
     long l;
     SmallNumber savescannerstatus;
@@ -584,10 +588,9 @@ static void passtext(void) {
         }
     }
     scanner_status = savescannerstatus;
-}
-/*:494*/
+} // [#494] passtext
 
-/*497:*/
+/// [#497] changes the #iflimit code corresponding to a given value of #condptr.
 static void changeiflimit(SmallNumber l, HalfWord p) {
     Pointer q;
 
@@ -604,7 +607,7 @@ static void changeiflimit(SmallNumber l, HalfWord p) {
             q = link(q);
         }
     }
-}
+} // [#497] changeiflimit
 
 #define getxtokenoractivechar()                                           \
     (get_x_token(), ((curcmd == relax) && (curchr == noexpandflag))       \
@@ -612,9 +615,8 @@ static void changeiflimit(SmallNumber l, HalfWord p) {
                            cur_chr = curtok - CS_TOKEN_FLAG - activebase) \
                         : (cur_chr = curchr))
 
-/*:497*/
 
-/// [#498] conditional
+/// [#498] when the expand procedure encounters an if test command.
 static void conditional(void) { /*495:*/
     Boolean b = false /* XXXX */;
     long r;
@@ -841,4 +843,3 @@ _Lexit:;
 } // [#498] conditional
 
 /** @} */ // end group S487x510
-
