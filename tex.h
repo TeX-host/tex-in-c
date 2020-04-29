@@ -404,12 +404,6 @@ enum CatCode {
 #define botmarkcode     2
 #define splitfirstmarkcode  3
 #define splitbotmarkcode  4
-#define intval          0
-#define dimenval        1
-#define glueval         2
-#define muval           3
-#define identval        4
-#define tokval          5
 
 #define inputlinenocode  (glueval + 1)
 #define badnesscode     (glueval + 2)

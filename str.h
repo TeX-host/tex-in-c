@@ -7,6 +7,7 @@
 #include <stdio.h> // FILE
 #include <stdint.h> // int_fast32_t
 #include "global_const.h"
+#include "tex_types.h"
 
 // str[6], tex[1]
 #define MAX_STRINGS 300000

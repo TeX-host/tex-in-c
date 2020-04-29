@@ -186,17 +186,6 @@ Boolean force_eof;
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
-/// [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
-// [#410] curval
-Integer curval;
-// [#410] the “level” of this value
-char curvallevel;
-/*438:*/
-SmallNumber radix;
-/*:438*/
-/*447:*/
-GlueOrd curorder;
-/*:447*/
 
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/

@@ -5,6 +5,7 @@
 #include "texfunc.h"  // [func] print_*
 #include "texmath.h"  // [func] print_scaled
 #include "expand.h"   // [macro] IF_EOF_CODE
+#include "scan.h"     // [macro] intval
 #include "printout.h" // [export]
 
 /// #247: 

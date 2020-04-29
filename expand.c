@@ -10,6 +10,7 @@
 #include "print.h"    // [var] selector
 #include "fonts.h"    // [func] get_fontname, get_fontsize
 #include "texmath.h"  // [func] print_scaled
+#include "scan.h"     // [func] scaneightbitint
 #include "expand.h"
 
 /** @addtogroup S487x510

@@ -425,7 +425,7 @@ void confusion(StrNumber s) {
     #72~98. Reporting errors.
 */
 /// #91
-Static void int_error(long n) {
+void int_error(long n) {
     print(S(303));
     print_int(n);
     print_char(')');
@@ -3021,6 +3021,7 @@ Static void xtoken(void)
 #endif // USE_SPLIT_MOD
 
 
+#ifndef USE_SPLIT_MOD
 /** [ #402~463: PART 26: BASIC SCANNING SUBROUTINES ]
  *
  * + scanleftbrace
@@ -3190,6 +3191,9 @@ Static void scantwentysevenbitint(void) {
     curval = 0;
 }
 /*:437*/
+
+#endif // USE_SPLIT_MOD
+
 
 
 /// [ #539~582: PART 30: FONT METRIC DATA ]
