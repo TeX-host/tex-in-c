@@ -2233,16 +2233,16 @@ Static void showeqtb(HalfWord n) {
         print_int(eqtb[n - activebase].int_);
         return;
     }                   /*:242*/
-    if (n > eqtbsize) { /*251:*/
+    if (n > EQTB_SIZE) { /*251:*/
         print_char('?');
         return;
     }
     /*:251*/
-    if (n < scaledbase)
+    if (n < SCALED_BASE)
         printlengthparam(n - dimenbase);
     else {
         print_esc(S(474));
-        print_int(n - scaledbase);
+        print_int(n - SCALED_BASE);
     }
     print_char('=');
     print_scaled(eqtb[n - activebase].sc);
@@ -2322,18 +2322,18 @@ HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs) {
 #ifdef tt_INIT
 Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
     if (s < 256) {
-        curval = s + singlebase;
+        cur_val = s + singlebase;
     } else {
         // TODO:
         // k ← str START[s]; l ← str START[s + 1] − k;
         // for j ← 0 to l − 1 do buffer[j] ← so(str pool[k + j]);
-        curval = idlookup_s(s, false);
+        cur_val = idlookup_s(s, false);
         flush_string();
-        text(curval) = s;
+        text(cur_val) = s;
     }
-    eqlevel(curval) = levelone;
-    eqtype(curval) = c;
-    equiv(curval) = o;
+    eqlevel(cur_val) = levelone;
+    eqtype(cur_val) = c;
+    equiv(cur_val) = o;
 } // #264: primitive
 #endif // #264: tt_INIT
 
@@ -2809,10 +2809,10 @@ Static void expand(void)
   long cvbackup;
   SmallNumber cvlbackup, radixbackup, cobackup, savescannerstatus;
 
-  cvbackup = curval;
-  cvlbackup = curvallevel;
+  cvbackup = cur_val;
+  cvlbackup = cur_val_level;
   radixbackup = radix;
-  cobackup = curorder;
+  cobackup = cur_order;
 
   backupbackup = link(backuphead);
 
@@ -2966,10 +2966,10 @@ Static void expand(void)
     curtok = CS_TOKEN_FLAG + frozenendv;
     backinput();
   }
-  curval = cvbackup;
-  curvallevel = cvlbackup;
+  cur_val = cvbackup;
+  cur_val_level = cvlbackup;
   radix = radixbackup;
-  curorder = cobackup;
+  cur_order = cobackup;
 
   link(backuphead) = backupbackup;
 
@@ -3135,60 +3135,60 @@ Static void muerror(void) {
 /*433:*/
 void scaneightbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 255) return;
+    if ((unsigned long)cur_val <= 255) return;
     printnl(S(292));
     print(S(573));
     help2(S(574), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 }
 /*:433*/
 
 /*434:*/
 Static void scancharnum(void) {
     scanint();
-    if ((unsigned long)curval <= 255) return;
+    if ((unsigned long)cur_val <= 255) return;
     printnl(S(292));
     print(S(576));
     help2(S(577), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 }
 /*:434*/
 
 /*435:*/
 void scanfourbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 15) return;
+    if ((unsigned long)cur_val <= 15) return;
     printnl(S(292));
     print(S(578));
     help2(S(579), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 }
 /*:435*/
 
 /*436:*/
 Static void scanfifteenbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 32767) return;
+    if ((unsigned long)cur_val <= 32767) return;
     printnl(S(292));
     print(S(580));
     help2(S(581), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 }
 /*:436*/
 
 /*437:*/
 Static void scantwentysevenbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 134217727L) return;
+    if ((unsigned long)cur_val <= 134217727L) return;
     printnl(S(292));
     print(S(582));
     help2(S(583), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 }
 /*:437*/
 
@@ -3211,7 +3211,7 @@ void scanfontident(void) { /*406:*/
     else if (curcmd == deffamily) {
         m = curchr;
         scanfourbitint();
-        f = equiv(m + curval);
+        f = equiv(m + cur_val);
     } else {
         printnl(S(292));
         print(S(584));
@@ -3219,7 +3219,7 @@ void scanfontident(void) { /*406:*/
         backerror();
         f = NULL_FONT;
     }
-    curval = f;
+    cur_val = f;
 }
 /*:577*/
 
@@ -3229,11 +3229,11 @@ void findfontdimen(Boolean writing) {
     long n;
 
     scanint();
-    n = curval;
+    n = cur_val;
     scanfontident();
-    f = curval;
+    f = cur_val;
     if (n <= 0) {
-        curval = fmemptr;
+        cur_val = fmemptr;
     } else {
         if (writing && n <= SPACE_SHRINK_CODE && n >= SPACE_CODE &&
             fontglue[f] != 0) {
@@ -3242,7 +3242,7 @@ void findfontdimen(Boolean writing) {
         }
         if (n > fontparams[f]) {
             if (f < fontptr) {
-                curval = fmemptr;
+                cur_val = fmemptr;
             } else { /*:580*/
                 do {
                     if (fmemptr == FONT_MEM_SIZE) overflow(S(587), FONT_MEM_SIZE);
@@ -3250,13 +3250,13 @@ void findfontdimen(Boolean writing) {
                     fmemptr++;
                     fontparams[f]++;
                 } while (n != fontparams[f]);
-                curval = fmemptr - 1;
+                cur_val = fmemptr - 1;
             }
         } else {
-            curval = n + parambase[f];
+            cur_val = n + parambase[f];
         }
     } /*579:*/
-    if (curval != fmemptr) return; /*:579*/
+    if (cur_val != fmemptr) return; /*:579*/
     printnl(S(292));
     print(S(588));
     print_esc(fontidtext(f));
@@ -3302,16 +3302,16 @@ HalfWord thetoks(void) {
     Pointer p, r;
 
     get_x_token();
-    scansomethinginternal(tokval, false);
-    if (curvallevel >= identval) { /*466:*/
+    scansomethinginternal(TOK_VAL, false);
+    if (cur_val_level >= IDENT_VAL) { /*466:*/
         p = temphead;
         link(p) = 0;
-        if (curvallevel == identval) {
-            STORE_NEW_TOKEN(p, CS_TOKEN_FLAG + curval);
+        if (cur_val_level == IDENT_VAL) {
+            STORE_NEW_TOKEN(p, CS_TOKEN_FLAG + cur_val);
             return p;
         }
-        if (curval == 0) return p;
-        r = link(curval);
+        if (cur_val == 0) return p;
+        r = link(cur_val);
         while (r != 0) {
             FAST_STORE_NEW_TOKEN(p, info(r));
             r = link(r);
@@ -3321,23 +3321,23 @@ HalfWord thetoks(void) {
         StrPoolPtr b = str_mark();
         old_setting = selector;
         selector = NEW_STRING;
-        switch (curvallevel) {
+        switch (cur_val_level) {
 
-            case intval: print_int(curval); break;
+            case INT_VAL: print_int(cur_val); break;
 
-            case dimenval:
-                print_scaled(curval);
+            case DIMEN_VAL:
+                print_scaled(cur_val);
                 print(S(459));
                 break;
 
-            case glueval:
-                printspec(curval, S(459));
-                delete_glue_ref(curval);
+            case GLUE_VAL:
+                printspec(cur_val, S(459));
+                delete_glue_ref(cur_val);
                 break;
 
-            case muval:
-                printspec(curval, S(390));
-                delete_glue_ref(curval);
+            case MU_VAL:
+                printspec(cur_val, S(390));
+                delete_glue_ref(cur_val);
                 break;
         }
         selector = old_setting;
@@ -3363,7 +3363,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
     tokenrefcount(defref) = 0;
     p = defref;
     hashbrace = 0;
-    t = zerotoken;
+    t = ZERO_TOKEN;
     if (macrodef) { /*474:*/
         while (true) {
             gettoken();
@@ -3377,7 +3377,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     STORE_NEW_TOKEN(p, endmatchtoken);
                     goto _Ldone;
                 }
-                if (t == zerotoken + 9) {
+                if (t == ZERO_TOKEN + 9) {
                     printnl(S(292));
                     print(S(643));
                     help1(S(644));
@@ -3448,7 +3448,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                 else
                     gettoken();
                 if (curcmd != MAC_PARAM) {
-                    if (curtok <= zerotoken || curtok > t) {
+                    if (curtok <= ZERO_TOKEN || curtok > t) {
                         printnl(S(292));
                         print(S(650));
                         sprint_cs(warning_index);
@@ -3553,7 +3553,7 @@ Static void readtoks(long n, HalfWord r) {
 _Ldone: /*:483*/    
         endfilereading();
     } while (align_state != 1000000L);
-    curval = defref;
+    cur_val = defref;
     scanner_status = NORMAL;
     align_state = s;
 
@@ -3663,9 +3663,9 @@ void conditional(void) { /*495:*/
             if (thisif == IF_INT_CODE)
                 scanint();
             else {
-                scannormaldimen();
+                SCAN_NORMAL_DIMEN();
             }
-            n = curval;
+            n = cur_val;
             skip_spaces();
             if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
                 r = curtok - othertoken;
@@ -3680,19 +3680,19 @@ void conditional(void) { /*495:*/
             if (thisif == IF_INT_CODE)
                 scanint();
             else {
-                scannormaldimen();
+                SCAN_NORMAL_DIMEN();
             }
             switch (r) {
-                case '<': b = (n < curval); break;
-                case '=': b = (n == curval); break;
-                case '>': b = (n > curval); break;
+                case '<': b = (n < cur_val); break;
+                case '=': b = (n == cur_val); break;
+                case '>': b = (n > cur_val); break;
             }
             break;
             /*:503*/
 
         case IF_ODD_CODE: /*504:*/
             scanint();
-            b = curval & 1;
+            b = cur_val & 1;
             break;
             /*:504*/
 
@@ -3705,7 +3705,7 @@ void conditional(void) { /*495:*/
         case IF_HBOX_CODE:
         case IF_VBOX_CODE: /*505:*/
             scaneightbitint();
-            p = box(curval);
+            p = box(cur_val);
             if (thisif == IF_VOID_CODE)
                 b = (p == 0);
             else if (p == 0)
@@ -3753,14 +3753,14 @@ void conditional(void) { /*495:*/
 
         case IF_EOF_CODE:
             scanfourbitint();
-            b = (readopen[curval] == closed);
+            b = (readopen[cur_val] == closed);
             break;
 
         case IF_TRUE_CODE: b = true; break;
         case IF_FALSE_CODE: b = false; break;
         case IF_CASE_CODE: /*509:*/
             scanint();
-            n = curval;
+            n = cur_val;
             if (tracingcommands > 1) {
                 begindiagnostic();
                 print(S(661));
@@ -4646,10 +4646,10 @@ Static void shipout(Pointer p) {
     /// [ #640 ]: Ship box p out
     // [#641]: Update the values of max h and max v; 
     // but if the page is too large, goto done
-    if (   (height(p) > maxdimen) 
-        || (depth(p) > maxdimen) 
-        || ((height(p) + depth(p) + voffset) > maxdimen) 
-        || ((width(p) + hoffset) > maxdimen) ) {
+    if (   (height(p) > MAX_DIMEN) 
+        || (depth(p) > MAX_DIMEN) 
+        || ((height(p) + depth(p) + voffset) > MAX_DIMEN) 
+        || ((width(p) + hoffset) > MAX_DIMEN) ) {
         printnl(S(292));
         print(S(687));
         help2(S(688), S(689));
@@ -4777,17 +4777,17 @@ Static void scanspec(GroupCode c, Boolean threecodes) {
         speccode = additional;
     else {
         speccode = additional;
-        curval = 0;
+        cur_val = 0;
         goto _Lfound;
     }
-    scannormaldimen();
+    SCAN_NORMAL_DIMEN();
 _Lfound:
     if (threecodes) {
         saved(0) = s;
         saveptr++;
     }
     saved(0) = speccode;
-    saved(1) = curval;
+    saved(1) = cur_val;
     saveptr += 2;
     newsavelevel(c);
     scanleftbrace();
@@ -6634,11 +6634,11 @@ _Lrestart:
     if (curcmd == endv) fatalerror(S(509));
     if (curcmd != assignglue || curchr != gluebase + TAB_SKIP_CODE) return;
     scanoptionalequals();
-    scanglue(glueval);
+    scanglue(GLUE_VAL);
     if (globaldefs > 0)
-        geqdefine(gluebase + TAB_SKIP_CODE, glueref, curval);
+        geqdefine(gluebase + TAB_SKIP_CODE, glueref, cur_val);
     else
-        eqdefine(gluebase + TAB_SKIP_CODE, glueref, curval);
+        eqdefine(gluebase + TAB_SKIP_CODE, glueref, cur_val);
     goto _Lrestart;
 }
 /*:782*/
@@ -9264,7 +9264,7 @@ _LN_newhyphexceptions__reswitch:
 
     case charnum:
       scancharnum();
-      cur_chr = curval;
+      cur_chr = cur_val;
       curcmd = chargiven;
       goto _LN_newhyphexceptions__reswitch;
       break;
@@ -9807,7 +9807,7 @@ Static void fireup(HalfWord c)
   savevbadness = vbadness;
   vbadness = INF_BAD;
   savevfuzz = vfuzz;
-  vfuzz = maxdimen;
+  vfuzz = MAX_DIMEN;
   box(255) = vpackage(link(pagehead), bestsize, exactly, pagemaxdepth);
   vbadness = savevbadness;
   vfuzz = savevfuzz;
@@ -10011,7 +10011,7 @@ Static void buildpage(void) {
                     } else /*1010:*/
                     {      /*:1010*/
                         if (count(n) <= 0)
-                            w = maxdimen;
+                            w = MAX_DIMEN;
                         else {
                             w = pagegoal - pagetotal - pagedepth;
                             if (count(n) != 1000)
@@ -10294,17 +10294,17 @@ Static void appendglue(void) {
 
     s = curchr;
     switch (s) {
-        case FIL_CODE:      curval = filglue; break;
-        case FILL_CODE:     curval = fillglue; break;
-        case SS_CODE:       curval = ssglue; break;
-        case FIL_NEG_CODE:  curval = filnegglue; break;
-        case SKIP_CODE:     scanglue(glueval); break;
-        case MSKIP_CODE:    scanglue(muval); break;
+        case FIL_CODE:      cur_val = filglue; break;
+        case FILL_CODE:     cur_val = fillglue; break;
+        case SS_CODE:       cur_val = ssglue; break;
+        case FIL_NEG_CODE:  cur_val = filnegglue; break;
+        case SKIP_CODE:     scanglue(GLUE_VAL); break;
+        case MSKIP_CODE:    scanglue(MU_VAL); break;
     }
-    tailappend(newglue(curval));
+    tailappend(newglue(cur_val));
     if (s < SKIP_CODE) return;
 
-    (gluerefcount(curval))--;
+    (gluerefcount(cur_val))--;
     if (s > SKIP_CODE) subtype(tail) = muglue;
 } // #1060: appendglue
 
@@ -10314,7 +10314,7 @@ Static void appendkern(void) {
 
     s = curchr;
     scandimen(s == muglue, false, false);
-    tailappend(newkern(curval));
+    tailappend(newkern(cur_val));
     subtype(tail) = s;
 } // #1061: appendkern
 
@@ -10473,13 +10473,13 @@ Static void beginbox(long boxcontext) {
 
     case boxcode:
         scaneightbitint();
-        curbox = box(curval);
-        box(curval) = 0;
+        curbox = box(cur_val);
+        box(cur_val) = 0;
         break;
 
     case copycode:
         scaneightbitint();
-        curbox = copynodelist(box(curval));
+        curbox = copynodelist(box(cur_val));
         break;
 
     case lastboxcode: /*1080:*/
@@ -10523,15 +10523,15 @@ _Ldone:;
 
     case vsplitcode: /*1082:*/
         scaneightbitint();
-        n = curval;
+        n = cur_val;
         if (!scankeyword(S(697))) {
             printnl(S(292));
             print(S(856));
             help2(S(857), S(858));
             error();
         }
-        scannormaldimen();
-        curbox = vsplit(n, curval);
+        SCAN_NORMAL_DIMEN();
+        curbox = vsplit(n, cur_val);
         break;
         /*:1082*/
         /*1083:*/
@@ -10723,20 +10723,20 @@ Static void endgraf(void)
 Static void begininsertoradjust(void)
 {
   if (curcmd == vadjust)
-    curval = 255;
+    cur_val = 255;
   else {
     scaneightbitint();
-    if (curval == 255) {
+    if (cur_val == 255) {
       printnl(S(292));
       print(S(867));
       print_esc(S(374));
       print_int(255);
       help1(S(868));
       error();
-      curval = 0;
+      cur_val = 0;
     }
   }
-  saved(0) = curval;
+  saved(0) = cur_val;
   saveptr++;
   newsavelevel(insertgroup);
   scanleftbrace();
@@ -10767,7 +10767,7 @@ Static void makemark(void)
 Static void appendpenalty(void)
 {
   scanint();
-  tailappend(newpenalty(curval));
+  tailappend(newpenalty(cur_val));
   if (mode == V_MODE)
     buildpage();
 }
@@ -10821,7 +10821,7 @@ Static void unpackage(void) {
 
     c = curchr;
     scaneightbitint();
-    p = box(curval);
+    p = box(cur_val);
     if (p == 0) return;
     if ( (labs(mode) == M_MODE) |
         ((labs(mode) == V_MODE) & (type(p) != VLIST_NODE)) |
@@ -10837,7 +10837,7 @@ Static void unpackage(void) {
         link(tail) = copynodelist(listptr(p));
     else {
         link(tail) = listptr(p);
-        box(curval) = 0;
+        box(cur_val) = 0;
         freenode(p, boxnodesize);
     }
     while (link(tail) != 0)
@@ -10991,7 +10991,7 @@ Static void makeaccent(void)
 
   scancharnum();
   f = curfont;
-  p = newcharacter(f, curval);
+  p = newcharacter(f, cur_val);
   if (p == 0)
     return;
   x = xheight(f);
@@ -11004,7 +11004,7 @@ Static void makeaccent(void)
     q = newcharacter(f, curchr);
   else if (curcmd == charnum) {
     scancharnum();
-    q = newcharacter(f, curval);
+    q = newcharacter(f, cur_val);
   } else
     backinput();
   if (q != 0) {   /*1125:*/
@@ -11148,11 +11148,11 @@ Static void initmath(void)
   if (curcmd == MATH_SHIFT && mode > 0) {   /*1145:*/
     if (head == tail) {
       popnest();
-      w = -maxdimen;
+      w = -MAX_DIMEN;
     } else {
       linebreak(displaywidowpenalty);   /*1146:*/
       v = shiftamount(justbox) + quad(curfont) * 2;
-      w = -maxdimen;
+      w = -MAX_DIMEN;
       p = listptr(justbox);
       while (p != 0) {  /*1147:*/
 _LN_initmath__reswitch:
@@ -11191,11 +11191,11 @@ _LN_initmath__reswitch:
 	  if (gluesign(justbox) == stretching) {
 	    if ((glueorder(justbox) == stretchorder(q)) &
 		(stretch(q) != 0))
-	      v = maxdimen;
+	      v = MAX_DIMEN;
 	  } else if (gluesign(justbox) == shrinking) {
 	    if ((glueorder(justbox) == shrinkorder(q)) &
 		(shrink(q) != 0))
-	      v = maxdimen;
+	      v = MAX_DIMEN;
 	  }
 	  if (subtype(p) >= aleaders)
 	    goto _Lfound;
@@ -11210,12 +11210,12 @@ _LN_initmath__reswitch:
 	  d = 0;
 	  break;
 	}
-	if (v < maxdimen)
+	if (v < MAX_DIMEN)
 	  v += d;
 	goto _Lnotfound;
 _Lfound:
-	if (v >= maxdimen) {
-	  w = maxdimen;
+	if (v >= MAX_DIMEN) {
+	  w = MAX_DIMEN;
 	  goto _Ldone;
 	}
 	v += d;
@@ -11304,14 +11304,14 @@ _LN_scanmath__reswitch:
 
         case charnum:
             scancharnum();
-            curchr = curval;
+            curchr = cur_val;
             curcmd = chargiven;
             goto _LN_scanmath__reswitch;
             break;
 
         case mathcharnum:
             scanfifteenbitint();
-            c = curval;
+            c = cur_val;
             break;
 
         case mathgiven:
@@ -11320,7 +11320,7 @@ _LN_scanmath__reswitch:
 
         case delimnum: /*1153:*/
             scantwentysevenbitint();
-            c = curval / 4096;
+            c = cur_val / 4096;
             break;
 
         default:
@@ -11399,7 +11399,7 @@ Static void scandelimiter(HalfWord p, Boolean r)
 
     case LETTER:
     case OTHER_CHAR:
-      curval = delcode(curchr);
+      cur_val = delcode(curchr);
       break;
 
     case delimnum:
@@ -11407,11 +11407,11 @@ Static void scandelimiter(HalfWord p, Boolean r)
       break;
 
     default:
-      curval = -1;
+      cur_val = -1;
       break;
     }
   }
-  if (curval < 0) {   /*1161:*/
+  if (cur_val < 0) {   /*1161:*/
     printnl(S(292));
     print(S(905));
     help6(S(906),
@@ -11421,13 +11421,13 @@ Static void scandelimiter(HalfWord p, Boolean r)
           S(910),
           S(911));
     backerror();
-    curval = 0;
+    cur_val = 0;
   }
   /*:1161*/
-  smallfam(p) = (curval / 1048576L) & 15;
-  smallchar(p) = (curval / 4096) & 255;
-  largefam(p) = (curval / 256) & 15;
-  largechar(p) = curval & 255;
+  smallfam(p) = (cur_val / 1048576L) & 15;
+  smallchar(p) = (cur_val / 4096) & 255;
+  largefam(p) = (cur_val / 256) & 15;
+  largechar(p) = cur_val & 255;
 }
 /*:1160*/
 
@@ -11473,11 +11473,11 @@ Static void mathac(void)
   mem[supscr(tail) - MEM_MIN].hh = emptyfield;
   mathtype(accentchr(tail)) = mathchar;
   scanfifteenbitint();
-  character(accentchr(tail)) = curval & 255;
-  if (curval >= varcode && faminrange) {
+  character(accentchr(tail)) = cur_val & 255;
+  if (cur_val >= varcode && faminrange) {
     fam(accentchr(tail)) = curfam;
   } else
-    fam(accentchr(tail)) = (curval / 256) & 15;
+    fam(accentchr(tail)) = (cur_val / 256) & 15;
   scanmath(nucleus(tail));
 }
 /*:1165*/
@@ -11598,7 +11598,7 @@ Static void mathfraction(void)
       scandelimiter(garbage, false);
     }
     if (c % delimitedcode == abovecode) {
-      scannormaldimen();
+      SCAN_NORMAL_DIMEN();
     }
     printnl(S(292));
     print(S(921));
@@ -11625,8 +11625,8 @@ Static void mathfraction(void)
   switch (c % delimitedcode) {   /*:1182*/
 
   case abovecode:
-    scannormaldimen();
-    thickness(incompleatnoad) = curval;
+    SCAN_NORMAL_DIMEN();
+    thickness(incompleatnoad) = cur_val;
     break;
 
   case overcode:
@@ -11949,14 +11949,14 @@ _Lrestart:
 
 // #1229
 Static void trapzeroglue(void) {
-    if (!( (width(curval) == 0) 
-        && (stretch(curval) == 0) 
-        && (shrink(curval) == 0)
+    if (!( (width(cur_val) == 0) 
+        && (stretch(cur_val) == 0) 
+        && (shrink(cur_val) == 0)
     )) return;
 
     addglueref(zeroglue);
-    delete_glue_ref(curval);
-    curval = zeroglue;
+    delete_glue_ref(cur_val);
+    cur_val = zeroglue;
 } // #1229: trapzeroglue
 
 // #1236
@@ -11986,10 +11986,10 @@ Static void doregistercommand(SmallNumber a) {
     p = curchr;
     scaneightbitint();
     switch (p) {
-        case intval: l = curval + countbase; break;
-        case dimenval: l = curval + scaledbase; break;
-        case glueval: l = curval + skipbase; break;
-        case muval: l = curval + muskipbase; break;
+        case INT_VAL: l = cur_val + countbase; break;
+        case DIMEN_VAL: l = cur_val + SCALED_BASE; break;
+        case GLUE_VAL: l = cur_val + skipbase; break;
+        case MU_VAL: l = cur_val + muskipbase; break;
     }
 
 _Lfound: /*:1237*/
@@ -11999,19 +11999,19 @@ _Lfound: /*:1237*/
         scankeyword(S(942));
     arith_error = false;
     if (q < multiply) { /*1238:*/
-        if (p < glueval) {
-            if (p == intval)
+        if (p < GLUE_VAL) {
+            if (p == INT_VAL)
                 scanint();
             else {
-                scannormaldimen();
+                SCAN_NORMAL_DIMEN();
             }
-            if (q == advance) curval += eqtb[l - activebase].int_;
+            if (q == advance) cur_val += eqtb[l - activebase].int_;
         } else { /*:1238*/
             scanglue(p);
             if (q == advance) { /*1239:*/
-                q = newspec(curval);
+                q = newspec(cur_val);
                 r = equiv(l);
-                delete_glue_ref(curval);
+                delete_glue_ref(cur_val);
                 width(q) += width(r);
                 if (stretch(q) == 0) stretchorder(q) = NORMAL;
                 if (stretchorder(q) == stretchorder(r))
@@ -12028,35 +12028,35 @@ _Lfound: /*:1237*/
                     shrink(q) = shrink(r);
                     shrinkorder(q) = shrinkorder(r);
                 }
-                curval = q;
+                cur_val = q;
             }
             /*:1239*/
         }
     } else { /*1240:*/
         scanint();
-        if (p < glueval) {
+        if (p < GLUE_VAL) {
             if (q == multiply) {
-                if (p == intval) {
-                    curval = mult_integers(eqtb[l-activebase].int_, curval);
+                if (p == INT_VAL) {
+                    cur_val = mult_integers(eqtb[l-activebase].int_, cur_val);
                 } else {
-                    curval = nx_plus_y(eqtb[l-activebase].int_, curval, 0);
+                    cur_val = nx_plus_y(eqtb[l-activebase].int_, cur_val, 0);
                 }
             } else {
-                curval = x_over_n(eqtb[l - activebase].int_, curval);
+                cur_val = x_over_n(eqtb[l - activebase].int_, cur_val);
             }
         } else {
             s = equiv(l);
             r = newspec(s);
             if (q == multiply) {
-                width(r)   = nx_plus_y(width(s), curval, 0);
-                stretch(r) = nx_plus_y(stretch(s), curval, 0);
-                shrink(r)  = nx_plus_y(shrink(s), curval, 0);
+                width(r)   = nx_plus_y(width(s), cur_val, 0);
+                stretch(r) = nx_plus_y(stretch(s), cur_val, 0);
+                shrink(r)  = nx_plus_y(shrink(s), cur_val, 0);
             } else {
-                width(r)   = x_over_n(width(s), curval);
-                stretch(r) = x_over_n(stretch(s), curval);
-                shrink(r)  = x_over_n(shrink(s), curval);
+                width(r)   = x_over_n(width(s), cur_val);
+                stretch(r) = x_over_n(stretch(s), cur_val);
+                shrink(r)  = x_over_n(shrink(s), cur_val);
             }
-            curval = r;
+            cur_val = r;
         }
     } /*:1240*/
     if (arith_error) {
@@ -12066,11 +12066,11 @@ _Lfound: /*:1237*/
         error();
         goto _Lexit;
     }
-    if (p < glueval) {
-        worddefine(l, curval);
+    if (p < GLUE_VAL) {
+        worddefine(l, cur_val);
     } else {
         trapzeroglue();
-        define(l, glueref, curval);
+        define(l, glueref, cur_val);
     }
 _Lexit:;
 } // #1236: doregistercommand
@@ -12086,19 +12086,19 @@ Static void alteraux(void) {
     c = curchr;
     scanoptionalequals();
     if (c == V_MODE) {
-        scannormaldimen();
-        prevdepth = curval;
+        SCAN_NORMAL_DIMEN();
+        prevdepth = cur_val;
         return;
     }
     scanint();
-    if (curval > 0 && curval <= 32767) {
-        spacefactor = curval;
+    if (cur_val > 0 && cur_val <= 32767) {
+        spacefactor = cur_val;
         return;
     }
     printnl(S(292));
     print(S(946));
     help1(S(947));
-    int_error(curval);
+    int_error(cur_val);
 } // #1243: alteraux
 
 // #1244
@@ -12111,8 +12111,8 @@ Static void alterprevgraf(void) {
         p--;
     scanoptionalequals();
     scanint();
-    if (curval >= 0) {
-        nest[p].pgfield = curval;
+    if (cur_val >= 0) {
+        nest[p].pgfield = cur_val;
         cur_list = nest[nest_ptr];
         return;
     }
@@ -12120,7 +12120,7 @@ Static void alterprevgraf(void) {
     print(S(773));
     print_esc(S(948));
     help1(S(949));
-    int_error(curval);
+    int_error(cur_val);
 } // #1244: alterprevgraf
 
 // #1245
@@ -12129,8 +12129,8 @@ Static void alterpagesofar(void) {
 
     c = curchr;
     scanoptionalequals();
-    scannormaldimen();
-    pagesofar[c] = curval;
+    SCAN_NORMAL_DIMEN();
+    pagesofar[c] = cur_val;
 } // #1245: alterpagesofar
 
 // #1246
@@ -12141,9 +12141,9 @@ Static void alterinteger(void) {
     scanoptionalequals();
     scanint();
     if (c == 0)
-        deadcycles = curval;
+        deadcycles = cur_val;
     else
-        insertpenalties = curval;
+        insertpenalties = cur_val;
 } // #1246: alterinteger
 
 // #1247
@@ -12153,10 +12153,10 @@ Static void alterboxdimen(void) {
 
     c = curchr;
     scaneightbitint();
-    b = curval;
+    b = cur_val;
     scanoptionalequals();
-    scannormaldimen();
-    if (box(b) != 0) mem[box(b) + c - MEM_MIN].sc = curval;
+    SCAN_NORMAL_DIMEN();
+    if (box(b) != 0) mem[box(b) + c - MEM_MIN].sc = cur_val;
 } // #1247: alterboxdimen
 
 // #1257
@@ -12193,8 +12193,8 @@ Static void newfont(SmallNumber a) {
 
     name_in_progress = true;
     if (scankeyword(S(951))) { /*1259:*/
-        scannormaldimen();
-        s = curval;
+        SCAN_NORMAL_DIMEN();
+        s = cur_val;
         if (s <= 0 || s >= 134217728L) {
             printnl(S(292));
             print(S(952));
@@ -12207,12 +12207,12 @@ Static void newfont(SmallNumber a) {
         /*:1259*/
     } else if (scankeyword(S(956))) {
         scanint();
-        s = -curval;
-        if (curval <= 0 || curval > 32768L) {
+        s = -cur_val;
+        if (cur_val <= 0 || cur_val > 32768L) {
             printnl(S(292));
             print(S(486));
             help1(S(487));
-            int_error(curval);
+            int_error(cur_val);
             s = -1000;
         }
     } else {
@@ -12368,12 +12368,12 @@ Static void prefixedcommand(void) {
 
                 case chardefcode:
                     scancharnum();
-                    define(p, chargiven, curval);
+                    define(p, chargiven, cur_val);
                     break;
 
                 case mathchardefcode:
                     scanfifteenbitint();
-                    define(p, mathgiven, curval);
+                    define(p, mathgiven, cur_val);
                     break;
 
                 default:
@@ -12381,23 +12381,23 @@ Static void prefixedcommand(void) {
                     switch (n) {
 
                         case countdefcode:
-                            define(p, assignint, countbase + curval);
+                            define(p, assignint, countbase + cur_val);
                             break;
 
                         case dimendefcode:
-                            define(p, assigndimen, scaledbase + curval);
+                            define(p, assigndimen, SCALED_BASE + cur_val);
                             break;
 
                         case skipdefcode:
-                            define(p, assignglue, skipbase + curval);
+                            define(p, assignglue, skipbase + cur_val);
                             break;
 
                         case muskipdefcode:
-                            define(p, assignmuglue, muskipbase + curval);
+                            define(p, assignmuglue, muskipbase + cur_val);
                             break;
 
                         case toksdefcode:
-                            define(p, assigntoks, toksbase + curval);
+                            define(p, assigntoks, toksbase + cur_val);
                             break;
                     }
                     break;
@@ -12408,7 +12408,7 @@ Static void prefixedcommand(void) {
         /*1225:*/
         case readtocs: /*:1225*/
             scanint();
-            n = curval;
+            n = cur_val;
             if (!scankeyword(S(697))) {
                 printnl(S(292));
                 print(S(856));
@@ -12418,7 +12418,7 @@ Static void prefixedcommand(void) {
             getrtoken();
             p = curcs;
             readtoks(n, p);
-            define(p, call, curval);
+            define(p, call, cur_val);
             break;
             /*1226:*/
 
@@ -12427,7 +12427,7 @@ Static void prefixedcommand(void) {
             q = curcs;
             if (curcmd == toksregister) {
                 scaneightbitint();
-                p = toksbase + curval;
+                p = toksbase + cur_val;
             } else
                 p = curchr;
             scanoptionalequals();
@@ -12437,7 +12437,7 @@ Static void prefixedcommand(void) {
                 if (curcmd == toksregister) {
                     scaneightbitint();
                     curcmd = assigntoks;
-                    cur_chr = toksbase + curval;
+                    cur_chr = toksbase + cur_val;
                 }
                 if (curcmd == assigntoks) {
                     q = equiv(cur_chr);
@@ -12476,14 +12476,14 @@ Static void prefixedcommand(void) {
             p = curchr;
             scanoptionalequals();
             scanint();
-            worddefine(p, curval);
+            worddefine(p, cur_val);
             break;
 
         case assigndimen:
             p = curchr;
             scanoptionalequals();
-            scannormaldimen();
-            worddefine(p, curval);
+            SCAN_NORMAL_DIMEN();
+            worddefine(p, cur_val);
             break;
 
         case assignglue:
@@ -12492,11 +12492,11 @@ Static void prefixedcommand(void) {
             n = curcmd;
             scanoptionalequals();
             if (n == assignmuglue)
-                scanglue(muval);
+                scanglue(MU_VAL);
             else
-                scanglue(glueval);
+                scanglue(GLUE_VAL);
             trapzeroglue();
-            define(p, glueref, curval);
+            define(p, glueref, cur_val);
             break;
             /*1232:*/
 
@@ -12514,13 +12514,13 @@ Static void prefixedcommand(void) {
                 n = 255; /*:1233*/
             p = curchr;
             scancharnum();
-            p += curval;
+            p += cur_val;
             scanoptionalequals();
             scanint();
-            if ((curval < 0 && p < delcodebase) || curval > n) {
+            if ((cur_val < 0 && p < delcodebase) || cur_val > n) {
                 printnl(S(292));
                 print(S(966));
-                print_int(curval);
+                print_int(cur_val);
                 if (p < delcodebase)
                     print(S(967));
                 else
@@ -12528,14 +12528,14 @@ Static void prefixedcommand(void) {
                 print_int(n);
                 help1(S(969));
                 error();
-                curval = 0;
+                cur_val = 0;
             }
             if (p < mathcodebase) {
-                define(p, data, curval);
+                define(p, data, cur_val);
             } else if (p < delcodebase) {
-                define(p, data, curval);
+                define(p, data, cur_val);
             } else {
-                worddefine(p, curval);
+                worddefine(p, cur_val);
             }
             break;
             /*1234:*/
@@ -12543,10 +12543,10 @@ Static void prefixedcommand(void) {
         case deffamily: /*:1234*/
             p = curchr;
             scanfourbitint();
-            p += curval;
+            p += cur_val;
             scanoptionalequals();
             scanfontident();
-            define(p, data, curval);
+            define(p, data, cur_val);
             break;
             /*1235:*/
 
@@ -12561,9 +12561,9 @@ Static void prefixedcommand(void) {
         case setbox: /*:1241*/
             scaneightbitint();
             if (global) {
-                n = curval + 256;
+                n = cur_val + 256;
             } else
-                n = curval;
+                n = cur_val;
             scanoptionalequals();
             if (set_box_allowed)
                 scanbox(boxflag + n);
@@ -12587,17 +12587,17 @@ Static void prefixedcommand(void) {
         case setshape: /*:1248*/
             scanoptionalequals();
             scanint();
-            n = curval;
+            n = cur_val;
             if (n <= 0)
                 p = 0;
             else {
                 p = getnode(n * 2 + 1);
                 info(p) = n;
                 for (j = 1; j <= n; j++) {
-                    scannormaldimen();
-                    mem[p + j * 2 - MEM_MIN - 1].sc = curval;
-                    scannormaldimen();
-                    mem[p + j * 2 - MEM_MIN].sc = curval;
+                    SCAN_NORMAL_DIMEN();
+                    mem[p + j * 2 - MEM_MIN - 1].sc = cur_val;
+                    SCAN_NORMAL_DIMEN();
+                    mem[p + j * 2 - MEM_MIN].sc = cur_val;
                 }
             }
             define(parshapeloc, shaperef, p);
@@ -12619,22 +12619,22 @@ Static void prefixedcommand(void) {
 
         case assignfontdimen:
             findfontdimen(true);
-            k = curval;
+            k = cur_val;
             scanoptionalequals();
-            scannormaldimen();
-            fontinfo[k].sc = curval;
+            SCAN_NORMAL_DIMEN();
+            fontinfo[k].sc = cur_val;
             break;
 
         case assignfontint:
             n = curchr;
             scanfontident();
-            f = curval;
+            f = cur_val;
             scanoptionalequals();
             scanint();
             if (n == 0)
-                set_hyphenchar(f, curval);
+                set_hyphenchar(f, cur_val);
             else
-                set_skewchar(f, curval);
+                set_skewchar(f, cur_val);
             break;
             /*:1253*/
 
@@ -12679,7 +12679,7 @@ Static void openorclosein(void) {
 
     c = curchr;
     scanfourbitint();
-    n = curval;
+    n = cur_val;
     if (readopen[n] != closed) {
         aclose(&readfile[n]);
         readopen[n] = closed;
@@ -12769,12 +12769,12 @@ Static void showwhatever(void) {
             scaneightbitint();
             begindiagnostic();
             printnl(S(979));
-            print_int(curval);
+            print_int(cur_val);
             print_char('=');
-            if (box(curval) == 0)
+            if (box(cur_val) == 0)
                 print(S(465));
             else
-                showbox(box(curval));
+                showbox(box(cur_val));
             break;
             /*:1296*/
 
@@ -12867,7 +12867,7 @@ Static void storefmtfile(void) { /*1304:*/
     pput(pppfmtfile);
     pppfmtfile.int_ = MEM_TOP;
     pput(pppfmtfile);
-    pppfmtfile.int_ = eqtbsize;
+    pppfmtfile.int_ = EQTB_SIZE;
     pput(pppfmtfile);
     pppfmtfile.int_ = HASH_PRIME;
     pput(pppfmtfile);
@@ -12962,17 +12962,17 @@ _Ldone1:
     } while (k != intbase);
     do {
         j = k;
-        while (j < eqtbsize) {
+        while (j < EQTB_SIZE) {
             if (eqtb[j - activebase].int_ == eqtb[j - activebase + 1].int_)
                 goto _Lfound2;
             j++;
         }
-        l = eqtbsize + 1;
+        l = EQTB_SIZE + 1;
         goto _Ldone2;
 _Lfound2:
         j++;
         l = j;
-        while (j < eqtbsize) {
+        while (j < EQTB_SIZE) {
             if (eqtb[j - activebase].int_ != eqtb[j - activebase + 1].int_)
                 goto _Ldone2;
             j++;
@@ -12988,7 +12988,7 @@ _Ldone2:
         k = j + 1;
         pppfmtfile.int_ = k - l;
         pput(pppfmtfile); /*:1316*/
-    } while (k <= eqtbsize);
+    } while (k <= EQTB_SIZE);
 
     pppfmtfile.int_ = parloc;
     pput(pppfmtfile);
@@ -13105,12 +13105,12 @@ Static void newwritewhatsit(SmallNumber w) {
         scanfourbitint();
     else {
         scanint();
-        if (curval < 0)
-            curval = 17;
-        else if (curval > 15)
-            curval = 16;
+        if (cur_val < 0)
+            cur_val = 17;
+        else if (cur_val > 15)
+            cur_val = 16;
     }
-    writestream(tail) = curval;
+    writestream(tail) = cur_val;
 }
 /*:1350*/
 
@@ -13174,12 +13174,12 @@ Static void doextension(void)
     else {   /*:1377*/
       newwhatsit(languagenode, smallnodesize);
       scanint();
-      if (curval <= 0)
+      if (cur_val <= 0)
 	clang = 0;
-      else if (curval > 255)
+      else if (cur_val > 255)
 	clang = 0;
       else
-	clang = curval;
+	clang = cur_val;
       whatlang(tail) = clang;
       whatlhm(tail) = normmin(lefthyphenmin);
       whatrhm(tail) = normmin(righthyphenmin);
@@ -13537,7 +13537,7 @@ _LN_main_control__reswitch:
 
         case H_MODE + charnum:
             scancharnum();
-            curchr = curval;
+            curchr = cur_val;
             goto _Lmainloop;
             break;
 
@@ -13700,11 +13700,11 @@ _LN_main_control__reswitch:
         case H_MODE + vmove:
         case M_MODE + vmove:
             t = curchr;
-            scannormaldimen();
+            SCAN_NORMAL_DIMEN();
             if (t == 0)
-                scanbox(curval);
+                scanbox(cur_val);
             else
-                scanbox(-curval);
+                scanbox(-cur_val);
             break;
 
         case V_MODE + leadership:
@@ -13907,13 +13907,13 @@ _LN_main_control__reswitch:
 
         case M_MODE + charnum:
             scancharnum();
-            curchr = curval;
+            curchr = cur_val;
             setmathchar(mathcode(curchr));
             break;
 
         case M_MODE + mathcharnum:
             scanfifteenbitint();
-            setmathchar(curval);
+            setmathchar(cur_val);
             break;
 
         case M_MODE + mathgiven:
@@ -13922,7 +13922,7 @@ _LN_main_control__reswitch:
 
         case M_MODE + delimnum: /*:1154*/
             scantwentysevenbitint();
-            setmathchar(curval / 4096);
+            setmathchar(cur_val / 4096);
             break;
             /*1158:*/
 
@@ -14215,7 +14215,7 @@ _Lmainlooplookahead:      /*1038:*/
     if (curcmd == chargiven) goto _Lmainlooplookahead1;
     if (curcmd == charnum) {
         scancharnum();
-        curchr = curval;
+        curchr = cur_val;
         goto _Lmainlooplookahead1;
     }
     if (curcmd == noboundary) bchar = NON_CHAR;
@@ -14387,7 +14387,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     if (x != MEM_TOP) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x != eqtbsize) goto _Lbadfmt_;
+    if (x != EQTB_SIZE) goto _Lbadfmt_;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x != HASH_PRIME) goto _Lbadfmt_;
@@ -14456,7 +14456,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     do {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if (x < 1 || k + x > eqtbsize + 1) goto _Lbadfmt_;
+        if (x < 1 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++) {
             pget(pppfmtfile);
             eqtb[j - activebase] = pppfmtfile;
@@ -14464,11 +14464,11 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         k += x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
-        if (x < 0 || k + x > eqtbsize + 1) goto _Lbadfmt_;
+        if (x < 0 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++)
             eqtb[j - activebase] = eqtb[k - activebase - 1];
         k += x; /*:1317*/
-    } while (k <= eqtbsize);
+    } while (k <= EQTB_SIZE);
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
@@ -14908,7 +14908,7 @@ Static void init_prim(void) {
     primitive(S(263), endcsname, 0);
     primitive(S(836), endgroup, 0);
     text(frozenendgroup) = S(836);
-    eqtb[frozenendgroup - activebase] = eqtb[curval - activebase];
+    eqtb[frozenendgroup - activebase] = eqtb[cur_val - activebase];
     primitive(S(1117), expandafter, 0);
     primitive(S(1118), deffont, 0);
     primitive(S(1119), assignfontdimen, 0);
@@ -14933,7 +14933,7 @@ Static void init_prim(void) {
     primitive(S(656), readtocs, 0);
     primitive(S(1125), relax, 256);
     text(frozenrelax) = S(1125);
-    eqtb[frozenrelax - activebase] = eqtb[curval - activebase];
+    eqtb[frozenrelax - activebase] = eqtb[cur_val - activebase];
     primitive(S(970), setbox, 0);
     primitive(S(604), the, 0);
     primitive(S(463), toksregister, 0);
@@ -14943,7 +14943,7 @@ Static void init_prim(void) {
     primitive(S(1127), vrule, 0); /*:265*/
     /*334:*/
     primitive(S(760), parend, 256);
-    parloc = curval;
+    parloc = cur_val;
     partoken = CS_TOKEN_FLAG + parloc; /*:334*/
     /*376:*/
     primitive(S(1128), input, 0);
@@ -14955,10 +14955,10 @@ Static void init_prim(void) {
     primitive(S(1133), topbotmark, splitfirstmarkcode);
     primitive(S(1134), topbotmark, splitbotmarkcode); /*:384*/
     /*411:*/
-    primitive(S(472), register_, intval);
-    primitive(S(474), register_, dimenval);
-    primitive(S(460), register_, glueval);
-    primitive(S(461), register_, muval); /*:411*/
+    primitive(S(472), register_, INT_VAL);
+    primitive(S(474), register_, DIMEN_VAL);
+    primitive(S(460), register_, GLUE_VAL);
+    primitive(S(461), register_, MU_VAL); /*:411*/
     /*416:*/
     primitive(S(1135), setaux, H_MODE);
     primitive(S(1136), setaux, V_MODE);
@@ -14967,11 +14967,11 @@ Static void init_prim(void) {
     primitive(S(1139), setboxdimen, widthoffset);
     primitive(S(1140), setboxdimen, heightoffset);
     primitive(S(1141), setboxdimen, depthoffset);
-    primitive(S(1142), lastitem, intval);
-    primitive(S(1143), lastitem, dimenval);
-    primitive(S(1144), lastitem, glueval);
-    primitive(S(1145), lastitem, inputlinenocode);
-    primitive(S(1146), lastitem, badnesscode); /*:416*/
+    primitive(S(1142), lastitem, INT_VAL);
+    primitive(S(1143), lastitem, DIMEN_VAL);
+    primitive(S(1144), lastitem, GLUE_VAL);
+    primitive(S(1145), lastitem, INPUT_LINE_NO_CODE);
+    primitive(S(1146), lastitem, BADNESS_CODE); /*:416*/
     /*468:*/
     primitive(S(1147), convert, numbercode);
     primitive(S(1148), convert, romannumeralcode);
@@ -15000,18 +15000,18 @@ Static void init_prim(void) {
     /*491:*/
     primitive(S(1169), fiorelse, ficode);
     text(frozenfi) = S(1169);
-    eqtb[frozenfi - activebase] = eqtb[curval - activebase];
+    eqtb[frozenfi - activebase] = eqtb[cur_val - activebase];
     primitive(S(664), fiorelse, orcode);
     primitive(S(1170), fiorelse, elsecode); /*:491*/
     /*553:*/
     primitive(S(1171), setfont, NULL_FONT);
     text(FROZEN_NULL_FONT) = S(1171);
-    eqtb[FROZEN_NULL_FONT - activebase] = eqtb[curval - activebase]; /*:553*/
+    eqtb[FROZEN_NULL_FONT - activebase] = eqtb[cur_val - activebase]; /*:553*/
     /*780:*/
     primitive(S(1172), TAB_MARK, spancode);
     primitive(S(737), CAR_RET, crcode);
     text(frozencr) = S(737);
-    eqtb[frozencr - activebase] = eqtb[curval - activebase];
+    eqtb[frozencr - activebase] = eqtb[cur_val - activebase];
     primitive(S(1173), CAR_RET, crcrcode);
     text(frozenendtemplate) = S(1174);
     text(frozenendv) = S(1174);
@@ -15109,7 +15109,7 @@ Static void init_prim(void) {
     primitive(S(418), leftright, leftnoad);
     primitive(S(419), leftright, rightnoad);
     text(frozenright) = S(419);
-    eqtb[frozenright - activebase] = eqtb[curval - activebase]; /*:1188*/
+    eqtb[frozenright - activebase] = eqtb[cur_val - activebase]; /*:1188*/
     /*1208:*/
     primitive(S(959), prefix, 1);
     primitive(S(961), prefix, 2);
@@ -15169,7 +15169,7 @@ Static void init_prim(void) {
     /*1344:*/
     primitive(S(378), extension, opennode);
     primitive(S(379), extension, writenode);
-    writeloc = curval;
+    writeloc = cur_val;
     primitive(S(380), extension, closenode);
     primitive(S(381), extension, specialnode);
     primitive(S(1252), extension, immediatecode);
@@ -15244,7 +15244,7 @@ Static void initialize(void) {
         pagemaxdepth = 0; /*:991*/
         /*:215*/
         /*254:*/
-        for (k = intbase; k <= eqtbsize; k++) {
+        for (k = intbase; k <= EQTB_SIZE; k++) {
             xeqlevel[k - intbase] = levelone;
         }
         /*:254*/
@@ -15269,10 +15269,10 @@ Static void initialize(void) {
         splitfirstmark = 0;
         splitbotmark = 0; /*:383*/
         /*439:*/
-        curval = 0;
-        curvallevel = intval;
+        cur_val = 0;
+        cur_val_level = INT_VAL;
         radix = 0;
-        curorder = 0; /*:439*/
+        cur_order = 0; /*:439*/
         /*481:*/
         for (k = 0; k <= 16; k++) /*:481*/
             readopen[k] = closed;
@@ -15504,7 +15504,7 @@ Static void initialize(void) {
         delcode('.') = 0; // this null delimiter is used in error recovery
 
         // #250
-        for (k = dimenbase; k <= eqtbsize; k++)
+        for (k = dimenbase; k <= EQTB_SIZE; k++)
             eqtb[k - activebase].sc = 0;
 
         // #258

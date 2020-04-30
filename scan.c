@@ -1,7 +1,6 @@
 #include <stdlib.h> // [func] labs
 #include "texmac.h" // [macro] link, 
 #include "texfunc.h"
-#include "lexer.h" // [var] curcmd, 
 #include "tex.h"
 #include "tex_inc.h"
 #include "global.h"
@@ -14,7 +13,6 @@
 #include "printout.h" // [func] printcmdchr
 #include "scan.h"
 
-
 /** @defgroup S402x463 PART 26: BASIC SCANNING SUBROUTINES
  * [ #402~463 ]
  *
@@ -23,6 +21,40 @@
  * + muerror
  * @{
  */
+
+/// [#438] apostrophe (`'`), indicates an octal constant
+#define OCTAL_TOKEN (othertoken + '\'')
+/// [#438] double quote (`"`), indicates a hex constant
+#define HEX_TOKEN   (othertoken + '"')
+/// [#438] reverse apostrophe (```), precedes alpha constants
+#define ALPHA_TOKEN (othertoken + '`')
+/// [#438] decimal point (`.`)
+#define POINT_TOKEN (othertoken + '.')
+/// [#438] decimal point (`,`), Eurostyle
+#define CONTINENTAL_POINT_TOKEN (othertoken + ',')
+
+/// [#445] the largest positive value that @$\tex@$ knows
+#define INFINITY 2147483647L
+/// [#445] the smallest special hex digit
+#define A_TOKEN (lettertoken + 'A')
+/// [#445] special hex digit of type otherchar
+#define OTHER_A_TOKEN (othertoken + 'A')
+
+// [#463]
+#define DEFAULT_RULE 26214 // 0.4 pt
+
+
+/// [#410] cur_val
+Integer cur_val;
+/// [#410] the "level" of this value.
+/// [INT_VAL=0, TOK_VAL=5]
+SmallNumber cur_val_level;
+/// [#438] #scanint sets this to 8, 10, 16, or zero
+SmallNumber radix;
+/// [#447] order of INFINITY found by #scandimen
+GlueOrd cur_order;
+/** @}*/ // end group S402x463
+
 
 /// [#406] Get the next non-blank non-call token.
 /// used in sections 405, 441, 455, 503, 526, 577, 785, 791, and 1045.
@@ -144,14 +176,14 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
         case defcode: /*414:*/
             scancharnum();
             if (m == mathcodebase) {
-                curval = mathcode(curval);
-                curvallevel = intval;
+                cur_val = mathcode(cur_val);
+                cur_val_level = INT_VAL;
             } else if (m < mathcodebase) {
-                curval = equiv(m + curval);
-                curvallevel = intval;
+                cur_val = equiv(m + cur_val);
+                cur_val_level = INT_VAL;
             } else {
-                curval = eqtb[m + curval - activebase].int_;
-                curvallevel = intval;
+                cur_val = eqtb[m + cur_val - activebase].int_;
+                cur_val_level = INT_VAL;
             }
             break;
             /*:414*/
@@ -161,46 +193,46 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
         case deffamily:
         case setfont:
         case deffont: /*415:*/
-            if (level != tokval) {
+            if (level != TOK_VAL) {
                 printnl(S(292));
                 print(S(593));
                 help3(S(594), S(595), S(596));
                 backerror();
-                curval = 0;
-                curvallevel = dimenval;
+                cur_val = 0;
+                cur_val_level = DIMEN_VAL;
             } else if (curcmd <= assigntoks) {
                 if (curcmd < assigntoks) {
                     scaneightbitint();
-                    m = toksbase + curval;
+                    m = toksbase + cur_val;
                 }
-                curval = equiv(m);
-                curvallevel = tokval;
+                cur_val = equiv(m);
+                cur_val_level = TOK_VAL;
             } else {
                 backinput();
                 scanfontident();
-                curval += fontidbase;
-                curvallevel = identval;
+                cur_val += fontidbase;
+                cur_val_level = IDENT_VAL;
             }
             break;
 
         case assignint:
-            curval = eqtb[m - activebase].int_;
-            curvallevel = intval;
+            cur_val = eqtb[m - activebase].int_;
+            cur_val_level = INT_VAL;
             break;
 
         case assigndimen:
-            curval = eqtb[m - activebase].sc;
-            curvallevel = dimenval;
+            cur_val = eqtb[m - activebase].sc;
+            cur_val_level = DIMEN_VAL;
             break;
 
         case assignglue:
-            curval = equiv(m);
-            curvallevel = glueval;
+            cur_val = equiv(m);
+            cur_val_level = GLUE_VAL;
             break;
 
         case assignmuglue:
-            curval = equiv(m);
-            curvallevel = muval;
+            cur_val = equiv(m);
+            cur_val_level = MU_VAL;
             break;
 
         case setaux: /*418:*/
@@ -210,98 +242,98 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
                 printcmdchr(setaux, m);
                 help4(S(598), S(599), S(600), S(601));
                 error();
-                if (level != tokval) {
-                    curval = 0;
-                    curvallevel = dimenval;
+                if (level != TOK_VAL) {
+                    cur_val = 0;
+                    cur_val_level = DIMEN_VAL;
                 } else {
-                    curval = 0;
-                    curvallevel = intval;
+                    cur_val = 0;
+                    cur_val_level = INT_VAL;
                 }
             } else if (m == V_MODE) {
-                curval = prevdepth;
-                curvallevel = dimenval;
+                cur_val = prevdepth;
+                cur_val_level = DIMEN_VAL;
             } else {
-                curval = spacefactor;
-                curvallevel = intval;
+                cur_val = spacefactor;
+                cur_val_level = INT_VAL;
             }
             break;
 
         case setprevgraf: /*422:*/
             if (mode == 0) {
-                curval = 0;
-                curvallevel = intval;
+                cur_val = 0;
+                cur_val_level = INT_VAL;
             } else { /*:422*/
                 nest[nest_ptr] = cur_list;
                 p = nest_ptr;
                 while (abs(nest[p].modefield) != V_MODE)
                     p--;
-                curval = nest[p].pgfield;
-                curvallevel = intval;
+                cur_val = nest[p].pgfield;
+                cur_val_level = INT_VAL;
             }
             break;
 
         case setpageint: /*419:*/
             if (m == 0)
-                curval = deadcycles;
+                cur_val = deadcycles;
             else
-                curval = insertpenalties;
-            curvallevel = intval;
+                cur_val = insertpenalties;
+            cur_val_level = INT_VAL;
             break;
             /*:419*/
 
         case setpagedimen: /*421:*/
             if (pagecontents == empty && !outputactive) {
                 if (m == 0)
-                    curval = maxdimen;
+                    cur_val = MAX_DIMEN;
                 else
-                    curval = 0;
+                    cur_val = 0;
             } else
-                curval = pagesofar[m];
-            curvallevel = dimenval;
+                cur_val = pagesofar[m];
+            cur_val_level = DIMEN_VAL;
             break;
             /*:421*/
 
         case setshape: /*423:*/
             if (parshapeptr == 0)
-                curval = 0;
+                cur_val = 0;
             else
-                curval = info(parshapeptr);
-            curvallevel = intval;
+                cur_val = info(parshapeptr);
+            cur_val_level = INT_VAL;
             break;
             /*:423*/
 
         case setboxdimen: /*420:*/
             scaneightbitint();
-            if (box(curval) == 0)
-                curval = 0;
+            if (box(cur_val) == 0)
+                cur_val = 0;
             else
-                curval = mem[box(curval) + m - MEM_MIN].sc;
-            curvallevel = dimenval;
+                cur_val = mem[box(cur_val) + m - MEM_MIN].sc;
+            cur_val_level = DIMEN_VAL;
             break;
             /*:420*/
 
         case chargiven:
         case mathgiven:
-            curval = curchr;
-            curvallevel = intval;
+            cur_val = curchr;
+            cur_val_level = INT_VAL;
             break;
 
         case assignfontdimen: /*425:*/
             findfontdimen(false);
             fontinfo[fmemptr].sc = 0;
-            curval = fontinfo[curval].sc;
-            curvallevel = dimenval;
+            cur_val = fontinfo[cur_val].sc;
+            cur_val_level = DIMEN_VAL;
             break;
             /*:425*/
 
         case assignfontint: /*426:*/
             scanfontident();
             if (m == 0) {
-                curval = get_hyphenchar(curval);
-                curvallevel = intval;
+                cur_val = get_hyphenchar(cur_val);
+                cur_val_level = INT_VAL;
             } else {
-                curval = get_skewchar(curval);
-                curvallevel = intval;
+                cur_val = get_skewchar(cur_val);
+                cur_val_level = INT_VAL;
             }
             break;
             /*:426*/
@@ -309,57 +341,57 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
         case register_: /*427:*/
             scaneightbitint();
             switch (m) {
-                case intval: curval = count(curval); break;
-                case dimenval: curval = dimen(curval); break;
-                case glueval: curval = skip(curval); break;
-                case muval: curval = muskip(curval); break;
+                case INT_VAL: cur_val = count(cur_val); break;
+                case DIMEN_VAL: cur_val = dimen(cur_val); break;
+                case GLUE_VAL: cur_val = skip(cur_val); break;
+                case MU_VAL: cur_val = muskip(cur_val); break;
             }
-            curvallevel = m;
+            cur_val_level = m;
             break;
             /*:427*/
 
         case lastitem: /*424:*/
-            if (curchr > glueval) {
-                if (curchr == inputlinenocode)
-                    curval = line;
+            if (curchr > GLUE_VAL) {
+                if (curchr == INPUT_LINE_NO_CODE)
+                    cur_val = line;
                 else
-                    curval = lastbadness;
-                curvallevel = intval;
+                    cur_val = lastbadness;
+                cur_val_level = INT_VAL;
             } else { /*:424*/
-                if (curchr == glueval)
-                    curval = zeroglue;
+                if (curchr == GLUE_VAL)
+                    cur_val = zeroglue;
                 else
-                    curval = 0;
-                curvallevel = curchr;
+                    cur_val = 0;
+                cur_val_level = curchr;
                 if (!ischarnode(tail) && mode != 0) {
                     switch (curchr) {
 
-                        case intval:
+                        case INT_VAL:
                             if (type(tail) == PENALTY_NODE)
-                                curval = penalty(tail);
+                                cur_val = penalty(tail);
                             break;
 
-                        case dimenval:
-                            if (type(tail) == KERN_NODE) curval = width(tail);
+                        case DIMEN_VAL:
+                            if (type(tail) == KERN_NODE) cur_val = width(tail);
                             break;
 
-                        case glueval:
+                        case GLUE_VAL:
                             if (type(tail) == GLUE_NODE) {
-                                curval = glueptr(tail);
+                                cur_val = glueptr(tail);
                                 if (subtype(tail) == muglue)
-                                    curvallevel = muval;
+                                    cur_val_level = MU_VAL;
                             }
                             break;
                     }
                 } else if (mode == V_MODE && tail == head) {
                     switch (curchr) {
 
-                        case intval: curval = lastpenalty; break;
+                        case INT_VAL: cur_val = lastpenalty; break;
 
-                        case dimenval: curval = lastkern; break;
+                        case DIMEN_VAL: cur_val = lastkern; break;
 
-                        case glueval:
-                            if (lastglue != MAX_HALF_WORD) curval = lastglue;
+                        case GLUE_VAL:
+                            if (lastglue != MAX_HALF_WORD) cur_val = lastglue;
                             break;
                     }
                 }
@@ -375,38 +407,38 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
             print_esc(S(604));
             help1(S(601));
             error();
-            if (level != tokval) { /*:428*/
-                curval = 0;
-                curvallevel = dimenval;
+            if (level != TOK_VAL) { /*:428*/
+                cur_val = 0;
+                cur_val_level = DIMEN_VAL;
             } else {
-                curval = 0;
-                curvallevel = intval;
+                cur_val = 0;
+                cur_val_level = INT_VAL;
             }
             break;
     }
-    while (curvallevel > level) { /*429:*/
-        if (curvallevel == glueval)
-            curval = width(curval);
-        else if (curvallevel == muval)
+    while (cur_val_level > level) { /*429:*/
+        if (cur_val_level == GLUE_VAL)
+            cur_val = width(cur_val);
+        else if (cur_val_level == MU_VAL)
             muerror();
-        curvallevel--;
+        cur_val_level--;
     }
     /*:429*/
     /*430:*/
     if (!negative) {
-        if (curvallevel >= glueval && curvallevel <= muval) {
-            addglueref(curval); /*:430*/
+        if (cur_val_level >= GLUE_VAL && cur_val_level <= MU_VAL) {
+            addglueref(cur_val); /*:430*/
         }
         return;
     }
-    if (curvallevel < glueval) {
-        curval = -curval;
+    if (cur_val_level < GLUE_VAL) {
+        cur_val = -cur_val;
         return;
     }
-    curval = newspec(curval); /*431:*/
-    width(curval) = -width(curval);
-    stretch(curval) = -stretch(curval);
-    shrink(curval) = -shrink(curval); /*:431*/
+    cur_val = newspec(cur_val); /*431:*/
+    width(cur_val) = -width(cur_val);
+    stretch(cur_val) = -stretch(cur_val);
+    shrink(cur_val) = -shrink(cur_val); /*:431*/
 
     /*:415*/
     /*:418*/
@@ -415,59 +447,59 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
 /// [#433]
 void scaneightbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 255) return;
+    if ((unsigned long)cur_val <= 255) return;
     printnl(S(292));
     print(S(573));
     help2(S(574), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 } // [#433] scaneightbitint
 
 /// [#434]
 void scancharnum(void) {
     scanint();
-    if ((unsigned long)curval <= 255) return;
+    if ((unsigned long)cur_val <= 255) return;
     printnl(S(292));
     print(S(576));
     help2(S(577), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 } // [#434] scancharnum
 
 /// [#435]
 void scanfourbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 15) return;
+    if ((unsigned long)cur_val <= 15) return;
     printnl(S(292));
     print(S(578));
     help2(S(579), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 } // [#435] scanfourbitint
 
 /// [#436]
 void scanfifteenbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 32767) return;
+    if ((unsigned long)cur_val <= 32767) return;
     printnl(S(292));
     print(S(580));
     help2(S(581), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 } // [#436] scanfifteenbitint
 
 /// [#437]
 void scantwentysevenbitint(void) {
     scanint();
-    if ((unsigned long)curval <= 134217727L) return;
+    if ((unsigned long)cur_val <= 134217727L) return;
     printnl(S(292));
     print(S(582));
     help2(S(583), S(575));
-    int_error(curval);
-    curval = 0;
+    int_error(cur_val);
+    cur_val = 0;
 } // [#437] scantwentysevenbitint
 
-/// [#440] sets #curval to an integer.
+/// [#440] sets #cur_val to an integer.
 void scanint(void) {
     Boolean negative;
     long m;
@@ -484,10 +516,10 @@ void scanint(void) {
             curtok = othertoken + '+';
         }
     } while (curtok == othertoken + '+');
-    if (curtok == alphatoken) { /*442:*/
+    if (curtok == ALPHA_TOKEN) { /*442:*/
         gettoken();
         if (curtok < CS_TOKEN_FLAG) {
-            curval = curchr;
+            cur_val = curchr;
             if (curcmd <= RIGHT_BRACE) {
                 if (curcmd == RIGHT_BRACE)
                     align_state++;
@@ -495,14 +527,14 @@ void scanint(void) {
                     align_state--;
             }
         } else if (curtok < CS_TOKEN_FLAG + singlebase)
-            curval = curtok - CS_TOKEN_FLAG - activebase;
+            cur_val = curtok - CS_TOKEN_FLAG - activebase;
         else
-            curval = curtok - CS_TOKEN_FLAG - singlebase;
-        if (curval > 255) {
+            cur_val = curtok - CS_TOKEN_FLAG - singlebase;
+        if (cur_val > 255) {
             printnl(S(292));
             print(S(605));
             help2(S(606), S(607));
-            curval = '0';
+            cur_val = '0';
             backerror();
         } else { /*443:*/
             get_x_token();
@@ -510,46 +542,46 @@ void scanint(void) {
         }
     } /*:442*/
     else if (curcmd >= mininternal && curcmd <= maxinternal)
-        scansomethinginternal(intval, false);
+        scansomethinginternal(INT_VAL, false);
     else {
         radix = 10;
         m = 214748364L;
-        if (curtok == octaltoken) {
+        if (curtok == OCTAL_TOKEN) {
             radix = 8;
             m = 268435456L;
             get_x_token();
-        } else if (curtok == hextoken) {
+        } else if (curtok == HEX_TOKEN) {
             radix = 16;
             m = 134217728L;
             get_x_token();
         }
         vacuous = true;
-        curval = 0; /*445:*/
+        cur_val = 0; /*445:*/
         while (true) {
-            if (curtok < zerotoken + radix && curtok >= zerotoken &&
-                curtok <= zerotoken + 9)
-                d = curtok - zerotoken;
+            if (curtok < ZERO_TOKEN + radix && curtok >= ZERO_TOKEN &&
+                curtok <= ZERO_TOKEN + 9)
+                d = curtok - ZERO_TOKEN;
             else if (radix == 16) {
-                if (curtok <= Atoken + 5 && curtok >= Atoken)
-                    d = curtok - Atoken + 10;
-                else if (curtok <= otherAtoken + 5 && curtok >= otherAtoken)
-                    d = curtok - otherAtoken + 10;
+                if (curtok <= A_TOKEN + 5 && curtok >= A_TOKEN)
+                    d = curtok - A_TOKEN + 10;
+                else if (curtok <= OTHER_A_TOKEN + 5 && curtok >= OTHER_A_TOKEN)
+                    d = curtok - OTHER_A_TOKEN + 10;
                 else
                     goto _Ldone;
             } else
                 goto _Ldone;
             vacuous = false;
-            if (curval >= m && (curval > m || d > 7 || radix != 10)) {
+            if (cur_val >= m && (cur_val > m || d > 7 || radix != 10)) {
                 if (OKsofar) {
                     printnl(S(292));
                     print(S(608));
                     help2(S(609), S(610));
                     error();
-                    curval = infinity;
+                    cur_val = INFINITY;
                     OKsofar = false;
                 }
             } else
-                curval = curval * radix + d;
+                cur_val = cur_val * radix + d;
             get_x_token();
         }
     _Ldone:            /*:445*/
@@ -562,12 +594,12 @@ void scanint(void) {
         else if (curcmd != SPACER)
             backinput();
     }
-    if (negative) curval = -curval;
+    if (negative) cur_val = -cur_val;
     /*:443*/
 
 } // [#440] scanint
 
-/// [#448] sets #curval to a dimension.
+/// [#448] sets #cur_val to a dimension.
 void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
     Boolean negative;
     long f;
@@ -581,7 +613,7 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
 
     f = 0;
     arith_error = false;
-    curorder = NORMAL;
+    cur_order = NORMAL;
     negative = false;
     if (!shortcut) { /*441:*/
         negative = false;
@@ -594,40 +626,40 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
         } while (curtok == othertoken + '+');
         if (curcmd >= mininternal && curcmd <= maxinternal) { /*449:*/
             if (mu) {
-                scansomethinginternal(muval, false); /*451:*/
-                if (curvallevel >= glueval) {        /*:451*/
-                    v = width(curval);
-                    delete_glue_ref(curval);
-                    curval = v;
+                scansomethinginternal(MU_VAL, false); /*451:*/
+                if (cur_val_level >= GLUE_VAL) {        /*:451*/
+                    v = width(cur_val);
+                    delete_glue_ref(cur_val);
+                    cur_val = v;
                 }
-                if (curvallevel == muval) goto _Lattachsign_;
-                if (curvallevel != intval) muerror();
+                if (cur_val_level == MU_VAL) goto _Lattachsign_;
+                if (cur_val_level != INT_VAL) muerror();
             } else {
-                scansomethinginternal(dimenval, false);
-                if (curvallevel == dimenval) goto _Lattachsign_;
+                scansomethinginternal(DIMEN_VAL, false);
+                if (cur_val_level == DIMEN_VAL) goto _Lattachsign_;
             } /*:449*/
         } else {
             backinput();
-            if (curtok == continentalpointtoken) curtok = pointtoken;
-            if (curtok != pointtoken)
+            if (curtok == CONTINENTAL_POINT_TOKEN) curtok = POINT_TOKEN;
+            if (curtok != POINT_TOKEN)
                 scanint();
             else {
                 radix = 10;
-                curval = 0;
+                cur_val = 0;
             }
-            if (curtok == continentalpointtoken) curtok = pointtoken;
-            if (radix == 10 && curtok == pointtoken) { /*452:*/
+            if (curtok == CONTINENTAL_POINT_TOKEN) curtok = POINT_TOKEN;
+            if (radix == 10 && curtok == POINT_TOKEN) { /*452:*/
                 k = 0;
                 p = 0;
                 gettoken();
                 while (true) {
                     get_x_token();
-                    if (curtok > zerotoken + 9 || curtok < zerotoken)
+                    if (curtok > ZERO_TOKEN + 9 || curtok < ZERO_TOKEN)
                         goto _Ldone1;
                     if (k >= 17) continue;
                     q = get_avail();
                     link(q) = p;
-                    info(q) = curtok - zerotoken;
+                    info(q) = curtok - ZERO_TOKEN;
                     p = q;
                     k++;
                 }
@@ -644,16 +676,16 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
             /*:452*/
         }
     }
-    if (curval < 0) {
+    if (cur_val < 0) {
         negative = !negative;
-        curval = -curval;
+        cur_val = -cur_val;
     }                              /*453:*/
     if (inf) {                     /*454:*/
         if (scankeyword(S(330))) { /*:454*/
-            curorder = FIL;
+            cur_order = FIL;
             while (scankeyword('l')) {
-                if (curorder != FILLL) {
-                    curorder++;
+                if (cur_order != FILLL) {
+                    cur_order++;
                     continue;
                 }
                 printnl(S(292));
@@ -666,20 +698,20 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
         }
     }
     /*455:*/
-    savecurval = curval;
+    savecurval = cur_val;
     skip_spaces();
     if (curcmd >= mininternal && curcmd <= maxinternal) {
         if (mu) {
-            scansomethinginternal(muval, false); /*451:*/
-            if (curvallevel >= glueval) {        /*:451*/
-                v = width(curval);
-                delete_glue_ref(curval);
-                curval = v;
+            scansomethinginternal(MU_VAL, false); /*451:*/
+            if (cur_val_level >= GLUE_VAL) {        /*:451*/
+                v = width(cur_val);
+                delete_glue_ref(cur_val);
+                cur_val = v;
             }
-            if (curvallevel != muval) muerror();
+            if (cur_val_level != MU_VAL) muerror();
         } else
-            scansomethinginternal(dimenval, false);
-        v = curval;
+            scansomethinginternal(DIMEN_VAL, false);
+        v = cur_val;
         goto _Lfound;
     }
     backinput();
@@ -696,7 +728,7 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
     if (curcmd != SPACER) /*:443*/
         backinput();
 _Lfound:
-    curval = nx_plus_y(savecurval, v, xn_over_d(v, f, 65536L));
+    cur_val = nx_plus_y(savecurval, v, xn_over_d(v, f, 65536L));
     goto _Lattachsign_;
 _Lnotfound:   /*:455*/
     if (mu) { /*456:*/
@@ -714,9 +746,9 @@ _Lnotfound:   /*:455*/
     if (scankeyword(S(621))) { /*457:*/
         preparemag();
         if (mag != 1000) {
-            curval = xn_over_d(curval, 1000, mag);
+            cur_val = xn_over_d(cur_val, 1000, mag);
             f = (f * 1000 + tex_remainder * 65536L) / mag;
-            curval += f / 65536L;
+            cur_val += f / 65536L;
             f %= 65536L;
         }
     }
@@ -754,43 +786,43 @@ _Lnotfound:   /*:455*/
         error();
         goto _Ldone2;
     }
-    curval = xn_over_d(curval, num, denom);
+    cur_val = xn_over_d(cur_val, num, denom);
     f = (num * f + tex_remainder * 65536L) / denom;
-    curval += f / 65536L;
+    cur_val += f / 65536L;
     f %= 65536L;
 _Ldone2: /*:458*/
 _Lattachfraction_:
-    if (curval >= 16384)
+    if (cur_val >= 16384)
         arith_error = true;
     else
-        curval = curval * UNITY + f;
+        cur_val = cur_val * UNITY + f;
 _Ldone: /*:453*/
     /*443:*/
     get_x_token();
     if (curcmd != SPACER) /*:443*/
         backinput();
 _Lattachsign_:
-    if (arith_error || labs(curval) >= 1073741824L) { /*460:*/
+    if (arith_error || labs(cur_val) >= 1073741824L) { /*460:*/
         printnl(S(292));
         print(S(634));
         help2(S(635), S(636));
         error();
-        curval = maxdimen;
+        cur_val = MAX_DIMEN;
         arith_error = false;
     }
     /*:460*/
-    if (negative) curval = -curval;
+    if (negative) cur_val = -cur_val;
 
     /*459:*/
     /*:459*/
 } // [#448] scandimen
 
-/// [#461] sets #curval to a glue spec pointer
+/// [#461] sets #cur_val to a glue spec pointer
 void scanglue(SmallNumber level) {
     Boolean negative, mu;
     Pointer q;
 
-    mu = (level == muval); /*441:*/
+    mu = (level == MU_VAL); /*441:*/
     negative = false;
     do {
         skip_spaces();
@@ -801,32 +833,32 @@ void scanglue(SmallNumber level) {
     } while (curtok == othertoken + '+');
     if (curcmd >= mininternal && curcmd <= maxinternal) { /*462:*/
         scansomethinginternal(level, negative);
-        if (curvallevel >= glueval) {
-            if (curvallevel != level) muerror();
+        if (cur_val_level >= GLUE_VAL) {
+            if (cur_val_level != level) muerror();
             goto _Lexit;
         }
-        if (curvallevel == intval)
+        if (cur_val_level == INT_VAL)
             scandimen(mu, false, true);
-        else if (level == muval)
+        else if (level == MU_VAL)
             muerror();
     } else {
         backinput();
         scandimen(mu, false, false);
-        if (negative) curval = -curval;
+        if (negative) cur_val = -cur_val;
     }
     q = newspec(zeroglue);
-    width(q) = curval;
+    width(q) = cur_val;
     if (scankeyword(S(637))) {
         scandimen(mu, true, false);
-        stretch(q) = curval;
-        stretchorder(q) = curorder;
+        stretch(q) = cur_val;
+        stretchorder(q) = cur_order;
     }
     if (scankeyword(S(638))) {
         scandimen(mu, true, false);
-        shrink(q) = curval;
-        shrinkorder(q) = curorder;
+        shrink(q) = cur_val;
+        shrinkorder(q) = cur_order;
     }
-    curval = q; /*:462*/
+    cur_val = q; /*:462*/
 _Lexit:;
 } // [#461] scanglue
 
@@ -836,25 +868,25 @@ HalfWord scanrulespec(void) {
 
     q = newrule();
     if (curcmd == vrule)
-        width(q) = defaultrule;
+        width(q) = DEFAULT_RULE;
     else {
-        height(q) = defaultrule;
+        height(q) = DEFAULT_RULE;
         depth(q) = 0;
     }
 _LN_scanrulespec__reswitch:
     if (scankeyword(S(639))) {
-        scannormaldimen();
-        width(q) = curval;
+        SCAN_NORMAL_DIMEN();
+        width(q) = cur_val;
         goto _LN_scanrulespec__reswitch;
     }
     if (scankeyword(S(640))) {
-        scannormaldimen();
-        height(q) = curval;
+        SCAN_NORMAL_DIMEN();
+        height(q) = cur_val;
         goto _LN_scanrulespec__reswitch;
     }
     if (!scankeyword(S(641))) return q;
-    scannormaldimen();
-    depth(q) = curval;
+    SCAN_NORMAL_DIMEN();
+    depth(q) = cur_val;
     goto _LN_scanrulespec__reswitch;
 } // [#463] scanrulespec
 

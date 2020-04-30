@@ -5,6 +5,7 @@
  *  + @ref S402x463 "PART 26: BASIC SCANNING SUBROUTINES"
  */
 #define INC_SCAN_H
+#include "lexer.h" // [macro] othertoken; [var] curcmd,
 
 
 /** @addtogroup S402x463
@@ -12,44 +13,38 @@
  */
 
 /// [#410]
-// enum TokenLevel {};
-#define intval      0 // integer values
-#define dimenval    1 // dimension values
-#define glueval     2 // glue specifications
-#define muval       3 // math glue specifications
-#define identval    4 // font identifier
-#define tokval      5 // token lists
-// [#416]
-#define scaledbase  (dimenbase + dimenpars)
-#define eqtbsize    (scaledbase + 255)
-// [#438]
-#define octaltoken  (othertoken + 39)
-#define hextoken    (othertoken + 34)
-#define alphatoken  (othertoken + 96)
-#define pointtoken  (othertoken + 46)
-#define continentalpointtoken   (othertoken + 44)
-// [#445]
-#define infinity    2147483647L //  the largest positive value that TEX knows
-#define zerotoken   (othertoken  + 48)
-#define Atoken      (lettertoken + 65)
-#define otherAtoken (othertoken  + 65)
-// [#448]
-#define attachfraction  88
-#define attachsign      89
-// [#463]
-#define defaultrule     26214 // 0.4 pt
+enum TokenLevel {
+    INT_VAL,   ///< integer values
+    DIMEN_VAL, ///< dimension values
+    GLUE_VAL,  ///< glue specifications
+    MU_VAL,    ///< math glue specifications
+    IDENT_VAL, ///< font identifier
+    TOK_VAL,   ///< token lists
+}; // [#410] enum TokenLevel
 
+/// [#416] `\inputlineno`
+#define INPUT_LINE_NO_CODE  (GLUE_VAL + 1)
+/// [#416] `\badness`
+#define BADNESS_CODE        (GLUE_VAL + 2)
+/// [#421] @$ 2^{30}-1 @$
+#define MAX_DIMEN   1073741823L
+/// [#445] zero, the smallest digit
+#define ZERO_TOKEN  (othertoken + '0')
+// [#448] label
+// /// go here to pack cur val and f into cur val
+// #define attachfraction  88
+// //// go here when cur val is correct except perhaps for sign
+// #define attachsign      89
 
-/// [#410] curval
-Integer curval;
-/// [#410] the "level" of this value.
-/// [intval=0, tokval=5]
-SmallNumber curvallevel;
-/// [#438] #scanint sets this to 8, 10, 16, or zero
-SmallNumber radix;
-/// [#447] order of infinity found by #scandimen
-GlueOrd curorder;
+/// [#448] 
+#define SCAN_NORMAL_DIMEN() scandimen(false, false, false)
 /** @}*/ // end group S402x463
+
+
+extern Integer cur_val;
+extern SmallNumber cur_val_level;
+extern SmallNumber radix;
+extern GlueOrd cur_order;
 
 
 extern void skip_spaces(void);

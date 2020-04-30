@@ -81,14 +81,14 @@ enum NodeType {
 /// [#150]: number of words to allocate for a glue specification
 #define gluespecsize    4
 
-/** [#150]: the orders of infinity (normal, `fil`, `fill`, or `filll`)
+/** [#150]: the orders of INFINITY (normal, `fil`, `fill`, or `filll`)
  * corresponding to the stretch and shrink values.
  * 
  */
 enum InfinityOrder {
-    FIL = 1, ///< first-order infinity
-    FILL,    ///< second-order infinity
-    FILLL    ///< third-order infinity
+    FIL = 1, ///< first-order INFINITY
+    FILL,    ///< second-order INFINITY
+    FILLL    ///< third-order INFINITY
 }; // [#150] enum InfinityOrder
 
 /// [#155]: subtype of kern nodes from `\kern` and `\/`
@@ -245,6 +245,10 @@ enum DimensionRegisters {
     emergencystretchcode = 20,
     dimenpars, ///< total number of dimension parameters
 }; // [p99#247] enum DimensionRegisters
+
+/// [#247]
+#define SCALED_BASE  (dimenbase + dimenpars)
+#define EQTB_SIZE    (SCALED_BASE + 255)
 
 /// [#268]
 enum SaveType {

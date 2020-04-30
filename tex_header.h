@@ -153,9 +153,9 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
               "diag_oldsetting = [0, MAX_SELECTOR=21]");
 
 /// #253
-MemoryWord eqtb[eqtbsize - activebase + 1]; // equivalents table
+MemoryWord eqtb[EQTB_SIZE - activebase + 1]; // equivalents table
 // store the eq level information
-Static QuarterWord xeqlevel[eqtbsize - intbase + 1];
+Static QuarterWord xeqlevel[EQTB_SIZE - intbase + 1];
 /// [#256]
 Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - hashbase]; // hash table
 Static Pointer hash_used; // allocation pointer for hash

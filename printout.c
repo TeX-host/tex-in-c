@@ -5,7 +5,7 @@
 #include "texfunc.h"  // [func] print_*
 #include "texmath.h"  // [func] print_scaled
 #include "expand.h"   // [macro] IF_EOF_CODE
-#include "scan.h"     // [macro] intval
+#include "scan.h"     // [macro] INT_VAL
 #include "printout.h" // [export]
 
 /// #247: 
@@ -157,11 +157,11 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
             /*249:*/
         case assigndimen: /*:249*/
-            if (chrcode < scaledbase)
+            if (chrcode < SCALED_BASE)
                 printlengthparam(chrcode - dimenbase);
             else {
                 print_esc(S(474));
-                print_int(chrcode - scaledbase);
+                print_int(chrcode - SCALED_BASE);
             }
             break;
             /*266:*/
@@ -231,11 +231,11 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
             /*412:*/
         case register_: /*:412*/
-            if (chrcode == intval)
+            if (chrcode == INT_VAL)
                 print_esc(S(472));
-            else if (chrcode == dimenval)
+            else if (chrcode == DIMEN_VAL)
                 print_esc(S(474));
-            else if (chrcode == glueval)
+            else if (chrcode == GLUE_VAL)
                 print_esc(S(460));
             else
                 print_esc(S(461));
@@ -265,10 +265,10 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
         case lastitem: /*:417*/
             switch (chrcode) {
-                case intval: print_esc(S(1142)); break;
-                case dimenval: print_esc(S(1143)); break;
-                case glueval: print_esc(S(1144)); break;
-                case inputlinenocode: print_esc(S(1145)); break;
+                case INT_VAL: print_esc(S(1142)); break;
+                case DIMEN_VAL: print_esc(S(1143)); break;
+                case GLUE_VAL: print_esc(S(1144)); break;
+                case INPUT_LINE_NO_CODE: print_esc(S(1145)); break;
                 default: print_esc(S(1146)); break;
             }
             break;

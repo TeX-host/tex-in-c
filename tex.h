@@ -145,7 +145,7 @@
 #define varcode         28672
 
 
-#define maxdimen        1073741823L
+
 #define nullflag        (-1073741824L)
 
 #define defaultcode     1073741824L
@@ -401,9 +401,6 @@ enum CatCode {
 #define botmarkcode     2
 #define splitfirstmarkcode  3
 #define splitbotmarkcode  4
-
-#define inputlinenocode  (glueval + 1)
-#define badnesscode     (glueval + 2)
 
 
 #define closed          2

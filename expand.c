@@ -283,10 +283,10 @@ void expand(void) {
     long cvbackup;
     SmallNumber cvlbackup, radixbackup, cobackup, savescannerstatus;
 
-    cvbackup = curval;
-    cvlbackup = curvallevel;
+    cvbackup = cur_val;
+    cvlbackup = cur_val_level;
     radixbackup = radix;
-    cobackup = curorder;
+    cobackup = cur_order;
 
     backupbackup = link(backuphead);
 
@@ -427,10 +427,10 @@ void expand(void) {
         curtok = CS_TOKEN_FLAG + frozenendv;
         backinput();
     }
-    curval = cvbackup;
-    curvallevel = cvlbackup;
+    cur_val = cvbackup;
+    cur_val_level = cvlbackup;
     radix = radixbackup;
-    curorder = cobackup;
+    cur_order = cobackup;
 
     link(backuphead) = backupbackup;
 
@@ -529,8 +529,8 @@ static void convtoks(void) {
     b = str_mark();
     /*472:*/
     switch (c) { /*:472*/
-        case numbercode: print_int(curval); break;
-        case romannumeralcode: print_roman_int(curval); break;
+        case numbercode: print_int(cur_val); break;
+        case romannumeralcode: print_roman_int(cur_val); break;
 
         case stringcode:
             if (curcs != 0)
@@ -542,10 +542,10 @@ static void convtoks(void) {
         case meaningcode: printmeaning(curchr, curcmd); break;
 
         case fontnamecode:
-            print(get_fontname(curval));
-            if (get_fontsize(curval) != get_fontdsize(curval)) {
+            print(get_fontname(cur_val));
+            if (get_fontsize(cur_val) != get_fontdsize(cur_val)) {
                 print(S(642));
-                print_scaled(get_fontsize(curval));
+                print_scaled(get_fontsize(cur_val));
                 print(S(459));
             }
             break;
@@ -666,9 +666,9 @@ static void conditional(void) { /*495:*/
             if (thisif == IF_INT_CODE)
                 scanint();
             else {
-                scannormaldimen();
+                SCAN_NORMAL_DIMEN();
             }
-            n = curval;
+            n = cur_val;
             skip_spaces();
             if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
                 r = curtok - othertoken;
@@ -683,19 +683,19 @@ static void conditional(void) { /*495:*/
             if (thisif == IF_INT_CODE)
                 scanint();
             else {
-                scannormaldimen();
+                SCAN_NORMAL_DIMEN();
             }
             switch (r) {
-                case '<': b = (n < curval); break;
-                case '=': b = (n == curval); break;
-                case '>': b = (n > curval); break;
+                case '<': b = (n < cur_val); break;
+                case '=': b = (n == cur_val); break;
+                case '>': b = (n > cur_val); break;
             }
             break;
             /*:503*/
 
         case IF_ODD_CODE: /*504:*/
             scanint();
-            b = curval & 1;
+            b = cur_val & 1;
             break;
             /*:504*/
 
@@ -708,7 +708,7 @@ static void conditional(void) { /*495:*/
         case IF_HBOX_CODE:
         case IF_VBOX_CODE: /*505:*/
             scaneightbitint();
-            p = box(curval);
+            p = box(cur_val);
             if (thisif == IF_VOID_CODE)
                 b = (p == 0);
             else if (p == 0)
@@ -756,14 +756,14 @@ static void conditional(void) { /*495:*/
 
         case IF_EOF_CODE:
             scanfourbitint();
-            b = (readopen[curval] == closed);
+            b = (readopen[cur_val] == closed);
             break;
 
         case IF_TRUE_CODE: b = true; break;
         case IF_FALSE_CODE: b = false; break;
         case IF_CASE_CODE: /*509:*/
             scanint();
-            n = curval;
+            n = cur_val;
             if (tracingcommands > 1) {
                 begindiagnostic();
                 print(S(661));

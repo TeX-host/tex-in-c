@@ -183,7 +183,7 @@
      ((gluetemp > (1000000000.0))                                              \
           ? (gluetemp = 1000000000.0)                                          \
           : ((gluetemp < -1000000000.0) ? (gluetemp = -1000000000.0) : 0)))
-#define scannormaldimen() scandimen(false, false, false)
+
 // [#360]: \endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
 #define ishex(x)                                                               \
@@ -228,7 +228,7 @@
 /* Makra specjalne */
 #define param(x,y) (fontinfo[(x)+parambase[y]].sc)
 #define mathsy(x,y) (fontinfo[(x)+parambase[famfnt(2+(y))]].sc)
-#define vpack(x,y,z)  vpackage((x),(y),(z),maxdimen) /* special case of unconstrained depth}*/
+#define vpack(x,y,z)  vpackage((x),(y),(z),MAX_DIMEN) /* special case of unconstrained depth}*/
 
 #define scriptsallowed(x)  ((type(x)>=ordnoad)&&(type(x)<leftnoad))
 // #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte) /* {beginning of
@@ -331,7 +331,7 @@
 #define height(x)    mem[x+heightoffset].sc /* height of the box, in sp}*/
 #define shiftamount(x)    mem[x+4].sc /* repositioning distance, in sp}*/
 #define listptr(x)    link(x+listoffset) /* beginning of the list inside the box}*/
-#define glueorder(x)    subtype(x+listoffset) /* applicable order of infinity}*/
+#define glueorder(x)    subtype(x+listoffset) /* applicable order of INFINITY}*/
 #define gluesign(x)    type(x+listoffset) /* stretching or shrinking}*/
 #define glueset(x)    mem[x+glueoffset].gr
 /* a word of type |glueratio| for glue setting}*/
@@ -349,8 +349,8 @@
 #define gluerefcount(x)    link(x) /* reference count of a glue specification}*/
 #define stretch(x)    mem[x+2].sc /* the stretchability of this glob of glue}*/
 #define shrink(x)    mem[x+3].sc /* the shrinkability of this glob of glue}*/
-#define stretchorder(x)    type(x) /* order of infinity for stretching}*/
-#define shrinkorder(x)    subtype(x) /* order of infinity for shrinking}*/
+#define stretchorder(x)    type(x) /* order of INFINITY for stretching}*/
+#define shrinkorder(x)    subtype(x) /* order of INFINITY for shrinking}*/
 #define penalty(x)    mem[x+1].int_ /* the added cost of breaking a list here}*/
 #define gluestretch(x)  mem[x+glueoffset].sc /* total stretch in an unset node}*/
 #define glueshrink  shiftamount /* total shrink in an unset node}*/
@@ -375,7 +375,7 @@
 /*  Note: |mathcode(c)| is the true math code plus |minhalfword|} */
 #define delcode(x)  eqtb[delcodebase+x-activebase].int_
 #define count(x)  eqtb[countbase+x-activebase].int_
-#define dimen(x)  eqtb[scaledbase+x-activebase].sc
+#define dimen(x)  eqtb[SCALED_BASE+x-activebase].sc
 #define next(x)    hash[x-hashbase].UU.lh /* link for coalesced lists}*/
 #define text(x)    hash[x-hashbase].rh /* string number for control sequence name}*/
 #define savetype(x)  savestack[x].hh.UU.U2.b0 /* classifies a |savestack| entry}*/

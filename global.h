@@ -4,7 +4,7 @@
 #define GLOBAL_H
 #include <setjmp.h> // setjmp
 #include "str.h"    // StrNumber
-#include "scan.h"   // [macro] eqtbsize
+#include "scan.h"   // [macro] EQTB_SIZE
 
 // funcs, inputln, [tex]
 extern ASCIICode buffer[];
@@ -22,7 +22,7 @@ extern Char name_of_file[FILE_NAME_SIZE + 1];
 
 // [tex], 仅在 print 中使用
 extern Char xchr[256];
-extern MemoryWord eqtb[eqtbsize - activebase + 1];
+extern MemoryWord eqtb[EQTB_SIZE - activebase + 1];
 extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用
@@ -47,10 +47,6 @@ extern UChar interaction;
 extern Pointer curalign;
 
 // [tex], expand
-extern Integer curval;
-extern SmallNumber curvallevel;
-extern SmallNumber radix;
-extern GlueOrd curorder;
 extern Pointer condptr;
 extern char iflimit;
 extern Integer ifline;
