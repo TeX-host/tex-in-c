@@ -69,10 +69,13 @@ void set_help(UChar k, ...) {
     va_end(ap);
 }
 
+/** @defgroup S54x71 PART 5: ON-LINE AND OFF-LINE PRINTING.
+ * [ p24~29#54~71 ]
+ *
+ * @{
+ */
 
 /*
-    #54. On-line and off-line printing.
-
 # Basic printing procedures[13]:
     [57], [58], [59],   60,   [62],
     [63], [64], [65], [262], [263],
@@ -103,6 +106,7 @@ void term_input(void) {
     println();
     selector++; // restore previous status
 } // #71: term_input
+/** @}*/ // end group S54x71
 
 
 // #262: prints a purported control sequence
@@ -193,17 +197,23 @@ Static void print_write_whatsit(StrNumber s, Pointer p) {
 Static void giveerrhelp(void) { tokenshow(errhelp); }
 
 
+/** @defgroup S71x98 PART 6: REPORTING ERRORS.
+ * 
+ * [#72~98: Reporting errors.]
+ * @{
+ */
+
 /*
  * Error handling procedures
  * 
  * xref[4]: 81, 93, 94, 95, 1304
  */
 
-// #81: goto end of TEX
-// jump out: [81], 82, 84, 93
+/// #81: goto end of TEX.
+/// jump out: [81], 82, 84, 93
 Static void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
 
-// #82:
+/// #82:
 void error(void) {
     ASCIICode c;
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
@@ -374,7 +384,7 @@ void error(void) {
 _Lexit:;
 } // #82: error
 
-// #93
+/// #93
 Static void succumb(void) {
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (log_opened) error();
@@ -385,7 +395,7 @@ Static void succumb(void) {
     jumpout();
 } // #93: succumb
 
-// #93
+/// #93
 void fatalerror(StrNumber s) {
     normalize_selector();
     printnl(S(292));
@@ -395,7 +405,7 @@ void fatalerror(StrNumber s) {
     succumb();
 } // #93: fatalerror
 
-// #94
+/// #94
 void overflow(StrNumber s, Integer n) {
     normalize_selector();
     printnl(S(292));
@@ -408,7 +418,7 @@ void overflow(StrNumber s, Integer n) {
     succumb();
 } // #94: overflow
 
-// #95
+/// #95
 void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
@@ -426,9 +436,6 @@ void confusion(StrNumber s) {
 } // #95: confusion
 
 
-/*
-    #72~98. Reporting errors.
-*/
 /// #91
 void int_error(long n) {
     print(S(303));
@@ -436,6 +443,7 @@ void int_error(long n) {
     print_char(')');
     error();
 }
+
 /// #92
 Static void normalize_selector(void) {
     if (log_opened)
@@ -445,6 +453,7 @@ Static void normalize_selector(void) {
     if (job_name == 0) openlogfile();
     if (interaction == BATCH_MODE) selector--;
 }
+
 /// #98
 void pause_for_instructions(void) {
     if (!OK_to_interrupt) return;
@@ -458,6 +467,7 @@ void pause_for_instructions(void) {
     deletions_allowed = true;
     interrupt = 0;
 }
+/** @}*/ // end group S71x98
 
 
 /// p43#114

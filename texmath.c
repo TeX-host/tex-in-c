@@ -1,5 +1,10 @@
 #include "texmath.h"
 #include "texfunc.h" // [func] print_char, print_int
+
+/** @addtogroup S99x119
+ * @{
+ */
+
 /// [#108]: infinitely bad value
 #define INF_BAD 10000
 
@@ -170,3 +175,5 @@ HalfWord badness(Scaled t, Scaled s) {
         }
     }
 } // #108:badness
+
+/** @}*/ // end group S99x119

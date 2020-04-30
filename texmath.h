@@ -1,6 +1,7 @@
 #pragma once
 #ifndef INC_TEX_MATH
-/** [ p38~41#99~109 ]: PART 7: ARITHMETIC WITH SCALED DIMENSIONS.
+/** @defgroup S99x119 PART 7: ARITHMETIC WITH SCALED DIMENSIONS.
+ * [ p38~41#99~109 ]
  *
  * export:
  *  + Boolean #arith_error
@@ -14,14 +15,14 @@
  *  - HalfWord badness(Scaled t, Scaled s)
  *
  *  - void print_scaled(Scaled s)
- *
+ * @{
  */
 #define INC_TEX_MATH
 #include "tex_types.h"
 
-// #101
-#define UNITY   65536L  ///< 2^16, rep 1.00000
-#define TWO     131072L ///< 2^17, rep 2.00000
+
+#define UNITY 65536L    ///< [#101] 2^16, rep 1.00000
+#define TWO 131072L     ///< [#101] 2^17, rep 2.00000
 
 /// [105] 455, 716, 1240. 
 /// Note:  `07777777777L == 1073741823L`
@@ -29,6 +30,8 @@
 /// [105] 1240.
 /// Note: `017777777777L == 2147483647L`
 #define mult_integers(n, x)     mult_and_add((n), (x),  0,  017777777777L)
+/** @}*/ // end group S99x119
+
 
 extern Boolean arith_error;
 extern Scaled tex_remainder;
