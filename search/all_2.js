@@ -11,7 +11,7 @@ var searchData=
   ['backlist_102',['backlist',['../texmac_8h.html#a18a19cdf5f581d28374b1a7e1b3e8214',1,'texmac.h']]],
   ['backuphead_103',['backuphead',['../tex_8h.html#ae8c3dab73f67111c41552b982bb55abc',1,'tex.h']]],
   ['badfmt_104',['badfmt',['../tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88',1,'tex.h']]],
-  ['badness_105',['badness',['../texmath_8c.html#adb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c'],['../texmath_8h.html#adb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c']]],
+  ['badness_105',['badness',['../group___s99x119.html#gadb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c'],['../group___s99x119.html#gadb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c']]],
   ['badness_5fcode_106',['BADNESS_CODE',['../group___s402x463.html#gab9bfaad38716e16f3da04df382693e72',1,'scan.h']]],
   ['badtfm_107',['badtfm',['../tex_8h.html#a1ac58e8c07a729246fa8b487c167fb99',1,'tex.h']]],
   ['baseline_5fskip_5fcode_108',['BASELINE_SKIP_CODE',['../tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573aa0214616ca1f155e2c5aecfc7b8ae337',1,'tex_constant.h']]],

@@ -73,7 +73,7 @@ var searchData=
   ['appendtoname_76',['appendtoname',['../tex_8c.html#ac1ebcced964c2b9f21c33cbc86776aaa',1,'tex.c']]],
   ['appendtovlist_77',['appendtovlist',['../tex_8c.html#a0f1e7ed5366d4fa91828f5c85c662777',1,'tex.c']]],
   ['appspace_78',['appspace',['../tex_8c.html#ab304f9ab24e1b4af7b2b4b14d73b2cfb',1,'tex.c']]],
-  ['arith_5ferror_79',['arith_error',['../texmath_8c.html#a65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c'],['../texmath_8h.html#a65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c']]],
+  ['arith_5ferror_79',['arith_error',['../group___s99x119.html#ga65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c'],['../group___s99x119.html#ga65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c']]],
   ['asciicode_80',['ASCIICode',['../tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7',1,'tex_types.h']]],
   ['assigndimen_81',['assigndimen',['../tex_8h.html#a4e961996c43017df2afe497e78a883bf',1,'tex.h']]],
   ['assignfontdimen_82',['assignfontdimen',['../tex_8h.html#aed826b9d7d39f49c1b480cdf241284e2',1,'tex.h']]],
@@ -85,7 +85,7 @@ var searchData=
   ['atopcode_88',['atopcode',['../tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5',1,'tex.h']]],
   ['aux_89',['aux',['../texmac_8h.html#af64f873e88910c59b686d2c252e5af96',1,'texmac.h']]],
   ['auxfield_90',['auxfield',['../struct_list_state_record.html#acfcaeb83c745064a1a6908a5f44b7bb6',1,'ListStateRecord']]],
-  ['avail_91',['avail',['../global_8h.html#ab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h'],['../tex__header_8h.html#ab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h']]],
+  ['avail_91',['avail',['../group___s115x132.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h'],['../group___s115x132.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h']]],
   ['awfulbad_92',['awfulbad',['../tex_8h.html#afb8d08b641bc03250576f3f8ada33d23',1,'tex.h']]],
   ['axisheight_93',['axisheight',['../texmac_8h.html#a413170ded90a3fa13de732cc07f73b65',1,'texmac.h']]]
 ];

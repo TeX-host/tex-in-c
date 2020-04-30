@@ -39,7 +39,7 @@ var searchData=
   ['outwhat_1296',['outwhat',['../tex_8c.html#a86e0b4a9cf091b8e2e05e6690c556fff',1,'tex.c']]],
   ['overbar_1297',['overbar',['../tex_8c.html#a1d61a094479d17cfe111196017db18ec',1,'tex.c']]],
   ['overcode_1298',['overcode',['../tex_8h.html#ad992180e8440d788ce5e609d93ad2996',1,'tex.h']]],
-  ['overflow_1299',['overflow',['../tex_8c.html#af3d29a884e6c439304ba6e4426a1f9bf',1,'overflow(StrNumber s, Integer n):&#160;tex.c'],['../texfunc_8h.html#af3d29a884e6c439304ba6e4426a1f9bf',1,'overflow(StrNumber s, Integer n):&#160;tex.c']]],
+  ['overflow_1299',['overflow',['../group___s71x98.html#gaf3d29a884e6c439304ba6e4426a1f9bf',1,'overflow(StrNumber s, Integer n):&#160;tex.c'],['../group___s71x98.html#gaf3d29a884e6c439304ba6e4426a1f9bf',1,'overflow(StrNumber s, Integer n):&#160;tex.c']]],
   ['overfullrule_1300',['overfullrule',['../texmac_8h.html#ab7558380c9b01b4a70d6cccb3adf1632',1,'texmac.h']]],
   ['overfullrulecode_1301',['overfullrulecode',['../tex__constant_8h.html#a8ff17b6afac8a3f24b743e19f1c576eea4c29790782bd67f2918bf7156eaabd46',1,'tex_constant.h']]],
   ['overnoad_1302',['overnoad',['../tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3a7296c8650c2fdef9058d52ed5ce47deb',1,'tex_constant.h']]]

@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: PART 7: ARITHMETIC WITH SCALED DIMENSIONS.</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group___s99x119.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">PART 7: ARITHMETIC WITH SCALED DIMENSIONS.</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>[ p38~41#99~109 ]  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:ga539a2643ee8399d71d80da3fff4e2e70"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga539a2643ee8399d71d80da3fff4e2e70">INF_BAD</a>&#160;&#160;&#160;10000</td></tr>
+<tr class="memdesc:ga539a2643ee8399d71d80da3fff4e2e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#108]: infinitely bad value  <a href="group___s99x119.html#ga539a2643ee8399d71d80da3fff4e2e70">更多...</a><br /></td></tr>
+<tr class="separator:ga539a2643ee8399d71d80da3fff4e2e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4f4558a7d468e4d0cc9a99a8ab21168f"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga4f4558a7d468e4d0cc9a99a8ab21168f">INC_TEX_MATH</a></td></tr>
+<tr class="separator:ga4f4558a7d468e4d0cc9a99a8ab21168f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae8e6dc0c42ccacb112eb4b836357f991"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#gae8e6dc0c42ccacb112eb4b836357f991">UNITY</a>&#160;&#160;&#160;65536L</td></tr>
+<tr class="memdesc:gae8e6dc0c42ccacb112eb4b836357f991"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#101] 2^16, rep 1.00000  <a href="group___s99x119.html#gae8e6dc0c42ccacb112eb4b836357f991">更多...</a><br /></td></tr>
+<tr class="separator:gae8e6dc0c42ccacb112eb4b836357f991"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga888e15353eb3d330c743dbdeb47117e2"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga888e15353eb3d330c743dbdeb47117e2">TWO</a>&#160;&#160;&#160;131072L</td></tr>
+<tr class="memdesc:ga888e15353eb3d330c743dbdeb47117e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#101] 2^17, rep 2.00000  <a href="group___s99x119.html#ga888e15353eb3d330c743dbdeb47117e2">更多...</a><br /></td></tr>
+<tr class="separator:ga888e15353eb3d330c743dbdeb47117e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga660acb7aecae0e7a286c8387d46eac02"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga660acb7aecae0e7a286c8387d46eac02">nx_plus_y</a>(n,  x,  y)&#160;&#160;&#160;<a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">mult_and_add</a>((n), (x), (y),  07777777777L)</td></tr>
+<tr class="memdesc:ga660acb7aecae0e7a286c8387d46eac02"><td class="mdescLeft">&#160;</td><td class="mdescRight">[105] 455, 716, 1240.  <a href="group___s99x119.html#ga660acb7aecae0e7a286c8387d46eac02">更多...</a><br /></td></tr>
+<tr class="separator:ga660acb7aecae0e7a286c8387d46eac02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga760113805e0674644aed3bd4972cb997"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga760113805e0674644aed3bd4972cb997">mult_integers</a>(n,  x)&#160;&#160;&#160;<a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">mult_and_add</a>((n), (x),  0,  017777777777L)</td></tr>
+<tr class="memdesc:ga760113805e0674644aed3bd4972cb997"><td class="mdescLeft">&#160;</td><td class="mdescRight">[105] 1240.  <a href="group___s99x119.html#ga760113805e0674644aed3bd4972cb997">更多...</a><br /></td></tr>
+<tr class="separator:ga760113805e0674644aed3bd4972cb997"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga6c2ac4c8f4613a28ebc7b86cc561293d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga6c2ac4c8f4613a28ebc7b86cc561293d">half</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> x)</td></tr>
+<tr class="memdesc:ga6c2ac4c8f4613a28ebc7b86cc561293d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#100] 整除 2  <a href="group___s99x119.html#ga6c2ac4c8f4613a28ebc7b86cc561293d">更多...</a><br /></td></tr>
+<tr class="separator:ga6c2ac4c8f4613a28ebc7b86cc561293d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab8eba113baa6ca8efe3a98f28e53bbea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#gab8eba113baa6ca8efe3a98f28e53bbea">round_decimals</a> (<a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> k, char digs[])</td></tr>
+<tr class="memdesc:gab8eba113baa6ca8efe3a98f28e53bbea"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#102]: create a scaled integer from a given decimal fraction.  <a href="group___s99x119.html#gab8eba113baa6ca8efe3a98f28e53bbea">更多...</a><br /></td></tr>
+<tr class="separator:gab8eba113baa6ca8efe3a98f28e53bbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae2543995cfa97538bb56d49121091d2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#gae2543995cfa97538bb56d49121091d2c">print_scaled</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> s)</td></tr>
+<tr class="memdesc:gae2543995cfa97538bb56d49121091d2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#103]: prints scaled real, rounded to five digits  <a href="group___s99x119.html#gae2543995cfa97538bb56d49121091d2c">更多...</a><br /></td></tr>
+<tr class="separator:gae2543995cfa97538bb56d49121091d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadea6ca6cc579592807c52802b8820c39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">mult_and_add</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> y, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> max_ans)</td></tr>
+<tr class="memdesc:gadea6ca6cc579592807c52802b8820c39"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#105]: return <code>nx + y</code>  <a href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">更多...</a><br /></td></tr>
+<tr class="separator:gadea6ca6cc579592807c52802b8820c39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2dafa71ac1ef3f6b4b985fc54f818516"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga2dafa71ac1ef3f6b4b985fc54f818516">x_over_n</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n)</td></tr>
+<tr class="memdesc:ga2dafa71ac1ef3f6b4b985fc54f818516"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#106]: <code>x / n</code>  <a href="group___s99x119.html#ga2dafa71ac1ef3f6b4b985fc54f818516">更多...</a><br /></td></tr>
+<tr class="separator:ga2dafa71ac1ef3f6b4b985fc54f818516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96d9687c9a4fddb08d146e72b22df1c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga96d9687c9a4fddb08d146e72b22df1c9">xn_over_d</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x, <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n, <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> d)</td></tr>
+<tr class="memdesc:ga96d9687c9a4fddb08d146e72b22df1c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#107]: <code>x * (n / d)</code>  <a href="group___s99x119.html#ga96d9687c9a4fddb08d146e72b22df1c9">更多...</a><br /></td></tr>
+<tr class="separator:ga96d9687c9a4fddb08d146e72b22df1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadb0743119eba9fc49e4f03b586ae1bf7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#gadb0743119eba9fc49e4f03b586ae1bf7">badness</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> t, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> s)</td></tr>
+<tr class="memdesc:gadb0743119eba9fc49e4f03b586ae1bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#108]: compute the “badness” of glue.  <a href="group___s99x119.html#gadb0743119eba9fc49e4f03b586ae1bf7">更多...</a><br /></td></tr>
+<tr class="separator:gadb0743119eba9fc49e4f03b586ae1bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga65aaf598f8090d4021f27374765fa642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga65aaf598f8090d4021f27374765fa642">arith_error</a> = false</td></tr>
+<tr class="memdesc:ga65aaf598f8090d4021f27374765fa642"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#104] has arithmetic overflow occurred recently?  <a href="group___s99x119.html#ga65aaf598f8090d4021f27374765fa642">更多...</a><br /></td></tr>
+<tr class="separator:ga65aaf598f8090d4021f27374765fa642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7300ff42f54cddf76d68ff4285b77959"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s99x119.html#ga7300ff42f54cddf76d68ff4285b77959">tex_remainder</a> = 0</td></tr>
+<tr class="memdesc:ga7300ff42f54cddf76d68ff4285b77959"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#104] amount subtracted to get an exact division  <a href="group___s99x119.html#ga7300ff42f54cddf76d68ff4285b77959">更多...</a><br /></td></tr>
+<tr class="separator:ga7300ff42f54cddf76d68ff4285b77959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>[ p38~41#99~109 ] </p>
+<p>export:</p><ul>
+<li>Boolean <a class="el" href="group___s99x119.html#ga65aaf598f8090d4021f27374765fa642" title="[#104] has arithmetic overflow occurred recently?">arith_error</a></li>
+<li>Scaled <a class="el" href="group___s99x119.html#ga7300ff42f54cddf76d68ff4285b77959" title="[#104] amount subtracted to get an exact division">tex_remainder</a></li>
+<li>Integer <a class="el" href="group___s99x119.html#ga6c2ac4c8f4613a28ebc7b86cc561293d" title="[#100] 整除 2">half(Integer x)</a></li>
+<li>Scaled <a class="el" href="group___s99x119.html#gab8eba113baa6ca8efe3a98f28e53bbea" title="[#102]: create a scaled integer from a given decimal fraction.">round_decimals(SmallNumber k, char digs[])</a></li>
+<li>Scaled <a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39" title="[#105]: return nx + y">mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans)</a></li>
+<li>Scaled <a class="el" href="group___s99x119.html#ga2dafa71ac1ef3f6b4b985fc54f818516" title="[#106]: x / n">x_over_n(Scaled x, Integer n)</a></li>
+<li>Scaled <a class="el" href="group___s99x119.html#ga96d9687c9a4fddb08d146e72b22df1c9" title="[#107]: x * (n / d)">xn_over_d(Scaled x, Integer n, Integer d)</a></li>
+<li>HalfWord <a class="el" href="group___s99x119.html#gadb0743119eba9fc49e4f03b586ae1bf7" title="[#108]: compute the “badness” of glue.">badness(Scaled t, Scaled s)</a></li>
+<li>void <a class="el" href="group___s99x119.html#gae2543995cfa97538bb56d49121091d2c" title="[#103]: prints scaled real, rounded to five digits">print_scaled(Scaled s)</a> </li>
+</ul>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ga4f4558a7d468e4d0cc9a99a8ab21168f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4f4558a7d468e4d0cc9a99a8ab21168f">&#9670;&nbsp;</a></span>INC_TEX_MATH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> INC_TEX_MATH</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga539a2643ee8399d71d80da3fff4e2e70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga539a2643ee8399d71d80da3fff4e2e70">&#9670;&nbsp;</a></span>INF_BAD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> INF_BAD&#160;&#160;&#160;10000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#108]: infinitely bad value </p>
+
+</div>
+</div>
+<a id="ga760113805e0674644aed3bd4972cb997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga760113805e0674644aed3bd4972cb997">&#9670;&nbsp;</a></span>mult_integers</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> mult_integers</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">n, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">mult_and_add</a>((n), (x),  0,  017777777777L)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[105] 1240. </p>
+<p>Note: <code>017777777777L == 2147483647L</code> </p>
+
+</div>
+</div>
+<a id="ga660acb7aecae0e7a286c8387d46eac02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga660acb7aecae0e7a286c8387d46eac02">&#9670;&nbsp;</a></span>nx_plus_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> nx_plus_y</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">n, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group___s99x119.html#gadea6ca6cc579592807c52802b8820c39">mult_and_add</a>((n), (x), (y),  07777777777L)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[105] 455, 716, 1240. </p>
+<p>Note: <code>07777777777L == 1073741823L</code> </p>
+
+</div>
+</div>
+<a id="ga888e15353eb3d330c743dbdeb47117e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga888e15353eb3d330c743dbdeb47117e2">&#9670;&nbsp;</a></span>TWO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> TWO&#160;&#160;&#160;131072L</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#101] 2^17, rep 2.00000 </p>
+
+</div>
+</div>
+<a id="gae8e6dc0c42ccacb112eb4b836357f991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae8e6dc0c42ccacb112eb4b836357f991">&#9670;&nbsp;</a></span>UNITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> UNITY&#160;&#160;&#160;65536L</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#101] 2^16, rep 1.00000 </p>
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="gadb0743119eba9fc49e4f03b586ae1bf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadb0743119eba9fc49e4f03b586ae1bf7">&#9670;&nbsp;</a></span>badness()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> badness </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#108]: compute the “badness” of glue. </p>
+<p>given t &gt;= 0 when a total t is supposed to be made from amounts that sum to s.</p>
+<ul>
+<li>badness = 100 * (t/s)^3</li>
+<li>badness(t + 1,s) ≥ badness(t,s) ≥ badness(t,s + 1) </li>
+</ul>
+
+</div>
+</div>
+<a id="ga6c2ac4c8f4613a28ebc7b86cc561293d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c2ac4c8f4613a28ebc7b86cc561293d">&#9670;&nbsp;</a></span>half()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> half </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#100] 整除 2 </p>
+
+</div>
+</div>
+<a id="gadea6ca6cc579592807c52802b8820c39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadea6ca6cc579592807c52802b8820c39">&#9670;&nbsp;</a></span>mult_and_add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> mult_and_add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>max_ans</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#105]: return <code>nx + y</code> </p>
+
+</div>
+</div>
+<a id="gae2543995cfa97538bb56d49121091d2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2543995cfa97538bb56d49121091d2c">&#9670;&nbsp;</a></span>print_scaled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_scaled </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#103]: prints scaled real, rounded to five digits </p>
+
+</div>
+</div>
+<a id="gab8eba113baa6ca8efe3a98f28e53bbea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab8eba113baa6ca8efe3a98f28e53bbea">&#9670;&nbsp;</a></span>round_decimals()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> round_decimals </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>digs</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#102]: create a scaled integer from a given decimal fraction. </p>
+<p>{ dig[i], | i = k-1, 0 ≤ k ≤ 17 } </p>
+
+</div>
+</div>
+<a id="ga2dafa71ac1ef3f6b4b985fc54f818516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2dafa71ac1ef3f6b4b985fc54f818516">&#9670;&nbsp;</a></span>x_over_n()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> x_over_n </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#106]: <code>x / n</code> </p>
+
+</div>
+</div>
+<a id="ga96d9687c9a4fddb08d146e72b22df1c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga96d9687c9a4fddb08d146e72b22df1c9">&#9670;&nbsp;</a></span>xn_over_d()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> xn_over_d </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#107]: <code>x * (n / d)</code> </p>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="ga65aaf598f8090d4021f27374765fa642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga65aaf598f8090d4021f27374765fa642">&#9670;&nbsp;</a></span>arith_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> arith_error = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#104] has arithmetic overflow occurred recently? </p>
+
+</div>
+</div>
+<a id="ga7300ff42f54cddf76d68ff4285b77959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7300ff42f54cddf76d68ff4285b77959">&#9670;&nbsp;</a></span>tex_remainder</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> tex_remainder = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#104] amount subtracted to get an exact division </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

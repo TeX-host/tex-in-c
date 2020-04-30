@@ -53,7 +53,7 @@ var searchData=
   ['conditionprimitives_227',['ConditionPrimitives',['../group___s487x510.html#ga3dbefe2dcd01e7607e10d1b9219543a7',1,'expand.h']]],
   ['condmathglue_228',['condmathglue',['../tex_8h.html#aa0e91ce5c419c9d9fcbc6d2d9a7537d5',1,'tex.h']]],
   ['condptr_229',['condptr',['../group___s487x510.html#ga5ede6a005c4e923dabd35b8a41710157',1,'condptr():&#160;expand.c'],['../group___s487x510.html#ga5ede6a005c4e923dabd35b8a41710157',1,'condptr():&#160;expand.c'],['../group___s487x510.html#ga5ede6a005c4e923dabd35b8a41710157',1,'condptr():&#160;expand.c']]],
-  ['confusion_230',['confusion',['../tex_8c.html#ad648827d6f28ef0ba71b95015432d4b6',1,'confusion(StrNumber s):&#160;tex.c'],['../texfunc_8h.html#ad648827d6f28ef0ba71b95015432d4b6',1,'confusion(StrNumber s):&#160;tex.c']]],
+  ['confusion_230',['confusion',['../group___s71x98.html#gad648827d6f28ef0ba71b95015432d4b6',1,'confusion(StrNumber s):&#160;tex.c'],['../group___s71x98.html#gad648827d6f28ef0ba71b95015432d4b6',1,'confusion(StrNumber s):&#160;tex.c']]],
   ['continental_5fpoint_5ftoken_231',['CONTINENTAL_POINT_TOKEN',['../group___s402x463.html#gaef423d7771062490f80ec18b089b6ca8',1,'scan.c']]],
   ['contribhead_232',['contribhead',['../tex_8h.html#acc1a5fa2458558f242c7ac41ae179ec5',1,'tex.h']]],
   ['contribtail_233',['contribtail',['../texmac_8h.html#ad6af7673c275436c559ad43a11df8ecf',1,'texmac.h']]],

@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: PART 8: PACKED DATA</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group___s110x114.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#typedef-members">类型定义</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">PART 8: PACKED DATA</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>[ p41~43 ]  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_two_halves.html">TwoHalves</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="struct_two_halves.html" title="[p43#113]: TwoHalves(64) .">TwoHalves(64)</a> .  <a href="struct_two_halves.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_four_quarters.html">FourQuarters</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="struct_four_quarters.html" title="[p43#113]: FourQuarters(64) .">FourQuarters(64)</a> .  <a href="struct_four_quarters.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">union &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="union_memory_word.html">MemoryWord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <a class="el" href="union_memory_word.html" title="[p43#113]: MemoryWord(64) .">MemoryWord(64)</a> .  <a href="union_memory_word.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:ga85ed85b9020e3e3b237ff38c897b6c27"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga85ed85b9020e3e3b237ff38c897b6c27">MIN_QUARTER_WORD</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ga85ed85b9020e3e3b237ff38c897b6c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#110]: smallest allowable value in a <a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe" title="[p43#113]: QuarterWord(8=&gt;16) .">QuarterWord</a>.  <a href="group___s110x114.html#ga85ed85b9020e3e3b237ff38c897b6c27">更多...</a><br /></td></tr>
+<tr class="separator:ga85ed85b9020e3e3b237ff38c897b6c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga19ea000919b78a718d0a6ce48971f947"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga19ea000919b78a718d0a6ce48971f947">MAX_QUARTER_WORD</a>&#160;&#160;&#160;255</td></tr>
+<tr class="memdesc:ga19ea000919b78a718d0a6ce48971f947"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#110]: largest allowable value in a <a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe" title="[p43#113]: QuarterWord(8=&gt;16) .">QuarterWord</a>.  <a href="group___s110x114.html#ga19ea000919b78a718d0a6ce48971f947">更多...</a><br /></td></tr>
+<tr class="separator:ga19ea000919b78a718d0a6ce48971f947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6ee4d13135099c571dcddbe409fecf5c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga6ee4d13135099c571dcddbe409fecf5c">MIN_HALF_WORD</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ga6ee4d13135099c571dcddbe409fecf5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#110]: smallest allowable value in a <a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a" title="[p43#113]: HalfWord(16=&gt;32) .">HalfWord</a>.  <a href="group___s110x114.html#ga6ee4d13135099c571dcddbe409fecf5c">更多...</a><br /></td></tr>
+<tr class="separator:ga6ee4d13135099c571dcddbe409fecf5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6f26beaf9aba8aa94d967e3b06ef7983"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga6f26beaf9aba8aa94d967e3b06ef7983">MAX_HALF_WORD</a>&#160;&#160;&#160;655350000L</td></tr>
+<tr class="memdesc:ga6f26beaf9aba8aa94d967e3b06ef7983"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#110]: largest allowable value in a <a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a" title="[p43#113]: HalfWord(16=&gt;32) .">HalfWord</a>.  <a href="group___s110x114.html#ga6f26beaf9aba8aa94d967e3b06ef7983">更多...</a><br /></td></tr>
+<tr class="separator:ga6f26beaf9aba8aa94d967e3b06ef7983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+类型定义</h2></td></tr>
+<tr class="memitem:ga822fdaa4ebe79f27c8d991278c23b1fe"><td class="memItemLeft" align="right" valign="top">typedef uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a></td></tr>
+<tr class="memdesc:ga822fdaa4ebe79f27c8d991278c23b1fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <code>QuarterWord(8=&gt;16)</code> .  <a href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe">更多...</a><br /></td></tr>
+<tr class="separator:ga822fdaa4ebe79f27c8d991278c23b1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8a834ed7aca6d10c5906b333ecd4a2a"><td class="memItemLeft" align="right" valign="top">typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></td></tr>
+<tr class="memdesc:gaa8a834ed7aca6d10c5906b333ecd4a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p43#113]: <code>HalfWord(16=&gt;32)</code> .  <a href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">更多...</a><br /></td></tr>
+<tr class="separator:gaa8a834ed7aca6d10c5906b333ecd4a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga2f47cc5825b64f1850870bb819ecbf8b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s110x114.html#ga2f47cc5825b64f1850870bb819ecbf8b">printword</a> (<a class="el" href="union_memory_word.html">MemoryWord</a> w)</td></tr>
+<tr class="memdesc:ga2f47cc5825b64f1850870bb819ecbf8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">p43#114  <a href="group___s110x114.html#ga2f47cc5825b64f1850870bb819ecbf8b">更多...</a><br /></td></tr>
+<tr class="separator:ga2f47cc5825b64f1850870bb819ecbf8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>[ p41~43 ] </p>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ga6f26beaf9aba8aa94d967e3b06ef7983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f26beaf9aba8aa94d967e3b06ef7983">&#9670;&nbsp;</a></span>MAX_HALF_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MAX_HALF_WORD&#160;&#160;&#160;655350000L</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#110]: largest allowable value in a <a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a" title="[p43#113]: HalfWord(16=&gt;32) .">HalfWord</a>. </p>
+<p>1/2 word = (16bit)[0, 65535] mutst &gt; 65535 (2^16-1) </p>
+
+</div>
+</div>
+<a id="ga19ea000919b78a718d0a6ce48971f947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga19ea000919b78a718d0a6ce48971f947">&#9670;&nbsp;</a></span>MAX_QUARTER_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MAX_QUARTER_WORD&#160;&#160;&#160;255</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#110]: largest allowable value in a <a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe" title="[p43#113]: QuarterWord(8=&gt;16) .">QuarterWord</a>. </p>
+<p>1/4 word = (8bit)[0, 255] </p>
+
+</div>
+</div>
+<a id="ga6ee4d13135099c571dcddbe409fecf5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6ee4d13135099c571dcddbe409fecf5c">&#9670;&nbsp;</a></span>MIN_HALF_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MIN_HALF_WORD&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#110]: smallest allowable value in a <a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a" title="[p43#113]: HalfWord(16=&gt;32) .">HalfWord</a>. </p>
+
+</div>
+</div>
+<a id="ga85ed85b9020e3e3b237ff38c897b6c27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga85ed85b9020e3e3b237ff38c897b6c27">&#9670;&nbsp;</a></span>MIN_QUARTER_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MIN_QUARTER_WORD&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#110]: smallest allowable value in a <a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe" title="[p43#113]: QuarterWord(8=&gt;16) .">QuarterWord</a>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">类型定义说明</h2>
+<a id="gaa8a834ed7aca6d10c5906b333ecd4a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa8a834ed7aca6d10c5906b333ecd4a2a">&#9670;&nbsp;</a></span>HalfWord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint32_t <a class="el" href="group___s110x114.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p43#113]: <code>HalfWord(16=&gt;32)</code> . </p>
+
+</div>
+</div>
+<a id="ga822fdaa4ebe79f27c8d991278c23b1fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga822fdaa4ebe79f27c8d991278c23b1fe">&#9670;&nbsp;</a></span>QuarterWord</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef uint16_t <a class="el" href="group___s110x114.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p43#113]: <code>QuarterWord(8=&gt;16)</code> . </p>
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="ga2f47cc5825b64f1850870bb819ecbf8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2f47cc5825b64f1850870bb819ecbf8b">&#9670;&nbsp;</a></span>printword()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void printword </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="union_memory_word.html">MemoryWord</a>&#160;</td>
+          <td class="paramname"><em>w</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>p43#114 </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>
