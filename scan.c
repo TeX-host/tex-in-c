@@ -13,8 +13,7 @@
 #include "printout.h" // [func] printcmdchr
 #include "scan.h"
 
-/** @defgroup S402x463 PART 26: BASIC SCANNING SUBROUTINES
- * [ #402~463 ]
+/** @addtogroup S402x463_P155x173
  *
  * + #scan_left_brace
  * + #scan_optional_equals
@@ -1027,4 +1026,4 @@ _LN_scanrulespec__reswitch:
     goto _LN_scanrulespec__reswitch;
 } // [#463] scan_rule_spec
 
-/** @}*/ // end group S402x463
+/** @}*/ // end group S402x463_P155x173

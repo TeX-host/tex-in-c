@@ -2,18 +2,19 @@
 #ifndef INC_LEXER_H
 /** PART 20~24: lexer.
  *
- *  + @ref S289x296 "PART 20: TOKEN LISTS"
- *  + @ref S297x299 "PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES"
- *  + @ref S300x320 "PART 22: INPUT STACKS AND STATES"
- *  + @ref S321x331 "PART 23: MAINTAINING THE INPUT STACKS"
- *  + @ref S332x365 "PART 24: GETTING THE NEXT TOKEN"
+ *  + @ref S289x296_P115x118 "PART 20: TOKEN LISTS"
+ *  + @ref S297x299_P119x120 "PART 21: INTRODUCTION TO THE SYNTACTIC
+ * ROUTINES"
+ *  + @ref S300x320_P121x130 "PART 22: INPUT STACKS AND STATES"
+ *  + @ref S321x331_P131x133 "PART 23: MAINTAINING THE INPUT STACKS"
+ *  + @ref S332x365_P134x143 "PART 24: GETTING THE NEXT TOKEN"
  */
 #define INC_LEXER_H
 #include <stdio.h>
 #include "tex.h" // [macro] dwa_do_8
 
 
-/** @addtogroup S289x296
+/** @addtogroup S289x296_P115x118
  *  @{
  */
 
@@ -36,10 +37,10 @@
 #define othertoken      (dwa_do_8 * OTHER_CHAR)
 #define matchtoken      (dwa_do_8 * match)
 #define endmatchtoken   (dwa_do_8 * endmatch)
-/** @}*/ // end group S289x296
+/** @}*/ // end group S289x296_P115x118
 
 
-/** @addtogroup S300x320
+/** @addtogroup S300x320_P121x130
  *  @{
  */
 
@@ -131,7 +132,7 @@ enum TokenType {
 #define token_type  IINDEX 
 /// [p125#307] base of macro parameters in paramstack.
 #define param_start LIMIT
-/** @}*/ // end group S300x320
+/** @}*/ // end group S300x320_P121x130
 
 
 extern EightBits curcmd;

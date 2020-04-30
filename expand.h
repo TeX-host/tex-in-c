@@ -2,14 +2,14 @@
 #ifndef INC_EXPAND_H
 /** expand .
  *
- * + @ref S366x401 "PART 25: EXPANDING THE NEXT TOKEN"
- * + @ref S464x486 "PART 27: BUILDING TOKEN LISTS"
- * + @ref S487x510 "PART 28: CONDITIONAL PROCESSING"
+ * + @ref S366x401_P144x154 "PART 25: EXPANDING THE NEXT TOKEN"
+ * + @ref S464x486_P174x180 "PART 27: BUILDING TOKEN LISTS"
+ * + @ref S487x510_P181x187 "PART 28: CONDITIONAL PROCESSING"
  */
 #define INC_EXPAND_H
 
 
-/** @addtogroup S487x510
+/** @addtogroup S487x510_P181x187
  * @{
  */
 
@@ -45,7 +45,7 @@ enum IfCode {
     orcode,     ///< code for `\or`
 }; // [#489] enum IfCode
 
-/** @} */ // end group S487x510
+/** @} */ // end group S487x510_P181x187
 
 
 extern Pointer condptr;

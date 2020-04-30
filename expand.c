@@ -13,7 +13,7 @@
 #include "scan.h"     // [func] scan_eight_bit_int
 #include "expand.h"
 
-/** @addtogroup S487x510
+/** @addtogroup S487x510_P181x187
  * @{
  */
 
@@ -28,8 +28,8 @@ Integer ifline;
 
 /// [#493] skipping began here
 Integer skipline;
+/** @} */ // end group S487x510_P181x187
 
-/** @} */ // end group S487x510
 
 /// [#387] governs the acceptance of `\par` .
 char longstate;
@@ -40,17 +40,16 @@ static void convtoks(void);
 static void insthetoks(void);
 
 
-/** @defgroup S366x401 PART 25: EXPANDING THE NEXT TOKEN
- * [ p144~155#366~401 ]
+/** @addtogroup S366x401_P144x154
  *
  * + #expand
  * + #insertrelax
  * + #get_x_token
  * + #xtoken
  * + #macrocall
- * 
+ *
  * + #startinput
- * 
+ *
  * @{
  */
 
@@ -475,13 +474,12 @@ void xtoken(void) {
         getnext();
     }
     curtok = pack_tok(curcs, curcmd, curchr);
-} // [#381] 
+} // [#381]
 
-/** @} */ // end group S366x401
+/** @} */ // end group S366x401_P144x154
 
 
-/** @addtogroup S464x486 PART 27: BUILDING TOKEN LISTS
- * 
+/** @addtogroup S464x486_P174x180
  * @{
  */
 
@@ -556,11 +554,10 @@ static void convtoks(void) {
     link(garbage) = strtoks(b);
     inslist(link(temphead));
 } // [#470] convtoks
-/** @} */ // end group S464x486
+/** @} */ // end group S464x486_P174x180
 
 
-/** @defgroup S487x510 PART 28: CONDITIONAL PROCESSING
- * [ p181~187#487~510 ]
+/** @addtogroup S487x510_P181x187
  *
  * + #passtext
  * + #conditional

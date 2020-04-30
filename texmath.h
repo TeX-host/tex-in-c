@@ -1,7 +1,7 @@
 #pragma once
 #ifndef INC_TEX_MATH
-/** @defgroup S99x119 PART 7: ARITHMETIC WITH SCALED DIMENSIONS.
- * [ p38~41#99~109 ]
+// PART 7: ARITHMETIC WITH SCALED DIMENSIONS.
+/** @addtogroup S99x109_P38x41 
  *
  * export:
  *  + Boolean #arith_error
@@ -30,7 +30,7 @@
 /// [105] 1240.
 /// Note: `017777777777L == 2147483647L`
 #define mult_integers(n, x)     mult_and_add((n), (x),  0,  017777777777L)
-/** @}*/ // end group S99x119
+/** @}*/ // end group S99x109_P38x41
 
 
 extern Boolean arith_error;

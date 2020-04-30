@@ -1,7 +1,7 @@
 #include "texmath.h"
 #include "texfunc.h" // [func] print_char, print_int
 
-/** @addtogroup S99x119
+/** @addtogroup S99x109_P38x41
  * @{
  */
 
@@ -176,4 +176,4 @@ HalfWord badness(Scaled t, Scaled s) {
     }
 } // #108:badness
 
-/** @}*/ // end group S99x119
+/** @}*/ // end group S99x109_P38x41

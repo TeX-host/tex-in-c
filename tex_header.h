@@ -109,7 +109,7 @@ Static Boolean use_err_help;   // should the `errhelp` list be shown?
 Integer interrupt;       // should TeX pause for instructions?
 Boolean OK_to_interrupt; // should interrupts be observed?
 
-/** @addtogroup S115x132
+/** @addtogroup S115x132_P44x49
  * @{
  */
 
@@ -121,10 +121,10 @@ Integer var_used, dyn_used; ///< [#117] how much memory is in use.
 Pointer avail;    ///< [#118] head of the list of available one-word nodes.
 Pointer mem_end;  ///< [#118] the last one-word node used in mem.
 Static Pointer rover; ///< [#124] points to some node in the list of empties.
-/** @}*/ // end group S115x132
+/** @}*/ // end group S115x132_P44x49
 
 
-/** @addtogroup S162x172
+/** @addtogroup S162x172_P58x61
  * @{
  */
 
@@ -140,10 +140,10 @@ Static Pointer was_mem_end, was_lo_max, was_hi_min;
 /// [#165] do we want to check memory constantly?
 Static Boolean panicking; 
 #endif // #165: tt_DEBUG
-/** @}*/ // end group S162x172
+/** @}*/ // end group S162x172_P58x61
 
 
-/** @addtogroup S173x198
+/** @addtogroup S173x198_P62x68
  * @{
  */
 
@@ -153,7 +153,7 @@ Static Integer font_in_short_display;
 Static Integer depth_threshold;
 /// [#181] maximum number of items shown at the same list level.
 Static Integer breadth_max;
-/** @}*/ // end group S173x198
+/** @}*/ // end group S173x198_P62x68
 
 
 /// [ #211~219: PART 16: THE SEMANTIC NEST ]

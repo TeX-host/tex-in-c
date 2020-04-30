@@ -9,7 +9,7 @@
 #include "expand.h"     // [var] longstate
 #include "lexer.h"
 
-/** @addtogroup S300x320
+/** @addtogroup S300x320_P121x130
  *  @{
  */
 
@@ -21,11 +21,10 @@
      trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
      ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
 
-/** @}*/ // end group S300x320
+/** @}*/ // end group S300x320_P121x130
 
 
-/** @defgroup S297x299 PART 21: INTRODUCTION TO THE SYNTACTIC ROUTINES.
- * [ p115#289~299 ]
+/** @addtogroup S297x299_P119x120
  *  @{
  */
 
@@ -40,11 +39,10 @@ HalfWord curchr;
 Pointer curcs;
 /// [#297]: packed representative of `curcmd` and `curchr`.
 HalfWord curtok;
-/** @}*/ // end group S297x299
+/** @}*/ // end group S297x299_P119x120
 
 
-/** @defgroup S300x320 PART 22: INPUT STACKS AND STATES
- * [ #300~320 ]
+/** @addtogroup S300x320_P121x130
  *  @{
  */
 
@@ -97,7 +95,7 @@ Integer align_state;
 /// [#310] shallowest level shown by show context.
 /// xref[only tex.c]: #error
 UChar baseptr;
-/** @}*/ // end group S300x320
+/** @}*/ // end group S300x320_P121x130
 
 
 // 辅助函数
@@ -129,8 +127,7 @@ static Boolean initterminal(void) {
 } // [#37] initterminal
 
 
-/** @defgroup S289x296 PART 20: TOKEN LISTS
- * [ #289~296 ].
+/** @addtogroup S289x296_P115x118
  *
  * + #showtokenlist
  * + #tokenshow
@@ -238,10 +235,10 @@ void printmeaning(int cur_chr, int cur_cmd) {
     println();
     tokenshow(curmark[cur_chr - topmarkcode]);
 } // [#296] printmeaning
-/** @}*/ // end group S289x296
+/** @}*/ // end group S289x296_P115x118
 
 
-/** @addtogroup S297x299
+/** @addtogroup S297x299_P119x120
  * + #printcmdchr 放在 printout.c 中
  * + #showcurcmdchr
  * @{
@@ -259,11 +256,11 @@ void showcurcmdchr(void) {
     printcmdchr(curcmd, curchr);
     print_char('}');
     enddiagnostic(false);
-} /// [#299] showcurcmdchr
-/** @}*/ // end group S297x299
+} // [#299] showcurcmdchr
+/** @}*/ // end group S297x299_P119x120
 
 
-/** @addtogroup S300x320
+/** @addtogroup S300x320_P121x130
  * + #runaway
  * + #showcontext
  *  @{
@@ -458,11 +455,10 @@ void showcontext(void) { /*:315*/
 _Ldone:
     cur_input = inputstack[inputptr];
 } // [#311] showcontext
-/** @}*/ // end group S300x320
+/** @}*/ // end group S300x320_P121x130
 
 
-/** @defgroup S321x331 PART 23: MAINTAINING THE INPUT STACKS
- * [ #321~331 ].
+/** @addtogroup S321x331_P131x133
  *
  * + #begintokenlist
  * + #endtokenlist
@@ -472,7 +468,7 @@ _Ldone:
  * + #beginfilereading
  * + #endfilereading
  * + #clearforerrorprompt
- * 
+ *
  * @{
  */
 
@@ -664,11 +660,10 @@ Boolean init_lexer(void) {
 
     return NO_ERROR;
 } // [#331, ] init_lexer
-/** @}*/ // end group S321x331
+/** @}*/ // end group S321x331_P131x133
 
 
-/** @defgroup S332x365 PART 24: GETTING THE NEXT TOKEN
- * [ #332~365 ].
+/** @addtogroup S332x365_P134x143
  *
  * + #check_outer_validity
  * + #getnext_worker
@@ -1246,7 +1241,7 @@ void gettoken(void) {
     getnext_worker(false);
     curtok = pack_tok(curcs, curcmd, curchr);
 } // [#365] gettoken
-/** @}*/ // end group S332x365
+/** @}*/ // end group S332x365_P134x143
 
 /// [#365] 辅助函数
 int pack_tok(int cs, int cmd, int chr) {

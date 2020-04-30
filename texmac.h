@@ -302,14 +302,14 @@
 #define delim2(x)  mathsy(21,x) /* size of \.{\\atopwithdelims} delimiters in non-displays}*/
 #define axisheight(x)  mathsy(22,x) /* height of fraction lines above the baseline}*/
 
-/** @addtogroup S115x132
+/** @addtogroup S115x132_P44x49
  * @{
  */
 
 #define nodesize    info /* the size field in empty variable-size nodes}*/
 #define llink(x)    info(x+1) /* left link in doubly-linked list of empty nodes}*/
 #define rlink(x)    link(x+1) /* right link in doubly-linked list of empty nodes}*/
-/** @}*/ // end group S115x132
+/** @}*/                      // end group S115x132_P44x49
 
 
 #define subtype(x)    mem[x].hh.UU.U2.b1 /* secondary identification in some cases}*/

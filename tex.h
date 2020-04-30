@@ -92,7 +92,7 @@
 #define invalidcode     127
 
 
-/** @addtogroup S110x114
+/** @addtogroup S110x114_P42x43
  * @{
  */
 
@@ -107,20 +107,20 @@
 /// 1/2 word = (16bit)[0, 65535]
 /// mutst > 65535 (2^16-1)
 #define MAX_HALF_WORD       655350000L
-/** @}*/ // end group S110x114
+/** @}*/ // end group S110x114_P42x43
 
 
-/** @addtogroup S115x132
+/** @addtogroup S115x132_P44x49
  * @{
  */
 
 /// [#124] the `link` of an empty variable-size node.
 #define emptyflag       MAX_HALF_WORD
 // ??? nodesize
-/** @}*/ // end group S115x132
+/** @}*/ // end group S115x132_P44x49
 
 
-/** @addtogroup S162x172
+/** @addtogroup S162x172_P58x61
  * @{
  */
 
@@ -167,7 +167,7 @@
 #define backuphead      (ligtrick-CHAR_NODE_SIZE)
 /// [#162] smallest statically allocated word in the one-word `mem`.
 #define himemstatmin    (backuphead)
-/** @}*/ // end group S162x172
+/** @}*/ // end group S162x172_P58x61
 
 
 /// [#]

@@ -109,7 +109,7 @@ typedef UChar SmallNumber;
 typedef Real GlueRatio;
 
 
-/** @addtogroup S110x114
+/** @addtogroup S110x114_P42x43
  * @{
  */
 
@@ -162,7 +162,7 @@ typedef union {
     FourQuarters qqqq; ///< (64)
     Integer sc; ///< (64)
 } MemoryWord;
-/** @}*/ // end group S110x114
+/** @}*/ // end group S110x114_P42x43
 
 
 /// [#150]: GlueOrd(8)

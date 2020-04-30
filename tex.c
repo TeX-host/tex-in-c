@@ -70,9 +70,7 @@ void set_help(UChar k, ...) {
 }
 
 
-/** @defgroup S54x71 PART 5: ON-LINE AND OFF-LINE PRINTING.
- * [ p24~29#54~71 ]
- *
+/** @addtogroup S54x71_P24x29
  * @{
  */
 
@@ -107,7 +105,7 @@ void term_input(void) {
     println();
     selector++; // restore previous status
 } // #71: term_input
-/** @}*/ // end group S54x71
+/** @}*/ // end group S54x71_P24x29
 
 
 // #262: prints a purported control sequence
@@ -198,9 +196,7 @@ Static void print_write_whatsit(StrNumber s, Pointer p) {
 Static void giveerrhelp(void) { tokenshow(errhelp); }
 
 
-/** @defgroup S71x98 PART 6: REPORTING ERRORS.
- * 
- * [#72~98: Reporting errors.]
+/** @addtogroup S72x98_P30x37
  * @{
  */
 
@@ -468,11 +464,10 @@ void pause_for_instructions(void) {
     deletions_allowed = true;
     interrupt = 0;
 }
-/** @}*/ // end group S71x98
+/** @}*/ // end group S72x98_P30x37
 
 
-/** @defgroup S110x114 PART 8: PACKED DATA
- * [ p41~43 ]
+/** @addtogroup S110x114_P42x43
  * @{
  */
 
@@ -502,11 +497,10 @@ Static void printword(MemoryWord w) {
     print_int(w.qqqq.b3);
 }
 #endif // #114: tt_DEBUG
-/** @}*/ // end group S110x114
+/** @}*/ // end group S110x114_P42x43
 
 
-/** @defgroup S115x132 PART 9: DYNAMIC MEMORY ALLOCATION
- * [ p44~49 ]
+/** @addtogroup S115x132_P44x49
  * @{
  */
 
@@ -686,11 +680,10 @@ Static void sort_avail(void)
     llink(rover) = p;
 } // sort_avail
 #endif // #131: tt_INIT
-/** @}*/ // end group S115x132
+/** @}*/ // end group S115x132_P44x49
 
 
-/** @defgroup S133x161 PART 10: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS
- * [ p50~57 ]
+/** @addtogroup S133x161_P50x57
  * @{
  */
 
@@ -856,11 +849,10 @@ Static Pointer newpenalty(long m) {
     return p;
 }
 /*:158*/
-/** @}*/ // end group S133x161
+/** @}*/ // end group S133x161_P50x57
 
 
-/** @defgroup S162x172 PART 11: MEMORY LAYOUT
- * [ p58~61#162~172 ]
+/** @addtogroup S162x172_P58x61
  * @{
  */
 
@@ -1028,12 +1020,10 @@ Static void searchmem(Pointer p) {
     }
 } // #172: searchmem
 #endif // #167,172: tt_DEBUG
-/** @}*/ // end group S162x172
+/** @}*/ // end group S162x172_P58x61
 
 
-
-/** @defgroup S173x198 PART 12: DISPLAYING BOXES
- * [ p62~68 ]
+/** @addtogroup S173x198_P62x68
  * @{
  */
 
@@ -1163,7 +1153,7 @@ Static void printspec(long p, StrNumber s) {
     }
 }
 /*:178*/
-/** @}*/ // end group S173x198
+/** @}*/ // end group S173x198_P62x68
 
 
 // #691
@@ -1270,7 +1260,7 @@ void print_skip_param(Integer n) {
 } // #225: print_skip_param
 
 
-/** @addtogroup S173x198
+/** @addtogroup S173x198_P62x68
  * @{
  */
 
@@ -1677,11 +1667,10 @@ Static void showbox(HalfWord p)
   println();
 }
 /*:198*/
-/** @}*/ // end group S173x198
+/** @}*/ // end group S173x198_P62x68
 
 
-/** @defgroup S199x202 PART 13: DESTROYING BOXES
- * [ p60~70 ]
+/** @addtogroup S199x202_P69x70
  * @{
  */
 
@@ -1851,7 +1840,7 @@ Static void flush_node_list(HalfWord p) {
         p = q;
     } // while (p != 0)
 } // [#202] flush_node_list
-/** @}*/ // end group S199x202
+/** @}*/ // end group S199x202_P69x70
 
 
 /*204:*/
