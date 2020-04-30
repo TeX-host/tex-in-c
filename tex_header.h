@@ -28,7 +28,7 @@
 // 模块导入
 #include "lexer.h"      // lexer
 #include "expand.h"     // expand
-#include "scan.h"       // scan
+#include "scan.h"       // scan mod;
 #include "texfunc.h"    // [export]
 
 
@@ -141,8 +141,8 @@ Static Integer depth_threshold; // maximum nesting depth in box displays
 Static Integer breadth_max;
 
 /// [ #211~219: PART 16: THE SEMANTIC NEST ]
-Static ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
-Static UChar nest_ptr;                     // first unused location of nest
+ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
+UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
 ListStateRecord cur_list;           // the "top" semantic state
 UInt16 shown_mode; // most recent mode shown by \tracingcommands
@@ -217,7 +217,7 @@ Static FourQuarters nullcharacter;
 
 // [#592]
 Static Scaled maxh, maxv;
-Static Integer totalpages, maxpush, deadcycles;
+Integer totalpages, maxpush, deadcycles;
 Static Boolean doingleaders;
 Static Integer lq, lr;
 Static Scaled ruleht, ruledp, rulewd;
@@ -240,7 +240,7 @@ Static Integer curs; // current depth of output box nesting, initially −1
 
 /*646:*/
 Static Scaled totalstretch[FILLL - NORMAL + 1], totalshrink[FILLL - NORMAL + 1];
-Static Integer lastbadness;
+Integer lastbadness;
 /*:646*/
 /*647:*/
 Static Pointer adjusttail;
@@ -398,21 +398,21 @@ Static Boolean trie_not_ready;
 
 
 /*971:*/
-Static Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
+Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
 /*:971*/
 
 
 /*980:*/
-Static Pointer pagetail, bestpagebreak, lastglue, mainp;
-Static char pagecontents;
+Pointer pagetail, bestpagebreak, lastglue, mainp;
+char pagecontents;
 Static Integer leastpagecost;
 /*:980*/
 /*982:*/
-Static Scaled pagesofar[8];
-Static Integer lastpenalty, insertpenalties;
+Scaled pagesofar[8];
+Integer lastpenalty, insertpenalties;
 /*:982*/
 /*989:*/
-Static Boolean outputactive;
+Boolean outputactive;
 /*:989*/
 
 

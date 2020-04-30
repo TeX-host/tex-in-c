@@ -4,6 +4,7 @@
 #define GLOBAL_H
 #include <setjmp.h> // setjmp
 #include "str.h"    // StrNumber
+#include "scan.h"   // [macro] eqtbsize
 
 // funcs, inputln, [tex]
 extern ASCIICode buffer[];
@@ -47,7 +48,7 @@ extern Pointer curalign;
 
 // [tex], expand
 extern Integer curval;
-extern char curvallevel;
+extern SmallNumber curvallevel;
 extern SmallNumber radix;
 extern GlueOrd curorder;
 extern Pointer condptr;
@@ -59,5 +60,18 @@ extern Integer dyn_used;
 
 extern char readopen[17];
 extern StrNumber job_name;
+
+// [tex] scan
+extern ListStateRecord nest[nestsize + 1];
+extern UChar nest_ptr;
+extern Integer deadcycles;
+extern char pagecontents;
+extern Scaled pagesofar[8];
+extern Integer lastpenalty, insertpenalties;
+extern Boolean outputactive;
+extern Integer lastbadness;
+extern Scaled lastkern;
+extern Pointer lastglue;
+
 
 #endif // #ifndef GLOBAL_H

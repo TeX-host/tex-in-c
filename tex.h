@@ -147,7 +147,7 @@
 
 #define maxdimen        1073741823L
 #define nullflag        (-1073741824L)
-#define infinity        2147483647L
+
 #define defaultcode     1073741824L
 #define awfulbad        1073741823L
 #define boxflag         1073741824L
@@ -392,9 +392,6 @@ enum CatCode {
 #define delcodebase     (countbase + 256)
 #define dimenbase       (delcodebase + 256)
 
-#define scaledbase      (dimenbase + dimenpars)
-#define eqtbsize        (scaledbase + 255)
-
 
 #define switch_         25
 #define startcs         26
@@ -407,18 +404,7 @@ enum CatCode {
 
 #define inputlinenocode  (glueval + 1)
 #define badnesscode     (glueval + 2)
-#define octaltoken      (othertoken + 39)
-#define hextoken        (othertoken + 34)
-#define alphatoken      (othertoken + 96)
-#define pointtoken      (othertoken + 46)
-#define continentalpointtoken  (othertoken + 44)
-#define zerotoken       (othertoken + 48)
-#define Atoken          (lettertoken + 65)
-#define otherAtoken     (othertoken + 65)
 
-#define attachfraction  88
-#define attachsign      89
-#define defaultrule     26214
 
 #define closed          2
 #define justopen        1
@@ -426,7 +412,6 @@ enum CatCode {
 #define FORMAT_DEFAULT_LENGTH  20
 #define formatarealength  11
 #define formatextlength  4
-
 
 
 #define nonaddress      0
