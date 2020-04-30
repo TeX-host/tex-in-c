@@ -13,6 +13,9 @@ var modules =
     [ "PART 8: PACKED DATA", "group___s110x114.html", "group___s110x114" ],
     [ "PART 9: DYNAMIC MEMORY ALLOCATION", "group___s115x132.html", "group___s115x132" ],
     [ "PART 10: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS", "group___s133x161.html", "group___s133x161" ],
+    [ "PART 11: MEMORY LAYOUT", "group___s162x172.html", "group___s162x172" ],
+    [ "PART 12: DISPLAYING BOXES", "group___s173x198.html", "group___s173x198" ],
+    [ "PART 13: DESTROYING BOXES", "group___s199x202.html", "group___s199x202" ],
     [ "PART 7: ARITHMETIC WITH SCALED DIMENSIONS.", "group___s99x119.html", "group___s99x119" ],
     [ "PART 27: BUILDING TOKEN LISTS", "group___s464x486.html", "group___s464x486" ]
 ];

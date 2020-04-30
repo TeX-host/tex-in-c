@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['garbage_660',['garbage',['../tex_8h.html#afe708522d17af3e785af0be0607fcedc',1,'tex.h']]],
+  ['garbage_660',['garbage',['../group___s162x172.html#gafe708522d17af3e785af0be0607fcedc',1,'tex.h']]],
   ['geqdefine_661',['geqdefine',['../tex_8c.html#ae7411a2a5d2f7d08755168c3066248af',1,'tex.c']]],
   ['geqworddefine_662',['geqworddefine',['../tex_8c.html#acde298eaf1a939a1e984665a9ba02a82',1,'tex.c']]],
   ['get_5favail_663',['get_avail',['../group___s115x132.html#ga982dbbf13554855c99a361ba283f30b9',1,'get_avail(void):&#160;tex.c'],['../group___s115x132.html#ga982dbbf13554855c99a361ba283f30b9',1,'get_avail(void):&#160;tex.c']]],
