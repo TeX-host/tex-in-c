@@ -5,30 +5,35 @@
  * 
  */
 
+// hlistout
 Static void vlistout(void);
 
-
-/// [p31#78]: Error handling procedures
+// fatalerror, overflow, confusion
 Static void normalize_selector(void);
 
-
 #ifdef tt_DEBUG
+// error, succumb
 Static void debughelp(void);
 #endif // 78: tt_DEBUG
 
-Static jmp_buf _JMP_global__end_of_TEX;
-
+// printsubsidiarydata, 
 Static void showinfo(void);
 
+// showactivities
 Static void printtotals(void);
 
+// finalign, makeaccent
 Static void doassignments(void);
+// finalign, aftermath
 Static void resumeafterdisplay(void);
+// finalign
 Static void buildpage(void);
-
+// cleanbox
 Static void mlisttohlist(void);
 
+// initalign, finrow
 Static void alignpeek(void);
+// initspan, alignpeek, fireup, 
 Static void normalparagraph(void);
 
 
@@ -2560,7 +2565,7 @@ void scanfontident(void) { /*406:*/
         f = curchr;
     else if (curcmd == deffamily) {
         m = curchr;
-        scanfourbitint();
+        scan_four_bit_int();
         f = equiv(m + cur_val);
     } else {
         printnl(S(292));
@@ -2578,7 +2583,7 @@ void findfontdimen(Boolean writing) {
     InternalFontNumber f;
     long n;
 
-    scanint();
+    scan_int();
     n = cur_val;
     scanfontident();
     f = cur_val;
@@ -2652,7 +2657,7 @@ HalfWord thetoks(void) {
     Pointer p, r;
 
     get_x_token();
-    scansomethinginternal(TOK_VAL, false);
+    scan_something_internal(TOK_VAL, false);
     if (cur_val_level >= IDENT_VAL) { /*466:*/
         p = temphead;
         link(p) = 0;
@@ -2759,7 +2764,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         /*:475*/
     _Ldone:;
     } else
-        scanleftbrace();
+        scan_left_brace();
     /*:474*/
     /*477:*/
     unbalance = 1;
@@ -3860,7 +3865,7 @@ _Lfound:
     saved(1) = cur_val;
     saveptr += 2;
     newsavelevel(c);
-    scanleftbrace();
+    scan_left_brace();
 } // #645: scanspec
 
 // #649
@@ -5703,8 +5708,8 @@ _Lrestart:
     }
     if (curcmd == endv) fatalerror(S(509));
     if (curcmd != assignglue || curchr != gluebase + TAB_SKIP_CODE) return;
-    scanoptionalequals();
-    scanglue(GLUE_VAL);
+    scan_optional_equals();
+    scan_glue(GLUE_VAL);
     if (globaldefs > 0)
         geqdefine(gluebase + TAB_SKIP_CODE, glueref, cur_val);
     else
@@ -6299,7 +6304,7 @@ _Lrestart:
     align_state = 1000000L;
     skip_spaces();
     if (curcmd == noalign) {
-        scanleftbrace();
+        scan_left_brace();
         newsavelevel(noaligngroup);
         if (mode == -V_MODE) normalparagraph();
         return;
@@ -7589,7 +7594,7 @@ Static void newpatterns(void) {
 
     if (trie_not_ready) {
         setcurlang();
-        scanleftbrace();
+        scan_left_brace();
         /*961:*/
         k = 0;
         hyf[0] = 0;
@@ -8296,7 +8301,7 @@ Static void newhyphexceptions(void)
   StrNumber k, s, t;
   Pointer p, q;
 
-  scanleftbrace();
+  scan_left_brace();
   setcurlang();   /*935:*/
   n = 0;
   p = 0;
@@ -8333,7 +8338,7 @@ _LN_newhyphexceptions__reswitch:
       break;
 
     case charnum:
-      scancharnum();
+      scan_char_num();
       cur_chr = cur_val;
       curcmd = chargiven;
       goto _LN_newhyphexceptions__reswitch;
@@ -8919,7 +8924,7 @@ Static void fireup(HalfWord c)
       begintokenlist(outputroutine, OUTPUT_TEXT);
       newsavelevel(outputgroup);
       normalparagraph();
-      scanleftbrace();
+      scan_left_brace();
       goto _Lexit;
     }
     /*:1024*/
@@ -9368,8 +9373,8 @@ Static void appendglue(void) {
         case FILL_CODE:     cur_val = fillglue; break;
         case SS_CODE:       cur_val = ssglue; break;
         case FIL_NEG_CODE:  cur_val = filnegglue; break;
-        case SKIP_CODE:     scanglue(GLUE_VAL); break;
-        case MSKIP_CODE:    scanglue(MU_VAL); break;
+        case SKIP_CODE:     scan_glue(GLUE_VAL); break;
+        case MSKIP_CODE:    scan_glue(MU_VAL); break;
     }
     tailappend(newglue(cur_val));
     if (s < SKIP_CODE) return;
@@ -9383,7 +9388,7 @@ Static void appendkern(void) {
     QuarterWord s;
 
     s = curchr;
-    scandimen(s == muglue, false, false);
+    scan_dimen(s == muglue, false, false);
     tailappend(newkern(cur_val));
     subtype(tail) = s;
 } // #1061: appendkern
@@ -9542,13 +9547,13 @@ Static void beginbox(long boxcontext) {
     switch (curchr) {
 
     case boxcode:
-        scaneightbitint();
+        scan_eight_bit_int();
         curbox = box(cur_val);
         box(cur_val) = 0;
         break;
 
     case copycode:
-        scaneightbitint();
+        scan_eight_bit_int();
         curbox = copynodelist(box(cur_val));
         break;
 
@@ -9592,7 +9597,7 @@ _Ldone:;
         /*:1080*/
 
     case vsplitcode: /*1082:*/
-        scaneightbitint();
+        scan_eight_bit_int();
         n = cur_val;
         if (!scankeyword(S(697))) {
             printnl(S(292));
@@ -9651,7 +9656,7 @@ Static void scanbox(long boxcontext)
     return;
   }
   if (boxcontext >= leaderflag && (curcmd == hrule || curcmd == vrule)) {
-    curbox = scanrulespec();
+    curbox = scan_rule_spec();
     boxend(boxcontext);
     return;
   }
@@ -9795,7 +9800,7 @@ Static void begininsertoradjust(void)
   if (curcmd == vadjust)
     cur_val = 255;
   else {
-    scaneightbitint();
+    scan_eight_bit_int();
     if (cur_val == 255) {
       printnl(S(292));
       print(S(867));
@@ -9809,7 +9814,7 @@ Static void begininsertoradjust(void)
   saved(0) = cur_val;
   saveptr++;
   newsavelevel(insertgroup);
-  scanleftbrace();
+  scan_left_brace();
   normalparagraph();
   pushnest();
   mode = -V_MODE;
@@ -9836,7 +9841,7 @@ Static void makemark(void)
 /*1103:*/
 Static void appendpenalty(void)
 {
-  scanint();
+  scan_int();
   tailappend(newpenalty(cur_val));
   if (mode == V_MODE)
     buildpage();
@@ -9890,7 +9895,7 @@ Static void unpackage(void) {
     char c;
 
     c = curchr;
-    scaneightbitint();
+    scan_eight_bit_int();
     p = box(cur_val);
     if (p == 0) return;
     if ( (labs(mode) == M_MODE) |
@@ -9960,7 +9965,7 @@ Static void appenddiscretionary(void)
   saveptr++;
   saved(-1) = 0;
   newsavelevel(discgroup);
-  scanleftbrace();
+  scan_left_brace();
   pushnest();
   mode = -H_MODE;
   spacefactor = 1000;
@@ -10042,7 +10047,7 @@ Static void builddiscretionary(void) {
     }
     (saved(-1))++;
     newsavelevel(discgroup);
-    scanleftbrace();
+    scan_left_brace();
     pushnest();
     mode = -H_MODE;
     spacefactor = 1000;
@@ -10059,7 +10064,7 @@ Static void makeaccent(void)
   Scaled a, h, x, w, delta;
   FourQuarters i;
 
-  scancharnum();
+  scan_char_num();
   f = curfont;
   p = newcharacter(f, cur_val);
   if (p == 0)
@@ -10073,7 +10078,7 @@ Static void makeaccent(void)
   if (curcmd == LETTER || curcmd == OTHER_CHAR || curcmd == chargiven)
     q = newcharacter(f, curchr);
   else if (curcmd == charnum) {
-    scancharnum();
+    scan_char_num();
     q = newcharacter(f, cur_val);
   } else
     backinput();
@@ -10373,14 +10378,14 @@ _LN_scanmath__reswitch:
             break;
 
         case charnum:
-            scancharnum();
+            scan_char_num();
             curchr = cur_val;
             curcmd = chargiven;
             goto _LN_scanmath__reswitch;
             break;
 
         case mathcharnum:
-            scanfifteenbitint();
+            scan_fifteen_bit_int();
             c = cur_val;
             break;
 
@@ -10389,13 +10394,13 @@ _LN_scanmath__reswitch:
             break;
 
         case delimnum: /*1153:*/
-            scantwentysevenbitint();
+            scan_twenty_seven_bit_int();
             c = cur_val / 4096;
             break;
 
         default:
             backinput();
-            scanleftbrace();
+            scan_left_brace();
             saved(0) = p;
             saveptr++;
             pushmath(mathgroup);
@@ -10462,7 +10467,7 @@ Static void mathlimitswitch(void) {
 Static void scandelimiter(HalfWord p, Boolean r)
 {
   if (r)
-    scantwentysevenbitint();
+    scan_twenty_seven_bit_int();
   else {
     skip_spaces_or_relax();
     switch (curcmd) {
@@ -10473,7 +10478,7 @@ Static void scandelimiter(HalfWord p, Boolean r)
       break;
 
     case delimnum:
-      scantwentysevenbitint();
+      scan_twenty_seven_bit_int();
       break;
 
     default:
@@ -10542,7 +10547,7 @@ Static void mathac(void)
   mem[subscr(tail) - MEM_MIN].hh = emptyfield;
   mem[supscr(tail) - MEM_MIN].hh = emptyfield;
   mathtype(accentchr(tail)) = mathchar;
-  scanfifteenbitint();
+  scan_fifteen_bit_int();
   character(accentchr(tail)) = cur_val & 255;
   if (cur_val >= varcode && faminrange) {
     fam(accentchr(tail)) = curfam;
@@ -10559,7 +10564,7 @@ Static void appendchoices(void)
   saveptr++;
   saved(-1) = 0;
   pushmath(mathchoicegroup);
-  scanleftbrace();
+  scan_left_brace();
 }
 /*:1172*/
 
@@ -10609,7 +10614,7 @@ Static void buildchoices(void) {
     }
     (saved(-1))++;
     pushmath(mathchoicegroup);
-    scanleftbrace();
+    scan_left_brace();
 }
 /*:1174*/
 
@@ -11054,7 +11059,7 @@ Static void doregistercommand(SmallNumber a) {
         }
     }
     p = curchr;
-    scaneightbitint();
+    scan_eight_bit_int();
     switch (p) {
         case INT_VAL: l = cur_val + countbase; break;
         case DIMEN_VAL: l = cur_val + SCALED_BASE; break;
@@ -11064,20 +11069,20 @@ Static void doregistercommand(SmallNumber a) {
 
 _Lfound: /*:1237*/
     if (q == register_)
-        scanoptionalequals();
+        scan_optional_equals();
     else
         scankeyword(S(942));
     arith_error = false;
     if (q < multiply) { /*1238:*/
         if (p < GLUE_VAL) {
             if (p == INT_VAL)
-                scanint();
+                scan_int();
             else {
                 SCAN_NORMAL_DIMEN();
             }
             if (q == advance) cur_val += eqtb[l - activebase].int_;
         } else { /*:1238*/
-            scanglue(p);
+            scan_glue(p);
             if (q == advance) { /*1239:*/
                 q = newspec(cur_val);
                 r = equiv(l);
@@ -11103,7 +11108,7 @@ _Lfound: /*:1237*/
             /*:1239*/
         }
     } else { /*1240:*/
-        scanint();
+        scan_int();
         if (p < GLUE_VAL) {
             if (q == multiply) {
                 if (p == INT_VAL) {
@@ -11154,13 +11159,13 @@ Static void alteraux(void) {
         return;
     }
     c = curchr;
-    scanoptionalequals();
+    scan_optional_equals();
     if (c == V_MODE) {
         SCAN_NORMAL_DIMEN();
         prevdepth = cur_val;
         return;
     }
-    scanint();
+    scan_int();
     if (cur_val > 0 && cur_val <= 32767) {
         spacefactor = cur_val;
         return;
@@ -11179,8 +11184,8 @@ Static void alterprevgraf(void) {
     p = nest_ptr;
     while (abs(nest[p].modefield) != V_MODE)
         p--;
-    scanoptionalequals();
-    scanint();
+    scan_optional_equals();
+    scan_int();
     if (cur_val >= 0) {
         nest[p].pgfield = cur_val;
         cur_list = nest[nest_ptr];
@@ -11198,7 +11203,7 @@ Static void alterpagesofar(void) {
     int c;
 
     c = curchr;
-    scanoptionalequals();
+    scan_optional_equals();
     SCAN_NORMAL_DIMEN();
     pagesofar[c] = cur_val;
 } // #1245: alterpagesofar
@@ -11208,8 +11213,8 @@ Static void alterinteger(void) {
     char c;
 
     c = curchr;
-    scanoptionalequals();
-    scanint();
+    scan_optional_equals();
+    scan_int();
     if (c == 0)
         deadcycles = cur_val;
     else
@@ -11222,9 +11227,9 @@ Static void alterboxdimen(void) {
     EightBits b;
 
     c = curchr;
-    scaneightbitint();
+    scan_eight_bit_int();
     b = cur_val;
-    scanoptionalequals();
+    scan_optional_equals();
     SCAN_NORMAL_DIMEN();
     if (box(b) != 0) mem[box(b) + c - MEM_MIN].sc = cur_val;
 } // #1247: alterboxdimen
@@ -11258,7 +11263,7 @@ Static void newfont(SmallNumber a) {
         t = makestring();
     }
     define(u, setfont, NULL_FONT);
-    scanoptionalequals();
+    scan_optional_equals();
     scanfilename(); /*1258:*/
 
     name_in_progress = true;
@@ -11276,7 +11281,7 @@ Static void newfont(SmallNumber a) {
         }
         /*:1259*/
     } else if (scankeyword(S(956))) {
-        scanint();
+        scan_int();
         s = -cur_val;
         if (cur_val <= 0 || cur_val > 32768L) {
             printnl(S(292));
@@ -11433,21 +11438,21 @@ Static void prefixedcommand(void) {
             getrtoken();
             p = curcs;
             define(p, relax, 256);
-            scanoptionalequals();
+            scan_optional_equals();
             switch (n) {
 
                 case chardefcode:
-                    scancharnum();
+                    scan_char_num();
                     define(p, chargiven, cur_val);
                     break;
 
                 case mathchardefcode:
-                    scanfifteenbitint();
+                    scan_fifteen_bit_int();
                     define(p, mathgiven, cur_val);
                     break;
 
                 default:
-                    scaneightbitint();
+                    scan_eight_bit_int();
                     switch (n) {
 
                         case countdefcode:
@@ -11477,7 +11482,7 @@ Static void prefixedcommand(void) {
 
         /*1225:*/
         case readtocs: /*:1225*/
-            scanint();
+            scan_int();
             n = cur_val;
             if (!scankeyword(S(697))) {
                 printnl(S(292));
@@ -11496,16 +11501,16 @@ Static void prefixedcommand(void) {
         case assigntoks: /*:1226*/
             q = curcs;
             if (curcmd == toksregister) {
-                scaneightbitint();
+                scan_eight_bit_int();
                 p = toksbase + cur_val;
             } else
                 p = curchr;
-            scanoptionalequals();
+            scan_optional_equals();
             skip_spaces_or_relax();
             if (curcmd != LEFT_BRACE) { /*1227:*/
                 int cur_chr = curchr;
                 if (curcmd == toksregister) {
-                    scaneightbitint();
+                    scan_eight_bit_int();
                     curcmd = assigntoks;
                     cur_chr = toksbase + cur_val;
                 }
@@ -11544,14 +11549,14 @@ Static void prefixedcommand(void) {
 
         case assignint:
             p = curchr;
-            scanoptionalequals();
-            scanint();
+            scan_optional_equals();
+            scan_int();
             worddefine(p, cur_val);
             break;
 
         case assigndimen:
             p = curchr;
-            scanoptionalequals();
+            scan_optional_equals();
             SCAN_NORMAL_DIMEN();
             worddefine(p, cur_val);
             break;
@@ -11560,11 +11565,11 @@ Static void prefixedcommand(void) {
         case assignmuglue: /*:1228*/
             p = curchr;
             n = curcmd;
-            scanoptionalequals();
+            scan_optional_equals();
             if (n == assignmuglue)
-                scanglue(MU_VAL);
+                scan_glue(MU_VAL);
             else
-                scanglue(GLUE_VAL);
+                scan_glue(GLUE_VAL);
             trapzeroglue();
             define(p, glueref, cur_val);
             break;
@@ -11583,10 +11588,10 @@ Static void prefixedcommand(void) {
             else
                 n = 255; /*:1233*/
             p = curchr;
-            scancharnum();
+            scan_char_num();
             p += cur_val;
-            scanoptionalequals();
-            scanint();
+            scan_optional_equals();
+            scan_int();
             if ((cur_val < 0 && p < delcodebase) || cur_val > n) {
                 printnl(S(292));
                 print(S(966));
@@ -11612,9 +11617,9 @@ Static void prefixedcommand(void) {
 
         case deffamily: /*:1234*/
             p = curchr;
-            scanfourbitint();
+            scan_four_bit_int();
             p += cur_val;
-            scanoptionalequals();
+            scan_optional_equals();
             scanfontident();
             define(p, data, cur_val);
             break;
@@ -11629,12 +11634,12 @@ Static void prefixedcommand(void) {
             /*1241:*/
 
         case setbox: /*:1241*/
-            scaneightbitint();
+            scan_eight_bit_int();
             if (global) {
                 n = cur_val + 256;
             } else
                 n = cur_val;
-            scanoptionalequals();
+            scan_optional_equals();
             if (set_box_allowed)
                 scanbox(boxflag + n);
             else {
@@ -11655,8 +11660,8 @@ Static void prefixedcommand(void) {
             /*1248:*/
 
         case setshape: /*:1248*/
-            scanoptionalequals();
-            scanint();
+            scan_optional_equals();
+            scan_int();
             n = cur_val;
             if (n <= 0)
                 p = 0;
@@ -11690,7 +11695,7 @@ Static void prefixedcommand(void) {
         case assignfontdimen:
             findfontdimen(true);
             k = cur_val;
-            scanoptionalequals();
+            scan_optional_equals();
             SCAN_NORMAL_DIMEN();
             fontinfo[k].sc = cur_val;
             break;
@@ -11699,8 +11704,8 @@ Static void prefixedcommand(void) {
             n = curchr;
             scanfontident();
             f = cur_val;
-            scanoptionalequals();
-            scanint();
+            scan_optional_equals();
+            scan_int();
             if (n == 0)
                 set_hyphenchar(f, cur_val);
             else
@@ -11748,14 +11753,14 @@ Static void openorclosein(void) {
     int n;
 
     c = curchr;
-    scanfourbitint();
+    scan_four_bit_int();
     n = cur_val;
     if (readopen[n] != closed) {
         aclose(&readfile[n]);
         readopen[n] = closed;
     }
     if (c == 0) return;
-    scanoptionalequals();
+    scan_optional_equals();
     scanfilename();
     if (curext == S(385)) curext = S(669);
     packfilename(curname, S(677), curext);
@@ -11836,7 +11841,7 @@ Static void showwhatever(void) {
             break;
 
         case showboxcode: /*1296:*/
-            scaneightbitint();
+            scan_eight_bit_int();
             begindiagnostic();
             printnl(S(979));
             print_int(cur_val);
@@ -12172,9 +12177,9 @@ Static void newwhatsit(SmallNumber s, SmallNumber w) {
 Static void newwritewhatsit(SmallNumber w) {
     newwhatsit(curchr, w);
     if (w != writenodesize)
-        scanfourbitint();
+        scan_four_bit_int();
     else {
-        scanint();
+        scan_int();
         if (cur_val < 0)
             cur_val = 17;
         else if (cur_val > 15)
@@ -12193,7 +12198,7 @@ Static void doextension(void)
 
   case opennode:   /*1351:*/
     newwritewhatsit(opennodesize);
-    scanoptionalequals();
+    scan_optional_equals();
     scanfilename();
     openname(tail) = curname;
     openarea(tail) = curarea;
@@ -12243,7 +12248,7 @@ Static void doextension(void)
       reportillegalcase();
     else {   /*:1377*/
       newwhatsit(languagenode, smallnodesize);
-      scanint();
+      scan_int();
       if (cur_val <= 0)
 	clang = 0;
       else if (cur_val > 255)
@@ -12606,7 +12611,7 @@ _LN_main_control__reswitch:
             break;
 
         case H_MODE + charnum:
-            scancharnum();
+            scan_char_num();
             curchr = cur_val;
             goto _Lmainloop;
             break;
@@ -12714,7 +12719,7 @@ _LN_main_control__reswitch:
         case V_MODE + hrule:
         case H_MODE + vrule:
         case M_MODE + vrule: /*:1056*/
-            tailappend(scanrulespec());
+            tailappend(scan_rule_spec());
             if (labs(mode) == V_MODE)
                 prevdepth = ignoredepth;
             else if (labs(mode) == H_MODE)
@@ -12976,13 +12981,13 @@ _LN_main_control__reswitch:
             break;
 
         case M_MODE + charnum:
-            scancharnum();
+            scan_char_num();
             curchr = cur_val;
             setmathchar(mathcode(curchr));
             break;
 
         case M_MODE + mathcharnum:
-            scanfifteenbitint();
+            scan_fifteen_bit_int();
             setmathchar(cur_val);
             break;
 
@@ -12991,7 +12996,7 @@ _LN_main_control__reswitch:
             break;
 
         case M_MODE + delimnum: /*:1154*/
-            scantwentysevenbitint();
+            scan_twenty_seven_bit_int();
             setmathchar(cur_val / 4096);
             break;
             /*1158:*/
@@ -13284,7 +13289,7 @@ _Lmainlooplookahead:      /*1038:*/
     if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
     if (curcmd == chargiven) goto _Lmainlooplookahead1;
     if (curcmd == charnum) {
-        scancharnum();
+        scan_char_num();
         curchr = cur_val;
         goto _Lmainlooplookahead1;
     }

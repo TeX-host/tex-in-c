@@ -10,7 +10,7 @@
 #include "print.h"    // [var] selector
 #include "fonts.h"    // [func] get_fontname, get_fontsize
 #include "texmath.h"  // [func] print_scaled
-#include "scan.h"     // [func] scaneightbitint
+#include "scan.h"     // [func] scan_eight_bit_int
 #include "expand.h"
 
 /** @addtogroup S487x510
@@ -505,7 +505,7 @@ static void convtoks(void) {
     switch (c) { /*:471*/
         case numbercode:
         case romannumeralcode:
-            scanint(); 
+            scan_int(); 
             break;
 
         case stringcode:
@@ -664,7 +664,7 @@ static void conditional(void) { /*495:*/
         case IF_INT_CODE:
         case IF_DIM_CODE: /*503:*/
             if (thisif == IF_INT_CODE)
-                scanint();
+                scan_int();
             else {
                 SCAN_NORMAL_DIMEN();
             }
@@ -681,7 +681,7 @@ static void conditional(void) { /*495:*/
                 r = '=';
             }
             if (thisif == IF_INT_CODE)
-                scanint();
+                scan_int();
             else {
                 SCAN_NORMAL_DIMEN();
             }
@@ -694,7 +694,7 @@ static void conditional(void) { /*495:*/
             /*:503*/
 
         case IF_ODD_CODE: /*504:*/
-            scanint();
+            scan_int();
             b = cur_val & 1;
             break;
             /*:504*/
@@ -707,7 +707,7 @@ static void conditional(void) { /*495:*/
         case IF_VOID_CODE:
         case IF_HBOX_CODE:
         case IF_VBOX_CODE: /*505:*/
-            scaneightbitint();
+            scan_eight_bit_int();
             p = box(cur_val);
             if (thisif == IF_VOID_CODE)
                 b = (p == 0);
@@ -755,14 +755,14 @@ static void conditional(void) { /*495:*/
             /*:507*/
 
         case IF_EOF_CODE:
-            scanfourbitint();
+            scan_four_bit_int();
             b = (readopen[cur_val] == closed);
             break;
 
         case IF_TRUE_CODE: b = true; break;
         case IF_FALSE_CODE: b = false; break;
         case IF_CASE_CODE: /*509:*/
-            scanint();
+            scan_int();
             n = cur_val;
             if (tracingcommands > 1) {
                 begindiagnostic();

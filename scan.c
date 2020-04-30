@@ -16,9 +16,9 @@
 /** @defgroup S402x463 PART 26: BASIC SCANNING SUBROUTINES
  * [ #402~463 ]
  *
- * + #scanleftbrace
- * + #scanoptionalequals
- * + muerror
+ * + #scan_left_brace
+ * + #scan_optional_equals
+ * + mu_error
  * @{
  */
 
@@ -49,9 +49,9 @@ Integer cur_val;
 /// [#410] the "level" of this value.
 /// [INT_VAL=0, TOK_VAL=5]
 SmallNumber cur_val_level;
-/// [#438] #scanint sets this to 8, 10, 16, or zero
+/// [#438] #scan_int sets this to 8, 10, 16, or zero
 SmallNumber radix;
-/// [#447] order of INFINITY found by #scandimen
+/// [#447] order of INFINITY found by #scan_dimen
 GlueOrd cur_order;
 
 
@@ -72,36 +72,57 @@ void skip_spaces_or_relax(void) {
     } while (curcmd == SPACER || curcmd == relax);
 } // [#404]
 
-/// [#403] when a left brace is supposed to be the next non-blank token.
-void scanleftbrace(void) {
+/** [#403] when a left brace is supposed to be the next non-blank token.
+ *
+ * xref[12]:
+ *       473,  645,  785,  934,  960,
+ *      1025, 1099, 1117, 1119, 1153,
+ *      1172, 1174
+ */
+void scan_left_brace(void) {
     skip_spaces_or_relax();
     if (curcmd == LEFT_BRACE) return;
-    printnl(S(292));
-    print(S(566));
+
+    printnl(S(292)); // "! "
+    print(S(566));   // "Missing { inserted"
+    /* "A left brace was mandatory here, so I´ve put one in."
+     * "You might want to delete and/or insert some corrections"
+     * "so that I will find a matching right brace soon."
+     * "(If you´re confused by all this, try typing `I}´ now.)"
+     */
     help4(S(567), S(568), S(569), S(570));
     backerror();
+
     curtok = leftbracetoken + '{';
     curcmd = LEFT_BRACE;
     curchr = '{';
     align_state++;
-} // [#403] scanleftbrace
+} // [#403] scan_left_brace
 
-/// [#405] looks for an optional ‘=’ sign preceded by optional spaces.
-/// `\relax` is not ignored here.
-void scanoptionalequals(void) {
+/** [#405] looks for an optional `=` sign preceded by optional spaces.
+ * `\relax` is not ignored here.
+ * 
+ * xerf[19]:
+ *       782, 1224, 1226, 1228, 1232,
+ *      1234, 1236, 1241, 1243, 1244,
+ *      1245, 1246, 1247, 1248, 1253,
+ *      1257, 1275, 1351
+ */   
+void scan_optional_equals(void) {
     skip_spaces();
     if (curtok != (othertoken + '=')) backinput();
-} // [#405] scanoptionalequals
+} // [#405] scan_optional_equals
 
-/// [#407] look for a given string.
-/// checks to see whether the next tokens of input match this string.
-///
-/// If a match is found, 
-///     the characters are effectively removed from the input 
-///     and `true` is returned.
-/// Otherwise false is returned, 
-///     and the input is left essentially unchanged 
-///     (except for the fact that some macros may have been expanded, etc.).
+/** [#407] look for a given string.
+ * checks to see whether the next tokens of input match this string.
+ * 
+ * If a match is found, 
+ *  the characters are effectively removed from the input
+ *  and `true` is returned.
+ * Otherwise false is returned, 
+ *  and the input is left essentially unchanged
+ *  (except for the fact that some macros may have been expanded, etc.).
+ */  
 Boolean scankeyword(StrNumber s) {
     Boolean Result;
 #if 1
@@ -158,22 +179,27 @@ _Lexit :
 } // [#407] scankeyword
 
 /// [#408] sounds an alarm when mu and non-mu units are being switched.
-static void muerror(void) {
-    printnl(S(292));
-    print(S(571)); // "Incompatible␣glue␣units"
-    help1(S(572)); // "I´m␣going␣to␣assume␣that␣1mu=1pt␣when␣they´re␣mixed."
+static void mu_error(void) {
+    printnl(S(292)); // "! "
+    print(S(571));   // "Incompatible glue units"
+    help1(S(572));   // "I´m going to assume that 1mu=1pt when they´re mixed."
     error();
-} // [#408] muerror
+} // [#408] mu_error
 
-/// [#413] fetch an internal parameter
-void scansomethinginternal(SmallNumber level, Boolean negative) {
+/** [#413] fetch an internal parameter.
+ * 
+ * xref[9]:
+ *      409, 410, 432, 440, 449,
+ *      451, 455, 461, 465
+ */
+void scan_something_internal(SmallNumber level, Boolean negative) {
     HalfWord m;
     /* char */ int p; /* INT */
 
     m = curchr;
     switch (curcmd) {
         case defcode: /*414:*/
-            scancharnum();
+            scan_char_num();
             if (m == mathcodebase) {
                 cur_val = mathcode(cur_val);
                 cur_val_level = INT_VAL;
@@ -193,7 +219,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
         case setfont:
         case deffont: /*415:*/
             if (level != TOK_VAL) {
-                printnl(S(292));
+                printnl(S(292)); // "! "
                 print(S(593));
                 help3(S(594), S(595), S(596));
                 backerror();
@@ -201,7 +227,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
                 cur_val_level = DIMEN_VAL;
             } else if (curcmd <= assigntoks) {
                 if (curcmd < assigntoks) {
-                    scaneightbitint();
+                    scan_eight_bit_int();
                     m = toksbase + cur_val;
                 }
                 cur_val = equiv(m);
@@ -236,7 +262,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
 
         case setaux: /*418:*/
             if (labs(mode) != m) {
-                printnl(S(292));
+                printnl(S(292)); // "! "
                 print(S(597));
                 printcmdchr(setaux, m);
                 help4(S(598), S(599), S(600), S(601));
@@ -302,7 +328,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
             /*:423*/
 
         case setboxdimen: /*420:*/
-            scaneightbitint();
+            scan_eight_bit_int();
             if (box(cur_val) == 0)
                 cur_val = 0;
             else
@@ -338,7 +364,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
             /*:426*/
 
         case register_: /*427:*/
-            scaneightbitint();
+            scan_eight_bit_int();
             switch (m) {
                 case INT_VAL: cur_val = count(cur_val); break;
                 case DIMEN_VAL: cur_val = dimen(cur_val); break;
@@ -399,7 +425,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
             /*428:*/
 
         default:
-            printnl(S(292));
+            printnl(S(292)); // "! "
             print(S(602));
             printcmdchr(curcmd, curchr);
             print(S(603));
@@ -419,7 +445,7 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
         if (cur_val_level == GLUE_VAL)
             cur_val = width(cur_val);
         else if (cur_val_level == MU_VAL)
-            muerror();
+            mu_error();
         cur_val_level--;
     }
     /*:429*/
@@ -441,65 +467,105 @@ void scansomethinginternal(SmallNumber level, Boolean negative) {
 
     /*:415*/
     /*:418*/
-} // [#413] scansomethinginternal
+} // [#413] scan_something_internal
 
-/// [#433]
-void scaneightbitint(void) {
-    scanint();
+/** [#433] scan `register code = [0, 255]`, use #scan_int.
+ *
+ * xref[15]:
+ *       415,  420,  427,  505, 1079,
+ *      1082, 1099, 1110, 1224, 1226,
+ *      1227, 1237, 1241, 1247, 1296
+ */
+void scan_eight_bit_int(void) {
+    scan_int();
     if ((unsigned long)cur_val <= 255) return;
-    printnl(S(292));
-    print(S(573));
+    printnl(S(292)); // "! "
+    print(S(573));   // "Bad register code"
+    // "A register number must be between 0 and 255."
+    // "I changed this one to zero."
     help2(S(574), S(575));
     int_error(cur_val);
     cur_val = 0;
-} // [#433] scaneightbitint
+} // [#433] scan_eight_bit_int
 
-/// [#434]
-void scancharnum(void) {
-    scanint();
+/** [#434] scan `character code = [0, 255]`, use #scan_int.
+ *
+ * xref[10]:
+ *       414,  935, 1030, 1038, 1123,
+ *      1124, 1151, 1154, 1224, 1232
+ */
+void scan_char_num(void) {
+    scan_int();
     if ((unsigned long)cur_val <= 255) return;
-    printnl(S(292));
-    print(S(576));
+    printnl(S(292)); // "! "
+    print(S(576));   // "Bad character code"
+    // "A character number must be between 0 and 255."
+    // "I changed this one to zero."
     help2(S(577), S(575));
     int_error(cur_val);
     cur_val = 0;
-} // [#434] scancharnum
+} // [#434] scan_char_num
 
-/// [#435]
-void scanfourbitint(void) {
-    scanint();
+/** [#435] scan `number = [0, 15]`, use #scan_int.
+ *
+ * xref[5]: 501, 577, 1234, 1275, 1350
+ */
+void scan_four_bit_int(void) {
+    scan_int();
     if ((unsigned long)cur_val <= 15) return;
-    printnl(S(292));
-    print(S(578));
+    printnl(S(292)); // "! "
+    print(S(578));   // "Bad number"
+    // "Since I expected to read a number between 0 and 15,"
+    // "I changed this one to zero."
     help2(S(579), S(575));
     int_error(cur_val);
     cur_val = 0;
-} // [#435] scanfourbitint
+} // [#435] scan_four_bit_int
 
-/// [#436]
-void scanfifteenbitint(void) {
-    scanint();
+/** [#436] scan `mathchar = [0, 23767]`, use #scan_int.
+ *
+ * xref[4]: 1151, 1154, 1165, 1224
+ */
+void scan_fifteen_bit_int(void) {
+    scan_int();
     if ((unsigned long)cur_val <= 32767) return;
-    printnl(S(292));
-    print(S(580));
+    printnl(S(292)); // "! "
+    print(S(580));   // "Bad mathchar"
+    // "A mathchar number must be between 0 and 32767."
+    // "I changed this one to zero."
     help2(S(581), S(575));
     int_error(cur_val);
     cur_val = 0;
-} // [#436] scanfifteenbitint
+} // [#436] scan_fifteen_bit_int
 
-/// [#437]
-void scantwentysevenbitint(void) {
-    scanint();
+/** [#437] scan `mathchar` = @f$ [0, 2^{27}−1] @f$, use #scan_int.
+ *
+ * xref[3]: 1151, 1154, 1160
+ */
+void scan_twenty_seven_bit_int(void) {
+    scan_int();
     if ((unsigned long)cur_val <= 134217727L) return;
-    printnl(S(292));
-    print(S(582));
+    printnl(S(292)); // "! "
+    print(S(582));   // "Bad delimiter code"
+    // "A numeric delimiter code must be between 0 and 2^{27}−1."
+    // "I changed this one to zero."
     help2(S(583), S(575));
     int_error(cur_val);
     cur_val = 0;
-} // [#437] scantwentysevenbitint
+} // [#437] scan_twenty_seven_bit_int
 
-/// [#440] sets #cur_val to an integer.
-void scanint(void) {
+/** [#440] sets #cur_val to an integer.
+ *
+ * xref[31]:
+ *      409, 410, 432, 433, 434, 
+ *      435, 436, 437, 438, 447, 
+ *      448, 461, 471, 503, 504, 
+ *      509, 578, 1103, 1225, 1228, 
+ *      1232, 1238, 1240, 1243, 1244, 
+ *      1246, 1248, 1253, 1258, 1350, 
+ *      1377
+ */
+void scan_int(void) {
     Boolean negative;
     long m;
     SmallNumber d;
@@ -508,6 +574,9 @@ void scanint(void) {
     radix = 0;
     OKsofar = true; /*441:*/
     negative = false;
+
+    // [#441] Get the next non-blank non-sign token; 
+    // set #negative appropriately
     do {
         skip_spaces();
         if (curtok == othertoken + '-') { /*:441*/
@@ -515,6 +584,8 @@ void scanint(void) {
             curtok = othertoken + '+';
         }
     } while (curtok == othertoken + '+');
+
+    // [#442] Scan an alphabetic character code into #cur_val.
     if (curtok == ALPHA_TOKEN) { /*442:*/
         gettoken();
         if (curtok < CS_TOKEN_FLAG) {
@@ -529,9 +600,12 @@ void scanint(void) {
             cur_val = curtok - CS_TOKEN_FLAG - activebase;
         else
             cur_val = curtok - CS_TOKEN_FLAG - singlebase;
+
         if (cur_val > 255) {
-            printnl(S(292));
-            print(S(605));
+            printnl(S(292)); // "! "
+            print(S(605));   // "Improper alphabetic constant"
+            // "A one−character control sequence belongs after a ` mark."
+            // "So I´m essentially inserting \0 here."
             help2(S(606), S(607));
             cur_val = '0';
             backerror();
@@ -541,7 +615,7 @@ void scanint(void) {
         }
     } /*:442*/
     else if (curcmd >= mininternal && curcmd <= maxinternal)
-        scansomethinginternal(INT_VAL, false);
+        scan_something_internal(INT_VAL, false);
     else {
         radix = 10;
         m = 214748364L;
@@ -555,7 +629,9 @@ void scanint(void) {
             get_x_token();
         }
         vacuous = true;
-        cur_val = 0; /*445:*/
+        cur_val = 0; 
+        
+        // [#445] Accumulate the constant until cur tok is not a suitable digit.
         while (true) {
             if (curtok < ZERO_TOKEN + radix && curtok >= ZERO_TOKEN &&
                 curtok <= ZERO_TOKEN + 9)
@@ -572,8 +648,10 @@ void scanint(void) {
             vacuous = false;
             if (cur_val >= m && (cur_val > m || d > 7 || radix != 10)) {
                 if (OKsofar) {
-                    printnl(S(292));
-                    print(S(608));
+                    printnl(S(292)); // "! "
+                    print(S(608));   // "So I´m essentially inserting \0 here."
+                    // "I can only go up to 2147483647=´17777777777=\" \" 7FFFFFFF,"
+                    // " so I´m using that number instead of yours."
                     help2(S(609), S(610));
                     error();
                     cur_val = INFINITY;
@@ -583,23 +661,31 @@ void scanint(void) {
                 cur_val = cur_val * radix + d;
             get_x_token();
         }
+
     _Ldone:            /*:445*/
         if (vacuous) { /*446:*/
-            printnl(S(292));
-            print(S(593));
+            // [#446] Express astonishment that no number was here.
+            printnl(S(292)); // "! "
+            print(S(593));   // "Missing number, treated as zero"
+            // "A number should have been here; I inserted `0´."
+            // "(If you can´t figure out why I needed to see a number,"
+            // "look up `weird error´ in the index to The TeXbook.)"
             help3(S(594), S(595), S(596));
             backerror();
         } /*:446*/
         else if (curcmd != SPACER)
             backinput();
     }
+
     if (negative) cur_val = -cur_val;
     /*:443*/
+} // [#440] scan_int
 
-} // [#440] scanint
-
-/// [#448] sets #cur_val to a dimension.
-void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
+/** [#448] sets #cur_val to a dimension.
+ *
+ * xref[6]: 410, 440, 447, 461, 462, 1061
+ */
+void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
     Boolean negative;
     long f;
     /*450:*/
@@ -625,23 +711,23 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
         } while (curtok == othertoken + '+');
         if (curcmd >= mininternal && curcmd <= maxinternal) { /*449:*/
             if (mu) {
-                scansomethinginternal(MU_VAL, false); /*451:*/
+                scan_something_internal(MU_VAL, false); /*451:*/
                 if (cur_val_level >= GLUE_VAL) {        /*:451*/
                     v = width(cur_val);
                     delete_glue_ref(cur_val);
                     cur_val = v;
                 }
                 if (cur_val_level == MU_VAL) goto _Lattachsign_;
-                if (cur_val_level != INT_VAL) muerror();
+                if (cur_val_level != INT_VAL) mu_error();
             } else {
-                scansomethinginternal(DIMEN_VAL, false);
+                scan_something_internal(DIMEN_VAL, false);
                 if (cur_val_level == DIMEN_VAL) goto _Lattachsign_;
             } /*:449*/
         } else {
             backinput();
             if (curtok == CONTINENTAL_POINT_TOKEN) curtok = POINT_TOKEN;
             if (curtok != POINT_TOKEN)
-                scanint();
+                scan_int();
             else {
                 radix = 10;
                 cur_val = 0;
@@ -687,10 +773,10 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
                     cur_order++;
                     continue;
                 }
-                printnl(S(292));
-                print(S(611));
-                print(S(612));
-                help1(S(613));
+                printnl(S(292)); // "! "
+                print(S(611));   // "Illegal unit of measure (\"
+                print(S(612));   // "replaced by filll)"
+                help1(S(613));   // "I dddon´t go any higher than filll."
                 error();
             }
             goto _Lattachfraction_;
@@ -701,48 +787,60 @@ void scandimen(Boolean mu, Boolean inf, Boolean shortcut) {
     skip_spaces();
     if (curcmd >= mininternal && curcmd <= maxinternal) {
         if (mu) {
-            scansomethinginternal(MU_VAL, false); /*451:*/
+            scan_something_internal(MU_VAL, false); /*451:*/
             if (cur_val_level >= GLUE_VAL) {        /*:451*/
                 v = width(cur_val);
                 delete_glue_ref(cur_val);
                 cur_val = v;
             }
-            if (cur_val_level != MU_VAL) muerror();
+            if (cur_val_level != MU_VAL) mu_error();
         } else
-            scansomethinginternal(DIMEN_VAL, false);
+            scan_something_internal(DIMEN_VAL, false);
         v = cur_val;
         goto _Lfound;
     }
     backinput();
     if (mu) goto _Lnotfound;
+    // "em"
     if (scankeyword(S(614))) /*443:*/
         v = quad(curfont);   /*558:*/
                              /*:558*/
+    // "ex"
     else if (scankeyword(S(615)))
         v = xheight(curfont); /*559:*/
                               /*:559*/
     else
         goto _Lnotfound;
+
     get_x_token();
     if (curcmd != SPACER) /*:443*/
         backinput();
+
 _Lfound:
     cur_val = nx_plus_y(savecurval, v, xn_over_d(v, f, 65536L));
     goto _Lattachsign_;
+
 _Lnotfound:   /*:455*/
     if (mu) { /*456:*/
-        if (scankeyword(S(390)))
+        if (scankeyword(S(390))) //  "mu"
             goto _Lattachfraction_;
         else { /*:456*/
-            printnl(S(292));
-            print(S(611));
-            print(S(616));
+            printnl(S(292)); // "! "
+            print(S(611));   // "Illegal unit of measure ("
+            print(S(616));   // "mu inserted)"
+            /* "The unit of measurement in math glue must be mu."
+             * "To recover gracefully from this error, it´s best to"
+             * "delete the erroneous units; e.g., type `2´ to delete"
+             * "two letters. (See Chapter 27 of The TeXbook.)"
+             */
             help4(S(617), S(618), S(619), S(620));
             error();
             goto _Lattachfraction_;
         }
     }
-    if (scankeyword(S(621))) { /*457:*/
+
+    if (scankeyword(S(621))) { //  true"
+        // [#457] Adjust for the magnification ratio.
         preparemag();
         if (mag != 1000) {
             cur_val = xn_over_d(cur_val, 1000, mag);
@@ -752,72 +850,95 @@ _Lnotfound:   /*:455*/
         }
     }
     /*:457*/
-    if (scankeyword(S(459))) /*458:*/
+
+    if (scankeyword(S(459))) // "pt"
         goto _Lattachfraction_;
-    if (scankeyword(S(622))) {
+
+    // [#458] Scan for all other units and adjust cur val and f accordingly;
+    // goto done in the case of scaled points
+    if (scankeyword(S(622))) { // "in"
         num = 7227;
         denom = 100;
-    } else if (scankeyword(S(623))) {
+    } else if (scankeyword(S(623))) { // "pc"
         num = 12;
         denom = 1;
-    } else if (scankeyword(S(624))) {
+    } else if (scankeyword(S(624))) { // "cm"
         num = 7227;
         denom = 254;
-    } else if (scankeyword(S(625))) {
+    } else if (scankeyword(S(625))) { // "mm"
         num = 7227;
         denom = 2540;
-    } else if (scankeyword(S(626))) {
+    } else if (scankeyword(S(626))) { // "bp"
         num = 7227;
         denom = 7200;
-    } else if (scankeyword(S(627))) {
+    } else if (scankeyword(S(627))) { // "dd"
         num = 1238;
         denom = 1157;
-    } else if (scankeyword(S(628))) {
+    } else if (scankeyword(S(628))) { // "cc"
         num = 14856;
         denom = 1157;
-    } else if (scankeyword(S(629)))
+    } else if (scankeyword(S(629))) { // "sp"
         goto _Ldone;
-    else {
-        printnl(S(292));
-        print(S(611));
-        print(S(630));
+    } else {
+        // [#459] Complain about unknown unit and goto done2.
+        printnl(S(292)); // "! "
+        print(S(611));   // "Illegal unit of measure ("
+        print(S(630));   // "pt inserted)"
+        /* " Dimensions can be in units of em, ex, in, pt, pc,"
+         * "cm, mm, dd, cc, bp, or sp; but yours is a new one!"
+         * "I´ll assume that you meant to say pt, for printer´s points."
+         * "To recover gracefully from this error, it´s best to"
+         * "delete the erroneous units; e.g., type `2´ to delete"
+         * "two letters. (See Chapter 27 of The TeXbook.)"
+         */
         help6(S(631), S(632), S(633), S(618), S(619), S(620));
         error();
         goto _Ldone2;
     }
+
     cur_val = xn_over_d(cur_val, num, denom);
     f = (num * f + tex_remainder * 65536L) / denom;
     cur_val += f / 65536L;
     f %= 65536L;
+
 _Ldone2: /*:458*/
 _Lattachfraction_:
     if (cur_val >= 16384)
         arith_error = true;
     else
         cur_val = cur_val * UNITY + f;
+
 _Ldone: /*:453*/
     /*443:*/
     get_x_token();
     if (curcmd != SPACER) /*:443*/
         backinput();
+
 _Lattachsign_:
     if (arith_error || labs(cur_val) >= 1073741824L) { /*460:*/
-        printnl(S(292));
-        print(S(634));
+        // [#460] Report that this dimension is out of range.
+        printnl(S(292)); // "! "
+        print(S(634));   // " Dimension too large"
+        // "I can´t work with sizes bigger than about 19 feet."
+        // "Continue and I´ll use the largest value I can."
         help2(S(635), S(636));
         error();
         cur_val = MAX_DIMEN;
         arith_error = false;
     }
+
     /*:460*/
     if (negative) cur_val = -cur_val;
 
     /*459:*/
     /*:459*/
-} // [#448] scandimen
+} // [#448] scan_dimen
 
-/// [#461] sets #cur_val to a glue spec pointer
-void scanglue(SmallNumber level) {
+/** [#461] sets #cur_val to a glue spec pointer.
+ *
+ * xref[5]: 410, 782, 1060, 1228, 1238
+ */
+void scan_glue(SmallNumber level) {
     Boolean negative, mu;
     Pointer q;
 
@@ -830,39 +951,52 @@ void scanglue(SmallNumber level) {
             curtok = othertoken + '+';
         }
     } while (curtok == othertoken + '+');
+
     if (curcmd >= mininternal && curcmd <= maxinternal) { /*462:*/
-        scansomethinginternal(level, negative);
+        scan_something_internal(level, negative);
         if (cur_val_level >= GLUE_VAL) {
-            if (cur_val_level != level) muerror();
+            if (cur_val_level != level) mu_error();
             goto _Lexit;
         }
         if (cur_val_level == INT_VAL)
-            scandimen(mu, false, true);
+            scan_dimen(mu, false, true);
         else if (level == MU_VAL)
-            muerror();
+            mu_error();
     } else {
         backinput();
-        scandimen(mu, false, false);
+        scan_dimen(mu, false, false);
         if (negative) cur_val = -cur_val;
     }
+
     q = newspec(zeroglue);
     width(q) = cur_val;
-    if (scankeyword(S(637))) {
-        scandimen(mu, true, false);
+
+    if (scankeyword(S(637))) { // "plus"
+        scan_dimen(mu, true, false);
         stretch(q) = cur_val;
         stretchorder(q) = cur_order;
     }
-    if (scankeyword(S(638))) {
-        scandimen(mu, true, false);
+    if (scankeyword(S(638))) { // "minus"
+        scan_dimen(mu, true, false);
         shrink(q) = cur_val;
         shrinkorder(q) = cur_order;
     }
     cur_val = q; /*:462*/
-_Lexit:;
-} // [#461] scanglue
 
-/// [#463]
-HalfWord scanrulespec(void) {
+_Lexit:;
+} // [#461] scan_glue
+
+/** [#463] returns a pointer to a rule node.
+ * 
+ * This routine is called just after TEX has seen `\hrule` or `\vrule`;
+ *  therefore cur cmd will be either hrule or vrule.
+ * The idea is to store the default rule dimensions in the node,
+ *  then to override them if `height` or `width` or `depth` specifications
+ *  are found (in any order).
+ * 
+ * xref[2]: 1056, 1084
+ */
+HalfWord scan_rule_spec(void) {
     Pointer q;
 
     q = newrule();
@@ -872,21 +1006,25 @@ HalfWord scanrulespec(void) {
         height(q) = DEFAULT_RULE;
         depth(q) = 0;
     }
+
 _LN_scanrulespec__reswitch:
-    if (scankeyword(S(639))) {
+    if (scankeyword(S(639))) { // "width"
         SCAN_NORMAL_DIMEN();
         width(q) = cur_val;
         goto _LN_scanrulespec__reswitch;
     }
-    if (scankeyword(S(640))) {
+
+    if (scankeyword(S(640))) { // "height"
         SCAN_NORMAL_DIMEN();
         height(q) = cur_val;
         goto _LN_scanrulespec__reswitch;
     }
+
+    // "depth"
     if (!scankeyword(S(641))) return q;
     SCAN_NORMAL_DIMEN();
     depth(q) = cur_val;
     goto _LN_scanrulespec__reswitch;
-} // [#463] scanrulespec
+} // [#463] scan_rule_spec
 
 /** @}*/ // end group S402x463

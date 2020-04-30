@@ -37,7 +37,7 @@ enum TokenLevel {
 // #define attachsign      89
 
 /// [#448] 
-#define SCAN_NORMAL_DIMEN() scandimen(false, false, false)
+#define SCAN_NORMAL_DIMEN() scan_dimen(false, false, false)
 /** @}*/ // end group S402x463
 
 
@@ -49,23 +49,22 @@ extern GlueOrd cur_order;
 
 extern void skip_spaces(void);
 extern void skip_spaces_or_relax(void);
-extern void scanleftbrace(void);
-extern void scanoptionalequals(void);
+extern void scan_left_brace(void);
+extern void scan_optional_equals(void);
 extern Boolean scankeyword(StrNumber s);
-// extern void muerror(void);
 // [tex] 1
 extern void
-scansomethinginternal(SmallNumber level,
+scan_something_internal(SmallNumber level,
                       Boolean negative);
-extern void scaneightbitint(void);
-extern void scancharnum(void);
-extern void scanfourbitint(void);
-extern void scanfifteenbitint(void);
-extern void scantwentysevenbitint(void);
-extern void scanint(void);
-extern void scandimen(Boolean mu, Boolean inf, Boolean shortcut);
-extern void scanglue(SmallNumber level);
-extern HalfWord scanrulespec(void);
+extern void scan_eight_bit_int(void);
+extern void scan_char_num(void);
+extern void scan_four_bit_int(void);
+extern void scan_fifteen_bit_int(void);
+extern void scan_twenty_seven_bit_int(void);
+extern void scan_int(void);
+extern void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut);
+extern void scan_glue(SmallNumber level);
+extern HalfWord scan_rule_spec(void);
 
 
 #endif // INC_SCAN_H

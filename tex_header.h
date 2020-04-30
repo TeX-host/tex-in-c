@@ -56,6 +56,8 @@
  *  404 not found: 39-str*, 50-poolfile,
  */
 
+Static jmp_buf _JMP_global__end_of_TEX;
+
 /// [#20]
 ASCIICode xord[256];   // specifies conversion of input characters
 Char xchr[256]; // specifies conversion of output characters
