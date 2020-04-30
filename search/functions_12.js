@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['term_5finput_2496',['term_input',['../tex_8c.html#a4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c'],['../texfunc_8h.html#a4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c']]],
-  ['tex_5fround_2497',['tex_round',['../tex_8c.html#a0b21d450cfc163e6a3a817682f151114',1,'tex.c']]],
-  ['thetoks_2498',['thetoks',['../tex_8c.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c'],['../texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c']]],
-  ['tokenshow_2499',['tokenshow',['../group___s289x296.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c'],['../group___s289x296.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c']]],
-  ['trapzeroglue_2500',['trapzeroglue',['../tex_8c.html#a1e690375d513ec23d2c3375f4c6c2cff',1,'tex.c']]],
-  ['triefix_2501',['triefix',['../tex_8c.html#affa8b04a0cb555d2033947c73b16669d',1,'tex.c']]],
-  ['trienode_2502',['trienode',['../tex_8c.html#af34dfb1d2c9ca450c7fd0545193d5c97',1,'tex.c']]],
-  ['triepack_2503',['triepack',['../tex_8c.html#ac3fd4463a5ff67804779f019071a95a1',1,'tex.c']]],
-  ['trimspaces_2504',['trimspaces',['../funcs_8c.html#a50ef1820def3021c6a96e788fe66c0de',1,'funcs.c']]],
-  ['trybreak_2505',['trybreak',['../tex_8c.html#a541db166974beadbb46ae421363e50fd',1,'tex.c']]]
+  ['term_5finput_2501',['term_input',['../tex_8c.html#a4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c'],['../texfunc_8h.html#a4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c']]],
+  ['tex_5fround_2502',['tex_round',['../tex_8c.html#a0b21d450cfc163e6a3a817682f151114',1,'tex.c']]],
+  ['thetoks_2503',['thetoks',['../tex_8c.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c'],['../texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c']]],
+  ['tokenshow_2504',['tokenshow',['../group___s289x296.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c'],['../group___s289x296.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c']]],
+  ['trapzeroglue_2505',['trapzeroglue',['../tex_8c.html#a1e690375d513ec23d2c3375f4c6c2cff',1,'tex.c']]],
+  ['triefix_2506',['triefix',['../tex_8c.html#affa8b04a0cb555d2033947c73b16669d',1,'tex.c']]],
+  ['trienode_2507',['trienode',['../tex_8c.html#af34dfb1d2c9ca450c7fd0545193d5c97',1,'tex.c']]],
+  ['triepack_2508',['triepack',['../tex_8c.html#ac3fd4463a5ff67804779f019071a95a1',1,'tex.c']]],
+  ['trimspaces_2509',['trimspaces',['../funcs_8c.html#a50ef1820def3021c6a96e788fe66c0de',1,'funcs.c']]],
+  ['trybreak_2510',['trybreak',['../tex_8c.html#a541db166974beadbb46ae421363e50fd',1,'tex.c']]]
 ];

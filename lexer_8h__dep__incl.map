@@ -1,8 +1,14 @@
 <map id="lexer.h" name="lexer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="171,5,241,35"/>
-<area shape="rect" id="node2" href="$expand_8c.html" title=" " alt="" coords="5,83,92,112"/>
-<area shape="rect" id="node3" href="$inputln_8c.html" title=" " alt="" coords="116,83,197,112"/>
-<area shape="rect" id="node4" href="$lexer_8c.html" title=" " alt="" coords="221,83,289,112"/>
-<area shape="rect" id="node5" href="$tex__header_8h.html" title=" " alt="" coords="314,83,429,112"/>
-<area shape="rect" id="node6" href="$tex_8c.html" title=" " alt="" coords="344,160,399,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="186,5,255,35"/>
+<area shape="rect" id="node2" href="$scan_8h.html" title=" " alt="" coords="350,83,419,112"/>
+<area shape="rect" id="node4" href="$expand_8c.html" title=" " alt="" coords="111,237,197,267"/>
+<area shape="rect" id="node6" href="$inputln_8c.html" title=" " alt="" coords="5,237,87,267"/>
+<area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="221,237,289,267"/>
+<area shape="rect" id="node10" href="$tex__header_8h.html" title=" " alt="" coords="593,237,707,267"/>
+<area shape="rect" id="node3" href="$global_8h.html" title=" " alt="" coords="309,160,386,189"/>
+<area shape="rect" id="node9" href="$scan_8c.html" title=" " alt="" coords="500,237,568,267"/>
+<area shape="rect" id="node12" href="$printout_8c.html" title=" " alt="" coords="461,160,548,189"/>
+<area shape="rect" id="node5" href="$funcs_8c.html" title=" " alt="" coords="403,237,475,267"/>
+<area shape="rect" id="node8" href="$print_8c.html" title=" " alt="" coords="313,237,379,267"/>
+<area shape="rect" id="node11" href="$tex_8c.html" title=" " alt="" coords="623,315,677,344"/>
 </map>

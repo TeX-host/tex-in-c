@@ -1,15 +1,15 @@
 <map id="str.c" name="str.c">
-<area shape="rect" id="node1" title=" " alt="" coords="201,5,252,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="228,5,279,35"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,237,75,267"/>
-<area shape="rect" id="node3" title=" " alt="" coords="375,83,449,112"/>
+<area shape="rect" id="node3" title=" " alt="" coords="371,83,445,112"/>
 <area shape="rect" id="node4" href="$global__const_8h.html" title=" " alt="" coords="99,237,223,267"/>
-<area shape="rect" id="node6" href="$tex_8h.html" title=" " alt="" coords="295,83,351,112"/>
-<area shape="rect" id="node11" href="$macros_8h.html" title=" " alt="" coords="474,83,561,112"/>
-<area shape="rect" id="node12" href="$texfunc_8h.html" title=" " alt="" coords="183,83,270,112"/>
-<area shape="rect" id="node13" href="$str_8h.html" title=" " alt="" coords="134,160,186,189"/>
+<area shape="rect" id="node6" href="$tex_8h.html" title=" " alt="" coords="291,83,347,112"/>
+<area shape="rect" id="node11" href="$macros_8h.html" title=" " alt="" coords="470,83,557,112"/>
+<area shape="rect" id="node12" href="$texfunc_8h.html" title=" " alt="" coords="129,83,215,112"/>
+<area shape="rect" id="node13" href="$str_8h.html" title=" " alt="" coords="146,160,198,189"/>
 <area shape="rect" id="node5" title=" " alt="" coords="122,315,201,344"/>
-<area shape="rect" id="node7" href="$tex__types_8h.html" title=" " alt="" coords="361,160,463,189"/>
-<area shape="rect" id="node10" href="$tex__constant_8h.html" title=" " alt="" coords="211,160,336,189"/>
-<area shape="rect" id="node8" title=" " alt="" coords="369,237,455,267"/>
-<area shape="rect" id="node9" title=" " alt="" coords="259,237,333,267"/>
+<area shape="rect" id="node7" href="$tex__types_8h.html" title=" " alt="" coords="306,237,409,267"/>
+<area shape="rect" id="node10" href="$tex__constant_8h.html" title=" " alt="" coords="223,160,348,189"/>
+<area shape="rect" id="node8" title=" " alt="" coords="322,315,409,344"/>
+<area shape="rect" id="node9" title=" " alt="" coords="225,315,298,344"/>
 </map>

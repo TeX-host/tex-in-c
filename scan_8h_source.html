@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: scan.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('scan_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">scan.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="scan_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_SCAN_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define INC_SCAN_H</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="scan_8h.html#a53b375822b230d0de3f45cf15ae59d55">    8</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span> <span class="comment">// [macro] othertoken; [var] curcmd,</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">enum</span> <a class="code" href="group___s402x463.html#gacdf722e52e0a319141e934c8f9649619">TokenLevel</a> {</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a621b25d78b0b15a5af75d2345be66f40">   17</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a621b25d78b0b15a5af75d2345be66f40">INT_VAL</a>,   </div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a4dfeb797b24b6cf60746088ba6cbd262">   18</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a4dfeb797b24b6cf60746088ba6cbd262">DIMEN_VAL</a>, </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619add022a4c8c40b2ffb591bc0c0e38dbc4">   19</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619add022a4c8c40b2ffb591bc0c0e38dbc4">GLUE_VAL</a>,  </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619aa132a4dc1e2b9b437bc23021895041da">   20</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619aa132a4dc1e2b9b437bc23021895041da">MU_VAL</a>,    </div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a41d1733d9668f720c7c377cb63f8956a">   21</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a41d1733d9668f720c7c377cb63f8956a">IDENT_VAL</a>, </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42">   22</a></span>&#160;    <a class="code" href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42">TOK_VAL</a>,   </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}; <span class="comment">// [#410] enum TokenLevel</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define INPUT_LINE_NO_CODE  (GLUE_VAL + 1)</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="group___s402x463.html#ga6a217531057bc9de2c22cdd790e9c503">   27</a></span>&#160;<span class="preprocessor">#define BADNESS_CODE        (GLUE_VAL + 2)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="group___s402x463.html#gab9bfaad38716e16f3da04df382693e72">   29</a></span>&#160;<span class="preprocessor">#define MAX_DIMEN   1073741823L</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="group___s402x463.html#gad0f1d9074a78d84419a57b2f9f728c25">   31</a></span>&#160;<span class="preprocessor">#define ZERO_TOKEN  (othertoken + &#39;0&#39;)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="group___s402x463.html#gabb34b376206da82929a5e31c53e7899c">   33</a></span>&#160;<span class="comment">// [#448] label</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// /// go here to pack cur val and f into cur val</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// #define attachfraction  88</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// //// go here when cur val is correct except perhaps for sign</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// #define attachsign      89</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define SCAN_NORMAL_DIMEN() scan_dimen(false, false, false)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="group___s402x463.html#ga1887451cf487bddcd855a1c4aca71203">   41</a></span>&#160; <span class="comment">// end group S402x463</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> <a class="code" href="group___s402x463.html#ga61e0deab2e0b57d51c07f9cf6cd05d8c">cur_val</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> <a class="code" href="group___s402x463.html#gaff8baeee1ff68a5a0980988731e46d81">cur_val_level</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> <a class="code" href="group___s402x463.html#gac93eb14403900c0e41d8cf1d7a7875a1">radix</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa">GlueOrd</a> <a class="code" href="group___s402x463.html#ga510e8f8e1347cdf8f67038f1240733bd">cur_order</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#ga169f931cce63901cd540857447e63fcf">skip_spaces</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gafb45e014164106d4d4a269eca4f10602">skip_spaces_or_relax</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gaf0b227b2375d21453c89dc5e5b0f70b5">scan_left_brace</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gace229d2e025de140fb2d791038f39da3">scan_optional_equals</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> <a class="code" href="group___s402x463.html#ga750f7396a4838f83b848be6ccfd78975">scankeyword</a>(<a class="code" href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a> s);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// [tex] 1</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<a class="code" href="group___s402x463.html#gaf30688053e3e6be5f3bbc6aa4fad94e9">scan_something_internal</a>(<a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> level,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                      <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> negative);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#ga615180139ffa796707e72ee64d7b091b">scan_eight_bit_int</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gaafa9264f6db5163de6ffee5f78d2245c">scan_char_num</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#ga588f7d98e5194f96d41bf5ffeb22ac83">scan_four_bit_int</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#ga3b5a262a3455da1edc87a23ef1bb1ee4">scan_fifteen_bit_int</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gaaaba4bad74c0324004cf113c0218d740">scan_twenty_seven_bit_int</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gaabbffa60f1008d6f0fdb815d017e700c">scan_int</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#gae5878932d5a7b4391f63a3a6314e33b6">scan_dimen</a>(<a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> mu, <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> inf, <a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> shortcut);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s402x463.html#ga35b9f9437e777616b7df9858c72a5266">scan_glue</a>(<a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> level);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> <a class="code" href="group___s402x463.html#ga0bf73365569624634447e5e474435afc">scan_rule_spec</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif // INC_SCAN_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="agroup___s402x463_html_gae5878932d5a7b4391f63a3a6314e33b6"><div class="ttname"><a href="group___s402x463.html#gae5878932d5a7b4391f63a3a6314e33b6">scan_dimen</a></div><div class="ttdeci">void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut)</div><div class="ttdoc">[#448] sets cur_val to a dimension.</div><div class="ttdef"><b>Definition:</b> scan.c:688</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619add022a4c8c40b2ffb591bc0c0e38dbc4"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619add022a4c8c40b2ffb591bc0c0e38dbc4">GLUE_VAL</a></div><div class="ttdeci">@ GLUE_VAL</div><div class="ttdoc">glue specifications</div><div class="ttdef"><b>Definition:</b> scan.h:19</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga510e8f8e1347cdf8f67038f1240733bd"><div class="ttname"><a href="group___s402x463.html#ga510e8f8e1347cdf8f67038f1240733bd">cur_order</a></div><div class="ttdeci">GlueOrd cur_order</div><div class="ttdoc">[#447] order of INFINITY found by scan_dimen.</div><div class="ttdef"><b>Definition:</b> scan.c:55</div></div>
+<div class="ttc" id="agroup___s402x463_html_gaafa9264f6db5163de6ffee5f78d2245c"><div class="ttname"><a href="group___s402x463.html#gaafa9264f6db5163de6ffee5f78d2245c">scan_char_num</a></div><div class="ttdeci">void scan_char_num(void)</div><div class="ttdoc">[#434] scan character code = [0, 255], use scan_int.</div><div class="ttdef"><b>Definition:</b> scan.c:497</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619aa132a4dc1e2b9b437bc23021895041da"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619aa132a4dc1e2b9b437bc23021895041da">MU_VAL</a></div><div class="ttdeci">@ MU_VAL</div><div class="ttdoc">math glue specifications</div><div class="ttdef"><b>Definition:</b> scan.h:20</div></div>
+<div class="ttc" id="atex__types_8h_html_ad5222c678ee04a51b87796fb24c64afa"><div class="ttname"><a href="tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa">GlueOrd</a></div><div class="ttdeci">UChar GlueOrd</div><div class="ttdoc">INFINITY to the 0, 1, 2, or 3 power.</div><div class="ttdef"><b>Definition:</b> tex_types.h:165</div></div>
+<div class="ttc" id="agroup___s402x463_html_gaf0b227b2375d21453c89dc5e5b0f70b5"><div class="ttname"><a href="group___s402x463.html#gaf0b227b2375d21453c89dc5e5b0f70b5">scan_left_brace</a></div><div class="ttdeci">void scan_left_brace(void)</div><div class="ttdoc">[#403] when a left brace is supposed to be the next non-blank token.</div><div class="ttdef"><b>Definition:</b> scan.c:82</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga615180139ffa796707e72ee64d7b091b"><div class="ttname"><a href="group___s402x463.html#ga615180139ffa796707e72ee64d7b091b">scan_eight_bit_int</a></div><div class="ttdeci">void scan_eight_bit_int(void)</div><div class="ttdoc">[#433] scan register code = [0, 255], use scan_int.</div><div class="ttdef"><b>Definition:</b> scan.c:479</div></div>
+<div class="ttc" id="agroup___s402x463_html_gac93eb14403900c0e41d8cf1d7a7875a1"><div class="ttname"><a href="group___s402x463.html#gac93eb14403900c0e41d8cf1d7a7875a1">radix</a></div><div class="ttdeci">SmallNumber radix</div><div class="ttdoc">[#438] scan_int sets this to 8, 10, 16, or zero.</div><div class="ttdef"><b>Definition:</b> scan.c:53</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42">TOK_VAL</a></div><div class="ttdeci">@ TOK_VAL</div><div class="ttdoc">token lists</div><div class="ttdef"><b>Definition:</b> scan.h:22</div></div>
+<div class="ttc" id="atex__types_8h_html_a23abc5a95167751b01dabc5eb2396241"><div class="ttname"><a href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></div><div class="ttdeci">int64_t Integer</div><div class="ttdoc">Integer(64) =</div><div class="ttdef"><b>Definition:</b> tex_types.h:42</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga588f7d98e5194f96d41bf5ffeb22ac83"><div class="ttname"><a href="group___s402x463.html#ga588f7d98e5194f96d41bf5ffeb22ac83">scan_four_bit_int</a></div><div class="ttdeci">void scan_four_bit_int(void)</div><div class="ttdoc">[#435] scan number = [0, 15], use scan_int.</div><div class="ttdef"><b>Definition:</b> scan.c:513</div></div>
+<div class="ttc" id="agroup___s402x463_html_gaff8baeee1ff68a5a0980988731e46d81"><div class="ttname"><a href="group___s402x463.html#gaff8baeee1ff68a5a0980988731e46d81">cur_val_level</a></div><div class="ttdeci">SmallNumber cur_val_level</div><div class="ttdoc">[#410] the &quot;level&quot; of this value.</div><div class="ttdef"><b>Definition:</b> scan.c:51</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga0bf73365569624634447e5e474435afc"><div class="ttname"><a href="group___s402x463.html#ga0bf73365569624634447e5e474435afc">scan_rule_spec</a></div><div class="ttdeci">HalfWord scan_rule_spec(void)</div><div class="ttdoc">[#463] returns a pointer to a rule node.</div><div class="ttdef"><b>Definition:</b> scan.c:999</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619a4dfeb797b24b6cf60746088ba6cbd262"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a4dfeb797b24b6cf60746088ba6cbd262">DIMEN_VAL</a></div><div class="ttdeci">@ DIMEN_VAL</div><div class="ttdoc">dimension values</div><div class="ttdef"><b>Definition:</b> scan.h:18</div></div>
+<div class="ttc" id="agroup___s402x463_html_gacdf722e52e0a319141e934c8f9649619"><div class="ttname"><a href="group___s402x463.html#gacdf722e52e0a319141e934c8f9649619">TokenLevel</a></div><div class="ttdeci">TokenLevel</div><div class="ttdoc">[#410]</div><div class="ttdef"><b>Definition:</b> scan.h:16</div></div>
+<div class="ttc" id="atex__types_8h_html_a8e4f531097beff3efa03761e6ee8d288"><div class="ttname"><a href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a></div><div class="ttdeci">UChar SmallNumber</div><div class="ttdoc">[p38#101]: SmallNumber::UChar(8) = [0, 255] only need: (6bit)[0, 63] .</div><div class="ttdef"><b>Definition:</b> tex_types.h:106</div></div>
+<div class="ttc" id="atex__types_8h_html_aa8a834ed7aca6d10c5906b333ecd4a2a"><div class="ttname"><a href="tex__types_8h.html#aa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></div><div class="ttdeci">uint32_t HalfWord</div><div class="ttdoc">[p43#113]: HalfWord(16=&gt;32) .</div><div class="ttdef"><b>Definition:</b> tex_types.h:116</div></div>
+<div class="ttc" id="agroup___s402x463_html_gace229d2e025de140fb2d791038f39da3"><div class="ttname"><a href="group___s402x463.html#gace229d2e025de140fb2d791038f39da3">scan_optional_equals</a></div><div class="ttdeci">void scan_optional_equals(void)</div><div class="ttdoc">[#405] looks for an optional = sign preceded by optional spaces.</div><div class="ttdef"><b>Definition:</b> scan.c:111</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga61e0deab2e0b57d51c07f9cf6cd05d8c"><div class="ttname"><a href="group___s402x463.html#ga61e0deab2e0b57d51c07f9cf6cd05d8c">cur_val</a></div><div class="ttdeci">Integer cur_val</div><div class="ttdoc">[#410] value returned by numeric scanners.</div><div class="ttdef"><b>Definition:</b> scan.c:48</div></div>
+<div class="ttc" id="agroup___s402x463_html_gaaaba4bad74c0324004cf113c0218d740"><div class="ttname"><a href="group___s402x463.html#gaaaba4bad74c0324004cf113c0218d740">scan_twenty_seven_bit_int</a></div><div class="ttdeci">void scan_twenty_seven_bit_int(void)</div><div class="ttdoc">[#437] scan mathchar = , use scan_int.</div><div class="ttdef"><b>Definition:</b> scan.c:545</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga35b9f9437e777616b7df9858c72a5266"><div class="ttname"><a href="group___s402x463.html#ga35b9f9437e777616b7df9858c72a5266">scan_glue</a></div><div class="ttdeci">void scan_glue(SmallNumber level)</div><div class="ttdoc">[#461] sets cur_val to a glue spec pointer.</div><div class="ttdef"><b>Definition:</b> scan.c:941</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619a41d1733d9668f720c7c377cb63f8956a"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a41d1733d9668f720c7c377cb63f8956a">IDENT_VAL</a></div><div class="ttdeci">@ IDENT_VAL</div><div class="ttdoc">font identifier</div><div class="ttdef"><b>Definition:</b> scan.h:21</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga169f931cce63901cd540857447e63fcf"><div class="ttname"><a href="group___s402x463.html#ga169f931cce63901cd540857447e63fcf">skip_spaces</a></div><div class="ttdeci">void skip_spaces(void)</div><div class="ttdoc">[#406] Get the next non-blank non-call token.</div><div class="ttdef"><b>Definition:</b> scan.c:60</div></div>
+<div class="ttc" id="agroup___s402x463_html_gaabbffa60f1008d6f0fdb815d017e700c"><div class="ttname"><a href="group___s402x463.html#gaabbffa60f1008d6f0fdb815d017e700c">scan_int</a></div><div class="ttdeci">void scan_int(void)</div><div class="ttdoc">[#440] sets cur_val to an integer.</div><div class="ttdef"><b>Definition:</b> scan.c:568</div></div>
+<div class="ttc" id="alexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
+<div class="ttc" id="agroup___s402x463_html_gaf30688053e3e6be5f3bbc6aa4fad94e9"><div class="ttname"><a href="group___s402x463.html#gaf30688053e3e6be5f3bbc6aa4fad94e9">scan_something_internal</a></div><div class="ttdeci">void scan_something_internal(SmallNumber level, Boolean negative)</div><div class="ttdoc">[#413] fetch an internal parameter.</div><div class="ttdef"><b>Definition:</b> scan.c:195</div></div>
+<div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga750f7396a4838f83b848be6ccfd78975"><div class="ttname"><a href="group___s402x463.html#ga750f7396a4838f83b848be6ccfd78975">scankeyword</a></div><div class="ttdeci">Boolean scankeyword(StrNumber s)</div><div class="ttdoc">[#407] look for a given string.</div><div class="ttdef"><b>Definition:</b> scan.c:126</div></div>
+<div class="ttc" id="agroup___s402x463_html_gafb45e014164106d4d4a269eca4f10602"><div class="ttname"><a href="group___s402x463.html#gafb45e014164106d4d4a269eca4f10602">skip_spaces_or_relax</a></div><div class="ttdeci">void skip_spaces_or_relax(void)</div><div class="ttdoc">[#404] Get the next non-blank non-relax non-call token.</div><div class="ttdef"><b>Definition:</b> scan.c:69</div></div>
+<div class="ttc" id="agroup___s402x463_html_ga3b5a262a3455da1edc87a23ef1bb1ee4"><div class="ttname"><a href="group___s402x463.html#ga3b5a262a3455da1edc87a23ef1bb1ee4">scan_fifteen_bit_int</a></div><div class="ttdeci">void scan_fifteen_bit_int(void)</div><div class="ttdoc">[#436] scan mathchar = [0, 23767], use scan_int.</div><div class="ttdef"><b>Definition:</b> scan.c:529</div></div>
+<div class="ttc" id="agroup___s402x463_html_ggacdf722e52e0a319141e934c8f9649619a621b25d78b0b15a5af75d2345be66f40"><div class="ttname"><a href="group___s402x463.html#ggacdf722e52e0a319141e934c8f9649619a621b25d78b0b15a5af75d2345be66f40">INT_VAL</a></div><div class="ttdeci">@ INT_VAL</div><div class="ttdoc">integer values</div><div class="ttdef"><b>Definition:</b> scan.h:17</div></div>
+<div class="ttc" id="astr_8h_html_a07525edfa2983cba57700272d6a51827"><div class="ttname"><a href="str_8h.html#a07525edfa2983cba57700272d6a51827">StrNumber</a></div><div class="ttdeci">uint_fast32_t StrNumber</div><div class="ttdef"><b>Definition:</b> str.h:37</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="scan_8h.html">scan.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

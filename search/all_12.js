@@ -3,7 +3,7 @@ var searchData=
   ['radical_1469',['radical',['../tex_8h.html#abce472088d3ee3828c7d30d345af874e',1,'tex.h']]],
   ['radicalnoad_1470',['radicalnoad',['../tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3a4c749a63df0402ceca17ad49a6a6ee17',1,'tex_constant.h']]],
   ['radicalnoadsize_1471',['radicalnoadsize',['../tex__constant_8h.html#af034350d19fd08f4742e0dfdbe5e8dd8',1,'tex_constant.h']]],
-  ['radix_1472',['radix',['../global_8h.html#ac93eb14403900c0e41d8cf1d7a7875a1',1,'radix():&#160;tex_header.h'],['../tex__header_8h.html#ac93eb14403900c0e41d8cf1d7a7875a1',1,'radix():&#160;tex_header.h']]],
+  ['radix_1472',['radix',['../group___s402x463.html#gac93eb14403900c0e41d8cf1d7a7875a1',1,'radix():&#160;scan.c'],['../group___s402x463.html#gac93eb14403900c0e41d8cf1d7a7875a1',1,'radix():&#160;scan.c']]],
   ['read_5fsixteen_1473',['READ_SIXTEEN',['../fonts_8c.html#af2962decec1cc3c2683f2c5d877cd0ba',1,'fonts.c']]],
   ['readfile_1474',['readfile',['../tex__header_8h.html#a21d074bee5f11851c8b2291204df125a',1,'tex_header.h']]],
   ['readfontinfo_1475',['readfontinfo',['../fonts_8c.html#a7d5f4558348ee498d4ebcd54de19097c',1,'readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s):&#160;fonts.c'],['../fonts_8h.html#a7d5f4558348ee498d4ebcd54de19097c',1,'readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s):&#160;fonts.c']]],

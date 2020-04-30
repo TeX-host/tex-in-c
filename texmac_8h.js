@@ -247,7 +247,6 @@ var texmac_8h =
     [ "saveindex", "texmac_8h.html#a4ab65f4ab3a07ccd566af06149b4a289", null ],
     [ "savelevel", "texmac_8h.html#a52719d94ae8a7b3cde0c399f04b74946", null ],
     [ "savetype", "texmac_8h.html#aa5c4be36ae119ea05a5e66e8c46f6887", null ],
-    [ "scannormaldimen", "texmac_8h.html#a19a5a3c554f7c5d09182049c1d688b5a", null ],
     [ "scriptmlist", "texmac_8h.html#a9cfb88a233751083c2899730229500cd", null ],
     [ "scriptsallowed", "texmac_8h.html#a2ebe27db6e43873d676b6490fc578834", null ],
     [ "scriptscriptmlist", "texmac_8h.html#a386026dde4e25c10b57192e2129171e4", null ],

@@ -1,8 +1,9 @@
 <map id="expand.h" name="expand.h">
-<area shape="rect" id="node1" title=" " alt="" coords="157,5,245,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="207,5,295,35"/>
 <area shape="rect" id="node2" href="$expand_8c.html" title=" " alt="" coords="5,83,92,112"/>
 <area shape="rect" id="node3" href="$lexer_8c.html" title=" " alt="" coords="116,83,184,112"/>
 <area shape="rect" id="node4" href="$printout_8c.html" title=" " alt="" coords="208,83,295,112"/>
-<area shape="rect" id="node5" href="$tex__header_8h.html" title=" " alt="" coords="319,83,434,112"/>
-<area shape="rect" id="node6" href="$tex_8c.html" title=" " alt="" coords="349,160,404,189"/>
+<area shape="rect" id="node5" href="$scan_8c.html" title=" " alt="" coords="319,83,387,112"/>
+<area shape="rect" id="node6" href="$tex__header_8h.html" title=" " alt="" coords="411,83,526,112"/>
+<area shape="rect" id="node7" href="$tex_8c.html" title=" " alt="" coords="441,160,496,189"/>
 </map>

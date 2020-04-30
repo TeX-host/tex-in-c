@@ -1,12 +1,12 @@
 <map id="texmath.c" name="texmath.c">
-<area shape="rect" id="node1" title=" " alt="" coords="146,5,237,35"/>
-<area shape="rect" id="node2" href="$texmath_8h.html" title=" " alt="" coords="90,83,181,112"/>
-<area shape="rect" id="node6" href="$texfunc_8h.html" title=" " alt="" coords="205,83,292,112"/>
-<area shape="rect" id="node3" href="$tex__types_8h.html" title=" " alt="" coords="84,160,187,189"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,237,92,267"/>
-<area shape="rect" id="node5" title=" " alt="" coords="116,237,189,267"/>
-<area shape="rect" id="node7" href="$str_8h.html" title=" " alt="" coords="223,160,275,189"/>
-<area shape="rect" id="node8" title=" " alt="" coords="214,237,283,267"/>
-<area shape="rect" id="node9" href="$global__const_8h.html" title=" " alt="" coords="308,237,432,267"/>
-<area shape="rect" id="node10" title=" " alt="" coords="331,315,409,344"/>
+<area shape="rect" id="node1" title=" " alt="" coords="65,5,155,35"/>
+<area shape="rect" id="node2" href="$texmath_8h.html" title=" " alt="" coords="18,160,109,189"/>
+<area shape="rect" id="node6" href="$texfunc_8h.html" title=" " alt="" coords="112,83,199,112"/>
+<area shape="rect" id="node3" href="$tex__types_8h.html" title=" " alt="" coords="12,237,115,267"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,315,92,344"/>
+<area shape="rect" id="node5" title=" " alt="" coords="116,315,189,344"/>
+<area shape="rect" id="node7" href="$str_8h.html" title=" " alt="" coords="133,160,185,189"/>
+<area shape="rect" id="node8" title=" " alt="" coords="190,237,259,267"/>
+<area shape="rect" id="node9" href="$global__const_8h.html" title=" " alt="" coords="284,237,408,267"/>
+<area shape="rect" id="node10" title=" " alt="" coords="307,315,385,344"/>
 </map>

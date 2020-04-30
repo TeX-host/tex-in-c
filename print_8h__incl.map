@@ -1,13 +1,13 @@
 <map id="print.h" name="print.h">
-<area shape="rect" id="node1" title=" " alt="" coords="178,5,245,35"/>
-<area shape="rect" id="node2" href="$tex__types_8h.html" title=" " alt="" coords="5,160,108,189"/>
-<area shape="rect" id="node5" href="$tex_8h.html" title=" " alt="" coords="135,83,191,112"/>
-<area shape="rect" id="node7" href="$texmac_8h.html" title=" " alt="" coords="216,83,303,112"/>
-<area shape="rect" id="node8" href="$str_8h.html" title=" " alt="" coords="333,83,385,112"/>
-<area shape="rect" id="node3" title=" " alt="" coords="13,237,100,267"/>
-<area shape="rect" id="node4" title=" " alt="" coords="192,237,265,267"/>
-<area shape="rect" id="node6" href="$tex__constant_8h.html" title=" " alt="" coords="133,160,258,189"/>
-<area shape="rect" id="node9" title=" " alt="" coords="333,160,402,189"/>
-<area shape="rect" id="node10" href="$global__const_8h.html" title=" " alt="" coords="427,160,551,189"/>
-<area shape="rect" id="node11" title=" " alt="" coords="449,237,528,267"/>
+<area shape="rect" id="node1" title=" " alt="" coords="213,5,280,35"/>
+<area shape="rect" id="node2" href="$tex__types_8h.html" title=" " alt="" coords="155,160,258,189"/>
+<area shape="rect" id="node5" href="$tex_8h.html" title=" " alt="" coords="113,83,169,112"/>
+<area shape="rect" id="node7" href="$texmac_8h.html" title=" " alt="" coords="245,83,331,112"/>
+<area shape="rect" id="node8" href="$str_8h.html" title=" " alt="" coords="355,83,407,112"/>
+<area shape="rect" id="node3" title=" " alt="" coords="149,237,235,267"/>
+<area shape="rect" id="node4" title=" " alt="" coords="259,237,333,267"/>
+<area shape="rect" id="node6" href="$tex__constant_8h.html" title=" " alt="" coords="5,160,131,189"/>
+<area shape="rect" id="node9" title=" " alt="" coords="483,160,552,189"/>
+<area shape="rect" id="node10" href="$global__const_8h.html" title=" " alt="" coords="334,160,458,189"/>
+<area shape="rect" id="node11" title=" " alt="" coords="357,237,435,267"/>
 </map>

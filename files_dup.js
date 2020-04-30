@@ -24,6 +24,8 @@ var files_dup =
     [ "printout.h", "printout_8h.html", "printout_8h" ],
     [ "pure_func.c", "pure__func_8c.html", "pure__func_8c" ],
     [ "pure_func.h", "pure__func_8h.html", "pure__func_8h" ],
+    [ "scan.c", "scan_8c.html", "scan_8c" ],
+    [ "scan.h", "scan_8h.html", "scan_8h" ],
     [ "str.c", "str_8c.html", "str_8c" ],
     [ "str.h", "str_8h.html", "str_8h" ],
     [ "tex.c", "tex_8c.html", "tex_8c" ],

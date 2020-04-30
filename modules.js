@@ -7,5 +7,6 @@ var modules =
     [ "PART 20: TOKEN LISTS", "group___s289x296.html", "group___s289x296" ],
     [ "PART 23: MAINTAINING THE INPUT STACKS", "group___s321x331.html", "group___s321x331" ],
     [ "PART 24: GETTING THE NEXT TOKEN", "group___s332x365.html", "group___s332x365" ],
+    [ "PART 26: BASIC SCANNING SUBROUTINES", "group___s402x463.html", "group___s402x463" ],
     [ "PART 27: BUILDING TOKEN LISTS", "group___s464x486.html", "group___s464x486" ]
 ];

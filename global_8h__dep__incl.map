@@ -1,10 +1,11 @@
 <map id="global.h" name="global.h">
-<area shape="rect" id="node1" title=" " alt="" coords="265,5,342,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="314,5,391,35"/>
 <area shape="rect" id="node2" href="$expand_8c.html" title=" " alt="" coords="5,83,92,112"/>
 <area shape="rect" id="node3" href="$funcs_8c.html" title=" " alt="" coords="117,83,189,112"/>
 <area shape="rect" id="node4" href="$inputln_8c.html" title=" " alt="" coords="213,83,295,112"/>
 <area shape="rect" id="node5" href="$lexer_8c.html" title=" " alt="" coords="319,83,387,112"/>
 <area shape="rect" id="node6" href="$print_8c.html" title=" " alt="" coords="411,83,476,112"/>
-<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="501,83,615,112"/>
-<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="531,160,585,189"/>
+<area shape="rect" id="node7" href="$scan_8c.html" title=" " alt="" coords="500,83,568,112"/>
+<area shape="rect" id="node8" href="$tex__header_8h.html" title=" " alt="" coords="593,83,707,112"/>
+<area shape="rect" id="node9" href="$tex_8c.html" title=" " alt="" coords="623,160,677,189"/>
 </map>
