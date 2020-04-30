@@ -22,36 +22,36 @@
  * @{
  */
 
-/// [#438] apostrophe (`'`), indicates an octal constant
+/// [#438] apostrophe, indicates an octal constant.
 #define OCTAL_TOKEN (othertoken + '\'')
-/// [#438] double quote (`"`), indicates a hex constant
+/// [#438] double quote, indicates a hex constant.
 #define HEX_TOKEN   (othertoken + '"')
-/// [#438] reverse apostrophe (```), precedes alpha constants
+/// [#438] reverse apostrophe, precedes alpha constants.
 #define ALPHA_TOKEN (othertoken + '`')
-/// [#438] decimal point (`.`)
+/// [#438] decimal point.
 #define POINT_TOKEN (othertoken + '.')
-/// [#438] decimal point (`,`), Eurostyle
+/// [#438] decimal point, Eurostyle.
 #define CONTINENTAL_POINT_TOKEN (othertoken + ',')
 
-/// [#445] the largest positive value that @f$ \rm\TeX\ @f$ knows
+/// [#445] the largest positive value that @f$ \rm\TeX\ @f$ knows.
 #define INFINITY 2147483647L
-/// [#445] the smallest special hex digit
+/// [#445] the smallest special hex digit.
 #define A_TOKEN (lettertoken + 'A')
-/// [#445] special hex digit of type otherchar
+/// [#445] special hex digit of type otherchar.
 #define OTHER_A_TOKEN (othertoken + 'A')
 
-// [#463]
-#define DEFAULT_RULE 26214 // 0.4 pt
+/// [#463] 0.4 pt.
+#define DEFAULT_RULE 26214
 
 
-/// [#410] cur_val
+/// [#410] value returned by numeric scanners.
 Integer cur_val;
 /// [#410] the "level" of this value.
 /// [INT_VAL=0, TOK_VAL=5]
 SmallNumber cur_val_level;
-/// [#438] #scan_int sets this to 8, 10, 16, or zero
+/// [#438] #scan_int sets this to 8, 10, 16, or zero.
 SmallNumber radix;
-/// [#447] order of INFINITY found by #scan_dimen
+/// [#447] order of INFINITY found by #scan_dimen.
 GlueOrd cur_order;
 
 
@@ -64,7 +64,7 @@ void skip_spaces(void) {
 } // [#406]
 
 /// [#404] Get the next non-blank non-relax non-call token.
-/// TEX allows `\relax` to appear before the left brace.
+/// @f$ \rm\TeX\ @f$ allows `\relax` to appear before the left brace.
 /// used in sections 403, 1078, 1084, 1151, 1160, 1211, 1226, and 1270.
 void skip_spaces_or_relax(void) {
     do {
@@ -988,8 +988,8 @@ _Lexit:;
 
 /** [#463] returns a pointer to a rule node.
  * 
- * This routine is called just after TEX has seen `\hrule` or `\vrule`;
- *  therefore cur cmd will be either hrule or vrule.
+ * This routine is called just after @f$ \rm\TeX\ @f$ has seen `\hrule` or
+ *  `\vrule`; therefore cur cmd will be either hrule or vrule.
  * The idea is to store the default rule dimensions in the node,
  *  then to override them if `height` or `width` or `depth` specifications
  *  are found (in any order).
