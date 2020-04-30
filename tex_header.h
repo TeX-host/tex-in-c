@@ -124,23 +124,37 @@ Static Pointer rover; ///< [#124] points to some node in the list of empties.
 /** @}*/ // end group S115x132
 
 
-/// [ #162~172: MEMORY LAYOUT ]
-/// [p95#165]
-#ifdef tt_DEBUG
-// 以 byte(8) 分配，按位取用
-Static UChar free_cells[(MEM_MAX - MEM_MIN + 8) / 8]; // free: free cells
-Static UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];   // previously free cells
-// previous `mem_end`, `lo_mem_max`, and `hi_mem_min`
-Static Pointer was_mem_end, was_lo_max, was_hi_min;
-Static Boolean panicking; // do we want to check memory constantly?
-#endif // #165: tt_DEBUG
+/** @addtogroup S162x172
+ * @{
+ */
 
-/// [ #173~198: DISPLAYING BOXES ]
-Static Integer font_in_short_display; // an internal font number
-/// [#181]
-Static Integer depth_threshold; // maximum nesting depth in box displays
-// maximum number of items shown at the same list level
+// [ #162~172: MEMORY LAYOUT ]
+// [p95#165]
+#ifdef tt_DEBUG
+/// [#165] free: free cells, 以 byte(8) 分配，按位取用.
+Static UChar free_cells[(MEM_MAX - MEM_MIN + 8) / 8];
+/// [#165] previously free cells, 以 byte(8) 分配，按位取用.
+Static UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];
+/// [#165] previous #mem_end, #lo_mem_max, and #hi_mem_min.
+Static Pointer was_mem_end, was_lo_max, was_hi_min;
+/// [#165] do we want to check memory constantly?
+Static Boolean panicking; 
+#endif // #165: tt_DEBUG
+/** @}*/ // end group S162x172
+
+
+/** @addtogroup S173x198
+ * @{
+ */
+
+/// [#173] an internal font number.
+Static Integer font_in_short_display; 
+/// [#181] maximum nesting depth in box displays.
+Static Integer depth_threshold;
+/// [#181] maximum number of items shown at the same list level.
 Static Integer breadth_max;
+/** @}*/ // end group S173x198
+
 
 /// [ #211~219: PART 16: THE SEMANTIC NEST ]
 ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]

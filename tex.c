@@ -69,6 +69,7 @@ void set_help(UChar k, ...) {
     va_end(ap);
 }
 
+
 /** @defgroup S54x71 PART 5: ON-LINE AND OFF-LINE PRINTING.
  * [ p24~29#54~71 ]
  *
@@ -858,7 +859,10 @@ Static Pointer newpenalty(long m) {
 /** @}*/ // end group S133x161
 
 
-/// [ #162~172 ] PART 11: MEMORY LAYOUT
+/** @defgroup S162x172 PART 11: MEMORY LAYOUT
+ * [ p58~61#162~172 ]
+ * @{
+ */
 
 /// p60#167
 #ifdef tt_DEBUG
@@ -1024,6 +1028,14 @@ Static void searchmem(Pointer p) {
     }
 } // #172: searchmem
 #endif // #167,172: tt_DEBUG
+/** @}*/ // end group S162x172
+
+
+
+/** @defgroup S173x198 PART 12: DISPLAYING BOXES
+ * [ p62~68 ]
+ * @{
+ */
 
 /*174:*/
 Static void shortdisplay(Pointer p) {
@@ -1151,6 +1163,8 @@ Static void printspec(long p, StrNumber s) {
     }
 }
 /*:178*/
+/** @}*/ // end group S173x198
+
 
 // #691
 Static void printfamandchar(HalfWord p) {
@@ -1255,6 +1269,10 @@ void print_skip_param(Integer n) {
     } // switch (n)
 } // #225: print_skip_param
 
+
+/** @addtogroup S173x198
+ * @{
+ */
 
 /*182:*/
 Static void shownodelist(long p) {
@@ -1659,9 +1677,13 @@ Static void showbox(HalfWord p)
   println();
 }
 /*:198*/
+/** @}*/ // end group S173x198
 
 
-/// [ #199~202: PART 13: DESTROYING BOXES ]
+/** @defgroup S199x202 PART 13: DESTROYING BOXES
+ * [ p60~70 ]
+ * @{
+ */
 
 // [#200] p points to the reference count of a token list that
 //  is losing one reference
@@ -1681,7 +1703,6 @@ void delete_glue_ref(HalfWord p) {
         gluerefcount(p)--;
     }
 } // [#201] delete_glue_ref
-
 
 // [#202] erase list of nodes starting at p
 Static void flush_node_list(HalfWord p) {
@@ -1830,6 +1851,8 @@ Static void flush_node_list(HalfWord p) {
         p = q;
     } // while (p != 0)
 } // [#202] flush_node_list
+/** @}*/ // end group S199x202
+
 
 /*204:*/
 Static HalfWord copynodelist(HalfWord p)
