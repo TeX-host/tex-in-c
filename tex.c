@@ -470,6 +470,11 @@ void pause_for_instructions(void) {
 /** @}*/ // end group S71x98
 
 
+/** @defgroup S110x114 PART 8: PACKED DATA
+ * [ p41~43 ]
+ * @{
+ */
+
 /// p43#114
 #ifdef tt_DEBUG
 Static void printword(MemoryWord w) {
@@ -496,7 +501,13 @@ Static void printword(MemoryWord w) {
     print_int(w.qqqq.b3);
 }
 #endif // #114: tt_DEBUG
+/** @}*/ // end group S110x114
 
+
+/** @defgroup S115x132 PART 9: DYNAMIC MEMORY ALLOCATION
+ * [ p44~49 ]
+ * @{
+ */
 
 /// p46#120: single-word node allocation
 Pointer get_avail(void) {
@@ -674,9 +685,13 @@ Static void sort_avail(void)
     llink(rover) = p;
 } // sort_avail
 #endif // #131: tt_INIT
+/** @}*/ // end group S115x132
 
 
-/// [ #133~161 ] PART 10: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS
+/** @defgroup S133x161 PART 10: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS
+ * [ p50~57 ]
+ * @{
+ */
 
 /*136:*/
 Static Pointer newnullbox(void) {
@@ -840,6 +855,7 @@ Static Pointer newpenalty(long m) {
     return p;
 }
 /*:158*/
+/** @}*/ // end group S133x161
 
 
 /// [ #162~172 ] PART 11: MEMORY LAYOUT

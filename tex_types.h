@@ -108,6 +108,11 @@ typedef UChar SmallNumber;
 /// one-word representation of a glue expansion factor.
 typedef Real GlueRatio;
 
+
+/** @addtogroup S110x114
+ * @{
+ */
+
 // [p43#113]
 // 这里类型的大小人为扩大了一倍
 #ifdef _STDINT
@@ -124,7 +129,7 @@ typedef int HalfWord;               ///< [p43#113]: `HalfWord(16=>32)` .
 #if false
 typedef UChar TwoChoices;   ///< p43#113: only need: (2bit)[1, 2]
 typedef UChar fourchoices;  ///< p43#113: only need: (4bit)[1, 4]
-typedef char ManyChoices;   ///< #
+typedef char ManyChoices;   ///< _NOT_USE_
 #endif
 
 /// [p43#113]: TwoHalves(64) .
@@ -157,6 +162,8 @@ typedef union {
     FourQuarters qqqq; ///< (64)
     Integer sc; ///< (64)
 } MemoryWord;
+/** @}*/ // end group S110x114
+
 
 /// [#150]: GlueOrd(8)
 /// INFINITY to the 0, 1, 2, or 3 power.

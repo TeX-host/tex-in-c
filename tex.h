@@ -92,21 +92,33 @@
 #define invalidcode     127
 
 
-// [#110]: smallest allowable value in a QuarterWord
-#define MIN_QUARTER_WORD    0
-// [#110]: largest allowable value in a QuarterWord
-// 1/4 word = (8bit)[0, 255]
-#define MAX_QUARTER_WORD    255
-// [#110]: smallest allowable value in a HalfWord
-#define MIN_HALF_WORD       0
-// [#110]: largest allowable value in a HalfWord
-// 1/2 word = (16bit)[0, 65535]
-// mutst > 65535 (2^16-1)
-#define MAX_HALF_WORD       655350000L
+/** @addtogroup S110x114
+ * @{
+ */
 
-// [#124] the `link` of an empty variable-size node
+/// [#110]: smallest allowable value in a #QuarterWord.
+#define MIN_QUARTER_WORD    0
+/// [#110]: largest allowable value in a #QuarterWord.
+/// 1/4 word = (8bit)[0, 255]
+#define MAX_QUARTER_WORD    255
+/// [#110]: smallest allowable value in a #HalfWord.
+#define MIN_HALF_WORD       0
+/// [#110]: largest allowable value in a #HalfWord.
+/// 1/2 word = (16bit)[0, 65535]
+/// mutst > 65535 (2^16-1)
+#define MAX_HALF_WORD       655350000L
+/** @}*/ // end group S110x114
+
+
+/** @addtogroup S115x132
+ * @{
+ */
+
+/// [#124] the `link` of an empty variable-size node.
 #define emptyflag       MAX_HALF_WORD
 // ??? nodesize
+/** @}*/ // end group S115x132
+
 
 // [#162] list of insertion data for current page
 #define pageinshead     (MEM_TOP-CHAR_NODE_SIZE+1)

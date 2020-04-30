@@ -109,20 +109,20 @@ Static Boolean use_err_help;   // should the `errhelp` list be shown?
 Integer interrupt;       // should TeX pause for instructions?
 Boolean OK_to_interrupt; // should interrupts be observed?
 
-/// [ #115~132: DYNAMIC MEMORY ALLOCATION ]
-/// [#115]
-Static Pointer temp_ptr; // for occasional emergency use
-/// [#116]
-MemoryWord mem[MEM_MAX - MEM_MIN + 1]; // the big dynamic storage area
-Pointer lo_mem_max; // the largest location of variable-size memory
-Pointer hi_mem_min; // the smallest location of one-word memory
-/// [#117]
-Integer var_used, dyn_used; // how much memory is in use
-/// [#118]
-Pointer avail;   // head of the list of available one-word nodes
-Pointer mem_end; // the last one-word node used in mem
-/// [#124]
-Static Pointer rover; // points to some node in the list of empties
+/** @addtogroup S115x132
+ * @{
+ */
+
+Static Pointer temp_ptr;  ///< [#115] for occasional emergency use.
+MemoryWord mem[MEM_MAX - MEM_MIN + 1]; ///< [#116] the big dynamic storage area.
+Pointer lo_mem_max;  ///< [#116] the largest location of variable-size memory.
+Pointer hi_mem_min;  ///< [#116] the smallest location of one-word memory.
+Integer var_used, dyn_used; ///< [#117] how much memory is in use.
+Pointer avail;    ///< [#118] head of the list of available one-word nodes.
+Pointer mem_end;  ///< [#118] the last one-word node used in mem.
+Static Pointer rover; ///< [#124] points to some node in the list of empties.
+/** @}*/ // end group S115x132
+
 
 /// [ #162~172: MEMORY LAYOUT ]
 /// [p95#165]
