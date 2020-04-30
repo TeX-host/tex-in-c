@@ -26,7 +26,7 @@ enum TokenLevel {
 #define INPUT_LINE_NO_CODE  (GLUE_VAL + 1)
 /// [#416] `\badness`
 #define BADNESS_CODE        (GLUE_VAL + 2)
-/// [#421] @$ 2^{30}-1 @$
+/// [#421] @f$ 2^{30}-1 @f$
 #define MAX_DIMEN   1073741823L
 /// [#445] zero, the smallest digit
 #define ZERO_TOKEN  (othertoken + '0')

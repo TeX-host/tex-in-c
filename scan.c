@@ -33,7 +33,7 @@
 /// [#438] decimal point (`,`), Eurostyle
 #define CONTINENTAL_POINT_TOKEN (othertoken + ',')
 
-/// [#445] the largest positive value that @$\tex@$ knows
+/// [#445] the largest positive value that @f$ \rm\TeX\ @f$ knows
 #define INFINITY 2147483647L
 /// [#445] the smallest special hex digit
 #define A_TOKEN (lettertoken + 'A')
@@ -53,7 +53,6 @@ SmallNumber cur_val_level;
 SmallNumber radix;
 /// [#447] order of INFINITY found by #scandimen
 GlueOrd cur_order;
-/** @}*/ // end group S402x463
 
 
 /// [#406] Get the next non-blank non-call token.
