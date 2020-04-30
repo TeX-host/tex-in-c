@@ -1,0 +1,969 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: PART 22: Input stacks and states</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('group___s300x320___p121x130.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">结构体</a> &#124;
+<a href="#define-members">宏定义</a> &#124;
+<a href="#enum-members">枚举</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">PART 22: Input stacks and states</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+结构体</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_in_state_record.html">InStateRecord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#300]: <a class="el" href="struct_in_state_record.html" title="[#300]: InStateRecord(1344) .">InStateRecord(1344)</a> .  <a href="struct_in_state_record.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:gabb1cdea470be63dae7676381d68ad592"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gabb1cdea470be63dae7676381d68ad592">beginpseudoprint</a>()&#160;&#160;&#160;(l = <a class="el" href="print_8h.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a>, <a class="el" href="print_8h.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a> = 0, <a class="el" href="print_8h.html#a90543b928047dd29fabab14786c31d3b">selector</a> = <a class="el" href="print_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da">PSEUDO</a>, <a class="el" href="print_8h.html#acded096c3268ca6569a49375ce757e4f">trick_count</a> = 1000000)</td></tr>
+<tr class="separator:gabb1cdea470be63dae7676381d68ad592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1265f82599506d5085ae4666d3e9668c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga1265f82599506d5085ae4666d3e9668c">settrick_count</a>()</td></tr>
+<tr class="separator:ga1265f82599506d5085ae4666d3e9668c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad388d09b1c4e346165f34e31e7842e6d"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gad388d09b1c4e346165f34e31e7842e6d">TOKEN_LIST</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:gad388d09b1c4e346165f34e31e7842e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p125#307]  <a href="group___s300x320___p121x130.html#gad388d09b1c4e346165f34e31e7842e6d">更多...</a><br /></td></tr>
+<tr class="separator:gad388d09b1c4e346165f34e31e7842e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0fee446a4a4ef6536664bc1ff47ff694"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga0fee446a4a4ef6536664bc1ff47ff694">LOC</a>&#160;&#160;&#160;cur_input.locfield</td></tr>
+<tr class="memdesc:ga0fee446a4a4ef6536664bc1ff47ff694"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p121#302]  <a href="group___s300x320___p121x130.html#ga0fee446a4a4ef6536664bc1ff47ff694">更多...</a><br /></td></tr>
+<tr class="separator:ga0fee446a4a4ef6536664bc1ff47ff694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaacd2cf60f504e45efada9aec028ee3cd"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd">STATE</a>&#160;&#160;&#160;cur_input.statefield</td></tr>
+<tr class="memdesc:gaacd2cf60f504e45efada9aec028ee3cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#302] current scanner state.  <a href="group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd">更多...</a><br /></td></tr>
+<tr class="separator:gaacd2cf60f504e45efada9aec028ee3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0825379d657c8cd853dd2fdd688323b"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">IINDEX</a>&#160;&#160;&#160;cur_input.indexfield</td></tr>
+<tr class="memdesc:gab0825379d657c8cd853dd2fdd688323b"><td class="mdescLeft">&#160;</td><td class="mdescRight">reference for <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a> information  <a href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">更多...</a><br /></td></tr>
+<tr class="separator:gab0825379d657c8cd853dd2fdd688323b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3018c7600b7bb9866400596a56a57af7"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga3018c7600b7bb9866400596a56a57af7">START</a>&#160;&#160;&#160;cur_input.startfield</td></tr>
+<tr class="memdesc:ga3018c7600b7bb9866400596a56a57af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">starting position in <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a>  <a href="group___s300x320___p121x130.html#ga3018c7600b7bb9866400596a56a57af7">更多...</a><br /></td></tr>
+<tr class="separator:ga3018c7600b7bb9866400596a56a57af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5977928b042d0a4b2ce93baa979e5f5c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">LIMIT</a>&#160;&#160;&#160;cur_input.limitfield</td></tr>
+<tr class="memdesc:ga5977928b042d0a4b2ce93baa979e5f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">end of current line in <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a>  <a href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">更多...</a><br /></td></tr>
+<tr class="separator:ga5977928b042d0a4b2ce93baa979e5f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga47f2e62c0dbebc787052c165afcada0e"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">NAME</a>&#160;&#160;&#160;cur_input.namefield</td></tr>
+<tr class="memdesc:ga47f2e62c0dbebc787052c165afcada0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">name of the current file.  <a href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">更多...</a><br /></td></tr>
+<tr class="separator:ga47f2e62c0dbebc787052c165afcada0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1f137ad43659c532ed69bbc0b776e561"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga1f137ad43659c532ed69bbc0b776e561">MID_LINE</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga1f137ad43659c532ed69bbc0b776e561"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#303] <code>state</code> code when scanning a line of characters.  <a href="group___s300x320___p121x130.html#ga1f137ad43659c532ed69bbc0b776e561">更多...</a><br /></td></tr>
+<tr class="separator:ga1f137ad43659c532ed69bbc0b776e561"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga764bdced1d55967df03accf048f32e84"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga764bdced1d55967df03accf048f32e84">SKIP_BLANKS</a>&#160;&#160;&#160;(<a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + 2)</td></tr>
+<tr class="memdesc:ga764bdced1d55967df03accf048f32e84"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#303] <code>state</code> code when ignoring blanks.  <a href="group___s300x320___p121x130.html#ga764bdced1d55967df03accf048f32e84">更多...</a><br /></td></tr>
+<tr class="separator:ga764bdced1d55967df03accf048f32e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b99dc1e1c86b4897498c2d436ead1b5"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5">NEW_LINE</a>&#160;&#160;&#160;(<a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + <a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + 3)</td></tr>
+<tr class="memdesc:ga7b99dc1e1c86b4897498c2d436ead1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#303] <code>state</code> code at start of line.  <a href="group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5">更多...</a><br /></td></tr>
+<tr class="separator:ga7b99dc1e1c86b4897498c2d436ead1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e8361bf4e29d0f94a9566ac28b5891e"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga2e8361bf4e29d0f94a9566ac28b5891e">terminal_input</a>&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">NAME</a> == 0)</td></tr>
+<tr class="memdesc:ga2e8361bf4e29d0f94a9566ac28b5891e"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#304] are we reading from the terminal?  <a href="group___s300x320___p121x130.html#ga2e8361bf4e29d0f94a9566ac28b5891e">更多...</a><br /></td></tr>
+<tr class="separator:ga2e8361bf4e29d0f94a9566ac28b5891e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga92fda472e735fd9d101174fcb62eed02"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga92fda472e735fd9d101174fcb62eed02">curfile</a>&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#ga53ee464a5722ff8fe4e457986c035ee4">inputfile</a>[<a class="el" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">IINDEX</a> - 1])</td></tr>
+<tr class="memdesc:ga92fda472e735fd9d101174fcb62eed02"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#304] the current alphafile variable.  <a href="group___s300x320___p121x130.html#ga92fda472e735fd9d101174fcb62eed02">更多...</a><br /></td></tr>
+<tr class="separator:ga92fda472e735fd9d101174fcb62eed02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad276ef28eb362f94597f71020a451bf3"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gad276ef28eb362f94597f71020a451bf3">token_type</a>&#160;&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">IINDEX</a></td></tr>
+<tr class="memdesc:gad276ef28eb362f94597f71020a451bf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p125#307] type of current token list.  <a href="group___s300x320___p121x130.html#gad276ef28eb362f94597f71020a451bf3">更多...</a><br /></td></tr>
+<tr class="separator:gad276ef28eb362f94597f71020a451bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaecf6e711c43a91e04134fbe50874c544"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaecf6e711c43a91e04134fbe50874c544">param_start</a>&#160;&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">LIMIT</a></td></tr>
+<tr class="memdesc:gaecf6e711c43a91e04134fbe50874c544"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p125#307] base of macro parameters in paramstack.  <a href="group___s300x320___p121x130.html#gaecf6e711c43a91e04134fbe50874c544">更多...</a><br /></td></tr>
+<tr class="separator:gaecf6e711c43a91e04134fbe50874c544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:gaaef195df981ef5801e8a98f7d559917d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaaef195df981ef5801e8a98f7d559917d">ScannerStatus</a> { <br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2">SKIPPING</a> = 1, 
+<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da638c27b7580307a0168713bcb4e9eb88">DEFINING</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da8675ba912c8e36b1fa6e12e54d39bbc9">MATCHING</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da14c8a1a916a2de0ea78a88f0a39b135f">ALIGNING</a>, 
+<br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da800b2b229a408c3f50bb165976d512c4">ABSORBING</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:gaaef195df981ef5801e8a98f7d559917d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p124#305]: scanner status  <a href="group___s300x320___p121x130.html#gaaef195df981ef5801e8a98f7d559917d">更多...</a><br /></td></tr>
+<tr class="separator:gaaef195df981ef5801e8a98f7d559917d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa520fbf142ba1e7e659590c07da31921"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaa520fbf142ba1e7e659590c07da31921">TokenType</a> { <br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a194cde856bd2d79eac8adb9741c55940">PARAMETER</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac02cbf9bd93b0eeb63301a25c2e4894f">U_TEMPLATE</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de">V_TEMPLATE</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7">BACKED_UP</a>, 
+<br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202">INSERTED</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3d1738a931468da77c233f1126436b81">MACRO</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3bb0dca181ca457a07bc8cbd1285ed89">OUTPUT_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a77a59c340556e777dee98be24a3a82e2">EVERY_PAR_TEXT</a>, 
+<br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921adbbfd800a60f8fdc891205568bfeb167">EVERY_MATH_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a22d72a40ff849916d4f0c8d33ddfa036">EVERY_DISPLAY_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac23adee5567df50548b842d8e0e60957">EVERY_HBOX_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921afb8a72ba0f9add48111ed42f07f02fc6">EVERY_VBOX_TEXT</a>, 
+<br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3065be20590bfae506f2dea28255987d">EVERY_JOB_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921af5f362a775e1ae0504555a9c15777191">EVERY_CR_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2">MARK_TEXT</a>, 
+<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313">WRITE_TEXT</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:gaa520fbf142ba1e7e659590c07da31921"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p125#307]  <a href="group___s300x320___p121x130.html#gaa520fbf142ba1e7e659590c07da31921">更多...</a><br /></td></tr>
+<tr class="separator:gaa520fbf142ba1e7e659590c07da31921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:gac542a0034fbac204b2532deac2e1e414"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gac542a0034fbac204b2532deac2e1e414">runaway</a> (void)</td></tr>
+<tr class="memdesc:gac542a0034fbac204b2532deac2e1e414"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#306] uses scanner status to print a warning message when a subfile has ended, and at certain other crucial times.  <a href="group___s300x320___p121x130.html#gac542a0034fbac204b2532deac2e1e414">更多...</a><br /></td></tr>
+<tr class="separator:gac542a0034fbac204b2532deac2e1e414"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08865d4e55bc6116a39dbd5679041e61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga08865d4e55bc6116a39dbd5679041e61">showcontext</a> (void)</td></tr>
+<tr class="memdesc:ga08865d4e55bc6116a39dbd5679041e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#311] prints where the scanner is.  <a href="group___s300x320___p121x130.html#ga08865d4e55bc6116a39dbd5679041e61">更多...</a><br /></td></tr>
+<tr class="separator:ga08865d4e55bc6116a39dbd5679041e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga7329352cae7dd538b350b4db48b15088"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_in_state_record.html">InStateRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga7329352cae7dd538b350b4db48b15088">inputstack</a> [<a class="el" href="tex_8h.html#a87a907cd59d2e253f95e9b1a19a0524b">stacksize</a>+1]</td></tr>
+<tr class="memdesc:ga7329352cae7dd538b350b4db48b15088"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#301]:  <a href="group___s300x320___p121x130.html#ga7329352cae7dd538b350b4db48b15088">更多...</a><br /></td></tr>
+<tr class="separator:ga7329352cae7dd538b350b4db48b15088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab71a50a5cdc9b6c116a71c0142b2b8ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">inputptr</a></td></tr>
+<tr class="memdesc:gab71a50a5cdc9b6c116a71c0142b2b8ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#301]: first unused location of input stack.  <a href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">更多...</a><br /></td></tr>
+<tr class="separator:gab71a50a5cdc9b6c116a71c0142b2b8ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36f0afb96aaf270888c6255c982fa6a9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga36f0afb96aaf270888c6255c982fa6a9">maxinstack</a></td></tr>
+<tr class="memdesc:ga36f0afb96aaf270888c6255c982fa6a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#301]: largest value of input ptr when pushing.  <a href="group___s300x320___p121x130.html#ga36f0afb96aaf270888c6255c982fa6a9">更多...</a><br /></td></tr>
+<tr class="separator:ga36f0afb96aaf270888c6255c982fa6a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab2bdc2189c63a4f0ea6cd7da902062e6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_in_state_record.html">InStateRecord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gab2bdc2189c63a4f0ea6cd7da902062e6">cur_input</a></td></tr>
+<tr class="memdesc:gab2bdc2189c63a4f0ea6cd7da902062e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131, <a class="el" href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931" title="#82:">error</a>, <a class="el" href="texfunc_8h.html#aa093bac5d614a1706a24856de98e0c7d">openlogfile</a>  <a href="group___s300x320___p121x130.html#gab2bdc2189c63a4f0ea6cd7da902062e6">更多...</a><br /></td></tr>
+<tr class="separator:gab2bdc2189c63a4f0ea6cd7da902062e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6384e3f2a2a7895b8fb869897c54a24b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga6384e3f2a2a7895b8fb869897c54a24b">inopen</a></td></tr>
+<tr class="memdesc:ga6384e3f2a2a7895b8fb869897c54a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#304] the number of lines in the buffer, less one  <a href="group___s300x320___p121x130.html#ga6384e3f2a2a7895b8fb869897c54a24b">更多...</a><br /></td></tr>
+<tr class="separator:ga6384e3f2a2a7895b8fb869897c54a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga65665e248ec39eae47d82b3b4998684e"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga65665e248ec39eae47d82b3b4998684e">openparens</a></td></tr>
+<tr class="memdesc:ga65665e248ec39eae47d82b3b4998684e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the number of open text files xref[2, only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="texfunc_8h.html#a36e1e896f8f7b67ca95b8c20295fc18f">startinput</a>, <a class="el" href="tex_8c.html#aefe6d87ea761374ada27cd86842e3da6" title="p468#1335: Last-minute procedures">final_cleanup</a>  <a href="group___s300x320___p121x130.html#ga65665e248ec39eae47d82b3b4998684e">更多...</a><br /></td></tr>
+<tr class="separator:ga65665e248ec39eae47d82b3b4998684e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac4c381382bfde107704e306651e5cc63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gac4c381382bfde107704e306651e5cc63">line</a></td></tr>
+<tr class="memdesc:gac4c381382bfde107704e306651e5cc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">current line number in the current source file.  <a href="group___s300x320___p121x130.html#gac4c381382bfde107704e306651e5cc63">更多...</a><br /></td></tr>
+<tr class="separator:gac4c381382bfde107704e306651e5cc63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53ee464a5722ff8fe4e457986c035ee4"><td class="memItemLeft" align="right" valign="top">FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga53ee464a5722ff8fe4e457986c035ee4">inputfile</a> [<a class="el" href="tex_8h.html#a9980d64639838daab3b9dd48506bd87e">MAX_IN_OPEN</a>]</td></tr>
+<tr class="memdesc:ga53ee464a5722ff8fe4e457986c035ee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">xref[]: <a class="el" href="texfunc_8h.html#a36e1e896f8f7b67ca95b8c20295fc18f">startinput</a>  <a href="group___s300x320___p121x130.html#ga53ee464a5722ff8fe4e457986c035ee4">更多...</a><br /></td></tr>
+<tr class="separator:ga53ee464a5722ff8fe4e457986c035ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0b6ff6c54001ee3e720f1d0d687454eb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga0b6ff6c54001ee3e720f1d0d687454eb">linestack</a> [<a class="el" href="tex_8h.html#a9980d64639838daab3b9dd48506bd87e">MAX_IN_OPEN</a>]</td></tr>
+<tr class="separator:ga0b6ff6c54001ee3e720f1d0d687454eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d756efb168f679a7fbb40de545b2c0a"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga3d756efb168f679a7fbb40de545b2c0a">scanner_status</a></td></tr>
+<tr class="memdesc:ga3d756efb168f679a7fbb40de545b2c0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#305] can a subfile end now?  <a href="group___s300x320___p121x130.html#ga3d756efb168f679a7fbb40de545b2c0a">更多...</a><br /></td></tr>
+<tr class="separator:ga3d756efb168f679a7fbb40de545b2c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeb75df5f70c3ab15631b2e21446eac94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaeb75df5f70c3ab15631b2e21446eac94">warning_index</a></td></tr>
+<tr class="memdesc:gaeb75df5f70c3ab15631b2e21446eac94"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#305] identifier relevant to non-normal scanner status  <a href="group___s300x320___p121x130.html#gaeb75df5f70c3ab15631b2e21446eac94">更多...</a><br /></td></tr>
+<tr class="separator:gaeb75df5f70c3ab15631b2e21446eac94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa792b81ca8301ee78fcf4175c739c10e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaa792b81ca8301ee78fcf4175c739c10e">defref</a></td></tr>
+<tr class="memdesc:gaa792b81ca8301ee78fcf4175c739c10e"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#305] reference count of token list being defined  <a href="group___s300x320___p121x130.html#gaa792b81ca8301ee78fcf4175c739c10e">更多...</a><br /></td></tr>
+<tr class="separator:gaa792b81ca8301ee78fcf4175c739c10e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29bb39bd4046ec60e98e6ff964377430"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga29bb39bd4046ec60e98e6ff964377430">paramstack</a> [<a class="el" href="tex_8h.html#a5c7565cdb896b2bb6f7e89e33b89a9b9">paramsize</a>+1]</td></tr>
+<tr class="memdesc:ga29bb39bd4046ec60e98e6ff964377430"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#308] token list pointers for parameters. / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a>  <a href="group___s300x320___p121x130.html#ga29bb39bd4046ec60e98e6ff964377430">更多...</a><br /></td></tr>
+<tr class="separator:ga29bb39bd4046ec60e98e6ff964377430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b216386ea78e64ad9d5c4ef8f72796a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga2b216386ea78e64ad9d5c4ef8f72796a">paramptr</a></td></tr>
+<tr class="memdesc:ga2b216386ea78e64ad9d5c4ef8f72796a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#308] first unused entry in param stack. / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a>  <a href="group___s300x320___p121x130.html#ga2b216386ea78e64ad9d5c4ef8f72796a">更多...</a><br /></td></tr>
+<tr class="separator:ga2b216386ea78e64ad9d5c4ef8f72796a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24ec2d1f4fc0b4111c8273c5c65e7593"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga24ec2d1f4fc0b4111c8273c5c65e7593">maxparamstack</a></td></tr>
+<tr class="memdesc:ga24ec2d1f4fc0b4111c8273c5c65e7593"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#308] largest value of param ptr, will be ≤ param size + 9 . / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a>  <a href="group___s300x320___p121x130.html#ga24ec2d1f4fc0b4111c8273c5c65e7593">更多...</a><br /></td></tr>
+<tr class="separator:ga24ec2d1f4fc0b4111c8273c5c65e7593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga650d10a64dbc4f8309abfa96e210f074"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#ga650d10a64dbc4f8309abfa96e210f074">align_state</a></td></tr>
+<tr class="memdesc:ga650d10a64dbc4f8309abfa96e210f074"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#309] group level with respect to current alignment.  <a href="group___s300x320___p121x130.html#ga650d10a64dbc4f8309abfa96e210f074">更多...</a><br /></td></tr>
+<tr class="separator:ga650d10a64dbc4f8309abfa96e210f074"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc63a95455f9c0521a411a0271174910"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gadc63a95455f9c0521a411a0271174910">baseptr</a></td></tr>
+<tr class="memdesc:gadc63a95455f9c0521a411a0271174910"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#310] shallowest level shown by show context.  <a href="group___s300x320___p121x130.html#gadc63a95455f9c0521a411a0271174910">更多...</a><br /></td></tr>
+<tr class="separator:gadc63a95455f9c0521a411a0271174910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<ul>
+<li><a class="el" href="group___s300x320___p121x130.html#gac542a0034fbac204b2532deac2e1e414" title="[#306] uses scanner status to print a warning message when a subfile has ended, and at certain other ...">runaway</a></li>
+<li><a class="el" href="group___s300x320___p121x130.html#ga08865d4e55bc6116a39dbd5679041e61" title="[#311] prints where the scanner is.">showcontext</a> </li>
+</ul>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="gabb1cdea470be63dae7676381d68ad592"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabb1cdea470be63dae7676381d68ad592">&#9670;&nbsp;</a></span>beginpseudoprint</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> beginpseudoprint</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>&#160;&#160;&#160;(l = <a class="el" href="print_8h.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a>, <a class="el" href="print_8h.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a> = 0, <a class="el" href="print_8h.html#a90543b928047dd29fabab14786c31d3b">selector</a> = <a class="el" href="print_8h.html#a4da995632f9196a87e0f5a39a55fe0a8a09e53a47b34c74d32f82e3f7a6a645da">PSEUDO</a>, <a class="el" href="print_8h.html#acded096c3268ca6569a49375ce757e4f">trick_count</a> = 1000000)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga92fda472e735fd9d101174fcb62eed02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga92fda472e735fd9d101174fcb62eed02">&#9670;&nbsp;</a></span>curfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> curfile&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#ga53ee464a5722ff8fe4e457986c035ee4">inputfile</a>[<a class="el" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">IINDEX</a> - 1])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#304] the current alphafile variable. </p>
+
+</div>
+</div>
+<a id="gab0825379d657c8cd853dd2fdd688323b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab0825379d657c8cd853dd2fdd688323b">&#9670;&nbsp;</a></span>IINDEX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> IINDEX&#160;&#160;&#160;cur_input.indexfield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>reference for <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a> information </p>
+
+</div>
+</div>
+<a id="ga5977928b042d0a4b2ce93baa979e5f5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5977928b042d0a4b2ce93baa979e5f5c">&#9670;&nbsp;</a></span>LIMIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> LIMIT&#160;&#160;&#160;cur_input.limitfield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>end of current line in <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a> </p>
+
+</div>
+</div>
+<a id="ga0fee446a4a4ef6536664bc1ff47ff694"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0fee446a4a4ef6536664bc1ff47ff694">&#9670;&nbsp;</a></span>LOC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> LOC&#160;&#160;&#160;cur_input.locfield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p121#302] </p>
+
+</div>
+</div>
+<a id="ga1f137ad43659c532ed69bbc0b776e561"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1f137ad43659c532ed69bbc0b776e561">&#9670;&nbsp;</a></span>MID_LINE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MID_LINE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#303] <code>state</code> code when scanning a line of characters. </p>
+
+</div>
+</div>
+<a id="ga47f2e62c0dbebc787052c165afcada0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga47f2e62c0dbebc787052c165afcada0e">&#9670;&nbsp;</a></span>NAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> NAME&#160;&#160;&#160;cur_input.namefield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>name of the current file. </p>
+
+</div>
+</div>
+<a id="ga7b99dc1e1c86b4897498c2d436ead1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7b99dc1e1c86b4897498c2d436ead1b5">&#9670;&nbsp;</a></span>NEW_LINE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> NEW_LINE&#160;&#160;&#160;(<a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + <a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + 3)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#303] <code>state</code> code at start of line. </p>
+
+</div>
+</div>
+<a id="gaecf6e711c43a91e04134fbe50874c544"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaecf6e711c43a91e04134fbe50874c544">&#9670;&nbsp;</a></span>param_start</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> param_start&#160;&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">LIMIT</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p125#307] base of macro parameters in paramstack. </p>
+
+</div>
+</div>
+<a id="ga1265f82599506d5085ae4666d3e9668c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1265f82599506d5085ae4666d3e9668c">&#9670;&nbsp;</a></span>settrick_count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> settrick_count</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>值:</b><div class="fragment"><div class="line">    (<a class="code" href="print_8c.html#a7ffd670d28ee97732bf95350e740ec9d">first_count</a> = <a class="code" href="print_8c.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a>,                                    \</div>
+<div class="line">     trick_count = <a class="code" href="print_8c.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a> + 1 + <a class="code" href="tex_8h.html#aa8eb0ea69576396000ea9a91bdbeeba5">ERROR_LINE</a> - <a class="code" href="tex_8h.html#ac7055178c5807c1370e9026e027de595">HALF_ERROR_LINE</a>, \</div>
+<div class="line">     ((<a class="code" href="print_8c.html#acded096c3268ca6569a49375ce757e4f">trick_count</a> &lt; <a class="code" href="tex_8h.html#aa8eb0ea69576396000ea9a91bdbeeba5">ERROR_LINE</a>) ? <a class="code" href="print_8c.html#acded096c3268ca6569a49375ce757e4f">trick_count</a> = <a class="code" href="tex_8h.html#aa8eb0ea69576396000ea9a91bdbeeba5">ERROR_LINE</a> : 0))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ga764bdced1d55967df03accf048f32e84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga764bdced1d55967df03accf048f32e84">&#9670;&nbsp;</a></span>SKIP_BLANKS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> SKIP_BLANKS&#160;&#160;&#160;(<a class="el" href="tex_8h.html#a2c7c74b4825ea98962cfb6d7e9fa41bb">maxcharcode</a> + 2)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#303] <code>state</code> code when ignoring blanks. </p>
+
+</div>
+</div>
+<a id="ga3018c7600b7bb9866400596a56a57af7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3018c7600b7bb9866400596a56a57af7">&#9670;&nbsp;</a></span>START</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> START&#160;&#160;&#160;cur_input.startfield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>starting position in <a class="el" href="tex__header_8h.html#a794f68592ecd530001eaf82a6dfaba8d" title="[#30]">buffer</a> </p>
+
+</div>
+</div>
+<a id="gaacd2cf60f504e45efada9aec028ee3cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaacd2cf60f504e45efada9aec028ee3cd">&#9670;&nbsp;</a></span>STATE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> STATE&#160;&#160;&#160;cur_input.statefield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#302] current scanner state. </p>
+<ol type="1">
+<li><code>MID_LINE</code> is the normal state.</li>
+<li><code>SKIP_BLANKS</code> is like MID_LINE, but blanks are ignored.</li>
+<li><code>NEW_LINE</code> is the state at the beginning of a line.</li>
+</ol>
+<p>xref</p><ul>
+<li>赋值[16]: 323, 325, 328, 331, 343, 347[3], 349, 352, 353, 354[3], 483, 537,</li>
+<li>相等判断[8]: <code>==</code>: 325, 337, 390, 1335, <code>!=</code>: 311, 312[2], 330, 341,</li>
+<li>文本引用[6]: 87, 300, 303, 307, 344, 346, </li>
+</ul>
+
+</div>
+</div>
+<a id="ga2e8361bf4e29d0f94a9566ac28b5891e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2e8361bf4e29d0f94a9566ac28b5891e">&#9670;&nbsp;</a></span>terminal_input</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> terminal_input&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">NAME</a> == 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#304] are we reading from the terminal? </p>
+
+</div>
+</div>
+<a id="gad388d09b1c4e346165f34e31e7842e6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad388d09b1c4e346165f34e31e7842e6d">&#9670;&nbsp;</a></span>TOKEN_LIST</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> TOKEN_LIST&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p125#307] </p>
+
+</div>
+</div>
+<a id="gad276ef28eb362f94597f71020a451bf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad276ef28eb362f94597f71020a451bf3">&#9670;&nbsp;</a></span>token_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> token_type&#160;&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">IINDEX</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p125#307] type of current token list. </p>
+
+</div>
+</div>
+<h2 class="groupheader">枚举类型说明</h2>
+<a id="gaaef195df981ef5801e8a98f7d559917d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaaef195df981ef5801e8a98f7d559917d">&#9670;&nbsp;</a></span>ScannerStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___s300x320___p121x130.html#gaaef195df981ef5801e8a98f7d559917d">ScannerStatus</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p124#305]: scanner status </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ggaaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2"></a>SKIPPING&#160;</td><td class="fielddoc"><p>when passing conditional text </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaaef195df981ef5801e8a98f7d559917da638c27b7580307a0168713bcb4e9eb88"></a>DEFINING&#160;</td><td class="fielddoc"><p>when reading a macro definition </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaaef195df981ef5801e8a98f7d559917da8675ba912c8e36b1fa6e12e54d39bbc9"></a>MATCHING&#160;</td><td class="fielddoc"><p>when reading macro arguments </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaaef195df981ef5801e8a98f7d559917da14c8a1a916a2de0ea78a88f0a39b135f"></a>ALIGNING&#160;</td><td class="fielddoc"><p>when reading an alignment preamble </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaaef195df981ef5801e8a98f7d559917da800b2b229a408c3f50bb165976d512c4"></a>ABSORBING&#160;</td><td class="fielddoc"><p>when reading a balanced text </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gaa520fbf142ba1e7e659590c07da31921"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa520fbf142ba1e7e659590c07da31921">&#9670;&nbsp;</a></span>TokenType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group___s300x320___p121x130.html#gaa520fbf142ba1e7e659590c07da31921">TokenType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[p125#307] </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a194cde856bd2d79eac8adb9741c55940"></a>PARAMETER&#160;</td><td class="fielddoc"><p>parameter </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921ac02cbf9bd93b0eeb63301a25c2e4894f"></a>U_TEMPLATE&#160;</td><td class="fielddoc"><p><code>&lt;u_j&gt;</code> template </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de"></a>V_TEMPLATE&#160;</td><td class="fielddoc"><p><code>&lt;v_j&gt;</code> template </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7"></a>BACKED_UP&#160;</td><td class="fielddoc"><p>text to be reread </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202"></a>INSERTED&#160;</td><td class="fielddoc"><p>inserted texts </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a3d1738a931468da77c233f1126436b81"></a>MACRO&#160;</td><td class="fielddoc"><p>defined control sequences </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a3bb0dca181ca457a07bc8cbd1285ed89"></a>OUTPUT_TEXT&#160;</td><td class="fielddoc"><p>output routines </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a77a59c340556e777dee98be24a3a82e2"></a>EVERY_PAR_TEXT&#160;</td><td class="fielddoc"><p><code>\everypar</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921adbbfd800a60f8fdc891205568bfeb167"></a>EVERY_MATH_TEXT&#160;</td><td class="fielddoc"><p><code>\everymath</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a22d72a40ff849916d4f0c8d33ddfa036"></a>EVERY_DISPLAY_TEXT&#160;</td><td class="fielddoc"><p><code>\everydisplay</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921ac23adee5567df50548b842d8e0e60957"></a>EVERY_HBOX_TEXT&#160;</td><td class="fielddoc"><p><code>\everyhbox</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921afb8a72ba0f9add48111ed42f07f02fc6"></a>EVERY_VBOX_TEXT&#160;</td><td class="fielddoc"><p><code>\everyvbox</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a3065be20590bfae506f2dea28255987d"></a>EVERY_JOB_TEXT&#160;</td><td class="fielddoc"><p><code>\everyjob</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921af5f362a775e1ae0504555a9c15777191"></a>EVERY_CR_TEXT&#160;</td><td class="fielddoc"><p><code>\everycr</code> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2"></a>MARK_TEXT&#160;</td><td class="fielddoc"><p><code>\topmark</code>, etc. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313"></a>WRITE_TEXT&#160;</td><td class="fielddoc"><p><code>\write</code> </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a id="gac542a0034fbac204b2532deac2e1e414"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac542a0034fbac204b2532deac2e1e414">&#9670;&nbsp;</a></span>runaway()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void runaway </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#306] uses scanner status to print a warning message when a subfile has ended, and at certain other crucial times. </p>
+
+</div>
+</div>
+<a id="ga08865d4e55bc6116a39dbd5679041e61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga08865d4e55bc6116a39dbd5679041e61">&#9670;&nbsp;</a></span>showcontext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void showcontext </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#311] prints where the scanner is. </p>
+
+</div>
+</div>
+<h2 class="groupheader">变量说明</h2>
+<a id="ga650d10a64dbc4f8309abfa96e210f074"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga650d10a64dbc4f8309abfa96e210f074">&#9670;&nbsp;</a></span>align_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> align_state</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#309] group level with respect to current alignment. </p>
+
+</div>
+</div>
+<a id="gadc63a95455f9c0521a411a0271174910"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc63a95455f9c0521a411a0271174910">&#9670;&nbsp;</a></span>baseptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> baseptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#310] shallowest level shown by show context. </p>
+<p>xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931" title="#82:">error</a> </p>
+
+</div>
+</div>
+<a id="gab2bdc2189c63a4f0ea6cd7da902062e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab2bdc2189c63a4f0ea6cd7da902062e6">&#9670;&nbsp;</a></span>cur_input</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_in_state_record.html">InStateRecord</a> cur_input</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131, <a class="el" href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931" title="#82:">error</a>, <a class="el" href="texfunc_8h.html#aa093bac5d614a1706a24856de98e0c7d">openlogfile</a> </p>
+
+</div>
+</div>
+<a id="gaa792b81ca8301ee78fcf4175c739c10e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa792b81ca8301ee78fcf4175c739c10e">&#9670;&nbsp;</a></span>defref</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> defref</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#305] reference count of token list being defined </p>
+
+</div>
+</div>
+<a id="ga6384e3f2a2a7895b8fb869897c54a24b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6384e3f2a2a7895b8fb869897c54a24b">&#9670;&nbsp;</a></span>inopen</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> inopen</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>[#304] the number of lines in the buffer, less one </p>
+
+</div>
+</div>
+<a id="ga53ee464a5722ff8fe4e457986c035ee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga53ee464a5722ff8fe4e457986c035ee4">&#9670;&nbsp;</a></span>inputfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">FILE* inputfile[<a class="el" href="tex_8h.html#a9980d64639838daab3b9dd48506bd87e">MAX_IN_OPEN</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>xref[]: <a class="el" href="texfunc_8h.html#a36e1e896f8f7b67ca95b8c20295fc18f">startinput</a> </p>
+
+</div>
+</div>
+<a id="gab71a50a5cdc9b6c116a71c0142b2b8ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab71a50a5cdc9b6c116a71c0142b2b8ce">&#9670;&nbsp;</a></span>inputptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> inputptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#301]: first unused location of input stack. </p>
+<p>xref[3, only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="texfunc_8h.html#aa093bac5d614a1706a24856de98e0c7d">openlogfile</a>, <a class="el" href="tex_8c.html#aefe6d87ea761374ada27cd86842e3da6" title="p468#1335: Last-minute procedures">final_cleanup</a>, <a class="el" href="tex_8c.html#a7ff7e9e3fd33cb14c4301aa146082ac9">S1337_Get_the_first_line_of_input_and_prepare_to_start</a> </p>
+
+</div>
+</div>
+<a id="ga7329352cae7dd538b350b4db48b15088"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7329352cae7dd538b350b4db48b15088">&#9670;&nbsp;</a></span>inputstack</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_in_state_record.html">InStateRecord</a> inputstack[<a class="el" href="tex_8h.html#a87a907cd59d2e253f95e9b1a19a0524b">stacksize</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#301]: </p>
+<p>xref[2]: only <a class="el" href="tex_8c.html">tex.c</a> <a class="el" href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931" title="#82:">error</a>, <a class="el" href="texfunc_8h.html#aa093bac5d614a1706a24856de98e0c7d">openlogfile</a> </p>
+
+</div>
+</div>
+<a id="gac4c381382bfde107704e306651e5cc63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac4c381382bfde107704e306651e5cc63">&#9670;&nbsp;</a></span>line</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> line</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>current line number in the current source file. </p>
+
+</div>
+</div>
+<a id="ga0b6ff6c54001ee3e720f1d0d687454eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0b6ff6c54001ee3e720f1d0d687454eb">&#9670;&nbsp;</a></span>linestack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> linestack[<a class="el" href="tex_8h.html#a9980d64639838daab3b9dd48506bd87e">MAX_IN_OPEN</a>]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga36f0afb96aaf270888c6255c982fa6a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga36f0afb96aaf270888c6255c982fa6a9">&#9670;&nbsp;</a></span>maxinstack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> maxinstack</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>[#301]: largest value of input ptr when pushing. </p>
+
+</div>
+</div>
+<a id="ga24ec2d1f4fc0b4111c8273c5c65e7593"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24ec2d1f4fc0b4111c8273c5c65e7593">&#9670;&nbsp;</a></span>maxparamstack</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> maxparamstack</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#308] largest value of param ptr, will be ≤ param size + 9 . / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a> </p>
+
+</div>
+</div>
+<a id="ga65665e248ec39eae47d82b3b4998684e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga65665e248ec39eae47d82b3b4998684e">&#9670;&nbsp;</a></span>openparens</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char openparens</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>the number of open text files xref[2, only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="texfunc_8h.html#a36e1e896f8f7b67ca95b8c20295fc18f">startinput</a>, <a class="el" href="tex_8c.html#aefe6d87ea761374ada27cd86842e3da6" title="p468#1335: Last-minute procedures">final_cleanup</a> </p>
+
+</div>
+</div>
+<a id="ga2b216386ea78e64ad9d5c4ef8f72796a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2b216386ea78e64ad9d5c4ef8f72796a">&#9670;&nbsp;</a></span>paramptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int paramptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#308] first unused entry in param stack. / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a> </p>
+
+</div>
+</div>
+<a id="ga29bb39bd4046ec60e98e6ff964377430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga29bb39bd4046ec60e98e6ff964377430">&#9670;&nbsp;</a></span>paramstack</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> paramstack[<a class="el" href="tex_8h.html#a5c7565cdb896b2bb6f7e89e33b89a9b9">paramsize</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#308] token list pointers for parameters. / xref[only <a class="el" href="tex_8c.html">tex.c</a>]: <a class="el" href="group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc" title="[#389] invokes a user-defined control sequence">macrocall</a> </p>
+
+</div>
+</div>
+<a id="ga3d756efb168f679a7fbb40de545b2c0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3d756efb168f679a7fbb40de545b2c0a">&#9670;&nbsp;</a></span>scanner_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char scanner_status</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#305] can a subfile end now? </p>
+
+</div>
+</div>
+<a id="gaeb75df5f70c3ab15631b2e21446eac94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaeb75df5f70c3ab15631b2e21446eac94">&#9670;&nbsp;</a></span>warning_index</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> warning_index</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#305] identifier relevant to non-normal scanner status </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="atex_8h_html_aa8eb0ea69576396000ea9a91bdbeeba5"><div class="ttname"><a href="tex_8h.html#aa8eb0ea69576396000ea9a91bdbeeba5">ERROR_LINE</a></div><div class="ttdeci">#define ERROR_LINE</div><div class="ttdef"><b>Definition:</b> tex.h:25</div></div>
+<div class="ttc" id="atex_8h_html_ac7055178c5807c1370e9026e027de595"><div class="ttname"><a href="tex_8h.html#ac7055178c5807c1370e9026e027de595">HALF_ERROR_LINE</a></div><div class="ttdeci">#define HALF_ERROR_LINE</div><div class="ttdef"><b>Definition:</b> tex.h:28</div></div>
+<div class="ttc" id="aprint_8c_html_acded096c3268ca6569a49375ce757e4f"><div class="ttname"><a href="print_8c.html#acded096c3268ca6569a49375ce757e4f">trick_count</a></div><div class="ttdeci">Integer trick_count</div><div class="ttdoc">threshold for pseudoprinting, explained later.</div><div class="ttdef"><b>Definition:</b> print.c:28</div></div>
+<div class="ttc" id="aprint_8c_html_a7ffd670d28ee97732bf95350e740ec9d"><div class="ttname"><a href="print_8c.html#a7ffd670d28ee97732bf95350e740ec9d">first_count</a></div><div class="ttdeci">Integer first_count</div><div class="ttdoc">another variable for pseudoprinting.</div><div class="ttdef"><b>Definition:</b> print.c:29</div></div>
+<div class="ttc" id="aprint_8c_html_a89b3f351f42b094a4ee47b7d0c066691"><div class="ttname"><a href="print_8c.html#a89b3f351f42b094a4ee47b7d0c066691">tally</a></div><div class="ttdeci">Integer tally</div><div class="ttdoc">the number of characters recently printed.</div><div class="ttdef"><b>Definition:</b> print.c:12</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>
