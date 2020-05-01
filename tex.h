@@ -170,9 +170,6 @@
 /** @}*/ // end group S162x172_P58x61
 
 
-/// [#]
-#define lastactive      active
-
 /// [#232]
 #define varcode         28672
 #define NULL_FONT       0
@@ -525,6 +522,7 @@ enum CatCode {
 #define activenodesize  3
 #define unhyphenated    0
 #define hyphenated      1
+#define lastactive      active
 // [p304#821]
 #define passivenodesize  2
 // [p304#822]
