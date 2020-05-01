@@ -1843,6 +1843,10 @@ Static void flush_node_list(HalfWord p) {
 /** @}*/ // end group S199x202_P69x70
 
 
+/** @addtogroup S203x206_P71x72
+ * @{
+ */
+
 /*204:*/
 Static HalfWord copynodelist(HalfWord p)
 {
@@ -1967,6 +1971,12 @@ Static HalfWord copynodelist(HalfWord p)
   return q;
 }
 /*:204*/
+/** @}*/ // end group S203x206_P71x72
+
+
+/** @addtogroup S211x219_P77x80
+ * @{
+ */
 
 // #211: prints the mode represented by m
 void print_mode(Integer m) {
@@ -2125,6 +2135,8 @@ Static void showactivities(void)
   }
 }
 /*:218*/
+/** @}*/ // end group S211x219_P77x80
+
 
 // [#245] prepare to do some tracing
 void begindiagnostic(void) {

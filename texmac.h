@@ -240,11 +240,26 @@
 #define chartag(x)  ((qo((x).b2)) % 4)
 */
 #define tailappend(x)  (link(tail)=(x), tail=link(tail))
-#define addglueref(x) (gluerefcount(x)++)
-#define addtokenref(x) (tokenrefcount(x)++)
+
+
+/** @addtogroup S203x206_P71x72
+ * @{
+ */
+
+/// [#203] new reference to a token list.
+#define addtokenref(x)  (tokenrefcount(x)++)
+/// [#203] new reference to a glue spec.
+#define addglueref(x)   (gluerefcount(x)++)
+/** @}*/ // end group S203x206_P71x72
+
 
 #define qi(x) (x)
 #define qo(x) (x)
+
+/** @addtogroup S211x219_P77x80
+ * @{
+ */
+
 #define mode  cur_list.modefield /* current mode}*/
 #define head  cur_list.headfield /* header node of current list}*/
 #define tail  cur_list.tailfield /* final node on current list}*/
@@ -255,6 +270,9 @@
 #define clang  aux.hh.rh /* the other part of |aux| in horizontal mode}*/
 #define incompleatnoad  aux.int_ /* the name of |aux| in math mode}*/
 #define modeline  cur_list.mlfield /* source file line number at beginning of list}*/
+/** @}*/ // end group S211x219_P77x80
+
+
 #define topmark  curmark[topmarkcode- topmarkcode]
 #define firstmark  curmark[firstmarkcode - topmarkcode]
 #define botmark  curmark[botmarkcode - topmarkcode]

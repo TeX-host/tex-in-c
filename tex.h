@@ -201,7 +201,12 @@
 
 #define himemstatusage  14
 
-// #207:  
+
+/** @addtogroup S207x210_P73x76
+ * @{
+ */
+
+// #207:
 enum CatCode {
     ESCAPE,      // ['\\'] escape delimiter
     LEFT_BRACE,  // ['{'] beginning of a group
@@ -236,7 +241,7 @@ enum CatCode {
 #define maxcharcode INVALID_CHAR // largest catcode for individual characters
 
 
-// #207
+// [#208]
 // enum TexCommandCode {
 
 // };
@@ -308,6 +313,7 @@ enum CatCode {
 #define lastitem        70
 #define maxnonprefixedcommand  70
 
+// [#209]
 #define toksregister    71
 #define assigntoks      72
 #define assignint       73
@@ -339,8 +345,9 @@ enum CatCode {
 #define setbox          98
 #define hyphdata        99
 #define setinteraction  100
-
 #define maxcommand      100
+
+// [#210]
 #define undefinedcs     (maxcommand + 1)
 #define expandafter     (maxcommand + 2)
 #define noexpand        (maxcommand + 3)
@@ -361,8 +368,10 @@ enum CatCode {
 #define shaperef        (maxcommand + 18)
 #define boxref          (maxcommand + 19)
 #define data            (maxcommand + 20)
+/** @}*/ // end group S207x210_P73x76
 
 
+// [#211]
 #define V_MODE           1 // vertical mode
 #define H_MODE           (V_MODE + maxcommand + 1) // horizontal mode
 #define M_MODE           (H_MODE + maxcommand + 1) // math mode

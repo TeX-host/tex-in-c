@@ -156,12 +156,18 @@ Static Integer breadth_max;
 /** @}*/ // end group S173x198_P62x68
 
 
+/** @addtogroup S211x219_P77x80
+ * @{
+ */
+
 /// [ #211~219: PART 16: THE SEMANTIC NEST ]
 ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
 UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
 ListStateRecord cur_list;           // the "top" semantic state
 UInt16 shown_mode; // most recent mode shown by \tracingcommands
+/** @}*/ // end group S211x219_P77x80
+
 
 /// [ #220~255: THE TABLE OF EQUIVALENTS ]
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
