@@ -10,9 +10,12 @@
 // fonts, tex
 
 /// a |halfword| code that can't match a real character}
-#define NON_CHAR 256 
+#define NON_CHAR 256
+
+/// [p199#545]
 #define opbyte(x) (x.b2)
 #define rembyte(x) (x.b3)
+
 #define chartag(x) (((x).b2) % 4)
 #define charexists(x) ((x).b0 > MIN_QUARTER_WORD)
 
