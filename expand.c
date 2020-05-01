@@ -57,7 +57,7 @@ static void insthetoks(void);
 /// a runaway argument has already been reported.
 void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     HalfWord m;
-    if (longstate == call) {
+    if (longstate == CALL) {
         runaway();
         printnl(S(292));
         print(S(533));
@@ -100,7 +100,7 @@ void macrocall(Pointer refcount) {
         scanner_status = MATCHING;
         unbalance = 0;
         longstate = eqtype(curcs);
-        if (longstate >= outercall) longstate -= 2;
+        if (longstate >= OUTER_CALL) longstate -= 2;
         do {
             link(temphead) = 0;
             if ((info(r) > matchtoken + (dwa_do_8 - 1)) |
@@ -162,7 +162,7 @@ void macrocall(Pointer refcount) {
                 r = s;
             }
             if (curtok == partoken) {
-                if (longstate != longcall) {
+                if (longstate != LONG_CALL) {
                     report_argument(unbalance, n, pstack);
                     goto _Lexit;
                 }
@@ -174,7 +174,7 @@ void macrocall(Pointer refcount) {
                         FAST_STORE_NEW_TOKEN(p, curtok);
                         gettoken();
                         if (curtok == partoken) {
-                            if (longstate != longcall) {
+                            if (longstate != LONG_CALL) {
                                 report_argument(unbalance, n, pstack);
                                 goto _Lexit;
                             }
@@ -198,7 +198,7 @@ void macrocall(Pointer refcount) {
                     print(S(545));
                     help6(S(546), S(547), S(548), S(549), S(550), S(551));
                     align_state++;
-                    longstate = call;
+                    longstate = CALL;
                     curtok = partoken;
                     inserror();
                 }
@@ -289,21 +289,21 @@ void expand(void) {
 
     backupbackup = link(backuphead);
 
-    if (curcmd < call) { /*367:*/
+    if (curcmd < CALL) { /*367:*/
         if (tracingcommands > 1) showcurcmdchr();
         switch (curcmd) {
 
-            case topbotmark: /*386:*/
+            case TOP_BOT_MARK: /*386:*/
                 if (curmark[curchr - topmarkcode] != 0)
                     begintokenlist(curmark[curchr - topmarkcode], MARK_TEXT);
                 break;
                 /*:386*/
 
-            case expandafter: /*368:*/
+            case EXPAND_AFTER: /*368:*/
                 gettoken();
                 t = curtok;
                 gettoken();
-                if (curcmd > maxcommand)
+                if (curcmd > MAX_COMMAND)
                     expand();
                 else
                     backinput();
@@ -312,7 +312,7 @@ void expand(void) {
                 break;
                 /*:368*/
 
-            case noexpand: /*369:*/
+            case NO_EXPAND: /*369:*/
                 savescannerstatus = scanner_status;
                 scanner_status = NORMAL;
                 gettoken();
@@ -329,7 +329,7 @@ void expand(void) {
                 break;
                 /*:369*/
 
-            case csname: /*372:*/
+            case CS_NAME: /*372:*/
                 r = get_avail();
                 p = r;
                 do {
@@ -338,7 +338,7 @@ void expand(void) {
                         STORE_NEW_TOKEN(p, curtok);
                     }
                 } while (curcs == 0);
-                if (curcmd != endcsname) { /*373:*/
+                if (curcmd != END_CS_NAME) { /*373:*/
                     printnl(S(292));
                     print(S(554));
                     print_esc(S(263));
@@ -367,26 +367,26 @@ void expand(void) {
                 else
                     curcs = singlebase + buffer[first]; /*:374*/
                 flushlist(r);
-                if (eqtype(curcs) == undefinedcs) eqdefine(curcs, relax, 256);
+                if (eqtype(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
                 curtok = curcs + CS_TOKEN_FLAG;
                 backinput();
                 break;
                 /*:372*/
 
-            case convert: convtoks(); break;
+            case CONVERT: convtoks(); break;
 
-            case the: insthetoks(); break;
+            case THE: insthetoks(); break;
 
-            case iftest: conditional(); break;
+            case IF_TEST: conditional(); break;
 
-            case fiorelse: /*510:*/
+            case FI_OR_ELSE: /*510:*/
                 if (curchr > iflimit) {
                     if (iflimit == ifcode)
                         insertrelax();
                     else {
                         printnl(S(292));
                         print(S(558));
-                        printcmdchr(fiorelse, curchr);
+                        printcmdchr(FI_OR_ELSE, curchr);
                         help1(S(559));
                         error();
                     }
@@ -402,7 +402,7 @@ void expand(void) {
                 }
                 break;
 
-            case input: /*378:*/
+            case INPUT: /*378:*/
                 if (curchr > 0)
                     force_eof = true;
                 else if (name_in_progress)
@@ -420,7 +420,7 @@ void expand(void) {
                 break;
         }
     } /*:367*/
-    else if (curcmd < endtemplate)
+    else if (curcmd < END_TEMPLATE)
         macrocall(curchr);
     else {
         curtok = CS_TOKEN_FLAG + frozenendv;
@@ -449,13 +449,13 @@ void expand(void) {
 void get_x_token(void) {
     while (true) {
         getnext();
-        if (curcmd <= maxcommand) break;
-        if (curcmd >= call) {
-            if (curcmd < endtemplate) {
+        if (curcmd <= MAX_COMMAND) break;
+        if (curcmd >= CALL) {
+            if (curcmd < END_TEMPLATE) {
                 macrocall(curchr);
             } else {
                 curcs = frozenendv;
-                curcmd = endv;
+                curcmd = ENDV;
                 break; // cur_chr = null_list
             }          // if (curcmd <> endtemplate)
         } else {
@@ -469,7 +469,7 @@ void get_x_token(void) {
 
 /// [#381] #get_x_token without the initial #getnext
 void xtoken(void) {
-    while (curcmd > maxcommand) {
+    while (curcmd > MAX_COMMAND) {
         expand();
         getnext();
     }
@@ -578,10 +578,10 @@ static void passtext(void) {
     skipline = line;
     while (true) {
         getnext();
-        if (curcmd == fiorelse) {
+        if (curcmd == FI_OR_ELSE) {
             if (l == 0) break;
             if (curchr == ficode) l--;
-        } else if (curcmd == iftest) {
+        } else if (curcmd == IF_TEST) {
             l++;
         }
     }
@@ -608,7 +608,7 @@ static void changeiflimit(SmallNumber l, HalfWord p) {
 } // [#497] changeiflimit
 
 #define getxtokenoractivechar()                                           \
-    (get_x_token(), ((curcmd == relax) && (curchr == noexpandflag))       \
+    (get_x_token(), ((curcmd == RELAX) && (curchr == noexpandflag))       \
                         ? (curcmd = ACTIVE_CHAR,                          \
                            cur_chr = curtok - CS_TOKEN_FLAG - activebase) \
                         : (cur_chr = curchr))
@@ -640,7 +640,7 @@ static void conditional(void) { /*495:*/
             int cur_chr = curchr;
             getxtokenoractivechar();
             if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
-                m = relax;
+                m = RELAX;
                 n = 256;
             } else {
                 m = curcmd;
@@ -648,7 +648,7 @@ static void conditional(void) { /*495:*/
             }
             getxtokenoractivechar();
             if (curcmd > ACTIVE_CHAR || cur_chr > 255) {
-                curcmd = relax;
+                curcmd = RELAX;
                 cur_chr = 256;
             }
             if (thisif == IF_CHAR_CODE)
@@ -672,7 +672,7 @@ static void conditional(void) { /*495:*/
             else {
                 printnl(S(292));
                 print(S(659));
-                printcmdchr(iftest, thisif);
+                printcmdchr(IF_TEST, thisif);
                 help1(S(660));
                 backerror();
                 r = '=';
@@ -727,7 +727,7 @@ static void conditional(void) { /*495:*/
             getnext();
             if (curcmd != p)
                 b = false;
-            else if (curcmd < call)
+            else if (curcmd < CALL)
                 b = (curchr == q);
             else {
                 /* 508:*/

@@ -109,14 +109,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
         case MAC_PARAM: chrcmd(S(1259)); break;   // "macro parameter character "
         case SUP_MARK: chrcmd(S(1260)); break;    // "superscript character "
         case SUB_MARK: chrcmd(S(1261)); break;    // "subscript character "
-        case endv: print(S(1262)); break;         // "subscript character "
+        case ENDV: print(S(1262)); break;         // "subscript character "
         case SPACER: chrcmd(S(1263)); break;      // "blank space "
         case LETTER: chrcmd(S(1264)); break;      // "the letter "
         case OTHER_CHAR: chrcmd(S(1265)); break;  // "the character "
     
         /*227:*/
-        case assignglue:
-        case assignmuglue: /*:227*/
+        case ASSIGN_GLUE:
+        case ASSIGN_MU_GLUE: /*:227*/
             if (chrcode < skipbase)
                 print_skip_param(chrcode - gluebase);
             else if (chrcode < muskipbase) {
@@ -128,7 +128,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*231:*/
-        case assigntoks: /*:231*/
+        case ASSIGN_TOKS: /*:231*/
             if (chrcode >= toksbase) {
                 print_esc(S(463));
                 print_int(chrcode - toksbase);
@@ -147,7 +147,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*239:*/
-        case assignint:
+        case ASSIGN_INT:
             if (chrcode < countbase)
                 printparam(chrcode - intbase);
             else {
@@ -156,7 +156,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             } /*:239*/
             break;
             /*249:*/
-        case assigndimen: /*:249*/
+        case ASSIGN_DIMEN: /*:249*/
             if (chrcode < SCALED_BASE)
                 printlengthparam(chrcode - dimenbase);
             else {
@@ -165,62 +165,62 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*266:*/
-        case accent: print_esc(S(417)); break;
-        case advance: print_esc(S(1110)); break;
-        case afterassignment: print_esc(S(1111)); break;
-        case aftergroup: print_esc(S(1112)); break;
-        case assignfontdimen: print_esc(S(1119)); break;
-        case begingroup: print_esc(S(1113)); break;
-        case breakpenalty: print_esc(S(761)); break;
-        case charnum: print_esc(S(1114)); break;
-        case csname: print_esc(S(262)); break;
-        case deffont: print_esc(S(1118)); break;
-        case delimnum: print_esc(S(1115)); break;
-        case divide: print_esc(S(1116)); break;
-        case endcsname: print_esc(S(263)); break;
-        case endgroup: print_esc(S(836)); break;
-        case exspace: print_esc(' '); break;
-        case expandafter: print_esc(S(1117)); break;
-        case halign: print_esc(S(724)); break;
-        case hrule: print_esc(S(863)); break;
-        case ignorespaces: print_esc(S(1120)); break;
-        case insert_: print_esc(S(374)); break;
-        case italcorr: print_esc('/'); break;
-        case mark_: print_esc(S(402)); break;
-        case mathaccent: print_esc(S(913)); break;
-        case mathcharnum: print_esc(S(1121)); break;
-        case mathchoice: print_esc(S(404)); break;
-        case multiply: print_esc(S(1122)); break;
-        case noalign: print_esc(S(897)); break;
-        case noboundary: print_esc(S(1123)); break;
-        case noexpand: print_esc(S(1124)); break;
-        case nonscript: print_esc(S(388)); break;
-        case omit: print_esc(S(900)); break;
-        case radical: print_esc(S(416)); break;
-        case readtocs: print_esc(S(656)); break;
-        case relax: print_esc(S(1125)); break;
-        case setbox: print_esc(S(970)); break;
-        case setprevgraf: print_esc(S(948)); break;
-        case setshape: print_esc(S(462)); break;
-        case the: print_esc(S(604)); break;
-        case toksregister: print_esc(S(463)); break;
-        case vadjust: print_esc(S(403)); break;
-        case valign: print_esc(S(1126)); break;
-        case vcenter: print_esc(S(415)); break;
-        case vrule: print_esc(S(1127)); break;
+        case ACCENT: print_esc(S(417)); break;
+        case ADVANCE: print_esc(S(1110)); break;
+        case AFTER_ASSIGNMENT: print_esc(S(1111)); break;
+        case AFTER_GROUP: print_esc(S(1112)); break;
+        case ASSIGN_FONT_DIMEN: print_esc(S(1119)); break;
+        case BEGIN_GROUP: print_esc(S(1113)); break;
+        case BREAK_PENALTY: print_esc(S(761)); break;
+        case CHAR_NUM: print_esc(S(1114)); break;
+        case CS_NAME: print_esc(S(262)); break;
+        case DEF_FONT: print_esc(S(1118)); break;
+        case DELIM_NUM: print_esc(S(1115)); break;
+        case DIVIDE: print_esc(S(1116)); break;
+        case END_CS_NAME: print_esc(S(263)); break;
+        case END_GROUP: print_esc(S(836)); break;
+        case EX_SPACE: print_esc(' '); break;
+        case EXPAND_AFTER: print_esc(S(1117)); break;
+        case HALIGN: print_esc(S(724)); break;
+        case HRULE: print_esc(S(863)); break;
+        case IGNORE_SPACES: print_esc(S(1120)); break;
+        case INSERT: print_esc(S(374)); break;
+        case ITAL_CORR: print_esc('/'); break;
+        case MARK: print_esc(S(402)); break;
+        case MATH_ACCENT: print_esc(S(913)); break;
+        case MATH_CHAR_NUM: print_esc(S(1121)); break;
+        case MATH_CHOICE: print_esc(S(404)); break;
+        case MULTIPLY: print_esc(S(1122)); break;
+        case NO_ALIGN: print_esc(S(897)); break;
+        case NO_BOUNDARY: print_esc(S(1123)); break;
+        case NO_EXPAND: print_esc(S(1124)); break;
+        case NON_SCRIPT: print_esc(S(388)); break;
+        case OMIT: print_esc(S(900)); break;
+        case RADICAL: print_esc(S(416)); break;
+        case READ_TO_CS: print_esc(S(656)); break;
+        case RELAX: print_esc(S(1125)); break;
+        case SET_BOX: print_esc(S(970)); break;
+        case SET_PREV_GRAF: print_esc(S(948)); break;
+        case SET_SHAPE: print_esc(S(462)); break;
+        case THE: print_esc(S(604)); break;
+        case TOKS_REGISTER: print_esc(S(463)); break;
+        case VADJUST: print_esc(S(403)); break;
+        case VALIGN: print_esc(S(1126)); break;
+        case VCENTER: print_esc(S(415)); break;
+        case VRULE: print_esc(S(1127)); break;
         /*:266*/
         /*335:*/
-        case parend: print_esc(S(760)); break;
+        case PAR_END: print_esc(S(760)); break;
         /*:335*/
         /*377:*/
-        case input: /*:377*/
+        case INPUT: /*:377*/
             if (chrcode == 0)
                 print_esc(S(1128));
             else
                 print_esc(S(1129));
             break;
             /*385:*/
-        case topbotmark: /*:385*/
+        case TOP_BOT_MARK: /*:385*/
             switch (chrcode) {
                 case firstmarkcode: print_esc(S(1131)); break;
                 case botmarkcode: print_esc(S(1132)); break;
@@ -230,7 +230,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*412:*/
-        case register_: /*:412*/
+        case REGISTER: /*:412*/
             if (chrcode == INT_VAL)
                 print_esc(S(472));
             else if (chrcode == DIMEN_VAL)
@@ -241,19 +241,19 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(461));
             break;
             /*417:*/
-        case setaux:
+        case SET_AUX:
             if (chrcode == V_MODE)
                 print_esc(S(1136));
             else
                 print_esc(S(1135));
             break;
-        case setpageint:
+        case SET_PAGE_INT:
             if (chrcode == 0)
                 print_esc(S(1137));
             else
                 print_esc(S(1138));
             break;
-        case setboxdimen:
+        case SET_BOX_DIMEN:
             if (chrcode == widthoffset)
                 print_esc(S(1139));
             else {
@@ -263,7 +263,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                     print_esc(S(1141));
             }
             break;
-        case lastitem: /*:417*/
+        case LAST_ITEM: /*:417*/
             switch (chrcode) {
                 case INT_VAL: print_esc(S(1142)); break;
                 case DIMEN_VAL: print_esc(S(1143)); break;
@@ -273,7 +273,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*469:*/
-        case convert: /*:469*/
+        case CONVERT: /*:469*/
             switch (chrcode) {
                 case numbercode: print_esc(S(1147)); break;
                 case romannumeralcode: print_esc(S(1148)); break;
@@ -284,7 +284,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*488:*/
-        case iftest: /*:488*/
+        case IF_TEST: /*:488*/
             switch (chrcode) {
                 case IF_CAT_CODE: print_esc(S(1153)); break;
                 case IF_INT_CODE: print_esc(S(1154)); break;
@@ -306,7 +306,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*492:*/
-        case fiorelse: /*:492*/
+        case FI_OR_ELSE: /*:492*/
             if (chrcode == ficode)
                 print_esc(S(1169));
             else if (chrcode == orcode)
@@ -329,7 +329,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(1173));
             break;
             /*984:*/
-        case setpagedimen: /*:984*/
+        case SET_PAGE_DIMEN: /*:984*/
             switch (chrcode) {
                 case 0: print_esc(S(1175)); break;
                 case 1: print_esc(S(1176)); break;
@@ -342,14 +342,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*1053:*/
-        case stop: /*:1053*/
+        case STOP: /*:1053*/
             if (chrcode == 1)
                 print_esc(S(1184));
             else
                 print_esc(S(1183));
             break;
             /*1059:*/
-        case hskip:
+        case HSKIP:
             switch (chrcode) {
                 case SKIP_CODE: print_esc(S(1185)); break;
                 case FIL_CODE: print_esc(S(1186)); break;
@@ -358,7 +358,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 default: print_esc(S(1189)); break;
             }
             break;
-        case vskip:
+        case VSKIP:
             switch (chrcode) {
                 case SKIP_CODE: print_esc(S(1190)); break;
                 case FIL_CODE: print_esc(S(1191)); break;
@@ -367,25 +367,25 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 default: print_esc(S(1194)); break;
             }
             break;
-        case mskip: print_esc(S(389)); break;
-        case kern: print_esc(S(391)); break;
-        case mkern: /*:1059*/
+        case MSKIP: print_esc(S(389)); break;
+        case KERN: print_esc(S(391)); break;
+        case MKERN: /*:1059*/
             print_esc(S(393));
             break;
             /*1072:*/
-        case hmove:
+        case HMOVE:
             if (chrcode == 1)
                 print_esc(S(1195));
             else
                 print_esc(S(1196));
             break;
-        case vmove:
+        case VMOVE:
             if (chrcode == 1)
                 print_esc(S(1197));
             else
                 print_esc(S(1198));
             break;
-        case makebox:
+        case MAKE_BOX:
             switch (chrcode) {
                 case boxcode: print_esc(S(464)); break;
                 case copycode: print_esc(S(1199)); break;
@@ -396,7 +396,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 default: print_esc(S(1202)); break;
             }
             break;
-        case leadership: /*:1072*/
+        case LEADER_SHIP: /*:1072*/
             if (chrcode == aleaders)
                 print_esc(S(1204));
             else if (chrcode == cleaders)
@@ -407,14 +407,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(1203));
             break;
             /*1089:*/
-        case startpar: /*:1089*/
+        case START_PAR: /*:1089*/
             if (chrcode == 0)
                 print_esc(S(1208));
             else
                 print_esc(S(1207));
             break;
             /*1108:*/
-        case removeitem:
+        case REMOVE_ITEM:
             if (chrcode == GLUE_NODE)
                 print_esc(S(1211));
             else if (chrcode == KERN_NODE)
@@ -422,34 +422,34 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             else
                 print_esc(S(1209));
             break;
-        case unhbox:
+        case UN_HBOX:
             if (chrcode == copycode)
                 print_esc(S(1213));
             else
                 print_esc(S(1212));
             break;
-        case unvbox: /*:1108*/
+        case UN_VBOX: /*:1108*/
             if (chrcode == copycode)
                 print_esc(S(1215));
             else
                 print_esc(S(1214));
             break;
             /*1115:*/
-        case discretionary: /*:1115*/
+        case DISCRETIONARY: /*:1115*/
             if (chrcode == 1)
                 print_esc('-');
             else
                 print_esc(S(400));
             break;
             /*1143:*/
-        case eqno: /*:1143*/
+        case EQ_NO: /*:1143*/
             if (chrcode == 1)
                 print_esc(S(1217));
             else
                 print_esc(S(1216));
             break;
             /*1157:*/
-        case mathcomp:
+        case MATH_COMP:
             switch (chrcode) {
                 case ordnoad: print_esc(S(405)); break;
                 case opnoad: print_esc(S(406)); break;
@@ -463,7 +463,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 default: print_esc(S(413)); break;
             }
             break;
-        case limitswitch: /*:1157*/
+        case LIMIT_SWITCH: /*:1157*/
             if (chrcode == limits)
                 print_esc(S(420));
             else if (chrcode == nolimits)
@@ -472,11 +472,11 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(1218));
             break;
             /*1170:*/
-        case mathstyle: /*:1170*/
+        case MATH_STYLE: /*:1170*/
             printstyle(chrcode);
             break;
             /*1179:*/
-        case above: /*:1179*/
+        case ABOVE: /*:1179*/
             switch (chrcode) {
                 case overcode: print_esc(S(1220)); break;
                 case atopcode: print_esc(S(1221)); break;
@@ -487,14 +487,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*1189:*/
-        case leftright: /*:1189*/
+        case LEFT_RIGHT: /*:1189*/
             if (chrcode == leftnoad)
                 print_esc(S(418));
             else
                 print_esc(S(419));
             break;
             /*1209:*/
-        case prefix:
+        case PREFIX:
             if (chrcode == 1)
                 print_esc(S(959));
             else if (chrcode == 2)
@@ -502,7 +502,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             else
                 print_esc(S(1225));
             break;
-        case def: /*:1209*/
+        case DEF: /*:1209*/
             if (chrcode == 0)
                 print_esc(S(1226));
             else if (chrcode == 1)
@@ -513,14 +513,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_esc(S(1229));
             break;
             /*1220:*/
-        case let: /*:1220*/
+        case LET: /*:1220*/
             if (chrcode != NORMAL)
                 print_esc(S(1231));
             else
                 print_esc(S(1230));
             break;
             /*1223:*/
-        case shorthanddef:
+        case SHORTHAND_DEF:
             switch (chrcode) {
                 case chardefcode: print_esc(S(1232)); break;
                 case mathchardefcode: print_esc(S(1233)); break;
@@ -531,17 +531,17 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 default: print_esc(S(1238)); break;
             }
             break;
-        case chargiven:
+        case CHAR_GIVEN:
             print_esc(S(1114));
             print_hex(chrcode);
             break;
-        case mathgiven:
+        case MATH_GIVEN:
             print_esc(S(1121));
             print_hex(chrcode);
             break;
             /*:1223*/
             /*1231:*/
-        case defcode:
+        case DEF_CODE:
             if (chrcode == catcodebase)
                 print_esc(S(467));
             else if (chrcode == mathcodebase)
@@ -555,25 +555,25 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             else
                 print_esc(S(473));
             break;
-        case deffamily: /*:1231*/
+        case DEF_FAMILY: /*:1231*/
             print_size(chrcode - mathfontbase);
             break;
             /*1251:*/
-        case hyphdata: /*:1251*/
+        case HYPH_DATA: /*:1251*/
             if (chrcode == 1)
                 print_esc(S(774));
             else
                 print_esc(S(787));
             break;
             /*1255:*/
-        case assignfontint: /*:1255*/
+        case ASSIGN_FONT_INT: /*:1255*/
             if (chrcode == 0)
                 print_esc(S(1239));
             else
                 print_esc(S(1240));
             break;
             /*1261:*/
-        case setfont:
+        case SET_FONT:
             print(S(1267));
             slow_print(get_fontname(chrcode));
             if (get_fontsize(chrcode) != get_fontdsize(chrcode)) {
@@ -584,7 +584,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
             /*:1261*/
             /*1263:*/
-        case setinteraction: /*:1263*/
+        case SET_INTERACTION: /*:1263*/
             switch (chrcode) {
                 case BATCH_MODE: print_esc(S(281)); break;
                 case NON_STOP_MODE: print_esc(S(282)); break;
@@ -593,28 +593,28 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*1273:*/
-        case instream: /*:1273*/
+        case IN_STREAM: /*:1273*/
             if (chrcode == 0)
                 print_esc(S(1243));
             else
                 print_esc(S(1242));
             break;
             /*1278:*/
-        case message: /*:1278*/
+        case MESSAGE: /*:1278*/
             if (chrcode == 0)
                 print_esc(S(1244));
             else
                 print_esc(S(1245));
             break;
             /*1287:*/
-        case caseshift: /*:1287*/
+        case CASE_SHIFT: /*:1287*/
             if (chrcode == lccodebase)
                 print_esc(S(1246));
             else
                 print_esc(S(1247));
             break;
             /*1292:*/
-        case xray: /*:1292*/
+        case XRAY: /*:1292*/
             switch (chrcode) {
                 case showboxcode: print_esc(S(1249)); break;
                 case showthecode: print_esc(S(1250)); break;
@@ -623,19 +623,19 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             }
             break;
             /*1295:*/
-        case undefinedcs: print(S(1268)); break;
-        case call: print(S(1269)); break;
-        case longcall: print_esc(S(1270)); break;
-        case outercall: print_esc(S(1271)); break;
-        case longoutercall:
+        case UNDEFINED_CS: print(S(1268)); break;
+        case CALL: print(S(1269)); break;
+        case LONG_CALL: print_esc(S(1270)); break;
+        case OUTER_CALL: print_esc(S(1271)); break;
+        case LONG_OUTER_CALL:
             print_esc(S(959));
             print_esc(S(1271));
             break;
-        case endtemplate: /*:1295*/
+        case END_TEMPLATE: /*:1295*/
             print_esc(S(1272));
             break;
             /*1346:*/
-        case extension:
+        case EXTENSION:
             switch (chrcode) {
                 case opennode: print_esc(S(378)); break;
                 case writenode: print_esc(S(379)); break;

@@ -181,7 +181,7 @@ void showtokenlist(Integer p, Integer q, Integer l) {
                         print(c);
                         break;
 
-                    case outparam:
+                    case OUT_PARAM:
                         print(matchchr);
                         if (c > 9) {
                             print_char('!');
@@ -190,7 +190,7 @@ void showtokenlist(Integer p, Integer q, Integer l) {
                         print_char(c + '0');
                         break;
 
-                    case match:
+                    case MATCH:
                         matchchr = c;
                         print(c);
                         n++;
@@ -198,7 +198,7 @@ void showtokenlist(Integer p, Integer q, Integer l) {
                         if (n > '9') return;
                         break;
 
-                    case endmatch:
+                    case END_MATCH:
                         print(S(310)); // "−>"
                         break;
 
@@ -224,13 +224,13 @@ void tokenshow(HalfWord p) {
 ///     including the expansion of a macro or mark.
 void printmeaning(int cur_chr, int cur_cmd) {
     printcmdchr(cur_cmd, cur_chr);
-    if (cur_cmd >= call) {
+    if (cur_cmd >= CALL) {
         print_char(':');
         println();
         tokenshow(cur_chr);
         return;
     }
-    if (cur_cmd != topbotmark) return;
+    if (cur_cmd != TOP_BOT_MARK) return;
     print_char(':');
     println();
     tokenshow(curmark[cur_chr - topmarkcode]);
@@ -511,7 +511,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
         case MARK_TEXT: print_esc(S(402)); break;  // "mark"
         case WRITE_TEXT: print_esc(S(379)); break; // "write"
         default:
-            printcmdchr(assigntoks, t - OUTPUT_TEXT + outputroutineloc);
+            printcmdchr(ASSIGN_TOKS, t - OUTPUT_TEXT + outputroutineloc);
             break;
     }
     print(S(310)); // "−>"
@@ -713,7 +713,7 @@ static int check_outer_validity(int local_curcs) {
             case MATCHING:
                 print(S(515));
                 info(p) = partoken;
-                longstate = outercall;
+                longstate = OUTER_CALL;
                 break;
 
             case ALIGNING:
@@ -739,7 +739,7 @@ static int check_outer_validity(int local_curcs) {
     } else {
         printnl(S(292));
         print(S(521));
-        printcmdchr(iftest, curif);
+        printcmdchr(IF_TEST, curif);
         print(S(522));
         print_int(skipline);
         help3(S(523), S(524), S(525));
@@ -766,7 +766,7 @@ static int check_outer_validity(int local_curcs) {
     } while (0)
 
 #define process_cmd \
-    if (cur_cmd >= outercall) CHECK_OUTER;
+    if (cur_cmd >= OUTER_CALL) CHECK_OUTER;
 
 #define Process_cs                \
     {                             \
@@ -1139,20 +1139,20 @@ _getnext_worker__restart:
             cur_cs = t - CS_TOKEN_FLAG;
             cur_cmd = eqtype(cur_cs);
             cur_chr = equiv(cur_cs);
-            if (cur_cmd >= outercall) {
-                if (cur_cmd == dontexpand) {
+            if (cur_cmd >= OUTER_CALL) {
+                if (cur_cmd == DONT_EXPAND) {
                     // [#358] Get the next token, suppressing expansion
                     cur_cs = info(LOC) - CS_TOKEN_FLAG;
                     LOC = 0;
                     cur_cmd = eqtype(cur_cs);
                     cur_chr = equiv(cur_cs);
-                    if (cur_cmd > maxcommand) {
-                        cur_cmd = relax;
+                    if (cur_cmd > MAX_COMMAND) {
+                        cur_cmd = RELAX;
                         cur_chr = noexpandflag;
                     }
                 } else {
                     CHECK_OUTER;
-                } // if (cur_cmd <> dontexpand)
+                } // if (cur_cmd <> DONT_EXPAND)
             }     // if (cur_cmd >= outercall)
         } else {  // t < CS_TOKEN_FLAG
             cur_cmd = t / dwa_do_8;
@@ -1160,7 +1160,7 @@ _getnext_worker__restart:
             switch (cur_cmd) {
                 case LEFT_BRACE: align_state++; break;
                 case RIGHT_BRACE: align_state--; break;
-                case outparam:
+                case OUT_PARAM:
                     begintokenlist(paramstack[param_start + cur_chr - 1],
                                    PARAMETER);
                     goto _getnext_worker__restart;
@@ -1180,7 +1180,7 @@ _getnext_worker__restart:
 
         cur_cmd = extrainfo(curalign);
         extrainfo(curalign) = cur_chr;
-        if (cur_cmd == omit) {
+        if (cur_cmd == OMIT) {
             begintokenlist(omittemplate, V_TEMPLATE);
         } else {
             begintokenlist(vpart(curalign), V_TEMPLATE);

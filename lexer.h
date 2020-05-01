@@ -31,12 +31,12 @@
 #define rightbracelimit (dwa_do_8 * (RIGHT_BRACE + 1))
 #define mathshifttoken  (dwa_do_8 * MATH_SHIFT)
 #define tabtoken        (dwa_do_8 * TAB_MARK)
-#define outparamtoken   (dwa_do_8 * outparam)
+#define outparamtoken   (dwa_do_8 * OUT_PARAM)
 #define spacetoken      (dwa_do_8 * SPACER + ' ')
 #define lettertoken     (dwa_do_8 * LETTER)
 #define othertoken      (dwa_do_8 * OTHER_CHAR)
-#define matchtoken      (dwa_do_8 * match)
-#define endmatchtoken   (dwa_do_8 * endmatch)
+#define matchtoken      (dwa_do_8 * MATCH)
+#define endmatchtoken   (dwa_do_8 * END_MATCH)
 /** @}*/ // end group S289x296_P115x118
 
 
@@ -119,9 +119,9 @@ enum TokenType {
 /// [#303] `state` code when scanning a line of characters.
 #define MID_LINE    1
 /// [#303] `state` code when ignoring blanks.
-#define SKIP_BLANKS (maxcharcode + 2)
+#define SKIP_BLANKS (MAX_CHAR_CODE + 2)
 /// [#303] `state` code at start of line.
-#define NEW_LINE    (maxcharcode + maxcharcode + 3)
+#define NEW_LINE    (MAX_CHAR_CODE + MAX_CHAR_CODE + 3)
 
 /// [#304] are we reading from the terminal?
 #define terminal_input (NAME == 0) 

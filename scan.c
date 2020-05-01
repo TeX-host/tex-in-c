@@ -68,7 +68,7 @@ void skip_spaces(void) {
 void skip_spaces_or_relax(void) {
     do {
         get_x_token();
-    } while (curcmd == SPACER || curcmd == relax);
+    } while (curcmd == SPACER || curcmd == RELAX);
 } // [#404]
 
 /** [#403] when a left brace is supposed to be the next non-blank token.
@@ -197,7 +197,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
 
     m = curchr;
     switch (curcmd) {
-        case defcode: /*414:*/
+        case DEF_CODE: /*414:*/
             scan_char_num();
             if (m == mathcodebase) {
                 cur_val = mathcode(cur_val);
@@ -212,11 +212,11 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:414*/
 
-        case toksregister:
-        case assigntoks:
-        case deffamily:
-        case setfont:
-        case deffont: /*415:*/
+        case TOKS_REGISTER:
+        case ASSIGN_TOKS:
+        case DEF_FAMILY:
+        case SET_FONT:
+        case DEF_FONT: /*415:*/
             if (level != TOK_VAL) {
                 printnl(S(292)); // "! "
                 print(S(593));
@@ -224,8 +224,8 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
                 backerror();
                 cur_val = 0;
                 cur_val_level = DIMEN_VAL;
-            } else if (curcmd <= assigntoks) {
-                if (curcmd < assigntoks) {
+            } else if (curcmd <= ASSIGN_TOKS) {
+                if (curcmd < ASSIGN_TOKS) {
                     scan_eight_bit_int();
                     m = toksbase + cur_val;
                 }
@@ -239,31 +239,31 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             }
             break;
 
-        case assignint:
+        case ASSIGN_INT:
             cur_val = eqtb[m - activebase].int_;
             cur_val_level = INT_VAL;
             break;
 
-        case assigndimen:
+        case ASSIGN_DIMEN:
             cur_val = eqtb[m - activebase].sc;
             cur_val_level = DIMEN_VAL;
             break;
 
-        case assignglue:
+        case ASSIGN_GLUE:
             cur_val = equiv(m);
             cur_val_level = GLUE_VAL;
             break;
 
-        case assignmuglue:
+        case ASSIGN_MU_GLUE:
             cur_val = equiv(m);
             cur_val_level = MU_VAL;
             break;
 
-        case setaux: /*418:*/
+        case SET_AUX: /*418:*/
             if (labs(mode) != m) {
                 printnl(S(292)); // "! "
                 print(S(597));
-                printcmdchr(setaux, m);
+                printcmdchr(SET_AUX, m);
                 help4(S(598), S(599), S(600), S(601));
                 error();
                 if (level != TOK_VAL) {
@@ -282,7 +282,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             }
             break;
 
-        case setprevgraf: /*422:*/
+        case SET_PREV_GRAF: /*422:*/
             if (mode == 0) {
                 cur_val = 0;
                 cur_val_level = INT_VAL;
@@ -296,7 +296,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             }
             break;
 
-        case setpageint: /*419:*/
+        case SET_PAGE_INT: /*419:*/
             if (m == 0)
                 cur_val = deadcycles;
             else
@@ -305,7 +305,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:419*/
 
-        case setpagedimen: /*421:*/
+        case SET_PAGE_DIMEN: /*421:*/
             if (pagecontents == empty && !outputactive) {
                 if (m == 0)
                     cur_val = MAX_DIMEN;
@@ -317,7 +317,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:421*/
 
-        case setshape: /*423:*/
+        case SET_SHAPE: /*423:*/
             if (parshapeptr == 0)
                 cur_val = 0;
             else
@@ -326,7 +326,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:423*/
 
-        case setboxdimen: /*420:*/
+        case SET_BOX_DIMEN: /*420:*/
             scan_eight_bit_int();
             if (box(cur_val) == 0)
                 cur_val = 0;
@@ -336,13 +336,13 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:420*/
 
-        case chargiven:
-        case mathgiven:
+        case CHAR_GIVEN:
+        case MATH_GIVEN:
             cur_val = curchr;
             cur_val_level = INT_VAL;
             break;
 
-        case assignfontdimen: /*425:*/
+        case ASSIGN_FONT_DIMEN: /*425:*/
             findfontdimen(false);
             fontinfo[fmemptr].sc = 0;
             cur_val = fontinfo[cur_val].sc;
@@ -350,7 +350,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:425*/
 
-        case assignfontint: /*426:*/
+        case ASSIGN_FONT_INT: /*426:*/
             scanfontident();
             if (m == 0) {
                 cur_val = get_hyphenchar(cur_val);
@@ -362,7 +362,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:426*/
 
-        case register_: /*427:*/
+        case REGISTER: /*427:*/
             scan_eight_bit_int();
             switch (m) {
                 case INT_VAL: cur_val = count(cur_val); break;
@@ -374,7 +374,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
             /*:427*/
 
-        case lastitem: /*424:*/
+        case LAST_ITEM: /*424:*/
             if (curchr > GLUE_VAL) {
                 if (curchr == INPUT_LINE_NO_CODE)
                     cur_val = line;
@@ -613,7 +613,7 @@ void scan_int(void) {
             if (curcmd != SPACER) backinput();
         }
     } /*:442*/
-    else if (curcmd >= mininternal && curcmd <= maxinternal)
+    else if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL)
         scan_something_internal(INT_VAL, false);
     else {
         radix = 10;
@@ -708,7 +708,7 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
                 curtok = othertoken + '+';
             }
         } while (curtok == othertoken + '+');
-        if (curcmd >= mininternal && curcmd <= maxinternal) { /*449:*/
+        if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) { /*449:*/
             if (mu) {
                 scan_something_internal(MU_VAL, false); /*451:*/
                 if (cur_val_level >= GLUE_VAL) {        /*:451*/
@@ -784,7 +784,7 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
     /*455:*/
     savecurval = cur_val;
     skip_spaces();
-    if (curcmd >= mininternal && curcmd <= maxinternal) {
+    if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) {
         if (mu) {
             scan_something_internal(MU_VAL, false); /*451:*/
             if (cur_val_level >= GLUE_VAL) {        /*:451*/
@@ -951,7 +951,7 @@ void scan_glue(SmallNumber level) {
         }
     } while (curtok == othertoken + '+');
 
-    if (curcmd >= mininternal && curcmd <= maxinternal) { /*462:*/
+    if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) { /*462:*/
         scan_something_internal(level, negative);
         if (cur_val_level >= GLUE_VAL) {
             if (cur_val_level != level) mu_error();
@@ -999,7 +999,7 @@ HalfWord scan_rule_spec(void) {
     Pointer q;
 
     q = newrule();
-    if (curcmd == vrule)
+    if (curcmd == VRULE)
         width(q) = DEFAULT_RULE;
     else {
         height(q) = DEFAULT_RULE;

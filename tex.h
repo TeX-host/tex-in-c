@@ -205,22 +205,23 @@
 
 /// [#207]:
 enum CatCode {
-    ESCAPE,      ///< [#207] [`\\`] escape delimiter
-    LEFT_BRACE,  ///< [#207] [`{`] beginning of a group
-    RIGHT_BRACE, ///< [#207] [`}`] ending of a group
-    MATH_SHIFT,  ///< [#207] [`$`] mathematics shift character
+    ESCAPE,      ///< [#207] [`\\`] escape delimiter.
+    LEFT_BRACE,  ///< [#207] [`{`] beginning of a group.
+    RIGHT_BRACE, ///< [#207] [`}`] ending of a group.
+    MATH_SHIFT,  ///< [#207] [`$`] mathematics shift character.
     TAB_MARK,    ///< [#207] [`&` | `\span`] alignment delimiter.
 
-    CAR_RET = 5, ///< [#207] [`\r` | `\cr` | `\crcr`] end of line
-    MAC_PARAM,   ///< [#207] [`#`] macro parameter symbol
-    SUP_MARK,    ///< [#207] [`^`] superscript
-    SUB_MARK,    ///< [#207] [`_`] subscript
+    CAR_RET = 5, ///< [#207] [`\r` | `\cr` | `\crcr`] end of line.
+    MAC_PARAM,   ///< [#207] [`#`] macro parameter symbol.
+    SUP_MARK,    ///< [#207] [`^`] superscript.
+    SUB_MARK,    ///< [#207] [`_`] subscript.
     IGNORE,      ///< [#207] [`\0` | `^^@`] characters to ignore.
 
-    SPACER = 10, ///< [#207] [` ` | `\t`] characters equivalent to blank space
-    LETTER,      ///< [#207] [A-Za-z] characters regarded as letters
-    OTHER_CHAR,  ///< [#207] none of the special character types
-    ACTIVE_CHAR, ///< [#207] [`~`] characters that invoke macros
+    /// [#207] [` ` | `\t`] characters equivalent to blank space.
+    SPACER = 10, 
+    LETTER,      ///< [#207] [A-Za-z] characters regarded as letters.
+    OTHER_CHAR,  ///< [#207] none of the special character types.
+    ACTIVE_CHAR, ///< [#207] [`~`] characters that invoke macros.
     COMMENT,     ///< [#207] [`%`] characters that introduce comments.
 
     /// [#207] [`\127` | `^^?`] characters that shouldn't appear.
@@ -230,163 +231,227 @@ enum CatCode {
 /// [#208]
 enum TexCommandCode {
     // [p73#207]
-    relax = ESCAPE,     ///< [#207] [`\relax`] do nothing.
-    outparam = CAR_RET, ///< [#207] output a macro parameter.
-    /// [#207] end of `<v_j>`  list in alignment template.
-    endv = IGNORE,
+    RELAX = ESCAPE,      ///< [#207] [`\relax`] do nothing.
+    OUT_PARAM = CAR_RET, ///< [#207] output a macro parameter.
+    /// [#207] end of `<v_j>` list in alignment template.
+    ENDV = IGNORE,
 
-    parend = ACTIVE_CHAR, ///< [#207] [`\par`] end of paragraph.
-    match = ACTIVE_CHAR,  ///< [#207] match a macro parameter.
+    PAR_END = ACTIVE_CHAR, ///< [#207] [`\par`] end of paragraph.
+    MATCH = ACTIVE_CHAR,   ///< [#207] match a macro parameter.
 
-    endmatch = COMMENT, ///< [#207] end of parameters to macro.
-    stop = COMMENT,     ///< [#207] [`\end` | `\dump`] end of job.
+    END_MATCH = COMMENT, ///< [#207] end of parameters to macro.
+    STOP = COMMENT,      ///< [#207] [`\end` | `\dump`] end of job.
 
     /// [#207] [`\delimiter`] specify delimiter numerically.
-    delimnum = INVALID_CHAR,
+    DELIM_NUM = INVALID_CHAR,
     /// [#207] largest catcode for individual characters.
-    maxcharcode = INVALID_CHAR,
+    MAX_CHAR_CODE = INVALID_CHAR,
 
 
     // [p74#208]
-    charnum = 16, ///< character specified numerically ( `\char` ).
-    mathcharnum,  ///< explicit math code ( `\mathchar` ).
-    mark_,        ///< mark definition ( `\mark` ).
-    xray,         ///< peek inside of TEX ( `\show`, `\showbox`, etc. ).
-    makebox,      ///< make a box ( `\box`, `\copy`, `\hbox`, etc. ).
 
-    hmove = 21, ///< horizontal motion ( `\moveleft`, `\moveright` ).
-    vmove,      ///< vertical motion ( `\raise`, `\lower` ).
-    unhbox,     ///< unglue a box ( `\unhbox`, `\unhcopy` ).
-    unvbox,     ///< unglue a box ( `\unvbox`, `\unvcopy` ).
-    removeitem, ///< nullify last item ( `\unpenalty`, `\unkern`, `\unskip` ).
+    /// [#208] [`\char`] character specified numerically.
+    CHAR_NUM = 16,
+    /// [#208] [`\mathchar`] explicit math code.
+    MATH_CHAR_NUM,
+    MARK,     ///< [#208] [`\mark`] mark definition.
+    XRAY,     ///< [#208] [`\show`, `\showbox`, ...] peek inside of TEX.
+    MAKE_BOX, ///< [#208] [`\box`, `\copy`, `\hbox`, ...] make a box.
 
-    hskip = 26, ///< horizontal glue ( `\hskip`, `\hfil`, etc. ).
-    vskip,      ///< vertical glue ( `\vskip`, `\vfil`, etc. ).
-    mskip,      ///< math glue ( `\mskip` ).
-    kern,       ///< fixed space ( `\kern` ).
-    mkern,      ///< math kern ( `\mkern` ).
+    /// [#208] [`\moveleft`, `\moveright`] horizontal motion.
+    HMOVE = 21,
+    VMOVE,   ///< [#208] [`\raise`, `\lower`] vertical motion.
+    UN_HBOX, ///< [#208] [`\unhbox`, `\unhcopy`] unglue a box.
+    UN_VBOX, ///< [#208] [`\unvbox`, `\unvcopy`] unglue a box.
+    /// [#208] [`\unpenalty`, `\unkern`, `\unskip`] nullify last item.
+    REMOVE_ITEM,
 
-    leadership = 31, ///< use a box ( `\shipout`, `\leaders`, etc. ).
-    halign,          ///< horizontal table alignment ( `\halign` ).
-    valign,          ///< vertical table alignment ( `\valign` ).
-    noalign,         ///< temporary escape from alignment ( `\noalign` ).
-    vrule,           ///< vertical rule ( `\vrule` ).
+    HSKIP = 26, ///< [#208] [`\hskip`, `\hfil`, ...] horizontal glue.
+    VSKIP,      ///< [#208] [`\vskip`, `\vfil`, ...] vertical glue.
+    MSKIP,      ///< [#208] [`\mskip`] math glue.
+    KERN,       ///< [#208] [`\kern`] fixed space.
+    MKERN,      ///< [#208] [`\mkern`] math kern.
 
-    hrule = 36,      ///< horizontal rule ( `\hrule` ).
-    insert_,         ///< vlist inserted in box ( `\insert` ).
-    vadjust,         ///< vlist inserted in enclosing paragraph ( `\vadjust` ).
-    ignorespaces,    ///< gobble #SPACER tokens ( `\ignorespaces` ).
-    afterassignment, ///< save till assignment is done ( `\afterassignment` ).
+    /// [#208] [`\shipout`, `\leaders`, ...] use a box.
+    LEADER_SHIP = 31,
+    HALIGN,   ///< [#208] [`\halign`] horizontal table alignment.
+    VALIGN,   ///< [#208] [`\valign`] vertical table alignment.
+    NO_ALIGN, ///< [#208] [`\noalign`] temporary escape from alignment.
+    VRULE,    ///< [#208] [`\vrule`] vertical rule.
 
-    aftergroup = 41, ///< save till group is done ( `\aftergroup` ).
-    breakpenalty,    ///< additional badness ( `\penalty` ).
-    startpar,        ///< begin paragraph ( `\indent`, `\noindent` ).
-    italcorr,        ///< italic correction ( `\/` ).
-    accent,          ///< attach accent in text ( `\accent` ).
+    HRULE = 36, ///< [#208] [`\hrule`] horizontal rule.
+    INSERT,     ///< [#208] [`\insert`] vlist inserted in box.
+    /// [#208] [`\vadjust`] vlist inserted in enclosing paragraph.
+    VADJUST,
+    /// [#208] [`\ignorespaces`] gobble #SPACER tokens.
+    IGNORE_SPACES,
+    /// [#208] [`\afterassignment`] save till assignment is done.
+    AFTER_ASSIGNMENT,
 
-    mathaccent = 46, ///< attach accent in math ( `\mathaccent` ).
-    discretionary,   ///< discretionary texts ( `\−`, `\discretionary` ).
-    eqno,            ///< equation number ( `\eqno`, `\leqno` ).
-    leftright,       ///< variable delimiter ( `\left`, `\right` ).
-    mathcomp,        ///< component of formula ( `\mathbin`, etc. ).
+    /// [#208] [`\aftergroup`] save till group is done.
+    AFTER_GROUP = 41,
+    BREAK_PENALTY, ///< [#208] [`\penalty`] additional badness.
+    START_PAR,     ///< [#208] [`\indent`, `\noindent`] begin paragraph.
+    ITAL_CORR,     ///< [#208] [`\/`] italic correction.
+    ACCENT,        ///< [#208] [`\accent`] attach accent in text.
 
-    limitswitch = 51, ///< diddle limit conventions ( `\displaylimits`, etc. ).
-    above,            ///< generalized fraction ( `\above`, `\atop`, etc. ).
-    mathstyle,        ///< style specification ( `\displaystyle`, etc. ).
-    mathchoice,       ///< choice specification ( `\mathchoice` ).
-    nonscript,        ///< conditional math glue ( `\nonscript` ).
+    /// [#208] [`\mathaccent`] attach accent in math.
+    MATH_ACCENT = 46,
+    /// [#208] [`\−`, `\discretionary`] discretionary texts.
+    DISCRETIONARY,
+    EQ_NO,      ///< [#208] [`\eqno`, `\leqno`] equation number.
+    LEFT_RIGHT, ///< [#208] [`\left`, `\right`] variable delimiter.
+    MATH_COMP,  ///< [#208] [`\mathbin`,...] component of formula.
 
-    vcenter = 56, ///< vertically center a vbox ( `\vcenter` ).
-    caseshift,    ///< force specific case ( `\lowercase`, `\uppercase` ).
-    message,      ///< send to user ( `\message`, `\errmessage` ).
-    extension,    ///< extensions to TEX ( `\write`, `\special`, etc. ).
-    instream,     ///< files for reading ( `\openin`, `\closein` ).
+    /// [#208] [`\displaylimits`,...] diddle limit conventions.
+    LIMIT_SWITCH = 51,
+    /// [#208] [`\above`, `\atop`,...] generalized fraction.
+    ABOVE,
+    MATH_STYLE,  ///< [#208] [`\displaystyle`, ...] style specification.
+    MATH_CHOICE, ///< [#208] [`\mathchoice`] choice specification.
+    NON_SCRIPT,  ///< [#208] [`\nonscript`] conditional math glue.
 
-    begingroup = 61, ///< begin local grouping ( `\begingroup` ).
-    endgroup,        ///< end local grouping ( `\endgroup` ).
-    omit,            ///< omit alignment template ( `\omit` ).
-    exspace,         ///< explicit space ( `\␣` ).
-    noboundary,      ///< suppress boundary ligatures ( `\noboundary` ).
+    /// [#208] [`\vcenter`] vertically center a vbox.
+    VCENTER = 56,
+    /// [#208] [`\lowercase`, `\uppercase`] force specific case.
+    CASE_SHIFT,
+    MESSAGE,   ///< [#208] [`\message`, `\errmessage`] send to user.
+    EXTENSION, ///< [#208] [`\write`, `\special`,...] extensions to TEX.
+    IN_STREAM, ///< [#208] [`\openin`, `\closein`] files for reading.
 
-    radical = 66,     ///< square root and similar signs ( `\radical` ).
-    endcsname = 67,   ///< end control sequence ( `\endcsname` ).
-    mininternal = 68, ///< the smallest code that can follow `\the`.
-    chargiven = 68,   ///< character code defined by `\chardef`.
-    mathgiven = 69,   ///< math code defined by `\mathchardef`.
-    /// most recent item ( `\lastpenalty`, `\lastker`, `\lastskip` ).
-    lastitem = 70,
+    /// [#208] [`\begingroup`] begin local grouping.
+    BEGIN_GROUP = 61,
+    END_GROUP,   ///< [#208] [`\endgroup`] end local grouping.
+    OMIT,        ///< [#208] [`\omit`] omit alignment template.
+    EX_SPACE,    ///< [#208] [`\ `] explicit space.
+    NO_BOUNDARY, ///< [#208] [`\noboundary`] suppress boundary ligatures.
 
-    /// largest command code that can’t be `\global`.
-    maxnonprefixedcommand = 70,
+    // [p75#208]
+
+    /// [#208] [`\radical`] square root and similar signs.
+    RADICAL = 66,
+    /// [#208] [`\endcsname`] end control sequence.
+    END_CS_NAME = 67,
+    /// [#208] the smallest code that can follow `\the`.
+    MIN_INTERNAL = 68,
+    /// [#208] character code defined by `\chardef`.
+    CHAR_GIVEN = 68,
+    /// [#208] math code defined by `\mathchardef`.
+    MATH_GIVEN = 69,
+    /// [#208] [`\lastpenalty`, `\lastker`, `\lastskip`] most recent item.
+    LAST_ITEM = 70,
+
+    /// [#208] largest command code that can’t be `\global`.
+    MAX_NON_PREFIXED_COMMAND = 70,
 
 
     // [p75#209]
-    toksregister = 71, ///< token list register ( `\toks` ).
-    assigntoks,        ///< special token list ( `\output`, `\everypar`, etc. ).
-    assignint,         ///< user-defined integer ( `\tolerance`, `\day`, etc. ).
-    assigndimen,       ///< user-defined length ( `\hsize`, etc. ).
-    assignglue,        ///< user-defined glue ( `\baselineskip`, etc. ).
 
-    assignmuglue = 76, ///< user-defined muglue ( `\thinmuskip`, etc. )
-    assignfontdimen,   ///< user-defined font dimension ( `\fontdimen` )
-    assignfontint, ///< user-defined font integer ( `\hyphenchar`, `\skewchar` )
-    setaux,        ///< specify state info ( `\spacefactor`, `\prevdepth` )
-    setprevgraf,   ///< specify state info ( `\prevgraf` )
+    /// [#209] [`\toks`] token list register.
+    TOKS_REGISTER = 71,
+    /// [#209] [`\output`, `\everypar`,...] special token list.
+    ASSIGN_TOKS,
+    /// [#209] [`\tolerance`, `\day`,...] user-defined integer.
+    ASSIGN_INT,
+    /// [#209] [`\hsize`,...] user-defined length.
+    ASSIGN_DIMEN,
+    /// [#209] [`\baselineskip`,...] user-defined glue.
+    ASSIGN_GLUE,
 
-    setpagedimen = 81, ///< specify state info ( `\pagegoal`, etc. )
-    setpageint,  ///< specify state info ( `\deadcycles`, `\insertpenalties` )
-    setboxdimen, ///< change dimension of box ( `\wd`, `\ht`, `\dp` )
-    setshape,    ///< specify fancy paragraph shape ( `\parshape` )
-    defcode,     ///< define a character code ( `\catcode`, etc. )
+    /// [#209] [`\thinmuskip`,...] user-defined muglue.
+    ASSIGN_MU_GLUE = 76,
+    /// [#209] [`\fontdimen`] user-defined font dimension.
+    ASSIGN_FONT_DIMEN,
+    /// [#209] [`\hyphenchar`, `\skewchar`] user-defined font integer.
+    ASSIGN_FONT_INT,
+    /// [#209] [`\spacefactor`, `\prevdepth`] specify state info.
+    SET_AUX,
+    /// [#209] [`\prevgraf`] specify state info.
+    SET_PREV_GRAF,
 
-    deffamily = 86,   ///< declare math fonts ( `\textfont`, etc. )
-    setfont,          ///< set current font ( font identifiers )
-    deffont,          ///< define a font file ( `\font` )
-    register_ = 89,   ///< internal register ( `\count`, `\dimen`, etc. )
-    maxinternal = 89, ///< the largest code that can follow `\the`
-    advance,          ///< advance a register or parameter ( `\advance` )
+    /// [#209] [`\pagegoal`,...] specify state info.
+    SET_PAGE_DIMEN = 81,
+    /// [#209] [`\deadcycles`, `\insertpenalties`] specify state info.
+    SET_PAGE_INT,
+    /// [#209] [`\wd`, `\ht`, `\dp`] change dimension of box.
+    SET_BOX_DIMEN,
+    /// [#209] [`\parshape`] specify fancy paragraph shape.
+    SET_SHAPE,
+    /// [#209] [`\catcode`,...] define a character code.
+    DEF_CODE,
 
-    multiply = 91, ///< multiply a register or parameter ( `\multiply` )
-    divide,        ///< divide a register or parameter ( `\divide` )
-    prefix,        ///< qualify a definition ( `\global`, `\long`, `\outer` )
-    let,           ///< assign a command code ( `\let`, `\futurelet` )
-    shorthanddef,  ///< code definition ( `\chardef`, `\countdef`, etc. )
+    /// [#209] [`\textfont`,] declare math fonts.
+    DEF_FAMILY = 86,
+    /// [#209] set current font ( font identifiers ).
+    SET_FONT,
+    /// [#209] [`\font`] define a font file.
+    DEF_FONT,
+    /// [#209] [`\count`, `\dimen`,] internal register.
+    REGISTER = 89,
+    /// [#209] the largest code that can follow `\the`.
+    MAX_INTERNAL = 89,
+    /// [#209] [`\advance`] ADVANCE a register or parameter.
+    ADVANCE,
 
-    readtocs = 96, ///< read into a control sequence ( `\read` )
-    def,           ///< macro definition ( `\def`, `\gdef`, `\xdef`, `\edef` )
-    setbox,        ///< set a box ( `\setbox` )
-    hyphdata,      ///< hyphenation data ( `\hyphenation`, `\patterns` )
-    setinteraction =
-        100, ///< define level of interaction ( `\batchmode`, etc. ).
+    /// [#209] [`\multiply`] multiply a register or parameter.
+    MULTIPLY = 91,
+    /// [#209] [`\divide`] divide a register or parameter.
+    DIVIDE,
+    /// [#209] [`\global`, `\long`, `\outer`] qualify a definition.
+    PREFIX,
+    /// [#209] [`\let`, `\futurelet`] assign a command code.
+    LET,
+    /// [#209] [`\chardef`, `\countdef`,...] code definition.
+    SHORTHAND_DEF,
 
-    /// the largest command code seen at big switch.
-    maxcommand = 100,
+    /// [#209] [`\read`] read into a control sequence.
+    READ_TO_CS = 96,
+    /// [#209] [`\def`, `\gdef`, `\xdef`, `\edef`] macro definition.
+    DEF,
+    /// [#209] [`\setbox`] set a box.
+    SET_BOX,
+    /// [#209] [`\hyphenation`, `\patterns`] hyphenation data.
+    HYPH_DATA,
+    /// [#209] [`\batchmode`,...] define level of interaction.
+    SET_INTERACTION = 100,
+
+    /// [#209] the largest command code seen at big switch.
+    MAX_COMMAND = 100,
 
 
     // [p76#210]
-    undefinedcs = 101, ///< initial state of most #eqtype fields
-    expandafter,       ///< special expansion ( `\expandafter` )
-    noexpand,          ///< special nonexpansion ( `\noexpand` )
-    input,             ///< input a source file ( `\input`, `\endinput` )
-    iftest,            ///< conditional text ( `\if`, `\ifcase`, etc. )
 
-    fiorelse = 106, ///< delimiters for conditionals ( `\else`, etc. )
-    csname,         ///< make a control sequence from tokens ( `\csname` )
-    convert,        ///< convert to text ( `\number`, `\string`, etc. )
-    the,            ///< expand an internal quantity ( `\the` )
-    topbotmark,     ///< inserted mark ( `\topmark`, etc. )
+    /// [#210] initial state of most #eqtype fields.
+    UNDEFINED_CS = 101,
+    EXPAND_AFTER, ///< [#210] [`\expandafter`] special expansion.
+    NO_EXPAND,    ///< [#210] `\noexpand`[] special nonexpansion.
+    INPUT,        ///< [#210] [`\input`, `\endinput`] input a source file.
+    IF_TEST,      ///< [#210] [`\if`, `\ifcase`,] conditional text.
 
-    call = 111,    ///< non-long, non-outer control sequence
-    longcall,      ///< long, non-outer control sequence
-    outercall,     ///< non-long, outer control sequence
-    longoutercall, ///< long, outer control sequence
-    endtemplate,   ///< end of an alignment template
+    /// [#210] [`\else`,...] delimiters for conditionals.
+    FI_OR_ELSE = 106,
+    CS_NAME, ///< [#210] [`\csname`] make a control sequence from tokens.
+    CONVERT, ///< [#210] [`\number`, `\string`,...] convert to text.
+    THE,     ///< [#210] [`\the`] expand an internal quantity.
+    /// [#210] [`\topmark`,...] inserted mark.
+    TOP_BOT_MARK,
 
-    dontexpand = 116, ///< the following token was marked by `\noexpand`
-    glueref,          ///< the equivalent points to a glue specification
-    shaperef,         ///< the equivalent points to a parshape specification
-    boxref,           ///< the equivalent points to a box node, or is null
-    data,             ///< the equivalent is simply a halfword number
+    CALL = 111,      ///< [#210] non-long, non-outer control sequence.
+    LONG_CALL,       ///< [#210] long, non-outer control sequence.
+    OUTER_CALL,      ///< [#210] non-long, outer control sequence.
+    LONG_OUTER_CALL, ///< [#210] long, outer control sequence.
+    END_TEMPLATE,    ///< [#210] end of an alignment template.
+
+    /// [#210] the following token was marked by `\noexpand`.
+    DONT_EXPAND = 116,
+    /// [#210] the equivalent points to a glue specification.
+    GLUE_REF,  
+    /// [#210] the equivalent points to a parshape specification.
+    SHAPE_REF, 
+    /// [#210] the equivalent points to a box node, or is #null.
+    BOX_REF,  
+    /// [#210] the equivalent is simply a halfword number.
+    DATA,      
 
 }; // [#208] enum TexCommandCode
 /** @}*/ // end group S207x210_P73x76
@@ -397,8 +462,8 @@ enum TexCommandCode {
 
 // [#211]
 #define V_MODE           1 // vertical mode
-#define H_MODE           (V_MODE + maxcommand + 1) // horizontal mode
-#define M_MODE           (H_MODE + maxcommand + 1) // math mode
+#define H_MODE           (V_MODE + MAX_COMMAND + 1) // horizontal mode
+#define M_MODE           (H_MODE + MAX_COMMAND + 1) // math mode
 /** @}*/ // end group S211x219_P77x80
 
 /** @addtogroup S220x255_P81x101

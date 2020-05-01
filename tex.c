@@ -654,7 +654,7 @@ Static void sort_avail(void)
 
     while (p != oldrover) {
         /// #132: Sort p into the list starting at rover
-        /// and advance p to rlink(p)
+        /// and ADVANCE p to rlink(p)
         if (p < rover) {
             q = p;
             p = rlink(q);
@@ -1981,7 +1981,7 @@ Static HalfWord copynodelist(HalfWord p)
 // #211: prints the mode represented by m
 void print_mode(Integer m) {
     if (m > 0) {
-        switch (m / (maxcommand + 1)) {
+        switch (m / (MAX_COMMAND + 1)) {
             case 0: print(S(431)); break; // "vertical"
             case 1: print(S(432)); break; // "horizontal"
             case 2: print(S(433)); break; // "display math"
@@ -1989,7 +1989,7 @@ void print_mode(Integer m) {
     } else if (m == 0) {
         print(S(434)); // "no"
     } else { // m < 0
-        switch ((-1 * m) / (maxcommand + 1)) {
+        switch ((-1 * m) / (MAX_COMMAND + 1)) {
             case 0: print(S(435)); break; // "internal vertical"
             case 1: print(S(436)); break; // "restricted horizontal"
             case 2: print(S(394)); break; // "math"
@@ -2097,7 +2097,7 @@ Static void showactivities(void)
 	printnl(S(451));
     }
     showbox(link(nest[p].headfield));   /*219:*/
-    switch (abs(m) / (maxcommand + 1)) {   /*:219*/
+    switch (abs(m) / (MAX_COMMAND + 1)) {   /*:219*/
 
     case 0:
       printnl(S(452));
@@ -2170,7 +2170,7 @@ Static void showeqtb(HalfWord n) {
         sprint_cs(n);
         print_char('=');
         printcmdchr(eqtype(n), equiv(n));
-        if (eqtype(n) >= call) {
+        if (eqtype(n) >= CALL) {
             print_char(':');
             showtokenlist(link(equiv(n)), 0, 32);
         }
@@ -2210,7 +2210,7 @@ Static void showeqtb(HalfWord n) {
             return;
         }
         if (n < toksbase) {
-            printcmdchr(assigntoks, n);
+            printcmdchr(ASSIGN_TOKS, n);
             print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
@@ -2419,19 +2419,19 @@ Static void eqdestroy(MemoryWord w) {
     Pointer q;
 
     switch (eqtypefield(w)) {
-        case call:
-        case longcall:
-        case outercall:
-        case longoutercall: delete_token_ref(equivfield(w)); break;
+        case CALL:
+        case LONG_CALL:
+        case OUTER_CALL:
+        case LONG_OUTER_CALL: delete_token_ref(equivfield(w)); break;
 
-        case glueref: delete_glue_ref(equivfield(w)); break;
+        case GLUE_REF: delete_glue_ref(equivfield(w)); break;
 
-        case shaperef:
+        case SHAPE_REF:
             q = equivfield(w);
             if (q != 0) freenode(q, info(q) + info(q) + 1);
             break;
 
-        case boxref: flush_node_list(equivfield(w)); break;
+        case BOX_REF: flush_node_list(equivfield(w)); break;
     }
 }
 /*:275*/
@@ -2613,11 +2613,11 @@ void scanfontident(void) { /*406:*/
     HalfWord m;
 
     skip_spaces();
-    if (curcmd == deffont)
+    if (curcmd == DEF_FONT)
         f = curfont;
-    else if (curcmd == setfont)
+    else if (curcmd == SET_FONT)
         f = curchr;
-    else if (curcmd == deffamily) {
+    else if (curcmd == DEF_FAMILY) {
         m = curchr;
         scan_four_bit_int();
         f = equiv(m + cur_val);
@@ -2826,8 +2826,8 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         if (xpand) { /*478:*/
             while (true) {
                 getnext();
-                if (curcmd <= maxcommand) goto _Ldone2;
-                if (curcmd != the)
+                if (curcmd <= MAX_COMMAND) goto _Ldone2;
+                if (curcmd != THE)
                     expand();
                 else {
                     Pointer q = thetoks();
@@ -5755,19 +5755,19 @@ _Lrestart:
     gettoken();
     while (curchr == spancode && curcmd == TAB_MARK) {
         gettoken();
-        if (curcmd > maxcommand) {
+        if (curcmd > MAX_COMMAND) {
             expand();
             gettoken();
         }
     }
-    if (curcmd == endv) fatalerror(S(509));
-    if (curcmd != assignglue || curchr != gluebase + TAB_SKIP_CODE) return;
+    if (curcmd == ENDV) fatalerror(S(509));
+    if (curcmd != ASSIGN_GLUE || curchr != gluebase + TAB_SKIP_CODE) return;
     scan_optional_equals();
     scan_glue(GLUE_VAL);
     if (globaldefs > 0)
-        geqdefine(gluebase + TAB_SKIP_CODE, glueref, cur_val);
+        geqdefine(gluebase + TAB_SKIP_CODE, GLUE_REF, cur_val);
     else
-        eqdefine(gluebase + TAB_SKIP_CODE, glueref, cur_val);
+        eqdefine(gluebase + TAB_SKIP_CODE, GLUE_REF, cur_val);
     goto _Lrestart;
 }
 /*:782*/
@@ -5904,7 +5904,7 @@ Static void initrow(void) {
 /*788:*/
 Static void initcol(void) {
     extrainfo(curalign) = curcmd;
-    if (curcmd == omit)
+    if (curcmd == OMIT)
         align_state = 0;
     else {
         backinput();
@@ -6357,7 +6357,7 @@ Static void alignpeek(void) {
 _Lrestart:
     align_state = 1000000L;
     skip_spaces();
-    if (curcmd == noalign) {
+    if (curcmd == NO_ALIGN) {
         scan_left_brace();
         newsavelevel(noaligngroup);
         if (mode == -V_MODE) normalparagraph();
@@ -8368,7 +8368,7 @@ _LN_newhyphexceptions__reswitch:
 
     case LETTER:
     case OTHER_CHAR:
-    case chargiven:   /*937:*/
+    case CHAR_GIVEN:   /*937:*/
       if (cur_chr == '-') {   /*938:*/
 	if (n < 63) {
 	  q = get_avail();
@@ -8391,10 +8391,10 @@ _LN_newhyphexceptions__reswitch:
       }
       break;
 
-    case charnum:
+    case CHAR_NUM:
       scan_char_num();
       cur_chr = cur_val;
-      curcmd = chargiven;
+      curcmd = CHAR_GIVEN;
       goto _LN_newhyphexceptions__reswitch;
       break;
 
@@ -9519,7 +9519,7 @@ Static void normalparagraph(void)
   if (hangafter != 1)
     eqworddefine(intbase + hangaftercode, 1);
   if (parshapeptr != 0)
-    eqdefine(parshapeloc, shaperef, 0);
+    eqdefine(parshapeloc, SHAPE_REF, 0);
 }  /*:1070*/
 
 
@@ -9559,9 +9559,9 @@ Static void boxend(long boxcontext)
   }  /*:1076*/
   if (boxcontext < shipoutflag) {   /*1077:*/
     if (boxcontext < boxflag + 256)
-      eqdefine(boxbase - boxflag + boxcontext, boxref, curbox);
+      eqdefine(boxbase - boxflag + boxcontext, BOX_REF, curbox);
     else   /*:1077*/
-      geqdefine(boxbase - boxflag + boxcontext - 256, boxref, curbox);
+      geqdefine(boxbase - boxflag + boxcontext - 256, BOX_REF, curbox);
     return;
   }
   if (curbox == 0)
@@ -9573,9 +9573,9 @@ Static void boxend(long boxcontext)
   }
   /*:1078*/
   skip_spaces_or_relax();
-  if ( (curcmd == hskip && labs(mode) != V_MODE) ||
-      (curcmd == vskip && labs(mode) == V_MODE) ||
-      (curcmd == mskip && labs(mode) == M_MODE) ) {
+  if ( (curcmd == HSKIP && labs(mode) != V_MODE) ||
+      (curcmd == VSKIP && labs(mode) == V_MODE) ||
+      (curcmd == MSKIP && labs(mode) == M_MODE) ) {
     appendglue();
     subtype(tail) = boxcontext - leaderflag + aleaders;
     leaderptr(tail) = curbox;
@@ -9705,11 +9705,11 @@ _Lexit:;
 Static void scanbox(long boxcontext)
 {
   skip_spaces_or_relax();
-  if (curcmd == makebox) {
+  if (curcmd == MAKE_BOX) {
     beginbox(boxcontext);
     return;
   }
-  if (boxcontext >= leaderflag && (curcmd == hrule || curcmd == vrule)) {
+  if (boxcontext >= leaderflag && (curcmd == HRULE || curcmd == VRULE)) {
     curbox = scan_rule_spec();
     boxend(boxcontext);
     return;
@@ -9814,7 +9814,7 @@ Static void indentinhmode(void)
 Static void headforvmode(void)
 {
   if (mode < 0) {
-    if (curcmd != hrule) {
+    if (curcmd != HRULE) {
       offsave();
       return;
     }
@@ -9851,7 +9851,7 @@ Static void endgraf(void)
 /*1099:*/
 Static void begininsertoradjust(void)
 {
-  if (curcmd == vadjust)
+  if (curcmd == VADJUST)
     cur_val = 255;
   else {
     scan_eight_bit_int();
@@ -10129,9 +10129,9 @@ Static void makeaccent(void)
   doassignments();   /*1124:*/
   q = 0;
   f = curfont;
-  if (curcmd == LETTER || curcmd == OTHER_CHAR || curcmd == chargiven)
+  if (curcmd == LETTER || curcmd == OTHER_CHAR || curcmd == CHAR_GIVEN)
     q = newcharacter(f, curchr);
-  else if (curcmd == charnum) {
+  else if (curcmd == CHAR_NUM) {
     scan_char_num();
     q = newcharacter(f, cur_val);
   } else
@@ -10419,7 +10419,7 @@ _LN_scanmath__reswitch:
 
         case LETTER:
         case OTHER_CHAR:
-        case chargiven:
+        case CHAR_GIVEN:
             c = mathcode(curchr);
             if (c == 32768L) { /*1152:*/
                 curcs = curchr + activebase;
@@ -10431,23 +10431,23 @@ _LN_scanmath__reswitch:
             }
             break;
 
-        case charnum:
+        case CHAR_NUM:
             scan_char_num();
             curchr = cur_val;
-            curcmd = chargiven;
+            curcmd = CHAR_GIVEN;
             goto _LN_scanmath__reswitch;
             break;
 
-        case mathcharnum:
+        case MATH_CHAR_NUM:
             scan_fifteen_bit_int();
             c = cur_val;
             break;
 
-        case mathgiven:
+        case MATH_GIVEN:
             c = curchr;
             break;
 
-        case delimnum: /*1153:*/
+        case DELIM_NUM: /*1153:*/
             scan_twenty_seven_bit_int();
             c = cur_val / 4096;
             break;
@@ -10531,7 +10531,7 @@ Static void scandelimiter(HalfWord p, Boolean r)
       cur_val = delcode(curchr);
       break;
 
-    case delimnum:
+    case DELIM_NUM:
       scan_twenty_seven_bit_int();
       break;
 
@@ -10584,7 +10584,7 @@ Static void mathradical(void)
 /*1165:*/
 Static void mathac(void)
 {
-  if (curcmd == accent) {   /*1166:*/
+  if (curcmd == ACCENT) {   /*1166:*/
     printnl(S(292));
     print(S(912));
     print_esc(S(913));
@@ -11094,14 +11094,14 @@ Static void doregistercommand(SmallNumber a) {
     char p;
 
     q = curcmd; /*1237:*/
-    if (q != register_) {
+    if (q != REGISTER) {
         get_x_token();
-        if (curcmd >= assignint && curcmd <= assignmuglue) {
+        if (curcmd >= ASSIGN_INT && curcmd <= ASSIGN_MU_GLUE) {
             l = curchr;
-            p = curcmd - assignint;
+            p = curcmd - ASSIGN_INT;
             goto _Lfound;
         }
-        if (curcmd != register_) {
+        if (curcmd != REGISTER) {
             printnl(S(292));
             print(S(602));
             printcmdchr(curcmd, curchr);
@@ -11122,22 +11122,22 @@ Static void doregistercommand(SmallNumber a) {
     }
 
 _Lfound: /*:1237*/
-    if (q == register_)
+    if (q == REGISTER)
         scan_optional_equals();
     else
         scankeyword(S(942));
     arith_error = false;
-    if (q < multiply) { /*1238:*/
+    if (q < MULTIPLY) { /*1238:*/
         if (p < GLUE_VAL) {
             if (p == INT_VAL)
                 scan_int();
             else {
                 SCAN_NORMAL_DIMEN();
             }
-            if (q == advance) cur_val += eqtb[l - activebase].int_;
+            if (q == ADVANCE) cur_val += eqtb[l - activebase].int_;
         } else { /*:1238*/
             scan_glue(p);
-            if (q == advance) { /*1239:*/
+            if (q == ADVANCE) { /*1239:*/
                 q = newspec(cur_val);
                 r = equiv(l);
                 delete_glue_ref(cur_val);
@@ -11164,7 +11164,7 @@ _Lfound: /*:1237*/
     } else { /*1240:*/
         scan_int();
         if (p < GLUE_VAL) {
-            if (q == multiply) {
+            if (q == MULTIPLY) {
                 if (p == INT_VAL) {
                     cur_val = mult_integers(eqtb[l-activebase].int_, cur_val);
                 } else {
@@ -11176,7 +11176,7 @@ _Lfound: /*:1237*/
         } else {
             s = equiv(l);
             r = newspec(s);
-            if (q == multiply) {
+            if (q == MULTIPLY) {
                 width(r)   = nx_plus_y(width(s), cur_val, 0);
                 stretch(r) = nx_plus_y(stretch(s), cur_val, 0);
                 shrink(r)  = nx_plus_y(shrink(s), cur_val, 0);
@@ -11199,7 +11199,7 @@ _Lfound: /*:1237*/
         worddefine(l, cur_val);
     } else {
         trapzeroglue();
-        define(l, glueref, cur_val);
+        define(l, GLUE_REF, cur_val);
     }
 _Lexit:;
 } // #1236: doregistercommand
@@ -11316,7 +11316,7 @@ Static void newfont(SmallNumber a) {
         str_room(1);
         t = makestring();
     }
-    define(u, setfont, NULL_FONT);
+    define(u, SET_FONT, NULL_FONT);
     scan_optional_equals();
     scanfilename(); /*1258:*/
 
@@ -11405,10 +11405,10 @@ Static void prefixedcommand(void) {
     Boolean e;
 
     a = 0;
-    while (curcmd == prefix) {
+    while (curcmd == PREFIX) {
         if (!((a / curchr) & 1)) a += curchr;
         skip_spaces_or_relax();
-        if (curcmd > maxnonprefixedcommand) /*1212:*/
+        if (curcmd > MAX_NON_PREFIXED_COMMAND) /*1212:*/
             continue;
         /*:1212*/
         printnl(S(292));
@@ -11419,7 +11419,7 @@ Static void prefixedcommand(void) {
         backerror();
         goto _Lexit;
     }                                    /*1213:*/
-    if (curcmd != def && (a & 3) != 0) { /*:1213*/
+    if (curcmd != DEF && (a & 3) != 0) { /*:1213*/
         printnl(S(292));
         print(S(602));
         print_esc(S(959));
@@ -11444,10 +11444,10 @@ Static void prefixedcommand(void) {
         }
     }
     switch (curcmd) { /*1217:*/
-        case setfont: /*:1217*/ define(curfontloc, data, curchr); break;
+        case SET_FONT: /*:1217*/ define(curfontloc, DATA, curchr); break;
 
         /*1218:*/
-        case def: /*:1218*/
+        case DEF: /*:1218*/
             if ((curchr & 1) && !global && globaldefs >= 0) {
                 a += 4;
             }
@@ -11455,11 +11455,11 @@ Static void prefixedcommand(void) {
             getrtoken();
             p = curcs;
             q = scantoks(true, e);
-            define(p, call + (a & 3), defref);
+            define(p, CALL + (a & 3), defref);
             break;
             /*1221:*/
 
-        case let:
+        case LET:
             n = curchr;
             getrtoken();
             p = curcs;
@@ -11479,7 +11479,7 @@ Static void prefixedcommand(void) {
                 curtok = q;
                 backinput();
             }
-            if (curcmd >= call) {
+            if (curcmd >= CALL) {
                 addtokenref(curchr);
             }
             define(p, curcmd, curchr);
@@ -11487,22 +11487,22 @@ Static void prefixedcommand(void) {
 
         /*:1221*/
         /*1224:*/
-        case shorthanddef:
+        case SHORTHAND_DEF:
             n = curchr;
             getrtoken();
             p = curcs;
-            define(p, relax, 256);
+            define(p, RELAX, 256);
             scan_optional_equals();
             switch (n) {
 
                 case chardefcode:
                     scan_char_num();
-                    define(p, chargiven, cur_val);
+                    define(p, CHAR_GIVEN, cur_val);
                     break;
 
                 case mathchardefcode:
                     scan_fifteen_bit_int();
-                    define(p, mathgiven, cur_val);
+                    define(p, MATH_GIVEN, cur_val);
                     break;
 
                 default:
@@ -11510,23 +11510,23 @@ Static void prefixedcommand(void) {
                     switch (n) {
 
                         case countdefcode:
-                            define(p, assignint, countbase + cur_val);
+                            define(p, ASSIGN_INT, countbase + cur_val);
                             break;
 
                         case dimendefcode:
-                            define(p, assigndimen, SCALED_BASE + cur_val);
+                            define(p, ASSIGN_DIMEN, SCALED_BASE + cur_val);
                             break;
 
                         case skipdefcode:
-                            define(p, assignglue, skipbase + cur_val);
+                            define(p, ASSIGN_GLUE, skipbase + cur_val);
                             break;
 
                         case muskipdefcode:
-                            define(p, assignmuglue, muskipbase + cur_val);
+                            define(p, ASSIGN_MU_GLUE, muskipbase + cur_val);
                             break;
 
                         case toksdefcode:
-                            define(p, assigntoks, toksbase + cur_val);
+                            define(p, ASSIGN_TOKS, toksbase + cur_val);
                             break;
                     }
                     break;
@@ -11535,7 +11535,7 @@ Static void prefixedcommand(void) {
             /*:1224*/
 
         /*1225:*/
-        case readtocs: /*:1225*/
+        case READ_TO_CS: /*:1225*/
             scan_int();
             n = cur_val;
             if (!scankeyword(S(697))) {
@@ -11547,14 +11547,14 @@ Static void prefixedcommand(void) {
             getrtoken();
             p = curcs;
             readtoks(n, p);
-            define(p, call, cur_val);
+            define(p, CALL, cur_val);
             break;
             /*1226:*/
 
-        case toksregister:
-        case assigntoks: /*:1226*/
+        case TOKS_REGISTER:
+        case ASSIGN_TOKS: /*:1226*/
             q = curcs;
-            if (curcmd == toksregister) {
+            if (curcmd == TOKS_REGISTER) {
                 scan_eight_bit_int();
                 p = toksbase + cur_val;
             } else
@@ -11563,18 +11563,18 @@ Static void prefixedcommand(void) {
             skip_spaces_or_relax();
             if (curcmd != LEFT_BRACE) { /*1227:*/
                 int cur_chr = curchr;
-                if (curcmd == toksregister) {
+                if (curcmd == TOKS_REGISTER) {
                     scan_eight_bit_int();
-                    curcmd = assigntoks;
+                    curcmd = ASSIGN_TOKS;
                     cur_chr = toksbase + cur_val;
                 }
-                if (curcmd == assigntoks) {
+                if (curcmd == ASSIGN_TOKS) {
                     q = equiv(cur_chr);
                     if (q == 0) {
-                        define(p, undefinedcs, 0);
+                        define(p, UNDEFINED_CS, 0);
                     } else {
                         addtokenref(q);
-                        define(p, call, q);
+                        define(p, CALL, q);
                     }
                     goto _Ldone;
                 }
@@ -11584,7 +11584,7 @@ Static void prefixedcommand(void) {
             curcs = q;
             q = scantoks(false, false);
             if (link(defref) == 0) {
-                define(p, undefinedcs, 0);
+                define(p, UNDEFINED_CS, 0);
                 FREE_AVAIL(defref);
             } else {
                 if (p == outputroutineloc) {
@@ -11596,43 +11596,43 @@ Static void prefixedcommand(void) {
                     link(q) = link(defref);
                     link(defref) = q;
                 }
-                define(p, call, defref);
+                define(p, CALL, defref);
             }
             break;
             /*1228:*/
 
-        case assignint:
+        case ASSIGN_INT:
             p = curchr;
             scan_optional_equals();
             scan_int();
             worddefine(p, cur_val);
             break;
 
-        case assigndimen:
+        case ASSIGN_DIMEN:
             p = curchr;
             scan_optional_equals();
             SCAN_NORMAL_DIMEN();
             worddefine(p, cur_val);
             break;
 
-        case assignglue:
-        case assignmuglue: /*:1228*/
+        case ASSIGN_GLUE:
+        case ASSIGN_MU_GLUE: /*:1228*/
             p = curchr;
             n = curcmd;
             scan_optional_equals();
-            if (n == assignmuglue)
+            if (n == ASSIGN_MU_GLUE)
                 scan_glue(MU_VAL);
             else
                 scan_glue(GLUE_VAL);
             trapzeroglue();
-            define(p, glueref, cur_val);
+            define(p, GLUE_REF, cur_val);
             break;
             /*1232:*/
 
-        case defcode: /*:1232*/
+        case DEF_CODE: /*:1232*/
             /*1233:*/
             if (curchr == catcodebase)
-                n = maxcharcode;
+                n = MAX_CHAR_CODE;
             else if (curchr == mathcodebase)
                 n = 32768L;
             else if (curchr == sfcodebase)
@@ -11660,34 +11660,34 @@ Static void prefixedcommand(void) {
                 cur_val = 0;
             }
             if (p < mathcodebase) {
-                define(p, data, cur_val);
+                define(p, DATA, cur_val);
             } else if (p < delcodebase) {
-                define(p, data, cur_val);
+                define(p, DATA, cur_val);
             } else {
                 worddefine(p, cur_val);
             }
             break;
             /*1234:*/
 
-        case deffamily: /*:1234*/
+        case DEF_FAMILY: /*:1234*/
             p = curchr;
             scan_four_bit_int();
             p += cur_val;
             scan_optional_equals();
             scanfontident();
-            define(p, data, cur_val);
+            define(p, DATA, cur_val);
             break;
             /*1235:*/
 
-        case register_:
-        case advance:
-        case multiply:
-        case divide: /*:1235*/
+        case REGISTER:
+        case ADVANCE:
+        case MULTIPLY:
+        case DIVIDE: /*:1235*/
             doregistercommand(a);
             break;
             /*1241:*/
 
-        case setbox: /*:1241*/
+        case SET_BOX: /*:1241*/
             scan_eight_bit_int();
             if (global) {
                 n = cur_val + 256;
@@ -11706,14 +11706,14 @@ Static void prefixedcommand(void) {
             break;
             /*1242:*/
 
-        case setaux: alteraux(); break;
-        case setprevgraf: alterprevgraf(); break;
-        case setpagedimen: alterpagesofar(); break;
-        case setpageint: alterinteger(); break;
-        case setboxdimen:  alterboxdimen(); break;
+        case SET_AUX: alteraux(); break;
+        case SET_PREV_GRAF: alterprevgraf(); break;
+        case SET_PAGE_DIMEN: alterpagesofar(); break;
+        case SET_PAGE_INT: alterinteger(); break;
+        case SET_BOX_DIMEN:  alterboxdimen(); break;
             /*1248:*/
 
-        case setshape: /*:1248*/
+        case SET_SHAPE: /*:1248*/
             scan_optional_equals();
             scan_int();
             n = cur_val;
@@ -11729,10 +11729,10 @@ Static void prefixedcommand(void) {
                     mem[p + j * 2 - MEM_MIN].sc = cur_val;
                 }
             }
-            define(parshapeloc, shaperef, p);
+            define(parshapeloc, SHAPE_REF, p);
             break;
 
-        case hyphdata:
+        case HYPH_DATA:
             if (curchr == 1) {
             #ifdef tt_INIT
                 /// #1252
@@ -11746,7 +11746,7 @@ Static void prefixedcommand(void) {
             break;
             /*1253:*/
 
-        case assignfontdimen:
+        case ASSIGN_FONT_DIMEN:
             findfontdimen(true);
             k = cur_val;
             scan_optional_equals();
@@ -11754,7 +11754,7 @@ Static void prefixedcommand(void) {
             fontinfo[k].sc = cur_val;
             break;
 
-        case assignfontint:
+        case ASSIGN_FONT_INT:
             n = curchr;
             scanfontident();
             f = cur_val;
@@ -11768,11 +11768,11 @@ Static void prefixedcommand(void) {
             /*:1253*/
 
         /*1256:*/
-        case deffont: newfont(a); break;
+        case DEF_FONT: newfont(a); break;
 
         /*:1256*/
         /*1264:*/
-        case setinteraction: newinteraction(); break;
+        case SET_INTERACTION: newinteraction(); break;
 
         /*:1264*/
         default: confusion(S(973)); break;
@@ -11793,7 +11793,7 @@ _Lexit:;
 Static void doassignments(void) {
     while (true) {
         skip_spaces_or_relax();
-        if (curcmd <= maxnonprefixedcommand) break;
+        if (curcmd <= MAX_NON_PREFIXED_COMMAND) break;
         set_box_allowed = false;
         prefixedcommand();
         set_box_allowed = true;
@@ -12285,7 +12285,7 @@ Static void doextension(void)
 
   case immediatecode:   /*1375:*/
     get_x_token();
-    if (curcmd == extension && curchr <= closenode) {
+    if (curcmd == EXTENSION && curchr <= closenode) {
       p = tail;
       doextension();
       outwhat(tail);
@@ -12660,20 +12660,20 @@ _LN_main_control__reswitch:
     switch (labs(mode) + curcmd) {
         case H_MODE + LETTER:
         case H_MODE + OTHER_CHAR:
-        case H_MODE + chargiven:
+        case H_MODE + CHAR_GIVEN:
             goto _Lmainloop;
             break;
 
-        case H_MODE + charnum:
+        case H_MODE + CHAR_NUM:
             scan_char_num();
             curchr = cur_val;
             goto _Lmainloop;
             break;
 
-        case H_MODE + noboundary:
+        case H_MODE + NO_BOUNDARY:
             get_x_token();
             if (curcmd == LETTER || curcmd == OTHER_CHAR ||
-                curcmd == chargiven || curcmd == charnum)
+                curcmd == CHAR_GIVEN || curcmd == CHAR_NUM)
                 cancelboundary = true;
             goto _LN_main_control__reswitch;
             break;
@@ -12683,8 +12683,8 @@ _LN_main_control__reswitch:
             appspace();
             break;
 
-        case H_MODE + exspace:
-        case M_MODE + exspace: /*1045:*/
+        case H_MODE + EX_SPACE:
+        case M_MODE + EX_SPACE: /*1045:*/
             goto _Lappendnormalspace_;
             break;
 
@@ -12693,31 +12693,31 @@ _LN_main_control__reswitch:
         case M_MODE:
         case V_MODE + SPACER:
         case M_MODE + SPACER:
-        case M_MODE + noboundary:
+        case M_MODE + NO_BOUNDARY:
             /* blank case */
             break;
 
-        case V_MODE + ignorespaces:
-        case H_MODE + ignorespaces:
-        case M_MODE + ignorespaces:
+        case V_MODE + IGNORE_SPACES:
+        case H_MODE + IGNORE_SPACES:
+        case M_MODE + IGNORE_SPACES:
             skip_spaces();
             goto _LN_main_control__reswitch;
             break;
 
-        case V_MODE + stop: /*1048:*/
+        case V_MODE + STOP: /*1048:*/
             if (itsallover()) goto _Lexit;
             break;
 
-        case V_MODE + vmove:
-        case H_MODE + hmove:
-        case M_MODE + hmove:
-        case V_MODE + lastitem:
-        case H_MODE + lastitem:
-        case M_MODE + lastitem:
-        case V_MODE + vadjust:
-        case V_MODE + italcorr:
-        case V_MODE + eqno:
-        case H_MODE + eqno:
+        case V_MODE + VMOVE:
+        case H_MODE + HMOVE:
+        case M_MODE + HMOVE:
+        case V_MODE + LAST_ITEM:
+        case H_MODE + LAST_ITEM:
+        case M_MODE + LAST_ITEM:
+        case V_MODE + VADJUST:
+        case V_MODE + ITAL_CORR:
+        case V_MODE + EQ_NO:
+        case H_MODE + EQ_NO:
         case V_MODE + MAC_PARAM:
         case H_MODE + MAC_PARAM:
         case M_MODE + MAC_PARAM: /*:1048*/
@@ -12729,50 +12729,50 @@ _LN_main_control__reswitch:
         case H_MODE + SUP_MARK:
         case V_MODE + SUB_MARK:
         case H_MODE + SUB_MARK:
-        case V_MODE + mathcharnum:
-        case H_MODE + mathcharnum:
-        case V_MODE + mathgiven:
-        case H_MODE + mathgiven:
-        case V_MODE + mathcomp:
-        case H_MODE + mathcomp:
-        case V_MODE + delimnum:
-        case H_MODE + delimnum:
-        case V_MODE + leftright:
-        case H_MODE + leftright:
-        case V_MODE + above:
-        case H_MODE + above:
-        case V_MODE + radical:
-        case H_MODE + radical:
-        case V_MODE + mathstyle:
-        case H_MODE + mathstyle:
-        case V_MODE + mathchoice:
-        case H_MODE + mathchoice:
-        case V_MODE + vcenter:
-        case H_MODE + vcenter:
-        case V_MODE + nonscript:
-        case H_MODE + nonscript:
-        case V_MODE + mkern:
-        case H_MODE + mkern:
-        case V_MODE + limitswitch:
-        case H_MODE + limitswitch:
-        case V_MODE + mskip:
-        case H_MODE + mskip:
-        case V_MODE + mathaccent:
-        case H_MODE + mathaccent:
-        case M_MODE + endv:
-        case M_MODE + parend:
-        case M_MODE + stop:
-        case M_MODE + vskip:
-        case M_MODE + unvbox:
-        case M_MODE + valign:
-        case M_MODE + hrule: /*:1046*/
+        case V_MODE + MATH_CHAR_NUM:
+        case H_MODE + MATH_CHAR_NUM:
+        case V_MODE + MATH_GIVEN:
+        case H_MODE + MATH_GIVEN:
+        case V_MODE + MATH_COMP:
+        case H_MODE + MATH_COMP:
+        case V_MODE + DELIM_NUM:
+        case H_MODE + DELIM_NUM:
+        case V_MODE + LEFT_RIGHT:
+        case H_MODE + LEFT_RIGHT:
+        case V_MODE + ABOVE:
+        case H_MODE + ABOVE:
+        case V_MODE + RADICAL:
+        case H_MODE + RADICAL:
+        case V_MODE + MATH_STYLE:
+        case H_MODE + MATH_STYLE:
+        case V_MODE + MATH_CHOICE:
+        case H_MODE + MATH_CHOICE:
+        case V_MODE + VCENTER:
+        case H_MODE + VCENTER:
+        case V_MODE + NON_SCRIPT:
+        case H_MODE + NON_SCRIPT:
+        case V_MODE + MKERN:
+        case H_MODE + MKERN:
+        case V_MODE + LIMIT_SWITCH:
+        case H_MODE + LIMIT_SWITCH:
+        case V_MODE + MSKIP:
+        case H_MODE + MSKIP:
+        case V_MODE + MATH_ACCENT:
+        case H_MODE + MATH_ACCENT:
+        case M_MODE + ENDV:
+        case M_MODE + PAR_END:
+        case M_MODE + STOP:
+        case M_MODE + VSKIP:
+        case M_MODE + UN_VBOX:
+        case M_MODE + VALIGN:
+        case M_MODE + HRULE: /*:1046*/
             insertdollarsign();
             break;
 
         /*1056:*/
-        case V_MODE + hrule:
-        case H_MODE + vrule:
-        case M_MODE + vrule: /*:1056*/
+        case V_MODE + HRULE:
+        case H_MODE + VRULE:
+        case M_MODE + VRULE: /*:1056*/
             tailappend(scan_rule_spec());
             if (labs(mode) == V_MODE)
                 prevdepth = ignoredepth;
@@ -12781,17 +12781,17 @@ _LN_main_control__reswitch:
             break;
             /*1057:*/
 
-        case V_MODE + vskip:
-        case H_MODE + hskip:
-        case M_MODE + hskip:
-        case M_MODE + mskip:
+        case V_MODE + VSKIP:
+        case H_MODE + HSKIP:
+        case M_MODE + HSKIP:
+        case M_MODE + MSKIP:
             appendglue();
             break;
 
-        case V_MODE + kern:
-        case H_MODE + kern:
-        case M_MODE + kern:
-        case M_MODE + mkern: /*:1057*/
+        case V_MODE + KERN:
+        case H_MODE + KERN:
+        case M_MODE + KERN:
+        case M_MODE + MKERN: /*:1057*/
             appendkern();
             break;
             /*1063:*/
@@ -12801,15 +12801,15 @@ _LN_main_control__reswitch:
             newsavelevel(simplegroup);
             break;
 
-        case V_MODE + begingroup:
-        case H_MODE + begingroup:
-        case M_MODE + begingroup:
+        case V_MODE + BEGIN_GROUP:
+        case H_MODE + BEGIN_GROUP:
+        case M_MODE + BEGIN_GROUP:
             newsavelevel(semisimplegroup);
             break;
 
-        case V_MODE + endgroup:
-        case H_MODE + endgroup:
-        case M_MODE + endgroup: /*:1063*/
+        case V_MODE + END_GROUP:
+        case H_MODE + END_GROUP:
+        case M_MODE + END_GROUP: /*:1063*/
             if (curgroup == semisimplegroup)
                 unsave();
             else
@@ -12825,9 +12825,9 @@ _LN_main_control__reswitch:
 
         /*:1067*/
         /*1073:*/
-        case V_MODE + hmove:
-        case H_MODE + vmove:
-        case M_MODE + vmove:
+        case V_MODE + HMOVE:
+        case H_MODE + VMOVE:
+        case M_MODE + VMOVE:
             t = curchr;
             SCAN_NORMAL_DIMEN();
             if (t == 0)
@@ -12836,122 +12836,122 @@ _LN_main_control__reswitch:
                 scanbox(-cur_val);
             break;
 
-        case V_MODE + leadership:
-        case H_MODE + leadership:
-        case M_MODE + leadership:
+        case V_MODE + LEADER_SHIP:
+        case H_MODE + LEADER_SHIP:
+        case M_MODE + LEADER_SHIP:
             scanbox(leaderflag - aleaders + curchr);
             break;
 
-        case V_MODE + makebox:
-        case H_MODE + makebox:
-        case M_MODE + makebox:
+        case V_MODE + MAKE_BOX:
+        case H_MODE + MAKE_BOX:
+        case M_MODE + MAKE_BOX:
             beginbox(0);
             break;
 
         /*:1073*/
         /*1090:*/
-        case V_MODE + startpar:
+        case V_MODE + START_PAR:
             newgraf(curchr > 0);
             break;
 
         case V_MODE + LETTER:
         case V_MODE + OTHER_CHAR:
-        case V_MODE + charnum:
-        case V_MODE + chargiven:
+        case V_MODE + CHAR_NUM:
+        case V_MODE + CHAR_GIVEN:
         case V_MODE + MATH_SHIFT:
-        case V_MODE + unhbox:
-        case V_MODE + vrule:
-        case V_MODE + accent:
-        case V_MODE + discretionary:
-        case V_MODE + hskip:
-        case V_MODE + valign:
-        case V_MODE + exspace:
-        case V_MODE + noboundary: /*:1090*/
+        case V_MODE + UN_HBOX:
+        case V_MODE + VRULE:
+        case V_MODE + ACCENT:
+        case V_MODE + DISCRETIONARY:
+        case V_MODE + HSKIP:
+        case V_MODE + VALIGN:
+        case V_MODE + EX_SPACE:
+        case V_MODE + NO_BOUNDARY: /*:1090*/
             backinput();
             newgraf(true);
             break;
             /*1092:*/
 
-        case H_MODE + startpar:
-        case M_MODE + startpar: /*:1092*/
+        case H_MODE + START_PAR:
+        case M_MODE + START_PAR: /*:1092*/
             indentinhmode();
             break;
             /*1094:*/
 
-        case V_MODE + parend:
+        case V_MODE + PAR_END:
             normalparagraph();
             if (mode > 0) buildpage();
             break;
 
-        case H_MODE + parend:
+        case H_MODE + PAR_END:
             if (align_state < 0) offsave();
             endgraf();
             if (mode == V_MODE) buildpage();
             break;
 
-        case H_MODE + stop:
-        case H_MODE + vskip:
-        case H_MODE + hrule:
-        case H_MODE + unvbox:
-        case H_MODE + halign: /*:1094*/
+        case H_MODE + STOP:
+        case H_MODE + VSKIP:
+        case H_MODE + HRULE:
+        case H_MODE + UN_VBOX:
+        case H_MODE + HALIGN: /*:1094*/
             headforvmode();
             break;
             /*1097:*/
 
-        case V_MODE + insert_:
-        case H_MODE + insert_:
-        case M_MODE + insert_:
-        case H_MODE + vadjust:
-        case M_MODE + vadjust:
+        case V_MODE + INSERT:
+        case H_MODE + INSERT:
+        case M_MODE + INSERT:
+        case H_MODE + VADJUST:
+        case M_MODE + VADJUST:
             begininsertoradjust();
             break;
 
-        case V_MODE + mark_:
-        case H_MODE + mark_:
-        case M_MODE + mark_: /*:1097*/
+        case V_MODE + MARK:
+        case H_MODE + MARK:
+        case M_MODE + MARK: /*:1097*/
             makemark();
             break;
 
         /*1102:*/
-        case V_MODE + breakpenalty:
-        case H_MODE + breakpenalty:
-        case M_MODE + breakpenalty:
+        case V_MODE + BREAK_PENALTY:
+        case H_MODE + BREAK_PENALTY:
+        case M_MODE + BREAK_PENALTY:
             appendpenalty();
             break;
 
         /*:1102*/
         /*1104:*/
-        case V_MODE + removeitem:
-        case H_MODE + removeitem:
-        case M_MODE + removeitem: /*:1104*/
+        case V_MODE + REMOVE_ITEM:
+        case H_MODE + REMOVE_ITEM:
+        case M_MODE + REMOVE_ITEM: /*:1104*/
             deletelast();
             break;
 
         /*1109:*/
-        case V_MODE + unvbox:
-        case H_MODE + unhbox:
-        case M_MODE + unhbox:
+        case V_MODE + UN_VBOX:
+        case H_MODE + UN_HBOX:
+        case M_MODE + UN_HBOX:
             unpackage();
             break;
 
         /*:1109*/
         /*1112:*/
-        case H_MODE + italcorr:
+        case H_MODE + ITAL_CORR:
             appenditaliccorrection();
             break;
 
-        case M_MODE + italcorr: /*:1112*/
+        case M_MODE + ITAL_CORR: /*:1112*/
             tailappend(newkern(0));
             break;
             /*1116:*/
 
-        case H_MODE + discretionary:
-        case M_MODE + discretionary: /*:1116*/
+        case H_MODE + DISCRETIONARY:
+        case M_MODE + DISCRETIONARY: /*:1116*/
             appenddiscretionary();
             break;
 
         /*1122:*/
-        case H_MODE + accent:
+        case H_MODE + ACCENT:
             makeaccent();
             break;
 
@@ -12966,25 +12966,25 @@ _LN_main_control__reswitch:
             alignerror();
             break;
 
-        case V_MODE + noalign:
-        case H_MODE + noalign:
-        case M_MODE + noalign:
+        case V_MODE + NO_ALIGN:
+        case H_MODE + NO_ALIGN:
+        case M_MODE + NO_ALIGN:
             noalignerror();
             break;
 
-        case V_MODE + omit:
-        case H_MODE + omit:
-        case M_MODE + omit: /*:1126*/
+        case V_MODE + OMIT:
+        case H_MODE + OMIT:
+        case M_MODE + OMIT: /*:1126*/
             omiterror();
             break;
             /*1130:*/
 
-        case V_MODE + halign:
-        case H_MODE + valign:
+        case V_MODE + HALIGN:
+        case H_MODE + VALIGN:
             initalign();
             break;
 
-        case M_MODE + halign:
+        case M_MODE + HALIGN:
             if (privileged()) {
                 if (curgroup == mathshiftgroup)
                     initalign();
@@ -12993,15 +12993,15 @@ _LN_main_control__reswitch:
             }
             break;
 
-        case V_MODE + endv:
-        case H_MODE + endv: /*:1130*/
+        case V_MODE + ENDV:
+        case H_MODE + ENDV: /*:1130*/
             doendv();
             break;
             /*1134:*/
 
-        case V_MODE + endcsname:
-        case H_MODE + endcsname:
-        case M_MODE + endcsname: /*:1134*/
+        case V_MODE + END_CS_NAME:
+        case H_MODE + END_CS_NAME:
+        case M_MODE + END_CS_NAME: /*:1134*/
             cserror();
             break;
             /*1137:*/
@@ -13011,7 +13011,7 @@ _LN_main_control__reswitch:
             break;
             /*1140:*/
 
-        case M_MODE + eqno: /*:1140*/
+        case M_MODE + EQ_NO: /*:1140*/
             if (privileged()) {
                 if (curgroup == mathshiftgroup)
                     starteqno();
@@ -13030,54 +13030,54 @@ _LN_main_control__reswitch:
 
         case M_MODE + LETTER:
         case M_MODE + OTHER_CHAR:
-        case M_MODE + chargiven:
+        case M_MODE + CHAR_GIVEN:
             setmathchar(mathcode(curchr));
             break;
 
-        case M_MODE + charnum:
+        case M_MODE + CHAR_NUM:
             scan_char_num();
             curchr = cur_val;
             setmathchar(mathcode(curchr));
             break;
 
-        case M_MODE + mathcharnum:
+        case M_MODE + MATH_CHAR_NUM:
             scan_fifteen_bit_int();
             setmathchar(cur_val);
             break;
 
-        case M_MODE + mathgiven:
+        case M_MODE + MATH_GIVEN:
             setmathchar(curchr);
             break;
 
-        case M_MODE + delimnum: /*:1154*/
+        case M_MODE + DELIM_NUM: /*:1154*/
             scan_twenty_seven_bit_int();
             setmathchar(cur_val / 4096);
             break;
             /*1158:*/
 
-        case M_MODE + mathcomp:
+        case M_MODE + MATH_COMP:
             tailappend(newnoad());
             type(tail) = curchr;
             scanmath(nucleus(tail));
             break;
 
-        case M_MODE + limitswitch: /*:1158*/
+        case M_MODE + LIMIT_SWITCH: /*:1158*/
             mathlimitswitch();
             break;
             /*1162:*/
 
-        case M_MODE + radical: /*:1162*/
+        case M_MODE + RADICAL: /*:1162*/
             mathradical();
             break;
             /*1164:*/
 
-        case M_MODE + accent:
-        case M_MODE + mathaccent: /*:1164*/
+        case M_MODE + ACCENT:
+        case M_MODE + MATH_ACCENT: /*:1164*/
             mathac();
             break;
             /*1167:*/
 
-        case M_MODE + vcenter:
+        case M_MODE + VCENTER:
             scanspec(vcentergroup, false);
             normalparagraph();
             pushnest();
@@ -13088,16 +13088,16 @@ _LN_main_control__reswitch:
             /*:1167*/
 
         /*1171:*/
-        case M_MODE + mathstyle:
+        case M_MODE + MATH_STYLE:
             tailappend(newstyle(curchr));
             break;
 
-        case M_MODE + nonscript:
+        case M_MODE + NON_SCRIPT:
             tailappend(newglue(zeroglue));
             subtype(tail) = condmathglue;
             break;
 
-        case M_MODE + mathchoice:
+        case M_MODE + MATH_CHOICE:
             appendchoices();
             break;
 
@@ -13110,12 +13110,12 @@ _LN_main_control__reswitch:
 
         /*:1175*/
         /*1180:*/
-        case M_MODE + above: /*:1180*/
+        case M_MODE + ABOVE: /*:1180*/
             mathfraction();
             break;
             /*1190:*/
 
-        case M_MODE + leftright:
+        case M_MODE + LEFT_RIGHT:
             mathleftright();
             break;
 
@@ -13130,150 +13130,150 @@ _LN_main_control__reswitch:
 
         /*:1193*/
         /*1210:*/
-        case V_MODE + toksregister:
-        case H_MODE + toksregister:
-        case M_MODE + toksregister:
-        case V_MODE + assigntoks:
-        case H_MODE + assigntoks:
-        case M_MODE + assigntoks:
-        case V_MODE + assignint:
-        case H_MODE + assignint:
-        case M_MODE + assignint:
-        case V_MODE + assigndimen:
-        case H_MODE + assigndimen:
-        case M_MODE + assigndimen:
-        case V_MODE + assignglue:
-        case H_MODE + assignglue:
-        case M_MODE + assignglue:
-        case V_MODE + assignmuglue:
-        case H_MODE + assignmuglue:
-        case M_MODE + assignmuglue:
-        case V_MODE + assignfontdimen:
-        case H_MODE + assignfontdimen:
-        case M_MODE + assignfontdimen:
-        case V_MODE + assignfontint:
-        case H_MODE + assignfontint:
-        case M_MODE + assignfontint:
-        case V_MODE + setaux:
-        case H_MODE + setaux:
-        case M_MODE + setaux:
-        case V_MODE + setprevgraf:
-        case H_MODE + setprevgraf:
-        case M_MODE + setprevgraf:
-        case V_MODE + setpagedimen:
-        case H_MODE + setpagedimen:
-        case M_MODE + setpagedimen:
-        case V_MODE + setpageint:
-        case H_MODE + setpageint:
-        case M_MODE + setpageint:
-        case V_MODE + setboxdimen:
-        case H_MODE + setboxdimen:
-        case M_MODE + setboxdimen:
-        case V_MODE + setshape:
-        case H_MODE + setshape:
-        case M_MODE + setshape:
-        case V_MODE + defcode:
-        case H_MODE + defcode:
-        case M_MODE + defcode:
-        case V_MODE + deffamily:
-        case H_MODE + deffamily:
-        case M_MODE + deffamily:
-        case V_MODE + setfont:
-        case H_MODE + setfont:
-        case M_MODE + setfont:
-        case V_MODE + deffont:
-        case H_MODE + deffont:
-        case M_MODE + deffont:
-        case V_MODE + register_:
-        case H_MODE + register_:
-        case M_MODE + register_:
-        case V_MODE + advance:
-        case H_MODE + advance:
-        case M_MODE + advance:
-        case V_MODE + multiply:
-        case H_MODE + multiply:
-        case M_MODE + multiply:
-        case V_MODE + divide:
-        case H_MODE + divide:
-        case M_MODE + divide:
-        case V_MODE + prefix:
-        case H_MODE + prefix:
-        case M_MODE + prefix:
-        case V_MODE + let:
-        case H_MODE + let:
-        case M_MODE + let:
-        case V_MODE + shorthanddef:
-        case H_MODE + shorthanddef:
-        case M_MODE + shorthanddef:
-        case V_MODE + readtocs:
-        case H_MODE + readtocs:
-        case M_MODE + readtocs:
-        case V_MODE + def:
-        case H_MODE + def:
-        case M_MODE + def:
-        case V_MODE + setbox:
-        case H_MODE + setbox:
-        case M_MODE + setbox:
-        case V_MODE + hyphdata:
-        case H_MODE + hyphdata:
-        case M_MODE + hyphdata:
-        case V_MODE + setinteraction:
-        case H_MODE + setinteraction:
-        case M_MODE + setinteraction: /*:1210*/
+        case V_MODE + TOKS_REGISTER:
+        case H_MODE + TOKS_REGISTER:
+        case M_MODE + TOKS_REGISTER:
+        case V_MODE + ASSIGN_TOKS:
+        case H_MODE + ASSIGN_TOKS:
+        case M_MODE + ASSIGN_TOKS:
+        case V_MODE + ASSIGN_INT:
+        case H_MODE + ASSIGN_INT:
+        case M_MODE + ASSIGN_INT:
+        case V_MODE + ASSIGN_DIMEN:
+        case H_MODE + ASSIGN_DIMEN:
+        case M_MODE + ASSIGN_DIMEN:
+        case V_MODE + ASSIGN_GLUE:
+        case H_MODE + ASSIGN_GLUE:
+        case M_MODE + ASSIGN_GLUE:
+        case V_MODE + ASSIGN_MU_GLUE:
+        case H_MODE + ASSIGN_MU_GLUE:
+        case M_MODE + ASSIGN_MU_GLUE:
+        case V_MODE + ASSIGN_FONT_DIMEN:
+        case H_MODE + ASSIGN_FONT_DIMEN:
+        case M_MODE + ASSIGN_FONT_DIMEN:
+        case V_MODE + ASSIGN_FONT_INT:
+        case H_MODE + ASSIGN_FONT_INT:
+        case M_MODE + ASSIGN_FONT_INT:
+        case V_MODE + SET_AUX:
+        case H_MODE + SET_AUX:
+        case M_MODE + SET_AUX:
+        case V_MODE + SET_PREV_GRAF:
+        case H_MODE + SET_PREV_GRAF:
+        case M_MODE + SET_PREV_GRAF:
+        case V_MODE + SET_PAGE_DIMEN:
+        case H_MODE + SET_PAGE_DIMEN:
+        case M_MODE + SET_PAGE_DIMEN:
+        case V_MODE + SET_PAGE_INT:
+        case H_MODE + SET_PAGE_INT:
+        case M_MODE + SET_PAGE_INT:
+        case V_MODE + SET_BOX_DIMEN:
+        case H_MODE + SET_BOX_DIMEN:
+        case M_MODE + SET_BOX_DIMEN:
+        case V_MODE + SET_SHAPE:
+        case H_MODE + SET_SHAPE:
+        case M_MODE + SET_SHAPE:
+        case V_MODE + DEF_CODE:
+        case H_MODE + DEF_CODE:
+        case M_MODE + DEF_CODE:
+        case V_MODE + DEF_FAMILY:
+        case H_MODE + DEF_FAMILY:
+        case M_MODE + DEF_FAMILY:
+        case V_MODE + SET_FONT:
+        case H_MODE + SET_FONT:
+        case M_MODE + SET_FONT:
+        case V_MODE + DEF_FONT:
+        case H_MODE + DEF_FONT:
+        case M_MODE + DEF_FONT:
+        case V_MODE + REGISTER:
+        case H_MODE + REGISTER:
+        case M_MODE + REGISTER:
+        case V_MODE + ADVANCE:
+        case H_MODE + ADVANCE:
+        case M_MODE + ADVANCE:
+        case V_MODE + MULTIPLY:
+        case H_MODE + MULTIPLY:
+        case M_MODE + MULTIPLY:
+        case V_MODE + DIVIDE:
+        case H_MODE + DIVIDE:
+        case M_MODE + DIVIDE:
+        case V_MODE + PREFIX:
+        case H_MODE + PREFIX:
+        case M_MODE + PREFIX:
+        case V_MODE + LET:
+        case H_MODE + LET:
+        case M_MODE + LET:
+        case V_MODE + SHORTHAND_DEF:
+        case H_MODE + SHORTHAND_DEF:
+        case M_MODE + SHORTHAND_DEF:
+        case V_MODE + READ_TO_CS:
+        case H_MODE + READ_TO_CS:
+        case M_MODE + READ_TO_CS:
+        case V_MODE + DEF:
+        case H_MODE + DEF:
+        case M_MODE + DEF:
+        case V_MODE + SET_BOX:
+        case H_MODE + SET_BOX:
+        case M_MODE + SET_BOX:
+        case V_MODE + HYPH_DATA:
+        case H_MODE + HYPH_DATA:
+        case M_MODE + HYPH_DATA:
+        case V_MODE + SET_INTERACTION:
+        case H_MODE + SET_INTERACTION:
+        case M_MODE + SET_INTERACTION: /*:1210*/
             prefixedcommand();
             break;
             /*1268:*/
 
-        case V_MODE + afterassignment:
-        case H_MODE + afterassignment:
-        case M_MODE + afterassignment: /*:1268*/
+        case V_MODE + AFTER_ASSIGNMENT:
+        case H_MODE + AFTER_ASSIGNMENT:
+        case M_MODE + AFTER_ASSIGNMENT: /*:1268*/
             gettoken();
             aftertoken = curtok;
             break;
             /*1271:*/
 
-        case V_MODE + aftergroup:
-        case H_MODE + aftergroup:
-        case M_MODE + aftergroup: /*:1271*/
+        case V_MODE + AFTER_GROUP:
+        case H_MODE + AFTER_GROUP:
+        case M_MODE + AFTER_GROUP: /*:1271*/
             gettoken();
             saveforafter(curtok);
             break;
             /*1274:*/
 
-        case V_MODE + instream:
-        case H_MODE + instream:
-        case M_MODE + instream: /*:1274*/
+        case V_MODE + IN_STREAM:
+        case H_MODE + IN_STREAM:
+        case M_MODE + IN_STREAM: /*:1274*/
             openorclosein();
             break;
 
         /*1276:*/
-        case V_MODE + message:
-        case H_MODE + message:
-        case M_MODE + message:
+        case V_MODE + MESSAGE:
+        case H_MODE + MESSAGE:
+        case M_MODE + MESSAGE:
             issuemessage();
             break;
 
         /*:1276*/
         /*1285:*/
-        case V_MODE + caseshift:
-        case H_MODE + caseshift:
-        case M_MODE + caseshift:
+        case V_MODE + CASE_SHIFT:
+        case H_MODE + CASE_SHIFT:
+        case M_MODE + CASE_SHIFT:
             shiftcase();
             break;
 
         /*:1285*/
         /*1290:*/
-        case V_MODE + xray:
-        case H_MODE + xray:
-        case M_MODE + xray:
+        case V_MODE + XRAY:
+        case H_MODE + XRAY:
+        case M_MODE + XRAY:
             showwhatever();
             break;
 
         /*:1290*/
         /*1347:*/
-        case V_MODE + extension:
-        case H_MODE + extension:
-        case M_MODE + extension: /*:1347*/
+        case V_MODE + EXTENSION:
+        case H_MODE + EXTENSION:
+        case M_MODE + EXTENSION: /*:1347*/
             doextension();
             break;
             /*:1045*/
@@ -13337,17 +13337,17 @@ _Lmainlooplookahead:      /*1038:*/
     getnext();
     if (curcmd == LETTER) goto _Lmainlooplookahead1;
     if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
-    if (curcmd == chargiven) goto _Lmainlooplookahead1;
+    if (curcmd == CHAR_GIVEN) goto _Lmainlooplookahead1;
     xtoken();
     if (curcmd == LETTER) goto _Lmainlooplookahead1;
     if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
-    if (curcmd == chargiven) goto _Lmainlooplookahead1;
-    if (curcmd == charnum) {
+    if (curcmd == CHAR_GIVEN) goto _Lmainlooplookahead1;
+    if (curcmd == CHAR_NUM) {
         scan_char_num();
         curchr = cur_val;
         goto _Lmainlooplookahead1;
     }
-    if (curcmd == noboundary) bchar = NON_CHAR;
+    if (curcmd == NO_BOUNDARY) bchar = NON_CHAR;
     curr = bchar;
     ligstack = 0;
     goto _Lmainligloop;
@@ -13877,7 +13877,7 @@ Static void final_cleanup(void) {
         printnl('(');
         print_esc(S(1020));
         print(S(1022));
-        printcmdchr(iftest, curif);
+        printcmdchr(IF_TEST, curif);
         if (ifline != 0) {
             print(S(1023));
             print_int(ifline);
@@ -13913,227 +13913,227 @@ Static void final_cleanup(void) {
 /// p468#1336: initialize all the primitives
 Static void init_prim(void) {
     /*226:*/
-    primitive(S(341), assignglue, gluebase);
-    primitive(S(342), assignglue, gluebase + BASELINE_SKIP_CODE);
-    primitive(S(343), assignglue, gluebase + PAR_SKIP_CODE);
-    primitive(S(344), assignglue, gluebase + ABOVE_DISPLAY_SKIP_CODE);
-    primitive(S(345), assignglue, gluebase + BELOW_DISPLAY_SKIP_CODE);
-    primitive(S(346), assignglue, gluebase + ABOVE_DISPLAY_SHORT_SKIP_CODE);
-    primitive(S(347), assignglue, gluebase + BELOW_DISPLAY_SHORT_SKIP_CODE);
-    primitive(S(348), assignglue, gluebase + LEFT_SKIP_CODE);
-    primitive(S(349), assignglue, gluebase + RIGHT_SKIP_CODE);
-    primitive(S(350), assignglue, gluebase + TOP_SKIP_CODE);
-    primitive(S(351), assignglue, gluebase + SPLIT_TOP_SKIP_CODE);
-    primitive(S(352), assignglue, gluebase + TAB_SKIP_CODE);
-    primitive(S(353), assignglue, gluebase + SPACE_SKIP_CODE);
-    primitive(S(354), assignglue, gluebase + XSPACE_SKIP_CODE);
-    primitive(S(355), assignglue, gluebase + PAR_FILL_SKIP_CODE);
-    primitive(S(356), assignmuglue, gluebase + THIN_MU_SKIP_CODE);
-    primitive(S(357), assignmuglue, gluebase + MED_MU_SKIP_CODE);
-    primitive(S(358), assignmuglue, gluebase + THICK_MU_SKIP_CODE);
+    primitive(S(341), ASSIGN_GLUE, gluebase);
+    primitive(S(342), ASSIGN_GLUE, gluebase + BASELINE_SKIP_CODE);
+    primitive(S(343), ASSIGN_GLUE, gluebase + PAR_SKIP_CODE);
+    primitive(S(344), ASSIGN_GLUE, gluebase + ABOVE_DISPLAY_SKIP_CODE);
+    primitive(S(345), ASSIGN_GLUE, gluebase + BELOW_DISPLAY_SKIP_CODE);
+    primitive(S(346), ASSIGN_GLUE, gluebase + ABOVE_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(347), ASSIGN_GLUE, gluebase + BELOW_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(348), ASSIGN_GLUE, gluebase + LEFT_SKIP_CODE);
+    primitive(S(349), ASSIGN_GLUE, gluebase + RIGHT_SKIP_CODE);
+    primitive(S(350), ASSIGN_GLUE, gluebase + TOP_SKIP_CODE);
+    primitive(S(351), ASSIGN_GLUE, gluebase + SPLIT_TOP_SKIP_CODE);
+    primitive(S(352), ASSIGN_GLUE, gluebase + TAB_SKIP_CODE);
+    primitive(S(353), ASSIGN_GLUE, gluebase + SPACE_SKIP_CODE);
+    primitive(S(354), ASSIGN_GLUE, gluebase + XSPACE_SKIP_CODE);
+    primitive(S(355), ASSIGN_GLUE, gluebase + PAR_FILL_SKIP_CODE);
+    primitive(S(356), ASSIGN_MU_GLUE, gluebase + THIN_MU_SKIP_CODE);
+    primitive(S(357), ASSIGN_MU_GLUE, gluebase + MED_MU_SKIP_CODE);
+    primitive(S(358), ASSIGN_MU_GLUE, gluebase + THICK_MU_SKIP_CODE);
     /*:226*/
     /*230:*/
-    primitive(S(1026), assigntoks, outputroutineloc);
-    primitive(S(1027), assigntoks, everyparloc);
-    primitive(S(1028), assigntoks, everymathloc);
-    primitive(S(1029), assigntoks, everydisplayloc);
-    primitive(S(1030), assigntoks, everyhboxloc);
-    primitive(S(1031), assigntoks, everyvboxloc);
-    primitive(S(1032), assigntoks, everyjobloc);
-    primitive(S(1033), assigntoks, everycrloc);
-    primitive(S(1034), assigntoks, errhelploc); /*:230*/
+    primitive(S(1026), ASSIGN_TOKS, outputroutineloc);
+    primitive(S(1027), ASSIGN_TOKS, everyparloc);
+    primitive(S(1028), ASSIGN_TOKS, everymathloc);
+    primitive(S(1029), ASSIGN_TOKS, everydisplayloc);
+    primitive(S(1030), ASSIGN_TOKS, everyhboxloc);
+    primitive(S(1031), ASSIGN_TOKS, everyvboxloc);
+    primitive(S(1032), ASSIGN_TOKS, everyjobloc);
+    primitive(S(1033), ASSIGN_TOKS, everycrloc);
+    primitive(S(1034), ASSIGN_TOKS, errhelploc); /*:230*/
     /*238:*/
-    primitive(S(1035), assignint, intbase);
-    primitive(S(1036), assignint, intbase + tolerancecode);
-    primitive(S(1037), assignint, intbase + linepenaltycode);
-    primitive(S(1038), assignint, intbase + hyphenpenaltycode);
-    primitive(S(1039), assignint, intbase + exhyphenpenaltycode);
-    primitive(S(1040), assignint, intbase + clubpenaltycode);
-    primitive(S(1041), assignint, intbase + widowpenaltycode);
-    primitive(S(1042), assignint, intbase + displaywidowpenaltycode);
-    primitive(S(1043), assignint, intbase + brokenpenaltycode);
-    primitive(S(1044), assignint, intbase + binoppenaltycode);
-    primitive(S(1045), assignint, intbase + relpenaltycode);
-    primitive(S(1046), assignint, intbase + predisplaypenaltycode);
-    primitive(S(1047), assignint, intbase + postdisplaypenaltycode);
-    primitive(S(1048), assignint, intbase + interlinepenaltycode);
-    primitive(S(1049), assignint, intbase + doublehyphendemeritscode);
-    primitive(S(1050), assignint, intbase + finalhyphendemeritscode);
-    primitive(S(1051), assignint, intbase + adjdemeritscode);
-    primitive(S(1052), assignint, intbase + magcode);
-    primitive(S(1053), assignint, intbase + delimiterfactorcode);
-    primitive(S(1054), assignint, intbase + loosenesscode);
-    primitive(S(1055), assignint, intbase + timecode);
-    primitive(S(1056), assignint, intbase + daycode);
-    primitive(S(1057), assignint, intbase + monthcode);
-    primitive(S(1058), assignint, intbase + yearcode);
-    primitive(S(1059), assignint, intbase + showboxbreadthcode);
-    primitive(S(1060), assignint, intbase + showboxdepthcode);
-    primitive(S(1061), assignint, intbase + hbadnesscode);
-    primitive(S(1062), assignint, intbase + vbadnesscode);
-    primitive(S(1063), assignint, intbase + pausingcode);
-    primitive(S(1064), assignint, intbase + tracingonlinecode);
-    primitive(S(1065), assignint, intbase + tracingmacroscode);
-    primitive(S(1066), assignint, intbase + tracingstatscode);
-    primitive(S(1067), assignint, intbase + tracingparagraphscode);
-    primitive(S(1068), assignint, intbase + tracingpagescode);
-    primitive(S(1069), assignint, intbase + tracingoutputcode);
-    primitive(S(1070), assignint, intbase + tracinglostcharscode);
-    primitive(S(1071), assignint, intbase + tracingcommandscode);
-    primitive(S(1072), assignint, intbase + tracingrestorescode);
-    primitive(S(1073), assignint, intbase + uchyphcode);
-    primitive(S(1074), assignint, intbase + outputpenaltycode);
-    primitive(S(1075), assignint, intbase + maxdeadcyclescode);
-    primitive(S(1076), assignint, intbase + hangaftercode);
-    primitive(S(1077), assignint, intbase + floatingpenaltycode);
-    primitive(S(1078), assignint, intbase + globaldefscode);
-    primitive(S(333), assignint, intbase + curfamcode);
-    primitive(S(1079), assignint, intbase + ESCAPE_CHARcode);
-    primitive(S(1080), assignint, intbase + defaulthyphencharcode);
-    primitive(S(1081), assignint, intbase + defaultskewcharcode);
-    primitive(S(1082), assignint, intbase + endlinecharcode);
-    primitive(S(1083), assignint, intbase + newlinecharcode);
-    primitive(S(1084), assignint, intbase + languagecode);
-    primitive(S(1085), assignint, intbase + lefthyphenmincode);
-    primitive(S(1086), assignint, intbase + righthyphenmincode);
-    primitive(S(1087), assignint, intbase + holdinginsertscode);
-    primitive(S(1088), assignint, intbase + errorcontextlinescode);
+    primitive(S(1035), ASSIGN_INT, intbase);
+    primitive(S(1036), ASSIGN_INT, intbase + tolerancecode);
+    primitive(S(1037), ASSIGN_INT, intbase + linepenaltycode);
+    primitive(S(1038), ASSIGN_INT, intbase + hyphenpenaltycode);
+    primitive(S(1039), ASSIGN_INT, intbase + exhyphenpenaltycode);
+    primitive(S(1040), ASSIGN_INT, intbase + clubpenaltycode);
+    primitive(S(1041), ASSIGN_INT, intbase + widowpenaltycode);
+    primitive(S(1042), ASSIGN_INT, intbase + displaywidowpenaltycode);
+    primitive(S(1043), ASSIGN_INT, intbase + brokenpenaltycode);
+    primitive(S(1044), ASSIGN_INT, intbase + binoppenaltycode);
+    primitive(S(1045), ASSIGN_INT, intbase + relpenaltycode);
+    primitive(S(1046), ASSIGN_INT, intbase + predisplaypenaltycode);
+    primitive(S(1047), ASSIGN_INT, intbase + postdisplaypenaltycode);
+    primitive(S(1048), ASSIGN_INT, intbase + interlinepenaltycode);
+    primitive(S(1049), ASSIGN_INT, intbase + doublehyphendemeritscode);
+    primitive(S(1050), ASSIGN_INT, intbase + finalhyphendemeritscode);
+    primitive(S(1051), ASSIGN_INT, intbase + adjdemeritscode);
+    primitive(S(1052), ASSIGN_INT, intbase + magcode);
+    primitive(S(1053), ASSIGN_INT, intbase + delimiterfactorcode);
+    primitive(S(1054), ASSIGN_INT, intbase + loosenesscode);
+    primitive(S(1055), ASSIGN_INT, intbase + timecode);
+    primitive(S(1056), ASSIGN_INT, intbase + daycode);
+    primitive(S(1057), ASSIGN_INT, intbase + monthcode);
+    primitive(S(1058), ASSIGN_INT, intbase + yearcode);
+    primitive(S(1059), ASSIGN_INT, intbase + showboxbreadthcode);
+    primitive(S(1060), ASSIGN_INT, intbase + showboxdepthcode);
+    primitive(S(1061), ASSIGN_INT, intbase + hbadnesscode);
+    primitive(S(1062), ASSIGN_INT, intbase + vbadnesscode);
+    primitive(S(1063), ASSIGN_INT, intbase + pausingcode);
+    primitive(S(1064), ASSIGN_INT, intbase + tracingonlinecode);
+    primitive(S(1065), ASSIGN_INT, intbase + tracingmacroscode);
+    primitive(S(1066), ASSIGN_INT, intbase + tracingstatscode);
+    primitive(S(1067), ASSIGN_INT, intbase + tracingparagraphscode);
+    primitive(S(1068), ASSIGN_INT, intbase + tracingpagescode);
+    primitive(S(1069), ASSIGN_INT, intbase + tracingoutputcode);
+    primitive(S(1070), ASSIGN_INT, intbase + tracinglostcharscode);
+    primitive(S(1071), ASSIGN_INT, intbase + tracingcommandscode);
+    primitive(S(1072), ASSIGN_INT, intbase + tracingrestorescode);
+    primitive(S(1073), ASSIGN_INT, intbase + uchyphcode);
+    primitive(S(1074), ASSIGN_INT, intbase + outputpenaltycode);
+    primitive(S(1075), ASSIGN_INT, intbase + maxdeadcyclescode);
+    primitive(S(1076), ASSIGN_INT, intbase + hangaftercode);
+    primitive(S(1077), ASSIGN_INT, intbase + floatingpenaltycode);
+    primitive(S(1078), ASSIGN_INT, intbase + globaldefscode);
+    primitive(S(333), ASSIGN_INT, intbase + curfamcode);
+    primitive(S(1079), ASSIGN_INT, intbase + ESCAPE_CHARcode);
+    primitive(S(1080), ASSIGN_INT, intbase + defaulthyphencharcode);
+    primitive(S(1081), ASSIGN_INT, intbase + defaultskewcharcode);
+    primitive(S(1082), ASSIGN_INT, intbase + endlinecharcode);
+    primitive(S(1083), ASSIGN_INT, intbase + newlinecharcode);
+    primitive(S(1084), ASSIGN_INT, intbase + languagecode);
+    primitive(S(1085), ASSIGN_INT, intbase + lefthyphenmincode);
+    primitive(S(1086), ASSIGN_INT, intbase + righthyphenmincode);
+    primitive(S(1087), ASSIGN_INT, intbase + holdinginsertscode);
+    primitive(S(1088), ASSIGN_INT, intbase + errorcontextlinescode);
     /*:238*/
     /*248:*/
-    primitive(S(1089), assigndimen, dimenbase);
-    primitive(S(1090), assigndimen, dimenbase + mathsurroundcode);
-    primitive(S(1091), assigndimen, dimenbase + lineskiplimitcode);
-    primitive(S(1092), assigndimen, dimenbase + hsizecode);
-    primitive(S(1093), assigndimen, dimenbase + vsizecode);
-    primitive(S(1094), assigndimen, dimenbase + maxdepthcode);
-    primitive(S(1095), assigndimen, dimenbase + splitmaxdepthcode);
-    primitive(S(1096), assigndimen, dimenbase + boxmaxdepthcode);
-    primitive(S(1097), assigndimen, dimenbase + hfuzzcode);
-    primitive(S(1098), assigndimen, dimenbase + vfuzzcode);
-    primitive(S(1099), assigndimen, dimenbase + delimitershortfallcode);
-    primitive(S(1100), assigndimen, dimenbase + nulldelimiterspacecode);
-    primitive(S(1101), assigndimen, dimenbase + scriptspacecode);
-    primitive(S(1102), assigndimen, dimenbase + predisplaysizecode);
-    primitive(S(1103), assigndimen, dimenbase + displaywidthcode);
-    primitive(S(1104), assigndimen, dimenbase + displayindentcode);
-    primitive(S(1105), assigndimen, dimenbase + overfullrulecode);
-    primitive(S(1106), assigndimen, dimenbase + hangindentcode);
-    primitive(S(1107), assigndimen, dimenbase + hoffsetcode);
-    primitive(S(1108), assigndimen, dimenbase + voffsetcode);
-    primitive(S(1109), assigndimen, dimenbase + emergencystretchcode);
+    primitive(S(1089), ASSIGN_DIMEN, dimenbase);
+    primitive(S(1090), ASSIGN_DIMEN, dimenbase + mathsurroundcode);
+    primitive(S(1091), ASSIGN_DIMEN, dimenbase + lineskiplimitcode);
+    primitive(S(1092), ASSIGN_DIMEN, dimenbase + hsizecode);
+    primitive(S(1093), ASSIGN_DIMEN, dimenbase + vsizecode);
+    primitive(S(1094), ASSIGN_DIMEN, dimenbase + maxdepthcode);
+    primitive(S(1095), ASSIGN_DIMEN, dimenbase + splitmaxdepthcode);
+    primitive(S(1096), ASSIGN_DIMEN, dimenbase + boxmaxdepthcode);
+    primitive(S(1097), ASSIGN_DIMEN, dimenbase + hfuzzcode);
+    primitive(S(1098), ASSIGN_DIMEN, dimenbase + vfuzzcode);
+    primitive(S(1099), ASSIGN_DIMEN, dimenbase + delimitershortfallcode);
+    primitive(S(1100), ASSIGN_DIMEN, dimenbase + nulldelimiterspacecode);
+    primitive(S(1101), ASSIGN_DIMEN, dimenbase + scriptspacecode);
+    primitive(S(1102), ASSIGN_DIMEN, dimenbase + predisplaysizecode);
+    primitive(S(1103), ASSIGN_DIMEN, dimenbase + displaywidthcode);
+    primitive(S(1104), ASSIGN_DIMEN, dimenbase + displayindentcode);
+    primitive(S(1105), ASSIGN_DIMEN, dimenbase + overfullrulecode);
+    primitive(S(1106), ASSIGN_DIMEN, dimenbase + hangindentcode);
+    primitive(S(1107), ASSIGN_DIMEN, dimenbase + hoffsetcode);
+    primitive(S(1108), ASSIGN_DIMEN, dimenbase + voffsetcode);
+    primitive(S(1109), ASSIGN_DIMEN, dimenbase + emergencystretchcode);
     /*:248*/
     /*265:*/
-    primitive(' ', exspace, 0);
-    primitive('/', italcorr, 0);
-    primitive(S(417), accent, 0);
-    primitive(S(1110), advance, 0);
-    primitive(S(1111), afterassignment, 0);
-    primitive(S(1112), aftergroup, 0);
-    primitive(S(1113), begingroup, 0);
-    primitive(S(1114), charnum, 0);
-    primitive(S(262), csname, 0);
-    primitive(S(1115), delimnum, 0);
-    primitive(S(1116), divide, 0);
-    primitive(S(263), endcsname, 0);
-    primitive(S(836), endgroup, 0);
+    primitive(' ', EX_SPACE, 0);
+    primitive('/', ITAL_CORR, 0);
+    primitive(S(417), ACCENT, 0);
+    primitive(S(1110), ADVANCE, 0);
+    primitive(S(1111), AFTER_ASSIGNMENT, 0);
+    primitive(S(1112), AFTER_GROUP, 0);
+    primitive(S(1113), BEGIN_GROUP, 0);
+    primitive(S(1114), CHAR_NUM, 0);
+    primitive(S(262), CS_NAME, 0);
+    primitive(S(1115), DELIM_NUM, 0);
+    primitive(S(1116), DIVIDE, 0);
+    primitive(S(263), END_CS_NAME, 0);
+    primitive(S(836), END_GROUP, 0);
     text(frozenendgroup) = S(836);
     eqtb[frozenendgroup - activebase] = eqtb[cur_val - activebase];
-    primitive(S(1117), expandafter, 0);
-    primitive(S(1118), deffont, 0);
-    primitive(S(1119), assignfontdimen, 0);
-    primitive(S(724), halign, 0);
-    primitive(S(863), hrule, 0);
-    primitive(S(1120), ignorespaces, 0);
-    primitive(S(374), insert_, 0);
-    primitive(S(402), mark_, 0);
-    primitive(S(913), mathaccent, 0);
-    primitive(S(1121), mathcharnum, 0);
-    primitive(S(404), mathchoice, 0);
-    primitive(S(1122), multiply, 0);
-    primitive(S(897), noalign, 0);
-    primitive(S(1123), noboundary, 0);
-    primitive(S(1124), noexpand, 0);
-    primitive(S(388), nonscript, 0);
-    primitive(S(900), omit, 0);
-    primitive(S(462), setshape, 0);
-    primitive(S(761), breakpenalty, 0);
-    primitive(S(948), setprevgraf, 0);
-    primitive(S(416), radical, 0);
-    primitive(S(656), readtocs, 0);
-    primitive(S(1125), relax, 256);
+    primitive(S(1117), EXPAND_AFTER, 0);
+    primitive(S(1118), DEF_FONT, 0);
+    primitive(S(1119), ASSIGN_FONT_DIMEN, 0);
+    primitive(S(724), HALIGN, 0);
+    primitive(S(863), HRULE, 0);
+    primitive(S(1120), IGNORE_SPACES, 0);
+    primitive(S(374), INSERT, 0);
+    primitive(S(402), MARK, 0);
+    primitive(S(913), MATH_ACCENT, 0);
+    primitive(S(1121), MATH_CHAR_NUM, 0);
+    primitive(S(404), MATH_CHOICE, 0);
+    primitive(S(1122), MULTIPLY, 0);
+    primitive(S(897), NO_ALIGN, 0);
+    primitive(S(1123), NO_BOUNDARY, 0);
+    primitive(S(1124), NO_EXPAND, 0);
+    primitive(S(388), NON_SCRIPT, 0);
+    primitive(S(900), OMIT, 0);
+    primitive(S(462), SET_SHAPE, 0);
+    primitive(S(761), BREAK_PENALTY, 0);
+    primitive(S(948), SET_PREV_GRAF, 0);
+    primitive(S(416), RADICAL, 0);
+    primitive(S(656), READ_TO_CS, 0);
+    primitive(S(1125), RELAX, 256);
     text(frozenrelax) = S(1125);
     eqtb[frozenrelax - activebase] = eqtb[cur_val - activebase];
-    primitive(S(970), setbox, 0);
-    primitive(S(604), the, 0);
-    primitive(S(463), toksregister, 0);
-    primitive(S(403), vadjust, 0);
-    primitive(S(1126), valign, 0);
-    primitive(S(415), vcenter, 0);
-    primitive(S(1127), vrule, 0); /*:265*/
+    primitive(S(970), SET_BOX, 0);
+    primitive(S(604), THE, 0);
+    primitive(S(463), TOKS_REGISTER, 0);
+    primitive(S(403), VADJUST, 0);
+    primitive(S(1126), VALIGN, 0);
+    primitive(S(415), VCENTER, 0);
+    primitive(S(1127), VRULE, 0); /*:265*/
     /*334:*/
-    primitive(S(760), parend, 256);
+    primitive(S(760), PAR_END, 256);
     parloc = cur_val;
     partoken = CS_TOKEN_FLAG + parloc; /*:334*/
     /*376:*/
-    primitive(S(1128), input, 0);
-    primitive(S(1129), input, 1); /*:376*/
+    primitive(S(1128), INPUT, 0);
+    primitive(S(1129), INPUT, 1); /*:376*/
     /*384:*/
-    primitive(S(1130), topbotmark, topmarkcode);
-    primitive(S(1131), topbotmark, firstmarkcode);
-    primitive(S(1132), topbotmark, botmarkcode);
-    primitive(S(1133), topbotmark, splitfirstmarkcode);
-    primitive(S(1134), topbotmark, splitbotmarkcode); /*:384*/
+    primitive(S(1130), TOP_BOT_MARK, topmarkcode);
+    primitive(S(1131), TOP_BOT_MARK, firstmarkcode);
+    primitive(S(1132), TOP_BOT_MARK, botmarkcode);
+    primitive(S(1133), TOP_BOT_MARK, splitfirstmarkcode);
+    primitive(S(1134), TOP_BOT_MARK, splitbotmarkcode); /*:384*/
     /*411:*/
-    primitive(S(472), register_, INT_VAL);
-    primitive(S(474), register_, DIMEN_VAL);
-    primitive(S(460), register_, GLUE_VAL);
-    primitive(S(461), register_, MU_VAL); /*:411*/
+    primitive(S(472), REGISTER, INT_VAL);
+    primitive(S(474), REGISTER, DIMEN_VAL);
+    primitive(S(460), REGISTER, GLUE_VAL);
+    primitive(S(461), REGISTER, MU_VAL); /*:411*/
     /*416:*/
-    primitive(S(1135), setaux, H_MODE);
-    primitive(S(1136), setaux, V_MODE);
-    primitive(S(1137), setpageint, 0);
-    primitive(S(1138), setpageint, 1);
-    primitive(S(1139), setboxdimen, widthoffset);
-    primitive(S(1140), setboxdimen, heightoffset);
-    primitive(S(1141), setboxdimen, depthoffset);
-    primitive(S(1142), lastitem, INT_VAL);
-    primitive(S(1143), lastitem, DIMEN_VAL);
-    primitive(S(1144), lastitem, GLUE_VAL);
-    primitive(S(1145), lastitem, INPUT_LINE_NO_CODE);
-    primitive(S(1146), lastitem, BADNESS_CODE); /*:416*/
+    primitive(S(1135), SET_AUX, H_MODE);
+    primitive(S(1136), SET_AUX, V_MODE);
+    primitive(S(1137), SET_PAGE_INT, 0);
+    primitive(S(1138), SET_PAGE_INT, 1);
+    primitive(S(1139), SET_BOX_DIMEN, widthoffset);
+    primitive(S(1140), SET_BOX_DIMEN, heightoffset);
+    primitive(S(1141), SET_BOX_DIMEN, depthoffset);
+    primitive(S(1142), LAST_ITEM, INT_VAL);
+    primitive(S(1143), LAST_ITEM, DIMEN_VAL);
+    primitive(S(1144), LAST_ITEM, GLUE_VAL);
+    primitive(S(1145), LAST_ITEM, INPUT_LINE_NO_CODE);
+    primitive(S(1146), LAST_ITEM, BADNESS_CODE); /*:416*/
     /*468:*/
-    primitive(S(1147), convert, numbercode);
-    primitive(S(1148), convert, romannumeralcode);
-    primitive(S(1149), convert, stringcode);
-    primitive(S(1150), convert, meaningcode);
-    primitive(S(1151), convert, fontnamecode);
-    primitive(S(1152), convert, jobnamecode); /*:468*/
+    primitive(S(1147), CONVERT, numbercode);
+    primitive(S(1148), CONVERT, romannumeralcode);
+    primitive(S(1149), CONVERT, stringcode);
+    primitive(S(1150), CONVERT, meaningcode);
+    primitive(S(1151), CONVERT, fontnamecode);
+    primitive(S(1152), CONVERT, jobnamecode); /*:468*/
     /*487:*/
-    primitive(S(658), iftest, IF_CHAR_CODE);
-    primitive(S(1153), iftest, IF_CAT_CODE);
-    primitive(S(1154), iftest, IF_INT_CODE);
-    primitive(S(1155), iftest, IF_DIM_CODE);
-    primitive(S(1156), iftest, IF_ODD_CODE);
-    primitive(S(1157), iftest, IF_VMODE_CODE);
-    primitive(S(1158), iftest, IF_HMODE_CODE);
-    primitive(S(1159), iftest, IF_MMODE_CODE);
-    primitive(S(1160), iftest, IF_INNER_CODE);
-    primitive(S(1161), iftest, IF_VOID_CODE);
-    primitive(S(1162), iftest, IF_HBOX_CODE);
-    primitive(S(1163), iftest, IF_VBOX_CODE);
-    primitive(S(1164), iftest, IF_X_CODE);
-    primitive(S(1165), iftest, IF_EOF_CODE);
-    primitive(S(1166), iftest, IF_TRUE_CODE);
-    primitive(S(1167), iftest, IF_FALSE_CODE);
-    primitive(S(1168), iftest, IF_CASE_CODE); /*:487*/
+    primitive(S(658), IF_TEST, IF_CHAR_CODE);
+    primitive(S(1153), IF_TEST, IF_CAT_CODE);
+    primitive(S(1154), IF_TEST, IF_INT_CODE);
+    primitive(S(1155), IF_TEST, IF_DIM_CODE);
+    primitive(S(1156), IF_TEST, IF_ODD_CODE);
+    primitive(S(1157), IF_TEST, IF_VMODE_CODE);
+    primitive(S(1158), IF_TEST, IF_HMODE_CODE);
+    primitive(S(1159), IF_TEST, IF_MMODE_CODE);
+    primitive(S(1160), IF_TEST, IF_INNER_CODE);
+    primitive(S(1161), IF_TEST, IF_VOID_CODE);
+    primitive(S(1162), IF_TEST, IF_HBOX_CODE);
+    primitive(S(1163), IF_TEST, IF_VBOX_CODE);
+    primitive(S(1164), IF_TEST, IF_X_CODE);
+    primitive(S(1165), IF_TEST, IF_EOF_CODE);
+    primitive(S(1166), IF_TEST, IF_TRUE_CODE);
+    primitive(S(1167), IF_TEST, IF_FALSE_CODE);
+    primitive(S(1168), IF_TEST, IF_CASE_CODE); /*:487*/
     /*491:*/
-    primitive(S(1169), fiorelse, ficode);
+    primitive(S(1169), FI_OR_ELSE, ficode);
     text(frozenfi) = S(1169);
     eqtb[frozenfi - activebase] = eqtb[cur_val - activebase];
-    primitive(S(664), fiorelse, orcode);
-    primitive(S(1170), fiorelse, elsecode); /*:491*/
+    primitive(S(664), FI_OR_ELSE, orcode);
+    primitive(S(1170), FI_OR_ELSE, elsecode); /*:491*/
     /*553:*/
-    primitive(S(1171), setfont, NULL_FONT);
+    primitive(S(1171), SET_FONT, NULL_FONT);
     text(FROZEN_NULL_FONT) = S(1171);
     eqtb[FROZEN_NULL_FONT - activebase] = eqtb[cur_val - activebase]; /*:553*/
     /*780:*/
@@ -14144,165 +14144,165 @@ Static void init_prim(void) {
     primitive(S(1173), CAR_RET, crcrcode);
     text(frozenendtemplate) = S(1174);
     text(frozenendv) = S(1174);
-    eqtype(frozenendv) = endv;
+    eqtype(frozenendv) = ENDV;
     equiv(frozenendv) = nulllist;
     eqlevel(frozenendv) = levelone;
     eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
-    eqtype(frozenendtemplate) = endtemplate; /*:780*/
+    eqtype(frozenendtemplate) = END_TEMPLATE; /*:780*/
     /*983:*/
-    primitive(S(1175), setpagedimen, 0);
-    primitive(S(1176), setpagedimen, 1);
-    primitive(S(1177), setpagedimen, 2);
-    primitive(S(1178), setpagedimen, 3);
-    primitive(S(1179), setpagedimen, 4);
-    primitive(S(1180), setpagedimen, 5);
-    primitive(S(1181), setpagedimen, 6);
-    primitive(S(1182), setpagedimen, 7); /*:983*/
+    primitive(S(1175), SET_PAGE_DIMEN, 0);
+    primitive(S(1176), SET_PAGE_DIMEN, 1);
+    primitive(S(1177), SET_PAGE_DIMEN, 2);
+    primitive(S(1178), SET_PAGE_DIMEN, 3);
+    primitive(S(1179), SET_PAGE_DIMEN, 4);
+    primitive(S(1180), SET_PAGE_DIMEN, 5);
+    primitive(S(1181), SET_PAGE_DIMEN, 6);
+    primitive(S(1182), SET_PAGE_DIMEN, 7); /*:983*/
     /*1052:*/
-    primitive(S(1183), stop, 0);
-    primitive(S(1184), stop, 1); /*:1052*/
+    primitive(S(1183), STOP, 0);
+    primitive(S(1184), STOP, 1); /*:1052*/
     /*1058:*/
-    primitive(S(1185), hskip, SKIP_CODE);
-    primitive(S(1186), hskip, FIL_CODE);
-    primitive(S(1187), hskip, FILL_CODE);
-    primitive(S(1188), hskip, SS_CODE);
-    primitive(S(1189), hskip, FIL_NEG_CODE);
-    primitive(S(1190), vskip, SKIP_CODE);
-    primitive(S(1191), vskip, FIL_CODE);
-    primitive(S(1192), vskip, FILL_CODE);
-    primitive(S(1193), vskip, SS_CODE);
-    primitive(S(1194), vskip, FIL_NEG_CODE);
-    primitive(S(389), mskip, MSKIP_CODE);
-    primitive(S(391), kern, explicit);
-    primitive(S(393), mkern, muglue); /*:1058*/
+    primitive(S(1185), HSKIP, SKIP_CODE);
+    primitive(S(1186), HSKIP, FIL_CODE);
+    primitive(S(1187), HSKIP, FILL_CODE);
+    primitive(S(1188), HSKIP, SS_CODE);
+    primitive(S(1189), HSKIP, FIL_NEG_CODE);
+    primitive(S(1190), VSKIP, SKIP_CODE);
+    primitive(S(1191), VSKIP, FIL_CODE);
+    primitive(S(1192), VSKIP, FILL_CODE);
+    primitive(S(1193), VSKIP, SS_CODE);
+    primitive(S(1194), VSKIP, FIL_NEG_CODE);
+    primitive(S(389), MSKIP, MSKIP_CODE);
+    primitive(S(391), KERN, explicit);
+    primitive(S(393), MKERN, muglue); /*:1058*/
     /*1071:*/
-    primitive(S(1195), hmove, 1);
-    primitive(S(1196), hmove, 0);
-    primitive(S(1197), vmove, 1);
-    primitive(S(1198), vmove, 0);
-    primitive(S(464), makebox, boxcode);
-    primitive(S(1199), makebox, copycode);
-    primitive(S(1200), makebox, lastboxcode);
-    primitive(S(797), makebox, vsplitcode);
-    primitive(S(1201), makebox, vtopcode);
-    primitive(S(799), makebox, vtopcode + V_MODE);
-    primitive(S(1202), makebox, vtopcode + H_MODE);
-    primitive(S(1203), leadership, aleaders - 1);
-    primitive(S(1204), leadership, aleaders);
-    primitive(S(1205), leadership, cleaders);
-    primitive(S(1206), leadership, xleaders); /*:1071*/
+    primitive(S(1195), HMOVE, 1);
+    primitive(S(1196), HMOVE, 0);
+    primitive(S(1197), VMOVE, 1);
+    primitive(S(1198), VMOVE, 0);
+    primitive(S(464), MAKE_BOX, boxcode);
+    primitive(S(1199), MAKE_BOX, copycode);
+    primitive(S(1200), MAKE_BOX, lastboxcode);
+    primitive(S(797), MAKE_BOX, vsplitcode);
+    primitive(S(1201), MAKE_BOX, vtopcode);
+    primitive(S(799), MAKE_BOX, vtopcode + V_MODE);
+    primitive(S(1202), MAKE_BOX, vtopcode + H_MODE);
+    primitive(S(1203), LEADER_SHIP, aleaders - 1);
+    primitive(S(1204), LEADER_SHIP, aleaders);
+    primitive(S(1205), LEADER_SHIP, cleaders);
+    primitive(S(1206), LEADER_SHIP, xleaders); /*:1071*/
     /*1088:*/
-    primitive(S(1207), startpar, 1);
-    primitive(S(1208), startpar, 0); /*:1088*/
+    primitive(S(1207), START_PAR, 1);
+    primitive(S(1208), START_PAR, 0); /*:1088*/
     /*1107:*/
-    primitive(S(1209), removeitem, PENALTY_NODE);
-    primitive(S(1210), removeitem, KERN_NODE);
-    primitive(S(1211), removeitem, GLUE_NODE);
-    primitive(S(1212), unhbox, boxcode);
-    primitive(S(1213), unhbox, copycode);
-    primitive(S(1214), unvbox, boxcode);
-    primitive(S(1215), unvbox, copycode); /*:1107*/
+    primitive(S(1209), REMOVE_ITEM, PENALTY_NODE);
+    primitive(S(1210), REMOVE_ITEM, KERN_NODE);
+    primitive(S(1211), REMOVE_ITEM, GLUE_NODE);
+    primitive(S(1212), UN_HBOX, boxcode);
+    primitive(S(1213), UN_HBOX, copycode);
+    primitive(S(1214), UN_VBOX, boxcode);
+    primitive(S(1215), UN_VBOX, copycode); /*:1107*/
     /*1114:*/
-    primitive('-', discretionary, 1);
-    primitive(S(400), discretionary, 0); /*:1114*/
+    primitive('-', DISCRETIONARY, 1);
+    primitive(S(400), DISCRETIONARY, 0); /*:1114*/
     /*1141:*/
-    primitive(S(1216), eqno, 0);
-    primitive(S(1217), eqno, 1); /*:1141*/
+    primitive(S(1216), EQ_NO, 0);
+    primitive(S(1217), EQ_NO, 1); /*:1141*/
     /*1156:*/
-    primitive(S(405), mathcomp, ordnoad);
-    primitive(S(406), mathcomp, opnoad);
-    primitive(S(407), mathcomp, binnoad);
-    primitive(S(408), mathcomp, relnoad);
-    primitive(S(409), mathcomp, opennoad);
-    primitive(S(410), mathcomp, closenoad);
-    primitive(S(411), mathcomp, punctnoad);
-    primitive(S(412), mathcomp, innernoad);
-    primitive(S(414), mathcomp, undernoad);
-    primitive(S(413), mathcomp, overnoad);
-    primitive(S(1218), limitswitch, NORMAL);
-    primitive(S(420), limitswitch, limits);
-    primitive(S(421), limitswitch, nolimits); /*:1156*/
+    primitive(S(405), MATH_COMP, ordnoad);
+    primitive(S(406), MATH_COMP, opnoad);
+    primitive(S(407), MATH_COMP, binnoad);
+    primitive(S(408), MATH_COMP, relnoad);
+    primitive(S(409), MATH_COMP, opennoad);
+    primitive(S(410), MATH_COMP, closenoad);
+    primitive(S(411), MATH_COMP, punctnoad);
+    primitive(S(412), MATH_COMP, innernoad);
+    primitive(S(414), MATH_COMP, undernoad);
+    primitive(S(413), MATH_COMP, overnoad);
+    primitive(S(1218), LIMIT_SWITCH, NORMAL);
+    primitive(S(420), LIMIT_SWITCH, limits);
+    primitive(S(421), LIMIT_SWITCH, nolimits); /*:1156*/
     /*1169:*/
-    primitive(S(336), mathstyle, displaystyle);
-    primitive(S(337), mathstyle, textstyle);
-    primitive(S(338), mathstyle, scriptstyle);
-    primitive(S(339), mathstyle, scriptscriptstyle); /*:1169*/
+    primitive(S(336), MATH_STYLE, displaystyle);
+    primitive(S(337), MATH_STYLE, textstyle);
+    primitive(S(338), MATH_STYLE, scriptstyle);
+    primitive(S(339), MATH_STYLE, scriptscriptstyle); /*:1169*/
     /*1178:*/
-    primitive(S(1219), above, abovecode);
-    primitive(S(1220), above, overcode);
-    primitive(S(1221), above, atopcode);
-    primitive(S(1222), above, delimitedcode);
-    primitive(S(1223), above, delimitedcode + overcode);
-    primitive(S(1224), above, delimitedcode + atopcode); /*:1178*/
+    primitive(S(1219), ABOVE, abovecode);
+    primitive(S(1220), ABOVE, overcode);
+    primitive(S(1221), ABOVE, atopcode);
+    primitive(S(1222), ABOVE, delimitedcode);
+    primitive(S(1223), ABOVE, delimitedcode + overcode);
+    primitive(S(1224), ABOVE, delimitedcode + atopcode); /*:1178*/
     /*1188:*/
-    primitive(S(418), leftright, leftnoad);
-    primitive(S(419), leftright, rightnoad);
+    primitive(S(418), LEFT_RIGHT, leftnoad);
+    primitive(S(419), LEFT_RIGHT, rightnoad);
     text(frozenright) = S(419);
     eqtb[frozenright - activebase] = eqtb[cur_val - activebase]; /*:1188*/
     /*1208:*/
-    primitive(S(959), prefix, 1);
-    primitive(S(961), prefix, 2);
-    primitive(S(1225), prefix, 4);
-    primitive(S(1226), def, 0);
-    primitive(S(1227), def, 1);
-    primitive(S(1228), def, 2);
-    primitive(S(1229), def, 3);
+    primitive(S(959), PREFIX, 1);
+    primitive(S(961), PREFIX, 2);
+    primitive(S(1225), PREFIX, 4);
+    primitive(S(1226), DEF, 0);
+    primitive(S(1227), DEF, 1);
+    primitive(S(1228), DEF, 2);
+    primitive(S(1229), DEF, 3);
     /*:1208*/
     /*1219:*/
-    primitive(S(1230), let, NORMAL);
-    primitive(S(1231), let, NORMAL + 1); /*:1219*/
+    primitive(S(1230), LET, NORMAL);
+    primitive(S(1231), LET, NORMAL + 1); /*:1219*/
     /*1222:*/
-    primitive(S(1232), shorthanddef, chardefcode);
-    primitive(S(1233), shorthanddef, mathchardefcode);
-    primitive(S(1234), shorthanddef, countdefcode);
-    primitive(S(1235), shorthanddef, dimendefcode);
-    primitive(S(1236), shorthanddef, skipdefcode);
-    primitive(S(1237), shorthanddef, muskipdefcode);
-    primitive(S(1238), shorthanddef, toksdefcode); /*:1222*/
+    primitive(S(1232), SHORTHAND_DEF, chardefcode);
+    primitive(S(1233), SHORTHAND_DEF, mathchardefcode);
+    primitive(S(1234), SHORTHAND_DEF, countdefcode);
+    primitive(S(1235), SHORTHAND_DEF, dimendefcode);
+    primitive(S(1236), SHORTHAND_DEF, skipdefcode);
+    primitive(S(1237), SHORTHAND_DEF, muskipdefcode);
+    primitive(S(1238), SHORTHAND_DEF, toksdefcode); /*:1222*/
     /*1230:*/
-    primitive(S(467), defcode, catcodebase);
-    primitive(S(471), defcode, mathcodebase);
-    primitive(S(468), defcode, lccodebase);
-    primitive(S(469), defcode, uccodebase);
-    primitive(S(470), defcode, sfcodebase);
-    primitive(S(473), defcode, delcodebase);
-    primitive(S(266), deffamily, mathfontbase);
-    primitive(S(267), deffamily, mathfontbase + SCRIPT_SIZE);
-    primitive(S(268), deffamily, mathfontbase + SCRIPT_SCRIPT_SIZE);
+    primitive(S(467), DEF_CODE, catcodebase);
+    primitive(S(471), DEF_CODE, mathcodebase);
+    primitive(S(468), DEF_CODE, lccodebase);
+    primitive(S(469), DEF_CODE, uccodebase);
+    primitive(S(470), DEF_CODE, sfcodebase);
+    primitive(S(473), DEF_CODE, delcodebase);
+    primitive(S(266), DEF_FAMILY, mathfontbase);
+    primitive(S(267), DEF_FAMILY, mathfontbase + SCRIPT_SIZE);
+    primitive(S(268), DEF_FAMILY, mathfontbase + SCRIPT_SCRIPT_SIZE);
     /*:1230*/
     /*1250:*/
-    primitive(S(787), hyphdata, 0);
-    primitive(S(774), hyphdata, 1); /*:1250*/
+    primitive(S(787), HYPH_DATA, 0);
+    primitive(S(774), HYPH_DATA, 1); /*:1250*/
     /*1254:*/
-    primitive(S(1239), assignfontint, 0);
-    primitive(S(1240), assignfontint, 1); /*:1254*/
+    primitive(S(1239), ASSIGN_FONT_INT, 0);
+    primitive(S(1240), ASSIGN_FONT_INT, 1); /*:1254*/
     /*1262:*/
-    primitive(S(281), setinteraction, BATCH_MODE);
-    primitive(S(282), setinteraction, NON_STOP_MODE);
-    primitive(S(283), setinteraction, SCROLL_MODE);
-    primitive(S(1241), setinteraction, ERROR_STOP_MODE); /*:1262*/
+    primitive(S(281), SET_INTERACTION, BATCH_MODE);
+    primitive(S(282), SET_INTERACTION, NON_STOP_MODE);
+    primitive(S(283), SET_INTERACTION, SCROLL_MODE);
+    primitive(S(1241), SET_INTERACTION, ERROR_STOP_MODE); /*:1262*/
     /*1272:*/
-    primitive(S(1242), instream, 1);
-    primitive(S(1243), instream, 0); /*:1272*/
+    primitive(S(1242), IN_STREAM, 1);
+    primitive(S(1243), IN_STREAM, 0); /*:1272*/
     /*1277:*/
-    primitive(S(1244), message, 0);
-    primitive(S(1245), message, 1); /*:1277*/
+    primitive(S(1244), MESSAGE, 0);
+    primitive(S(1245), MESSAGE, 1); /*:1277*/
     /*1286:*/
-    primitive(S(1246), caseshift, lccodebase);
-    primitive(S(1247), caseshift, uccodebase); /*:1286*/
+    primitive(S(1246), CASE_SHIFT, lccodebase);
+    primitive(S(1247), CASE_SHIFT, uccodebase); /*:1286*/
     /*1291:*/
-    primitive(S(1248), xray, showcode);
-    primitive(S(1249), xray, showboxcode);
-    primitive(S(1250), xray, showthecode);
-    primitive(S(1251), xray, showlists); /*:1291*/
+    primitive(S(1248), XRAY, showcode);
+    primitive(S(1249), XRAY, showboxcode);
+    primitive(S(1250), XRAY, showthecode);
+    primitive(S(1251), XRAY, showlists); /*:1291*/
     /*1344:*/
-    primitive(S(378), extension, opennode);
-    primitive(S(379), extension, writenode);
+    primitive(S(378), EXTENSION, opennode);
+    primitive(S(379), EXTENSION, writenode);
     writeloc = cur_val;
-    primitive(S(380), extension, closenode);
-    primitive(S(381), extension, specialnode);
-    primitive(S(1252), extension, immediatecode);
-    primitive(S(382), extension, setlanguagecode); /*:1344*/
+    primitive(S(380), EXTENSION, closenode);
+    primitive(S(381), EXTENSION, specialnode);
+    primitive(S(1252), EXTENSION, immediatecode);
+    primitive(S(382), EXTENSION, setlanguagecode); /*:1344*/
 } // #1336: init_prim
 #endif // #1336: tt_INIT
 
@@ -14542,7 +14542,7 @@ Static void initialize(void) {
         dyn_used = himemstatusage; // initialize statistics
 
         /// p82#222
-        eqtype(UNDEFINED_CONTROL_SEQUENCE) = undefinedcs;
+        eqtype(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
         equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
         eqlevel(UNDEFINED_CONTROL_SEQUENCE) = levelzero;
         for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
@@ -14551,30 +14551,30 @@ Static void initialize(void) {
         /// #228
         equiv(gluebase) = zeroglue;
         eqlevel(gluebase) = levelone;
-        eqtype(gluebase) = glueref;
+        eqtype(gluebase) = GLUE_REF;
         for (k = gluebase + 1; k < localbase; k++)
             eqtb[k - activebase] = eqtb[gluebase - activebase];
         gluerefcount(zeroglue) += localbase - gluebase;
 
         // [#232]
         parshapeptr = 0;
-        eqtype(parshapeloc) = shaperef;
+        eqtype(parshapeloc) = SHAPE_REF;
         eqlevel(parshapeloc) = levelone;
         for (k = outputroutineloc; k <= toksbase + 255; k++)
             eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         box(0) = 0;
-        eqtype(boxbase) = boxref;
+        eqtype(boxbase) = BOX_REF;
         eqlevel(boxbase) = levelone;
         for (k = boxbase + 1; k <= boxbase + 255; k++)
             eqtb[k - activebase] = eqtb[boxbase - activebase];
         curfont = NULL_FONT;
-        eqtype(curfontloc) = data;
+        eqtype(curfontloc) = DATA;
         eqlevel(curfontloc) = levelone;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
             eqtb[k - activebase] = eqtb[curfontloc - activebase];
         
         equiv(catcodebase) = 0;
-        eqtype(catcodebase) = data;
+        eqtype(catcodebase) = DATA;
         eqlevel(catcodebase) = levelone;
         for (k = catcodebase + 1; k < intbase; k++) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
@@ -14639,7 +14639,7 @@ Static void initialize(void) {
         // #258
         hash_used = frozencontrolsequence; // nothing is used
         cs_count = 0;
-        eqtype(frozendontexpand) = dontexpand;
+        eqtype(frozendontexpand) = DONT_EXPAND;
         text(frozendontexpand) = S(257);
 
         // #552
@@ -14665,7 +14665,7 @@ Static void initialize(void) {
         // #1369
         text(endwrite) = S(260);
         eqlevel(endwrite) = levelone;
-        eqtype(endwrite) = outercall;
+        eqtype(endwrite) = OUTER_CALL;
         equiv(endwrite) = 0;
 
 
