@@ -74,7 +74,7 @@ var searchData=
   ['normmin_1238',['normmin',['../tex_8c.html#af7e0c0361924738c47c05d15ef2e1cce',1,'tex.c']]],
   ['noshrinkerroryet_1239',['noshrinkerroryet',['../tex__header_8h.html#aed1af8cfb069446fe2622939a63f7773',1,'tex_header.h']]],
   ['nucleus_1240',['nucleus',['../texmac_8h.html#ae9c319d34d8e08c5ceab38a0dee6f1a0',1,'texmac.h']]],
-  ['null_1241',['null',['../texmac_8h.html#ac97b8ee753e4405397a42ad5799b0f9e',1,'texmac.h']]],
+  ['null_1241',['null',['../group___s115x132___p44x49.html#gac97b8ee753e4405397a42ad5799b0f9e',1,'texmac.h']]],
   ['null_5ffont_1242',['NULL_FONT',['../tex_8h.html#a09478f26f92a0a027af8401e1248ac90',1,'tex.h']]],
   ['nullcharacter_1243',['nullcharacter',['../tex__header_8h.html#adbcad0228b3c7350d186977e6f31047d',1,'tex_header.h']]],
   ['nullcode_1244',['nullcode',['../tex_8h.html#a167174b6f19b91746a02de0fc22bc15d',1,'tex.h']]],

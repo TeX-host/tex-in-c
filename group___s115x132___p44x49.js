@@ -1,9 +1,12 @@
 var group___s115x132___p44x49 =
 [
     [ "emptyflag", "group___s115x132___p44x49.html#ga55fc33cb441246fad20030067832ce4e", null ],
+    [ "info", "group___s115x132___p44x49.html#gac52e3942407e01f9b708a8e6689924af", null ],
     [ "isempty", "group___s115x132___p44x49.html#gad9f71af75df91a722f3543e4878e45bd", null ],
+    [ "link", "group___s115x132___p44x49.html#gae54dbe23854a396dd642c99f01bc7a3e", null ],
     [ "llink", "group___s115x132___p44x49.html#ga75e82619694787a269292d51b63e1cbc", null ],
     [ "nodesize", "group___s115x132___p44x49.html#ga010a956ee517624cd846802b66cba9c3", null ],
+    [ "null", "group___s115x132___p44x49.html#gac97b8ee753e4405397a42ad5799b0f9e", null ],
     [ "rlink", "group___s115x132___p44x49.html#ga6937eac49a2de3878359f1d29d09557c", null ],
     [ "flushlist", "group___s115x132___p44x49.html#ga1d66d6280b3e251550e409fa4552b07b", null ],
     [ "freenode", "group___s115x132___p44x49.html#gabc6bdf1efdf824bfb03967c31948bb91", null ],

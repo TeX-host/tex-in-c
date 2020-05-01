@@ -23,7 +23,7 @@ var searchData=
   ['linepenalty_3591',['linepenalty',['../texmac_8h.html#af771ed14f4469fc5d85f35e18b271149',1,'texmac.h']]],
   ['lineskip_3592',['lineskip',['../texmac_8h.html#a10452c00812f36d025cb0b722bf0428b',1,'texmac.h']]],
   ['lineskiplimit_3593',['lineskiplimit',['../texmac_8h.html#a923d940e37c2be2b1e49512b847f51c6',1,'texmac.h']]],
-  ['link_3594',['LINK',['../dviout_8c.html#a00aa9190ed7fe4d4d6d922875e45414a',1,'LINK():&#160;dviout.c'],['../texmac_8h.html#ae54dbe23854a396dd642c99f01bc7a3e',1,'link():&#160;texmac.h']]],
+  ['link_3594',['LINK',['../dviout_8c.html#a00aa9190ed7fe4d4d6d922875e45414a',1,'dviout.c']]],
   ['listoffset_3595',['listoffset',['../tex_8h.html#a92feeb624f17da22656e55fad120c2c5',1,'tex.h']]],
   ['listptr_3596',['listptr',['../texmac_8h.html#a969ee347cc4292f18249e329b517553a',1,'texmac.h']]],
   ['location_3597',['LOCATION',['../dviout_8c.html#afd7e15569ff668c0be3846a24aced1f7',1,'dviout.c']]],

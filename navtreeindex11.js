@@ -1,5 +1,11 @@
 var NAVTREEINDEX11 =
 {
+"texmac_8h.html#a198c8350284cec5c91868eecd5a34e2f":[2,0,35,279],
+"texmac_8h.html#a1a8d50a9f90c795fb8e6efc591546328":[2,0,35,141],
+"texmac_8h.html#a1c414abf07f45084075d77d37d485654":[2,0,35,53],
+"texmac_8h.html#a1e65cff0e8116a9be6b09e362203e323":[2,0,35,35],
+"texmac_8h.html#a1ea4691343d7b58cb15a48b12469d031":[2,0,35,186],
+"texmac_8h.html#a1f3915d20a3381a468545e30bac5fa19":[2,0,35,88],
 "texmac_8h.html#a20524306eb6c0efe254f1225affeeb6c":[2,0,35,59],
 "texmac_8h.html#a20966c7d58dd8d489edc43a6d25531f8":[2,0,35,44],
 "texmac_8h.html#a2157f6dd9b2f4d35075ec5d1f03222db":[2,0,35,190],
@@ -219,14 +225,12 @@ var NAVTREEINDEX11 =
 "texmac_8h.html#ac3edd865965db115dcb1e3d5ca0cfe1b":[2,0,35,257],
 "texmac_8h.html#ac41879a7954d295be3e94c80eea84f55":[2,0,35,350],
 "texmac_8h.html#ac42e1ce9a9fe412489d014ed28948f29":[2,0,35,30],
-"texmac_8h.html#ac52e3942407e01f9b708a8e6689924af":[2,0,35,133],
 "texmac_8h.html#ac59aaeb12c6dcbbbb528956d50347e31":[2,0,35,253],
 "texmac_8h.html#ac6009b228fcf055ffda3499153023075":[2,0,35,201],
 "texmac_8h.html#ac8149f7232eda3c9875977d689454622":[2,0,35,209],
 "texmac_8h.html#ac8592062257eada9a149a5db0826f722":[2,0,35,277],
 "texmac_8h.html#ac90e215985878fea163e0b1e8de96e2b":[2,0,35,172],
 "texmac_8h.html#ac91dde5ce3db55be2a31d7b1f6e1fa96":[2,0,35,83],
-"texmac_8h.html#ac97b8ee753e4405397a42ad5799b0f9e":[2,0,35,192],
 "texmac_8h.html#ac9e11110e9a118cdfae970de3ed02ae8":[2,0,35,328],
 "texmac_8h.html#ac9e67befd17a11165c9532ff811b4a9a":[2,0,35,342],
 "texmac_8h.html#aca402fdc229f290702d36df633a0a1aa":[2,0,35,168],
@@ -245,9 +249,5 @@ var NAVTREEINDEX11 =
 "texmac_8h.html#ad255a3cedee9b640cfa637b629096014":[2,0,35,25],
 "texmac_8h.html#ad293e387214601a7419ae49ea0e6ca6b":[2,0,35,7],
 "texmac_8h.html#ad3119e3eb0a81dd3b22bdc733d3992dc":[2,0,35,310],
-"texmac_8h.html#ad40fb82a39b0a8ee087ed6deb0cb49c3":[2,0,35,335],
-"texmac_8h.html#ad43944834680590d7119a6e0983fc80f":[2,0,35,64],
-"texmac_8h.html#ad6790978daa3758066af073d3c1f9711":[2,0,35,175],
-"texmac_8h.html#ad68eea898ad96dfc90320d60f0ad167f":[2,0,35,208],
-"texmac_8h.html#ad6af7673c275436c559ad43a11df8ecf":[2,0,35,40]
+"texmac_8h.html#ad40fb82a39b0a8ee087ed6deb0cb49c3":[2,0,35,335]
 };

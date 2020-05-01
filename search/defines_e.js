@@ -18,14 +18,13 @@ var searchData=
   ['nondiscardable_3646',['nondiscardable',['../texmac_8h.html#a2157f6dd9b2f4d35075ec5d1f03222db',1,'texmac.h']]],
   ['normal_3647',['NORMAL',['../tex__constant_8h.html#a1291f416b069313021b519eea62d5bf1',1,'tex_constant.h']]],
   ['nucleus_3648',['nucleus',['../texmac_8h.html#ae9c319d34d8e08c5ceab38a0dee6f1a0',1,'texmac.h']]],
-  ['null_3649',['null',['../texmac_8h.html#ac97b8ee753e4405397a42ad5799b0f9e',1,'texmac.h']]],
-  ['null_5ffont_3650',['NULL_FONT',['../tex_8h.html#a09478f26f92a0a027af8401e1248ac90',1,'tex.h']]],
-  ['nullcode_3651',['nullcode',['../tex_8h.html#a167174b6f19b91746a02de0fc22bc15d',1,'tex.h']]],
-  ['nulldelimiterspace_3652',['nulldelimiterspace',['../texmac_8h.html#aa650e296463b10306f81c5f9fb21165c',1,'texmac.h']]],
-  ['nullflag_3653',['nullflag',['../tex_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125',1,'nullflag():&#160;tex.h'],['../tex__constant_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125',1,'nullflag():&#160;tex_constant.h']]],
-  ['num1_3654',['num1',['../texmac_8h.html#a6329e21867d914081666164a519a4841',1,'texmac.h']]],
-  ['num2_3655',['num2',['../texmac_8h.html#a583784781c70d8e2edc126a13e0f483a',1,'texmac.h']]],
-  ['num3_3656',['num3',['../texmac_8h.html#a95cc8071b5958e0f6349871bd5007989',1,'texmac.h']]],
-  ['numerator_3657',['numerator',['../texmac_8h.html#ac292de306a887aca3fb2053001a54830',1,'texmac.h']]],
-  ['numstyle_3658',['numstyle',['../texmac_8h.html#a3bc6baef0affba592d1f70d8084f9c45',1,'texmac.h']]]
+  ['null_5ffont_3649',['NULL_FONT',['../tex_8h.html#a09478f26f92a0a027af8401e1248ac90',1,'tex.h']]],
+  ['nullcode_3650',['nullcode',['../tex_8h.html#a167174b6f19b91746a02de0fc22bc15d',1,'tex.h']]],
+  ['nulldelimiterspace_3651',['nulldelimiterspace',['../texmac_8h.html#aa650e296463b10306f81c5f9fb21165c',1,'texmac.h']]],
+  ['nullflag_3652',['nullflag',['../tex_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125',1,'nullflag():&#160;tex.h'],['../tex__constant_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125',1,'nullflag():&#160;tex_constant.h']]],
+  ['num1_3653',['num1',['../texmac_8h.html#a6329e21867d914081666164a519a4841',1,'texmac.h']]],
+  ['num2_3654',['num2',['../texmac_8h.html#a583784781c70d8e2edc126a13e0f483a',1,'texmac.h']]],
+  ['num3_3655',['num3',['../texmac_8h.html#a95cc8071b5958e0f6349871bd5007989',1,'texmac.h']]],
+  ['numerator_3656',['numerator',['../texmac_8h.html#ac292de306a887aca3fb2053001a54830',1,'texmac.h']]],
+  ['numstyle_3657',['numstyle',['../texmac_8h.html#a3bc6baef0affba592d1f70d8084f9c45',1,'texmac.h']]]
 ];
