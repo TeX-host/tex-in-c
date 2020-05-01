@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['radical_3281',['radical',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a3baa8822803fca13568cde6ecd17c8ae',1,'tex.h']]],
+  ['radical_3281',['RADICAL',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a200d1255d0da520ad5a020887a26d871',1,'tex.h']]],
   ['radicalnoad_3282',['radicalnoad',['../tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3a4c749a63df0402ceca17ad49a6a6ee17',1,'tex_constant.h']]],
-  ['readtocs_3283',['readtocs',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a28aee6be71ebb39aea36ab7905baa38b',1,'tex.h']]],
-  ['register_5f_3284',['register_',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a4cc1e75d68a6d908d5a1681159305e3a',1,'tex.h']]],
-  ['relax_3285',['relax',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a58a07f965894f6d2d3eee70d305553ac',1,'tex.h']]],
+  ['read_5fto_5fcs_3283',['READ_TO_CS',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0ae9ecdd9471171715cacd64b56c152c55',1,'tex.h']]],
+  ['register_3284',['REGISTER',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0aceb7c305772dab23a260960771180df3',1,'tex.h']]],
+  ['relax_3285',['RELAX',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a8abca54580953356d3e1548ddd04a97b',1,'tex.h']]],
   ['relnoad_3286',['relnoad',['../tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3a0e32f778d9f1676305cf27b9b11cdb31',1,'tex_constant.h']]],
   ['relpenaltycode_3287',['relpenaltycode',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dae1f566d3448f913ec2c56f7f9f221faf',1,'tex_constant.h']]],
-  ['removeitem_3288',['removeitem',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a40225e4d0826e4bfb6a51de6efc7090b',1,'tex.h']]],
+  ['remove_5fitem_3288',['REMOVE_ITEM',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a1a52872e82863c4169e256d60ed016c1',1,'tex.h']]],
   ['restoreoldvalue_3289',['restoreoldvalue',['../tex__constant_8h.html#a09f34f578c5d3e58cccaab2cb469eec4a1567efa813aafb31aee3166044fec526',1,'tex_constant.h']]],
   ['restorezero_3290',['restorezero',['../tex__constant_8h.html#a09f34f578c5d3e58cccaab2cb469eec4a428d4616fceff5a9e93bc8ad9c88e4af',1,'tex_constant.h']]],
   ['right1_3291',['RIGHT1',['../dvicmd_8h.html#adb2ac0a75ecceef923d0d0ae794f93e6a26e73793b0ce594bf47f212f753a7f9e',1,'dvicmd.h']]],
