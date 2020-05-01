@@ -463,7 +463,8 @@ enum CatCode {
 #define closed          2
 #define justopen        1
 
-// [p190#520]
+/// [p190#520] ".fmt", the extension, as a constant.
+#define formatextension         S(256)
 #define FORMAT_DEFAULT_LENGTH   20
 #define formatarealength        11
 #define formatextlength         4

@@ -1,41 +1,55 @@
 #pragma once
 #ifndef TEXMAC_H
+/// tex.c 里使用的宏
 #define TEXMAC_H
 
-// tex.c 里使用的宏
+// ?
 #undef labs
-#define null 0
-
-#define formatextension S(256)
-#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 
 /* P2C compatibility */
 #define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
 #define P_getbits_UB(trie, h, z, w) (trie[(h) >> 3] & (1 << ((h)&7)))
 #define P_putbits_UB(trie, h, y, z, w) trie[(h) >> 3] |= 1 << ((h)&7)
 
+
+#define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
+
+
+/// [p14#27]
 #define wopenout a_open_out
 
+/// [p36#96]
+#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
+
+/// [p44#115] the #null pointer.
+/// null ≡ min_halfword.
+#define null 0
+
+/// [p45#118]
 #define link(x) (mem[(x)].hh.rh)
 #define info(x) (mem[(x)].hh.UU.lh)
+/// [p50#133]
 #define type(x) (mem[(x)].hh.UU.U2.b0)
+/// [p50#133] secondary identification in some cases
+#define subtype(x)    mem[x].hh.UU.U2.b1
 
-/*
-#define foocharinfo(x,y) (&fontinfo[charbase[x]+(y)].qqqq)
-*/
+/// [p51#138]  tests for a running dimension.
+#define isrunning(x) ((x) == nullflag)
+
+/// [p102#256]
+#define hashisfull (hash_used == hashbase)
+
+
+
+/// [p204#557]
 #define ligkernstart(x, y) (ligkernbase[(x)] + rembyte(y))
 #define ligkernrestart(x, y)                                                   \
     (ligkernbase[(x)] + opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
-#define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
 
-#define isempty(x) (link(x) == emptyflag)
-
-#define isrunning(x) ((x) == nullflag) /* {tests for a running dimension} */
-
-#define hashisfull (hash_used == hashbase)
+/// [p81#221] equivalent value.
 #define equiv(x) (eqtb[(x)-activebase].hh.rh)
 
-/* Glue parameters */
+// [p83#224] Glue parameters
 #define gluepar(x)  equiv(gluebase+(x)) 
 #define lineskip  gluepar(LINE_SKIP_CODE)
 #define baselineskip  gluepar(BASELINE_SKIP_CODE)
@@ -56,7 +70,7 @@
 #define medmuskip  gluepar(MED_MU_SKIP_CODE)
 #define thickmuskip  gluepar(THICK_MU_SKIP_CODE)
 
-/* Integer parameters */
+// [p92] Integer parameters
 #define intpar(x)  (eqtb[intbase+(x)-activebase].int_) 
 #define pretolerance  intpar(pretolerancecode)
 #define tolerance  intpar(tolerancecode)
@@ -114,7 +128,7 @@
 #define holdinginserts  intpar(holdinginsertscode)
 #define errorcontextlines  intpar(errorcontextlinescode)
 
-/* Dimen pars */
+// [p99#247] Dimen pars
 #define dimenpar(x)  (eqtb[dimenbase+(x)-activebase].int_) 
 #define parindent  dimenpar(parindentcode)
 #define mathsurround  dimenpar(mathsurroundcode)
@@ -137,9 +151,8 @@
 #define hoffset  dimenpar(hoffsetcode)
 #define voffset  dimenpar(voffsetcode)
 #define emergencystretch  dimenpar(emergencystretchcode)
-/*
-*/
 
+// [p87#230]
 #define parshapeptr  equiv(parshapeloc)
 #define outputroutine  equiv(outputroutineloc)
 #define everypar  equiv(everyparloc)
@@ -151,12 +164,14 @@
 #define everycr  equiv(everycrloc)
 #define errhelp  equiv(errhelploc)
 #define curfont  equiv(curfontloc)
-/*
-*/
+
+/// [p420#1151]
 #define faminrange ((curfam >= 0) && (curfam < 16))
+/// [p369#987]
 #define setpagesofarzero(x) (pagesofar[(x)] = 0)
-#define setheightzero(x)                                                       \
-    (activeheight[(x)-1] = 0) /* {initialize the height to zero} */
+/// [p361#970] initialize the height to zero.
+#define setheightzero(x) (activeheight[(x)-1] = 0)
+/// [p347#934]
 #define setcurlang()                                                           \
     ((language <= 0)                                                           \
          ? (curlang = 0)                                                       \
@@ -325,12 +340,14 @@
  */
 
 #define nodesize    info /* the size field in empty variable-size nodes}*/
+/// [p46#124]
+#define isempty(x) (link(x) == emptyflag)
 #define llink(x)    info(x+1) /* left link in doubly-linked list of empty nodes}*/
 #define rlink(x)    link(x+1) /* right link in doubly-linked list of empty nodes}*/
 /** @}*/                      // end group S115x132_P44x49
 
 
-#define subtype(x)    mem[x].hh.UU.U2.b1 /* secondary identification in some cases}*/
+
 
 
 
@@ -439,57 +456,6 @@
 #define accentchr(x)  ((x)+4) /* the |accentchr| field of an accent noad}*/
 #endif
 
-
-#define mathtype  link /* a |halfword| in |mem|}*/
-#define fam(x)  type(x)
-#define smallfam(x)  mem[x].qqqq.b0 /* |fam| for ``small'' delimiter}*/
-#define smallchar(x)  mem[x].qqqq.b1 /* |character| for ``small'' delimiter}*/
-#define largefam(x)  mem[x].qqqq.b2 /* |fam| for ``large'' delimiter}*/
-#define thickness(x) (mem[nucleus(x)-MEM_MIN].sc) /* |thickness| field in a fraction noad}*/
-#define numerator  supscr /* |numerator| field in a fraction noad}*/
-#define denominator  subscr /* |denominator| field in a fraction noad}*/
-#define delimiter  nucleus /* |delimiter| field in left and right noads}*/
-#define displaymlist(x)  info(x+1) /* mlist to be used in display style}*/
-#define textmlist(x)  link(x+1) /* mlist to be used in text style}*/
-#define scriptmlist(x)  info(x+2) /* mlist to be used in script style}*/
-#define scriptscriptmlist(x)  link(x+2) /* mlist to be used in scriptscript style}*/
-#define crampedstyle(x)  2*(x / 2)+cramped /* cramp the style}*/
-#define substyle(x)  2*(x / 4)+scriptstyle+cramped /* smaller and cramped}*/
-#define supstyle(x)  2*(x / 4)+scriptstyle+(x % 2) /* smaller}*/
-#define numstyle(x)  x+2-2*(x / 6) /* smaller unless already script-script}*/
-#define denomstyle(x)  2*(x / 2)+cramped+2-2*(x / 6) /* smaller, cramped}*/
-#define upart(x)  mem[x+heightoffset].int_ /* pointer to \<uj> token list}*/
-#define vpart(x)  mem[x+depthoffset].int_ /* pointer to \<vj> token list}*/
-#define extrainfo(x)  info(x+listoffset) /* info to remember during template}*/
-#define fitness  subtype /* |veryloosefit..tightfit| on final line for this break}*/
-#define breaknode  rlink /* pointer to the corresponding passive node}*/
-#define linenumber  llink /* line that begins at this breakpoint}*/
-#define totaldemerits(x)  mem[x+2].int_ /* the quantity that \TeX\ minimizes}*/
-#define curbreak  rlink /* in passive node, points to position of this breakpoint}*/
-#define prevbreak  llink /* points to passive node that should precede this one}*/
-#define serial  info /* serial number for symbolic identification}*/
-#define nextbreak  prevbreak /* new name for |prevbreak| after links are reversed}*/
-#define trielink(x)  trie[x].rh /* ``downward'' link in a trie}*/
-#define triechar(x)  trie[x].UU.U2.b1 /* character matched at this trie location}*/
-#define trieop(x)  trie[x].UU.U2.b0 /* program for hyphenation at this trie location}*/
-#define brokenptr(x)  link(x+1)
-/* an insertion for this class will break here if anywhere}*/
-#define trieback(x)  trie[x].UU.lh /* backward links in |trie| holes}*/
-#define brokenins(x)  info(x+1) /* this insertion might break at |brokenptr|}*/
-#define lastinsptr(x)  link(x+2) /* the most recent insertion for this |subtype|}*/
-#define bestinsptr(x)  info(x+2) /* the optimum most recent insertion}*/
-#define mathex(x)  fontinfo[x+parambase[famfnt(3+cursize)]].sc 
-#define newhlist(x)  mem[nucleus(x)].int_ /* the translation of an mlist}*/
-#define iflinefield(x)  mem[x+1].int_
-#define whatlang(x)  link(x+1) /* language number, in the range |0..255|}*/
-#define whatlhm(x)  type(x+1) /* minimum left fragment, in the range |1..63|}*/
-#define whatrhm(x)  subtype(x+1) /* minimum right fragment, in the range |1..63|}*/
-#define writetokens(x)    link(x+1) /* reference count of token list to write}*/
-#define writestream(x)    info(x+1) /* stream number (0 to 17)}*/
-#define openname(x)    link(x+1) /* string number of file name to open}*/
-#define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
-#define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
-
 // #201: 使用封装好的函数
 #if 0
 #define karmafastdeleteglueref(x)                            \
@@ -497,63 +463,69 @@
                           : gluerefcount(x)--)
 #endif
 
+/// [p64#180]
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 
 
-// leave an input level, re-enter the old
+// [p131#322] leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])
-// backs up a simple token list
+// [p131#323] backs up a simple token list
 #define backlist(x) begintokenlist((x), BACKED_UP)
-// inserts a simple token list
+// [p131#323] inserts a simple token list
 #define inslist(x) begintokenlist((x), INSERTED)
 
-#define wrapup(x)                                       \
-    if (curl < NON_CHAR) {                              \
-        if (character(tail) == get_hyphenchar(mainf)) { \
-            if (link(curq) > 0) insdisc = true;         \
-        }                                               \
-        if (ligaturepresent) {                          \
-            packlig(x);                                 \
-        }                                               \
-        if (insdisc) {                                  \
-            insdisc = false;                            \
-            if (mode > 0) {                             \
-                tailappend(newdisc());                  \
-            }                                           \
-        }                                               \
-    }
 
-#define adjustspacefactor()              \
-    {                                    \
-        mains = sfcode(curchr);          \
-        if (mains == 1000) {             \
-            spacefactor = 1000;          \
-        } else if (mains < 1000) {       \
-            if (mains > 0) {             \
-                spacefactor = mains;     \
-            }                            \
-        } else if (spacefactor < 1000) { \
-            spacefactor = 1000;          \
-        } else                           \
-            spacefactor = mains;         \
-    }
+/// [p182#489]
+#define iflinefield(x) mem[x + 1].int_
 
-#define packlig(x)                                      \
-    { /*{the PARAMETER is either |rthit| or |false|} */ \
-        mainp = newligature(mainf, curl, link(curq));   \
-        if (lfthit) {                                   \
-            subtype(mainp) = 2;                         \
-            lfthit = false;                             \
-        }                                               \
-        if ((x) && (ligstack == null)) {                \
-            subtype(mainp)++;                           \
-            rthit = false;                              \
-        }                                               \
-        link(curq) = mainp;                             \
-        tail = mainp;                                   \
-        ligaturepresent = false;                        \
-    }
 
+/// [p250#681] a |halfword| in |mem|.
+#define mathtype  link
+#define fam(x)  type(x)
+/// [p252#683]
+#define smallfam(x)  mem[x].qqqq.b0 /* |fam| for ``small'' delimiter}*/
+#define smallchar(x)  mem[x].qqqq.b1 /* |character| for ``small'' delimiter}*/
+#define largefam(x)  mem[x].qqqq.b2 /* |fam| for ``large'' delimiter}*/
+#define thickness(x) (mem[nucleus(x)-MEM_MIN].sc) /* |thickness| field in a fraction noad}*/
+#define numerator  supscr /* |numerator| field in a fraction noad}*/
+#define denominator  subscr /* |denominator| field in a fraction noad}*/
+/// [p253#687]
+#define delimiter  nucleus /* |delimiter| field in left and right noads}*/
+/// [p254#689]
+#define displaymlist(x)  info(x+1) /* mlist to be used in display style}*/
+#define textmlist(x)  link(x+1) /* mlist to be used in text style}*/
+#define scriptmlist(x)  info(x+2) /* mlist to be used in script style}*/
+#define scriptscriptmlist(x)  link(x+2) /* mlist to be used in scriptscript style}*/
+/// [p258#701]
+#define mathex(x) fontinfo[x + parambase[famfnt(3 + cursize)]].sc
+/// [p259#702]
+#define crampedstyle(x)  2*(x / 2)+cramped /* cramp the style}*/
+#define substyle(x)  2*(x / 4)+scriptstyle+cramped /* smaller and cramped}*/
+#define supstyle(x)  2*(x / 4)+scriptstyle+(x % 2) /* smaller}*/
+#define numstyle(x)  x+2-2*(x / 6) /* smaller unless already script-script}*/
+#define denomstyle(x)  2*(x / 2)+cramped+2-2*(x / 6) /* smaller, cramped}*/
+/// [p267#725]
+#define newhlist(x) mem[nucleus(x)].int_ /* the translation of an mlist}*/
+
+
+/// [p286#769]
+#define upart(x)  mem[x+heightoffset].int_ /* pointer to \<uj> token list}*/
+#define vpart(x)  mem[x+depthoffset].int_ /* pointer to \<vj> token list}*/
+#define extrainfo(x)  info(x+listoffset) /* info to remember during template}*/
+
+
+/// [p304#819]
+#define fitness  subtype /* |veryloosefit..tightfit| on final line for this break}*/
+#define breaknode  rlink /* pointer to the corresponding passive node}*/
+#define linenumber  llink /* line that begins at this breakpoint}*/
+#define totaldemerits(x)  mem[x+2].int_ /* the quantity that \TeX\ minimizes}*/
+/// [p304#821]
+#define curbreak  rlink /* in passive node, points to position of this breakpoint}*/
+#define prevbreak  llink /* points to passive node that should precede this one}*/
+#define serial  info /* serial number for symbolic identification}*/
+
+
+/// [p321#866]
 #define kernbreak()                                                       \
     {                                                                     \
         if (!ischarnode(link(curp)) && (autobreaking)) {                  \
@@ -562,6 +534,11 @@
         actwidth += width(curp);                                          \
     }
 
+/// [p325#877]
+#define nextbreak  prevbreak /* new name for |prevbreak| after links are reversed}*/
+
+
+/// [p337#908]
 #define appendcharnodetot(x)   \
     {                          \
         link(t) = get_avail(); \
@@ -570,6 +547,7 @@
         character(t) = x;      \
     }
 
+/// [p337#908]
 #define setcurr()                 \
     {                             \
         if (j < n) {              \
@@ -584,6 +562,7 @@
         }                         \
     }
 
+/// [p339#910]
 #define wraplig(x)                             \
     if (ligaturepresent) {                     \
         p = newligature(hf, curl, link(curq)); \
@@ -601,6 +580,7 @@
         ligaturepresent = false;               \
     }
 
+/// [p339#910] if |ligstack| isn't |null| we have |currh=NON_CHAR|
 #define popligstack()                              \
     {                                              \
         if (ligptr(ligstack) > null) {             \
@@ -617,14 +597,84 @@
         } else {                                   \
             curr = character(ligstack);            \
         }                                          \
-    } /* {if |ligstack| isn't |null| we have |currh=NON_CHAR|} */
+    }
 
+/// [p341#914]
 #define advancemajortail()           \
     {                                \
         majortail = link(majortail); \
         rcount++;                    \
     }
 
+/// [p344#921] `downward` link in a trie
+#define trielink(x)     trie[x].rh
+/// [p344#921] character matched at this trie location
+#define triechar(x)     trie[x].UU.U2.b1
+/// [p344#921] program for hyphenation at this trie location
+#define trieop(x)       trie[x].UU.U2.b0
+/// [p353#950] backward links in |trie| holes
+#define trieback(x)     trie[x].UU.lh
+
+
+/// [p367#981] an insertion for this class will break here if anywhere
+#define brokenptr(x)    link(x+1)
+#define brokenins(x)    info(x+1) /* this insertion might break at |brokenptr|}*/
+#define lastinsptr(x)   link(x+2) /* the most recent insertion for this |subtype|}*/
+#define bestinsptr(x)   info(x+2) /* the optimum most recent insertion}*/
+
+/// [p386#1034]
+#define adjustspacefactor()              \
+    {                                    \
+        mains = sfcode(curchr);          \
+        if (mains == 1000) {             \
+            spacefactor = 1000;          \
+        } else if (mains < 1000) {       \
+            if (mains > 0) {             \
+                spacefactor = mains;     \
+            }                            \
+        } else if (spacefactor < 1000) { \
+            spacefactor = 1000;          \
+        } else                           \
+            spacefactor = mains;         \
+    }
+
+/// [p387#1035] the PARAMETER is either |rthit| or |false|
+#define packlig(x)                                    \
+    {                                                 \
+        mainp = newligature(mainf, curl, link(curq)); \
+        if (lfthit) {                                 \
+            subtype(mainp) = 2;                       \
+            lfthit = false;                           \
+        }                                             \
+        if ((x) && (ligstack == null)) {              \
+            subtype(mainp)++;                         \
+            rthit = false;                            \
+        }                                             \
+        link(curq) = mainp;                           \
+        tail = mainp;                                 \
+        ligaturepresent = false;                      \
+    }
+
+/// [p387#1035]
+#define wrapup(x)                                       \
+    if (curl < NON_CHAR) {                              \
+        if (character(tail) == get_hyphenchar(mainf)) { \
+            if (link(curq) > 0) insdisc = true;         \
+        }                                               \
+        if (ligaturepresent) {                          \
+            packlig(x);                                 \
+        }                                               \
+        if (insdisc) {                                  \
+            insdisc = false;                            \
+            if (mode > 0) {                             \
+                tailappend(newdisc());                  \
+            }                                           \
+        }                                               \
+    }
+
+
+
+/// [p471#1362]
 #define advpast(x)                        \
     {                                     \
         if (subtype(x) == languagenode) { \
@@ -633,5 +683,16 @@
             rhyf = whatrhm(x);            \
         }                                 \
     }
+
+/// [p472#1341]
+#define whatlang(x)  link(x+1) /* language number, in the range |0..255|}*/
+#define whatlhm(x)  type(x+1) /* minimum left fragment, in the range |1..63|}*/
+#define whatrhm(x)  subtype(x+1) /* minimum right fragment, in the range |1..63|}*/
+#define writetokens(x)    link(x+1) /* reference count of token list to write}*/
+#define writestream(x)    info(x+1) /* stream number (0 to 17)}*/
+#define openname(x)    link(x+1) /* string number of file name to open}*/
+#define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
+#define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
+
 
 #endif // TEXMAC_H
