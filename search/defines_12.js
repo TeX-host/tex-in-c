@@ -1,17 +1,12 @@
 var searchData=
 [
-  ['radical_3850',['radical',['../tex_8h.html#abce472088d3ee3828c7d30d345af874e',1,'tex.h']]],
-  ['radicalnoadsize_3851',['radicalnoadsize',['../tex__constant_8h.html#af034350d19fd08f4742e0dfdbe5e8dd8',1,'tex_constant.h']]],
-  ['read_5fsixteen_3852',['READ_SIXTEEN',['../fonts_8c.html#af2962decec1cc3c2683f2c5d877cd0ba',1,'fonts.c']]],
-  ['readtocs_3853',['readtocs',['../tex_8h.html#a8d447075f13d7591d9de7c417ca6c8c5',1,'tex.h']]],
-  ['register_5f_3854',['register_',['../tex_8h.html#a3154d69897079e0ca03aff5c9825c871',1,'tex.h']]],
-  ['relax_3855',['relax',['../tex_8h.html#a52e78022ced93249d758e2cf95498a2d',1,'tex.h']]],
-  ['relpenalty_3856',['relpenalty',['../texmac_8h.html#a9f11aafe1387a1030af6ab5512a92fd8',1,'texmac.h']]],
-  ['rembyte_3857',['rembyte',['../macros_8h.html#ad4dfd72dc4d195c3c40f35e395ee9418',1,'macros.h']]],
-  ['removeitem_3858',['removeitem',['../tex_8h.html#aaf6b0aacf28fc466474f981a46673f50',1,'tex.h']]],
-  ['replacecount_3859',['replacecount',['../texmac_8h.html#a59371b2eebaab2cb72aa50dfcf14d5bc',1,'texmac.h']]],
-  ['rightdelimiter_3860',['rightdelimiter',['../texmac_8h.html#ad90bfcd3d9f8080d3a5b8b3a084607c6',1,'texmac.h']]],
-  ['righthyphenmin_3861',['righthyphenmin',['../texmac_8h.html#a521d4b675e2dc865212631ba1bf57543',1,'texmac.h']]],
-  ['rightskip_3862',['rightskip',['../texmac_8h.html#adbeec99659c907a2920c693b87fe8622',1,'texmac.h']]],
-  ['rulenodesize_3863',['rulenodesize',['../tex__constant_8h.html#a9a1185635c91fe8a6007fdf3ebf75ef8',1,'tex_constant.h']]]
+  ['radicalnoadsize_3708',['radicalnoadsize',['../tex__constant_8h.html#af034350d19fd08f4742e0dfdbe5e8dd8',1,'tex_constant.h']]],
+  ['read_5fsixteen_3709',['READ_SIXTEEN',['../fonts_8c.html#af2962decec1cc3c2683f2c5d877cd0ba',1,'fonts.c']]],
+  ['relpenalty_3710',['relpenalty',['../texmac_8h.html#a9f11aafe1387a1030af6ab5512a92fd8',1,'texmac.h']]],
+  ['rembyte_3711',['rembyte',['../macros_8h.html#ad4dfd72dc4d195c3c40f35e395ee9418',1,'macros.h']]],
+  ['replacecount_3712',['replacecount',['../texmac_8h.html#a59371b2eebaab2cb72aa50dfcf14d5bc',1,'texmac.h']]],
+  ['rightdelimiter_3713',['rightdelimiter',['../texmac_8h.html#ad90bfcd3d9f8080d3a5b8b3a084607c6',1,'texmac.h']]],
+  ['righthyphenmin_3714',['righthyphenmin',['../texmac_8h.html#a521d4b675e2dc865212631ba1bf57543',1,'texmac.h']]],
+  ['rightskip_3715',['rightskip',['../texmac_8h.html#adbeec99659c907a2920c693b87fe8622',1,'texmac.h']]],
+  ['rulenodesize_3716',['rulenodesize',['../tex__constant_8h.html#a9a1185635c91fe8a6007fdf3ebf75ef8',1,'tex_constant.h']]]
 ];

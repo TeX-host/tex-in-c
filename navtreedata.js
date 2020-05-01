@@ -53,16 +53,17 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "funcs_8c.html",
-"group___s115x132___p44x49.html#ga1d66d6280b3e251550e409fa4552b07b",
-"group___s300x320___p121x130.html#ga36f0afb96aaf270888c6255c982fa6a9",
-"group___s402x463___p155x173.html#gaef423d7771062490f80ec18b089b6ca8",
-"print_8h.html",
-"tex_8c.html#a571c7a1cfd3a84aa36d47c5d1e94bae2",
-"tex_8h.html#a524b5b1bdd409ba3f380aab5fc092aaf",
-"tex__constant_8h.html#a2cad1bc7b42b016cc06580acc3c0be4eae6335447c5d4f7fe221483771aa94568",
-"tex__header_8h.html#a28975509cc5007b99c1660d539e466d1",
-"texmac_8h.html#a07681f99c4b2a8590118d650993e5103",
-"texmac_8h.html#ac1044915eb305f07e6825a5ba500c06d"
+"group___s115x132___p44x49.html#ga26c636252eb4ab1aa9fef93854c06375",
+"group___s207x210___p73x76.html#ga4e54c1d10b20a30d202c6b4d1b4085ba",
+"group___s220x255___p81x101.html#ga0c6dac8c05fa158d999e090a8879f19d",
+"group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de",
+"group___s487x510___p181x187.html#gga3dbefe2dcd01e7607e10d1b9219543a7a976962929e88dd6bf1593ecf60b4c571",
+"str_8c.html#ac0b5ed41251f3598633000ea519c47a0",
+"tex_8c.html#aca45fea7cc10f86407ce296df1b0c196",
+"tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573a9567395e96afd634b53c7be6dd10982c",
+"tex__header_8h.html#a46e3c74ffb899601ee0a6acf512beae5",
+"texmac_8h.html#a20524306eb6c0efe254f1225affeeb6c",
+"texmac_8h.html#ad6f4cb342ba38204d024198041073bdf"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

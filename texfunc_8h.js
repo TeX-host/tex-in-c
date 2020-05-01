@@ -1,11 +1,11 @@
 var texfunc_8h =
 [
     [ "TEX_FUNC_H", "texfunc_8h.html#a2c669e576308a8a2c3e775525832c576", null ],
-    [ "begindiagnostic", "texfunc_8h.html#ae7f34298980b60c63ccdee9eb0225d67", null ],
+    [ "begindiagnostic", "group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67", null ],
     [ "confusion", "group___s72x98___p30x37.html#gad648827d6f28ef0ba71b95015432d4b6", null ],
     [ "delete_glue_ref", "group___s199x202___p69x70.html#ga8332b563870416db594f68068abc9fc4", null ],
     [ "delete_token_ref", "group___s199x202___p69x70.html#ga4788ad6984820b988d3e6bef21ae79d0", null ],
-    [ "enddiagnostic", "texfunc_8h.html#adfa348a7e69f9ecddafcd88515439a4a", null ],
+    [ "enddiagnostic", "group___s220x255___p81x101.html#gadfa348a7e69f9ecddafcd88515439a4a", null ],
     [ "eqdefine", "texfunc_8h.html#a1f41746b7c8827a48a44c0afc3e31eec", null ],
     [ "error", "group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931", null ],
     [ "fatalerror", "group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b", null ],
@@ -34,7 +34,7 @@ var texfunc_8h =
     [ "print_file_name", "texfunc_8h.html#a8140d41dff9ee6e0afd127e1a94c450b", null ],
     [ "print_hex", "texfunc_8h.html#a1f134ab06d2ce2d719977640811ad6f8", null ],
     [ "print_int", "texfunc_8h.html#a10d4c74ca848a0557d46565d64282ef6", null ],
-    [ "print_mode", "texfunc_8h.html#a626924bd88e6fde03fc000331fd4254f", null ],
+    [ "print_mode", "group___s211x219___p77x80.html#ga626924bd88e6fde03fc000331fd4254f", null ],
     [ "print_size", "texfunc_8h.html#a814c760ed61b461c0a5a2f02c44b9e00", null ],
     [ "print_skip_param", "texfunc_8h.html#a20f05bbef54f2af7c6de5e3aacbdcf13", null ],
     [ "println", "texfunc_8h.html#ac52ac3c4e4f907c35038591b801f7191", null ],
