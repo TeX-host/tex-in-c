@@ -12,7 +12,7 @@ var searchData=
   ['fatalerror_532',['fatalerror',['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;tex.c'],['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;tex.c']]],
   ['fetch_533',['fetch',['../tex_8c.html#a81f2cab173e43d5955267c0fa43c2dbc',1,'tex.c']]],
   ['fewestdemerits_534',['fewestdemerits',['../tex__header_8h.html#a61632510784c6ee1390f5e1b99bafb7a',1,'tex_header.h']]],
-  ['fi_5for_5felse_535',['FI_OR_ELSE',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a30f720dfdad4b931947a3f8bf6860975',1,'tex.h']]],
+  ['fi_5for_5felse_535',['FI_OR_ELSE',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a30f720dfdad4b931947a3f8bf6860975',1,'tex_constant.h']]],
   ['ficode_536',['ficode',['../group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa4f57b2acb920356f442460c927f03da6',1,'expand.h']]],
   ['fil_537',['FIL',['../tex__constant_8h.html#a2cad1bc7b42b016cc06580acc3c0be4eae6335447c5d4f7fe221483771aa94568',1,'tex_constant.h']]],
   ['fil_5fcode_538',['FIL_CODE',['../tex__constant_8h.html#ad9f012c8619fee561d43c08679119823ad3ac6e826b765b99f33cadd8cc75f18c',1,'tex_constant.h']]],
