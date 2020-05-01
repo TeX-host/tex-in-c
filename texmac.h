@@ -27,13 +27,26 @@
 /// [p43#112]
 #define qi(x) (x)
 #define qo(x) (x)
+
+
+/** @addtogroup S115x132_P44x49
+ * @{
+ */
+
 /// [p44#115] the #null pointer.
 /// null ≡ min_halfword.
 #define null 0
+#define nodesize    info /* the size field in empty variable-size nodes}*/
+/// [p46#124]
+#define isempty(x) (link(x) == emptyflag)
+#define llink(x)    info(x+1) /* left link in doubly-linked list of empty nodes}*/
+#define rlink(x)    link(x+1) /* right link in doubly-linked list of empty nodes}*/
 
 /// [p45#118]
 #define link(x) (mem[(x)].hh.rh)
 #define info(x) (mem[(x)].hh.UU.lh)
+/** @}*/ // end group S115x132_P44x49
+
 
 /// [p50#133]
 #define type(x) (mem[(x)].hh.UU.U2.b0)
@@ -301,17 +314,6 @@
 
 /// [p111#274]
 #define saved(x) savestack[saveptr + x].int_
-
-/** @addtogroup S115x132_P44x49
- * @{
- */
-
-#define nodesize    info /* the size field in empty variable-size nodes}*/
-/// [p46#124]
-#define isempty(x) (link(x) == emptyflag)
-#define llink(x)    info(x+1) /* left link in doubly-linked list of empty nodes}*/
-#define rlink(x)    link(x+1) /* right link in doubly-linked list of empty nodes}*/
-/** @}*/ // end group S115x132_P44x49
 
 // [p131#322] leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])
