@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dvi_5findex_2930',['DVI_Index',['../dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16',1,'dviout.c']]]
+  ['dvi_5findex_2931',['DVI_Index',['../dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16',1,'dviout.c']]]
 ];

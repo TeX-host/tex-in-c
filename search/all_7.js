@@ -42,7 +42,7 @@ var searchData=
   ['gluepar_697',['gluepar',['../texmac_8h.html#ae2ca717403628bcdfd97d7607a90e8c9',1,'texmac.h']]],
   ['glueptr_698',['glueptr',['../texmac_8h.html#a7578dff1631a48edd4b77bed5f308ea9',1,'texmac.h']]],
   ['glueratio_699',['GlueRatio',['../tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90',1,'tex_types.h']]],
-  ['glueref_700',['glueref',['../group___s207x210___p73x76.html#ga4f566a129c75e39d9d6f6d4349267f86',1,'tex.h']]],
+  ['glueref_700',['glueref',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a0ac7b8a23dbd208fbc65b3fed2c8fd03',1,'tex.h']]],
   ['gluerefcount_701',['gluerefcount',['../texmac_8h.html#afac4093b2b273b547d6ad8b408970c8e',1,'texmac.h']]],
   ['glueset_702',['glueset',['../texmac_8h.html#a535e64c8c4a444452af4684eaed9f06b',1,'texmac.h']]],
   ['glueshrink_703',['glueshrink',['../texmac_8h.html#a3b928f1914a65b2e846ac3800a60ab98',1,'texmac.h']]],
