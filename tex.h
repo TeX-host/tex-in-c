@@ -370,12 +370,21 @@ enum CatCode {
 #define data            (maxcommand + 20)
 /** @}*/ // end group S207x210_P73x76
 
+/** @addtogroup S211x219_P77x80
+ * @{
+ */
 
 // [#211]
 #define V_MODE           1 // vertical mode
 #define H_MODE           (V_MODE + maxcommand + 1) // horizontal mode
 #define M_MODE           (H_MODE + maxcommand + 1) // math mode
+/** @}*/ // end group S211x219_P77x80
 
+/** @addtogroup S220x255_P81x101
+ * @{
+ */
+
+// [#221]
 #define levelzero       MIN_QUARTER_WORD
 #define levelone        (levelzero + 1)
 
@@ -405,6 +414,8 @@ enum CatCode {
 #define muskipbase      (skipbase + 256)
 #define localbase       (muskipbase + 256)
 
+
+// [p87#230]
 #define parshapeloc     localbase
 #define outputroutineloc  (localbase + 1)
 #define everyparloc     (localbase + 2)
@@ -426,37 +437,51 @@ enum CatCode {
 #define sfcodebase      (uccodebase + 256)
 #define mathcodebase    (sfcodebase + 256)
 #define intbase         (mathcodebase + 256)
+/** @}*/ // end group S220x255_P81x101
 
+// [p92]
 #define countbase       (intbase + intpars)
 #define delcodebase     (countbase + 256)
 #define dimenbase       (delcodebase + 256)
 
 
+// [p136#341]
 #define switch_         25
 #define startcs         26
+
+// [p141#358]
 #define noexpandflag    257
-#define topmarkcode     0
-#define firstmarkcode   1
-#define botmarkcode     2
+
+// [p148#382]
+#define topmarkcode         0
+#define firstmarkcode       1
+#define botmarkcode         2
 #define splitfirstmarkcode  3
-#define splitbotmarkcode  4
+#define splitbotmarkcode    4
 
-
+// [p179#480]
 #define closed          2
 #define justopen        1
 
-#define FORMAT_DEFAULT_LENGTH  20
-#define formatarealength  11
-#define formatextlength  4
+// [p190#520]
+#define FORMAT_DEFAULT_LENGTH   20
+#define formatarealength        11
+#define formatextlength         4
 
-
+// [p201#549]
 #define nonaddress      0
+// [p204#557]
+#define kernbaseoffset  32768
+// [p205#560]
 #define badtfm          11
+// [p229#619]
 #define movepast        13
 #define finrule         14
 #define nextp           15
+// [p239#644]
 #define exactly         0
 #define additional      1
+// [p250#681]
 #define mathchar        1
 #define subbox          2
 #define submlist        3
@@ -472,41 +497,61 @@ enum CatCode {
 // size code for the smallest size in a family
 #define SCRIPT_SCRIPT_SIZE  32
 
+// [p258#700]
 #define totalmathsyparams  22
+// [p258#701]
 #define totalmathexparams  13
-#define donewithnoad    80
-#define donewithnode    81
-#define checkdimensions  82
-#define deleteq         83
+// [p267#725]
+#define donewithnoad        80
+#define donewithnode        81
+#define checkdimensions     82
+#define deleteq             83
+// [p287#770]
 #define alignstacknodesize  5
-#define spancode        256
-#define crcode          257
-
-#define crcrcode        (crcode + 1)
-
+// [p289#780]
+#define spancode            256
+#define crcode              257
+#define crcrcode            (crcode + 1)
+#define endtemplatetoken    (CS_TOKEN_FLAG + frozenendtemplate)
+// [p294#797]
 #define spannodesize    2
+// [p303#817]
 #define tightfit        3
 #define loosefit        1
 #define veryloosefit    0
 #define decentfit       2
+// [p304#819]
 #define activenodesize  3
 #define unhyphenated    0
 #define hyphenated      1
+// [p304#821]
 #define passivenodesize  2
+// [p304#822]
 #define deltanodesize   7
 #define deltanode       2
+// [p308#829]
 #define deactivate      60
+// [p361#970]
 #define updateheights   90
+// [p363#974]
+#define deplorable      100000L
+// [p366#980]
 #define insertsonly     1
 #define boxthere        2
+// [p367#981]
 #define pageinsnodesize  4
-#define inserting       0
-#define splitup         1
+#define inserting        0
+#define splitup          1
+// [p371#994]
 #define contribute      80
-#define bigswitch       60
-#define appendnormalspace  120
 
+// [p384#1030] jmp label
+// #define bigswitch            60
+// #define appendnormalspace    120
 
+/// [p400#1071]
+#define shipoutflag     (boxflag + 512)
+#define leaderflag      (boxflag + 513)
 
 // #1291
 // enum ChrCode {};
@@ -542,30 +587,18 @@ enum CatCode {
 #define writenodesize   2
 #define opennodesize    3
 
-// #1341
+// [p472#1341]
 // enum WhatsitsSubtype {};
 #define opennode        0
 #define writenode       1
 #define closenode       2
 #define specialnode     3
+#define languagenode    4
+// [p473#1344]
 #define immediatecode   4
 #define setlanguagecode  5
 
-#define languagenode    4
-
-#define endtemplatetoken  (CS_TOKEN_FLAG + frozenendtemplate)
-
-#define kernbaseoffset  32768
-
-/// [#974]
-#define deplorable      100000L
-
-/// [#1071]
-#define shipoutflag     (boxflag + 512)
-/// [#1071]
-#define leaderflag      (boxflag + 513)
-
-/// [#1371]
+/// [p478#1371]
 #define endwritetoken   (CS_TOKEN_FLAG + endwrite)
 
 

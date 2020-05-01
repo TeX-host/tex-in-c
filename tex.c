@@ -2138,6 +2138,10 @@ Static void showactivities(void)
 /** @}*/ // end group S211x219_P77x80
 
 
+/** @addtogroup S220x255_P81x101
+ * @{
+ */
+
 // [#245] prepare to do some tracing
 void begindiagnostic(void) {
     diag_oldsetting = selector;
@@ -2153,7 +2157,6 @@ void enddiagnostic(Boolean blankline) {
     if (blankline) println();
     selector = diag_oldsetting;
 }
-
 
 #ifdef tt_STAT
 /// #252:
@@ -2309,6 +2312,7 @@ Static void showeqtb(HalfWord n) {
     /*:233*/
 } // #252: showeqtb
 #endif // #252: tt_STAT
+/** @}*/ // end group S220x255_P81x101
 
 
 // Static HalfWord idlookup(Integer j, Integer l, Boolean no_new_cs) { 
