@@ -581,7 +581,9 @@ enum TFMParamVal {
 };
 
 
-// [ #~ : PART 34: DATA STRUCTURES FOR MATH MODE ]
+/** @addtogroup S680x698_P249x257
+ * @{
+ */
 
 /** [p251#682] type of noad classified XXX.
  * 
@@ -635,7 +637,7 @@ enum NoadType {
 /// [#688] number of words in a style node
 #define stylenodesize 3
 
-// [#688]
+/// [#688]
 enum StyleNodeSubtype {
     displaystyle = 0,      ///< subtype for `\displaystyle`
     textstyle = 2,         ///< subtype for `\textstyle`
@@ -643,10 +645,11 @@ enum StyleNodeSubtype {
     scriptscriptstyle = 6, ///< subtype for `\scriptscriptstyle`
 }; // [#688] StyleNodeSubtype
 
-/// [#688] add this to an uncramped style if you want to cramp it
+/// [#688] add this to an uncramped style if you want to cramp it.
 #define cramped 1
-/// [#689] type of a choice node
+/// [#689] type of a choice node.
 #define choicenode (UNSET_NODE + 2)
+/** @}*/ // end group S680x698_P249x257
 
 
 // [ #1055~1135: BUILDING BOXES AND LISTS ]

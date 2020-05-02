@@ -1156,15 +1156,19 @@ Static void printspec(long p, StrNumber s) {
 /** @}*/ // end group S173x198_P62x68
 
 
-// #691
+/** @addtogroup S680x698_P249x257
+ * @{
+ */
+
+/// [#691] prints family and character.
 Static void printfamandchar(HalfWord p) {
     print_esc(S(333));
     print_int(fam(p));
     print_char(' ');
     print(character(p) - MIN_QUARTER_WORD);
-}
+} // [#691] printfamandchar
 
-// #691
+/// [#691] prints a delimiter as 24-bit hex value.
 Static void printdelimiter(HalfWord p) {
     long a;
 
@@ -1174,46 +1178,39 @@ Static void printdelimiter(HalfWord p) {
         print_int(a);
     else
         print_hex(a);
-}
-/*:691*/
+} // [#691] printdelimiter
 
-/*692:*/
+/// [#692] display a noad field.
+Static void printsubsidiarydata(HalfWord p, ASCIICode c) {
+    if (cur_length() >= depth_threshold) {
+        if (mathtype(p) != empty) print(S(334));
+        return;
+    }
+    append_char(c);
+    temp_ptr = p;
+    switch (mathtype(p)) {
 
-Static void printsubsidiarydata(HalfWord p, ASCIICode c)
-{
-  if (cur_length() >= depth_threshold) {
-    if (mathtype(p) != empty)
-      print(S(334));
-    return;
-  }
-  append_char(c);
-  temp_ptr = p;
-  switch (mathtype(p)) {
+        case mathchar:
+            println();
+            printcurrentstring();
+            printfamandchar(p);
+            break;
 
-  case mathchar:
-    println();
-    printcurrentstring();
-    printfamandchar(p);
-    break;
+        case subbox: showinfo(); break;
 
-  case subbox:
-    showinfo();
-    break;
+        case submlist:
+            if (info(p) == 0) {
+                println();
+                printcurrentstring();
+                print(S(335));
+            } else
+                showinfo();
+            break;
+    }
+    flush_char();
+} // [#692] printsubsidiarydata
 
-  case submlist:
-    if (info(p) == 0) {
-      println();
-      printcurrentstring();
-      print(S(335));
-    } else
-      showinfo();
-    break;
-  }
-  flush_char();
-}
-/*:692*/
-
-/*694:*/
+/// [#694]
 void printstyle(Integer c) {
     switch (c / 2) {
         case 0: print_esc(S(336)); break;
@@ -1223,8 +1220,9 @@ void printstyle(Integer c) {
 
         default: print(S(340)); break;
     }
-}
-/*:694*/
+} // [#694] printstyle
+/** @}*/ // end group S680x698_P249x257
+
 
 /** [#225]: 打印 `glue` 参数的名称
  * 

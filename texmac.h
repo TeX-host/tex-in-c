@@ -422,6 +422,10 @@
           : ((gluetemp < -1000000000.0) ? (gluetemp = -1000000000.0) : 0)))
 
 
+/** @addtogroup S680x698_P249x257
+ * @{
+ */
+
 #if 1
 /// [p250#681]
 #define nucleus(x)  ((x)+CHAR_NODE_SIZE) /* the |nucleus| field of a noad}*/
@@ -465,6 +469,9 @@
 #define textmlist(x)  link(x+1) /* mlist to be used in text style}*/
 #define scriptmlist(x)  info(x+2) /* mlist to be used in script style}*/
 #define scriptscriptmlist(x)  link(x+2) /* mlist to be used in scriptscript style}*/
+/** @}*/ // end group S680x698_P249x257
+
+
 /// [p258#700]
 #define mathsy(x, y) (fontinfo[(x) + parambase[famfnt(2 + (y))]].sc)
 #define mathxheight(x) mathsy(5, x) /* height of `\.x'}*/
