@@ -8,5 +8,15 @@ var group___s72x98___p30x37 =
     [ "normalize_selector", "group___s72x98___p30x37.html#ga9e84fd6d7a8cb64ddca0f5f67daf81f0", null ],
     [ "overflow", "group___s72x98___p30x37.html#gaf3d29a884e6c439304ba6e4426a1f9bf", null ],
     [ "pause_for_instructions", "group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0", null ],
-    [ "succumb", "group___s72x98___p30x37.html#ga28969debfb5d1d9ceb441468b967fbce", null ]
+    [ "succumb", "group___s72x98___p30x37.html#ga28969debfb5d1d9ceb441468b967fbce", null ],
+    [ "deletions_allowed", "group___s72x98___p30x37.html#ga111f306f8f66ea55ea260b9c94a9cfbb", null ],
+    [ "errorcount", "group___s72x98___p30x37.html#gac35c5baecfc22fd651c2528fcd1ddef3", null ],
+    [ "help_line", "group___s72x98___p30x37.html#gab5224c8f4600bd8c760e693801cb63c5", null ],
+    [ "help_ptr", "group___s72x98___p30x37.html#gafc34cc6753d75a8bd3846b1a0a594e0f", null ],
+    [ "history", "group___s72x98___p30x37.html#gae2791fa74d11d9b04c2ef69a330eb3b7", null ],
+    [ "interaction", "group___s72x98___p30x37.html#ga1bddff3b1f3787b9bace2be694fc6f70", null ],
+    [ "interrupt", "group___s72x98___p30x37.html#ga73282994beeccd037c396304562e624f", null ],
+    [ "OK_to_interrupt", "group___s72x98___p30x37.html#ga6e6c4fb441211ad0ef5e9ffc763ad053", null ],
+    [ "set_box_allowed", "group___s72x98___p30x37.html#ga006c08504b60ba2d6b4e6924dc294506", null ],
+    [ "use_err_help", "group___s72x98___p30x37.html#gab04ef387023c1cd5ba29769ade67d653", null ]
 ];

@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['name_5fin_5fprogress_2810',['name_in_progress',['../global_8h.html#a20d28e7039b8ce5fb1b280c6cbc495fe',1,'name_in_progress():&#160;tex_header.h'],['../tex__header_8h.html#a20d28e7039b8ce5fb1b280c6cbc495fe',1,'name_in_progress():&#160;tex_header.h']]],
-  ['name_5fof_5ffile_2811',['name_of_file',['../global_8h.html#ade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h'],['../tex__header_8h.html#ade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h']]],
+  ['name_5fin_5fprogress_2810',['name_in_progress',['../group___s511x538___p188x195.html#ga20d28e7039b8ce5fb1b280c6cbc495fe',1,'name_in_progress():&#160;tex_header.h'],['../group___s511x538___p188x195.html#ga20d28e7039b8ce5fb1b280c6cbc495fe',1,'name_in_progress():&#160;tex_header.h']]],
+  ['name_5fof_5ffile_2811',['name_of_file',['../group___s25x37___p13x18.html#gade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h'],['../group___s25x37___p13x18.html#gade8e0216e3b9903faa5818658b02b2a1',1,'name_of_file():&#160;tex_header.h']]],
   ['namefield_2812',['namefield',['../struct_in_state_record.html#a8ee90fd33b05a6945ddf700a07046c29',1,'InStateRecord']]],
-  ['namelength_2813',['namelength',['../tex__header_8h.html#ac4ffc93d210812b3bf6d8de12179bf85',1,'tex_header.h']]],
+  ['namelength_2813',['namelength',['../group___s25x37___p13x18.html#gac4ffc93d210812b3bf6d8de12179bf85',1,'tex_header.h']]],
   ['need_5fto_5fload_5fformat_2814',['need_to_load_format',['../funcs_8c.html#af60be62152264d4c145b30b353108b4e',1,'need_to_load_format():&#160;funcs.c'],['../funcs_8h.html#af60be62152264d4c145b30b353108b4e',1,'need_to_load_format():&#160;funcs.c']]],
   ['nest_2815',['nest',['../group___s211x219___p77x80.html#gac0f1921b35e1a1d327ea819b2f4ba507',1,'nest():&#160;tex_header.h'],['../group___s211x219___p77x80.html#gac0f1921b35e1a1d327ea819b2f4ba507',1,'nest():&#160;tex_header.h']]],
   ['nest_5fptr_2816',['nest_ptr',['../group___s211x219___p77x80.html#gabead0bafd1e1d332e9f44c6a96af701f',1,'nest_ptr():&#160;tex_header.h'],['../group___s211x219___p77x80.html#gabead0bafd1e1d332e9f44c6a96af701f',1,'nest_ptr():&#160;tex_header.h']]],

@@ -8,7 +8,7 @@ var searchData=
   ['makeleftright_2339',['makeleftright',['../tex_8c.html#a81f0b57cef1c1e0e8798a8b714cc8dc1',1,'tex.c']]],
   ['makemark_2340',['makemark',['../tex_8c.html#a7c69a956d7a145822f7c59735c53d4bd',1,'tex.c']]],
   ['makemathaccent_2341',['makemathaccent',['../tex_8c.html#af4e5247ef00236cfa4157b9736927079',1,'tex.c']]],
-  ['makenamestring_2342',['makenamestring',['../tex_8c.html#a419510cb80aa88540cfdcb3e58c8e73c',1,'tex.c']]],
+  ['makenamestring_2342',['makenamestring',['../group___s511x538___p188x195.html#ga419510cb80aa88540cfdcb3e58c8e73c',1,'tex.c']]],
   ['makeop_2343',['makeop',['../tex_8c.html#a202d0ac8f1627094227f4e9650dbff17',1,'tex.c']]],
   ['makeord_2344',['makeord',['../tex_8c.html#a80e50d9113b6c6530aa5bae61aced2f1',1,'tex.c']]],
   ['makeover_2345',['makeover',['../tex_8c.html#aedc986e70d8181712f165a1485908418',1,'tex.c']]],
@@ -25,7 +25,7 @@ var searchData=
   ['mathlimitswitch_2356',['mathlimitswitch',['../tex_8c.html#a0bbdf6b99963899adf89a6f5442d5cca',1,'tex.c']]],
   ['mathradical_2357',['mathradical',['../tex_8c.html#acf8a78a71ef15e327cbfce097c00d1f1',1,'tex.c']]],
   ['mlisttohlist_2358',['mlisttohlist',['../tex_8c.html#a232190b094ca8a765e6af85dcb38e47b',1,'tex.c']]],
-  ['morename_2359',['morename',['../tex_8c.html#acc2c667796bda878b926305a3032b1f2',1,'tex.c']]],
+  ['morename_2359',['morename',['../group___s511x538___p188x195.html#gacc2c667796bda878b926305a3032b1f2',1,'tex.c']]],
   ['movement_2360',['movement',['../dviout_8c.html#a67d037a2a6bda672bfc005c10ec136b1',1,'dviout.c']]],
   ['mu_5ferror_2361',['mu_error',['../group___s402x463___p155x173.html#gae0485ef316ec418552669aab8a332b22',1,'scan.c']]],
   ['mult_5fand_5fadd_2362',['mult_and_add',['../group___s99x109___p38x41.html#gadea6ca6cc579592807c52802b8820c39',1,'mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans):&#160;texmath.c'],['../group___s99x109___p38x41.html#gadea6ca6cc579592807c52802b8820c39',1,'mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans):&#160;texmath.c']]]

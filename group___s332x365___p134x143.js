@@ -7,5 +7,8 @@ var group___s332x365___p134x143 =
     [ "firm_up_the_line", "group___s332x365___p134x143.html#ga0de145695abbf2a76946fdb2150199ab", null ],
     [ "getnext", "group___s332x365___p134x143.html#ga18d0a6eddff65d623650e09b4c866f11", null ],
     [ "getnext_worker", "group___s332x365___p134x143.html#ga149ff624c37eaa4baeef21d10d4e496b", null ],
-    [ "gettoken", "group___s332x365___p134x143.html#ga1c0927e54ff31ab87d043a2147e3b218", null ]
+    [ "gettoken", "group___s332x365___p134x143.html#ga1c0927e54ff31ab87d043a2147e3b218", null ],
+    [ "force_eof", "group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4", null ],
+    [ "parloc", "group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886", null ],
+    [ "partoken", "group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4", null ]
 ];

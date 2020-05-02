@@ -1,8 +1,8 @@
 var modules =
 [
     [ "PART 1: Introduction", "group___s1x16___p3x9.html", null ],
-    [ "PART 2: The character set", "group___s17x24___p10x12.html", null ],
-    [ "PART 3: Input and output", "group___s25x37___p13x18.html", null ],
+    [ "PART 2: The character set", "group___s17x24___p10x12.html", "group___s17x24___p10x12" ],
+    [ "PART 3: Input and output", "group___s25x37___p13x18.html", "group___s25x37___p13x18" ],
     [ "PART 4: String handling", "group___s38x53___p19x23.html", null ],
     [ "PART 5: On-line and off-line printing", "group___s54x71___p24x29.html", "group___s54x71___p24x29" ],
     [ "PART 6: Reporting errors", "group___s72x98___p30x37.html", "group___s72x98___p30x37" ],
@@ -28,7 +28,7 @@ var modules =
     [ "PART 26: Basic scanning subroutines", "group___s402x463___p155x173.html", "group___s402x463___p155x173" ],
     [ "PART 27: Building token lists", "group___s464x486___p174x180.html", "group___s464x486___p174x180" ],
     [ "PART 28: Conditional processing", "group___s487x510___p181x187.html", "group___s487x510___p181x187" ],
-    [ "PART 29: File names", "group___s511x538___p188x195.html", null ],
+    [ "PART 29: File names", "group___s511x538___p188x195.html", "group___s511x538___p188x195" ],
     [ "PART 30: Font metric data", "group___s539x582___p196x213.html", "group___s539x582___p196x213" ],
     [ "PART 31: Device-independent file format", "group___s583x591___p214x219.html", null ],
     [ "PART 32: Shipping pages out", "group___s592x643___p220x238.html", null ],

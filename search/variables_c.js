@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['last_2757',['last',['../global_8h.html#a2f818bc6d10c405e409dc7f94570ea06',1,'last():&#160;tex_header.h'],['../tex__header_8h.html#a2f818bc6d10c405e409dc7f94570ea06',1,'last():&#160;tex_header.h']]],
+  ['last_2757',['last',['../group___s25x37___p13x18.html#ga2f818bc6d10c405e409dc7f94570ea06',1,'last():&#160;tex_header.h'],['../group___s25x37___p13x18.html#ga2f818bc6d10c405e409dc7f94570ea06',1,'last():&#160;tex_header.h']]],
   ['last_5fbop_2758',['last_bop',['../dviout_8c.html#aed3754a04c7ff56df239d3ccb154586d',1,'dviout.c']]],
   ['lastbadness_2759',['lastbadness',['../global_8h.html#a4c16f865e5f218ed19bbc01c6a18cc08',1,'lastbadness():&#160;tex_header.h'],['../tex__header_8h.html#a4c16f865e5f218ed19bbc01c6a18cc08',1,'lastbadness():&#160;tex_header.h']]],
   ['lastglue_2760',['lastglue',['../global_8h.html#abc626a2d72ace39f0820b3bbbc4b27fc',1,'lastglue():&#160;tex_header.h'],['../tex__header_8h.html#abc626a2d72ace39f0820b3bbbc4b27fc',1,'lastglue():&#160;tex_header.h']]],
@@ -23,8 +23,8 @@ var searchData=
   ['locationf_2777',['locationf',['../structmove.html#a5ec34278e3fa7f89415d00d0c78eadaa',1,'move']]],
   ['locfield_2778',['locfield',['../struct_in_state_record.html#ae671e389157edebcae72beb247f28c74',1,'InStateRecord']]],
   ['log_5ffile_2779',['log_file',['../print_8c.html#ab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c'],['../print_8h.html#ab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c']]],
-  ['log_5fopened_2780',['log_opened',['../tex__header_8h.html#aa937c020bb2450fa52b486854eaab356',1,'tex_header.h']]],
-  ['logname_2781',['logname',['../tex__header_8h.html#aa160c66736acfeeec16c303d89cd9059',1,'tex_header.h']]],
+  ['log_5fopened_2780',['log_opened',['../group___s511x538___p188x195.html#gaa937c020bb2450fa52b486854eaab356',1,'tex_header.h']]],
+  ['logname_2781',['logname',['../group___s511x538___p188x195.html#gaa160c66736acfeeec16c303d89cd9059',1,'tex_header.h']]],
   ['longhelpseen_2782',['longhelpseen',['../tex__header_8h.html#a3e6745fc8c3e6f7e322ff6f931d1bd1b',1,'tex_header.h']]],
   ['longstate_2783',['longstate',['../expand_8c.html#aecf5ff41ebe4704021f9f90aa5ac8dae',1,'longstate():&#160;expand.c'],['../expand_8h.html#aecf5ff41ebe4704021f9f90aa5ac8dae',1,'longstate():&#160;expand.c']]],
   ['lq_2784',['lq',['../tex__header_8h.html#afb93ca3e4d4b4376789117c5ab072818',1,'tex_header.h']]],

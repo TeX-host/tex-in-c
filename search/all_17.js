@@ -22,7 +22,7 @@ var searchData=
   ['widthbase_2038',['widthbase',['../group___s539x582___p196x213.html#ga3ebfaadef569e7ef35d6d3c34fe266c1',1,'fonts.c']]],
   ['widthf_2039',['widthf',['../structmove.html#a266f8d26cf6b5109aa85d738cea73df9',1,'move']]],
   ['widthoffset_2040',['widthoffset',['../tex_8h.html#a4b4d9555968516e85aba7241d3d40810',1,'tex.h']]],
-  ['wmakenamestring_2041',['wmakenamestring',['../tex_8c.html#ac2515ffe677aa079f7e289fb71b284fc',1,'tex.c']]],
+  ['wmakenamestring_2041',['wmakenamestring',['../group___s511x538___p188x195.html#gac2515ffe677aa079f7e289fb71b284fc',1,'tex.c']]],
   ['wopenout_2042',['wopenout',['../texmac_8h.html#a4736780b3641ccec01c0262c859d6345',1,'texmac.h']]],
   ['worddefine_2043',['worddefine',['../texmac_8h.html#a91fad6fa007f046d167fdedfa30f08be',1,'texmac.h']]],
   ['wraplig_2044',['wraplig',['../texmac_8h.html#afcd1f831a7a72edcbdf38a3ef4644db9',1,'texmac.h']]],

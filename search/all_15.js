@@ -25,7 +25,7 @@ var searchData=
   ['updateactive_1976',['updateactive',['../texmac_8h.html#a70b67e6af2a238796c346c2b1b341897',1,'texmac.h']]],
   ['updateheights_1977',['updateheights',['../tex_8h.html#a20d3e3b177c8326e0941cf2a7b293cd9',1,'tex.h']]],
   ['updatewidth_1978',['updatewidth',['../texmac_8h.html#ab8c50d7ea3abfd305a6daefbdf878582',1,'texmac.h']]],
-  ['use_5ferr_5fhelp_1979',['use_err_help',['../tex__header_8h.html#ab04ef387023c1cd5ba29769ade67d653',1,'tex_header.h']]],
+  ['use_5ferr_5fhelp_1979',['use_err_help',['../group___s72x98___p30x37.html#gab04ef387023c1cd5ba29769ade67d653',1,'tex_header.h']]],
   ['use_5findependence_5fdate_1980',['use_independence_date',['../funcs_8c.html#aded2829a9552aa2804634cb3a9a2b673',1,'funcs.c']]],
   ['use_5fsplit_5fmod_1981',['USE_SPLIT_MOD',['../global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30',1,'global_const.h']]],
   ['userinteractionmode_1982',['UserInteractionMode',['../tex__constant_8h.html#acf712bc9fc9deb7b38a84a32339e06be',1,'tex_constant.h']]],

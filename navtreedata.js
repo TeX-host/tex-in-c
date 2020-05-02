@@ -52,18 +52,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e",
-"group___s162x172___p58x61.html#ga0c65443f60e183b87ce585080b88f682",
-"group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a9daec692ebcde2716cb1e787926047dc",
-"group___s220x255___p81x101.html#gadf2d82f6e4fd220873bf787a36112474",
-"group___s300x320___p121x130.html#gab2bdc2189c63a4f0ea6cd7da902062e6",
-"group___s487x510___p181x187.html#ga3e5bc148feefe0ef4986d7ba86561912",
-"group___s680x698___p249x257.html",
-"print_8c.html#acded096c3268ca6569a49375ce757e4f",
-"tex_8c.html#a681bcf5d7b699ca2b9f1f394bfb3e4a8",
-"tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf",
-"tex__header_8h.html#a53151f60ce27cf5330bf45bc039be4e0",
-"texmac_8h.html#a3843280b3dac31ae97b195413e58ef56"
+"globals_defs_c.html",
+"group___s162x172___p58x61.html#ga796af48ef5a2065dffec67aef97343bf",
+"group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0ab0960c67f412468bf9857089c2d27809",
+"group___s220x255___p81x101.html#gae73343187ad2bdc832f50d08d01d88c5",
+"group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5",
+"group___s402x463___p155x173.html#ggacdf722e52e0a319141e934c8f9649619a41d1733d9668f720c7c377cb63f8956a",
+"group___s539x582___p196x213.html#gaa570acb386c82cf264a42e65b960ec4e",
+"group___s72x98___p30x37.html#gae2791fa74d11d9b04c2ef69a330eb3b7",
+"struct_in_state_record.html",
+"tex_8h.html#a3eab8e99b916b53fa5759ac4b4fd1c0b",
+"tex__constant_8h.html#ab5e08c15f4e41bc94d455131cf467d68",
+"texmac_8h.html#a078c4c4a83d8bad5011f8d4c3c8b4fb6",
+"texmac_8h.html#adddbf45795fbdad9cb79d749d1d893bf"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

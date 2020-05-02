@@ -46,5 +46,8 @@ var group___s220x255___p81x101 =
     [ "UNDEFINED_CONTROL_SEQUENCE", "group___s220x255___p81x101.html#gab1b8a28cc7ef6a11ddbf882ac355dd47", null ],
     [ "begindiagnostic", "group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67", null ],
     [ "enddiagnostic", "group___s220x255___p81x101.html#gadfa348a7e69f9ecddafcd88515439a4a", null ],
-    [ "showeqtb", "group___s220x255___p81x101.html#ga066d58b03c9ca74e814e9647bd5e248d", null ]
+    [ "showeqtb", "group___s220x255___p81x101.html#ga066d58b03c9ca74e814e9647bd5e248d", null ],
+    [ "diag_oldsetting", "group___s220x255___p81x101.html#gaa63eed8ac8f3c2c2497ace36854980f1", null ],
+    [ "eqtb", "group___s220x255___p81x101.html#ga5fd3ea7d10ec133c83ef0585d6031697", null ],
+    [ "xeqlevel", "group___s220x255___p81x101.html#ga0719ae628ff044176b0cf12a31f7cf6a", null ]
 ];
