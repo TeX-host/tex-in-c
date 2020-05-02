@@ -2317,6 +2317,11 @@ Static void showeqtb(HalfWord n) {
 //     return idlookup_p(buffer + j, l, no_new_cs); 
 // }
 
+
+/** @addtogroup S256x267_P102x108
+ * @{
+ */
+
 // [#259]  
 //  that matches a given string of length `l > 1`
 //  appearing in `buffer[j, (j + l − 1)]
@@ -2393,6 +2398,12 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
     equiv(cur_val) = o;
 } // #264: primitive
 #endif // #264: tt_INIT
+/** @}*/ // end group S256x267_P102x108
+
+
+/** @addtogroup S268x288_P109x114
+ * @{
+ */
 
 /*274:*/
 Static void newsavelevel(GroupCode c) {
@@ -2601,7 +2612,12 @@ void preparemag(void) {
     magset = mag;
 }
 /*:288*/
+/** @}*/ // end group S268x288_P109x114
 
+
+/** @addtogroup S539x582_P196x213
+ * @{
+ */
 
 /// [ #539~582: PART 30: FONT METRIC DATA ]
 
@@ -2674,6 +2690,7 @@ void findfontdimen(Boolean writing) {
     error();
 }
 /*:578*/
+/** @}*/ // end group S539x582_P196x213
 
 
 /*464:*/

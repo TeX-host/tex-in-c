@@ -300,10 +300,20 @@
 #define curfont  equiv(curfontloc)
 
 
+/** @addtogroup S256x267_P102x108
+ * @{
+ */
+
 /// [p102#256]
 #define next(x)    hash[x-hashbase].UU.lh /* link for coalesced lists}*/
 #define text(x)    hash[x-hashbase].rh /* string number for control sequence name}*/
 #define hashisfull (hash_used == hashbase)
+/** @}*/ // end group S256x267_P102x108
+
+
+/** @addtogroup S268x288_P109x114
+ * @{
+ */
 
 /// [p109#268] classifies a |savestack| entry
 #define savetype(x)     savestack[x].hh.UU.U2.b0
@@ -314,6 +324,8 @@
 
 /// [p111#274]
 #define saved(x) savestack[saveptr + x].int_
+/** @}*/ // end group S268x288_P109x114
+
 
 // [p131#322] leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])
@@ -336,6 +348,11 @@
 /// [p182#489]
 #define iflinefield(x) mem[x + 1].int_
 
+
+/** @addtogroup S539x582_P196x213
+ * @{
+ */
+
 /// [p199#545]
 #define stopflag  qi(128) /* value indicating `\.{STOP}' in a lig/kern program}*/
 #define kernflag  qi(128) /* op code for a kern step}*/
@@ -347,6 +364,8 @@
 #define extmid(x) x.b1 /* |mid| piece in a recipe}*/
 #define extbot(x) x.b2 /* |bot| piece in a recipe}*/
 #define extrep(x) x.b3 /* |rep| piece in a recipe}*/
+/** @}*/ // end group S539x582_P196x213
+
 
 // [#200] reference count preceding a token list
 #define tokenrefcount(x) info(x)

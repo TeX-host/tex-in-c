@@ -178,11 +178,22 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
 MemoryWord eqtb[EQTB_SIZE - activebase + 1]; // equivalents table
 // store the eq level information
 Static QuarterWord xeqlevel[EQTB_SIZE - intbase + 1];
+
+/** @addtogroup S256x267_P102x108
+ * @{
+ */
+
 /// [#256]
 Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - hashbase]; // hash table
 Static Pointer hash_used; // allocation pointer for hash
 // ? no_new_control_sequence // are new identifiers legal?
 Static Integer cs_count; // total number of known identifiers
+/** @}*/ // end group S256x267_P102x108
+
+
+/** @addtogroup S268x288_P109x114
+ * @{
+ */
 
 /// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
 /// [#271]
@@ -195,6 +206,8 @@ Static UInt16 curboundary;   // where the current level begins
 // [#286] if nonzero, 
 // this magnification should be used henceforth
 Static Integer magset;
+/** @}*/ // end group S268x288_P109x114
+
 
 /// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb

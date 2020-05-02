@@ -6,11 +6,19 @@
 #include "global_const.h"
 // [fonts], dviout, tex
 
+
+/** @addtogroup S539x582_P196x213
+ * @{
+ */
+
 /// [#548]: [FONT_BASE, FONT_MAX] = [0, 75]
 typedef UChar InternalFontNumber;
 static_assert(FONT_BASE == 0, "FONT_BASE == 0");
 static_assert(UMAXOF(InternalFontNumber) >= FONT_MAX,
               "InternalFontNumber = [FONT_BASE, FONT_MAX] = [0, 75]");
+/** @}*/ // end group S539x582_P196x213
+
+
 extern InternalFontNumber fontptr;
 extern Boolean fontused[FONT_MAX + 1];
 

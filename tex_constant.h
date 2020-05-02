@@ -508,6 +508,11 @@ enum DimensionRegisters {
 #define SCALED_BASE  (dimenbase + dimenpars)
 #define EQTB_SIZE    (SCALED_BASE + 255)
 
+
+/** @addtogroup S268x288_P109x114
+ * @{
+ */
+
 /// [#268]
 enum SaveType {
     restoreoldvalue, ///< when a value should be restored later
@@ -543,6 +548,8 @@ enum GroupCode {
     mathleftgroup = 16,  ///< `\left...\right`
     MAX_GROUP_CODE = 16,
 }; // [#269] GroupCode
+/** @}*/ // end group S268x288_P109x114
+
 
 /// [#468] command code for ...
 enum CmdCode {
@@ -554,6 +561,10 @@ enum CmdCode {
     jobnamecode = 5,  ///< `\jobname`
 }; // [#468] enum CmdCode
 
+
+/** @addtogroup S539x582_P196x213
+ * @{
+ */
 
 // [ #539~582: FONT METRIC DATA ]
 
@@ -579,6 +590,7 @@ enum TFMParamVal {
     QUAD_CODE,
     EXTRA_SPACE_CODE
 };
+/** @}*/ // end group S539x582_P196x213
 
 
 /** @addtogroup S680x698_P249x257

@@ -16,6 +16,11 @@
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
 
+
+/** @addtogroup S539x582_P196x213
+ * @{
+ */
+
 // p201#549
 MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
 FontIndex fmemptr; ///< first unused word of font info
@@ -56,7 +61,6 @@ Static Integer kernbase[FONT_MAX + 1]; ///< base addresses for kerns
 Integer extenbase[FONT_MAX + 1];
 /// base addresses for font parameters
 Integer parambase[FONT_MAX + 1];
-
 
 Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
 void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
@@ -840,3 +844,5 @@ _Ldone:
     if (fileopened) fclose(tfmfile);
     return g;
 } // p205#560: readfontinfo
+
+/** @}*/ // end group S539x582_P196x213
