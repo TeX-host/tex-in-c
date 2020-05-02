@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['saveptr_2856',['saveptr',['../tex__header_8h.html#afcf6b8429f0719ad9c3ebef0c2d54a34',1,'tex_header.h']]],
-  ['savestack_2857',['savestack',['../tex__header_8h.html#aac4e21f0a8846038c2292553319d8aaa',1,'tex_header.h']]],
+  ['saveptr_2856',['saveptr',['../group___s268x288___p109x114.html#gafcf6b8429f0719ad9c3ebef0c2d54a34',1,'tex_header.h']]],
+  ['savestack_2857',['savestack',['../group___s268x288___p109x114.html#gaac4e21f0a8846038c2292553319d8aaa',1,'tex_header.h']]],
   ['sc_2858',['sc',['../union_memory_word.html#a3ba0bfe006258049f1c6a6aa2fe72676',1,'MemoryWord']]],
   ['scanner_5fstatus_2859',['scanner_status',['../group___s300x320___p121x130.html#ga3d756efb168f679a7fbb40de545b2c0a',1,'scanner_status():&#160;lexer.c'],['../group___s300x320___p121x130.html#ga3d756efb168f679a7fbb40de545b2c0a',1,'scanner_status():&#160;lexer.c']]],
   ['secondindent_2860',['secondindent',['../tex__header_8h.html#ae71a574c47e4343aaccb1abccdf75792',1,'tex_header.h']]],
@@ -10,7 +10,7 @@ var searchData=
   ['selector_2863',['selector',['../print_8c.html#a90543b928047dd29fabab14786c31d3b',1,'selector():&#160;print.c'],['../print_8h.html#a90543b928047dd29fabab14786c31d3b',1,'selector():&#160;print.c']]],
   ['set_5fbox_5fallowed_2864',['set_box_allowed',['../tex__header_8h.html#a006c08504b60ba2d6b4e6924dc294506',1,'tex_header.h']]],
   ['shown_5fmode_2865',['shown_mode',['../group___s211x219___p77x80.html#ga6ef554c8285c91bb790d54e7ede3cd6f',1,'shown_mode():&#160;tex_header.h'],['../group___s211x219___p77x80.html#ga6ef554c8285c91bb790d54e7ede3cd6f',1,'shown_mode():&#160;tex_header.h']]],
-  ['skewchar_2866',['skewchar',['../fonts_8c.html#a5cb2d6d4a93dedd231f0bcb2255ba93c',1,'fonts.c']]],
+  ['skewchar_2866',['skewchar',['../group___s539x582___p196x213.html#ga5cb2d6d4a93dedd231f0bcb2255ba93c',1,'fonts.c']]],
   ['skipline_2867',['skipline',['../group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da',1,'skipline():&#160;expand.c'],['../group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da',1,'skipline():&#160;expand.c'],['../group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da',1,'skipline():&#160;expand.c']]],
   ['startfield_2868',['startfield',['../struct_in_state_record.html#ac636d455e4e1e31b551b74ff6a725612',1,'InStateRecord']]],
   ['statefield_2869',['statefield',['../struct_in_state_record.html#a3e03dcfad756daaa44d14db641fb4418',1,'InStateRecord']]],

@@ -1,13 +1,37 @@
-var fonts_8c =
+var group___s539x582___p196x213 =
 [
-    [ "READ_SIXTEEN", "fonts_8c.html#af2962decec1cc3c2683f2c5d877cd0ba", null ],
-    [ "STORE_FOUR_QUARTERS", "fonts_8c.html#a7fcce1bd499ab660c37190aeb1d0d483", null ],
+    [ "extbot", "group___s539x582___p196x213.html#ga4d561dacbb1528f30c1d7bc0c8ffa751", null ],
+    [ "extmid", "group___s539x582___p196x213.html#ga5f1c0014b966ebb548a37b0559bb8a95", null ],
+    [ "extrep", "group___s539x582___p196x213.html#ga8dd795bc71dd90db4d87e4657db0115d", null ],
+    [ "exttop", "group___s539x582___p196x213.html#ga3f9ef793ff58e080370460167e8f1695", null ],
+    [ "kernflag", "group___s539x582___p196x213.html#gaa4ca7ec0097e3d8c2fc660a611689703", null ],
+    [ "nextchar", "group___s539x582___p196x213.html#ga53c2543dcf2587c567330e73d7e594ea", null ],
+    [ "skipbyte", "group___s539x582___p196x213.html#ga9503083778dcca40fc2426fa62a3f9c2", null ],
+    [ "stopflag", "group___s539x582___p196x213.html#ga198c8350284cec5c91868eecd5a34e2f", null ],
+    [ "InternalFontNumber", "group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf", null ],
+    [ "CharTag", "group___s539x582___p196x213.html#gad917104abdfd25fb170d2a560c85c454", [
+      [ "NO_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a33ca3be4d5e7ce4b0ef99a4819746d6c", null ],
+      [ "LIG_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a80d2cf51d2bb5aebe6787ef6a9737f0f", null ],
+      [ "LIST_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a2b9d04645ec2c32c63358fa3ee798795", null ],
+      [ "EXT_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a7b615559e900ca3890ec91ff07cef280", null ]
+    ] ],
+    [ "TFMParamVal", "group___s539x582___p196x213.html#ga30c4242c16131fe77688070a9108d63b", [
+      [ "TFM_PARAM_MISSING", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba682ced507ffb5a1159ab7d20a71c28b6", null ],
+      [ "SLANT_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63baa8067ed42159a530bc0ddf67ad779479", null ],
+      [ "SPACE_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba7208635d41b51cb12bee1c9794e82090", null ],
+      [ "SPACE_STRETCH_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba38cbd65adc0e37c9567d68fd38c61317", null ],
+      [ "SPACE_SHRINK_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba14664ac4d452c405f651f577d79010b5", null ],
+      [ "X_HEIGHT_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba7134eb32cff80666580282d0c1a7b2bd", null ],
+      [ "QUAD_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba466f17626c1a560afb1c2b5c6950f635", null ],
+      [ "EXTRA_SPACE_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63baf7ccc3e409a97a372a519bfe165f07e9", null ]
+    ] ],
     [ "chardepth", "group___s539x582___p196x213.html#ga9b3df6faa6755b0238386dfd0a7992ae", null ],
     [ "charheight", "group___s539x582___p196x213.html#ga891cb1b3930460ae764d4027cad1f430", null ],
     [ "charinfo", "group___s539x582___p196x213.html#ga0521217b0b6bf0eb541e39f3871c7ed9", null ],
     [ "charitalic", "group___s539x582___p196x213.html#ga8c13f9d816412a8d2640fe1d02f1ae8f", null ],
     [ "charkern", "group___s539x582___p196x213.html#ga8541d63d7925401ca227d735f1c25c40", null ],
     [ "charwidth", "group___s539x582___p196x213.html#gaa661e66d0aa64786c891b930f264a29b", null ],
+    [ "findfontdimen", "group___s539x582___p196x213.html#gaaee833ff1142e547d8014054bbb9a9b4", null ],
     [ "fonts_dump", "group___s539x582___p196x213.html#gaf813ccd0d6c345698d414e96f1c3a5bd", null ],
     [ "fonts_init", "group___s539x582___p196x213.html#gabe4d63cf4f492bd65d76245975ed2310", null ],
     [ "fonts_undump", "group___s539x582___p196x213.html#ga6475f91a663c2b2ac67d1781b54c9b09", null ],
@@ -18,6 +42,7 @@ var fonts_8c =
     [ "get_hyphenchar", "group___s539x582___p196x213.html#ga1a9e6ea9df36a97ee5d0c16ed772ea1e", null ],
     [ "get_skewchar", "group___s539x582___p196x213.html#ga6713b6c45009e8240aed1b40bb9f24fb", null ],
     [ "readfontinfo", "group___s539x582___p196x213.html#ga7d5f4558348ee498d4ebcd54de19097c", null ],
+    [ "scanfontident", "group___s539x582___p196x213.html#gaf10db9e739cab7816d69a23ae8348f8a", null ],
     [ "set_hyphenchar", "group___s539x582___p196x213.html#gacef640173511cdd4d51cc78e5062b353", null ],
     [ "set_skewchar", "group___s539x582___p196x213.html#gab5de829068ca1d86aa355bcbf1acca9f", null ],
     [ "bcharlabel", "group___s539x582___p196x213.html#gacc8ad1db634446c70453f21bb36c788b", null ],

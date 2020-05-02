@@ -5,7 +5,7 @@ var searchData=
   ['case_5fshift_3020',['CASE_SHIFT',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0acac7827716c6cda6f87b56a0f93a573a',1,'tex_constant.h']]],
   ['char_5fgiven_3021',['CHAR_GIVEN',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a088ee0b5891bce44d6c49aae39e2674f',1,'tex_constant.h']]],
   ['char_5fnum_3022',['CHAR_NUM',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a0f219a86d3fb736779b7034f8e7af65a',1,'tex_constant.h']]],
-  ['closenoad_3023',['closenoad',['../tex__constant_8h.html#a9a869da8ec6acdaeeb6f332f6deb47f3acb67b8924ae09b0e29af6dec0ec11756',1,'tex_constant.h']]],
+  ['closenoad_3023',['closenoad',['../group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3acb67b8924ae09b0e29af6dec0ec11756',1,'tex_constant.h']]],
   ['clubpenaltycode_3024',['clubpenaltycode',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dad094e12401189a69ee67dd92adcf6f56',1,'tex_constant.h']]],
   ['comment_3025',['COMMENT',['../group___s207x210___p73x76.html#ggac5d1010907c89d6760e8e410e227e6efaae696377c19e507b64e16be78ce3bbdb',1,'tex_constant.h']]],
   ['convert_3026',['CONVERT',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a4aac356f1e047661ce3c257e1700945c',1,'tex_constant.h']]],

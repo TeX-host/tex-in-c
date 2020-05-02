@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['idlookup_5fp_2309',['idlookup_p',['../tex_8c.html#ae8e38245319b4fed757b6242c5bfcd84',1,'idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs):&#160;tex.c'],['../texfunc_8h.html#ae8e38245319b4fed757b6242c5bfcd84',1,'idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs):&#160;tex.c']]],
+  ['idlookup_5fp_2309',['idlookup_p',['../group___s256x267___p102x108.html#gae8e38245319b4fed757b6242c5bfcd84',1,'idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs):&#160;tex.c'],['../group___s256x267___p102x108.html#gae8e38245319b4fed757b6242c5bfcd84',1,'idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs):&#160;tex.c']]],
   ['idlookup_5fs_2310',['idlookup_s',['../str_8c.html#a9c27e47045be81f1fa2e258eb60ad2ac',1,'idlookup_s(StrNumber s, Boolean no_new_cs):&#160;str.c'],['../str_8h.html#a9c27e47045be81f1fa2e258eb60ad2ac',1,'idlookup_s(StrNumber s, Boolean no_new_cs):&#160;str.c']]],
   ['indentinhmode_2311',['indentinhmode',['../tex_8c.html#abbe4585f12f4d09799742d7a6f8d97b1',1,'tex.c']]],
   ['init_5flexer_2312',['init_lexer',['../group___s321x331___p131x133.html#gacbe7dfc60906568e0f5ecdd024846d3f',1,'init_lexer(void):&#160;lexer.c'],['../group___s321x331___p131x133.html#gacbe7dfc60906568e0f5ecdd024846d3f',1,'init_lexer(void):&#160;lexer.c']]],

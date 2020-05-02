@@ -12,7 +12,7 @@ var searchData=
   ['lh_2766',['lh',['../struct_two_halves.html#af8130a1518a59f0f4993082feb50192d',1,'TwoHalves']]],
   ['lhyf_2767',['lhyf',['../tex__header_8h.html#a68a8540d7d76d398a016baab829069bb',1,'tex_header.h']]],
   ['ligaturepresent_2768',['ligaturepresent',['../tex__header_8h.html#aa7aad7ddbc9401a430010db201108292',1,'tex_header.h']]],
-  ['ligkernbase_2769',['ligkernbase',['../fonts_8c.html#a38679ef8c62853b8c4e1ff03e25977ec',1,'ligkernbase():&#160;fonts.c'],['../fonts_8h.html#a38679ef8c62853b8c4e1ff03e25977ec',1,'ligkernbase():&#160;fonts.c']]],
+  ['ligkernbase_2769',['ligkernbase',['../group___s539x582___p196x213.html#ga38679ef8c62853b8c4e1ff03e25977ec',1,'ligkernbase():&#160;fonts.c'],['../group___s539x582___p196x213.html#ga38679ef8c62853b8c4e1ff03e25977ec',1,'ligkernbase():&#160;fonts.c']]],
   ['ligstack_2770',['ligstack',['../tex__header_8h.html#a23ff7917c0e059bc692b6c915946633f',1,'tex_header.h']]],
   ['limitfield_2771',['limitfield',['../struct_in_state_record.html#ae639d2d3bec793bb66c2979da507ebac',1,'InStateRecord']]],
   ['line_2772',['line',['../group___s300x320___p121x130.html#gac4c381382bfde107704e306651e5cc63',1,'line():&#160;lexer.c'],['../group___s300x320___p121x130.html#gac4c381382bfde107704e306651e5cc63',1,'line():&#160;lexer.c']]],

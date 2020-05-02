@@ -4,7 +4,7 @@ var searchData=
   ['defref_2642',['defref',['../group___s300x320___p121x130.html#gaa792b81ca8301ee78fcf4175c739c10e',1,'defref():&#160;lexer.c'],['../group___s300x320___p121x130.html#gaa792b81ca8301ee78fcf4175c739c10e',1,'defref():&#160;lexer.c']]],
   ['deletions_5fallowed_2643',['deletions_allowed',['../global_8h.html#a111f306f8f66ea55ea260b9c94a9cfbb',1,'deletions_allowed():&#160;tex_header.h'],['../tex__header_8h.html#a111f306f8f66ea55ea260b9c94a9cfbb',1,'deletions_allowed():&#160;tex_header.h']]],
   ['depth_5fthreshold_2644',['depth_threshold',['../group___s173x198___p62x68.html#ga97d5cc5a8f2a2b1cb08550c6c4a983d0',1,'tex_header.h']]],
-  ['depthbase_2645',['depthbase',['../fonts_8c.html#aede90bb3b8451d9d96187ed48fd721e1',1,'fonts.c']]],
+  ['depthbase_2645',['depthbase',['../group___s539x582___p196x213.html#gaede90bb3b8451d9d96187ed48fd721e1',1,'fonts.c']]],
   ['diag_5foldsetting_2646',['diag_oldsetting',['../tex__header_8h.html#aa63eed8ac8f3c2c2497ace36854980f1',1,'tex_header.h']]],
   ['discwidth_2647',['discwidth',['../tex__header_8h.html#ab59ccfa1be550909d657e2888dd443cc',1,'tex_header.h']]],
   ['doingleaders_2648',['doingleaders',['../tex__header_8h.html#aca192d9356ac101e18933d80783be0dc',1,'tex_header.h']]],
