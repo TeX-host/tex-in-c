@@ -58,9 +58,20 @@
 
 Static jmp_buf _JMP_global__end_of_TEX;
 
+
+/** @addtogroup S17x24_P10x12
+ * @{
+ */
+
 /// [#20]
 ASCIICode xord[256];   // specifies conversion of input characters
 Char xchr[256]; // specifies conversion of output characters
+/** @}*/ // end group S17x24_P10x12
+
+
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
 
 /// [#26]: on some systems this may be a record variable
 Char name_of_file[FILE_NAME_SIZE + 1];
@@ -78,7 +89,12 @@ UInt16 max_buf_stack;          // largest index used in `buffer`
 #if !(defined(stdin) || defined(stdout) || defined(stderr))
 Static FILE *termin = NULL, *termout = NULL;
 #endif
+/** @}*/ // end group S25x37_P13x18
 
+
+/** @addtogroup S72x98_P30x37
+ * @{
+ */
 
 /*
  * [ #72~98: REPORTING ERRORS ]
@@ -108,6 +124,8 @@ Static Boolean use_err_help;   // should the `errhelp` list be shown?
 /// [#96]
 Integer interrupt;       // should TeX pause for instructions?
 Boolean OK_to_interrupt; // should interrupts be observed?
+/** @}*/ // end group S72x98_P30x37
+
 
 /** @addtogroup S115x132_P44x49
  * @{
@@ -169,6 +187,10 @@ UInt16 shown_mode; // most recent mode shown by \tracingcommands
 /** @}*/ // end group S211x219_P77x80
 
 
+/** @addtogroup S220x255_P81x101
+ * @{
+ */
+
 /// [ #220~255: THE TABLE OF EQUIVALENTS ]
 Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
 static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
@@ -178,6 +200,8 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
 MemoryWord eqtb[EQTB_SIZE - activebase + 1]; // equivalents table
 // store the eq level information
 Static QuarterWord xeqlevel[EQTB_SIZE - intbase + 1];
+/** @}*/ // end group S220x255_P81x101
+
 
 /** @addtogroup S256x267_P102x108
  * @{
@@ -209,6 +233,10 @@ Static Integer magset;
 /** @}*/ // end group S268x288_P109x114
 
 
+/** @addtogroup S332x365_P134x143
+ * @{
+ */
+
 /// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb
 Pointer parloc;
@@ -216,17 +244,34 @@ Pointer parloc;
 HalfWord partoken;
 // [#361] should the next \input be aborted early?
 Boolean force_eof;
+/** @}*/ // end group S332x365_P134x143
+
+
+/** @addtogroup S366x401_P144x154
+ * @{
+ */
 
 /// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+/** @}*/ // end group S366x401_P144x154
 
+
+/** @addtogroup S464x486_P174x180
+ * @{
+ */
 
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/
 Static FILE* readfile[16];
 char readopen[17];
 /*:480*/
+/** @}*/ // end group S464x486_P174x180
+
+
+/** @addtogroup S511x538_P188x195
+ * @{
+ */
 
 /*512:*/
 Static StrNumber curname, curarea, curext;
@@ -243,6 +288,7 @@ Static Boolean log_opened; /*:527*/
 /*532:*/
 Static StrNumber output_file_name, logname; 
 /*:532*/
+/** @}*/ // end group S511x538_P188x195
 
 
 /*555:*/

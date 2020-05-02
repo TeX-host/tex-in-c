@@ -2986,6 +2986,10 @@ _Ldone: /*:483*/
 /*:482*/
 
 
+/** @addtogroup S511x538_P188x195
+ * @{
+ */
+
 /// [ #511. File names. ] 
 
 /*515:*/
@@ -3219,6 +3223,8 @@ void startinput(void) {
     LOC = START; /*:538*/
 }
 /*:537*/
+/** @}*/ // end group S511x538_P188x195
+
 
 /*581:*/
 Static void charwarning(InternalFontNumber f, EightBits c) {
