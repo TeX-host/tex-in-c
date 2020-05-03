@@ -104,7 +104,13 @@ typedef UChar ASCIICode;
 typedef UChar TextChar;
 /** @}*/ // end group S17x24_P10x12
 
-typedef UChar EightBits;       ///< #25: `EightBits::UChar(8)` = [0, 255]
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+/// [#25]: `EightBits::UChar(8)` = [0, 255]
+typedef UChar EightBits;       
+/** @}*/ // end group S25x37_P13x18
+
 typedef UChar PackedASCIICode; ///< #38: `PackedASCIICode::UChar(8)` = [0, 255]
 
 /// [p38#101]: `Scaled::Integer(64)` = @f$ [−2^{64}, 2^{64}) @f$

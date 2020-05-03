@@ -7,6 +7,10 @@
 #include "lexer.h"   // [var] cur_input
 #include "inputln.h" // [export] inputln
 
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+
 /// [#31] inputs the next line or returns false.
 /// 30, [31], 37, 58, 71, 362, 485, 486, 538
 Boolean inputln(FILE* f, Boolean bypass_eoln) {
@@ -50,3 +54,5 @@ Boolean inputln(FILE* f, Boolean bypass_eoln) {
     last = lastnonblank;
     return true;
 } // #31: inputln
+
+/** @}*/ // end group S25x37_P13x18

@@ -14,6 +14,14 @@
 #include "tex.h" // [macro] dwa_do_8
 
 
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+/// [p18#36]  location of first unread character in #buffer.
+#define LOC     cur_input.locfield
+/** @}*/ // end group S25x37_P13x18
+
+
 /** @addtogroup S289x296_P115x118
  *  @{
  */
@@ -92,8 +100,6 @@ enum TokenType {
 /// [p125#307]
 #define TOKEN_LIST 0
 
-/// [p121#302]
-#define LOC     cur_input.locfield
 /** [#302] current scanner state.
  *
  * 1. `MID_LINE`    is the normal state.
@@ -108,7 +114,7 @@ enum TokenType {
  *  + 相等判断[8]:
  *      `==`: 325, 337, 390, 1335,
  *      `!=`: 311, 312[2], 330, 341,
- *  + 文本引用[6]: 87, 300, 303, 307, 344, 346, 
+ *  + 文本引用[6]: 87, 300, 303, 307, 344, 346,
  */
 #define STATE   cur_input.statefield 
 #define IINDEX  cur_input.indexfield ///< reference for #buffer information

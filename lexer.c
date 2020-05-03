@@ -101,8 +101,10 @@ UChar baseptr;
 // 辅助函数
 UChar get_maxinstack() { return maxinstack; }
 
-
-// [#37]
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+/// [#37] gets the terminal input started.
 static Boolean initterminal(void) {
     if (initinc(1)) { // initinc@func.c
         LOC = first;
@@ -125,6 +127,7 @@ static Boolean initterminal(void) {
         fprintf(stdout, "Please type the name of your input file.\n");
     } // while (true) {
 } // [#37] initterminal
+/** @}*/ // end group S25x37_P13x18
 
 
 /** @addtogroup S289x296_P115x118

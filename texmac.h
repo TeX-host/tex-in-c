@@ -14,12 +14,16 @@
 
 #define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
 
-
-/// [p14#27]
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+/// [p14#27]  open a file for output.
 #define wopenout a_open_out
 // [p17#33] 无需打开输出流，直接使用 stdout
 // #define topenin() (termin = stdin) // 33, 37
 // #define topenout() (termout = stdout) // 33, 1332
+/** @}*/ // end group S25x37_P13x18
+
 
 /// [p36#96]
 #define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)

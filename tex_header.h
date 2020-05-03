@@ -73,23 +73,26 @@ TextChar  xchr[256];
 /** @addtogroup S25x37_P13x18
  * @{
  */
-
-/// [#26]: on some systems this may be a record variable
+/// [#26]: on some systems this may be a record variable.
 Char name_of_file[FILE_NAME_SIZE + 1];
-// #26: this many characters are actually relevant in `name_of_file`
-// (the rest are blank)
+/** [#26]: this many characters are actually relevant in #name_of_file
+ *  (the rest are blank).
+ *
+ *  [0, FILE_NAME_SIZE=240]
+ */
 Static UInt16 namelength;
 
-/// [#30]
-ASCIICode buffer[BUF_SIZE + 1]; // lines of characters being read
-UInt16 first;                  // the first unused position in `buffer`
-UInt16 last;                   // end of the line just input to `buffer`
-UInt16 max_buf_stack;          // largest index used in `buffer`
+/// [#30]: lines of characters being read
+ASCIICode buffer[BUF_SIZE + 1];
+/// [#30]: the first unused position in #buffer. [0, BUF_SIZE=5000]
+UInt16 first;
+/// [#30]: end of the line just input to #buffer. [0, BUF_SIZE=5000]
+UInt16 last;
+/// [#30]: largest index used in #buffer. [0, BUF_SIZE=5000]
+UInt16 max_buf_stack;
 
-/// [#32]: 直接使用 stdin, stdout, stderr
-#if !(defined(stdin) || defined(stdout) || defined(stderr))
-Static FILE *termin = NULL, *termout = NULL;
-#endif
+// [#32]: 直接使用 stdin, stdout, stderr
+// Static FILE *term_in = NULL, *term_out = NULL;
 /** @}*/ // end group S25x37_P13x18
 
 
