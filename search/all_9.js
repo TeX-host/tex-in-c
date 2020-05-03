@@ -116,7 +116,7 @@ var searchData=
   ['intpar_905',['intpar',['../texmac_8h.html#a72142e1186b98baed82b55c378741897',1,'texmac.h']]],
   ['intpars_906',['intpars',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da733a0a4dbc925c7582a5d1b2cdc6e14c',1,'tex_constant.h']]],
   ['invalid_5fchar_907',['INVALID_CHAR',['../group___s207x210___p73x76.html#ggac5d1010907c89d6760e8e410e227e6efafdfa1056b2c4aa1ec5f98772e822c3f7',1,'tex_constant.h']]],
-  ['invalid_5fcode_908',['INVALID_CODE',['../group___s17x24___p10x12.html#gaeec57c2daf5e38cc8cfcb9f6c789666a',1,'tex.h']]],
+  ['invalid_5fcode_908',['INVALID_CODE',['../group___s17x24___p10x12.html#gaeec57c2daf5e38cc8cfcb9f6c789666a',1,'tex_constant.h']]],
   ['ischarnode_909',['ischarnode',['../texmac_8h.html#ab2e0ced73207a26f9467b66c44949912',1,'texmac.h']]],
   ['isempty_910',['isempty',['../group___s115x132___p44x49.html#gad9f71af75df91a722f3543e4878e45bd',1,'texmac.h']]],
   ['ishex_911',['ishex',['../texmac_8h.html#a70173db3d329c64c027f4632700520d2',1,'texmac.h']]],

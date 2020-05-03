@@ -106,361 +106,293 @@ $(document).ready(function(){initNavTree('tex_8h_source.html',''); initResizable
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">   11</a></span>&#160;<span class="preprocessor">#define dwa_do_8  ((int)16*1024*1024)</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="tex_8h.html#a5106ac2b3de7b15e93d9962bbd0d9d23">   12</a></span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define TEX_BANNER      &quot;This is TeX, Version 3.14159&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gacbe67c8d530c8b4d1464aecf3c231a81">   21</a></span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">/* [#11]: Constants in the outer block.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">    The following parameters can be changed at compile time </span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">        to extend or reduce TEX’s capacity. </span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">    They may have different values in INITEX and </span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">        in production versions of TEX.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#define MEM_MAX         3000000</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga811cea638bf420a122a963892117b9c0">   38</a></span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define MEM_MIN         0</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gae9873cc64dff748c3a6d9fdd79741210">   44</a></span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#define BUF_SIZE        5000</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga6821bafc3c88dfb2e433a095df9940c6">   52</a></span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#define ERROR_LINE      72</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gaa8eb0ea69576396000ea9a91bdbeeba5">   55</a></span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#define HALF_ERROR_LINE 42</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gac7055178c5807c1370e9026e027de595">   60</a></span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#define MAX_PRINT_LINE  79</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gabdc561d57b3d7877b8a2373b6dd8f8d2">   65</a></span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">#define STACK_SIZE      200</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga6423a880df59733d2d9b509c7718d3a9">   68</a></span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#define MAX_IN_OPEN     6</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga9980d64639838daab3b9dd48506bd87e">   72</a></span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#define FONT_MAX        75</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga2ce66e0d3c49ed90ef67a5fafc6899c0">   75</a></span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#define FONT_MEM_SIZE   200000</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga7760883fa2312d07dcc1e90e34f16ea2">   80</a></span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#define PARAM_SIZE      60</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga1dc6200b7756ec764f3ac70ba7ab49cf">   83</a></span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#define NEST_SIZE       40</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gad98a9352ecd1bb1bd0454543189566f1">   86</a></span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#define SAVE_SIZE       600</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga3ef531cbe1242a15cd087b7542356808">   90</a></span>&#160; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#define TRIE_SIZE       131000</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">   96</a></span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#define TRIE_OP_SIZE    5000</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">  101</a></span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#define FILE_NAME_SIZE  240</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gaa7a7fd4622267bc1b90eca7fbf99c7dd">  106</a></span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#define POOL_NAME       &quot;TeXformats:TEX.POOL                     &quot;</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gaf82671db636cde02e24afd962428b9a5">  110</a></span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#define MEM_BOT         0</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga82fadb242b91575151f900a42c734fb2">  115</a></span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor">#define MEM_TOP         3000000</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gae65a0fade54102533a4fe691a996746a">  122</a></span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor">#define FONT_BASE       0</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga583277a5d4db355b389c03c476d4c1a7">  125</a></span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">#define HASH_SIZE       210000</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#gad6074dd11ab3c97c8135c43aab03ae95">  131</a></span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#define HASH_PRIME      171553</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga3340643b9fb0a58333f04e75ff897e03">  137</a></span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">#define HYPH_SIZE       307</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga3eab8e99b916b53fa5759ac4b4fd1c0b">  140</a></span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">#define EMPTY           0</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="group___s1x16___p3x9.html#ga2b7cf2a3641be7b89138615764d60ba3">  144</a></span>&#160; <span class="comment">// end group S1x16_P3x9</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor">#define FIRST_TEXT_CHAR 0</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="group___s17x24___p10x12.html#gabd11d9c68650fce9f50ae9fb575c5fb0">  153</a></span>&#160;<span class="preprocessor">#define LAST_TEXT_CHAR  255</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="group___s17x24___p10x12.html#ga95ec69dfaa63cc58b508264908d7dee0">  155</a></span>&#160;<span class="preprocessor">#define NULL_CODE       0</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="group___s17x24___p10x12.html#ga4350ea460ad64714c617506677d68191">  157</a></span>&#160;<span class="preprocessor">#define CARRIAGE_RETURN &#39;\r&#39;</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="group___s17x24___p10x12.html#ga3b81478c7058ceb6ed610ce8e2ca3822">  159</a></span>&#160;<span class="preprocessor">#define INVALID_CODE    127</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="group___s17x24___p10x12.html#gaeec57c2daf5e38cc8cfcb9f6c789666a">  161</a></span>&#160; <span class="comment">// end group S17x24_P10x12</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#define MIN_QUARTER_WORD    0</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga85ed85b9020e3e3b237ff38c897b6c27">  170</a></span>&#160;<span class="preprocessor">#define MAX_QUARTER_WORD    255</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga19ea000919b78a718d0a6ce48971f947">  173</a></span>&#160;<span class="preprocessor">#define MIN_HALF_WORD       0</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga6ee4d13135099c571dcddbe409fecf5c">  175</a></span>&#160;<span class="preprocessor">#define MAX_HALF_WORD       655350000L</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga6f26beaf9aba8aa94d967e3b06ef7983">  179</a></span>&#160; <span class="comment">// end group S110x114_P42x43</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">#define emptyflag       MAX_HALF_WORD</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="group___s115x132___p44x49.html#ga55fc33cb441246fad20030067832ce4e">  188</a></span>&#160;<span class="comment">// ??? nodesize // end group S115x132_P44x49</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define MIN_QUARTER_WORD    0</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga85ed85b9020e3e3b237ff38c897b6c27">   20</a></span>&#160;<span class="preprocessor">#define MAX_QUARTER_WORD    255</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga19ea000919b78a718d0a6ce48971f947">   23</a></span>&#160;<span class="preprocessor">#define MIN_HALF_WORD       0</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga6ee4d13135099c571dcddbe409fecf5c">   25</a></span>&#160;<span class="preprocessor">#define MAX_HALF_WORD       655350000L</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="group___s110x114___p42x43.html#ga6f26beaf9aba8aa94d967e3b06ef7983">   29</a></span>&#160; <span class="comment">// end group S110x114_P42x43</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define emptyflag       MAX_HALF_WORD</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="group___s115x132___p44x49.html#ga55fc33cb441246fad20030067832ce4e">   38</a></span>&#160;<span class="comment">// ??? nodesize // end group S115x132_P44x49</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#define zeroglue        MEM_BOT</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga47e4c31379cd6cc8822fc9642e073bb5">   48</a></span>&#160;<span class="preprocessor">#define filglue         (zeroglue + gluespecsize)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga9075ed44fbc97269a0c2a93c034fccc2">   50</a></span>&#160;<span class="preprocessor">#define fillglue        (filglue + gluespecsize)</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga0c65443f60e183b87ce585080b88f682">   52</a></span>&#160;<span class="preprocessor">#define ssglue          (fillglue + gluespecsize)</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga4c03b49a1319bb102db9e4911750e2c0">   54</a></span>&#160;<span class="preprocessor">#define filnegglue      (ssglue + gluespecsize)</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gae7144fd8484172ef526a8e57d6a42b76">   56</a></span>&#160;<span class="preprocessor">#define lomemstatmax    (filnegglue + gluespecsize - 1)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga15736d8d9c7dab2a2a9475e74bf203c3">   58</a></span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#define pageinshead     (MEM_TOP-CHAR_NODE_SIZE+1)</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga18b2303c33f64aa6834341bf30b58c93">   61</a></span>&#160;<span class="preprocessor">#define contribhead     (pageinshead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gacc1a5fa2458558f242c7ac41ae179ec5">   63</a></span>&#160;<span class="preprocessor">#define pagehead        (contribhead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga7f89a23c09a0dba4dbf9a55a3396b86c">   65</a></span>&#160;<span class="preprocessor">#define temphead        (pagehead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga2139fd0e659e15fb54659042bb4cc64d">   67</a></span>&#160;<span class="preprocessor">#define holdhead        (temphead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga7b1532fea64f0a60d6bdfe8f1fd04e56">   69</a></span>&#160;<span class="preprocessor">#define adjusthead      (holdhead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gac6ac9b2f0bd471399a9f4533e3b2a09e">   71</a></span>&#160;<span class="preprocessor">#define active          (adjusthead-CHAR_NODE_SIZE-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga2cf247126d70f37775cf05b78040d370">   73</a></span>&#160;<span class="preprocessor">#define alignhead       (active-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga88e319128f7c3d1d63984dae1e78c41a">   75</a></span>&#160;<span class="preprocessor">#define endspan         (alignhead-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gabfe28a9103b191b8b531535087958349">   77</a></span>&#160;<span class="preprocessor">#define omittemplate    (endspan-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gaf32bd4b3848a992f1e754e279880a510">   79</a></span>&#160;<span class="preprocessor">#define nulllist        (omittemplate-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gac67571a1fc7d0503cc829ec6da88c207">   81</a></span>&#160;<span class="preprocessor">#define ligtrick        (nulllist-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga796af48ef5a2065dffec67aef97343bf">   83</a></span>&#160;<span class="preprocessor">#define garbage         (ligtrick)</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gafe708522d17af3e785af0be0607fcedc">   85</a></span>&#160;<span class="preprocessor">#define backuphead      (ligtrick-CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gae8c3dab73f67111c41552b982bb55abc">   87</a></span>&#160;<span class="preprocessor">#define himemstatmin    (backuphead)</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gabf53e2aea7383b3f331de8b69591750e">   89</a></span>&#160; <span class="comment">// end group S162x172_P58x61</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#define varcode         28672</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="tex_8h.html#a0f7e03e009642a736129632789a965fc">   94</a></span>&#160;<span class="preprocessor">#define NULL_FONT       0</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="tex_8h.html#a09478f26f92a0a027af8401e1248ac90">   95</a></span>&#160;<span class="preprocessor">#define nullflag        (-1073741824L)</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="tex_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125">   96</a></span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#define defaultcode     1073741824L</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="tex_8h.html#af0133c456ba07df11b57dfb0ace59e4a">   98</a></span>&#160;<span class="preprocessor">#define awfulbad        1073741823L</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="tex_8h.html#afb8d08b641bc03250576f3f8ada33d23">   99</a></span>&#160;<span class="preprocessor">#define boxflag         1073741824L</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="tex_8h.html#a77ea41d34ccb6d9fca4f33cfe6b7c303">  100</a></span>&#160;<span class="preprocessor">#define ignoredepth     (-65536000L)</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a">  101</a></span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#define boxnodesize     7</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="tex_8h.html#afb913713edcafdaeba82db61265bf9a6">  103</a></span>&#160;<span class="preprocessor">#define widthoffset     1</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="tex_8h.html#a4b4d9555968516e85aba7241d3d40810">  104</a></span>&#160;<span class="preprocessor">#define depthoffset     2</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="tex_8h.html#ae796bebfb225f113305a51cf605af9e2">  105</a></span>&#160;<span class="preprocessor">#define heightoffset    3</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="tex_8h.html#a7f2d59e2e59a3bd595fada575b421e2c">  106</a></span>&#160;<span class="preprocessor">#define listoffset      5</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="tex_8h.html#a92feeb624f17da22656e55fad120c2c5">  107</a></span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor">#define stretching      1</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="tex_8h.html#aca7322fb2fab667dc1a15dcd4683ccdd">  109</a></span>&#160;<span class="preprocessor">#define shrinking       2</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="tex_8h.html#ab0fb938ee1eaf5dd85723c6ca6b3f9fd">  110</a></span>&#160;<span class="preprocessor">#define glueoffset      6</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="tex_8h.html#ab33e7b1289a2bb1e4c6bce6d267fde8c">  111</a></span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#define condmathglue    98</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="tex_8h.html#aa0e91ce5c419c9d9fcbc6d2d9a7537d5">  113</a></span>&#160;<span class="preprocessor">#define muglue          99</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="tex_8h.html#ac32feb7f47cf54b2b38c81df0d02ec5a">  114</a></span>&#160;<span class="preprocessor">#define aleaders        100</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="tex_8h.html#a6fcdbe202967f4bd8f87f9685f36cb7a">  115</a></span>&#160;<span class="preprocessor">#define cleaders        101</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="tex_8h.html#abfb5fbaf0885f5c7e8d38509f3b77b1e">  116</a></span>&#160;<span class="preprocessor">#define xleaders        102</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="tex_8h.html#a330a0f221539f0824796c93600689af1">  117</a></span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#define himemstatusage  14</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="tex_8h.html#a7b3460b7f85f04b117888cc126e8c7e3">  119</a></span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">// [#211]</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#define V_MODE           1 // vertical mode</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#gae7b6c69990d958f379dd097d03595937">  128</a></span>&#160;<span class="preprocessor">#define H_MODE           (V_MODE + MAX_COMMAND + 1) // horizontal mode</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#ga21f9ee16396468f98b8ed4db2311e71b">  129</a></span>&#160;<span class="preprocessor">#define M_MODE           (H_MODE + MAX_COMMAND + 1) // math mode</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#ga664e24a3082ff39320faa66cd8e4cf39">  130</a></span>&#160; <span class="comment">// end group S211x219_P77x80</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">// [#221]</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor">#define levelzero       MIN_QUARTER_WORD</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga3aba6b605383520f89f8b1718b455c79">  138</a></span>&#160;<span class="preprocessor">#define levelone        (levelzero + 1)</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga8b2aeff4ddcfbefad026fc4a25bffcc2">  139</a></span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor">#define activebase                  1</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab8b148e6a3d615f9a7b96c9ec5bc31de">  142</a></span>&#160;<span class="preprocessor">#define singlebase                  (activebase + 256)</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaf44bec8299e7ef6cc38afb3c32d08aad">  143</a></span>&#160;<span class="preprocessor">#define nullcs                      (singlebase + 256)</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae8c02d3d9b27694130fe704c98efd090">  144</a></span>&#160;<span class="preprocessor">#define hashbase                    (nullcs + 1)</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab73b5124031f357fbf073cb24a2c67dc">  145</a></span>&#160;<span class="preprocessor">#define frozencontrolsequence       (hashbase + HASH_SIZE)</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gad71289cb8af99b5131df949cdc683748">  146</a></span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#define frozenprotection            frozencontrolsequence</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gabd3879f7c27ca674f5165a0c83121486">  148</a></span>&#160;<span class="preprocessor">#define frozencr                    (frozencontrolsequence + 1)</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga3e8dae30aa5bb9ea7ff612daeff6dd4f">  149</a></span>&#160;<span class="preprocessor">#define frozenendgroup              (frozencontrolsequence + 2)</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga91c0749e28aa13b68cd086b60e9f149d">  150</a></span>&#160;<span class="preprocessor">#define frozenright                 (frozencontrolsequence + 3)</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga9169ff7c80cefe8924bd18f7e6e2abe3">  151</a></span>&#160;<span class="preprocessor">#define frozenfi                    (frozencontrolsequence + 4)</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga0d5a4706a15fb94d110692a527b6b018">  152</a></span>&#160;<span class="preprocessor">#define frozenendtemplate           (frozencontrolsequence + 5)</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gad186687ddb9bd982b22402eeda92ed32">  153</a></span>&#160;<span class="preprocessor">#define frozenendv                  (frozencontrolsequence + 6)</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga2d92324369f2ad060dd2c2e1b31507a1">  154</a></span>&#160;<span class="preprocessor">#define frozenrelax                 (frozencontrolsequence + 7)</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga7cea01ec8b60e521fcec0dd9185fee48">  155</a></span>&#160;<span class="preprocessor">#define endwrite                    (frozencontrolsequence + 8)</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaf94e408c90d5463388f65d51177d8e98">  156</a></span>&#160;<span class="preprocessor">#define frozendontexpand            (frozencontrolsequence + 9)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gac33956de95e5e344aa24160cf3c751d4">  157</a></span>&#160;<span class="preprocessor">#define FROZEN_NULL_FONT              (frozencontrolsequence + 10)</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae73343187ad2bdc832f50d08d01d88c5">  158</a></span>&#160;<span class="preprocessor">#define fontidbase                  (FROZEN_NULL_FONT)</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga283fdc4cbcffec2d681db3263aaf0a8b">  159</a></span>&#160;<span class="preprocessor">#define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab1b8a28cc7ef6a11ddbf882ac355dd47">  160</a></span>&#160;<span class="preprocessor">#define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga55a11db3001be41b93124e344984d3c3">  161</a></span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor">#define skipbase        (gluebase + GLUE_PARS)</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga44ed3fe4c6b6b712bc2d1f6bd46be185">  163</a></span>&#160;<span class="preprocessor">#define muskipbase      (skipbase + 256)</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga18e27e04c2433835d811eaf939eeade5">  164</a></span>&#160;<span class="preprocessor">#define localbase       (muskipbase + 256)</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga4a148c0aa79ee4e00cb5eb8accbb1352">  165</a></span>&#160; </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment">// [p87#230]</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#define parshapeloc     localbase</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6824f0e39eb3e3b3fb045ff535fa2460">  169</a></span>&#160;<span class="preprocessor">#define outputroutineloc  (localbase + 1)</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga744b79f414f3c295717ef0ad933aae17">  170</a></span>&#160;<span class="preprocessor">#define everyparloc     (localbase + 2)</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga631d8d485b483bad27554f3cb35a3949">  171</a></span>&#160;<span class="preprocessor">#define everymathloc    (localbase + 3)</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae19168469fd075bc7cfcc2e9724c2329">  172</a></span>&#160;<span class="preprocessor">#define everydisplayloc  (localbase + 4)</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga375dc78020d678f3282b78dd0df7bfc6">  173</a></span>&#160;<span class="preprocessor">#define everyhboxloc    (localbase + 5)</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gadf2d82f6e4fd220873bf787a36112474">  174</a></span>&#160;<span class="preprocessor">#define everyvboxloc    (localbase + 6)</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga5e94794bf8e89e660b547bdd8f242b28">  175</a></span>&#160;<span class="preprocessor">#define everyjobloc     (localbase + 7)</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gafc54b47b9651084fd88d8cc76373d5e8">  176</a></span>&#160;<span class="preprocessor">#define everycrloc      (localbase + 8)</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga888cfe56d0ac7a41830d284aedfa0cdf">  177</a></span>&#160;<span class="preprocessor">#define errhelploc      (localbase + 9)</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga84eebd3abda35676de75185f568c8c0c">  178</a></span>&#160;<span class="preprocessor">#define toksbase        (localbase + 10)</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga012ebb5330e5273676f190189ddf688c">  179</a></span>&#160; </div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#define boxbase         (toksbase + 256)</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga0c6dac8c05fa158d999e090a8879f19d">  181</a></span>&#160;<span class="preprocessor">#define curfontloc      (boxbase + 256)</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6ab50f2c21e5d6350b598fe608b6d229">  182</a></span>&#160;<span class="preprocessor">#define mathfontbase    (curfontloc + 1)</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga40269d03141e6fe1e38271b909ab5890">  183</a></span>&#160;<span class="preprocessor">#define catcodebase     (mathfontbase + 48)</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga477af3c00904693ca5fbd1430f851755">  184</a></span>&#160;<span class="preprocessor">#define lccodebase      (catcodebase + 256)</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga4fae8559a177bb57023835f24ad36e24">  185</a></span>&#160;<span class="preprocessor">#define uccodebase      (lccodebase + 256)</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga017c699635c926fb17f73254bff462ca">  186</a></span>&#160;<span class="preprocessor">#define sfcodebase      (uccodebase + 256)</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaba5dfe0e26eed6d5f0c058c753acc8ef">  187</a></span>&#160;<span class="preprocessor">#define mathcodebase    (sfcodebase + 256)</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gac87cfb66643013708cb6853ff420fff5">  188</a></span>&#160;<span class="preprocessor">#define intbase         (mathcodebase + 256)</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6dd43e8c81c2fd9e547a68f968f4da79">  189</a></span>&#160; <span class="comment">// end group S220x255_P81x101</span></div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#define zeroglue        MEM_BOT</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga47e4c31379cd6cc8822fc9642e073bb5">  198</a></span>&#160;<span class="preprocessor">#define filglue         (zeroglue + gluespecsize)</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga9075ed44fbc97269a0c2a93c034fccc2">  200</a></span>&#160;<span class="preprocessor">#define fillglue        (filglue + gluespecsize)</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga0c65443f60e183b87ce585080b88f682">  202</a></span>&#160;<span class="preprocessor">#define ssglue          (fillglue + gluespecsize)</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga4c03b49a1319bb102db9e4911750e2c0">  204</a></span>&#160;<span class="preprocessor">#define filnegglue      (ssglue + gluespecsize)</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gae7144fd8484172ef526a8e57d6a42b76">  206</a></span>&#160;<span class="preprocessor">#define lomemstatmax    (filnegglue + gluespecsize - 1)</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga15736d8d9c7dab2a2a9475e74bf203c3">  208</a></span>&#160; </div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor">#define pageinshead     (MEM_TOP-CHAR_NODE_SIZE+1)</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga18b2303c33f64aa6834341bf30b58c93">  211</a></span>&#160;<span class="preprocessor">#define contribhead     (pageinshead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gacc1a5fa2458558f242c7ac41ae179ec5">  213</a></span>&#160;<span class="preprocessor">#define pagehead        (contribhead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga7f89a23c09a0dba4dbf9a55a3396b86c">  215</a></span>&#160;<span class="preprocessor">#define temphead        (pagehead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga2139fd0e659e15fb54659042bb4cc64d">  217</a></span>&#160;<span class="preprocessor">#define holdhead        (temphead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga7b1532fea64f0a60d6bdfe8f1fd04e56">  219</a></span>&#160;<span class="preprocessor">#define adjusthead      (holdhead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gac6ac9b2f0bd471399a9f4533e3b2a09e">  221</a></span>&#160;<span class="preprocessor">#define active          (adjusthead-CHAR_NODE_SIZE-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga2cf247126d70f37775cf05b78040d370">  223</a></span>&#160;<span class="preprocessor">#define alignhead       (active-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga88e319128f7c3d1d63984dae1e78c41a">  225</a></span>&#160;<span class="preprocessor">#define endspan         (alignhead-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gabfe28a9103b191b8b531535087958349">  227</a></span>&#160;<span class="preprocessor">#define omittemplate    (endspan-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gaf32bd4b3848a992f1e754e279880a510">  229</a></span>&#160;<span class="preprocessor">#define nulllist        (omittemplate-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gac67571a1fc7d0503cc829ec6da88c207">  231</a></span>&#160;<span class="preprocessor">#define ligtrick        (nulllist-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#ga796af48ef5a2065dffec67aef97343bf">  233</a></span>&#160;<span class="preprocessor">#define garbage         (ligtrick)</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gafe708522d17af3e785af0be0607fcedc">  235</a></span>&#160;<span class="preprocessor">#define backuphead      (ligtrick-CHAR_NODE_SIZE)</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gae8c3dab73f67111c41552b982bb55abc">  237</a></span>&#160;<span class="preprocessor">#define himemstatmin    (backuphead)</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno"><a class="line" href="group___s162x172___p58x61.html#gabf53e2aea7383b3f331de8b69591750e">  239</a></span>&#160; <span class="comment">// end group S162x172_P58x61</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">// [p92]</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#define countbase       (intbase + intpars)</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="tex_8h.html#ad74ab78d5568761b187f612e508f6b04">  193</a></span>&#160;<span class="preprocessor">#define delcodebase     (countbase + 256)</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="tex_8h.html#add6c2dbefeb047e8ff0c43f822d5a3cf">  194</a></span>&#160;<span class="preprocessor">#define dimenbase       (delcodebase + 256)</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="tex_8h.html#a542ac3248c9dab19de837e6f18e899aa">  195</a></span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">// [p136#341]</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#define switch_         25</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno"><a class="line" href="tex_8h.html#a09b0cb1cf5ce76e7e99cbfd1c8e3fba5">  199</a></span>&#160;<span class="preprocessor">#define startcs         26</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="tex_8h.html#a0aa9da87af13afc841a7ad7ee4cf6580">  200</a></span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">// [p141#358]</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor">#define noexpandflag    257</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno"><a class="line" href="tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852">  203</a></span>&#160; </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">// [p148#382]</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#define topmarkcode         0</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="tex_8h.html#a3ed37caad9012173d6435e90982ad16c">  206</a></span>&#160;<span class="preprocessor">#define firstmarkcode       1</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno"><a class="line" href="tex_8h.html#a63bbf69ce0b4767b16a7fc0c5448427a">  207</a></span>&#160;<span class="preprocessor">#define botmarkcode         2</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="tex_8h.html#afb337b92dde146ae5c4a9cc84693628b">  208</a></span>&#160;<span class="preprocessor">#define splitfirstmarkcode  3</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno"><a class="line" href="tex_8h.html#ad29385fea6041c522ac27534e4f3ae03">  209</a></span>&#160;<span class="preprocessor">#define splitbotmarkcode    4</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="tex_8h.html#af79d3b9fcef12ef630bb300c2835b2ed">  210</a></span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">// [p179#480]</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="preprocessor">#define closed          2</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="tex_8h.html#a8ba70cf67f46523d1c764c9e61e83ca7">  213</a></span>&#160;<span class="preprocessor">#define justopen        1</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno"><a class="line" href="tex_8h.html#af71c657c952a505abaf4fb815d607449">  214</a></span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="preprocessor">#define formatextension         S(256)</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno"><a class="line" href="tex_8h.html#afb8599f884cf37b3df4d4d49b554d230">  217</a></span>&#160;<span class="preprocessor">#define FORMAT_DEFAULT_LENGTH   20</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno"><a class="line" href="tex_8h.html#a26b0aeab1775b0089d64dbe100f5e945">  218</a></span>&#160;<span class="preprocessor">#define formatarealength        11</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno"><a class="line" href="tex_8h.html#ab140e2fc758490b89634dc38d1665812">  219</a></span>&#160;<span class="preprocessor">#define formatextlength         4</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno"><a class="line" href="tex_8h.html#a7312dfcf36969ff1f2e3e8f28d307263">  220</a></span>&#160; </div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">// [p201#549]</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor">#define nonaddress      0</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="tex_8h.html#a5b17f11a2394cca74fc404b0103004fe">  223</a></span>&#160;<span class="comment">// [p204#557]</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="preprocessor">#define kernbaseoffset  32768</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno"><a class="line" href="tex_8h.html#a09acf2986201cf0db897d5a9e9af484b">  225</a></span>&#160;<span class="comment">// [p205#560]</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="preprocessor">#define badtfm          11</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ac58e8c07a729246fa8b487c167fb99">  227</a></span>&#160;<span class="comment">// [p229#619]</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor">#define movepast        13</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="tex_8h.html#a51211aff1f011195025553a9cb9e1f18">  229</a></span>&#160;<span class="preprocessor">#define finrule         14</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="tex_8h.html#aff570c0a81ec0b8661bdb79278836fe8">  230</a></span>&#160;<span class="preprocessor">#define nextp           15</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad">  231</a></span>&#160;<span class="comment">// [p239#644]</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="preprocessor">#define exactly         0</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno"><a class="line" href="tex_8h.html#a71163e5679d575825e139dfbcb95387d">  233</a></span>&#160;<span class="preprocessor">#define additional      1</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno"><a class="line" href="tex_8h.html#a2ff9cbaaecc027580f85c8a6cc62ab8d">  234</a></span>&#160;<span class="comment">// [p250#681]</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="preprocessor">#define mathchar        1</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno"><a class="line" href="tex_8h.html#ad707daa11fb4a3c728720703bd316dd7">  236</a></span>&#160;<span class="preprocessor">#define subbox          2</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="tex_8h.html#a3994ffb82e1bcf1fde138049605dd744">  237</a></span>&#160;<span class="preprocessor">#define submlist        3</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno"><a class="line" href="tex_8h.html#afe101517b84380ce4ce3b0ab870ebfd0">  238</a></span>&#160;<span class="preprocessor">#define mathtextchar    4</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno"><a class="line" href="tex_8h.html#aa573a01b19e3b2e3bb209785f2d6c6f7">  239</a></span>&#160; </div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">#define varcode         28672</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno"><a class="line" href="tex_8h.html#a0f7e03e009642a736129632789a965fc">  244</a></span>&#160;<span class="preprocessor">#define NULL_FONT       0</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="tex_8h.html#a09478f26f92a0a027af8401e1248ac90">  245</a></span>&#160;<span class="preprocessor">#define nullflag        (-1073741824L)</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno"><a class="line" href="tex_8h.html#a2c1c94efac2e7785b8e42b4dbeeaf125">  246</a></span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">#define defaultcode     1073741824L</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="tex_8h.html#af0133c456ba07df11b57dfb0ace59e4a">  248</a></span>&#160;<span class="preprocessor">#define awfulbad        1073741823L</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="tex_8h.html#afb8d08b641bc03250576f3f8ada33d23">  249</a></span>&#160;<span class="preprocessor">#define boxflag         1073741824L</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="tex_8h.html#a77ea41d34ccb6d9fca4f33cfe6b7c303">  250</a></span>&#160;<span class="preprocessor">#define ignoredepth     (-65536000L)</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno"><a class="line" href="tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a">  251</a></span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="preprocessor">#define boxnodesize     7</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno"><a class="line" href="tex_8h.html#afb913713edcafdaeba82db61265bf9a6">  253</a></span>&#160;<span class="preprocessor">#define widthoffset     1</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="tex_8h.html#a4b4d9555968516e85aba7241d3d40810">  254</a></span>&#160;<span class="preprocessor">#define depthoffset     2</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno"><a class="line" href="tex_8h.html#ae796bebfb225f113305a51cf605af9e2">  255</a></span>&#160;<span class="preprocessor">#define heightoffset    3</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="tex_8h.html#a7f2d59e2e59a3bd595fada575b421e2c">  256</a></span>&#160;<span class="preprocessor">#define listoffset      5</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno"><a class="line" href="tex_8h.html#a92feeb624f17da22656e55fad120c2c5">  257</a></span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">#define stretching      1</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno"><a class="line" href="tex_8h.html#aca7322fb2fab667dc1a15dcd4683ccdd">  259</a></span>&#160;<span class="preprocessor">#define shrinking       2</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="tex_8h.html#ab0fb938ee1eaf5dd85723c6ca6b3f9fd">  260</a></span>&#160;<span class="preprocessor">#define glueoffset      6</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="tex_8h.html#ab33e7b1289a2bb1e4c6bce6d267fde8c">  261</a></span>&#160; </div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#define condmathglue    98</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="tex_8h.html#aa0e91ce5c419c9d9fcbc6d2d9a7537d5">  263</a></span>&#160;<span class="preprocessor">#define muglue          99</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno"><a class="line" href="tex_8h.html#ac32feb7f47cf54b2b38c81df0d02ec5a">  264</a></span>&#160;<span class="preprocessor">#define aleaders        100</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="tex_8h.html#a6fcdbe202967f4bd8f87f9685f36cb7a">  265</a></span>&#160;<span class="preprocessor">#define cleaders        101</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno"><a class="line" href="tex_8h.html#abfb5fbaf0885f5c7e8d38509f3b77b1e">  266</a></span>&#160;<span class="preprocessor">#define xleaders        102</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno"><a class="line" href="tex_8h.html#a330a0f221539f0824796c93600689af1">  267</a></span>&#160; </div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#define himemstatusage  14</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno"><a class="line" href="tex_8h.html#a7b3460b7f85f04b117888cc126e8c7e3">  269</a></span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">// [#211]</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor">#define V_MODE           1 // vertical mode</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#gae7b6c69990d958f379dd097d03595937">  278</a></span>&#160;<span class="preprocessor">#define H_MODE           (V_MODE + MAX_COMMAND + 1) // horizontal mode</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#ga21f9ee16396468f98b8ed4db2311e71b">  279</a></span>&#160;<span class="preprocessor">#define M_MODE           (H_MODE + MAX_COMMAND + 1) // math mode</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="group___s211x219___p77x80.html#ga664e24a3082ff39320faa66cd8e4cf39">  280</a></span>&#160; <span class="comment">// end group S211x219_P77x80</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">// [#221]</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#define levelzero       MIN_QUARTER_WORD</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga3aba6b605383520f89f8b1718b455c79">  288</a></span>&#160;<span class="preprocessor">#define levelone        (levelzero + 1)</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga8b2aeff4ddcfbefad026fc4a25bffcc2">  289</a></span>&#160; </div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="preprocessor">#define activebase                  1</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab8b148e6a3d615f9a7b96c9ec5bc31de">  292</a></span>&#160;<span class="preprocessor">#define singlebase                  (activebase + 256)</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaf44bec8299e7ef6cc38afb3c32d08aad">  293</a></span>&#160;<span class="preprocessor">#define nullcs                      (singlebase + 256)</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae8c02d3d9b27694130fe704c98efd090">  294</a></span>&#160;<span class="preprocessor">#define hashbase                    (nullcs + 1)</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab73b5124031f357fbf073cb24a2c67dc">  295</a></span>&#160;<span class="preprocessor">#define frozencontrolsequence       (hashbase + HASH_SIZE)</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gad71289cb8af99b5131df949cdc683748">  296</a></span>&#160; </div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#define frozenprotection            frozencontrolsequence</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gabd3879f7c27ca674f5165a0c83121486">  298</a></span>&#160;<span class="preprocessor">#define frozencr                    (frozencontrolsequence + 1)</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga3e8dae30aa5bb9ea7ff612daeff6dd4f">  299</a></span>&#160;<span class="preprocessor">#define frozenendgroup              (frozencontrolsequence + 2)</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga91c0749e28aa13b68cd086b60e9f149d">  300</a></span>&#160;<span class="preprocessor">#define frozenright                 (frozencontrolsequence + 3)</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga9169ff7c80cefe8924bd18f7e6e2abe3">  301</a></span>&#160;<span class="preprocessor">#define frozenfi                    (frozencontrolsequence + 4)</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga0d5a4706a15fb94d110692a527b6b018">  302</a></span>&#160;<span class="preprocessor">#define frozenendtemplate           (frozencontrolsequence + 5)</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gad186687ddb9bd982b22402eeda92ed32">  303</a></span>&#160;<span class="preprocessor">#define frozenendv                  (frozencontrolsequence + 6)</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga2d92324369f2ad060dd2c2e1b31507a1">  304</a></span>&#160;<span class="preprocessor">#define frozenrelax                 (frozencontrolsequence + 7)</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga7cea01ec8b60e521fcec0dd9185fee48">  305</a></span>&#160;<span class="preprocessor">#define endwrite                    (frozencontrolsequence + 8)</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaf94e408c90d5463388f65d51177d8e98">  306</a></span>&#160;<span class="preprocessor">#define frozendontexpand            (frozencontrolsequence + 9)</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gac33956de95e5e344aa24160cf3c751d4">  307</a></span>&#160;<span class="preprocessor">#define FROZEN_NULL_FONT              (frozencontrolsequence + 10)</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae73343187ad2bdc832f50d08d01d88c5">  308</a></span>&#160;<span class="preprocessor">#define fontidbase                  (FROZEN_NULL_FONT)</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga283fdc4cbcffec2d681db3263aaf0a8b">  309</a></span>&#160;<span class="preprocessor">#define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gab1b8a28cc7ef6a11ddbf882ac355dd47">  310</a></span>&#160;<span class="preprocessor">#define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga55a11db3001be41b93124e344984d3c3">  311</a></span>&#160; </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="preprocessor">#define skipbase        (gluebase + GLUE_PARS)</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga44ed3fe4c6b6b712bc2d1f6bd46be185">  313</a></span>&#160;<span class="preprocessor">#define muskipbase      (skipbase + 256)</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga18e27e04c2433835d811eaf939eeade5">  314</a></span>&#160;<span class="preprocessor">#define localbase       (muskipbase + 256)</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga4a148c0aa79ee4e00cb5eb8accbb1352">  315</a></span>&#160; </div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">// [p87#230]</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#define parshapeloc     localbase</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6824f0e39eb3e3b3fb045ff535fa2460">  319</a></span>&#160;<span class="preprocessor">#define outputroutineloc  (localbase + 1)</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga744b79f414f3c295717ef0ad933aae17">  320</a></span>&#160;<span class="preprocessor">#define everyparloc     (localbase + 2)</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga631d8d485b483bad27554f3cb35a3949">  321</a></span>&#160;<span class="preprocessor">#define everymathloc    (localbase + 3)</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gae19168469fd075bc7cfcc2e9724c2329">  322</a></span>&#160;<span class="preprocessor">#define everydisplayloc  (localbase + 4)</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga375dc78020d678f3282b78dd0df7bfc6">  323</a></span>&#160;<span class="preprocessor">#define everyhboxloc    (localbase + 5)</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gadf2d82f6e4fd220873bf787a36112474">  324</a></span>&#160;<span class="preprocessor">#define everyvboxloc    (localbase + 6)</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga5e94794bf8e89e660b547bdd8f242b28">  325</a></span>&#160;<span class="preprocessor">#define everyjobloc     (localbase + 7)</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gafc54b47b9651084fd88d8cc76373d5e8">  326</a></span>&#160;<span class="preprocessor">#define everycrloc      (localbase + 8)</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga888cfe56d0ac7a41830d284aedfa0cdf">  327</a></span>&#160;<span class="preprocessor">#define errhelploc      (localbase + 9)</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga84eebd3abda35676de75185f568c8c0c">  328</a></span>&#160;<span class="preprocessor">#define toksbase        (localbase + 10)</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga012ebb5330e5273676f190189ddf688c">  329</a></span>&#160; </div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="preprocessor">#define boxbase         (toksbase + 256)</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga0c6dac8c05fa158d999e090a8879f19d">  331</a></span>&#160;<span class="preprocessor">#define curfontloc      (boxbase + 256)</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6ab50f2c21e5d6350b598fe608b6d229">  332</a></span>&#160;<span class="preprocessor">#define mathfontbase    (curfontloc + 1)</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga40269d03141e6fe1e38271b909ab5890">  333</a></span>&#160;<span class="preprocessor">#define catcodebase     (mathfontbase + 48)</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga477af3c00904693ca5fbd1430f851755">  334</a></span>&#160;<span class="preprocessor">#define lccodebase      (catcodebase + 256)</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga4fae8559a177bb57023835f24ad36e24">  335</a></span>&#160;<span class="preprocessor">#define uccodebase      (lccodebase + 256)</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga017c699635c926fb17f73254bff462ca">  336</a></span>&#160;<span class="preprocessor">#define sfcodebase      (uccodebase + 256)</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gaba5dfe0e26eed6d5f0c058c753acc8ef">  337</a></span>&#160;<span class="preprocessor">#define mathcodebase    (sfcodebase + 256)</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#gac87cfb66643013708cb6853ff420fff5">  338</a></span>&#160;<span class="preprocessor">#define intbase         (mathcodebase + 256)</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno"><a class="line" href="group___s220x255___p81x101.html#ga6dd43e8c81c2fd9e547a68f968f4da79">  339</a></span>&#160; <span class="comment">// end group S220x255_P81x101</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">// [p92]</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="preprocessor">#define countbase       (intbase + intpars)</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno"><a class="line" href="tex_8h.html#ad74ab78d5568761b187f612e508f6b04">  343</a></span>&#160;<span class="preprocessor">#define delcodebase     (countbase + 256)</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="tex_8h.html#add6c2dbefeb047e8ff0c43f822d5a3cf">  344</a></span>&#160;<span class="preprocessor">#define dimenbase       (delcodebase + 256)</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno"><a class="line" href="tex_8h.html#a542ac3248c9dab19de837e6f18e899aa">  345</a></span>&#160; </div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">// [p136#341]</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="preprocessor">#define switch_         25</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="tex_8h.html#a09b0cb1cf5ce76e7e99cbfd1c8e3fba5">  349</a></span>&#160;<span class="preprocessor">#define startcs         26</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="tex_8h.html#a0aa9da87af13afc841a7ad7ee4cf6580">  350</a></span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">// [p141#358]</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="preprocessor">#define noexpandflag    257</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno"><a class="line" href="tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852">  353</a></span>&#160; </div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">// [p148#382]</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="preprocessor">#define topmarkcode         0</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno"><a class="line" href="tex_8h.html#a3ed37caad9012173d6435e90982ad16c">  356</a></span>&#160;<span class="preprocessor">#define firstmarkcode       1</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno"><a class="line" href="tex_8h.html#a63bbf69ce0b4767b16a7fc0c5448427a">  357</a></span>&#160;<span class="preprocessor">#define botmarkcode         2</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="tex_8h.html#afb337b92dde146ae5c4a9cc84693628b">  358</a></span>&#160;<span class="preprocessor">#define splitfirstmarkcode  3</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="tex_8h.html#ad29385fea6041c522ac27534e4f3ae03">  359</a></span>&#160;<span class="preprocessor">#define splitbotmarkcode    4</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno"><a class="line" href="tex_8h.html#af79d3b9fcef12ef630bb300c2835b2ed">  360</a></span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">// [p179#480]</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="preprocessor">#define closed          2</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="tex_8h.html#a8ba70cf67f46523d1c764c9e61e83ca7">  363</a></span>&#160;<span class="preprocessor">#define justopen        1</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="tex_8h.html#af71c657c952a505abaf4fb815d607449">  364</a></span>&#160; </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="preprocessor">#define formatextension         S(256)</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="tex_8h.html#afb8599f884cf37b3df4d4d49b554d230">  367</a></span>&#160;<span class="preprocessor">#define FORMAT_DEFAULT_LENGTH   20</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno"><a class="line" href="tex_8h.html#a26b0aeab1775b0089d64dbe100f5e945">  368</a></span>&#160;<span class="preprocessor">#define formatarealength        11</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno"><a class="line" href="tex_8h.html#ab140e2fc758490b89634dc38d1665812">  369</a></span>&#160;<span class="preprocessor">#define formatextlength         4</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno"><a class="line" href="tex_8h.html#a7312dfcf36969ff1f2e3e8f28d307263">  370</a></span>&#160; </div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">// [p201#549]</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="preprocessor">#define nonaddress      0</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="tex_8h.html#a5b17f11a2394cca74fc404b0103004fe">  373</a></span>&#160;<span class="comment">// [p204#557]</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="preprocessor">#define kernbaseoffset  32768</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="tex_8h.html#a09acf2986201cf0db897d5a9e9af484b">  375</a></span>&#160;<span class="comment">// [p205#560]</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="preprocessor">#define badtfm          11</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ac58e8c07a729246fa8b487c167fb99">  377</a></span>&#160;<span class="comment">// [p229#619]</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="preprocessor">#define movepast        13</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno"><a class="line" href="tex_8h.html#a51211aff1f011195025553a9cb9e1f18">  379</a></span>&#160;<span class="preprocessor">#define finrule         14</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno"><a class="line" href="tex_8h.html#aff570c0a81ec0b8661bdb79278836fe8">  380</a></span>&#160;<span class="preprocessor">#define nextp           15</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad">  381</a></span>&#160;<span class="comment">// [p239#644]</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="preprocessor">#define exactly         0</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno"><a class="line" href="tex_8h.html#a71163e5679d575825e139dfbcb95387d">  383</a></span>&#160;<span class="preprocessor">#define additional      1</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno"><a class="line" href="tex_8h.html#a2ff9cbaaecc027580f85c8a6cc62ab8d">  384</a></span>&#160;<span class="comment">// [p250#681]</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="preprocessor">#define mathchar        1</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno"><a class="line" href="tex_8h.html#ad707daa11fb4a3c728720703bd316dd7">  386</a></span>&#160;<span class="preprocessor">#define subbox          2</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno"><a class="line" href="tex_8h.html#a3994ffb82e1bcf1fde138049605dd744">  387</a></span>&#160;<span class="preprocessor">#define submlist        3</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno"><a class="line" href="tex_8h.html#afe101517b84380ce4ce3b0ab870ebfd0">  388</a></span>&#160;<span class="preprocessor">#define mathtextchar    4</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno"><a class="line" href="tex_8h.html#aa573a01b19e3b2e3bb209785f2d6c6f7">  389</a></span>&#160; </div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment">// enum FontSizeCode {};</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">// size code for the largest size in a family</span></div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="preprocessor">#define TEXT_SIZE           0</span></div>
-<div class="line"><a name="l00395"></a><span class="lineno"><a class="line" href="tex_8h.html#afb6f36d91ffbf947cfa3f1114ca79764">  395</a></span>&#160;<span class="comment">// size code for the medium size in a family</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="preprocessor">#define SCRIPT_SIZE         16</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno"><a class="line" href="tex_8h.html#aa62d5f3108494df0ea047eb8c557c6e8">  397</a></span>&#160;<span class="comment">// size code for the smallest size in a family</span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="preprocessor">#define SCRIPT_SCRIPT_SIZE  32</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno"><a class="line" href="tex_8h.html#a8c283b17e9d34dece9ba1807550cb43d">  399</a></span>&#160; </div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment">// [p258#700]</span></div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<span class="preprocessor">#define totalmathsyparams  22</span></div>
-<div class="line"><a name="l00402"></a><span class="lineno"><a class="line" href="tex_8h.html#a6fddf264aba1f57c0c2ac8ae30ab0221">  402</a></span>&#160;<span class="comment">// [p258#701]</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;<span class="preprocessor">#define totalmathexparams  13</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno"><a class="line" href="tex_8h.html#a21b6ab405aef2c2cc78f898a3083302f">  404</a></span>&#160;<span class="comment">// [p267#725]</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;<span class="preprocessor">#define donewithnoad        80</span></div>
-<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="tex_8h.html#aeab7b5f4d5031aaef0ec66f543c607b3">  406</a></span>&#160;<span class="preprocessor">#define donewithnode        81</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno"><a class="line" href="tex_8h.html#a7da73e00a6c95c13cca3d26319aff416">  407</a></span>&#160;<span class="preprocessor">#define checkdimensions     82</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno"><a class="line" href="tex_8h.html#a098170517705a7b2fca6df7a77832a7d">  408</a></span>&#160;<span class="preprocessor">#define deleteq             83</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno"><a class="line" href="tex_8h.html#a5e94fb81fff4bf1abafd1c25444d2ef3">  409</a></span>&#160;<span class="comment">// [p287#770]</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="preprocessor">#define alignstacknodesize  5</span></div>
-<div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="tex_8h.html#afa49e802f12f45970e3b1fe075b4b51f">  411</a></span>&#160;<span class="comment">// [p289#780]</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="preprocessor">#define spancode            256</span></div>
-<div class="line"><a name="l00413"></a><span class="lineno"><a class="line" href="tex_8h.html#a038978414fa34ccaa532de1c0a803a12">  413</a></span>&#160;<span class="preprocessor">#define crcode              257</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno"><a class="line" href="tex_8h.html#a422d4c06de05185025c3a6493605db52">  414</a></span>&#160;<span class="preprocessor">#define crcrcode            (crcode + 1)</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno"><a class="line" href="tex_8h.html#a64156838ac0a67bc1e7921c720069fde">  415</a></span>&#160;<span class="preprocessor">#define endtemplatetoken    (CS_TOKEN_FLAG + frozenendtemplate)</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bb2c41773c7a4dcaadee146d28773cf">  416</a></span>&#160;<span class="comment">// [p294#797]</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;<span class="preprocessor">#define spannodesize    2</span></div>
-<div class="line"><a name="l00418"></a><span class="lineno"><a class="line" href="tex_8h.html#a81ebcc9587c99992bb8ca0d5cbf92418">  418</a></span>&#160;<span class="comment">// [p303#817]</span></div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;<span class="preprocessor">#define tightfit        3</span></div>
-<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="tex_8h.html#a4041a0306844a25705eb896aceb99844">  420</a></span>&#160;<span class="preprocessor">#define loosefit        1</span></div>
-<div class="line"><a name="l00421"></a><span class="lineno"><a class="line" href="tex_8h.html#addc0c3a3dd231ea65e1e98a93dd0dc79">  421</a></span>&#160;<span class="preprocessor">#define veryloosefit    0</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="tex_8h.html#a1466101fb5d43d72fafe1ba5ae32298c">  422</a></span>&#160;<span class="preprocessor">#define decentfit       2</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno"><a class="line" href="tex_8h.html#a71a68efc6202b420ac452340b72a2c06">  423</a></span>&#160;<span class="comment">// [p304#819]</span></div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="preprocessor">#define activenodesize  3</span></div>
-<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="tex_8h.html#a129916390d34a6bf6b2ce5f2225b4166">  425</a></span>&#160;<span class="preprocessor">#define unhyphenated    0</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno"><a class="line" href="tex_8h.html#a8fd90f0933a44d9af9b646742a8cb62a">  426</a></span>&#160;<span class="preprocessor">#define hyphenated      1</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno"><a class="line" href="tex_8h.html#a51dcd38fd3095739ce1cceac95af1529">  427</a></span>&#160;<span class="preprocessor">#define lastactive      active</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno"><a class="line" href="tex_8h.html#ab5f8fb69c602b26bcfb11df57ad31efb">  428</a></span>&#160;<span class="comment">// [p304#821]</span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;<span class="preprocessor">#define passivenodesize  2</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="tex_8h.html#a309cba194edcd8fca5e1d57b63642cc4">  430</a></span>&#160;<span class="comment">// [p304#822]</span></div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<span class="preprocessor">#define deltanodesize   7</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno"><a class="line" href="tex_8h.html#aaefdeef0a3f5b1d37ac2844a6ea534af">  432</a></span>&#160;<span class="preprocessor">#define deltanode       2</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno"><a class="line" href="tex_8h.html#a15e6ded74f02e0bdaf372b2639e665d4">  433</a></span>&#160;<span class="comment">// [p308#829]</span></div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;<span class="preprocessor">#define deactivate      60</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno"><a class="line" href="tex_8h.html#aca950858c9db58892ebb7b40e45afd54">  435</a></span>&#160;<span class="comment">// [p361#970]</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="preprocessor">#define updateheights   90</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno"><a class="line" href="tex_8h.html#a20d3e3b177c8326e0941cf2a7b293cd9">  437</a></span>&#160;<span class="comment">// [p363#974]</span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="preprocessor">#define deplorable      100000L</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno"><a class="line" href="tex_8h.html#ab9a087ee2d95528f40db658007da1d30">  439</a></span>&#160;<span class="comment">// [p366#980]</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="preprocessor">#define insertsonly     1</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno"><a class="line" href="tex_8h.html#a44be76b2009446ba99020cf655171b4d">  441</a></span>&#160;<span class="preprocessor">#define boxthere        2</span></div>
-<div class="line"><a name="l00442"></a><span class="lineno"><a class="line" href="tex_8h.html#a82527439839b6b050e110cec068169b8">  442</a></span>&#160;<span class="comment">// [p367#981]</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="preprocessor">#define pageinsnodesize  4</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno"><a class="line" href="tex_8h.html#a846e1352c2119489eec85fad98ae7697">  444</a></span>&#160;<span class="preprocessor">#define inserting        0</span></div>
-<div class="line"><a name="l00445"></a><span class="lineno"><a class="line" href="tex_8h.html#a2ed2084e8ebbd99e804c41b715fa3425">  445</a></span>&#160;<span class="preprocessor">#define splitup          1</span></div>
-<div class="line"><a name="l00446"></a><span class="lineno"><a class="line" href="tex_8h.html#afb06a5bc21b2f70238b3136e65ca080c">  446</a></span>&#160;<span class="comment">// [p371#994]</span></div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;<span class="preprocessor">#define contribute      80</span></div>
-<div class="line"><a name="l00448"></a><span class="lineno"><a class="line" href="tex_8h.html#ad5b4b3f6705f08c0d1826b10e16eb232">  448</a></span>&#160; </div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="comment">// [p384#1030] jmp label</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="comment">// #define bigswitch            60</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="comment">// #define appendnormalspace    120</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="preprocessor">#define shipoutflag     (boxflag + 512)</span></div>
-<div class="line"><a name="l00455"></a><span class="lineno"><a class="line" href="tex_8h.html#a8cb0a1c482b904093521f34322054084">  455</a></span>&#160;<span class="preprocessor">#define leaderflag      (boxflag + 513)</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno"><a class="line" href="tex_8h.html#a1dc05c079bda7d103ca1cd19e36753b3">  456</a></span>&#160; </div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<span class="comment">// #1291</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;<span class="comment">// enum ChrCode {};</span></div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;<span class="preprocessor">#define boxcode         0</span></div>
-<div class="line"><a name="l00460"></a><span class="lineno"><a class="line" href="tex_8h.html#a911e098bc55f7edda76d922de522b5ac">  460</a></span>&#160;<span class="preprocessor">#define copycode        1</span></div>
-<div class="line"><a name="l00461"></a><span class="lineno"><a class="line" href="tex_8h.html#a9c631be846c1d9bdf04d21ca97051c45">  461</a></span>&#160;<span class="preprocessor">#define lastboxcode     2</span></div>
-<div class="line"><a name="l00462"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ced34a251b4f96c7eaaa6f4f99d61c2">  462</a></span>&#160;<span class="preprocessor">#define vsplitcode      3</span></div>
-<div class="line"><a name="l00463"></a><span class="lineno"><a class="line" href="tex_8h.html#a9ace444c4ad95253e5d9b6f03c201531">  463</a></span>&#160;<span class="preprocessor">#define vtopcode        4</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno"><a class="line" href="tex_8h.html#afcfa812930eb791c865ac881403662fe">  464</a></span>&#160;<span class="comment">// #1178</span></div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="preprocessor">#define abovecode       0</span></div>
-<div class="line"><a name="l00466"></a><span class="lineno"><a class="line" href="tex_8h.html#afb3ca659053c767e9a62e65383d262f0">  466</a></span>&#160;<span class="preprocessor">#define overcode        1</span></div>
-<div class="line"><a name="l00467"></a><span class="lineno"><a class="line" href="tex_8h.html#ad992180e8440d788ce5e609d93ad2996">  467</a></span>&#160;<span class="preprocessor">#define atopcode        2</span></div>
-<div class="line"><a name="l00468"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5">  468</a></span>&#160;<span class="preprocessor">#define delimitedcode   3</span></div>
-<div class="line"><a name="l00469"></a><span class="lineno"><a class="line" href="tex_8h.html#ab77b118692aecf31d6d9524a5760c7c0">  469</a></span>&#160; </div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;<span class="comment">// #1222</span></div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;<span class="comment">// enum ShortHandDef {};</span></div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;<span class="preprocessor">#define chardefcode     0</span></div>
-<div class="line"><a name="l00473"></a><span class="lineno"><a class="line" href="tex_8h.html#a9af7372a244192b222da2127f0ea1adc">  473</a></span>&#160;<span class="preprocessor">#define mathchardefcode  1</span></div>
-<div class="line"><a name="l00474"></a><span class="lineno"><a class="line" href="tex_8h.html#a1cff5e3ffc5c840495ee95f90acfdf83">  474</a></span>&#160;<span class="preprocessor">#define countdefcode    2</span></div>
-<div class="line"><a name="l00475"></a><span class="lineno"><a class="line" href="tex_8h.html#a98676995ca3625915c3ee179a9833854">  475</a></span>&#160;<span class="preprocessor">#define dimendefcode    3</span></div>
-<div class="line"><a name="l00476"></a><span class="lineno"><a class="line" href="tex_8h.html#aeaf0fcaa04bce8684e986757703a2661">  476</a></span>&#160;<span class="preprocessor">#define skipdefcode     4</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno"><a class="line" href="tex_8h.html#a2a37a0ffa357db10b980f475d657ea0e">  477</a></span>&#160;<span class="preprocessor">#define muskipdefcode   5</span></div>
-<div class="line"><a name="l00478"></a><span class="lineno"><a class="line" href="tex_8h.html#ad53893a78144c4722d8f094858740ef5">  478</a></span>&#160;<span class="preprocessor">#define toksdefcode     6</span></div>
-<div class="line"><a name="l00479"></a><span class="lineno"><a class="line" href="tex_8h.html#a5ff4bdb0bd136785d27dadfc7acf0ce4">  479</a></span>&#160; </div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;<span class="comment">// #1291</span></div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;<span class="preprocessor">#define showcode        0</span></div>
-<div class="line"><a name="l00482"></a><span class="lineno"><a class="line" href="tex_8h.html#ac475f8ff98106c5a624e7f228ccff5bc">  482</a></span>&#160;<span class="preprocessor">#define showboxcode     1</span></div>
-<div class="line"><a name="l00483"></a><span class="lineno"><a class="line" href="tex_8h.html#abb6a62c80b87c548ecc09741dc37b81f">  483</a></span>&#160;<span class="preprocessor">#define showthecode     2</span></div>
-<div class="line"><a name="l00484"></a><span class="lineno"><a class="line" href="tex_8h.html#a8a115ed0d34fae99afc35e4ad6ab37c5">  484</a></span>&#160;<span class="preprocessor">#define showlists       3</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno"><a class="line" href="tex_8h.html#aff129dedb002da3ee6d8b1c70610dfdf">  485</a></span>&#160; </div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;<span class="preprocessor">#define badfmt          6666</span></div>
-<div class="line"><a name="l00487"></a><span class="lineno"><a class="line" href="tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88">  487</a></span>&#160;<span class="preprocessor">#define breakpoint      888</span></div>
-<div class="line"><a name="l00488"></a><span class="lineno"><a class="line" href="tex_8h.html#a7e3982f712c42ac0cd098881dd2bcc03">  488</a></span>&#160;<span class="preprocessor">#define writenodesize   2</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno"><a class="line" href="tex_8h.html#aca3b19a74764fe6aedb09ef920913592">  489</a></span>&#160;<span class="preprocessor">#define opennodesize    3</span></div>
-<div class="line"><a name="l00490"></a><span class="lineno"><a class="line" href="tex_8h.html#a863e23466a59899ef1b61367380683f2">  490</a></span>&#160; </div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="comment">// [p472#1341]</span></div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;<span class="comment">// enum WhatsitsSubtype {};</span></div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;<span class="preprocessor">#define opennode        0</span></div>
-<div class="line"><a name="l00494"></a><span class="lineno"><a class="line" href="tex_8h.html#a9e6492ff2c12e085987d6a2a0fe7a237">  494</a></span>&#160;<span class="preprocessor">#define writenode       1</span></div>
-<div class="line"><a name="l00495"></a><span class="lineno"><a class="line" href="tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf">  495</a></span>&#160;<span class="preprocessor">#define closenode       2</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno"><a class="line" href="tex_8h.html#a1a1b509b5a3dd5d699ec76bf4448b11d">  496</a></span>&#160;<span class="preprocessor">#define specialnode     3</span></div>
-<div class="line"><a name="l00497"></a><span class="lineno"><a class="line" href="tex_8h.html#ae9b347460a6acee8f071e7e4f9948f68">  497</a></span>&#160;<span class="preprocessor">#define languagenode    4</span></div>
-<div class="line"><a name="l00498"></a><span class="lineno"><a class="line" href="tex_8h.html#a713d7d5da8b92af850929edf14074408">  498</a></span>&#160;<span class="comment">// [p473#1344]</span></div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;<span class="preprocessor">#define immediatecode   4</span></div>
-<div class="line"><a name="l00500"></a><span class="lineno"><a class="line" href="tex_8h.html#a4c6aaf5b66943d6576781ad398cd47b3">  500</a></span>&#160;<span class="preprocessor">#define setlanguagecode  5</span></div>
-<div class="line"><a name="l00501"></a><span class="lineno"><a class="line" href="tex_8h.html#afcaa610d8f10d4c5acfdd5996ce27f24">  501</a></span>&#160; </div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;<span class="preprocessor">#define endwritetoken   (CS_TOKEN_FLAG + endwrite)</span></div>
-<div class="line"><a name="l00504"></a><span class="lineno"><a class="line" href="tex_8h.html#ad69ea76d6db83f32d529d54fa5cfa34f">  504</a></span>&#160; </div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;<span class="preprocessor">#endif // #ifndef TEX_H</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment">// enum FontSizeCode {};</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">// size code for the largest size in a family</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">#define TEXT_SIZE           0</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="tex_8h.html#afb6f36d91ffbf947cfa3f1114ca79764">  245</a></span>&#160;<span class="comment">// size code for the medium size in a family</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#define SCRIPT_SIZE         16</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno"><a class="line" href="tex_8h.html#aa62d5f3108494df0ea047eb8c557c6e8">  247</a></span>&#160;<span class="comment">// size code for the smallest size in a family</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#define SCRIPT_SCRIPT_SIZE  32</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="tex_8h.html#a8c283b17e9d34dece9ba1807550cb43d">  249</a></span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">// [p258#700]</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="preprocessor">#define totalmathsyparams  22</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="tex_8h.html#a6fddf264aba1f57c0c2ac8ae30ab0221">  252</a></span>&#160;<span class="comment">// [p258#701]</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor">#define totalmathexparams  13</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="tex_8h.html#a21b6ab405aef2c2cc78f898a3083302f">  254</a></span>&#160;<span class="comment">// [p267#725]</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor">#define donewithnoad        80</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="tex_8h.html#aeab7b5f4d5031aaef0ec66f543c607b3">  256</a></span>&#160;<span class="preprocessor">#define donewithnode        81</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno"><a class="line" href="tex_8h.html#a7da73e00a6c95c13cca3d26319aff416">  257</a></span>&#160;<span class="preprocessor">#define checkdimensions     82</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno"><a class="line" href="tex_8h.html#a098170517705a7b2fca6df7a77832a7d">  258</a></span>&#160;<span class="preprocessor">#define deleteq             83</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno"><a class="line" href="tex_8h.html#a5e94fb81fff4bf1abafd1c25444d2ef3">  259</a></span>&#160;<span class="comment">// [p287#770]</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor">#define alignstacknodesize  5</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="tex_8h.html#afa49e802f12f45970e3b1fe075b4b51f">  261</a></span>&#160;<span class="comment">// [p289#780]</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#define spancode            256</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="tex_8h.html#a038978414fa34ccaa532de1c0a803a12">  263</a></span>&#160;<span class="preprocessor">#define crcode              257</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno"><a class="line" href="tex_8h.html#a422d4c06de05185025c3a6493605db52">  264</a></span>&#160;<span class="preprocessor">#define crcrcode            (crcode + 1)</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="tex_8h.html#a64156838ac0a67bc1e7921c720069fde">  265</a></span>&#160;<span class="preprocessor">#define endtemplatetoken    (CS_TOKEN_FLAG + frozenendtemplate)</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bb2c41773c7a4dcaadee146d28773cf">  266</a></span>&#160;<span class="comment">// [p294#797]</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#define spannodesize    2</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno"><a class="line" href="tex_8h.html#a81ebcc9587c99992bb8ca0d5cbf92418">  268</a></span>&#160;<span class="comment">// [p303#817]</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="preprocessor">#define tightfit        3</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="tex_8h.html#a4041a0306844a25705eb896aceb99844">  270</a></span>&#160;<span class="preprocessor">#define loosefit        1</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno"><a class="line" href="tex_8h.html#addc0c3a3dd231ea65e1e98a93dd0dc79">  271</a></span>&#160;<span class="preprocessor">#define veryloosefit    0</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno"><a class="line" href="tex_8h.html#a1466101fb5d43d72fafe1ba5ae32298c">  272</a></span>&#160;<span class="preprocessor">#define decentfit       2</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno"><a class="line" href="tex_8h.html#a71a68efc6202b420ac452340b72a2c06">  273</a></span>&#160;<span class="comment">// [p304#819]</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="preprocessor">#define activenodesize  3</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="tex_8h.html#a129916390d34a6bf6b2ce5f2225b4166">  275</a></span>&#160;<span class="preprocessor">#define unhyphenated    0</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno"><a class="line" href="tex_8h.html#a8fd90f0933a44d9af9b646742a8cb62a">  276</a></span>&#160;<span class="preprocessor">#define hyphenated      1</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno"><a class="line" href="tex_8h.html#a51dcd38fd3095739ce1cceac95af1529">  277</a></span>&#160;<span class="preprocessor">#define lastactive      active</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno"><a class="line" href="tex_8h.html#ab5f8fb69c602b26bcfb11df57ad31efb">  278</a></span>&#160;<span class="comment">// [p304#821]</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor">#define passivenodesize  2</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="tex_8h.html#a309cba194edcd8fca5e1d57b63642cc4">  280</a></span>&#160;<span class="comment">// [p304#822]</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="preprocessor">#define deltanodesize   7</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno"><a class="line" href="tex_8h.html#aaefdeef0a3f5b1d37ac2844a6ea534af">  282</a></span>&#160;<span class="preprocessor">#define deltanode       2</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno"><a class="line" href="tex_8h.html#a15e6ded74f02e0bdaf372b2639e665d4">  283</a></span>&#160;<span class="comment">// [p308#829]</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="preprocessor">#define deactivate      60</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="tex_8h.html#aca950858c9db58892ebb7b40e45afd54">  285</a></span>&#160;<span class="comment">// [p361#970]</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="preprocessor">#define updateheights   90</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="tex_8h.html#a20d3e3b177c8326e0941cf2a7b293cd9">  287</a></span>&#160;<span class="comment">// [p363#974]</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="preprocessor">#define deplorable      100000L</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno"><a class="line" href="tex_8h.html#ab9a087ee2d95528f40db658007da1d30">  289</a></span>&#160;<span class="comment">// [p366#980]</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="preprocessor">#define insertsonly     1</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno"><a class="line" href="tex_8h.html#a44be76b2009446ba99020cf655171b4d">  291</a></span>&#160;<span class="preprocessor">#define boxthere        2</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno"><a class="line" href="tex_8h.html#a82527439839b6b050e110cec068169b8">  292</a></span>&#160;<span class="comment">// [p367#981]</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="preprocessor">#define pageinsnodesize  4</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno"><a class="line" href="tex_8h.html#a846e1352c2119489eec85fad98ae7697">  294</a></span>&#160;<span class="preprocessor">#define inserting        0</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno"><a class="line" href="tex_8h.html#a2ed2084e8ebbd99e804c41b715fa3425">  295</a></span>&#160;<span class="preprocessor">#define splitup          1</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno"><a class="line" href="tex_8h.html#afb06a5bc21b2f70238b3136e65ca080c">  296</a></span>&#160;<span class="comment">// [p371#994]</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#define contribute      80</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno"><a class="line" href="tex_8h.html#ad5b4b3f6705f08c0d1826b10e16eb232">  298</a></span>&#160; </div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">// [p384#1030] jmp label</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">// #define bigswitch            60</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">// #define appendnormalspace    120</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="preprocessor">#define shipoutflag     (boxflag + 512)</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno"><a class="line" href="tex_8h.html#a8cb0a1c482b904093521f34322054084">  305</a></span>&#160;<span class="preprocessor">#define leaderflag      (boxflag + 513)</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno"><a class="line" href="tex_8h.html#a1dc05c079bda7d103ca1cd19e36753b3">  306</a></span>&#160; </div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">// #1291</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">// enum ChrCode {};</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="preprocessor">#define boxcode         0</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno"><a class="line" href="tex_8h.html#a911e098bc55f7edda76d922de522b5ac">  310</a></span>&#160;<span class="preprocessor">#define copycode        1</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno"><a class="line" href="tex_8h.html#a9c631be846c1d9bdf04d21ca97051c45">  311</a></span>&#160;<span class="preprocessor">#define lastboxcode     2</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ced34a251b4f96c7eaaa6f4f99d61c2">  312</a></span>&#160;<span class="preprocessor">#define vsplitcode      3</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="tex_8h.html#a9ace444c4ad95253e5d9b6f03c201531">  313</a></span>&#160;<span class="preprocessor">#define vtopcode        4</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno"><a class="line" href="tex_8h.html#afcfa812930eb791c865ac881403662fe">  314</a></span>&#160;<span class="comment">// #1178</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="preprocessor">#define abovecode       0</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="tex_8h.html#afb3ca659053c767e9a62e65383d262f0">  316</a></span>&#160;<span class="preprocessor">#define overcode        1</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno"><a class="line" href="tex_8h.html#ad992180e8440d788ce5e609d93ad2996">  317</a></span>&#160;<span class="preprocessor">#define atopcode        2</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5">  318</a></span>&#160;<span class="preprocessor">#define delimitedcode   3</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="tex_8h.html#ab77b118692aecf31d6d9524a5760c7c0">  319</a></span>&#160; </div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">// #1222</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">// enum ShortHandDef {};</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">#define chardefcode     0</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="tex_8h.html#a9af7372a244192b222da2127f0ea1adc">  323</a></span>&#160;<span class="preprocessor">#define mathchardefcode  1</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno"><a class="line" href="tex_8h.html#a1cff5e3ffc5c840495ee95f90acfdf83">  324</a></span>&#160;<span class="preprocessor">#define countdefcode    2</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno"><a class="line" href="tex_8h.html#a98676995ca3625915c3ee179a9833854">  325</a></span>&#160;<span class="preprocessor">#define dimendefcode    3</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="tex_8h.html#aeaf0fcaa04bce8684e986757703a2661">  326</a></span>&#160;<span class="preprocessor">#define skipdefcode     4</span></div>
+<div class="line"><a name="l00327"></a><span class="lineno"><a class="line" href="tex_8h.html#a2a37a0ffa357db10b980f475d657ea0e">  327</a></span>&#160;<span class="preprocessor">#define muskipdefcode   5</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno"><a class="line" href="tex_8h.html#ad53893a78144c4722d8f094858740ef5">  328</a></span>&#160;<span class="preprocessor">#define toksdefcode     6</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="tex_8h.html#a5ff4bdb0bd136785d27dadfc7acf0ce4">  329</a></span>&#160; </div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">// #1291</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="preprocessor">#define showcode        0</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="tex_8h.html#ac475f8ff98106c5a624e7f228ccff5bc">  332</a></span>&#160;<span class="preprocessor">#define showboxcode     1</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="tex_8h.html#abb6a62c80b87c548ecc09741dc37b81f">  333</a></span>&#160;<span class="preprocessor">#define showthecode     2</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno"><a class="line" href="tex_8h.html#a8a115ed0d34fae99afc35e4ad6ab37c5">  334</a></span>&#160;<span class="preprocessor">#define showlists       3</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="tex_8h.html#aff129dedb002da3ee6d8b1c70610dfdf">  335</a></span>&#160; </div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="preprocessor">#define badfmt          6666</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88">  337</a></span>&#160;<span class="preprocessor">#define breakpoint      888</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="tex_8h.html#a7e3982f712c42ac0cd098881dd2bcc03">  338</a></span>&#160;<span class="preprocessor">#define writenodesize   2</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno"><a class="line" href="tex_8h.html#aca3b19a74764fe6aedb09ef920913592">  339</a></span>&#160;<span class="preprocessor">#define opennodesize    3</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno"><a class="line" href="tex_8h.html#a863e23466a59899ef1b61367380683f2">  340</a></span>&#160; </div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">// [p472#1341]</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">// enum WhatsitsSubtype {};</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="preprocessor">#define opennode        0</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="tex_8h.html#a9e6492ff2c12e085987d6a2a0fe7a237">  344</a></span>&#160;<span class="preprocessor">#define writenode       1</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno"><a class="line" href="tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf">  345</a></span>&#160;<span class="preprocessor">#define closenode       2</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno"><a class="line" href="tex_8h.html#a1a1b509b5a3dd5d699ec76bf4448b11d">  346</a></span>&#160;<span class="preprocessor">#define specialnode     3</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="tex_8h.html#ae9b347460a6acee8f071e7e4f9948f68">  347</a></span>&#160;<span class="preprocessor">#define languagenode    4</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno"><a class="line" href="tex_8h.html#a713d7d5da8b92af850929edf14074408">  348</a></span>&#160;<span class="comment">// [p473#1344]</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="preprocessor">#define immediatecode   4</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="tex_8h.html#a4c6aaf5b66943d6576781ad398cd47b3">  350</a></span>&#160;<span class="preprocessor">#define setlanguagecode  5</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno"><a class="line" href="tex_8h.html#afcaa610d8f10d4c5acfdd5996ce27f24">  351</a></span>&#160; </div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="preprocessor">#define endwritetoken   (CS_TOKEN_FLAG + endwrite)</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno"><a class="line" href="tex_8h.html#ad69ea76d6db83f32d529d54fa5cfa34f">  354</a></span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160; </div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="preprocessor">#endif // #ifndef TEX_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="atex__types_8h_html"><div class="ttname"><a href="tex__types_8h.html">tex_types.h</a></div></div>
