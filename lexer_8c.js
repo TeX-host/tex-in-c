@@ -19,7 +19,7 @@ var lexer_8c =
     [ "getnext_worker", "group___s332x365___p134x143.html#ga149ff624c37eaa4baeef21d10d4e496b", null ],
     [ "gettoken", "group___s332x365___p134x143.html#ga1c0927e54ff31ab87d043a2147e3b218", null ],
     [ "init_lexer", "group___s321x331___p131x133.html#gacbe7dfc60906568e0f5ecdd024846d3f", null ],
-    [ "initterminal", "lexer_8c.html#a43f1dfcc7f41df40940730354896887a", null ],
+    [ "initterminal", "group___s25x37___p13x18.html#ga43f1dfcc7f41df40940730354896887a", null ],
     [ "inserror", "group___s321x331___p131x133.html#ga78ba8096cd55b7c51db15c721de975b2", null ],
     [ "pack_tok", "lexer_8c.html#a3460d673e502f07a6dac47e0d18dadcd", null ],
     [ "printmeaning", "group___s289x296___p115x118.html#ga01a356c4dd8fa8c8c4498995c6336b0a", null ],

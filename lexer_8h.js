@@ -9,7 +9,7 @@ var lexer_8h =
     [ "leftbracetoken", "group___s289x296___p115x118.html#gad5615bd24d8b89ce9b67598da2107bd8", null ],
     [ "lettertoken", "group___s289x296___p115x118.html#ga1cdda1ab738ac5a05633f228824206e0", null ],
     [ "LIMIT", "group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c", null ],
-    [ "LOC", "group___s300x320___p121x130.html#ga0fee446a4a4ef6536664bc1ff47ff694", null ],
+    [ "LOC", "group___s25x37___p13x18.html#ga0fee446a4a4ef6536664bc1ff47ff694", null ],
     [ "matchtoken", "group___s289x296___p115x118.html#ga89d6e3b8cee4a1a40b75f11e94e4e414", null ],
     [ "mathshifttoken", "group___s289x296___p115x118.html#ga059d2071328ec7d0a2af00321fe49984", null ],
     [ "MID_LINE", "group___s300x320___p121x130.html#ga1f137ad43659c532ed69bbc0b776e561", null ],

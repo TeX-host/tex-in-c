@@ -1,7 +1,7 @@
 var searchData=
 [
   ['easyline_424',['easyline',['../tex__header_8h.html#a13694f221f6ac3e0c4071fbb26909593',1,'tex_header.h']]],
-  ['eightbits_425',['EightBits',['../tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4',1,'tex_types.h']]],
+  ['eightbits_425',['EightBits',['../group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4',1,'tex_types.h']]],
   ['eject_5fpenalty_426',['EJECT_PENALTY',['../tex__constant_8h.html#a1f077a489d39da944d300676032145af',1,'tex_constant.h']]],
   ['elsecode_427',['elsecode',['../group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa2d77ef8fa259e959b4aee217119a33ab',1,'expand.h']]],
   ['emergencystretch_428',['emergencystretch',['../texmac_8h.html#aa4ba2c8b253f35fd05fce810677bad67',1,'texmac.h']]],

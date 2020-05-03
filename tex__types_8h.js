@@ -4,7 +4,7 @@ var tex__types_8h =
     [ "ASCIICode", "group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7", null ],
     [ "Boolean", "tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2", null ],
     [ "Char", "tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb", null ],
-    [ "EightBits", "tex__types_8h.html#ae754f98edb4d28aea7fd715d2d0d16a4", null ],
+    [ "EightBits", "group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4", null ],
     [ "GlueOrd", "tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa", null ],
     [ "GlueRatio", "tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90", null ],
     [ "GroupCode", "tex__types_8h.html#a19c97a39fcf6353b6b420c55366d13d9", null ],

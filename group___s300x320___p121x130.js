@@ -17,7 +17,6 @@ var group___s300x320___p121x130 =
     [ "curfile", "group___s300x320___p121x130.html#ga92fda472e735fd9d101174fcb62eed02", null ],
     [ "IINDEX", "group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b", null ],
     [ "LIMIT", "group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c", null ],
-    [ "LOC", "group___s300x320___p121x130.html#ga0fee446a4a4ef6536664bc1ff47ff694", null ],
     [ "MID_LINE", "group___s300x320___p121x130.html#ga1f137ad43659c532ed69bbc0b776e561", null ],
     [ "NAME", "group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e", null ],
     [ "NEW_LINE", "group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5", null ],

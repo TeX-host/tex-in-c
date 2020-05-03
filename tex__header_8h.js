@@ -190,8 +190,6 @@ var tex__header_8h =
     [ "set_box_allowed", "group___s72x98___p30x37.html#ga006c08504b60ba2d6b4e6924dc294506", null ],
     [ "shown_mode", "group___s211x219___p77x80.html#ga6ef554c8285c91bb790d54e7ede3cd6f", null ],
     [ "temp_ptr", "group___s115x132___p44x49.html#gac296a20829b3a11703f4d80980a03343", null ],
-    [ "termin", "group___s25x37___p13x18.html#ga4df9542545150c19c4b7b826a37daaf7", null ],
-    [ "termout", "group___s25x37___p13x18.html#ga05361e777d3f214f52bc0b2538ae7395", null ],
     [ "TEXformatdefault", "group___s511x538___p188x195.html#gab5d7b3fa697b025602b45268db0d63b8", null ],
     [ "threshold", "tex__header_8h.html#a0bcb27462a77289974d9e123c19a5e31", null ],
     [ "totalpages", "tex__header_8h.html#af1f3609dfa29483ee18a53b185d67ece", null ],
