@@ -3,7 +3,7 @@ var searchData=
   ['call_175',['CALL',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0abd0ebc08c262bab82a1882256d2d66e8',1,'tex_constant.h']]],
   ['cancelboundary_176',['cancelboundary',['../tex__header_8h.html#a5a35a87b064db69d13eb91bcb517b570',1,'tex_header.h']]],
   ['car_5fret_177',['CAR_RET',['../group___s207x210___p73x76.html#ggac5d1010907c89d6760e8e410e227e6efa1a769af2649dbb458dd2d99404915074',1,'tex_constant.h']]],
-  ['carriagereturn_178',['carriagereturn',['../tex_8h.html#a2e5d31bea007467ebc71915c24c77d25',1,'tex.h']]],
+  ['carriage_5freturn_178',['CARRIAGE_RETURN',['../group___s17x24___p10x12.html#ga3b81478c7058ceb6ed610ce8e2ca3822',1,'tex.h']]],
   ['case_5fshift_179',['CASE_SHIFT',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0acac7827716c6cda6f87b56a0f93a573a',1,'tex_constant.h']]],
   ['catcode_180',['CatCode',['../group___s207x210___p73x76.html#gac5d1010907c89d6760e8e410e227e6ef',1,'CatCode():&#160;tex_constant.h'],['../texmac_8h.html#a8264bce230c3cf6439a3632d5f915b0d',1,'catcode():&#160;texmac.h']]],
   ['catcodebase_181',['catcodebase',['../group___s220x255___p81x101.html#ga477af3c00904693ca5fbd1430f851755',1,'tex.h']]],

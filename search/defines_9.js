@@ -23,8 +23,7 @@ var searchData=
   ['insptr_3655',['insptr',['../texmac_8h.html#a81d88bf67603a3cc7277d6934d82a00a',1,'texmac.h']]],
   ['interlinepenalty_3656',['interlinepenalty',['../texmac_8h.html#a4ab351f663e49edd969db0c0ece818ea',1,'texmac.h']]],
   ['intpar_3657',['intpar',['../texmac_8h.html#a72142e1186b98baed82b55c378741897',1,'texmac.h']]],
-  ['invalidcode_3658',['invalidcode',['../tex_8h.html#a6b203be457ca6c7c288c071fcab34a4b',1,'tex.h']]],
-  ['ischarnode_3659',['ischarnode',['../texmac_8h.html#ab2e0ced73207a26f9467b66c44949912',1,'texmac.h']]],
-  ['ishex_3660',['ishex',['../texmac_8h.html#a70173db3d329c64c027f4632700520d2',1,'texmac.h']]],
-  ['isrunning_3661',['isrunning',['../texmac_8h.html#a1a8d50a9f90c795fb8e6efc591546328',1,'texmac.h']]]
+  ['ischarnode_3658',['ischarnode',['../texmac_8h.html#ab2e0ced73207a26f9467b66c44949912',1,'texmac.h']]],
+  ['ishex_3659',['ishex',['../texmac_8h.html#a70173db3d329c64c027f4632700520d2',1,'texmac.h']]],
+  ['isrunning_3660',['isrunning',['../texmac_8h.html#a1a8d50a9f90c795fb8e6efc591546328',1,'texmac.h']]]
 ];

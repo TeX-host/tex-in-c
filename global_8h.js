@@ -35,7 +35,7 @@ var global_8h =
     [ "mem_end", "group___s115x132___p44x49.html#gae5ce70ba14bbfa92b3e2d8acceed6e1a", null ],
     [ "name_in_progress", "group___s511x538___p188x195.html#ga20d28e7039b8ce5fb1b280c6cbc495fe", null ],
     [ "name_of_file", "group___s25x37___p13x18.html#gade8e0216e3b9903faa5818658b02b2a1", null ],
-    [ "nest", "group___s211x219___p77x80.html#gac0f1921b35e1a1d327ea819b2f4ba507", null ],
+    [ "nest", "group___s211x219___p77x80.html#gadf56d9101070f0e67d6aee9e3932dcb3", null ],
     [ "nest_ptr", "group___s211x219___p77x80.html#gabead0bafd1e1d332e9f44c6a96af701f", null ],
     [ "OK_to_interrupt", "group___s72x98___p30x37.html#ga6e6c4fb441211ad0ef5e9ffc763ad053", null ],
     [ "outputactive", "global_8h.html#a59204745fd16ad6499a5a6808e43d31c", null ],
@@ -47,6 +47,6 @@ var global_8h =
     [ "shown_mode", "group___s211x219___p77x80.html#ga6ef554c8285c91bb790d54e7ede3cd6f", null ],
     [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ],
     [ "write_file", "global_8h.html#aa725d4f86d3ba53fc5a77fda0d138edc", null ],
-    [ "xchr", "group___s17x24___p10x12.html#ga2c8636f418fbabc3ec35603876ebe07d", null ],
+    [ "xchr", "group___s17x24___p10x12.html#ga5f0ded4ff06bc8d2e1e2097c5225885d", null ],
     [ "xord", "group___s17x24___p10x12.html#gaea31bab5f79624105d57ef4ad3b56eb5", null ]
 ];

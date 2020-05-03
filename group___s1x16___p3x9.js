@@ -1,7 +1,7 @@
 var group___s1x16___p3x9 =
 [
     [ "BUF_SIZE", "group___s1x16___p3x9.html#ga6821bafc3c88dfb2e433a095df9940c6", null ],
-    [ "empty", "group___s1x16___p3x9.html#ga00b5ed499d524a920815b9d8f24ef3a2", null ],
+    [ "EMPTY", "group___s1x16___p3x9.html#ga2b7cf2a3641be7b89138615764d60ba3", null ],
     [ "ERROR_LINE", "group___s1x16___p3x9.html#gaa8eb0ea69576396000ea9a91bdbeeba5", null ],
     [ "FILE_NAME_SIZE", "group___s1x16___p3x9.html#gaa7a7fd4622267bc1b90eca7fbf99c7dd", null ],
     [ "FONT_BASE", "group___s1x16___p3x9.html#ga583277a5d4db355b389c03c476d4c1a7", null ],
@@ -18,14 +18,15 @@ var group___s1x16___p3x9 =
     [ "MEM_MAX", "group___s1x16___p3x9.html#ga811cea638bf420a122a963892117b9c0", null ],
     [ "MEM_MIN", "group___s1x16___p3x9.html#gae9873cc64dff748c3a6d9fdd79741210", null ],
     [ "MEM_TOP", "group___s1x16___p3x9.html#gae65a0fade54102533a4fe691a996746a", null ],
-    [ "nestsize", "group___s1x16___p3x9.html#ga80fff46b1ffa013c19fb178af7dd5d32", null ],
-    [ "paramsize", "group___s1x16___p3x9.html#ga5c7565cdb896b2bb6f7e89e33b89a9b9", null ],
+    [ "NEST_SIZE", "group___s1x16___p3x9.html#gad98a9352ecd1bb1bd0454543189566f1", null ],
+    [ "PARAM_SIZE", "group___s1x16___p3x9.html#ga1dc6200b7756ec764f3ac70ba7ab49cf", null ],
+    [ "POOL_NAME", "group___s1x16___p3x9.html#gaf82671db636cde02e24afd962428b9a5", null ],
     [ "POOL_SIZE", "group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232", null ],
-    [ "poolname", "group___s1x16___p3x9.html#gafa2b1508ee9caa65328dd77497813665", null ],
     [ "SAVE_SIZE", "group___s1x16___p3x9.html#ga3ef531cbe1242a15cd087b7542356808", null ],
-    [ "stacksize", "group___s1x16___p3x9.html#ga87a907cd59d2e253f95e9b1a19a0524b", null ],
+    [ "STACK_SIZE", "group___s1x16___p3x9.html#ga6423a880df59733d2d9b509c7718d3a9", null ],
     [ "STRING_VACANCIES", "group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30", null ],
     [ "TEX_BANNER", "group___s1x16___p3x9.html#gacbe67c8d530c8b4d1464aecf3c231a81", null ],
+    [ "TRIE_OP_SIZE", "group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698", null ],
     [ "TRIE_SIZE", "group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794", null ],
-    [ "trieopsize", "group___s1x16___p3x9.html#gae3ceca74cb49da45e1d854aab56f5709", null ]
+    [ "ASCIICode", "group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7", null ]
 ];

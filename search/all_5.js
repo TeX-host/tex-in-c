@@ -6,7 +6,7 @@ var searchData=
   ['elsecode_427',['elsecode',['../group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa2d77ef8fa259e959b4aee217119a33ab',1,'expand.h']]],
   ['emergencystretch_428',['emergencystretch',['../texmac_8h.html#aa4ba2c8b253f35fd05fce810677bad67',1,'texmac.h']]],
   ['emergencystretchcode_429',['emergencystretchcode',['../tex__constant_8h.html#a8ff17b6afac8a3f24b743e19f1c576eea6f5fb6796d17441fca4a02dfb9b9cea3',1,'tex_constant.h']]],
-  ['empty_430',['empty',['../group___s1x16___p3x9.html#ga00b5ed499d524a920815b9d8f24ef3a2',1,'tex.h']]],
+  ['empty_430',['EMPTY',['../group___s1x16___p3x9.html#ga2b7cf2a3641be7b89138615764d60ba3',1,'tex.h']]],
   ['emptyfield_431',['emptyfield',['../tex__header_8h.html#ae917a46dfa66d7de21ca80d154fe1b59',1,'tex_header.h']]],
   ['emptyflag_432',['emptyflag',['../group___s115x132___p44x49.html#ga55fc33cb441246fad20030067832ce4e',1,'tex.h']]],
   ['end_5fcs_5fname_433',['END_CS_NAME',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a3e4cedb02b208181727b1ef1ca0f1d4c',1,'tex_constant.h']]],

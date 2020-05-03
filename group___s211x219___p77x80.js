@@ -27,7 +27,7 @@ var group___s211x219___p77x80 =
     [ "showactivities", "group___s211x219___p77x80.html#gab759a06f026c6f369ab14e539c364fc5", null ],
     [ "cur_list", "group___s211x219___p77x80.html#ga1dd6bb9ee95f0a164375d497031d03bc", null ],
     [ "max_nest_stack", "group___s211x219___p77x80.html#ga7651f92d1c9f94ade7b9e42d2e930356", null ],
-    [ "nest", "group___s211x219___p77x80.html#gac0f1921b35e1a1d327ea819b2f4ba507", null ],
+    [ "nest", "group___s211x219___p77x80.html#gadf56d9101070f0e67d6aee9e3932dcb3", null ],
     [ "nest_ptr", "group___s211x219___p77x80.html#gabead0bafd1e1d332e9f44c6a96af701f", null ],
     [ "shown_mode", "group___s211x219___p77x80.html#ga6ef554c8285c91bb790d54e7ede3cd6f", null ]
 ];

@@ -73,7 +73,7 @@ var searchData=
   ['appendtovlist_76',['appendtovlist',['../tex_8c.html#a0f1e7ed5366d4fa91828f5c85c662777',1,'tex.c']]],
   ['appspace_77',['appspace',['../tex_8c.html#ab304f9ab24e1b4af7b2b4b14d73b2cfb',1,'tex.c']]],
   ['arith_5ferror_78',['arith_error',['../group___s99x109___p38x41.html#ga65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c'],['../group___s99x109___p38x41.html#ga65aaf598f8090d4021f27374765fa642',1,'arith_error():&#160;texmath.c']]],
-  ['asciicode_79',['ASCIICode',['../tex__types_8h.html#a0cbca5ee07f5cfd4cbdea1039388f9d7',1,'tex_types.h']]],
+  ['asciicode_79',['ASCIICode',['../group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7',1,'tex_types.h']]],
   ['assign_5fdimen_80',['ASSIGN_DIMEN',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0abba28d59b928cb62c8fb820a43e84d99',1,'tex_constant.h']]],
   ['assign_5ffont_5fdimen_81',['ASSIGN_FONT_DIMEN',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a0e49fcfc61542bee5f94caa3fe39d9b0',1,'tex_constant.h']]],
   ['assign_5ffont_5fint_82',['ASSIGN_FONT_INT',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a69a0d499fedcd2a3e01adb60b79bb3c6',1,'tex_constant.h']]],
