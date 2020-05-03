@@ -306,7 +306,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             /*:419*/
 
         case SET_PAGE_DIMEN: /*421:*/
-            if (pagecontents == empty && !outputactive) {
+            if (pagecontents == EMPTY && !outputactive) {
                 if (m == 0)
                     cur_val = MAX_DIMEN;
                 else

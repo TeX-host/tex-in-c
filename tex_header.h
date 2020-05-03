@@ -63,9 +63,10 @@ Static jmp_buf _JMP_global__end_of_TEX;
  * @{
  */
 
-/// [#20]
-ASCIICode xord[256];   // specifies conversion of input characters
-Char xchr[256]; // specifies conversion of output characters
+/// [#20] specifies conversion of input characters.
+ASCIICode xord[256];
+/// [#20] specifies conversion of output characters.
+TextChar  xchr[256];
 /** @}*/ // end group S17x24_P10x12
 
 
@@ -179,7 +180,7 @@ Static Integer breadth_max;
  */
 
 /// [ #211~219: PART 16: THE SEMANTIC NEST ]
-ListStateRecord nest[nestsize + 1]; // [0, nestsize=40]
+ListStateRecord nest[NEST_SIZE + 1]; // [0, NEST_SIZE=40]
 UChar nest_ptr;                     // first unused location of nest
 Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
 ListStateRecord cur_list;           // the "top" semantic state
@@ -425,9 +426,9 @@ Static Boolean ligaturepresent, lfthit, rthit;
 
 /*921:*/
 Static TwoHalves trie[TRIE_SIZE + 1];
-Static SmallNumber hyfdistance[trieopsize];
-Static SmallNumber hyfnum[trieopsize];
-Static QuarterWord hyfnext[trieopsize];
+Static SmallNumber hyfdistance[TRIE_OP_SIZE];
+Static SmallNumber hyfnum[TRIE_OP_SIZE];
+Static QuarterWord hyfnext[TRIE_OP_SIZE];
 Static short opstart[256];
 /*:921*/
 /*926:*/
@@ -441,13 +442,13 @@ Static HyphPointer hyphcount;
 #ifdef tt_INIT
 /// #943
 // trie op codes for quadruples
-Static short trieophash[trieopsize + trieopsize + 1];
+Static short trieophash[TRIE_OP_SIZE + TRIE_OP_SIZE + 1];
 // largest opcode used so far for this language
 Static QuarterWord trieused[256];
 // language part of a hashed quadruple
-Static ASCIICode trieoplang[trieopsize];
+Static ASCIICode trieoplang[TRIE_OP_SIZE];
 // opcode corresponding to a hashed quadruple
-Static QuarterWord trieopval[trieopsize];
+Static QuarterWord trieopval[TRIE_OP_SIZE];
 // number of stored ops so far
 Static UInt16 trieopptr;
 

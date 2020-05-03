@@ -1183,7 +1183,7 @@ Static void printdelimiter(HalfWord p) {
 /// [#692] display a noad field.
 Static void printsubsidiarydata(HalfWord p, ASCIICode c) {
     if (cur_length() >= depth_threshold) {
-        if (mathtype(p) != empty) print(S(334));
+        if (mathtype(p) != EMPTY) print(S(334));
         return;
     }
     append_char(c);
@@ -2002,8 +2002,8 @@ Static void pushnest(void)
 {
   if (nest_ptr > max_nest_stack) {
     max_nest_stack = nest_ptr;
-    if (nest_ptr == nestsize)
-      overflow(S(438), nestsize);
+    if (nest_ptr == NEST_SIZE)
+      overflow(S(438), NEST_SIZE);
   }
   nest[nest_ptr] = cur_list;
   nest_ptr++;
@@ -2061,7 +2061,7 @@ Static void showactivities(void)
 	if (outputactive)
 	  print(S(445));
 	showbox(link(pagehead));
-	if (pagecontents > empty) {
+	if (pagecontents > EMPTY) {
 	  printnl(S(446));
 	  printtotals();
 	  printnl(S(447));
@@ -4786,7 +4786,7 @@ Static void fetch(HalfWord a) {
         help4(S(716), S(717), S(718), S(719));
         error();
         curi = nullcharacter;
-        mathtype(a) = empty;
+        mathtype(a) = EMPTY;
         return;
     } /*:723*/
     if (curc - MIN_QUARTER_WORD >= fontbc[curf] &&
@@ -4796,7 +4796,7 @@ Static void fetch(HalfWord a) {
         curi = nullcharacter;
     if (!charexists(curi)) {
         charwarning(curf, curc - MIN_QUARTER_WORD);
-        mathtype(a) = empty;
+        mathtype(a) = EMPTY;
     }
 }
 /*:722*/
@@ -4927,7 +4927,7 @@ _Ldone: /*:740*/
         delta = h;
     else
         delta = xheight(f);
-    if ((mathtype(supscr(q)) != empty) | (mathtype(subscr(q)) != empty)) {
+    if ((mathtype(supscr(q)) != EMPTY) | (mathtype(subscr(q)) != EMPTY)) {
         if (mathtype(nucleus(q)) == mathchar) { /*742:*/
             flush_node_list(x);
             x = newnoad();
@@ -5059,7 +5059,7 @@ Static Integer makeop(HalfWord q) {
         }
         delta = charitalic(curf, curi);
         x = cleanbox(nucleus(q), curstyle);
-        if ((mathtype(subscr(q)) != empty) & (subtype(q) != limits))
+        if ((mathtype(subscr(q)) != EMPTY) & (subtype(q) != limits))
             width(x) -= delta;
         shiftamount(x) = half(height(x) - depth(x)) - axisheight(cursize);
         mathtype(nucleus(q)) = subbox;
@@ -5084,7 +5084,7 @@ Static Integer makeop(HalfWord q) {
     shiftamount(z) = -shiftamount(x);
     height(v) = height(y);
     depth(v) = depth(y); /*751:*/
-    if (mathtype(supscr(q)) == empty) {
+    if (mathtype(supscr(q)) == EMPTY) {
         freenode(x, boxnodesize);
         listptr(v) = y;
     } else {
@@ -5098,7 +5098,7 @@ Static Integer makeop(HalfWord q) {
         listptr(v) = p;
         height(v) += bigopspacing5 + height(x) + depth(x) + shiftup;
     }
-    if (mathtype(subscr(q)) == empty)
+    if (mathtype(subscr(q)) == EMPTY)
         freenode(z, boxnodesize);
     else { /*:751*/
         shiftdown = bigopspacing4 - height(z);
@@ -5120,8 +5120,8 @@ Static void makeord(HalfWord q) {
     Pointer p, r;
 
 _Lrestart:
-    if (mathtype(subscr(q)) == empty) {
-        if (mathtype(supscr(q)) == empty) {
+    if (mathtype(subscr(q)) == EMPTY) {
+        if (mathtype(supscr(q)) == EMPTY) {
             if (mathtype(nucleus(q)) == mathchar) {
                 p = link(q);
                 if (p != 0) {
@@ -5260,7 +5260,7 @@ Static void makescripts(HalfWord q, long delta) {
         shiftdown = depth(z) + subdrop(t);
         freenode(z, boxnodesize);
     }
-    if (mathtype(supscr(q)) == empty) { /*757:*/
+    if (mathtype(supscr(q)) == EMPTY) { /*757:*/
         x = cleanbox(subscr(q), substyle(curstyle));
         width(x) += scriptspace;
         if (shiftdown < sub1(cursize)) shiftdown = sub1(cursize);
@@ -5280,7 +5280,7 @@ Static void makescripts(HalfWord q, long delta) {
         clr = depth(x) + labs(mathxheight(cursize)) / 4;
         if (shiftup < clr) /*:758*/
             shiftup = clr;
-        if (mathtype(subscr(q)) == empty)
+        if (mathtype(subscr(q)) == EMPTY)
             shiftamount(x) = -shiftup;
         else { /*759:*/
             y = cleanbox(subscr(q), substyle(curstyle));
@@ -5527,7 +5527,7 @@ Static void mlisttohlist(void) {
                     if ((mathtype(nucleus(q)) == mathtextchar) &
                         (space(curf) != 0))
                         delta = 0;
-                    if (mathtype(subscr(q)) == empty && delta != 0) {
+                    if (mathtype(subscr(q)) == EMPTY && delta != 0) {
                         link(p) = newkern(delta);
                         delta = 0;
                     }
@@ -5535,7 +5535,7 @@ Static void mlisttohlist(void) {
                     p = 0;
                 break;
 
-            case empty: p = 0; break;
+            case EMPTY: p = 0; break;
 
             case subbox: p = info(nucleus(q)); break;
 
@@ -5556,7 +5556,7 @@ Static void mlisttohlist(void) {
             default: confusion(S(721)); break;
         }
         newhlist(q) = p;
-        if ((mathtype(subscr(q)) == empty) & (mathtype(supscr(q)) == empty))
+        if ((mathtype(subscr(q)) == EMPTY) & (mathtype(supscr(q)) == EMPTY))
             /*:754*/
             goto _Lcheckdimensions_;
         /*:728*/
@@ -7494,12 +7494,12 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
     short l;
 
     h = abs(n + d * 313 + v * 361 + curlang * 1009) %
-            (trieopsize + trieopsize) -
-        trieopsize;
+            (TRIE_OP_SIZE + TRIE_OP_SIZE) -
+        TRIE_OP_SIZE;
     while (true) {
-        l = trieophash[h + trieopsize];
+        l = trieophash[h + TRIE_OP_SIZE];
         if (l == 0) {
-            if (trieopptr == trieopsize) overflow(S(767), trieopsize);
+            if (trieopptr == TRIE_OP_SIZE) overflow(S(767), TRIE_OP_SIZE);
             u = trieused[curlang];
             if (u == MAX_QUARTER_WORD)
                 overflow(S(768), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
@@ -7510,7 +7510,7 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
             hyfnum[trieopptr - 1] = n;
             hyfnext[trieopptr - 1] = v;
             trieoplang[trieopptr - 1] = curlang;
-            trieophash[h + trieopsize] = trieopptr;
+            trieophash[h + TRIE_OP_SIZE] = trieopptr;
             trieopval[trieopptr - 1] = u;
             Result = u;
             break;
@@ -7520,10 +7520,10 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
             Result = trieopval[l - 1];
             break;
         }
-        if (h > -trieopsize)
+        if (h > -TRIE_OP_SIZE)
             h--;
         else
-            h = trieopsize;
+            h = TRIE_OP_SIZE;
     } // while (true)
 
     return Result;
@@ -7797,11 +7797,11 @@ Static void inittrie(void) { /*952:*/
     for (j = 1; j <= 255; j++)
         opstart[j] = opstart[j - 1] + trieused[j - 1] - MIN_QUARTER_WORD;
     for (j = 1; j <= trieopptr; j++)
-        trieophash[j + trieopsize] =
+        trieophash[j + TRIE_OP_SIZE] =
             opstart[trieoplang[j - 1]] + trieopval[j - 1];
     for (j = 1; j <= trieopptr; j++) {
-        while (trieophash[j + trieopsize] > j) { /*:945*/
-            k = trieophash[j + trieopsize];
+        while (trieophash[j + TRIE_OP_SIZE] > j) { /*:945*/
+            k = trieophash[j + TRIE_OP_SIZE];
             t = hyfdistance[k - 1];
             hyfdistance[k - 1] = hyfdistance[j - 1];
             hyfdistance[j - 1] = t;
@@ -7811,8 +7811,8 @@ Static void inittrie(void) { /*952:*/
             t = hyfnext[k - 1];
             hyfnext[k - 1] = hyfnext[j - 1];
             hyfnext[j - 1] = t;
-            trieophash[j + trieopsize] = trieophash[k + trieopsize];
-            trieophash[k + trieopsize] = k;
+            trieophash[j + TRIE_OP_SIZE] = trieophash[k + TRIE_OP_SIZE];
+            trieophash[k + TRIE_OP_SIZE] = k;
         }
     }
     for (p = 0; p <= TRIE_SIZE; p++)
@@ -8963,7 +8963,7 @@ Static void fireup(HalfWord c)
   vfuzz = savevfuzz;
   if (lastglue != MAX_HALF_WORD)   /*991:*/
     delete_glue_ref(lastglue);
-  pagecontents = empty;
+  pagecontents = EMPTY;
   pagetail = pagehead;
   link(pagehead) = 0;
   lastglue = MAX_HALF_WORD;
@@ -9060,7 +9060,7 @@ Static void buildpage(void) {
             case VLIST_NODE:
             case RULE_NODE:
                 if (pagecontents < boxthere) { /*1001:*/
-                    if (pagecontents == empty)
+                    if (pagecontents == EMPTY)
                         freezepagespecs(boxthere);
                     else
                         pagecontents = boxthere;
@@ -9108,7 +9108,7 @@ Static void buildpage(void) {
                 break;
 
             case INS_NODE: /*1008:*/
-                if (pagecontents == empty) freezepagespecs(insertsonly);
+                if (pagecontents == EMPTY) freezepagespecs(insertsonly);
                 n = subtype(p);
                 r = pageinshead;
                 while (n >= subtype(link(r)))
@@ -10699,7 +10699,7 @@ Static void subsup(void)
   SmallNumber t;
   Pointer p;
 
-  t = empty;
+  t = EMPTY;
   p = 0;
   if (tail != head) {
     if (scriptsallowed(tail)) {
@@ -10711,14 +10711,14 @@ Static void subsup(void)
       t = mathtype(p);
     }
   }
-  if (p == 0 || t != empty) {   /*1177:*/
+  if (p == 0 || t != EMPTY) {   /*1177:*/
     tailappend(newnoad());
     if(curcmd == SUP_MARK) {
 	p = supscr(tail);
     } else {
 	p = subscr(tail);
     }
-    if (t != empty) {
+    if (t != EMPTY) {
       if (curcmd == SUP_MARK) {
 	printnl(S(292));
 	print(S(917));
@@ -12208,7 +12208,7 @@ _Ldone2:
     print(S(998));
     if (trieopptr != 1) print_char('s');
     print(S(999));
-    print_int(trieopsize);
+    print_int(TRIE_OP_SIZE);
     for (k = 255; k >= 0; k--) {            /*1326:*/
         if (trieused[k] > MIN_QUARTER_WORD) { /*:1324*/
             printnl(S(675));
@@ -12533,8 +12533,8 @@ Static void handlerightbrace(void) {
             if (p != 0) {
                 if (link(p) == 0) {
                     if (type(p) == ordnoad) {
-                        if (mathtype(subscr(p)) == empty) {
-                            if (mathtype(supscr(p)) == empty) {
+                        if (mathtype(subscr(p)) == EMPTY) {
+                            if (mathtype(supscr(p)) == EMPTY) {
                                 mem[saved(0) - MEM_MIN].hh =
                                     mem[nucleus(p) - MEM_MIN].hh;
                                 freenode(p, noadsize);
@@ -13687,7 +13687,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
-    if (x > trieopsize) {
+    if (x > TRIE_OP_SIZE) {
         fprintf(stdout, "---! Must increase the trie op size\n");
         goto _Lbadfmt_;
     }
@@ -13806,9 +13806,9 @@ Static void close_files_and_terminate(void) {
                     maxparamstack,
                     max_buf_stack + 1,
                     maxsavestack + 6,
-                    (long)stacksize,
-                    (long)nestsize,
-                    (long)paramsize,
+                    (long)STACK_SIZE,
+                    (long)NEST_SIZE,
+                    (long)PARAM_SIZE,
                     (long)BUF_SIZE,
                     (long)SAVE_SIZE);
         }  // if (tracingstats > 0 && log_opened)
@@ -14334,25 +14334,25 @@ Static void initialize(void) {
     Integer k; // index into mem, eqtb, etc.
     HyphPointer z; // runs through the exception dictionary
 
-    /// p5#8: Initialize whatever T E X might access
+    /// p5#8: Initialize whatever TEX might access
 
     /// p11#21 Set initial values of key variables
     {
-        /// 21,  23,  24,  74,  77,   80,  97, 166, 215, 254,
-        /// 257, 272, 287, 383, 439, 481, 490, 521, 551, 556,
-        /// 593, 596, 606, 648, 662, 685, 771, 928, 990, 1033,
-        /// 1267, 1282, 1300, 1343.
-        /*23:*/
-        for (i = 0; i <= 255; i++)
-            xchr[i] = (Char)i;
-        /*:23*/
-        /*24:*/
-        for (i = firsttextchar; i <= lasttextchar; i++)
-            xord[(Char)i] = invalidcode;
-        for (i = 128; i <= 255; i++)
+        /// [#21, 23]
+        for (i = 0; i <= 255; i++) {
+            xchr[i] = (TextChar)i;
+        }
+        /// [#24]
+        for (i = FIRST_TEXT_CHAR; i <= LAST_TEXT_CHAR; i++) {
+            xord[i] = INVALID_CODE;
+        }
+        for (i = 128; i <= 255; i++) {
             xord[xchr[i]] = i;
-        for (i = 0; i <= 126; i++) /*:24*/
+        }
+        for (i = 0; i <= 126; i++) {
             xord[xchr[i]] = i;
+        }
+        
         /*74:*/
         interaction = ERROR_STOP_MODE; /*:74*/
         /*77:*/
@@ -14384,7 +14384,7 @@ Static void initialize(void) {
         modeline = 0;
         prevgraf = 0;
         shown_mode = 0; /*991:*/
-        pagecontents = empty;
+        pagecontents = EMPTY;
         pagetail = pagehead;
         link(pagehead) = 0;
         lastglue = MAX_HALF_WORD;
@@ -14459,7 +14459,7 @@ Static void initialize(void) {
         /*662:*/
         packbeginline = 0; /*:662*/
         /*685:*/
-        emptyfield.rh = empty;
+        emptyfield.rh = EMPTY;
         emptyfield.UU.lh = 0;
         nulldelimiter.b0 = 0;
         nulldelimiter.b1 = MIN_QUARTER_WORD;
@@ -14613,17 +14613,17 @@ Static void initialize(void) {
         // ? cat_2 RIGHT_BRACE
         // ? cat_3 MATH_SHIFT
         // ? cat_4 TAB_MARK
-        catcode(carriagereturn) = CAR_RET; // cat_5
+        catcode(CARRIAGE_RETURN) = CAR_RET; // cat_5
         // ? cat_6 MAC_PARAM
         // ? cat_7 SUP_MARK
         // ? cat_8 SUB_MARK
-        catcode(nullcode) = IGNORE; // cat_9
+        catcode(NULL_CODE) = IGNORE; // cat_9
         catcode(' ') = SPACER; // cat_10
         // cat_11 见下方
         // cat_12 为默认值
         // ? cat_13
         catcode('%') = COMMENT; // cat_14
-        catcode(invalidcode) = INVALID_CHAR; // cat_15
+        catcode(INVALID_CODE) = INVALID_CHAR; // cat_15
         
         for (k = '0'; k <= '9'; k++) {
             mathcode(k) = k + varcode;
@@ -14648,7 +14648,7 @@ Static void initialize(void) {
         hangafter = 1;
         maxdeadcycles = 25;
         ESCAPE_CHAR = '\\';
-        end_line_char = carriagereturn;
+        end_line_char = CARRIAGE_RETURN;
         for (k = 0; k <= 255; k++)
             delcode(k) = -1;
         delcode('.') = 0; // this null delimiter is used in error recovery
@@ -14667,8 +14667,8 @@ Static void initialize(void) {
         fonts_init();
 
         // #946
-        for (k = -trieopsize; k <= trieopsize; k++)
-            trieophash[k + trieopsize] = 0;
+        for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++)
+            trieophash[k + TRIE_OP_SIZE] = 0;
         for (k = 0; k <= 255; k++)
             trieused[k] = MIN_QUARTER_WORD;
         trieopptr = 0;

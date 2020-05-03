@@ -21,7 +21,7 @@ extern ASCIICode xord[256];
 extern Char name_of_file[FILE_NAME_SIZE + 1];
 
 // [tex], 仅在 print 中使用
-extern Char xchr[256];
+extern TextChar xchr[256];
 extern MemoryWord eqtb[EQTB_SIZE - activebase + 1];
 extern FILE* write_file[16];
 
@@ -58,7 +58,7 @@ extern char readopen[17];
 extern StrNumber job_name;
 
 // [tex] scan
-extern ListStateRecord nest[nestsize + 1];
+extern ListStateRecord nest[NEST_SIZE + 1];
 extern UChar nest_ptr;
 extern Integer deadcycles;
 extern char pagecontents;

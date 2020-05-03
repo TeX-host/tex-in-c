@@ -140,7 +140,7 @@ extern HalfWord curchr;
 extern Pointer curcs;
 extern HalfWord curtok;
 
-extern InStateRecord inputstack[stacksize + 1];
+extern InStateRecord inputstack[STACK_SIZE + 1];
 extern UChar inputptr;
 extern InStateRecord cur_input;
 
@@ -150,7 +150,7 @@ extern FILE* inputfile[MAX_IN_OPEN];
 extern char scanner_status;
 extern Pointer warning_index;
 extern Pointer defref;
-extern Pointer paramstack[paramsize + 1];
+extern Pointer paramstack[PARAM_SIZE + 1];
 extern int paramptr;
 extern Integer maxparamstack;
 extern Integer align_state;

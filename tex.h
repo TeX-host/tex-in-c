@@ -64,7 +64,7 @@
 #define MAX_PRINT_LINE  79
 /** [#11] maximum number of simultaneous input sources.
  */
-#define stacksize       200
+#define STACK_SIZE      200
 /** [#11] maximum number of input files and
  *  error insertions that can be going on simultaneously.
  */
@@ -79,10 +79,10 @@
 #define FONT_MEM_SIZE   200000
 /** [#11] maximum number of simultaneous macro parameters.
  */
-#define paramsize       60
+#define PARAM_SIZE      60
 /** [#11] maximum number of semantic levels simultaneously active.
  */
-#define nestsize        40
+#define NEST_SIZE       40
 /** [#11] space for saving values outside of current group.
  *  must be at most #MAX_HALF_WORD.
  */
@@ -97,7 +97,7 @@
  *
  * [500=>5000]
  */
-#define trieopsize      5000
+#define TRIE_OP_SIZE    5000
 /** [#11] file names shouldn’t be longer than this.
  *
  * [40=>240]
@@ -106,7 +106,7 @@
 /** [#11] string of length #FILE_NAME_SIZE;
  *  tells where the string pool appears
  */
-#define poolname        "TeXformats:TEX.POOL                     "
+#define POOL_NAME       "TeXformats:TEX.POOL                     "
 
 /** [#12] smallest index in the #mem array dumped by INITEX.
  *  must not be less than #MEM_MIN.
@@ -140,22 +140,25 @@
 
 /** [#16] symbolic name for a null constant.
  */
-#define empty           0
+#define EMPTY           0
 /** @}*/ // end group S1x16_P3x9
 
 
+/** @addtogroup S17x24_P10x12
+ * @{
+ */
 
-// [#19] ordinal number of the smallest element of text_char
-#define firsttextchar   0
-// [#19] ordinal number of the largest element of text_char
-#define lasttextchar    255
-// [#22] ASCII code that might disappear
-#define nullcode        0
-// [#22] ASCII code used at end of line
-#define carriagereturn  13
-// [#22] ASCII code that many systems prohibit in text files
-#define invalidcode     127
-
+/// [#19] ordinal number of the smallest element of #TextChar.
+#define FIRST_TEXT_CHAR 0
+/// [#19] ordinal number of the largest element of #TextChar.
+#define LAST_TEXT_CHAR  255
+/// [#22] ASCII code that might disappear.
+#define NULL_CODE       0
+/// [#22] ASCII code used at end of line.
+#define CARRIAGE_RETURN '\r'
+/// [#22] ASCII code that many systems prohibit in text files.
+#define INVALID_CODE    127
+/** @}*/ // end group S17x24_P10x12
 
 
 /** @addtogroup S110x114_P42x43

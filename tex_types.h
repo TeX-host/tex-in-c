@@ -90,7 +90,20 @@ All types:
 
 */
 
-typedef UChar ASCIICode;       ///< #18: `ASCIICode::UChar(8)` = [0, 255]
+/** @addtogroup S1x16_P3x9
+ * @{
+ */
+/// [#18]: `ASCIICode::UChar(8)` = [0, 255]
+typedef UChar ASCIICode;
+/** @}*/ // end group S1x16_P3x9
+
+/** @addtogroup S17x24_P10x12
+ * @{
+ */
+/// [#19]: `TextChar::UChar(8)` = [0, 255]
+typedef UChar TextChar;
+/** @}*/ // end group S17x24_P10x12
+
 typedef UChar EightBits;       ///< #25: `EightBits::UChar(8)` = [0, 255]
 typedef UChar PackedASCIICode; ///< #38: `PackedASCIICode::UChar(8)` = [0, 255]
 

@@ -50,7 +50,7 @@ HalfWord curtok;
 ///
 /// xref[2]: only tex.c
 ///     #error, #openlogfile
-InStateRecord inputstack[stacksize + 1];
+InStateRecord inputstack[STACK_SIZE + 1];
 /// [#301]: first unused location of input stack.
 ///
 /// xref[3, only tex.c]:
@@ -83,7 +83,7 @@ Pointer defref;
 
 /// [#308] token list pointers for parameters.
 //// xref[only tex.c]: #macrocall
-Pointer paramstack[paramsize + 1];
+Pointer paramstack[PARAM_SIZE + 1];
 /// [#308] first unused entry in param stack.
 //// xref[only tex.c]: #macrocall
 int paramptr;
@@ -479,7 +479,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
         // "input stack size"
-        if (inputptr == stacksize) overflow(S(508), stacksize);
+        if (inputptr == STACK_SIZE) overflow(S(508), STACK_SIZE);
         // 此处已经报错跳出函数
     }
     // stack the record
@@ -559,7 +559,7 @@ void backinput(void) {
     }
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
-        if (inputptr == stacksize) overflow(S(508), stacksize);
+        if (inputptr == STACK_SIZE) overflow(S(508), STACK_SIZE);
     }
     inputstack[inputptr] = cur_input;
     inputptr++;
@@ -594,7 +594,7 @@ void beginfilereading(void) {
     inopen++;
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
-        if (inputptr == stacksize) overflow(S(508), stacksize);
+        if (inputptr == STACK_SIZE) overflow(S(508), STACK_SIZE);
     }
     inputstack[inputptr] = cur_input;
     inputptr++;

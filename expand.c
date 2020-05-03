@@ -249,7 +249,7 @@ void macrocall(Pointer refcount) {
     if (n > 0) { /*:390*/
         if (paramptr + n > maxparamstack) {
             maxparamstack = paramptr + n;
-            if (maxparamstack > paramsize) overflow(S(553), paramsize);
+            if (maxparamstack > PARAM_SIZE) overflow(S(553), PARAM_SIZE);
         }
         for (m = 0; m < n; m++)
             paramstack[paramptr + m] = pstack[m];
