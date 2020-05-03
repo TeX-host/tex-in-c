@@ -9,12 +9,38 @@
 #include "global_const.h"
 #include "tex_types.h"
 
-// str[6], tex[1]
+
+/** @addtogroup S1x16_P3x9
+ * @{
+ */
+
+/** [#11] maximum number of strings;
+ *  must not exceed #MAX_HALF_WORD.
+ *
+ *  xref: str[6], tex[1].
+ *  [3000 => 300_000]
+ */
 #define MAX_STRINGS 300000
-// inipool[2] only
+/** [#11] the minimum number of characters
+ *  that should be available for the user’s control sequences and font names,
+ * after TEX’s own error messages are stored.
+ *
+ *  xref: inipool[2] only
+ */
 #define STRING_VACANCIES 8000
-// str[4], tex[4]
-#define POOL_SIZE (1024 * 1024 * 4 - 1) // 4 MB
+/** [#11] maximum number of characters in strings.
+ *
+ *  including all error messages and help texts,
+ *  and the names of all fonts and control sequences;
+ *  must exceed #STRING_VACANCIES by the total length of TEX’s own strings,
+ *  which is currently about 23000.
+ *
+ *  xref: str[4], tex[4].
+ *  [32000 => 1024*1024*4 (4 MB)]
+ */
+#define POOL_SIZE (1024 * 1024 * 4 - 1)
+/** @}*/ // end group S1x16_P3x9
+
 
 #define POOLPOINTER_IS_POINTER 1
 #if POOLPOINTER_IS_POINTER

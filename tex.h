@@ -8,78 +8,143 @@
 // 标记字符串序号
 #define S(x) (x)
 #define Static static
-
-// #11: Constants in the outer block
 #define dwa_do_8  ((int)16*1024*1024)
-// [30_000 => 3_000_000]
-// greatest index in TeX's internal `mem` array
-#define MEM_MAX         3000000
-// smallest index in TeX's internal `mem` array
-#define MEM_MIN         0
-// [500=>5000]
-// maximum number of characters simultaneously present in
-// current lines of open files and in 
-// control sequences between \csname and \endcsname
-#define BUF_SIZE        5000
-// width of context lines on terminal error messages
-#define ERROR_LINE      72
-// [30, ERROR_LINE-15=57]
-// width of first lines of contexts in terminal error messages
-#define HALF_ERROR_LINE 42
-// [60, ...]
-// width of longest text lines output; should be at least 60
-#define MAX_PRINT_LINE  79
-// maximum number of simultaneous input sources 
-#define stacksize       200
-// maximum number of input files and
-// error insertions that can be going on simultaneously
-#define MAX_IN_OPEN     6
-// [#12] smallest internal font number
-#define FONT_BASE       0
-// maximum internal font number
-#define FONT_MAX        75
-// [20_000 => 200_000]
-// number of words of font_info for all fonts
-#define FONT_MEM_SIZE   200000
-// maximum number of simultaneous macro parameters
-#define paramsize       60
-// maximum number of semantic levels simultaneously active
-#define nestsize        40
 
-// space for saving values outside of current group
-#define SAVE_SIZE        600
-// [8_000 => 131_000]
-// space for hyphenation patterns;
-// should be larger for INITEX than it is in production versions of TeX
-#define TRIE_SIZE       131000
-// [500=>5000]
-// space for "opcodes" in the hyphenation patterns
-#define trieopsize      5000
-// [40=>240] 
-// file names shouldn’t be longer than this
-#define FILE_NAME_SIZE    240
 
+/** @addtogroup S1x16_P3x9
+ * @{
+ */
+
+/// [#2] printed when TEX starts.
+/// TODO: update to `3.14159265`
 #define TEX_BANNER      "This is TeX, Version 3.14159"
-// string of length file name size; 
-// tells where the string pool appears
+
+
+/* [#11]: Constants in the outer block.
+    The following parameters can be changed at compile time 
+        to extend or reduce TEX’s capacity. 
+    They may have different values in INITEX and 
+        in production versions of TEX.
+*/
+
+/** [#11] greatest index in TeX's internal #mem array.
+ *  must be strictly less than #MAX_HALF_WORD;
+ *  must be equal to #MEM_TOP in INITEX,
+ *  otherwise ≥ #MEM_TOP.
+ *
+ *  [30_000 => 3_000_000]
+ */
+#define MEM_MAX         3000000
+/** [#11] smallest index in TeX's internal #mem array.
+ *  must be #MAX_HALF_WORD or more;
+ *  must be equal to #MEM_BOT in INITEX,
+ *  otherwise ≤ #MEM_BOT.
+ */
+#define MEM_MIN         0
+/** [#11] maximum number of characters simultaneously present.
+ *  in current lines of open files
+ *  and in control sequences between `\csname` and `\endcsname`;
+ *  must not exceed #MAX_HALF_WORD.
+ *
+ * [500=>5000]
+ */
+#define BUF_SIZE        5000
+/** [#11] width of context lines on terminal error messages.
+ */
+#define ERROR_LINE      72
+/** [#11] width of first lines of contexts in terminal error messages.
+ *
+ * should be between [30, #ERROR_LINE-15=57].
+ */
+#define HALF_ERROR_LINE 42
+/** [#11] width of longest text lines output.
+ *
+ * should be [60, ...]
+ */
+#define MAX_PRINT_LINE  79
+/** [#11] maximum number of simultaneous input sources.
+ */
+#define stacksize       200
+/** [#11] maximum number of input files and
+ *  error insertions that can be going on simultaneously.
+ */
+#define MAX_IN_OPEN     6
+/** [#11] maximum internal font number.
+ */
+#define FONT_MAX        75
+/** [#11] number of words of #fontinfo for all fonts.
+ *
+ * [20_000 => 200_000]
+ */
+#define FONT_MEM_SIZE   200000
+/** [#11] maximum number of simultaneous macro parameters.
+ */
+#define paramsize       60
+/** [#11] maximum number of semantic levels simultaneously active.
+ */
+#define nestsize        40
+/** [#11] space for saving values outside of current group.
+ *  must be at most #MAX_HALF_WORD.
+ */
+#define SAVE_SIZE       600
+/** [#11] space for hyphenation patterns.
+ *  should be larger for INITEX than it is in production versions of TeX.
+ *
+ * [8_000 => 131_000]
+ */
+#define TRIE_SIZE       131000
+/** [#11] space for "opcodes" in the hyphenation patterns.
+ *
+ * [500=>5000]
+ */
+#define trieopsize      5000
+/** [#11] file names shouldn’t be longer than this.
+ *
+ * [40=>240]
+ */
+#define FILE_NAME_SIZE  240
+/** [#11] string of length #FILE_NAME_SIZE;
+ *  tells where the string pool appears
+ */
 #define poolname        "TeXformats:TEX.POOL                     "
 
-// [#12] smallest index in the `mem` array dumped by INITEX
-#define MEM_BOT     0
-// [#12] [30_000 => 3_000_000] 
-// largest index in the `mem` array dumped by INITEX
-#define MEM_TOP     3000000
-// [#12] [2100 => 210_000]
-// maximum number of control sequences
-#define HASH_SIZE   210000
-// [#12] [1777 => 171_553]
-// a prime number equal to about 85% of `HASH_SIZE`
-#define HASH_PRIME  171553
-// [#12] another prime; the number of \hyphenation exceptions
-#define HYPH_SIZE   307
+/** [#12] smallest index in the #mem array dumped by INITEX.
+ *  must not be less than #MEM_MIN.
+ */
+#define MEM_BOT         0
+/** [#12] largest index in the #mem array dumped by INITEX.
+ *  must be substantially larger than
+ *  #MEM_BOT and not greater than #MEM_MAX
+ *
+ * [30_000 => 3_000_000]
+ */
+#define MEM_TOP         3000000
+/** [#12] smallest internal font number.
+ */
+#define FONT_BASE       0
+/** [#12] maximum number of control sequences.
+ *  must not be less than #MIN_QUARTER_WORD.
+ *
+ * [2100 => 210_000]
+ */
+#define HASH_SIZE       210000
+/** [#12] a prime number equal to about 85% of #HASH_SIZE.
+ *  it should be at most about (#MEM_MAX − #MEM_MIN)/10 .
+ *
+ * [1777 => 171_553]
+ */
+#define HASH_PRIME      171553
+/** [#12] another prime; the number of `\hyphenation` exceptions.
+ */
+#define HYPH_SIZE       307
 
-// [#16] symbolic name for a null constant
+/** [#16] symbolic name for a null constant.
+ */
 #define empty           0
+/** @}*/ // end group S1x16_P3x9
+
+
+
 // [#19] ordinal number of the smallest element of text_char
 #define firsttextchar   0
 // [#19] ordinal number of the largest element of text_char
@@ -90,6 +155,7 @@
 #define carriagereturn  13
 // [#22] ASCII code that many systems prohibit in text files
 #define invalidcode     127
+
 
 
 /** @addtogroup S110x114_P42x43
@@ -165,7 +231,7 @@
 #define garbage         (ligtrick)
 /// [#162] head of token list built by `scan_keyword`.
 #define backuphead      (ligtrick-CHAR_NODE_SIZE)
-/// [#162] smallest statically allocated word in the one-word `mem`.
+/// [#162] smallest statically allocated word in the one-word #mem.
 #define himemstatmin    (backuphead)
 /** @}*/ // end group S162x172_P58x61
 
