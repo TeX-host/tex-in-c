@@ -28,6 +28,5 @@ var searchData=
   ['breakpoint_3476',['breakpoint',['../tex_8h.html#a7e3982f712c42ac0cd098881dd2bcc03',1,'tex.h']]],
   ['brokenins_3477',['brokenins',['../texmac_8h.html#ac42e1ce9a9fe412489d014ed28948f29',1,'texmac.h']]],
   ['brokenpenalty_3478',['brokenpenalty',['../texmac_8h.html#a9efbaa96c5a287cb86fa9c5ff6144867',1,'texmac.h']]],
-  ['brokenptr_3479',['brokenptr',['../texmac_8h.html#ae350c7237574ae6de97bfc665603fead',1,'texmac.h']]],
-  ['buf_5fsize_3480',['BUF_SIZE',['../tex_8h.html#a6821bafc3c88dfb2e433a095df9940c6',1,'tex.h']]]
+  ['brokenptr_3479',['brokenptr',['../texmac_8h.html#ae350c7237574ae6de97bfc665603fead',1,'texmac.h']]]
 ];

@@ -1,13 +1,13 @@
 var str_8h =
 [
     [ "StrPoolPtr", "struct_str_pool_ptr.html", "struct_str_pool_ptr" ],
-    [ "MAX_STRINGS", "str_8h.html#a56616411e56f79c8ef71d13a76713622", null ],
+    [ "MAX_STRINGS", "group___s1x16___p3x9.html#ga56616411e56f79c8ef71d13a76713622", null ],
     [ "POOL_ELEM", "str_8h.html#ab1aba8653b36c542591a985295534e96", null ],
-    [ "POOL_SIZE", "str_8h.html#aa2ac54564b3514084afd2c5dafe9d232", null ],
+    [ "POOL_SIZE", "group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232", null ],
     [ "POOL_TOP", "str_8h.html#a158e9203fe11b0854dfeaaa384dca8a1", null ],
     [ "POOLPOINTER_IS_POINTER", "str_8h.html#a3a3e1a47d94c456e975fbae727075c4c", null ],
     [ "STR_H", "str_8h.html#a8652fec210d1ca270182e37e4c2f67da", null ],
-    [ "STRING_VACANCIES", "str_8h.html#a68c4128ce58b9b87220d89080327aa30", null ],
+    [ "STRING_VACANCIES", "group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30", null ],
     [ "PoolPtr", "str_8h.html#aa1a7d9c05ade2f46952e99c061943621", null ],
     [ "StrNumber", "str_8h.html#a07525edfa2983cba57700272d6a51827", null ],
     [ "append_char", "str_8h.html#afd0a0b8cbdc9c2682890bb1af9225855", null ],

@@ -77,7 +77,7 @@ var searchData=
   ['brokenpenalty_167',['brokenpenalty',['../texmac_8h.html#a9efbaa96c5a287cb86fa9c5ff6144867',1,'texmac.h']]],
   ['brokenpenaltycode_168',['brokenpenaltycode',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da988f1eb47ab19dcf8125da66ab22d34b',1,'tex_constant.h']]],
   ['brokenptr_169',['brokenptr',['../texmac_8h.html#ae350c7237574ae6de97bfc665603fead',1,'texmac.h']]],
-  ['buf_5fsize_170',['BUF_SIZE',['../tex_8h.html#a6821bafc3c88dfb2e433a095df9940c6',1,'tex.h']]],
+  ['buf_5fsize_170',['BUF_SIZE',['../group___s1x16___p3x9.html#ga6821bafc3c88dfb2e433a095df9940c6',1,'tex.h']]],
   ['buffer_171',['buffer',['../group___s25x37___p13x18.html#ga794f68592ecd530001eaf82a6dfaba8d',1,'buffer():&#160;tex_header.h'],['../group___s25x37___p13x18.html#ga794f68592ecd530001eaf82a6dfaba8d',1,'buffer():&#160;tex_header.h']]],
   ['buildchoices_172',['buildchoices',['../tex_8c.html#a313aaa8220ea841de600587b5384b921',1,'tex.c']]],
   ['builddiscretionary_173',['builddiscretionary',['../tex_8c.html#a4cb2a7da2d2581519538c7ef84862afd',1,'tex.c']]],

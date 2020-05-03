@@ -1,6 +1,6 @@
 var modules =
 [
-    [ "PART 1: Introduction", "group___s1x16___p3x9.html", null ],
+    [ "PART 1: Introduction", "group___s1x16___p3x9.html", "group___s1x16___p3x9" ],
     [ "PART 2: The character set", "group___s17x24___p10x12.html", "group___s17x24___p10x12" ],
     [ "PART 3: Input and output", "group___s25x37___p13x18.html", "group___s25x37___p13x18" ],
     [ "PART 4: String handling", "group___s38x53___p19x23.html", null ],

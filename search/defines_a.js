@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['justopen_3673',['justopen',['../tex_8h.html#af71c657c952a505abaf4fb815d607449',1,'tex.h']]]
+  ['justopen_3662',['justopen',['../tex_8h.html#af71c657c952a505abaf4fb815d607449',1,'tex.h']]]
 ];
