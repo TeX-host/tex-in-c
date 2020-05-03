@@ -174,7 +174,7 @@
 #define MIN_HALF_WORD       0
 /// [#110]: largest allowable value in a #HalfWord.
 /// 1/2 word = (16bit)[0, 65535]
-/// mutst > 65535 (2^16-1)
+/// must > 65535 (2^16-1)
 #define MAX_HALF_WORD       655350000L
 /** @}*/ // end group S110x114_P42x43
 
