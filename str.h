@@ -42,9 +42,16 @@
 /** @}*/ // end group S1x16_P3x9
 
 
+/** @addtogroup S38x53_P19x23
+ * @{
+ */
+
 #define POOLPOINTER_IS_POINTER 1
 #if POOLPOINTER_IS_POINTER
-typedef ASCIICode* PoolPtr; // pool_pointer
+/// [#38]  for variables that point into #str_pool.
+/// [PoolPointer => PoolPtr],
+/// [0, POOL_SIZE=4MB-1B]
+typedef ASCIICode* PoolPtr;
 #define POOL_TOP (str_pool + POOL_SIZE)
 #define POOL_ELEM(x, y) ((x)[(y)])
 #else
@@ -63,10 +70,12 @@ typedef struct {
 typedef uint_fast32_t StrNumber; // [0, MAX_STRINGS=300000]
 static_assert(UMAXOF(StrNumber) >= MAX_STRINGS,
               "StrNumber = [0, MAX_STRINGS=300000]");
+/** @}*/ // end group S38x53_P19x23
+
 
 #ifdef tt_INIT
 // [str], tex
-extern int get_strings_started(void); // #47
+extern Boolean get_strings_started(void); // #47
 #endif // tt_INIT
 
 // [str], dviout, tex
@@ -89,7 +98,7 @@ extern StrPoolPtr str_mark(void); // [str][0], tex[2]
 extern int str_cmp(StrNumber s, StrNumber t);
 extern int str_getc(StrNumber s, int k);
 extern void str_map_from_mark(StrPoolPtr b, void (*f)(ASCIICode));
-extern void str_room(long l);
+extern void str_room(StrNumber l);
 extern void str_set_init_ptrs(void);
 extern void str_print_stats(FILE* f_log_file);
 extern void str_dump(FILE* fmtfile);
@@ -110,6 +119,6 @@ extern StrNumber str_insert(ASCIICode buffp[], Integer l);
 extern StrNumber str_ins(short* buffp, long l);
 
 // [inipool], str
-extern int str_pool_init(void); // inipool.c
+extern Boolean str_pool_init(void); // inipool.c
 
 #endif // #ifndef STR_H

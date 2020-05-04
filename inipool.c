@@ -15,10 +15,12 @@ static void app_lc_hex(int l) {
     }
 }
 
-int str_pool_init(void) {
+/// [p21#47] Make the first 256 strings.
+Boolean str_pool_init(void) {
     int l;
+
     /* Make strings corresponding to single chars */
-    /// #48
+    /// [#48] Make the first 256 strings.
     for (int k = 0; k < 256; k++) {
         if ((k < ' ') || (k > '~')) {
             // Character k cannot be printed
@@ -44,10 +46,11 @@ int str_pool_init(void) {
     for (int k = 0; k < (int)(sizeof(pool_strs) / sizeof(char*)); k++) {
         const char* const sp = pool_strs[k];
         l = strlen(sp);
-        if (l + STRING_VACANCIES != str_adjust_to_room(l + STRING_VACANCIES)) {
+        if ((l + STRING_VACANCIES) != str_adjust_to_room(l + STRING_VACANCIES)) {
             fprintf(stderr, "! You have to increase POOLSIZE.\n");
             return false;
         }
+
         for (int i = 0; i < l; i++) {
             append_char(sp[i]);
         }

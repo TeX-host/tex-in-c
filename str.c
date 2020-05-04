@@ -6,57 +6,77 @@
 #include "macros.h" // [macro] pget, pput
 #include "texfunc.h" // [func] print_char
 #include "str.h"    // [export]
- 
-/// #39
-static ASCIICode    str_pool[POOL_SIZE + 1];    // the characters
-static PoolPtr      str_start[MAX_STRINGS + 1]; // the starting pointers
-static PoolPtr      pool_ptr;   // first unused position in str pool 
-static StrNumber    str_ptr;    // number of the current string being created
-static PoolPtr      init_pool_ptr;  // the starting value of pool ptr
-static StrNumber    init_str_ptr;   // the starting value of str ptr
 
 #define str_end(x) (str_start[(x) + 1])
 
-/*
-    #38. String handling.
-*/
 
-/// #40: the number of characters in string number x
+/** @addtogroup S38x53_P19x23
+ * @{
+ */
+
+/// [#39] the characters.
+static ASCIICode    str_pool[POOL_SIZE + 1];
+/// [#39] the starting pointers.
+static PoolPtr      str_start[MAX_STRINGS + 1];
+/// [#39] first unused position in #str_pool.
+static PoolPtr      pool_ptr;
+/// [#39] number of the current string being created.
+static StrNumber    str_ptr;
+/// [#39] the starting value of #pool_ptr.
+static PoolPtr      init_pool_ptr;
+/// [#39] the starting value of #str_ptr.
+static StrNumber    init_str_ptr;
+
+
+/// [#40]: the number of characters in string number x.
 int str_length(StrNumber x) { return str_end(x) - str_start[(x)]; }
 
-/// #41: The length of the current string
+/// [#41]: The length of the current string.
 int cur_length() { return pool_ptr - str_start[str_ptr]; }
 
-/// #42: put ASCII code s at the end of str pool
+/// [#42]: put ASCII code s at the end of #str_pool.
 void append_char(ASCIICode s) {
     str_room(1);
     POOL_ELEM(pool_ptr, 0) = s;
     pool_ptr++;
 }
-// forget the last character in the pool
+
+/// [#42]: forget the last character in the pool.
 void flush_char(void) { pool_ptr--; }
-// make sure that the pool hasn’t overflowed
-void str_room(long l) {
+
+/// [#42]: make sure that the pool hasn’t overflowed.
+void str_room(StrNumber l) { //            "pool size"
     if ((pool_ptr + l) > POOL_TOP) overflow(S(1276), POOL_TOP - init_pool_ptr);
 }
 
-/// #43: current string enters the pool
-StrNumber makestring(void) {
+/** [#43]: current string enters the pool.
+ * Once a sequence of characters has been appended to str pool,
+ *  it officially becomes a string 
+ *  when the function make string is called.
+ * 
+ * This function returns 
+ *  the identification number of the new string as its value.
+ */
+StrNumber makestring(void) { //         "number of strings"
     if (str_ptr == MAX_STRINGS) overflow(S(1277), MAX_STRINGS - init_str_ptr);
+
     str_ptr++;
     str_start[str_ptr] = pool_ptr;
     return (str_ptr - 1);
 } // #43: makestring
-/// #44:  destroy the most recently made string
+
+/// [#44]: destroy the most recently made string.
 void flush_string(void) {
     str_ptr--;
     pool_ptr = str_start[str_ptr];
 } // #44: flush_string
 
+/// 比较两个 str 的差别。返回 0 为相同，非 0 为有差异。
 int str_cmp(StrNumber s, StrNumber t) {
     PoolPtr j = str_start[s];
     PoolPtr k = str_start[t];
     int l = 0, dif;
+
     while (l < str_length(s) && l < str_length(t)) {
         dif = POOL_ELEM(j, l) - POOL_ELEM(k, l);
         if (dif) {
@@ -66,7 +86,8 @@ int str_cmp(StrNumber s, StrNumber t) {
     }
     return str_length(s) - str_length(t);
 }
-/// p21#46:
+
+/// [p21#46]: test equality of strings。
 Boolean str_eq_str(StrNumber s, StrNumber t) {
     if (str_length(s) != str_length(t)) {
         return false;
@@ -75,20 +96,21 @@ Boolean str_eq_str(StrNumber s, StrNumber t) {
 } // #46: str_eq_str
 
 #ifdef tt_INIT
-/// #47: initializes the string pool, but returns false if something goes wrong
-int get_strings_started(void) {
+/// [#47]: initializes the string pool, 
+///  but returns false if something goes wrong.
+Boolean get_strings_started(void) {
     #if POOLPOINTER_IS_POINTER
         pool_ptr = str_pool;
     #else
         pool_ptr = 0;
     #endif
+
     str_ptr = 0;
     str_start[0] = pool_ptr;
     return str_pool_init();
-}
+} // [#47] get_strings_started
 #endif // #47: tt_INIT
-
-/// #48~53
+/** @}*/ // end group S38x53_P19x23.
 
 
 /*
