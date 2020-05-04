@@ -3,6 +3,11 @@
 #include "print.h"
 #include "global.h" // [func] xchr, eqtb, write_file
 
+
+/** @addtogroup S54x71_P24x29
+ * @{
+ */
+
 // [p24#54]: On-line and off-line printing
 // ? dig[23]    // digits in a number being output
                 // 作为函数参数
@@ -38,7 +43,7 @@ Integer first_count; ///< another variable for pseudoprinting.
 
 */
 
-/** [p25#57]: 输出换行 .
+/** [p25#57]: 输出换行 . prints an end-of-line.
  *
  * 全局变量:
  *  + [in]  #selector
@@ -80,7 +85,7 @@ void println(void) {
     } // switch (selector)
 } // #57: println
 
-/** [p25#58]: 输出单个 ASCII 字符 .
+/** [p25#58]: 输出单个 ASCII 字符 . prints a single character.
  *
  * 根据 #selector 选择输出位置.
  *
@@ -324,3 +329,5 @@ void print_roman_int(Integer n) {
         }
     } // while (true)
 } // #69: print_roman_int
+
+/** @}*/ // end group S54x71_P24x29

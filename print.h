@@ -9,24 +9,31 @@
 #include "texmac.h"    // newlinechar
 #include "str.h"       // StrNumber
 
+
+/** @addtogroup S54x71_P24x29
+ * @{
+ */
+
 /// [p24#54]:  
 /// `enum Selector` = [16, 21],
 ///     use by #selector
 enum Selector {
-    NO_PRINT = 16, ///< doesn't print at all
-    TERM_ONLY,     ///< prints only on the terminal
-    LOG_ONLY,      ///< prints only on the transcript file
+    NO_PRINT = 16, ///< doesn't print at all.
+    TERM_ONLY,     ///< prints only on the terminal.
+    LOG_ONLY,      ///< prints only on the transcript file.
     TERM_AND_LOG,  ///< normal #selector setting.
 
     /// puts output into a cyclic buffer
     /// that is used by the show context routine.
     PSEUDO = 20,
-    /// appends the output to the current string in the string pool
+    /// appends the output to the current string in the string pool.
     NEW_STRING = 21,
     /// highest selector setting.
     /// NOTE: _not_use_, only used in assert
     MAX_SELECTOR = NEW_STRING,
 }; // [p24#54] enum Selector
+/** @}*/ // end group S54x71_P24x29
+
 
 extern FILE* log_file;
 extern enum Selector selector;

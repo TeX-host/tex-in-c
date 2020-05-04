@@ -70,9 +70,6 @@ void set_help(UChar k, ...) {
 }
 
 
-/** @addtogroup S54x71_P24x29
- * @{
- */
 
 /*
 # Basic printing procedures[13]:
@@ -85,6 +82,10 @@ void set_help(UChar k, ...) {
 */
 
 // #70: print current string #str.c
+
+/** @addtogroup S54x71_P24x29
+ * @{
+ */
 
 /// #71: gets a line from the terminal
 void term_input(void) {
