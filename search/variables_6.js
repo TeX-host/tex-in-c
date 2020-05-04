@@ -2,11 +2,11 @@ var searchData=
 [
   ['falsebchar_2666',['falsebchar',['../tex__header_8h.html#a1ab057e190763026606ea5fb3fe77af6',1,'tex_header.h']]],
   ['fewestdemerits_2667',['fewestdemerits',['../tex__header_8h.html#a61632510784c6ee1390f5e1b99bafb7a',1,'tex_header.h']]],
-  ['file_5foffset_2668',['file_offset',['../print_8c.html#a6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c'],['../print_8h.html#a6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c']]],
+  ['file_5foffset_2668',['file_offset',['../group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c'],['../group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c']]],
   ['filename_5fk_2669',['filename_k',['../group___s511x538___p188x195.html#ga26de7b0cc6daf6e2ad76d2f7a8f4f8d2',1,'tex.c']]],
   ['finalpass_2670',['finalpass',['../tex__header_8h.html#a40b47a15a066bf898f669c9ef37b14d8',1,'tex_header.h']]],
   ['first_2671',['first',['../group___s25x37___p13x18.html#ga24a17863571a691e608ce76da62912e2',1,'first():&#160;tex_header.h'],['../group___s25x37___p13x18.html#ga24a17863571a691e608ce76da62912e2',1,'first():&#160;tex_header.h']]],
-  ['first_5fcount_2672',['first_count',['../print_8c.html#a7ffd670d28ee97732bf95350e740ec9d',1,'first_count():&#160;print.c'],['../print_8h.html#a7ffd670d28ee97732bf95350e740ec9d',1,'first_count():&#160;print.c']]],
+  ['first_5fcount_2672',['first_count',['../group___s54x71___p24x29.html#ga7ffd670d28ee97732bf95350e740ec9d',1,'first_count():&#160;print.c'],['../group___s54x71___p24x29.html#ga7ffd670d28ee97732bf95350e740ec9d',1,'first_count():&#160;print.c']]],
   ['firstindent_2673',['firstindent',['../tex__header_8h.html#a1b49d5a79968331072b9382641753f92',1,'tex_header.h']]],
   ['firstwidth_2674',['firstwidth',['../tex__header_8h.html#a04f3956915a6f85dca59c3088cd4db9c',1,'tex_header.h']]],
   ['fmemptr_2675',['fmemptr',['../group___s539x582___p196x213.html#ga97eb7fd8ae4fda8c555bf5f67a1d3ead',1,'fmemptr():&#160;fonts.c'],['../group___s539x582___p196x213.html#ga97eb7fd8ae4fda8c555bf5f67a1d3ead',1,'fmemptr():&#160;fonts.c']]],

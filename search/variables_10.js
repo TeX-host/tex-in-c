@@ -15,7 +15,7 @@ var searchData=
   ['passive_2837',['passive',['../tex__header_8h.html#a83117d9dffb5ee8d5cac75dbd42d169d',1,'tex_header.h']]],
   ['passnumber_2838',['passnumber',['../tex__header_8h.html#aab4183fcddd8b92aad744eb7d378bc8d',1,'tex_header.h']]],
   ['pgfield_2839',['pgfield',['../struct_list_state_record.html#a5b4f80bdec93e5ff4b65de8208fc143b',1,'ListStateRecord']]],
-  ['pool_5fptr_2840',['pool_ptr',['../str_8c.html#a237b76c2fd1c09d8479da33238c57cac',1,'str.c']]],
+  ['pool_5fptr_2840',['pool_ptr',['../group___s38x53___p19x23.html#ga237b76c2fd1c09d8479da33238c57cac',1,'str.c']]],
   ['pool_5fstrs_2841',['pool_strs',['../pool__str_8c.html#a2f091167f3d194fed8f362a7fb8d778f',1,'pool_str.c']]],
   ['pos_2842',['pos',['../funcs_8c.html#a1910d262855b71da353ed0d07a6c7823',1,'funcs.c']]],
   ['printednode_2843',['printednode',['../tex__header_8h.html#ae1d3307b3c4137cc8844a70425dd15f8',1,'tex_header.h']]]

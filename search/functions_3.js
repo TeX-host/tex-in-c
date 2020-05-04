@@ -20,5 +20,5 @@ var searchData=
   ['convtoks_2202',['convtoks',['../group___s464x486___p174x180.html#gadb0765dfd784b93097c4a85e56f6fd7c',1,'expand.c']]],
   ['copynodelist_2203',['copynodelist',['../group___s203x206___p71x72.html#gae3f14662dc0c3ecea213650007bda251',1,'tex.c']]],
   ['cserror_2204',['cserror',['../tex_8c.html#a5202086967dd53ccc7b387f69b464458',1,'tex.c']]],
-  ['cur_5flength_2205',['cur_length',['../str_8c.html#aceeffa82bcc961461f4fb75bb850f40a',1,'cur_length():&#160;str.c'],['../str_8h.html#aa4c3887078a0917e85a82b9a6b3cb8a6',1,'cur_length(void):&#160;str.c']]]
+  ['cur_5flength_2205',['cur_length',['../group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a',1,'cur_length():&#160;str.c'],['../group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a',1,'cur_length(void):&#160;str.c']]]
 ];

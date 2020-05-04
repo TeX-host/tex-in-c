@@ -22,7 +22,7 @@ var searchData=
   ['lo_5fmem_5fmax_2776',['lo_mem_max',['../group___s115x132___p44x49.html#ga26c636252eb4ab1aa9fef93854c06375',1,'lo_mem_max():&#160;tex_header.h'],['../group___s115x132___p44x49.html#ga26c636252eb4ab1aa9fef93854c06375',1,'lo_mem_max():&#160;tex_header.h']]],
   ['locationf_2777',['locationf',['../structmove.html#a5ec34278e3fa7f89415d00d0c78eadaa',1,'move']]],
   ['locfield_2778',['locfield',['../struct_in_state_record.html#ae671e389157edebcae72beb247f28c74',1,'InStateRecord']]],
-  ['log_5ffile_2779',['log_file',['../print_8c.html#ab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c'],['../print_8h.html#ab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c']]],
+  ['log_5ffile_2779',['log_file',['../group___s54x71___p24x29.html#gab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c'],['../group___s54x71___p24x29.html#gab936051f5aaca44c6c3c41dee0d19c36',1,'log_file():&#160;print.c']]],
   ['log_5fopened_2780',['log_opened',['../group___s511x538___p188x195.html#gaa937c020bb2450fa52b486854eaab356',1,'tex_header.h']]],
   ['logname_2781',['logname',['../group___s511x538___p188x195.html#gaa160c66736acfeeec16c303d89cd9059',1,'tex_header.h']]],
   ['longhelpseen_2782',['longhelpseen',['../tex__header_8h.html#a3e6745fc8c3e6f7e322ff6f931d1bd1b',1,'tex_header.h']]],

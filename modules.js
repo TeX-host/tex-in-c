@@ -3,7 +3,7 @@ var modules =
     [ "PART 1: Introduction", "group___s1x16___p3x9.html", "group___s1x16___p3x9" ],
     [ "PART 2: The character set", "group___s17x24___p10x12.html", "group___s17x24___p10x12" ],
     [ "PART 3: Input and output", "group___s25x37___p13x18.html", "group___s25x37___p13x18" ],
-    [ "PART 4: String handling", "group___s38x53___p19x23.html", null ],
+    [ "PART 4: String handling", "group___s38x53___p19x23.html", "group___s38x53___p19x23" ],
     [ "PART 5: On-line and off-line printing", "group___s54x71___p24x29.html", "group___s54x71___p24x29" ],
     [ "PART 6: Reporting errors", "group___s72x98___p30x37.html", "group___s72x98___p30x37" ],
     [ "PART 7: Arithmetic with scaled dimensions", "group___s99x109___p38x41.html", "group___s99x109___p38x41" ],

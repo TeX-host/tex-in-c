@@ -14,7 +14,7 @@ var searchData=
   ['makeover_2345',['makeover',['../tex_8c.html#aedc986e70d8181712f165a1485908418',1,'tex.c']]],
   ['makeradical_2346',['makeradical',['../tex_8c.html#a274357a5e1bda4ed5988a1161f99f02c',1,'tex.c']]],
   ['makescripts_2347',['makescripts',['../tex_8c.html#aa613bfe08e546082c1b51f2c8d3f056b',1,'tex.c']]],
-  ['makestring_2348',['makestring',['../str_8c.html#ab1f5b7f90f4bbb9b53b431afbae4b65a',1,'makestring(void):&#160;str.c'],['../str_8h.html#ab1f5b7f90f4bbb9b53b431afbae4b65a',1,'makestring(void):&#160;str.c']]],
+  ['makestring_2348',['makestring',['../group___s38x53___p19x23.html#gab1f5b7f90f4bbb9b53b431afbae4b65a',1,'makestring(void):&#160;str.c'],['../group___s38x53___p19x23.html#gab1f5b7f90f4bbb9b53b431afbae4b65a',1,'makestring(void):&#160;str.c']]],
   ['makeunder_2349',['makeunder',['../tex_8c.html#a9e7ddcd440acd11c1a34667c362e911f',1,'tex.c']]],
   ['makevcenter_2350',['makevcenter',['../tex_8c.html#a58e03d019b336802ded67e93655609a4',1,'tex.c']]],
   ['mathac_2351',['mathac',['../tex_8c.html#a807e9279077e18e435140127d885f630',1,'tex.c']]],
