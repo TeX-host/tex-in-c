@@ -100,34 +100,36 @@ UInt16 max_buf_stack;
  * @{
  */
 
-/*
- * [ #72~98: REPORTING ERRORS ]
- *
- */
+// [ #72~98: REPORTING ERRORS ]
 
-// [p30#73] current level of interaction
-// interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
-// [REPORTING ERRORS]
+/// [p30#73] current level of #interaction.
+/// #interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
+/// 
+/// [REPORTING ERRORS]
 UChar interaction;
 
-/// [p31#76]
-Boolean deletions_allowed; // is it safe for error to call get token?
-Static Boolean set_box_allowed;   // is it safe to do a \setbox assignment?
-// has the source input been clean so far?
-// [SPOTLESS, FATAL_ERROR_STOP]
+/// [#76] is it safe for #error to call #gettoken?
+Boolean deletions_allowed;
+/// [#76] is it safe to do a `\setbox` assignment?
+Static Boolean set_box_allowed;
+/// [#76] has the source input been clean so far?
+/// [SPOTLESS, FATAL_ERROR_STOP]
 Static enum ErrorLevel history;
-// the number of scrolled errors since the last paragraph ended
-// errorcount = [-1, 100]
+/// [#76] the number of scrolled errors since the last paragraph ended.
+/// errorcount = [-1, 100]
 Static SChar errorcount;
 
-/// [#79]
-StrNumber help_line[6]; // helps for the `nexterror`
-Static UChar help_ptr;         // the number of help lines present
-Static Boolean use_err_help;   // should the `errhelp` list be shown?
+/// [#79] helps for the next #error.
+StrNumber help_line[6];
+/// [#79] the number of help lines present.
+Static UChar help_ptr;
+/// [#79] should the #errhelp list be shown?
+Static Boolean use_err_help;
 
-/// [#96]
-Integer interrupt;       // should TeX pause for instructions?
-Boolean OK_to_interrupt; // should interrupts be observed?
+/// [#96] should TeX pause for instructions?
+Integer interrupt;
+/// [#96] should interrupts be observed?
+Boolean OK_to_interrupt;
 /** @}*/ // end group S72x98_P30x37
 
 

@@ -168,31 +168,36 @@
 #define INF_BAD 10000
 
 
+/** @addtogroup S72x98_P30x37
+ * @{
+ */
+
 // [ p30~37#72~98: REPORTING ERRORS ]
 
 /** [p30#73]: four settings, 
- * representing increasing amounts of user interaction.
+ *  representing increasing amounts of user interaction.
  * 
  * [REPORTING ERRORS]
  */
 enum UserInteractionMode {
-    BATCH_MODE,      ///< omits all stops and omits terminal output
-    NON_STOP_MODE,   ///< omits all stops
-    SCROLL_MODE,     ///< omits error stops
-    ERROR_STOP_MODE, ///< stops at every opportunity to interact
+    BATCH_MODE,      ///< omits all stops and omits terminal output.
+    NON_STOP_MODE,   ///< omits all stops.
+    SCROLL_MODE,     ///< omits error stops.
+    ERROR_STOP_MODE, ///< stops at every opportunity to interact.
 }; // [#73] enum UserInteractionMode
 
 /** [p31#76]: four possible values for
- * the worst level of error that has been detected.
+ *  the worst level of error that has been detected.
  * 
  * [REPORTING ERRORS]
  */
 enum ErrorLevel {
-    SPOTLESS = 0,         ///< nothing has been amiss yet
-    WARNING_ISSUED,       ///< begin_diagnostic has been called
-    ERROR_MESSAGE_ISSUED, ///< error has been called
-    FATAL_ERROR_STOP,     ///< termination was premature
+    SPOTLESS = 0,         ///< nothing has been amiss yet.
+    WARNING_ISSUED,       ///< begin_diagnostic has been called.
+    ERROR_MESSAGE_ISSUED, ///< error has been called.
+    FATAL_ERROR_STOP,     ///< termination was premature.
 }; // [#76] enum ErrorLevel
+/** @}*/ // end group S72x98_P30x37
 
 
 /* [ p50~57#133~161: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]

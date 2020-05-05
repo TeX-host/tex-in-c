@@ -207,11 +207,11 @@ Static void giveerrhelp(void) { tokenshow(errhelp); }
  * xref[4]: 81, 93, 94, 95, 1304
  */
 
-/// #81: goto end of TEX.
+/// [#81]: goto end of TEX.
 /// jump out: [81], 82, 84, 93
 Static void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
 
-/// #82:
+/// [#82]: completes the job of error reporting.
 void error(void) {
     ASCIICode c;
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
@@ -382,7 +382,26 @@ void error(void) {
 _Lexit:;
 } // #82: error
 
-/// #93
+/// [#91] error messages end with a parenthesized integer.
+void int_error(long n) {
+    print(S(303)); // " ("
+    print_int(n);
+    print_char(')');
+    error();
+} // [#91] int_error
+
+/// [#92] 
+Static void normalize_selector(void) {
+    if (log_opened) {
+        selector = TERM_AND_LOG;
+    } else {
+        selector = TERM_ONLY;
+    }
+    if (job_name == 0) openlogfile();
+    if (interaction == BATCH_MODE) selector--;
+} // [#92] normalize_selector
+
+/// [#93]: prints TEX’s last words before dying.
 Static void succumb(void) {
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (log_opened) error();
@@ -393,78 +412,69 @@ Static void succumb(void) {
     jumpout();
 } // #93: succumb
 
-/// #93
+/// [#93] prints `s`, and that’s it.
 void fatalerror(StrNumber s) {
     normalize_selector();
     printnl(S(292));
-    print(S(293));
+    print(S(293)); // "Emergency stop"
     help_ptr = 1;
     help_line[0] = s;
     succumb();
 } // #93: fatalerror
 
-/// #94
+/// [#94] stop due to finiteness.
 void overflow(StrNumber s, Integer n) {
     normalize_selector();
     printnl(S(292));
-    print(S(294));
+    print(S(294)); // "TeX capacity exceeded, sorry ["
     print(s);
     print_char('=');
     print_int(n);
     print_char(']');
+    // "If you really absolutely need more capacity,"
+    // "you can ask a wizard to enlarge me." 
     help2(S(295), S(296));
     succumb();
 } // #94: overflow
 
-/// #95
+/// [#95]  consistency check violated; s tells where.
 void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
         printnl(S(292));
-        print(S(297));
+        print(S(297)); // "This can´t happen ("
         print(s);
         print_char(')');
+        // "I´m broken. Please show this to someone who can fix can fix"
         help1(S(298));
     } else {
         printnl(S(292));
-        print(S(299));
+        print(S(299)); // "I can´t go on meeting you like this"
+        // "One of your faux pas seems to have wounded me deeply..." 
+        // "in fact, I´m barely conscious. Please fix it and try again." 
         help2(S(300), S(301));
     }
     succumb();
 } // #95: confusion
 
-
-/// #91
-void int_error(long n) {
-    print(S(303));
-    print_int(n);
-    print_char(')');
-    error();
-}
-
-/// #92
-Static void normalize_selector(void) {
-    if (log_opened)
-        selector = TERM_AND_LOG;
-    else
-        selector = TERM_ONLY;
-    if (job_name == 0) openlogfile();
-    if (interaction == BATCH_MODE) selector--;
-}
-
-/// #98
+/// [#98] 
 void pause_for_instructions(void) {
     if (!OK_to_interrupt) return;
+
     interaction = ERROR_STOP_MODE;
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
+
     printnl(S(292));
-    print(S(304));
+    print(S(304)); // "Interruption"
+    // "You rang?"
+    // "Try to insert some instructions for me (e.g.,`I\showlists´),"
+    // "unless you just want to quit by typing `X´."
     help3(S(305), S(306), S(307));
     deletions_allowed = false;
     error();
     deletions_allowed = true;
     interrupt = 0;
-}
+} // [#98] pause_for_instructions
 /** @}*/ // end group S72x98_P30x37
 
 
