@@ -60,11 +60,11 @@ var NAVTREEINDEX =
 "group___s38x53___p19x23.html#ga66baef2ff8f6e9e39a76138309c16d69",
 "group___s511x538___p188x195.html#ga91d229bceccfd919866c728fd9d84d5e",
 "group___s54x71___p24x29.html#ga90543b928047dd29fabab14786c31d3b",
-"group___s99x109___p38x41.html#gadb0743119eba9fc49e4f03b586ae1bf7",
-"tex_8c.html#a8204cc59bb23ca902715c9db3050ff7e",
-"tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da0b929ba4a41a7e089734564203d8c9a9",
-"tex__header_8h.html#ad9f0bf5747ab9a565b55e7b728aa1abe",
-"texmac_8h.html#a9efbaa96c5a287cb86fa9c5ff6144867"
+"group___s980x1028___p366x382.html",
+"tex_8c.html#a58e03d019b336802ded67e93655609a4",
+"tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573",
+"tex__header_8h.html#aba76760b1cbb92155a91066a3c49761c",
+"texmac_8h.html#a91918419de91153cc49e5239ce12351e"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

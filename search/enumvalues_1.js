@@ -2,7 +2,7 @@ var searchData=
 [
   ['backed_5fup_3003',['BACKED_UP',['../group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7',1,'lexer.h']]],
   ['baseline_5fskip_5fcode_3004',['BASELINE_SKIP_CODE',['../tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573aa0214616ca1f155e2c5aecfc7b8ae337',1,'tex_constant.h']]],
-  ['batch_5fmode_3005',['BATCH_MODE',['../tex__constant_8h.html#acf712bc9fc9deb7b38a84a32339e06bea4ca5f681398ece50290f5bdd58dc2da2',1,'tex_constant.h']]],
+  ['batch_5fmode_3005',['BATCH_MODE',['../group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea4ca5f681398ece50290f5bdd58dc2da2',1,'tex_constant.h']]],
   ['begin_5fgroup_3006',['BEGIN_GROUP',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a04bc111dd865aa7ee4650ead482dfc7f',1,'tex_constant.h']]],
   ['below_5fdisplay_5fshort_5fskip_5fcode_3007',['BELOW_DISPLAY_SHORT_SKIP_CODE',['../tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573a461d68929460033bf0a648caafdf8ae0',1,'tex_constant.h']]],
   ['below_5fdisplay_5fskip_5fcode_3008',['BELOW_DISPLAY_SKIP_CODE',['../tex__constant_8h.html#a40867a53ba2c10647df26967fc8dc573aa64f1c0e43ced2251db803b78c28cfe8',1,'tex_constant.h']]],
