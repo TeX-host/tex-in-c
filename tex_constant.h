@@ -9,9 +9,6 @@
  */
 #define INC_TEX_CONSTANT
 
-#define NORMAL 0
-
-
 /** @addtogroup S1x16_P3x9
  * @{
  */
@@ -169,10 +166,7 @@
 
 
 /** @addtogroup S72x98_P30x37
- * @{
- */
-
-// [ p30~37#72~98: REPORTING ERRORS ]
+ * @{ */ // [ p30~37#72~98: REPORTING ERRORS ]
 
 /** [p30#73]: four settings, 
  *  representing increasing amounts of user interaction.
@@ -200,8 +194,8 @@ enum ErrorLevel {
 /** @}*/ // end group S72x98_P30x37
 
 
-/* [ p50~57#133~161: DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]
- */
+/** @addtogroup S133x161_P50x57
+ * @{ */ // [ DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]
 
 enum NodeType {
     HLIST_NODE,  ///< #135: type of hlist nodes
@@ -256,6 +250,7 @@ enum InfinityOrder {
 #define INF_PENALTY     INF_BAD
 /// [#157]: "negatively infinite penalty value
 #define EJECT_PENALTY   (-INF_PENALTY)
+/** @}*/ // end group S133x161_P50x57
 
 
 /** @addtogroup S207x210_P73x76

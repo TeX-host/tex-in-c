@@ -71,7 +71,6 @@ extern HalfWord thetoks(void);
 // [tex] scan
 extern void int_error(long n);
 extern void findfontdimen(Boolean writing);
-extern int niezgodnosc(int x);
 extern void delete_glue_ref(HalfWord p);
 extern void preparemag(void);
 extern Pointer newrule(void);

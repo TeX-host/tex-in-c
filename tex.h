@@ -89,16 +89,6 @@
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 
-#define boxnodesize     7
-#define widthoffset     1
-#define depthoffset     2
-#define heightoffset    3
-#define listoffset      5
-
-#define stretching      1
-#define shrinking       2
-#define glueoffset      6
-
 #define condmathglue    98
 #define muglue          99
 #define aleaders        100

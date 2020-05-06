@@ -44,8 +44,6 @@ Static void normalparagraph(void);
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
-int niezgodnosc(int x) { return x; }
-
 // [tex], fonts
 Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
 Integer get_defaultskewchar(void) { return defaultskewchar; }
@@ -515,7 +513,7 @@ Static void printword(MemoryWord w) {
  * @{
  */
 
-/// p46#120: single-word node allocation
+/// [p46#120]: single-word node allocation.
 Pointer get_avail(void) {
     Pointer p;
 
@@ -533,7 +531,7 @@ Pointer get_avail(void) {
             overflow(S(317), MEM_MAX - MEM_MIN + 1);
         }
     }
-    set_as_char_node(p);
+    type(p) = charnodetype; // ??? set_as_char_node
     link(p) = 0;
     #ifdef tt_STAT
         dyn_used += CHAR_NODE_SIZE;
