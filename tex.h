@@ -29,16 +29,6 @@
 /** @}*/ // end group S110x114_P42x43
 
 
-/** @addtogroup S115x132_P44x49
- * @{
- */
-
-/// [#124] the `link` of an empty variable-size node.
-#define emptyflag       MAX_HALF_WORD
-// ??? nodesize
-/** @}*/ // end group S115x132_P44x49
-
-
 /** @addtogroup S162x172_P58x61
  * @{
  */

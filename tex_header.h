@@ -134,6 +134,10 @@ Boolean OK_to_interrupt;
 
 
 /** @addtogroup S115x132_P44x49
+ *
+ * #null=0 ≤ #MEM_MIN=0 
+ * ≤ #MEM_BOT=0 < #lo_mem_max < #hi_mem_min < #MEM_TOP=3_000_000
+ * ≤ #mem_end ≤ #MEM_MAX=3_000_000 .
  * @{
  */
 

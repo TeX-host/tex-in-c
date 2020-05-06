@@ -40,8 +40,9 @@ typedef UChar       Char;       ///< `Char(8)` = [0, 255]
 typedef int8_t      SChar;      ///< `SChar(8)` = [−127, +127]
 
 typedef int64_t     Integer;    ///< `Integer(64)` = @f$ [−2^{64}, 2^{64}) @f$
-typedef uint64_t    UInteger;   ///< `UInteger(64)` = @f$ [0, 2^{64}) @f$
-typedef size_t      Pointer;    ///< `Pointer::size_t(64)`
+typedef uint64_t    UInteger;   ///< `UInteger(64)` = @f$ [0, 2^{64}) @f$ .
+/// `Pointer::size_t(64)`,  a flag or a location in mem or eqtb.
+typedef size_t      Pointer;    
 
 typedef int16_t     Int16;  ///< `Int16(16)` = @f$ [-2^{15}, 2^{15}) @f$
 typedef uint16_t    UInt16; ///< `UInt16(16)` = @f$ [0, 2^{16}) @f$ = [0, 65536)
