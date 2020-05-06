@@ -157,7 +157,6 @@ var tex_8c =
     [ "newtrieop", "tex_8c.html#a23fda2d44ee16cd511d40423a1c1934b", null ],
     [ "newwhatsit", "tex_8c.html#a733f16d6ca6b195bb2abc4edc3d1cb3e", null ],
     [ "newwritewhatsit", "tex_8c.html#a2c5764ec157508042d63383a3ff050eb", null ],
-    [ "niezgodnosc", "tex_8c.html#af26b98dc308bf617244538f59da49c6c", null ],
     [ "noalignerror", "tex_8c.html#ada95cac1165664141fcaabe5736fc3ff", null ],
     [ "normalize_selector", "group___s72x98___p30x37.html#ga9e84fd6d7a8cb64ddca0f5f67daf81f0", null ],
     [ "normalparagraph", "tex_8c.html#aa233c56620e8a18fc7e9c0004a25f74a", null ],

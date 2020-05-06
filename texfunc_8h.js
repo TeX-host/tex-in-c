@@ -21,7 +21,6 @@ var texfunc_8h =
     [ "int_error", "group___s72x98___p30x37.html#ga2a3ffa92c12bfa22ae59b2bd5fcf13aa", null ],
     [ "newrule", "group___s133x161___p50x57.html#gace4d687fe4f688a33dbc224062de27f1", null ],
     [ "newspec", "group___s133x161___p50x57.html#gacfaffbf54a0652f156ae976b973dee07", null ],
-    [ "niezgodnosc", "texfunc_8h.html#af26b98dc308bf617244538f59da49c6c", null ],
     [ "openlogfile", "group___s511x538___p188x195.html#gaa093bac5d614a1706a24856de98e0c7d", null ],
     [ "overflow", "group___s72x98___p30x37.html#gaf3d29a884e6c439304ba6e4426a1f9bf", null ],
     [ "packfilename", "group___s511x538___p188x195.html#gad1a5d6180220c7cf34651a9dbd711f5a", null ],
