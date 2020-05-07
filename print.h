@@ -9,6 +9,7 @@
 #include "texmac.h"    // newlinechar
 #include "str.h"       // StrNumber
 
+typedef char* Str;
 
 /** @addtogroup S54x71_P24x29
  * @{
@@ -49,6 +50,9 @@ extern void print_char(ASCIICode s);
 extern void print(StrNumber s);
 extern void printnl(StrNumber s);
 extern void print_esc(StrNumber s);
+extern void print_str(Str s);
+extern void printnl_str(Str s);
+extern void print_esc_str(Str s);
 extern void print_the_digs(EightBits k, char dig[]);
 extern void print_int(Integer n);
 extern void print_two(Integer n);

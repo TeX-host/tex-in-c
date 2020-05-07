@@ -331,3 +331,39 @@ void print_roman_int(Integer n) {
 } // #69: print_roman_int
 
 /** @}*/ // end group S54x71_P24x29
+
+
+void print_str(Str s) {
+    long nl = newlinechar;
+
+    if (selector == PSEUDO) {
+        newlinechar = -1;
+    }
+
+    while (*s) {
+        print_char(*s++);
+    }
+
+    newlinechar = nl;
+}
+
+void printnl_str(Str s) {
+    if ((term_offset > 0 && (selector % 2)) ||
+        (file_offset > 0 && selector >= LOG_ONLY)) {
+        println();
+    }
+    print_str(s);
+}
+
+void print_esc_str(Str s) {
+    Integer c;
+
+    if (0 <= c && c <= 255) {
+        c = ESCAPE_CHAR;
+    } else {
+        c = '\\';
+    }
+
+    print_char(c);
+    print_str(s);
+}
