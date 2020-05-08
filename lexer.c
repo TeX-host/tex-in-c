@@ -8,7 +8,7 @@
 #include "funcs.h"      // [func] initinc
 #include "expand.h"     // [var] longstate
 #include "error.h"
-    // [func] error, fatalerror, overflow, 
+    // [func] error, fatalerror, overflow, print_err,
     // [macro] checkinterrupt,
 #include "lexer.h"
 

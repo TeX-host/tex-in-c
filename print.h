@@ -62,6 +62,5 @@ extern void print_roman_int(Integer n);
 extern void print_str(Str s);
 extern void printnl_str(Str s);
 extern void print_esc_str(Str s);
-extern void print_err_str(Str s);
 
 #endif // INC_PRINT

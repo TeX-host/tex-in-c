@@ -367,8 +367,3 @@ void print_esc_str(Str s) {
     print_char(c);
     print_str(s);
 }
-
-void print_err_str(Str s) {
-    printnl_str("! ");
-    print_str(s);
-}

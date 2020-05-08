@@ -1,4 +1,4 @@
-#include "tex_types.h"
+#include "tex_types.h" // [types] StrNumber, Integer
 #include "global.h"
 #include "texfunc.h"
 #include "macros.h"

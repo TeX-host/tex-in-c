@@ -70,6 +70,8 @@ typedef struct {
 typedef uint_fast32_t StrNumber; // [0, MAX_STRINGS=300000]
 static_assert(UMAXOF(StrNumber) >= MAX_STRINGS,
               "StrNumber = [0, MAX_STRINGS=300000]");
+/// real string.
+typedef char* Str;
 /** @}*/ // end group S38x53_P19x23
 
 

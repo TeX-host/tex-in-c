@@ -31,7 +31,7 @@
 #include "scan.h"       // scan mod;
 #include "error.h"
     // [func] normalize_selector, succumb, fatalerror,
-    // overflow, confusion,
+    // overflow, confusion, print_err,
     // [macro] checkinterrupt,
 #include "texfunc.h"    // [export]
 

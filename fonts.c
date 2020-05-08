@@ -6,7 +6,7 @@
 #include "macros.h" // [macro] NON_CHAR
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
-#include "error.h"  // [func] error
+#include "error.h"  // [func] error, print_err,
 #include "fonts.h"  // [export], [func] fontidtext
 #include "texfunc.h"
     // [func] print_*,
