@@ -4,8 +4,6 @@
 #define TEX_FUNC_H
 #include "str.h" // StrNumber
 
-// [tex], inputln, pool_str, str
-extern void overflow(StrNumber s, Integer n);
 
 // [tex], fonts, macro.h, printout
 extern void print(StrNumber s);
@@ -31,7 +29,6 @@ extern void printnl(StrNumber s);
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
 extern void sprint_cs(Pointer p);
-extern void error(void);
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
 extern Pointer get_lo_mem_max(void);
@@ -48,11 +45,9 @@ extern void print_cs(long p);
 extern void begindiagnostic(void);
 extern void enddiagnostic(Boolean blankline);
 extern void print_mode(Integer m);
-extern void fatalerror(StrNumber s);
 extern Pointer get_avail(void);
 extern void flushlist(HalfWord p);
 extern void delete_token_ref(HalfWord p);
-extern void pause_for_instructions(void);
 extern void term_input(void);
 extern void openlogfile(void);
 
@@ -60,8 +55,6 @@ extern void openlogfile(void);
 extern void startinput(void);
 extern void freenode(Pointer p, HalfWord s);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
-
-extern void confusion(StrNumber s);
 extern HalfWord getnode(long s);
 
 extern void scanfontident(void);
@@ -69,11 +62,15 @@ extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 
 // [tex] scan
-extern void int_error(long n);
 extern void findfontdimen(Boolean writing);
 extern void delete_glue_ref(HalfWord p);
 extern void preparemag(void);
 extern Pointer newrule(void);
 extern Pointer newspec(Pointer p);
+
+// [tex], error
+extern void debughelp(void);
+extern void jumpout(void);
+extern void giveerrhelp(void);
 
 #endif // TEX_FUNC_H

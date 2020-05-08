@@ -5,6 +5,7 @@
     //  _JMP_global__final_end, format_ident, cur_input, xord
 #include "texfunc.h" // [func] overflow
 #include "lexer.h"   // [var] cur_input
+#include "error.h"   // [func] overflow,
 #include "inputln.h" // [export] inputln
 
 /** @addtogroup S25x37_P13x18

@@ -70,4 +70,11 @@ extern Scaled lastkern;
 extern Pointer lastglue;
 
 
+// [tex], error
+extern enum ErrorLevel history;
+extern SChar errorcount;
+extern UChar help_ptr;
+extern Boolean use_err_help;
+extern Boolean log_opened;
+
 #endif // #ifndef GLOBAL_H

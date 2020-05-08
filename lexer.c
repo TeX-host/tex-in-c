@@ -7,6 +7,9 @@
 #include "inputln.h"    // [func] inputln
 #include "funcs.h"      // [func] initinc
 #include "expand.h"     // [var] longstate
+#include "error.h"
+    // [func] error, fatalerror, overflow, 
+    // [macro] checkinterrupt,
 #include "lexer.h"
 
 /** @addtogroup S300x320_P121x130

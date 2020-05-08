@@ -11,6 +11,7 @@
 #include "fonts.h"    // [func] get_fontname, get_fontsize
 #include "texmath.h"  // [func] print_scaled
 #include "scan.h"     // [func] scan_eight_bit_int
+#include "error.h"    // [func] error, overflow, confusion,
 #include "expand.h"
 
 /** @addtogroup S487x510_P181x187

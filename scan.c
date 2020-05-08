@@ -11,6 +11,7 @@
 #include "texmath.h"
 #include "fonts.h"
 #include "printout.h" // [func] printcmdchr
+#include "error.h"    // [func] error, int_error, 
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173

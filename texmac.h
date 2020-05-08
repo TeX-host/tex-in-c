@@ -25,9 +25,6 @@
 /** @}*/ // end group S25x37_P13x18
 
 
-/// [p36#96]
-#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
-
 /// [p43#112]
 #define qi(x) (x)
 #define qo(x) (x)

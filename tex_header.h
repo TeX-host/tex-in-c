@@ -29,6 +29,10 @@
 #include "lexer.h"      // lexer
 #include "expand.h"     // expand
 #include "scan.h"       // scan mod;
+#include "error.h"
+    // [func] normalize_selector, succumb, fatalerror,
+    // overflow, confusion,
+    // [macro] checkinterrupt,
 #include "texfunc.h"    // [export]
 
 
@@ -114,17 +118,17 @@ Boolean deletions_allowed;
 Static Boolean set_box_allowed;
 /// [#76] has the source input been clean so far?
 /// [SPOTLESS, FATAL_ERROR_STOP]
-Static enum ErrorLevel history;
+enum ErrorLevel history;
 /// [#76] the number of scrolled errors since the last paragraph ended.
 /// errorcount = [-1, 100]
-Static SChar errorcount;
+SChar errorcount;
 
 /// [#79] helps for the next #error.
 StrNumber help_line[6];
 /// [#79] the number of help lines present.
-Static UChar help_ptr;
+UChar help_ptr;
 /// [#79] should the #errhelp list be shown?
-Static Boolean use_err_help;
+Boolean use_err_help;
 
 /// [#96] should TeX pause for instructions?
 Integer interrupt;
@@ -294,7 +298,7 @@ Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
 /*527:*/
 Boolean name_in_progress;
 StrNumber job_name;
-Static Boolean log_opened; /*:527*/
+Boolean log_opened; /*:527*/
 /*532:*/
 Static StrNumber output_file_name, logname; 
 /*:532*/
