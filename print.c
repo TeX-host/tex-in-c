@@ -348,15 +348,15 @@ void print_str(Str s) {
 }
 
 void printnl_str(Str s) {
-    if ((term_offset > 0 && (selector % 2)) ||
-        (file_offset > 0 && selector >= LOG_ONLY)) {
+    if (    (term_offset > 0 && (selector % 2)) 
+        ||  (file_offset > 0 && selector >= LOG_ONLY)) {
         println();
     }
     print_str(s);
 }
 
 void print_esc_str(Str s) {
-    Integer c;
+    Integer c = ESCAPE_CHAR;
 
     if (0 <= c && c <= 255) {
         c = ESCAPE_CHAR;
@@ -365,5 +365,10 @@ void print_esc_str(Str s) {
     }
 
     print_char(c);
+    print_str(s);
+}
+
+void print_err_str(Str s) {
+    printnl_str("! ");
     print_str(s);
 }

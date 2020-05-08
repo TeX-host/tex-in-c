@@ -36,6 +36,8 @@ enum Selector {
 /** @}*/ // end group S54x71_P24x29
 
 
+
+
 extern FILE* log_file;
 extern enum Selector selector;
 extern Integer tally;
@@ -50,13 +52,16 @@ extern void print_char(ASCIICode s);
 extern void print(StrNumber s);
 extern void printnl(StrNumber s);
 extern void print_esc(StrNumber s);
-extern void print_str(Str s);
-extern void printnl_str(Str s);
-extern void print_esc_str(Str s);
 extern void print_the_digs(EightBits k, char dig[]);
 extern void print_int(Integer n);
 extern void print_two(Integer n);
 extern void print_hex(Integer n);
 extern void print_roman_int(Integer n);
+
+// 直接输出 string 的函数
+extern void print_str(Str s);
+extern void printnl_str(Str s);
+extern void print_esc_str(Str s);
+extern void print_err_str(Str s);
 
 #endif // INC_PRINT
