@@ -10,6 +10,18 @@
  * @{
  */
 
+// [#73] 打印错误信息，以 `! ` 开头.
+inline void print_err(StrNumber s) {
+    printnl(S(292)); // "! "
+    print(s);
+} // [#73]
+
+// [#73] 打印错误信息，以 `! ` 开头.
+inline void print_err_str(Str s) {
+    printnl_str("! ");
+    print(s);
+} // [#73]
+
 /*
  * Error handling procedures
  *
@@ -253,14 +265,20 @@ void error(void) {
 } // #82: error
 
 /// [#91] error messages end with a parenthesized integer.
-void int_error(long n) {
+void int_error(Integer n) {
+#ifndef USE_REAL_STR
     print(S(303)); // " ("
     print_int(n);
     print_char(')');
+#else
+    print_str(" (");
+    print_int(n);
+    print_char(')');
+#endif // USE_REAL_STR
     error();
 } // [#91] int_error
 
-/// [#92]
+/// [#92] fix selector state just enough to keep running a bit longer.
 void normalize_selector(void) {
     if (log_opened) {
         selector = TERM_AND_LOG;
@@ -273,20 +291,24 @@ void normalize_selector(void) {
 
 /// [#93]: prints TEX’s last words before dying.
 void succumb(void) {
+    // no more interaction
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (log_opened) error();
 #ifdef tt_DEBUG
     if (interaction > BATCH_MODE) debughelp();
 #endif // #93: tt_DEBUG
     history = FATAL_ERROR_STOP;
-    jumpout();
+    jumpout(); // irrecoverable error
 } // #93: succumb
 
 /// [#93] prints `s`, and that’s it.
 void fatalerror(StrNumber s) {
     normalize_selector();
-    printnl(S(292));
-    print(S(293)); // "Emergency stop"
+#ifndef USE_REAL_STR
+    print_err(S(293)); // "Emergency stop"
+#else
+    print_err_str("Emergency stop");
+#endif // USE_REAL_STR
     help_ptr = 1;
     help_line[0] = s;
     succumb();

@@ -11,9 +11,10 @@
 #define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)
 /** @}*/ // end group S72x98_P30x37
 
-
+void print_err(StrNumber s);
+void print_err_str(Str s);
 void error(void);
-void int_error(long n);
+void int_error(Integer n);
 void normalize_selector(void);
 void succumb(void);
 void fatalerror(StrNumber s);
