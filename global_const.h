@@ -58,6 +58,9 @@
 /// 辅助宏定义, 用于拆分模块是使用.
 #define USE_SPLIT_MOD
 
+/// 直接使用字符串，而不是 StrNumber
+#define USE_REAL_STR
+
 #endif // _INC_GLOBAL_CONST
 
 
