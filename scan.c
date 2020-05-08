@@ -83,8 +83,7 @@ void scan_left_brace(void) {
     skip_spaces_or_relax();
     if (curcmd == LEFT_BRACE) return;
 
-    printnl(S(292)); // "! "
-    print(S(566));   // "Missing { inserted"
+    print_err(S(566));   // "Missing { inserted"
     /* "A left brace was mandatory here, so I´ve put one in."
      * "You might want to delete and/or insert some corrections"
      * "so that I will find a matching right brace soon."
@@ -180,8 +179,7 @@ _Lexit :
 
 /// [#408] sounds an alarm when mu and non-mu units are being switched.
 static void mu_error(void) {
-    printnl(S(292)); // "! "
-    print(S(571));   // "Incompatible glue units"
+    print_err(S(571));   // "Incompatible glue units"
     help1(S(572));   // "I´m going to assume that 1mu=1pt when they´re mixed."
     error();
 } // [#408] mu_error
@@ -219,8 +217,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
         case SET_FONT:
         case DEF_FONT: /*415:*/
             if (level != TOK_VAL) {
-                printnl(S(292)); // "! "
-                print(S(593));
+                print_err(S(593));
                 help3(S(594), S(595), S(596));
                 backerror();
                 cur_val = 0;
@@ -262,8 +259,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
 
         case SET_AUX: /*418:*/
             if (labs(mode) != m) {
-                printnl(S(292)); // "! "
-                print(S(597));
+                print_err(S(597));
                 printcmdchr(SET_AUX, m);
                 help4(S(598), S(599), S(600), S(601));
                 error();
@@ -425,8 +421,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             /*428:*/
 
         default:
-            printnl(S(292)); // "! "
-            print(S(602));
+            print_err(S(602));
             printcmdchr(curcmd, curchr);
             print(S(603));
             print_esc(S(604));
@@ -479,8 +474,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
 void scan_eight_bit_int(void) {
     scan_int();
     if ((unsigned long)cur_val <= 255) return;
-    printnl(S(292)); // "! "
-    print(S(573));   // "Bad register code"
+    print_err(S(573));   // "Bad register code"
     // "A register number must be between 0 and 255."
     // "I changed this one to zero."
     help2(S(574), S(575));
@@ -497,8 +491,7 @@ void scan_eight_bit_int(void) {
 void scan_char_num(void) {
     scan_int();
     if ((unsigned long)cur_val <= 255) return;
-    printnl(S(292)); // "! "
-    print(S(576));   // "Bad character code"
+    print_err(S(576));   // "Bad character code"
     // "A character number must be between 0 and 255."
     // "I changed this one to zero."
     help2(S(577), S(575));
@@ -513,8 +506,7 @@ void scan_char_num(void) {
 void scan_four_bit_int(void) {
     scan_int();
     if ((unsigned long)cur_val <= 15) return;
-    printnl(S(292)); // "! "
-    print(S(578));   // "Bad number"
+    print_err(S(578));   // "Bad number"
     // "Since I expected to read a number between 0 and 15,"
     // "I changed this one to zero."
     help2(S(579), S(575));
@@ -529,8 +521,7 @@ void scan_four_bit_int(void) {
 void scan_fifteen_bit_int(void) {
     scan_int();
     if ((unsigned long)cur_val <= 32767) return;
-    printnl(S(292)); // "! "
-    print(S(580));   // "Bad mathchar"
+    print_err(S(580));   // "Bad mathchar"
     // "A mathchar number must be between 0 and 32767."
     // "I changed this one to zero."
     help2(S(581), S(575));
@@ -545,8 +536,7 @@ void scan_fifteen_bit_int(void) {
 void scan_twenty_seven_bit_int(void) {
     scan_int();
     if ((unsigned long)cur_val <= 134217727L) return;
-    printnl(S(292)); // "! "
-    print(S(582));   // "Bad delimiter code"
+    print_err(S(582));   // "Bad delimiter code"
     // "A numeric delimiter code must be between 0 and 2^{27}−1."
     // "I changed this one to zero."
     help2(S(583), S(575));
@@ -602,8 +592,7 @@ void scan_int(void) {
             cur_val = curtok - CS_TOKEN_FLAG - singlebase;
 
         if (cur_val > 255) {
-            printnl(S(292)); // "! "
-            print(S(605));   // "Improper alphabetic constant"
+            print_err(S(605));   // "Improper alphabetic constant"
             // "A one−character control sequence belongs after a ` mark."
             // "So I´m essentially inserting \0 here."
             help2(S(606), S(607));
@@ -648,8 +637,7 @@ void scan_int(void) {
             vacuous = false;
             if (cur_val >= m && (cur_val > m || d > 7 || radix != 10)) {
                 if (OKsofar) {
-                    printnl(S(292)); // "! "
-                    print(S(608));   // "So I´m essentially inserting \0 here."
+                    print_err(S(608));   // "So I´m essentially inserting \0 here."
                     // "I can only go up to 2147483647=´17777777777=\" \" 7FFFFFFF,"
                     // " so I´m using that number instead of yours."
                     help2(S(609), S(610));
@@ -665,8 +653,7 @@ void scan_int(void) {
     _Ldone:            /*:445*/
         if (vacuous) { /*446:*/
             // [#446] Express astonishment that no number was here.
-            printnl(S(292)); // "! "
-            print(S(593));   // "Missing number, treated as zero"
+            print_err(S(593));   // "Missing number, treated as zero"
             // "A number should have been here; I inserted `0´."
             // "(If you can´t figure out why I needed to see a number,"
             // "look up `weird error´ in the index to The TeXbook.)"
@@ -773,8 +760,7 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
                     cur_order++;
                     continue;
                 }
-                printnl(S(292)); // "! "
-                print(S(611));   // "Illegal unit of measure (\"
+                print_err(S(611));   // "Illegal unit of measure (\"
                 print(S(612));   // "replaced by filll)"
                 help1(S(613));   // "I dddon´t go any higher than filll."
                 error();
@@ -825,8 +811,7 @@ _Lnotfound:   /*:455*/
         if (scankeyword(S(390))) //  "mu"
             goto _Lattachfraction_;
         else { /*:456*/
-            printnl(S(292)); // "! "
-            print(S(611));   // "Illegal unit of measure ("
+            print_err(S(611));   // "Illegal unit of measure ("
             print(S(616));   // "mu inserted)"
             /* "The unit of measurement in math glue must be mu."
              * "To recover gracefully from this error, it´s best to"
@@ -881,8 +866,7 @@ _Lnotfound:   /*:455*/
         goto _Ldone;
     } else {
         // [#459] Complain about unknown unit and goto done2.
-        printnl(S(292)); // "! "
-        print(S(611));   // "Illegal unit of measure ("
+        print_err(S(611));   // "Illegal unit of measure ("
         print(S(630));   // "pt inserted)"
         /* " Dimensions can be in units of em, ex, in, pt, pc,"
          * "cm, mm, dd, cc, bp, or sp; but yours is a new one!"
@@ -917,8 +901,7 @@ _Ldone: /*:453*/
 _Lattachsign_:
     if (arith_error || labs(cur_val) >= 1073741824L) { /*460:*/
         // [#460] Report that this dimension is out of range.
-        printnl(S(292)); // "! "
-        print(S(634));   // " Dimension too large"
+        print_err(S(634));   // " Dimension too large"
         // "I can´t work with sizes bigger than about 19 feet."
         // "Continue and I´ll use the largest value I can."
         help2(S(635), S(636));

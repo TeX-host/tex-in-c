@@ -19,7 +19,7 @@ inline void print_err(StrNumber s) {
 // [#73] 打印错误信息，以 `! ` 开头.
 inline void print_err_str(Str s) {
     printnl_str("! ");
-    print(s);
+    print_str(s);
 } // [#73]
 
 /*
@@ -317,8 +317,7 @@ void fatalerror(StrNumber s) {
 /// [#94] stop due to finiteness.
 void overflow(StrNumber s, Integer n) {
     normalize_selector();
-    printnl(S(292));
-    print(S(294)); // "TeX capacity exceeded, sorry ["
+    print_err(S(294)); // "TeX capacity exceeded, sorry ["
     print(s);
     print_char('=');
     print_int(n);
@@ -333,15 +332,13 @@ void overflow(StrNumber s, Integer n) {
 void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
-        printnl(S(292));
-        print(S(297)); // "This can´t happen ("
+        print_err(S(297)); // "This can´t happen ("
         print(s);
         print_char(')');
         // "I´m broken. Please show this to someone who can fix can fix"
         help1(S(298));
     } else {
-        printnl(S(292));
-        print(S(299)); // "I can´t go on meeting you like this"
+        print_err(S(299)); // "I can´t go on meeting you like this"
         // "One of your faux pas seems to have wounded me deeply..."
         // "in fact, I´m barely conscious. Please fix it and try again."
         help2(S(300), S(301));
@@ -356,8 +353,7 @@ void pause_for_instructions(void) {
     interaction = ERROR_STOP_MODE;
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
 
-    printnl(S(292));
-    print(S(304)); // "Interruption"
+    print_err(S(304)); // "Interruption"
     // "You rang?"
     // "Try to insert some instructions for me (e.g.,`I\showlists´),"
     // "unless you just want to quit by typing `X´."

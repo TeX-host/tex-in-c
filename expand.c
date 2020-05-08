@@ -60,8 +60,7 @@ void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     HalfWord m;
     if (longstate == CALL) {
         runaway();
-        printnl(S(292));
-        print(S(533));
+        print_err(S(533));
         sprint_cs(warning_index);
         print(S(534));
         help3(S(535), S(536), S(537));
@@ -129,8 +128,7 @@ void macrocall(Pointer refcount) {
             /*397:*/
             if (s != r) {
                 if (s == 0) { /*398:*/
-                    printnl(S(292));
-                    print(S(538));
+                    print_err(S(538));
                     sprint_cs(warning_index);
                     print(S(539));
                     help4(S(540), S(541), S(542), S(543));
@@ -193,8 +191,7 @@ void macrocall(Pointer refcount) {
                     STORE_NEW_TOKEN(p, curtok);
                 } else { /*395:*/
                     backinput();
-                    printnl(S(292));
-                    print(S(544));
+                    print_err(S(544));
                     sprint_cs(warning_index);
                     print(S(545));
                     help6(S(546), S(547), S(548), S(549), S(550), S(551));
@@ -340,8 +337,7 @@ void expand(void) {
                     }
                 } while (curcs == 0);
                 if (curcmd != END_CS_NAME) { /*373:*/
-                    printnl(S(292));
-                    print(S(554));
+                    print_err(S(554));
                     print_esc(S(263));
                     print(S(555));
                     help2(S(556), S(557));
@@ -385,8 +381,7 @@ void expand(void) {
                     if (iflimit == ifcode)
                         insertrelax();
                     else {
-                        printnl(S(292));
-                        print(S(558));
+                        print_err(S(558));
                         printcmdchr(FI_OR_ELSE, curchr);
                         help1(S(559));
                         error();
@@ -414,8 +409,7 @@ void expand(void) {
                 /*370:*/
 
             default:
-                printnl(S(292));
-                print(S(560));
+                print_err(S(560));
                 help5(S(561), S(562), S(563), S(564), S(565));
                 error(); /*:370*/
                 break;
@@ -671,8 +665,7 @@ static void conditional(void) { /*495:*/
             if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
                 r = curtok - othertoken;
             else {
-                printnl(S(292));
-                print(S(659));
+                print_err(S(659));
                 printcmdchr(IF_TEST, thisif);
                 help1(S(660));
                 backerror();
@@ -808,8 +801,7 @@ static void conditional(void) { /*495:*/
         passtext();
         if (condptr == savecondptr) {
             if (curchr != orcode) goto _Lcommonending;
-            printnl(S(292));
-            print(S(558));
+            print_err(S(558));
             print_esc(S(664));
             help1(S(559));
             error();

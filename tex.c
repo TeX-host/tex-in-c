@@ -2331,8 +2331,7 @@ Static void unsave(void) {
 /*288:*/
 void preparemag(void) {
     if (magset > 0 && mag != magset) {
-        printnl(S(292));
-        print(S(481));
+        print_err(S(481));
         print_int(mag);
         print(S(482));
         printnl(S(483));
@@ -2341,8 +2340,7 @@ void preparemag(void) {
         geqworddefine(intbase + magcode, magset);
     }
     if (mag <= 0 || mag > 32768L) {
-        printnl(S(292));
-        print(S(486));
+        print_err(S(486));
         help1(S(487));
         int_error(mag);
         geqworddefine(intbase + magcode, 1000);
@@ -2374,8 +2372,7 @@ void scanfontident(void) { /*406:*/
         scan_four_bit_int();
         f = equiv(m + cur_val);
     } else {
-        printnl(S(292));
-        print(S(584));
+        print_err(S(584));
         help2(S(585), S(586));
         backerror();
         f = NULL_FONT;
@@ -2418,8 +2415,7 @@ void findfontdimen(Boolean writing) {
         }
     } /*579:*/
     if (cur_val != fmemptr) return; /*:579*/
-    printnl(S(292));
-    print(S(588));
+    print_err(S(588));
     print_esc(fontidtext(f));
     print(S(589));
     print_int(fontparams[f]);
@@ -2540,15 +2536,13 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     goto _Ldone;
                 }
                 if (t == ZERO_TOKEN + 9) {
-                    printnl(S(292));
-                    print(S(643));
+                    print_err(S(643));
                     help1(S(644));
                     error();
                 } else {
                     t++;
                     if (curtok != t) {
-                        printnl(S(292));
-                        print(S(645));
+                        print_err(S(645));
                         help2(S(646), S(647));
                         backerror();
                     }
@@ -2561,8 +2555,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
     _Ldone1:
         STORE_NEW_TOKEN(p, endmatchtoken);
         if (curcmd == RIGHT_BRACE) { /*475:*/
-            printnl(S(292));
-            print(S(566));
+            print_err(S(566));
             align_state++;
             help2(S(648), S(649));
             error();
@@ -2611,8 +2604,7 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     gettoken();
                 if (curcmd != MAC_PARAM) {
                     if (curtok <= ZERO_TOKEN || curtok > t) {
-                        printnl(S(292));
-                        print(S(650));
+                        print_err(S(650));
                         sprint_cs(warning_index);
                         help3(S(651), S(652), S(653));
                         backerror();
@@ -2682,8 +2674,7 @@ Static void readtoks(long n, HalfWord r) {
                 readopen[m] = closed;
                 if (align_state != 1000000L) {
                     runaway();
-                    printnl(S(292));
-                    print(S(655));
+                    print_err(S(655));
                     print_esc(S(656));
                     help1(S(657));
                     align_state = 1000000L;
@@ -2834,11 +2825,9 @@ Static void promptfilename(StrNumber s, StrNumber e) {
     short k;
 
     if (s == S(665)) {
-        printnl(S(292));
-        print(S(666));
+        print_err(S(666));
     } else {
-        printnl(S(292));
-        print(S(667));
+        print_err(S(667));
     }
     print_file_name(curname, curarea, curext);
     print(S(668));
@@ -3058,8 +3047,7 @@ Static void writeout(HalfWord p) { /*1371:*/
     q = scantoks(false, true);
     gettoken();
     if (curtok != endwritetoken) { /*1372:*/
-        printnl(S(292));
-        print(S(680));
+        print_err(S(680));
         help2(S(681), S(682));
         error();
         do {
@@ -3538,8 +3526,7 @@ Static void shipout(Pointer p) {
         || (depth(p) > MAX_DIMEN) 
         || ((height(p) + depth(p) + voffset) > MAX_DIMEN) 
         || ((width(p) + hoffset) > MAX_DIMEN) ) {
-        printnl(S(292));
-        print(S(687));
+        print_err(S(687));
         help2(S(688), S(689));
         error();
         if (tracingoutput <= 0) {
@@ -4513,8 +4500,7 @@ Static void fetch(HalfWord a) {
     curc = character(a);
     curf = famfnt(fam(a) + cursize);
     if (curf == NULL_FONT) { /*723:*/
-        printnl(S(292));
-        print(S(385));
+        print_err(S(385));
         print_size(cursize);
         print_char(' ');
         print_int(fam(a));
@@ -5538,8 +5524,7 @@ Static void initalign(void) {
     pushalignment();
     align_state = -1000000L;                                        /*776:*/
     if (mode == M_MODE && (tail != head || incompleatnoad != 0)) { /*:776*/
-        printnl(S(292));
-        print(S(597));
+        print_err(S(597));
         print_esc(S(724));
         print(S(725));
         help3(S(726), S(727), S(728));
@@ -5577,8 +5562,7 @@ Static void initalign(void) {
                     curloop = curalign;
                     continue;
                 } else {
-                    printnl(S(292));
-                    print(S(729));
+                    print_err(S(729));
                     help3(S(730), S(731), S(732));
                     backerror();
                     goto _Ldone1;
@@ -5607,8 +5591,7 @@ Static void initalign(void) {
                 align_state == -1000000L)
                 goto _Ldone2;
             if (curcmd == MAC_PARAM) {
-                printnl(S(292));
-                print(S(733));
+                print_err(S(733));
                 help3(S(730), S(731), S(734));
                 error();
                 goto _Llabcontinue;
@@ -5716,8 +5699,7 @@ Static Boolean fincol(void) {
             curloop = link(curloop);
             link(p) = newglue(glueptr(curloop));
         } else { /*:792*/
-            printnl(S(292));
-            print(S(736));
+            print_err(S(736));
             print_esc(S(737));
             help3(S(738), S(739), S(740));
             extrainfo(curalign) = crcode;
@@ -6076,15 +6058,13 @@ Static void finalign(void) {
     if (mode == M_MODE) { /*1206:*/
         doassignments();
         if (curcmd != MATH_SHIFT) { /*1207:*/
-            printnl(S(292));
-            print(S(744));
+            print_err(S(744));
             help2(S(726), S(727));
             backerror();
         } else { /*1197:*/
             get_x_token();
             if (curcmd != MATH_SHIFT) {
-                printnl(S(292));
-                print(S(745));
+                print_err(S(745));
                 help2(S(746), S(747));
                 backerror();
             }
@@ -6143,8 +6123,7 @@ Static HalfWord finiteshrink(HalfWord p) {
 
     if (noshrinkerroryet) {
         noshrinkerroryet = false;
-        printnl(S(292));
-        print(S(748));
+        print_err(S(748));
         help5(S(749), S(750), S(751), S(752), S(753));
         error();
     }
@@ -7424,8 +7403,7 @@ Static void newpatterns(void) {
                         } else {
                             cur_chr = lccode(curchr);
                             if (cur_chr == 0) {
-                                printnl(S(292));
-                                print(S(770));
+                                print_err(S(770));
                                 help1(S(771));
                                 error();
                             }
@@ -7485,8 +7463,7 @@ Static void newpatterns(void) {
                             q = p;
                         }
                         if (trieo[q] != MIN_QUARTER_WORD) {
-                            printnl(S(292));
-                            print(S(772));
+                            print_err(S(772));
                             help1(S(771));
                             error();
                         }
@@ -7501,8 +7478,7 @@ Static void newpatterns(void) {
                     break;
 
                 default:
-                    printnl(S(292));
-                    print(S(773));
+                    print_err(S(773));
                     print_esc(S(774));
                     help1(S(771));
                     error();
@@ -7513,8 +7489,7 @@ Static void newpatterns(void) {
         return;
     } // if (trie_not_ready)
 
-    printnl(S(292));
-    print(S(775));
+    print_err(S(775));
     print_esc(S(774));
     help1(S(776));
     error();
@@ -8138,8 +8113,7 @@ _LN_newhyphexceptions__reswitch:
       }  /*:938*/
       else {   /*:937*/
 	if (lccode(cur_chr) == 0) {
-	  printnl(S(292));
-	  print(S(783));
+	  print_err(S(783));
 	  help2(S(784),
                 S(785));
 	  error();
@@ -8206,8 +8180,7 @@ _Lnotfound:   /*:941*/
       break;
 
     default:
-      printnl(S(292));
-      print(S(597));
+      print_err(S(597));
       print_esc(S(787));
       print(S(788));
       help2(S(789),
@@ -8373,8 +8346,7 @@ _Lupdateheights_:   /*976:*/
       activeheight[stretchorder(q) + 1] += stretch(q);
       activeheight[5] += shrink(q);
       if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
-	printnl(S(292));
-	print(S(793));
+	print_err(S(793));
 	help4(S(794),
               S(795),
               S(796),
@@ -8420,8 +8392,7 @@ Static HalfWord vsplit(EightBits n, long h) {
         goto _Lexit;
     }
     if (type(v) != VLIST_NODE) { /*:978*/
-        printnl(S(292));
-        print(S(385));
+        print_err(S(385));
         print_esc(S(797));
         print(S(798));
         print_esc(S(799));
@@ -8548,8 +8519,7 @@ Static void ensurevbox(EightBits n)
     return;
   if (type(p) != HLIST_NODE)
     return;
-  printnl(S(292));
-  print(S(806));
+  print_err(S(806));
   help3(S(807),
         S(808),
         S(809));
@@ -8583,8 +8553,7 @@ Static void fireup(HalfWord c)
   if (c == bestpagebreak)   /*1015:*/
     bestpagebreak = 0;
   if (box(255) != 0) {   /*:1015*/
-    printnl(S(292));
-    print(S(385));
+    print_err(S(385));
     print_esc(S(464));
     print(S(810));
     help2(S(811),
@@ -8741,8 +8710,7 @@ Static void fireup(HalfWord c)
       goto _Lexit;
     }
     /*:1024*/
-    printnl(S(292));
-    print(S(812));
+    print_err(S(812));
     print_int(deadcycles);
     print(S(813));
     help3(S(814),
@@ -8874,8 +8842,7 @@ Static void buildpage(void) {
                     pagesofar[stretchorder(q) + 2] += stretch(q);
                     pageshrink += shrink(q);
                     if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
-                        printnl(S(292));
-                        print(S(817));
+                        print_err(S(817));
                         print_esc(S(460));
                         print_int(n);
                         help3(S(818), S(819), S(753));
@@ -9026,8 +8993,7 @@ Static void buildpage(void) {
             pagesofar[stretchorder(q) + 2] += stretch(q);
             pageshrink += shrink(q);
             if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
-                printnl(S(292));
-                print(S(825));
+                print_err(S(825));
                 help4(S(826), S(795), S(796), S(753));
                 error();
                 r = newspec(q);
@@ -9127,16 +9093,14 @@ Static void appspace(void) {
 Static void insertdollarsign(void) {
     backinput();
     curtok = mathshifttoken + '$';
-    printnl(S(292));
-    print(S(827));
+    print_err(S(827));
     help2(S(828), S(829));
     inserror();
 } // #1047: insertdollarsign
 
 // #1049
 Static void youcant(void) {
-    printnl(S(292));
-    print(S(602));
+    print_err(S(602));
     printcmdchr(curcmd, curchr);
     print(S(830));
     print_mode(mode);
@@ -9211,8 +9175,7 @@ Static void offsave(void) {
     Pointer p;
 
     if (curgroup == bottomlevel) { /*1066:*/
-        printnl(S(292));
-        print(S(558));
+        print_err(S(558));
         printcmdchr(curcmd, curchr);
         help1(S(835));
         error();
@@ -9221,8 +9184,7 @@ Static void offsave(void) {
     backinput();
     p = get_avail();
     link(temphead) = p;
-    printnl(S(292));
-    print(S(554));      /*1065:*/
+    print_err(S(554));      /*1065:*/
     switch (curgroup) { /*:1065*/
         case semisimplegroup:
             info(p) = CS_TOKEN_FLAG + frozenendgroup;
@@ -9255,8 +9217,7 @@ Static void offsave(void) {
 
 // #1069:
 Static void extrarightbrace(void) {
-    printnl(S(292));
-    print(S(843));
+    print_err(S(843));
     switch (curgroup) {
         case semisimplegroup: print_esc(S(836)); break;
         case mathshiftgroup: print_char('$'); break;
@@ -9340,8 +9301,7 @@ Static void boxend(long boxcontext)
     leaderptr(tail) = curbox;
     return;
   }
-  printnl(S(292));
-  print(S(849));
+  print_err(S(849));
   help3(S(850),
         S(851),
         S(852));
@@ -9413,8 +9373,7 @@ _Ldone:;
         scan_eight_bit_int();
         n = cur_val;
         if (!scankeyword(S(697))) {
-            printnl(S(292));
-            print(S(856));
+            print_err(S(856));
             help2(S(857), S(858));
             error();
         }
@@ -9473,8 +9432,7 @@ Static void scanbox(long boxcontext)
     boxend(boxcontext);
     return;
   }
-  printnl(S(292));
-  print(S(859));
+  print_err(S(859));
   help3(S(860),
         S(861),
         S(862));
@@ -9577,8 +9535,7 @@ Static void headforvmode(void)
       offsave();
       return;
     }
-    printnl(S(292));
-    print(S(602));
+    print_err(S(602));
     print_esc(S(863));
     print(S(864));
     help2(S(865),
@@ -9615,8 +9572,7 @@ Static void begininsertoradjust(void)
   else {
     scan_eight_bit_int();
     if (cur_val == 255) {
-      printnl(S(292));
-      print(S(867));
+      print_err(S(867));
       print_esc(S(374));
       print_int(255);
       help1(S(868));
@@ -9714,8 +9670,7 @@ Static void unpackage(void) {
     if ( (labs(mode) == M_MODE) |
         ((labs(mode) == V_MODE) & (type(p) != VLIST_NODE)) |
         ((labs(mode) == H_MODE) & (type(p) != HLIST_NODE))) {
-        printnl(S(292));
-        print(S(872));
+        print_err(S(872));
         help3(S(873), S(874), S(875));
         error();
         return;
@@ -9800,8 +9755,7 @@ Static void builddiscretionary(void) {
             if (type(p) > RULE_NODE) {
                 if (type(p) != KERN_NODE) {
                     if (type(p) != LIGATURE_NODE) {
-                        printnl(S(292));
-                        print(S(876));
+                        print_err(S(876));
                         help1(S(877));
                         error();
                         begindiagnostic();
@@ -9835,8 +9789,7 @@ Static void builddiscretionary(void) {
 
         case 2: /*1120:*/
             if (n > 0 && labs(mode) == M_MODE) {
-                printnl(S(292));
-                print(S(879));
+                print_err(S(879));
                 print_esc(S(400));
                 help2(S(880), S(881));
                 flush_node_list(p);
@@ -9847,8 +9800,7 @@ Static void builddiscretionary(void) {
             if (n <= MAX_QUARTER_WORD)
                 replacecount(tail) = n;
             else {
-                printnl(S(292));
-                print(S(882));
+                print_err(S(882));
                 help2(S(883), S(884));
                 error();
             }
@@ -9927,8 +9879,7 @@ Static void makeaccent(void)
 Static void alignerror(void)
 {
   if (labs(align_state) > 2) {   /*1128:*/
-    printnl(S(292));
-    print(S(885));
+    print_err(S(885));
     printcmdchr(curcmd, curchr);
     if (curtok == tabtoken + '&') {
       help6(S(886),
@@ -9950,13 +9901,11 @@ Static void alignerror(void)
   /*:1128*/
   backinput();
   if (align_state < 0) {
-    printnl(S(292));
-    print(S(566));
+    print_err(S(566));
     align_state++;
     curtok = leftbracetoken + '{';
   } else {
-    printnl(S(292));
-    print(S(893));
+    print_err(S(893));
     align_state--;
     curtok = rightbracetoken + '}';
   }
@@ -9970,8 +9919,7 @@ Static void alignerror(void)
 /*1129:*/
 Static void noalignerror(void)
 {
-  printnl(S(292));
-  print(S(885));
+  print_err(S(885));
   print_esc(S(897));
   help2(S(898),
         S(899));
@@ -9981,8 +9929,7 @@ Static void noalignerror(void)
 
 Static void omiterror(void)
 {
-  printnl(S(292));
-  print(S(885));
+  print_err(S(885));
   print_esc(S(900));
   help2(S(901),
         S(899));
@@ -10006,8 +9953,7 @@ Static void doendv(void)
 /*1135:*/
 Static void cserror(void)
 {
-  printnl(S(292));
-  print(S(558));
+  print_err(S(558));
   print_esc(S(263));
   help1(S(902));
   error();
@@ -10269,8 +10215,7 @@ Static void mathlimitswitch(void) {
         return;
     }
     }
-    printnl(S(292));
-    print(S(903));
+    print_err(S(903));
     help1(S(904));
     error();
 }
@@ -10300,8 +10245,7 @@ Static void scandelimiter(HalfWord p, Boolean r)
     }
   }
   if (cur_val < 0) {   /*1161:*/
-    printnl(S(292));
-    print(S(905));
+    print_err(S(905));
     help6(S(906),
           S(907),
           S(908),
@@ -10344,8 +10288,7 @@ Static void mathradical(void)
 Static void mathac(void)
 {
   if (curcmd == ACCENT) {   /*1166:*/
-    printnl(S(292));
-    print(S(912));
+    print_err(S(912));
     print_esc(S(913));
     print(S(914));
     help2(S(915),
@@ -10458,12 +10401,10 @@ Static void subsup(void)
     }
     if (t != EMPTY) {
       if (curcmd == SUP_MARK) {
-	printnl(S(292));
-	print(S(917));
+	print_err(S(917));
 	help1(S(918));
       } else {
-	printnl(S(292));
-	print(S(919));
+	print_err(S(919));
 	help1(S(920));
       }
       error();
@@ -10488,8 +10429,7 @@ Static void mathfraction(void)
     if (c % delimitedcode == abovecode) {
       SCAN_NORMAL_DIMEN();
     }
-    printnl(S(292));
-    print(S(921));
+    print_err(S(921));
     help3(S(922),
           S(923),
           S(924));
@@ -10541,8 +10481,7 @@ Static void mathleftright(void)
       return;
     }
     scandelimiter(garbage, false);
-    printnl(S(292));
-    print(S(558));
+    print_err(S(558));
     print_esc(S(419));
     help1(S(925));
     error();
@@ -10583,8 +10522,7 @@ Static void aftermath(void)
       (fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
       (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
        totalmathsyparams)) {
-    printnl(S(292));
-    print(S(926));
+    print_err(S(926));
     help3(S(927),
           S(928),
           S(929));
@@ -10597,8 +10535,7 @@ Static void aftermath(void)
 	      totalmathexparams) |
 	     (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
 	      totalmathexparams)) {
-    printnl(S(292));
-    print(S(930));
+    print_err(S(930));
     help3(S(931),
           S(932),
           S(933));
@@ -10612,8 +10549,7 @@ Static void aftermath(void)
   if (mode == -m) {   /*1197:*/
     get_x_token();
     if (curcmd != MATH_SHIFT) {   /*:1197*/
-      printnl(S(292));
-      print(S(745));
+      print_err(S(745));
       help2(S(746),
             S(747));
       backerror();
@@ -10632,8 +10568,7 @@ Static void aftermath(void)
 	(fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
 	(fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
 	 totalmathsyparams)) {
-      printnl(S(292));
-      print(S(926));
+      print_err(S(926));
       help3(S(927),
             S(928),
             S(929));
@@ -10646,8 +10581,7 @@ Static void aftermath(void)
 		totalmathexparams) |
 	       (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
 		totalmathexparams)) {
-      printnl(S(292));
-      print(S(930));
+      print_err(S(930));
       help3(S(931),
             S(932),
             S(933));
@@ -10677,8 +10611,7 @@ Static void aftermath(void)
   if (a == 0) {   /*1197:*/
     get_x_token();
     if (curcmd != MATH_SHIFT) {
-      printnl(S(292));
-      print(S(745));
+      print_err(S(745));
       help2(S(746),
             S(747));
       backerror();
@@ -10826,8 +10759,7 @@ _Lrestart:
         gettoken();
     } while (curtok == spacetoken);
     if (curcs != 0 && curcs <= frozencontrolsequence) return;
-    printnl(S(292));
-    print(S(935));
+    print_err(S(935));
     help5(S(936), S(937), S(938), S(939), S(940));
     if (curcs == 0) backinput();
     curtok = CS_TOKEN_FLAG + frozenprotection;
@@ -10861,8 +10793,7 @@ Static void doregistercommand(SmallNumber a) {
             goto _Lfound;
         }
         if (curcmd != REGISTER) {
-            printnl(S(292));
-            print(S(602));
+            print_err(S(602));
             printcmdchr(curcmd, curchr);
             print(S(603));
             printcmdchr(q, 0);
@@ -10948,8 +10879,7 @@ _Lfound: /*:1237*/
         }
     } /*:1240*/
     if (arith_error) {
-        printnl(S(292));
-        print(S(943));
+        print_err(S(943));
         help2(S(944), S(945));
         error();
         goto _Lexit;
@@ -10983,8 +10913,7 @@ Static void alteraux(void) {
         spacefactor = cur_val;
         return;
     }
-    printnl(S(292));
-    print(S(946));
+    print_err(S(946));
     help1(S(947));
     int_error(cur_val);
 } // #1243: alteraux
@@ -11004,8 +10933,7 @@ Static void alterprevgraf(void) {
         cur_list = nest[nest_ptr];
         return;
     }
-    printnl(S(292));
-    print(S(773));
+    print_err(S(773));
     print_esc(S(948));
     help1(S(949));
     int_error(cur_val);
@@ -11084,8 +11012,7 @@ Static void newfont(SmallNumber a) {
         SCAN_NORMAL_DIMEN();
         s = cur_val;
         if (s <= 0 || s >= 134217728L) {
-            printnl(S(292));
-            print(S(952));
+            print_err(S(952));
             print_scaled(s);
             print(S(953));
             help2(S(954), S(955));
@@ -11097,8 +11024,7 @@ Static void newfont(SmallNumber a) {
         scan_int();
         s = -cur_val;
         if (cur_val <= 0 || cur_val > 32768L) {
-            printnl(S(292));
-            print(S(486));
+            print_err(S(486));
             help1(S(487));
             int_error(cur_val);
             s = -1000;
@@ -11170,8 +11096,7 @@ Static void prefixedcommand(void) {
         if (curcmd > MAX_NON_PREFIXED_COMMAND) /*1212:*/
             continue;
         /*:1212*/
-        printnl(S(292));
-        print(S(957));
+        print_err(S(957));
         printcmdchr(curcmd, curchr);
         print_char('\'');
         help1(S(958));
@@ -11179,8 +11104,7 @@ Static void prefixedcommand(void) {
         goto _Lexit;
     }                                    /*1213:*/
     if (curcmd != DEF && (a & 3) != 0) { /*:1213*/
-        printnl(S(292));
-        print(S(602));
+        print_err(S(602));
         print_esc(S(959));
         print(S(960));
         print_esc(S(961));
@@ -11298,8 +11222,7 @@ Static void prefixedcommand(void) {
             scan_int();
             n = cur_val;
             if (!scankeyword(S(697))) {
-                printnl(S(292));
-                print(S(856));
+                print_err(S(856));
                 help2(S(964), S(965));
                 error();
             }
@@ -11406,8 +11329,7 @@ Static void prefixedcommand(void) {
             scan_optional_equals();
             scan_int();
             if ((cur_val < 0 && p < delcodebase) || cur_val > n) {
-                printnl(S(292));
-                print(S(966));
+                print_err(S(966));
                 print_int(cur_val);
                 if (p < delcodebase)
                     print(S(967));
@@ -11456,8 +11378,7 @@ Static void prefixedcommand(void) {
             if (set_box_allowed)
                 scanbox(boxflag + n);
             else {
-                printnl(S(292));
-                print(S(597));
+                print_err(S(597));
                 print_esc(S(970));
                 help2(S(971), S(972));
                 error();
@@ -11605,8 +11526,7 @@ Static void issuemessage(void) {
         fflush(stdout);
         /*1283:*/
     } else {      /*:1283*/
-        printnl(S(292));
-        print(S(385));
+        print_err(S(385));
         slow_print(s);
         if (errhelp != 0)
             use_err_help = true;
@@ -11688,8 +11608,7 @@ Static void showwhatever(void) {
             break;
     } /*1298:*/
     enddiagnostic(true);
-    printnl(S(292));
-    print(S(981));
+    print_err(S(981));
     if (selector == TERM_AND_LOG) {
         if (tracingonline <= 0) { /*:1298*/
             selector = TERM_ONLY;
@@ -11718,8 +11637,7 @@ Static void storefmtfile(void) { /*1304:*/
     Pointer p, q;
     MemoryWord pppfmtfile;
     if (saveptr != 0) {
-        printnl(S(292));
-        print(S(988));
+        print_err(S(988));
         help1(S(989));
         succumb();
     }
@@ -12115,8 +12033,7 @@ Static void handlerightbrace(void) {
             break;
 
         case bottomlevel:
-            printnl(S(292));
-            print(S(1002));
+            print_err(S(1002));
             help2(S(1003), S(1004));
             error();
             break;
@@ -12181,8 +12098,7 @@ Static void handlerightbrace(void) {
         case outputgroup: /*1026:*/
             if (LOC != 0 ||
                 (token_type != OUTPUT_TEXT && token_type != BACKED_UP)) { /*:1027*/
-                printnl(S(292));
-                print(S(1005));
+                print_err(S(1005));
                 help2(S(1006), S(682));
                 error();
                 do {
@@ -12195,8 +12111,7 @@ Static void handlerightbrace(void) {
             outputactive = false;
             insertpenalties = 0; /*1028:*/
             if (box(255) != 0) { /*:1028*/
-                printnl(S(292));
-                print(S(1007));
+                print_err(S(1007));
                 print_esc(S(464));
                 print_int(255);
                 help3(S(1008), S(1009), S(1010));
@@ -12228,8 +12143,7 @@ Static void handlerightbrace(void) {
         case aligngroup: /*:1132*/
             backinput();
             curtok = CS_TOKEN_FLAG + frozencr;
-            printnl(S(292));
-            print(S(554));
+            print_err(S(554));
             print_esc(S(737));
             print(S(555));
             help1(S(1011));

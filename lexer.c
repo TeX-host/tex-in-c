@@ -700,12 +700,10 @@ static int check_outer_validity(int local_curcs) {
     if (scanner_status > SKIPPING) { /*338:*/
         runaway();
         if (curcs == 0) {
-            printnl(S(292));
-            print(S(512));
+            print_err(S(512));
         } else {
             curcs = 0;
-            printnl(S(292));
-            print(S(513));
+            print_err(S(513));
         }
         print(S(514)); /*339:*/
         p = get_avail();
@@ -743,8 +741,7 @@ static int check_outer_validity(int local_curcs) {
         help4(S(517), S(518), S(519), S(520));
         error();
     } else {
-        printnl(S(292));
-        print(S(521));
+        print_err(S(521));
         printcmdchr(IF_TEST, curif);
         print(S(522));
         print_int(skipline);
@@ -1052,8 +1049,7 @@ _getnext_worker__restart:
             case SKIP_BLANKS + INVALID_CHAR:
             case NEW_LINE + INVALID_CHAR:
                 // [#346] Decry the invalid character and goto restart
-                printnl(S(292));
-                print(S(529)); // "Text line contains an invalid character"
+                print_err(S(529)); // "Text line contains an invalid character"
                 // "A funny symbol that I can´t read has just been input."
                 // "Continue, and I´ll forget that it ever happened."
                 help2(S(530), S(531));
