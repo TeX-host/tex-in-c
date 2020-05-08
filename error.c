@@ -18,83 +18,102 @@
 
 /// [#82]: completes the job of error reporting.
 void error(void) {
-    ASCIICode c;
+    ASCIICode c = '\0';
+
     if (history < ERROR_MESSAGE_ISSUED) history = ERROR_MESSAGE_ISSUED;
     print_char('.');
     showcontext();
-    if (interaction == ERROR_STOP_MODE) { /*83:*/
-        while (true) {                    /*:83*/
-        _Llabcontinue:
+
+    if (interaction == ERROR_STOP_MODE) {
+        // [#83] Get user’s advice and return
+        while (true) {
             clearforerrorprompt();
-            print(S(269));
+            #ifndef USE_REAL_STR
+                print(S(269)); // "? "
+            #else
+                print_str("? ");
+            #endif
             term_input();
-            if (last == first) goto _Lexit;
+            if (last == first) return;
+
             c = buffer[first];
-            /*84:*/
             if (c >= 'a') c += 'A' - 'a';
             switch (c) {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    if (deletions_allowed) { /*88:*/
-                        long s1 = curtok;
-                        long s2 = curcmd;
-                        long s3 = curchr;
-                        long s4 = align_state;
-                        align_state = 1000000L;
-                        OK_to_interrupt = false;
-                        if ((last > first + 1) & (buffer[first + 1] >= '0') &
-                            (buffer[first + 1] <= '9'))
-                            c = c * 10 + buffer[first + 1] - '0' * 11;
-                        else
-                            c -= '0';
-                        while (c > 0) {
-                            gettoken();
-                            c--;
-                        }
-                        curtok = s1;
-                        curcmd = s2;
-                        curchr = s3;
-                        align_state = s4;
-                        OK_to_interrupt = true;
-                        help2(S(270), S(271));
-                        showcontext();
-                        goto _Llabcontinue;
+                case '0': case '1':
+                case '2': case '3':
+                case '4': case '5':
+                case '6': case '7':
+                case '8': case '9': {
+                    if (!deletions_allowed) break;
+
+                    // [#88] Delete c - "0" tokens and goto continue.
+                    HalfWord s1 = curtok;
+                    EightBits s2 = curcmd;
+                    HalfWord s3 = curchr;
+                    Integer s4 = align_state;
+                    align_state = 1000000L;
+                    OK_to_interrupt = false;
+
+                    if (    (last > (first + 1)) 
+                        &&  (buffer[first + 1] >= '0') 
+                        &&  (buffer[first + 1] <= '9')) {
+                        // c = c * 10 + buffer[first + 1] - '0' * 11;
+                        c = (c - '0') * 10 + (buffer[first + 1] - '0');
+                    } else {
+                        c = c - '0';
                     }
-                    /*:88*/
-                    break;
+                    while (c > 0) {
+                        gettoken();
+                        c--;
+                    }
+
+                    curtok = s1;
+                    curcmd = s2;
+                    curchr = s3;
+                    align_state = s4;
+                    OK_to_interrupt = true;
+                    // "I have just deleted some text as you asked."
+                    // "You can now delete more or insert or whatever." 
+                    help2(S(270), S(271));
+                    showcontext();
+                    continue; // [#88]
+                } // case: [0-9]
 
                 case 'D':
-#ifdef tt_DEBUG
-                    debughelp();
-                    goto _Llabcontinue;
-#endif // #84: tt_DEBUG
-                    break;
+                    #ifdef tt_DEBUG
+                        debughelp();
+                        continue;
+                    #endif // #84: tt_DEBUG
+                    break; // case: [D]
 
-                case 'E':
-                    if (baseptr > 0) {
+                case 'E': {
+                    if (baseptr > 0) break;
+
+                    #ifndef USE_REAL_STR
                         printnl(S(272));
                         slow_print(inputstack[baseptr].namefield);
                         print(S(273));
                         print_int(line);
-                        interaction = SCROLL_MODE;
-                        jumpout();
-                    }
-                    break;
+                    #else
+                        printnl_str("You want to edit file ");
+                        slow_print(inputstack[baseptr].namefield);
+                        printnl_str(" at line ");
+                        print_int(line);
+                    #endif // USE_REAL_STR
 
-                case 'H': /*89:*/
+                    interaction = SCROLL_MODE;
+                    jumpout();
+                } // case: [E]
+
+                case 'H': {
+                    // [#89] Print the help information and goto continue.
                     if (use_err_help) {
                         giveerrhelp();
                         use_err_help = false;
                     } else {
                         if (help_ptr == 0) {
+                            // "Sorry I don't know how to help in this situation."
+                            // "Maybe you should try asking a human?"
                             help2(S(274), S(275));
                         }
                         do {
@@ -102,74 +121,121 @@ void error(void) {
                             print(help_line[help_ptr]);
                             println();
                         } while (help_ptr != 0);
-                    }
-                    help4(S(276), S(275), S(277), S(278));
-                    goto _Llabcontinue;
-                    break;
-                    /*:89*/
+                    } // if (<> use_err_help)
 
-                case 'I': /*87:*/
+                    /* 
+                     * "Sorry I already gave what help I could..."
+                     * "Maybe you should try asking a human?"
+                     * "An error might have occurred before I noticed any problems."
+                     * "``If all else fails read the instructions.''"
+                     */
+                    help4(S(276), S(275), S(277), S(278));
+                    continue;
+                } // case: [H]
+
+                case 'I': {
+                    // [#87] Introduce new material from the terminal and return.
+
+                    // enter a new syntactic level for terminal input
+                    // now `state = mid_line`, 
+                    // so an initial blank space will count as a blank
                     beginfilereading();
                     if (last > first + 1) {
                         LOC = first + 1;
                         buffer[first] = ' ';
                     } else {
-                        print(S(279));
+                        #ifndef USE_REAL_STR
+                            print(S(279));
+                        #else
+                            print_str("insert>");
+                        #endif // USE_REAL_STR
                         term_input();
                         LOC = first;
                     }
                     first = last;
-                    cur_input.limitfield = last - 1;
-                    goto _Lexit;
-                    break;
-                    /*:87*/
+                    // no end_line_char ends this line
+                    cur_input.limitfield = last - 1; 
+                    return;
+                } // case: [I]
 
                 case 'Q':
                 case 'R':
-                case 'S': /*86:*/
+                case 'S': {
+                    // [#86] Change the interaction level and return.
                     errorcount = 0;
-                    interaction = BATCH_MODE + c - 'Q';
-                    print(S(280));
-                    switch (c) {
-                        case 'Q':
-                            print_esc(S(281));
-                            selector--;
-                            break;
+                    interaction = BATCH_MODE + (c - 'Q');
 
-                        case 'R': print_esc(S(282)); break;
-
-                        case 'S': print_esc(S(283)); break;
-                    }
-                    print(S(284));
+                    #ifndef USE_REAL_STR
+                        print(S(280)); // "OK entering "
+                        switch (c) {
+                            // "batchmode"
+                            case 'Q': print_esc(S(281)); selector--; break; 
+                            case 'R': print_esc(S(282)); break; // "nonstopmode"
+                            case 'S': print_esc(S(283)); break; // "scrollmode"
+                        }
+                        print(S(284)); // "..."
+                    #else
+                        print_str("OK entering ");
+                        switch (c) {
+                            case 'Q': print_esc_str("batchmode");
+                                selector--; break;
+                            case 'R': print_esc_str("nonstopmode"); break;
+                            case 'S': print_esc_str("scrollmode"); break;
+                        }
+                        print_str("..."); 
+                    #endif // USE_REAL_STR
+            
                     println();
                     fflush(stdout);
-                    goto _Lexit;
-                    break;
-                    /*:86*/
+                    return;
+                } // [#86] case: [QRS]
 
                 case 'X':
                     interaction = SCROLL_MODE;
                     jumpout();
-                    break;
-            } // switch (c)
 
-            print(S(285));
-            printnl(S(286));
-            printnl(S(287));
-            if (baseptr > 0) print(S(288));
-            if (deletions_allowed) printnl(S(289));
-            printnl(S(290)); /*:85*/
-            /*:84*/
+            } // [#84] switch (c)
+
+            // [#85] Print the menu of available options.
+            #ifndef USE_REAL_STR
+                /*
+                * "Type <return> to proceed S to scroll future error messages"
+                * "R to run without stopping Q to run quietly"
+                * "I to insert something "
+                */
+                print(S(285));
+                printnl(S(286));
+                printnl(S(287));
+                // "E to edit your file"
+                if (baseptr > 0) print(S(288));
+                //"1 or ... or 9 to ignore the next 1 to 9 tokens of input"
+                if (deletions_allowed) printnl(S(289));
+                printnl(S(290)); // "H for help X to quit."
+            #else
+                print_str("Type <return> to proceed S to scroll future error messages");
+                printnl_str("R to run without stopping Q to run quietly");
+                printnl_str("I to insert something ");
+                if (baseptr > 0) print_str("E to edit your file");
+                if (deletions_allowed) 
+                    printnl_str("1 or ... or 9 to ignore the next 1 to 9 tokens of input");
+                printnl_str("H for help X to quit.");
+            #endif // USE_REAL_STR
         } // while (true)
-    }     // if (interaction == ERROR_STOP_MODE)
+    } // if (interaction == ERROR_STOP_MODE)
 
     errorcount++;
     if (errorcount == 100) {
-        printnl(S(291));
+        #ifndef USE_REAL_STR
+            printnl(S(291));
+        #else
+            printnl_str("(That makes 100 errors; please try again.)");
+        #endif // USE_REAL_STR
         history = FATAL_ERROR_STOP;
         jumpout();
-    } /*90:*/
-    if (interaction > BATCH_MODE) selector--;
+    }
+
+    // [#90] Put help message on the transcript file
+    if (interaction > BATCH_MODE) selector--; // avoid terminal output
     if (use_err_help) {
         println();
         giveerrhelp();
@@ -180,11 +246,10 @@ void error(void) {
         }
     }
     println();
-    if (interaction > BATCH_MODE) /*:90*/
-        selector++;
-    println();
 
-_Lexit:;
+    // re-enable terminal output
+    if (interaction > BATCH_MODE) selector++;
+    println();
 } // #82: error
 
 /// [#91] error messages end with a parenthesized integer.
