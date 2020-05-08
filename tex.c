@@ -13541,8 +13541,13 @@ Static void final_cleanup(void) {
     }
     if (curlevel > levelone) {
         printnl('(');
-        print_esc(S(1020));
-        print(S(1021));
+    #ifndef USE_REAL_STR
+        print_esc(S(1020)); // "end occurred "
+        print(S(1021));     // "inside a group at level "
+    #else
+        print_esc_str("end occurred ");
+        print_str("inside a group at level ");
+    #endif // USE_REAL_STR
         print_int(curlevel - levelone);
         print_char(')');
     }
