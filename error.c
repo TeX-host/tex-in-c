@@ -317,7 +317,13 @@ void fatalerror(StrNumber s) {
 /// [#94] stop due to finiteness.
 void overflow(StrNumber s, Integer n) {
     normalize_selector();
+
+#ifndef USE_REAL_STR
     print_err(S(294)); // "TeX capacity exceeded, sorry ["
+#else
+    print_err_str("TeX capacity exceeded, sorry [");
+#endif // USE_REAL_STR
+
     print(s);
     print_char('=');
     print_int(n);
@@ -328,17 +334,25 @@ void overflow(StrNumber s, Integer n) {
     succumb();
 } // #94: overflow
 
-/// [#95]  consistency check violated; s tells where.
+/// [#95] consistency check violated; s tells where.
 void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
-        print_err(S(297)); // "This can´t happen ("
+    #ifndef USE_REAL_STR
+        print_err(S(297));
+    #else
+        print_err_str("This can´t happen (");
+    #endif // USE_REAL_STR
         print(s);
         print_char(')');
         // "I´m broken. Please show this to someone who can fix can fix"
         help1(S(298));
     } else {
-        print_err(S(299)); // "I can´t go on meeting you like this"
+    #ifndef USE_REAL_STR
+        print_err(S(299));
+    #else
+        print_err_str("I can´t go on meeting you like this");
+    #endif // USE_REAL_STR
         // "One of your faux pas seems to have wounded me deeply..."
         // "in fact, I´m barely conscious. Please fix it and try again."
         help2(S(300), S(301));
@@ -353,7 +367,12 @@ void pause_for_instructions(void) {
     interaction = ERROR_STOP_MODE;
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
 
-    print_err(S(304)); // "Interruption"
+#ifndef USE_REAL_STR
+    print_err(S(304));
+#else
+    print_err_str("Interruption");
+#endif // USE_REAL_STR
+
     // "You rang?"
     // "Try to insert some instructions for me (e.g.,`I\showlists´),"
     // "unless you just want to quit by typing `X´."
