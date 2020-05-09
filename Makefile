@@ -24,11 +24,15 @@ ${EXEC_NAME}: deps ${OBJS}
 
 ## 测试与运行
 debug: clean_test ${EXEC_NAME}
+	cp ${EXEC_NAME} test
 	cp ${EXEC_NAME} _test
 
 # clean && run && load plainTeX
 r: debug
 	cd _test && ./${EXEC_NAME} plain
+
+test t: debug
+	cd test && ./${EXEC_NAME} E560
 
 codecov:
 	./${EXEC_NAME} test/helloworld
@@ -36,13 +40,14 @@ codecov:
 
 
 ## 清理
-.PHONY: clean clean_test
+.PHONY: clean clean_test debug r test t codecov
 clean:
 	-rm -f ${EXEC_NAME} ${OBJS}
 	-rm -f test/*.dvi test/*.log
 	-rm -f *.gcno *.gcda *.gcov
 
 clean_test: clean
+	-rm -f test/${EXEC_NAME} test/*.dvi test/*.log
 	-rm -f _test/${EXEC_NAME} _test/*.dvi _test/*.log
 
 
