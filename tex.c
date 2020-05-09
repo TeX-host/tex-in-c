@@ -9875,46 +9875,55 @@ Static void makeaccent(void)
 }
 /*:1123*/
 
-/*1127:*/
-Static void alignerror(void)
-{
-  if (labs(align_state) > 2) {   /*1128:*/
-    print_err(S(885));
-    printcmdchr(curcmd, curchr);
-    if (curtok == tabtoken + '&') {
-      help6(S(886),
-            S(887),
-            S(888),
-            S(889),
-            S(890),
-            S(891));
+/// [#1127]
+Static void alignerror(void) {
+    if (labs(align_state) > 2) {
+        // [#1128] Express consternation over the fact 
+        // that no alignment is in progress
+        print_err(S(885)); // "Misplaced "
+        printcmdchr(curcmd, curchr);
+        if (curtok == (tabtoken + '&')) {
+            /*
+             * [886] "I can't figure out why you would want to use a tab mark"
+             * [887] "here. If you just want an ampersand the remedy is"
+             * [888] "simple: Just type `I\\&' now. But if some right brace"
+             * [889] "up above has ended a previous alignment prematurely"
+             * [890] "you're probably due for more error messages and you"
+             * [891] "might try typing `S' now just to see what is salvageable."
+             */
+            help6(S(886), S(887), S(888), S(889), S(890), S(891));
+        } else {
+            /*
+             * [886] "I can't figure out why you would want to use a tab mark"
+             * [892] "or \\cr or \\span just now. If something like a right
+             * brace" [889] "up above has ended a previous alignment
+             * prematurely" [890] "you're probably due for more error messages
+             * and you" [891] "might try typing `S' now just to see what is
+             * salvageable."
+             */
+            help5(S(886), S(892), S(889), S(890), S(891));
+        } // if ( curtok <> (tabtoken + '&') )
+        error();
     } else {
-      help5(S(886),
-            S(892),
-            S(889),
-            S(890),
-            S(891));
-    }
-    error();
-    return;
-  }
-  /*:1128*/
-  backinput();
-  if (align_state < 0) {
-    print_err(S(566));
-    align_state++;
-    curtok = leftbracetoken + '{';
-  } else {
-    print_err(S(893));
-    align_state--;
-    curtok = rightbracetoken + '}';
-  }
-  help3(S(894),
-        S(895),
-        S(896));
-  inserror();
-}
-/*:1127*/
+        backinput();
+        if (align_state < 0) {
+            print_err(S(566)); // "Missing { inserted"
+            align_state++;
+            curtok = leftbracetoken + '{';
+        } else {
+            print_err(S(893)); // "Missing } inserted"
+            align_state--;
+            curtok = rightbracetoken + '}';
+        } // if (align_state <> 0)
+        /*
+         * "I've put in what seems to be necessary to fix"
+         * "the current column of the current alignment."
+         * "Try to go on since this might almost work."
+         */
+        help3(S(894), S(895), S(896));
+        inserror();
+    } // if (labs(align_state) <> 2)
+} // [#1127] alignerror
 
 /*1129:*/
 Static void noalignerror(void)
@@ -10222,44 +10231,40 @@ Static void mathlimitswitch(void) {
 /*:1159*/
 
 /*1160:*/
-Static void scandelimiter(HalfWord p, Boolean r)
-{
-  if (r)
-    scan_twenty_seven_bit_int();
-  else {
-    skip_spaces_or_relax();
-    switch (curcmd) {
+Static void scandelimiter(HalfWord p, Boolean r) {
+    if (r)
+        scan_twenty_seven_bit_int();
+    else {
+        skip_spaces_or_relax();
+        switch (curcmd) {
 
-    case LETTER:
-    case OTHER_CHAR:
-      cur_val = delcode(curchr);
-      break;
+            case LETTER:
+            case OTHER_CHAR: cur_val = delcode(curchr); break;
 
-    case DELIM_NUM:
-      scan_twenty_seven_bit_int();
-      break;
+            case DELIM_NUM: scan_twenty_seven_bit_int(); break;
 
-    default:
-      cur_val = -1;
-      break;
+            default: cur_val = -1; break;
+        }
     }
-  }
-  if (cur_val < 0) {   /*1161:*/
-    print_err(S(905));
-    help6(S(906),
-          S(907),
-          S(908),
-          S(909),
-          S(910),
-          S(911));
-    backerror();
-    cur_val = 0;
-  }
-  /*:1161*/
-  smallfam(p) = (cur_val / 1048576L) & 15;
-  smallchar(p) = (cur_val / 4096) & 255;
-  largefam(p) = (cur_val / 256) & 15;
-  largechar(p) = cur_val & 255;
+    if (cur_val < 0) {     /*1161:*/
+        print_err(S(905)); // "Missing delimiter (. inserted)"
+        /*
+         * "I was expecting to see something like `(' or `\\{' or"
+         * "`\\}' here. If you typed e.g. `{' instead of `\\{' you"
+         * "should probably delete the `{' by typing `1' now so that"
+         * "braces don't get unbalanced. Otherwise just proceed."
+         * "Acceptable delimiters are characters whose \\delcode is"
+         * "nonnegative or you can use `\\delimiter <delimiter code>'."
+         */
+        help6(S(906), S(907), S(908), S(909), S(910), S(911));
+        backerror();
+        cur_val = 0;
+    }
+    /*:1161*/
+    smallfam(p) = (cur_val / 1048576L) & 15;
+    smallchar(p) = (cur_val / 4096) & 255;
+    largefam(p) = (cur_val / 256) & 15;
+    largechar(p) = cur_val & 255;
 }
 /*:1160*/
 

@@ -194,6 +194,14 @@ void macrocall(Pointer refcount) {
                     print_err(S(544));
                     sprint_cs(warning_index);
                     print(S(545));
+                    /* 
+                     * [546] "I've run across a `}' that doesn't seem to match anything."
+                     * [547] "For example `\\def\\a#1{...}' and `\\a}' would produce"
+                     * [548] "this error. If you simply proceed now the `\\par' that"
+                     * [549] "I've just inserted will cause me to report a runaway"
+                     * [550] "argument that might be the root of the problem. But if"
+                     * [550] "your `}' was spurious just type `2' and it will go away."
+                     */
                     help6(S(546), S(547), S(548), S(549), S(550), S(551));
                     align_state++;
                     longstate = CALL;
@@ -409,7 +417,11 @@ void expand(void) {
                 /*370:*/
 
             default:
-                print_err(S(560));
+                #ifndef USE_REAL_STR
+                    print_err(S(560));
+                #else
+                    print_err_str("Undefined control sequence");
+                #endif // USE_REAL_STR
                 help5(S(561), S(562), S(563), S(564), S(565));
                 error(); /*:370*/
                 break;

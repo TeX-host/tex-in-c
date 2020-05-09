@@ -868,12 +868,13 @@ _Lnotfound:   /*:455*/
         // [#459] Complain about unknown unit and goto done2.
         print_err(S(611));   // "Illegal unit of measure ("
         print(S(630));   // "pt inserted)"
-        /* " Dimensions can be in units of em, ex, in, pt, pc,"
-         * "cm, mm, dd, cc, bp, or sp; but yours is a new one!"
-         * "I´ll assume that you meant to say pt, for printer´s points."
-         * "To recover gracefully from this error, it´s best to"
-         * "delete the erroneous units; e.g., type `2´ to delete"
-         * "two letters. (See Chapter 27 of The TeXbook.)"
+        /*
+         * [631] " Dimensions can be in units of em, ex, in, pt, pc,"
+         * [632] "cm, mm, dd, cc, bp, or sp; but yours is a new one!"
+         * [633] "I´ll assume that you meant to say pt, for printer´s points."
+         * [618] "To recover gracefully from this error, it´s best to"
+         * [619] "delete the erroneous units; e.g., type `2´ to delete"
+         * [620] "two letters. (See Chapter 27 of The TeXbook.)"
          */
         help6(S(631), S(632), S(633), S(618), S(619), S(620));
         error();
