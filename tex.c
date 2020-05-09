@@ -55,7 +55,7 @@ static void set_fontidtext(InternalFontNumber x, StrNumber t) {
     text(fontidbase + x) = t;
 }
 
-void set_help(UChar k, ...) {
+void set_help(SChar k, ...) {
     va_list ap;
     va_start(ap, k);
     help_ptr = k;

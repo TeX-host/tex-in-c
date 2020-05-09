@@ -41,7 +41,7 @@ extern Pointer get_lo_mem_max(void);
 extern HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs);
 
 // [tex]
-extern void set_help(UChar k, ...);
+extern void set_help(SChar k, ...);
 
 // [tex] lexer
 extern void print_cs(long p);
