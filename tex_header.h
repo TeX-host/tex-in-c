@@ -94,9 +94,6 @@ UInt16 first;
 UInt16 last;
 /// [#30]: largest index used in #buffer. [0, BUF_SIZE=5000]
 UInt16 max_buf_stack;
-
-// [#32]: 直接使用 stdin, stdout, stderr
-// Static FILE *term_in = NULL, *term_out = NULL;
 /** @}*/ // end group S25x37_P13x18
 
 

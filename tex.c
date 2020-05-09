@@ -83,7 +83,7 @@ void term_input(void) {
 
     // now the user sees the prompt for sure
     fflush(stdout); // update terminal
-    if (!inputln(stdin, true)) {
+    if (!inputln(TERM_IN, true)) {
         fatalerror(S(302)); // "End of file on the terminal!"
     }
 
@@ -12290,7 +12290,7 @@ void debughelp(void) {
         printnl(S(1253)); // "debug # (−1 to exit):"
         fflush(stdout);
 
-        fscanf(stdin, " %ld", &m);
+        fscanf(TERM_IN, " %ld", &m);
         if (m < 0) {
             return;
         }
@@ -12301,7 +12301,7 @@ void debughelp(void) {
             continue;
         }
 
-        fscanf(stdin, " %ld", &n);
+        fscanf(TERM_IN, " %ld", &n);
         switch (m) {
             /// #1339
             // display mem[n] in all forms
@@ -12326,7 +12326,7 @@ void debughelp(void) {
             // look for pointers to n
             case 12: searchmem(n); break;
             case 13: {
-                fscanf(stdin, " %ld", &l);
+                fscanf(TERM_IN, " %ld", &l);
                 printcmdchr(n, l);
                 break;
             }
@@ -13259,7 +13259,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x != HYPH_SIZE) /*1310:*/
         goto _Lbadfmt_;
-    if (!str_undump(fmtfile, stdout)) goto _Lbadfmt_;
+    if (!str_undump(fmtfile, TERM_OUT)) goto _Lbadfmt_;
     /*1312:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -13363,7 +13363,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     pget(pppfmtfile);
     cs_count = pppfmtfile.int_; /*:1319*/
     /*:1314*/
-    if (!fonts_undump(fmtfile, stdout)) goto _Lbadfmt_;
+    if (!fonts_undump(fmtfile, TERM_OUT)) goto _Lbadfmt_;
     /*1325:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -13387,7 +13387,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x >TRIE_SIZE) {
-        fprintf(stdout, "---! Must increase the trie size\n");
+        fprintf(TERM_OUT, "---! Must increase the trie size\n");
         goto _Lbadfmt_;
     }
     j = x;
@@ -13402,7 +13402,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > TRIE_OP_SIZE) {
-        fprintf(stdout, "---! Must increase the trie op size\n");
+        fprintf(TERM_OUT, "---! Must increase the trie op size\n");
         goto _Lbadfmt_;
     }
     j = x;
@@ -13463,7 +13463,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     goto _Lexit;
 
 _Lbadfmt_:
-    fprintf(stdout, "(Fatal format file error; I'm stymied)\n");
+    fprintf(TERM_OUT, "(Fatal format file error; I'm stymied)\n");
     Result = false;
 
 _Lexit:
@@ -14482,9 +14482,9 @@ static void S55_Initialize_the_output_routines(void) {
     file_offset = 0;
 
     // #61
-    fprintf(stdout, "%s", TEX_BANNER); // wterm(banner);
+    fprintf(TERM_OUT, "%s", TEX_BANNER); // wterm(banner);
     if (format_ident == 0) {
-        fprintf(stdout, " (no format preloaded)\n");
+        fprintf(TERM_OUT, " (no format preloaded)\n");
     } else {
         slow_print(format_ident);
         println();
@@ -14572,7 +14572,7 @@ int main(int argc, char* argv[]) {
     bad = S14_Check_the_constant_values_for_consistency();
     if (bad > 0) {
         fprintf(
-            stdout,
+            TERM_OUT,
             "Ouch---my internal constants have been clobbered!---case %d\n",
             bad);
         goto _LN_main__final_end;

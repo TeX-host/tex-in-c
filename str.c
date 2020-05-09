@@ -189,7 +189,7 @@ int str_undump(FILE* fmtfile, FILE* _not_use_) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > POOL_SIZE) {
-        fprintf(stdout, "---! Must increase the string pool size\n");
+        fprintf(TERM_OUT, "---! Must increase the string pool size\n");
         goto _Lbadfmt_;
     }
     pool_ptr = (PoolPtr)x;
@@ -197,7 +197,7 @@ int str_undump(FILE* fmtfile, FILE* _not_use_) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > MAX_STRINGS) {
-        fprintf(stdout, "---! Must increase the max strings\n");
+        fprintf(TERM_OUT, "---! Must increase the max strings\n");
         goto _Lbadfmt_;
     }
     str_ptr = x;

@@ -114,11 +114,11 @@ static Boolean initterminal(void) {
         return true;
     }
     while (true) {
-        fprintf(stdout, "**");
+        fprintf(TERM_OUT, "**");
         fflush(stdout);
-        if (!inputln(stdin, true)) {
-            putc('\n', stdout);
-            fprintf(stdout, "! End of file on the terminal... why?");
+        if (!inputln(TERM_IN, true)) {
+            putc('\n', TERM_OUT);
+            fprintf(TERM_OUT, "! End of file on the terminal... why?");
             return false;
         }
         LOC = first;
@@ -127,7 +127,7 @@ static Boolean initterminal(void) {
         if (LOC < last) {
             return true;
         }
-        fprintf(stdout, "Please type the name of your input file.\n");
+        fprintf(TERM_OUT, "Please type the name of your input file.\n");
     } // while (true) {
 } // [#37] initterminal
 /** @}*/ // end group S25x37_P13x18

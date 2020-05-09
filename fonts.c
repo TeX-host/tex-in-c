@@ -223,7 +223,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
     x = pppfmtfile.int_;
     if (x < 7) goto _Lbadfmt_;
     if (x > FONT_MEM_SIZE) {
-        fprintf(stdout, "---! Must increase the font mem size\n");
+        fprintf(TERM_OUT, "---! Must increase the font mem size\n");
         goto _Lbadfmt_;
     }
     fmemptr = x;
@@ -235,7 +235,7 @@ int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
     x = pppfmtfile.int_;
     if (x < 0) goto _Lbadfmt_;
     if (x > FONT_MAX) {
-        fprintf(stdout, "---! Must increase the font max\n");
+        fprintf(TERM_OUT, "---! Must increase the font max\n");
         goto _Lbadfmt_;
     }
     fontptr = x;

@@ -190,11 +190,11 @@ Boolean open_fmt(FILE** fmt) {
     if (a_open_in1(fmt_name, format_path, fmt)) {
         return true;
     } else {
-        fprintf(stdout, "Sorry, I can't find that format; will try PLAIN.\n");
+        fprintf(TERM_OUT, "Sorry, I can't find that format; will try PLAIN.\n");
         if (a_open_in1("plain.fmt", format_path, fmt)) {
             return true;
         } else {
-            fprintf(stdout, "I can't find the PLAIN format file!\n");
+            fprintf(TERM_OUT, "I can't find the PLAIN format file!\n");
             return false;
         }
     }
