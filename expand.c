@@ -140,9 +140,15 @@ void macrocall(Pointer refcount) {
             if (s != r) {
                 if (s == 0) {
                     // [#398] Report an improper use of the macro and abort.
+                #ifndef USE_REAL_STR
                     print_err(S(538)); // "Use of "
                     sprint_cs(warning_index);
                     print(S(539)); // " doesn't match its definition"
+                #else
+                    print_err_str("Use of ");
+                    sprint_cs(warning_index);
+                    print_str(" doesn't match its definition");
+                #endif // USE_REAL_STR
                     /*
                      * (540) "If you say e.g. `\\def\\a1{...}' then you must always"
                      * (541) "put `1' after `\\a' since control sequence names are"
@@ -211,9 +217,15 @@ void macrocall(Pointer refcount) {
                     // [#395] Report an extra right brace and goto continue.
                     // a white lie; the \par won’t always trigger a runaway.
                     backinput();
+                #ifndef USE_REAL_STR
                     print_err(S(544)); // "Argument of "
                     sprint_cs(warning_index);
                     print(S(545)); // " has an extra }"
+                #else
+                    print_err_str("Argument of ");
+                    sprint_cs(warning_index);
+                    print_str(" has an extra }");
+                #endif // USE_REAL_STR
                     /* 
                      * [546] "I've run across a `}' that doesn't seem to match anything."
                      * [547] "For example `\\def\\a#1{...}' and `\\a}' would produce"
@@ -367,9 +379,15 @@ void expand(void) {
 
                 if (curcmd != END_CS_NAME) {
                     // [#373] Complain about missing \endcsname
+                #ifndef USE_REAL_STR
                     print_err(S(554)); // "Missing "
                     print_esc(S(263)); // "endcsname"
                     print(S(555)); // " inserted"
+                #else
+                    print_err_str("Missing ");
+                    print_esc_str("endcsname");
+                    print_str(" inserted");
+                #endif // USE_REAL_STR
                     // "The control sequence marked <to be read again> should"
                     // "not appear between \\csname and \\endcsname."
                     help2(S(556), S(557));
@@ -412,7 +430,11 @@ void expand(void) {
                     if (iflimit == ifcode) {
                         insertrelax(); // condition not yet evaluated
                     } else {
+                    #ifndef USE_REAL_STR
                         print_err(S(558)); // "Extra "
+                    #else
+                        print_err_str("Extra ");
+                    #endif // USE_REAL_STR
                         printcmdchr(FI_OR_ELSE, curchr);
                         // "I'm ignoring this; it doesn't match any \\if."
                         help1(S(559));
@@ -443,11 +465,11 @@ void expand(void) {
                 /*370:*/
 
             default:
-                #ifndef USE_REAL_STR
-                    print_err(S(560)); // "Undefined control sequence"
-                #else
-                    print_err_str("Undefined control sequence");
-                #endif // USE_REAL_STR
+            #ifndef USE_REAL_STR
+                print_err(S(560)); // "Undefined control sequence"
+            #else
+                print_err_str("Undefined control sequence");
+            #endif // USE_REAL_STR
                 /*
                  * (561) "The control sequence at the end of the top line"
                  * (562) "of your error message was never \\def'ed. If you have"
@@ -710,7 +732,11 @@ static void conditional(void) { /*495:*/
             if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
                 r = curtok - othertoken;
             else {
+            #ifndef USE_REAL_STR
                 print_err(S(659)); // "Missing = inserted for "
+            #else
+                print_err_str("Missing = inserted for ");
+            #endif // USE_REAL_STR
                 printcmdchr(IF_TEST, thisif);
                 // "I was expecting to see `<' `=' or `>'. Didn't."
                 help1(S(660));
@@ -847,8 +873,13 @@ static void conditional(void) { /*495:*/
         passtext();
         if (condptr == savecondptr) {
             if (curchr != orcode) goto _Lcommonending;
+        #ifndef USE_REAL_STR
             print_err(S(558)); // "Extra "
             print_esc(S(664)); // "or"
+        #else
+            print_err_str("Extra ");
+            print_esc_str("or");
+        #endif // USE_REAL_STR
             help1(S(559)); // "I'm ignoring this; it doesn't match any \\if."
             error();
             continue;

@@ -16,6 +16,7 @@
 #include "texmath.h"
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
+#include "print.h"
 
 
 /** @addtogroup S539x582_P196x213
@@ -194,7 +195,11 @@ void fonts_dump(FILE* fmtfile) {
         pput(pppfmtfile);
         pppfmtfile.int_ = fontfalsebchar[k];
         pput(pppfmtfile);
-        printnl(S(1278));
+    #ifndef USE_REAL_STR
+        printnl(S(1278)); // "\\font"
+    #else
+        printnl_str("\\font");
+    #endif // USE_REAL_STR  
         print_esc(fontidtext(k));
         print_char('=');
         print_file_name(fontname[k], fontarea[k], S(385));
@@ -472,10 +477,17 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 
         // #561: `start font error message`
         // Report that the font won’t be loaded
+    #ifndef USE_REAL_STR
         print_err(S(588)); // "Font "
+    #else
+        print_err_str("Font ");
+    #endif // USE_REAL_STR
+
         sprint_cs(u);
         print_char('=');
         print_file_name(nom, aire, S(385)); // ""
+    
+    #ifndef USE_REAL_STR
         if (s >= 0) {
             print(S(642));  // " at "
             print_scaled(s);
@@ -485,6 +497,17 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
             print_int(-s);
         }
         print(S(1284)); // " not loaded: Not enough room left"
+    #else
+        if (s >= 0) {
+            print_str(" at ");
+            print_scaled(s);
+            print_str("pt");
+        } else if (s != -1000) {
+            print_str(" scaled ");
+            print_int(-s);
+        }
+        print_str(" not loaded: Not enough room left");
+    #endif // USE_REAL_STR
         /*
          * (1285) "I´m afraid I won´t be able to make use of this font,"
          * (1286) "because my memory for character−size data is too small."
@@ -814,6 +837,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 _L_bad_TFM:
     // #561: `start font error message`
     // Report that the font won’t be loaded
+#ifndef USE_REAL_STR
     print_err(S(588)); // "Font "
     sprint_cs(u);
     print_char('=');
@@ -831,6 +855,25 @@ _L_bad_TFM:
     } else {
         print(S(1290)); // " not loadable: Metric (TFM) file not found"
     }
+#else
+    print_err_str("Font ");
+    sprint_cs(u);
+    print_char('=');
+    print_file_name(nom, aire, S(385)); // ""
+    if (s >= 0) {
+        print_str(" at ");
+        print_scaled(s);
+        print_str("pt");
+    } else if (s != -1000) {
+        print_str(" scaled ");
+        print_int(-s);
+    }
+    if (fileopened) {
+        print_str(" not loadable: Bad metric (TFM) file");
+    } else {
+        print_str(" not loadable: Metric (TFM) file not found");
+    }
+#endif // USE_REAL_STR
 
     /*
      * (1291) "I wasn´t able to read the size data for this font,"

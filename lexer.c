@@ -159,7 +159,11 @@ void showtokenlist(Integer p, Integer q, Integer l) {
 
         // [#293] Display token p, and return if there are problems
         if (p < hi_mem_min || p > mem_end) {
+        #ifndef USE_REAL_STR
             print_esc(S(308)); // "CLOBBERED."
+        #else
+            print_esc_str("CLOBBERED.");
+        #endif // USE_REAL_STR
             return;
         }
         if (info(p) >= CS_TOKEN_FLAG) {
@@ -168,7 +172,11 @@ void showtokenlist(Integer p, Integer q, Integer l) {
             m = info(p) / dwa_do_8;
             c = info(p) % dwa_do_8;
             if (info(p) < 0) {
+            #ifndef USE_REAL_STR
                 print_esc(S(309)); // "BAD."
+            #else
+                print_esc_str("BAD.");
+            #endif // USE_REAL_STR
             } else {
                 // [#294] Display the token (m,c)
                 switch (m) {
@@ -209,7 +217,11 @@ void showtokenlist(Integer p, Integer q, Integer l) {
                         break;
 
                     default:
+                    #ifndef USE_REAL_STR
                         print_esc(S(309)); // "BAD."
+                    #else
+                        print_esc_str("BAD.");
+                    #endif // USE_REAL_STR
                         break;
                 } // switch (m)
             } // if (info(p) <> 0)
@@ -218,7 +230,13 @@ void showtokenlist(Integer p, Integer q, Integer l) {
         p = link(p);
     } // while (p != 0 && tally < l)
 
-    if (p != 0) print_esc(S(311)); // "ETC."
+    if (p != 0) {
+    #ifndef USE_REAL_STR
+        print_esc(S(311)); // "ETC."
+    #else
+        print_esc_str("ETC.");
+    #endif // USE_REAL_STR
+    }
 } // #292: showtokenlist
 
 /// [#295] display a token list,  given a pointer to its reference count.
@@ -368,44 +386,30 @@ void showcontext(void) { /*:315*/
                     }
                 } else {                  /*314:*/
                     switch (token_type) { /*:314*/
-
                         case PARAMETER: printnl(S(493)); break;
 
                         case U_TEMPLATE:
                         case V_TEMPLATE: printnl(S(494)); break;
 
                         case BACKED_UP:
-                            if (LOC == 0)
+                            if (LOC == 0) {
                                 printnl(S(495));
-                            else
+                            } else {
                                 printnl(S(496));
+                            }
                             break;
 
                         case INSERTED: printnl(S(497)); break;
-
-                        case MACRO:
-                            println();
-                            print_cs(NAME);
-                            break;
-
+                        case MACRO: println(); print_cs(NAME); break;
                         case OUTPUT_TEXT: printnl(S(498)); break;
-
                         case EVERY_PAR_TEXT: printnl(S(499)); break;
-
                         case EVERY_MATH_TEXT: printnl(S(500)); break;
-
                         case EVERY_DISPLAY_TEXT: printnl(S(501)); break;
-
                         case EVERY_HBOX_TEXT: printnl(S(502)); break;
-
                         case EVERY_VBOX_TEXT: printnl(S(503)); break;
-
                         case EVERY_JOB_TEXT: printnl(S(504)); break;
-
                         case EVERY_CR_TEXT: printnl(S(505)); break;
-
                         case MARK_TEXT: printnl(S(506)); break;
-
                         case WRITE_TEXT: printnl(S(507)); break;
 
                         default: printnl('?'); break;

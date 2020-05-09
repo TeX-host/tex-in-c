@@ -25,7 +25,6 @@ extern void print_skip_param(Integer n);
 extern void printstyle(Integer c);
 
 // [tex], fonts
-extern void printnl(StrNumber s);
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
 extern void sprint_cs(Pointer p);
