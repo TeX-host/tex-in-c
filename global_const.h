@@ -3,6 +3,7 @@
 /// 全局常量
 #define _INC_GLOBAL_CONST
 #include <assert.h>
+#include <stdio.h> // EOF
 
 /// 取无符号类型的最大值
 #define UMAXOF(t) ((t) ~(t)0)
@@ -38,6 +39,33 @@
 #undef tt_INIT
 #define NDEBUG // no assertsion
 #endif
+
+
+/** @addtogroup S25x37_P13x18
+ * @{
+ */
+
+/// [#32] the terminal as an input file.
+#define TERM_IN     stdin
+/// [#32] the terminal as an output file.
+#define TERM_OUT    stdout
+
+/// [#34] empty the terminal output buffer.
+#define update_terminal() fflush(stdout)
+/// [#34] clear the terminal input buffer.
+#define clear_terminal()
+// #define clear_terminal()                            \
+//     do {                                            \
+//         int c;                                      \
+//         while ((c = getchar()) != '\n' && c != EOF) \
+//             ;                                       \
+//     } while (0)
+
+/// [#34] cancel the user’s cancellation of output.
+#define wake_up_terminal()
+
+/** @}*/ // end group S25x37_P13x18
+
 
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
