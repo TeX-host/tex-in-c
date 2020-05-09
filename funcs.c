@@ -125,7 +125,7 @@ static void env_to_path(char*** path, char** buf, char* env_var) {
 
 int PASCAL_MAIN(int argc, char** argv) {
     char* pom;
-    printf("%s\n", argv[0]);
+    // printf("%s\n", argv[0]); // 打印可执行程序路径
     if ((pom = getenv("TEXINPUTS"))) {
         env_to_path(&input_path, &input_path_buf, pom);
     } else {
@@ -181,7 +181,7 @@ Boolean open_fmt(FILE** fmt) {
     char* fmt_name;
     char name_buf[256] = "plain.fmt";
     fmt_name = format_name;
-    printf("%s\n", format_name);
+    fprintf(TERM_OUT, "%s\n", format_name);
     if (!strchr(format_name, '.')) {
         if (strlen(format_name) + strlen(".fmt") < 255) {
             strcpy(name_buf, format_name);
