@@ -339,7 +339,7 @@ void confusion(StrNumber s) {
     normalize_selector();
     if (history < ERROR_MESSAGE_ISSUED) {
     #ifndef USE_REAL_STR
-        print_err(S(297));
+        print_err(S(297)); // "This can´t happen ("
     #else
         print_err_str("This can´t happen (");
     #endif // USE_REAL_STR
@@ -349,7 +349,7 @@ void confusion(StrNumber s) {
         help1(S(298));
     } else {
     #ifndef USE_REAL_STR
-        print_err(S(299));
+        print_err(S(299)); // "I can´t go on meeting you like this"
     #else
         print_err_str("I can´t go on meeting you like this");
     #endif // USE_REAL_STR
@@ -368,7 +368,7 @@ void pause_for_instructions(void) {
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
 
 #ifndef USE_REAL_STR
-    print_err(S(304));
+    print_err(S(304)); // "Interruption"
 #else
     print_err_str("Interruption");
 #endif // USE_REAL_STR

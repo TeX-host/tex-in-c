@@ -701,28 +701,29 @@ static int check_outer_validity(int local_curcs) {
     if (scanner_status > SKIPPING) { /*338:*/
         runaway();
         if (curcs == 0) {
-            print_err(S(512));
+            print_err(S(512)); // "File ended"
         } else {
             curcs = 0;
-            print_err(S(513));
+            print_err(S(513)); // "Forbidden control sequence found"
         }
-        print(S(514)); /*339:*/
+        print(S(514)); // " while scanning "
+        /*339:*/
         p = get_avail();
         switch (scanner_status) {
 
             case DEFINING:
-                print(S(313));
+                print(S(313)); // "definition"
                 info(p) = rightbracetoken + '}';
                 break;
 
             case MATCHING:
-                print(S(515));
+                print(S(515)); // "use"
                 info(p) = partoken;
                 longstate = OUTER_CALL;
                 break;
 
             case ALIGNING:
-                print(S(315));
+                print(S(315)); // "preamble"
                 info(p) = rightbracetoken + '}';
                 q = p;
                 p = get_avail();
@@ -732,12 +733,12 @@ static int check_outer_validity(int local_curcs) {
                 break;
 
             case ABSORBING:
-                print(S(316));
+                print(S(316)); // "text"
                 info(p) = rightbracetoken + '}';
                 break;
         }
         inslist(p); /*:339*/
-        print(S(516));
+        print(S(516)); // " of "
         sprint_cs(warning_index);
         /*
          * (517) "I suspect you have forgotten a `}' causing me"
@@ -748,15 +749,22 @@ static int check_outer_validity(int local_curcs) {
         help4(S(517), S(518), S(519), S(520));
         error();
     } else {
-        print_err(S(521));
+        print_err(S(521)); // "Incomplete "
         printcmdchr(IF_TEST, curif);
-        print(S(522));
+        print(S(522)); // "; all text was ignored after line "
         print_int(skipline);
+        /*
+         * (523) "A forbidden control sequence occurred in skipped text."
+         * (524) "This kind of error happens when you say `\\if...' and forget"
+         * (525) "the matching `\\fi'. I've inserted a `\\fi'; this might work."
+         */
         help3(S(523), S(524), S(525));
-        if (curcs != 0)
+        if (curcs != 0) {
             curcs = 0;
-        else
+        } else {
+            // "The file ended while I was skipping conditional text."
             help_line[2] = S(526);
+        }
         curtok = CS_TOKEN_FLAG + frozenfi;
         inserror();
     }

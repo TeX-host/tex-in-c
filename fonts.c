@@ -472,7 +472,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 
         // #561: `start font error message`
         // Report that the font won’t be loaded
-        print_err(S(588));      // "Font "
+        print_err(S(588)); // "Font "
         sprint_cs(u);
         print_char('=');
         print_file_name(nom, aire, S(385)); // ""
@@ -814,7 +814,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 _L_bad_TFM:
     // #561: `start font error message`
     // Report that the font won’t be loaded
-    print_err(S(588));      // "Font "
+    print_err(S(588)); // "Font "
     sprint_cs(u);
     print_char('=');
     print_file_name(nom, aire, S(385)); // ""

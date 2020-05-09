@@ -58,14 +58,25 @@ static void insthetoks(void);
 /// a runaway argument has already been reported.
 void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     HalfWord m;
+
     if (longstate == CALL) {
         runaway();
-        print_err(S(533));
+    #ifndef USE_REAL_STR
+        print_err(S(533)); // "Paragraph ended before "
+    #else
+        print_err_str("Paragraph ended before ");
+    #endif // USE_REAL_STR
         sprint_cs(warning_index);
-        print(S(534));
+        print(S(534)); // " was complete"
+        /*
+         * (535) "I suspect you've forgotten a `}' causing me to apply this"
+         * (536) "control sequence to too much text. How can we recover?"
+         * (537) "My plan is to forget the whole thing and hope for the best."
+         */
         help3(S(535), S(536), S(537));
         backerror();
-    }
+    } // if (longstate == CALL)
+
     pstack[n] = link(temphead);
     align_state -= unbalance;
     for (m = 0; m <= n; m++) {
@@ -127,10 +138,11 @@ void macrocall(Pointer refcount) {
             /*:394*/
             /*397:*/
             if (s != r) {
-                if (s == 0) { /*398:*/
-                    print_err(S(538));
+                if (s == 0) {
+                    // [#398] Report an improper use of the macro and abort.
+                    print_err(S(538)); // "Use of "
                     sprint_cs(warning_index);
-                    print(S(539));
+                    print(S(539)); // " doesn't match its definition"
                     /*
                      * (540) "If you say e.g. `\\def\\a1{...}' then you must always"
                      * (541) "put `1' after `\\a' since control sequence names are"
@@ -140,8 +152,8 @@ void macrocall(Pointer refcount) {
                     help4(S(540), S(541), S(542), S(543));
                     error();
                     goto _Lexit;
-                }
-                /*:398*/
+                } // [#398]
+
                 t = s;
                 do {
                     STORE_NEW_TOKEN(p, info(t));
@@ -196,10 +208,12 @@ void macrocall(Pointer refcount) {
                     rbraceptr = p;
                     STORE_NEW_TOKEN(p, curtok);
                 } else { /*395:*/
+                    // [#395] Report an extra right brace and goto continue.
+                    // a white lie; the \par won’t always trigger a runaway.
                     backinput();
-                    print_err(S(544));
+                    print_err(S(544)); // "Argument of "
                     sprint_cs(warning_index);
-                    print(S(545));
+                    print(S(545)); // " has an extra }"
                     /* 
                      * [546] "I've run across a `}' that doesn't seem to match anything."
                      * [547] "For example `\\def\\a#1{...}' and `\\a}' would produce"
@@ -213,7 +227,7 @@ void macrocall(Pointer refcount) {
                     longstate = CALL;
                     curtok = partoken;
                     inserror();
-                }
+                } // [#395]
                 /*:399*/
             } else /*393:*/
             {      /*:393*/
@@ -350,14 +364,18 @@ void expand(void) {
                         STORE_NEW_TOKEN(p, curtok);
                     }
                 } while (curcs == 0);
-                if (curcmd != END_CS_NAME) { /*373:*/
-                    print_err(S(554));
-                    print_esc(S(263));
-                    print(S(555));
+
+                if (curcmd != END_CS_NAME) {
+                    // [#373] Complain about missing \endcsname
+                    print_err(S(554)); // "Missing "
+                    print_esc(S(263)); // "endcsname"
+                    print(S(555)); // " inserted"
+                    // "The control sequence marked <to be read again> should"
+                    // "not appear between \\csname and \\endcsname."
                     help2(S(556), S(557));
                     backerror();
-                }
-                /*:373*/
+                } // [#373]
+                
                 /*374:*/
                 j = first;
                 p = link(r);
@@ -385,31 +403,33 @@ void expand(void) {
                 /*:372*/
 
             case CONVERT: convtoks(); break;
-
             case THE: insthetoks(); break;
-
             case IF_TEST: conditional(); break;
 
-            case FI_OR_ELSE: /*510:*/
+            case FI_OR_ELSE:
+                // [#510]  Terminate the current conditional and skip to \fi
                 if (curchr > iflimit) {
-                    if (iflimit == ifcode)
-                        insertrelax();
-                    else {
-                        print_err(S(558));
+                    if (iflimit == ifcode) {
+                        insertrelax(); // condition not yet evaluated
+                    } else {
+                        print_err(S(558)); // "Extra "
                         printcmdchr(FI_OR_ELSE, curchr);
+                        // "I'm ignoring this; it doesn't match any \\if."
                         help1(S(559));
                         error();
                     }
-                } else {                     /*:510*/
-                    while (curchr != ficode) /*496:*/
-                        passtext();
+                } else {
+                    while (curchr != ficode) {
+                        passtext(); // skip to `\fi`
+                    }
+                    // [#496] Pop the condition stack
                     p = condptr;
                     ifline = iflinefield(p);
                     curif = subtype(p);
                     iflimit = type(p);
                     condptr = link(p);
-                    freenode(p, ifnodesize); /*:496*/
-                }
+                    freenode(p, ifnodesize);
+                } // [#510, 496] if (curchr <> iflimit)
                 break;
 
             case INPUT: /*378:*/
@@ -424,7 +444,7 @@ void expand(void) {
 
             default:
                 #ifndef USE_REAL_STR
-                    print_err(S(560));
+                    print_err(S(560)); // "Undefined control sequence"
                 #else
                     print_err_str("Undefined control sequence");
                 #endif // USE_REAL_STR
@@ -690,8 +710,9 @@ static void conditional(void) { /*495:*/
             if ((curtok >= othertoken + '<') & (curtok <= othertoken + '>'))
                 r = curtok - othertoken;
             else {
-                print_err(S(659));
+                print_err(S(659)); // "Missing = inserted for "
                 printcmdchr(IF_TEST, thisif);
+                // "I was expecting to see `<' `=' or `>'. Didn't."
                 help1(S(660));
                 backerror();
                 r = '=';
@@ -826,9 +847,9 @@ static void conditional(void) { /*495:*/
         passtext();
         if (condptr == savecondptr) {
             if (curchr != orcode) goto _Lcommonending;
-            print_err(S(558));
-            print_esc(S(664));
-            help1(S(559));
+            print_err(S(558)); // "Extra "
+            print_esc(S(664)); // "or"
+            help1(S(559)); // "I'm ignoring this; it doesn't match any \\if."
             error();
             continue;
         }
