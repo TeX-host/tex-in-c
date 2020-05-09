@@ -1,6 +1,11 @@
 var group___s25x37___p13x18 =
 [
+    [ "clear_terminal", "group___s25x37___p13x18.html#ga00c8988e97e0300222ce5633d7f9d198", null ],
     [ "LOC", "group___s25x37___p13x18.html#ga0fee446a4a4ef6536664bc1ff47ff694", null ],
+    [ "TERM_ERR", "group___s25x37___p13x18.html#gaeefbf3f8baac8f481abbf06e6de70553", null ],
+    [ "TERM_IN", "group___s25x37___p13x18.html#ga3ea3fae8d0d4d9ef8e3d3d97bc56780f", null ],
+    [ "TERM_OUT", "group___s25x37___p13x18.html#ga353bdafd062a4712d584de436b11f76d", null ],
+    [ "update_terminal", "group___s25x37___p13x18.html#ga18d1c55c8724db271715346a6378c532", null ],
     [ "wopenout", "group___s25x37___p13x18.html#ga4736780b3641ccec01c0262c859d6345", null ],
     [ "EightBits", "group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4", null ],
     [ "initterminal", "group___s25x37___p13x18.html#ga43f1dfcc7f41df40940730354896887a", null ],

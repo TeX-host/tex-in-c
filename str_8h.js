@@ -8,6 +8,7 @@ var str_8h =
     [ "STR_H", "str_8h.html#a8652fec210d1ca270182e37e4c2f67da", null ],
     [ "STRING_VACANCIES", "group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30", null ],
     [ "PoolPtr", "group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621", null ],
+    [ "Str", "group___s38x53___p19x23.html#gac7539ac92592b93c069bfbc1ce37ae4a", null ],
     [ "StrNumber", "group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827", null ],
     [ "append_char", "group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855", null ],
     [ "cur_length", "group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a", null ],

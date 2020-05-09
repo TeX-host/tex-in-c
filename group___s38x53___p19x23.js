@@ -7,6 +7,7 @@ var group___s38x53___p19x23 =
     [ "POOL_TOP", "group___s38x53___p19x23.html#ga158e9203fe11b0854dfeaaa384dca8a1", null ],
     [ "POOLPOINTER_IS_POINTER", "group___s38x53___p19x23.html#ga3a3e1a47d94c456e975fbae727075c4c", null ],
     [ "PoolPtr", "group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621", null ],
+    [ "Str", "group___s38x53___p19x23.html#gac7539ac92592b93c069bfbc1ce37ae4a", null ],
     [ "StrNumber", "group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827", null ],
     [ "append_char", "group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855", null ],
     [ "cur_length", "group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a", null ],

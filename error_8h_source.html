@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: error.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.18 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('error_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">error.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="error_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_ERROR_H</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define INC_ERROR_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="error_8h.html#a0e8dc41bcb8d50d4ce2e0e26eb7c2ece">    5</a></span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define checkinterrupt() ((interrupt != 0) ? (pause_for_instructions(), 0) : 0)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga1e65cff0e8116a9be6b09e362203e323">   13</a></span>&#160; <span class="comment">// end group S72x98_P30x37</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#gaa6d19f08c55cdc1e1dcf9e5f46de29ad">print_err</a>(<a class="code" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#gace455dd681029a71f650e1dcdf05399a">print_err_str</a>(<a class="code" href="print_8h.html#ac7539ac92592b93c069bfbc1ce37ae4a">Str</a> s);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931">error</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#ga6d3be891296620e37d4a6a3478e1ef98">int_error</a>(<a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#ga457981fda1f35db9e657fba74e772a57">normalize_selector</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df">succumb</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b">fatalerror</a>(<a class="code" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#gaf3d29a884e6c439304ba6e4426a1f9bf">overflow</a>(<a class="code" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s, <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> n);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#gad648827d6f28ef0ba71b95015432d4b6">confusion</a>(<a class="code" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0">pause_for_instructions</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif // INC_ERROR_H</span></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<div class="ttc" id="agroup___s72x98___p30x37_html_ga457981fda1f35db9e657fba74e772a57"><div class="ttname"><a href="group___s72x98___p30x37.html#ga457981fda1f35db9e657fba74e772a57">normalize_selector</a></div><div class="ttdeci">void normalize_selector(void)</div><div class="ttdoc">[#92] fix selector state just enough to keep running a bit longer.</div><div class="ttdef"><b>Definition:</b> error.c:282</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_ga6d3be891296620e37d4a6a3478e1ef98"><div class="ttname"><a href="group___s72x98___p30x37.html#ga6d3be891296620e37d4a6a3478e1ef98">int_error</a></div><div class="ttdeci">void int_error(Integer n)</div><div class="ttdoc">[#91] error messages end with a parenthesized integer.</div><div class="ttdef"><b>Definition:</b> error.c:268</div></div>
+<div class="ttc" id="atex__types_8h_html_a23abc5a95167751b01dabc5eb2396241"><div class="ttname"><a href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a></div><div class="ttdeci">int64_t Integer</div><div class="ttdoc">Integer(64) =</div><div class="ttdef"><b>Definition:</b> tex_types.h:42</div></div>
+<div class="ttc" id="agroup___s38x53___p19x23_html_ga07525edfa2983cba57700272d6a51827"><div class="ttname"><a href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a></div><div class="ttdeci">uint_fast32_t StrNumber</div><div class="ttdef"><b>Definition:</b> str.h:70</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_ga52c316ff3196c6beb77ea46843f677df"><div class="ttname"><a href="group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df">succumb</a></div><div class="ttdeci">void succumb(void)</div><div class="ttdoc">[#93]: prints TEX’s last words before dying.</div><div class="ttdef"><b>Definition:</b> error.c:293</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_gace455dd681029a71f650e1dcdf05399a"><div class="ttname"><a href="group___s72x98___p30x37.html#gace455dd681029a71f650e1dcdf05399a">print_err_str</a></div><div class="ttdeci">void print_err_str(Str s)</div><div class="ttdef"><b>Definition:</b> error.c:20</div></div>
+<div class="ttc" id="aprint_8h_html_ac7539ac92592b93c069bfbc1ce37ae4a"><div class="ttname"><a href="print_8h.html#ac7539ac92592b93c069bfbc1ce37ae4a">Str</a></div><div class="ttdeci">char * Str</div><div class="ttdef"><b>Definition:</b> print.h:12</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_ga518288848eb2471573b6581060452931"><div class="ttname"><a href="group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931">error</a></div><div class="ttdeci">void error(void)</div><div class="ttdoc">[#82]: completes the job of error reporting.</div><div class="ttdef"><b>Definition:</b> error.c:32</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_ga68f6ed9ff2ca06742110d0b4339eab4b"><div class="ttname"><a href="group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b">fatalerror</a></div><div class="ttdeci">void fatalerror(StrNumber s)</div><div class="ttdoc">[#93] prints s, and that’s it.</div><div class="ttdef"><b>Definition:</b> error.c:305</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_gad648827d6f28ef0ba71b95015432d4b6"><div class="ttname"><a href="group___s72x98___p30x37.html#gad648827d6f28ef0ba71b95015432d4b6">confusion</a></div><div class="ttdeci">void confusion(StrNumber s)</div><div class="ttdoc">[#95] consistency check violated; s tells where.</div><div class="ttdef"><b>Definition:</b> error.c:338</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_gaa6d19f08c55cdc1e1dcf9e5f46de29ad"><div class="ttname"><a href="group___s72x98___p30x37.html#gaa6d19f08c55cdc1e1dcf9e5f46de29ad">print_err</a></div><div class="ttdeci">void print_err(StrNumber s)</div><div class="ttdef"><b>Definition:</b> error.c:14</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_gaa3d0efc3b8663c4087e1440bd3bf46c0"><div class="ttname"><a href="group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0">pause_for_instructions</a></div><div class="ttdeci">void pause_for_instructions(void)</div><div class="ttdoc">[#98]</div><div class="ttdef"><b>Definition:</b> error.c:364</div></div>
+<div class="ttc" id="agroup___s72x98___p30x37_html_gaf3d29a884e6c439304ba6e4426a1f9bf"><div class="ttname"><a href="group___s72x98___p30x37.html#gaf3d29a884e6c439304ba6e4426a1f9bf">overflow</a></div><div class="ttdeci">void overflow(StrNumber s, Integer n)</div><div class="ttdoc">[#94] stop due to finiteness.</div><div class="ttdef"><b>Definition:</b> error.c:318</div></div>
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="error_8h.html">error.h</a></li>
+    <li class="footer">制作者
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+  </ul>
+</div>
+</body>
+</html>

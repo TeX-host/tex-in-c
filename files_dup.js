@@ -3,6 +3,8 @@ var files_dup =
     [ "dvicmd.h", "dvicmd_8h.html", "dvicmd_8h" ],
     [ "dviout.c", "dviout_8c.html", "dviout_8c" ],
     [ "dviout.h", "dviout_8h.html", "dviout_8h" ],
+    [ "error.c", "error_8c.html", "error_8c" ],
+    [ "error.h", "error_8h.html", "error_8h" ],
     [ "expand.c", "expand_8c.html", "expand_8c" ],
     [ "expand.h", "expand_8h.html", "expand_8h" ],
     [ "fonts.c", "fonts_8c.html", "fonts_8c" ],

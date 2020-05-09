@@ -1,10 +1,11 @@
 <map id="macros.h" name="macros.h">
-<area shape="rect" id="node1" title=" " alt="" coords="244,5,331,35"/>
-<area shape="rect" id="node2" href="$expand_8c.html" title=" " alt="" coords="5,83,92,112"/>
-<area shape="rect" id="node3" href="$fonts_8c.html" title=" " alt="" coords="116,83,184,112"/>
-<area shape="rect" id="node4" href="$lexer_8c.html" title=" " alt="" coords="208,83,276,112"/>
-<area shape="rect" id="node5" href="$scan_8c.html" title=" " alt="" coords="300,83,368,112"/>
-<area shape="rect" id="node6" href="$str_8c.html" title=" " alt="" coords="393,83,443,112"/>
-<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="467,83,582,112"/>
-<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="497,160,552,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="290,5,377,35"/>
+<area shape="rect" id="node2" href="$error_8c.html" title=" " alt="" coords="5,83,72,112"/>
+<area shape="rect" id="node3" href="$expand_8c.html" title=" " alt="" coords="97,83,183,112"/>
+<area shape="rect" id="node4" href="$fonts_8c.html" title=" " alt="" coords="207,83,275,112"/>
+<area shape="rect" id="node5" href="$lexer_8c.html" title=" " alt="" coords="299,83,367,112"/>
+<area shape="rect" id="node6" href="$scan_8c.html" title=" " alt="" coords="391,83,459,112"/>
+<area shape="rect" id="node7" href="$str_8c.html" title=" " alt="" coords="484,83,535,112"/>
+<area shape="rect" id="node8" href="$tex__header_8h.html" title=" " alt="" coords="559,83,673,112"/>
+<area shape="rect" id="node9" href="$tex_8c.html" title=" " alt="" coords="589,160,643,189"/>
 </map>

@@ -1,5 +1,6 @@
 var group___s72x98___p30x37 =
 [
+    [ "checkinterrupt", "group___s72x98___p30x37.html#ga1e65cff0e8116a9be6b09e362203e323", null ],
     [ "help1", "group___s72x98___p30x37.html#ga8da013a1bb18edf91cbacc094848b17f", null ],
     [ "help2", "group___s72x98___p30x37.html#gab7ada5e9ae9ef4f865638e6a06913c7b", null ],
     [ "help3", "group___s72x98___p30x37.html#gae6e250c5c6e0e84cf564237557f455df", null ],
@@ -21,20 +22,22 @@ var group___s72x98___p30x37 =
     [ "confusion", "group___s72x98___p30x37.html#gad648827d6f28ef0ba71b95015432d4b6", null ],
     [ "error", "group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931", null ],
     [ "fatalerror", "group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b", null ],
-    [ "int_error", "group___s72x98___p30x37.html#ga2a3ffa92c12bfa22ae59b2bd5fcf13aa", null ],
-    [ "jumpout", "group___s72x98___p30x37.html#ga7692bc4335579ba9c40a73b75ca9f216", null ],
-    [ "normalize_selector", "group___s72x98___p30x37.html#ga9e84fd6d7a8cb64ddca0f5f67daf81f0", null ],
+    [ "int_error", "group___s72x98___p30x37.html#ga6d3be891296620e37d4a6a3478e1ef98", null ],
+    [ "jumpout", "group___s72x98___p30x37.html#gadeb1545ae01b6cbf0a224dc6a207876e", null ],
+    [ "normalize_selector", "group___s72x98___p30x37.html#ga457981fda1f35db9e657fba74e772a57", null ],
     [ "overflow", "group___s72x98___p30x37.html#gaf3d29a884e6c439304ba6e4426a1f9bf", null ],
     [ "pause_for_instructions", "group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0", null ],
-    [ "succumb", "group___s72x98___p30x37.html#ga28969debfb5d1d9ceb441468b967fbce", null ],
+    [ "print_err", "group___s72x98___p30x37.html#gaa6d19f08c55cdc1e1dcf9e5f46de29ad", null ],
+    [ "print_err_str", "group___s72x98___p30x37.html#gace455dd681029a71f650e1dcdf05399a", null ],
+    [ "succumb", "group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df", null ],
     [ "deletions_allowed", "group___s72x98___p30x37.html#ga111f306f8f66ea55ea260b9c94a9cfbb", null ],
-    [ "errorcount", "group___s72x98___p30x37.html#gac35c5baecfc22fd651c2528fcd1ddef3", null ],
+    [ "errorcount", "group___s72x98___p30x37.html#ga1ec7a4e6077987d1cba9ba70dafc2158", null ],
     [ "help_line", "group___s72x98___p30x37.html#gab5224c8f4600bd8c760e693801cb63c5", null ],
-    [ "help_ptr", "group___s72x98___p30x37.html#gafc34cc6753d75a8bd3846b1a0a594e0f", null ],
-    [ "history", "group___s72x98___p30x37.html#gae2791fa74d11d9b04c2ef69a330eb3b7", null ],
+    [ "help_ptr", "group___s72x98___p30x37.html#gae82f8faa2e5348e2d4c21ff0505072a4", null ],
+    [ "history", "group___s72x98___p30x37.html#ga47fe4066267cde50bfcdba0b1d1ad241", null ],
     [ "interaction", "group___s72x98___p30x37.html#ga1bddff3b1f3787b9bace2be694fc6f70", null ],
     [ "interrupt", "group___s72x98___p30x37.html#ga73282994beeccd037c396304562e624f", null ],
     [ "OK_to_interrupt", "group___s72x98___p30x37.html#ga6e6c4fb441211ad0ef5e9ffc763ad053", null ],
     [ "set_box_allowed", "group___s72x98___p30x37.html#ga006c08504b60ba2d6b4e6924dc294506", null ],
-    [ "use_err_help", "group___s72x98___p30x37.html#gab04ef387023c1cd5ba29769ade67d653", null ]
+    [ "use_err_help", "group___s72x98___p30x37.html#ga6716beda6d4fef986541deed8a6d56bb", null ]
 ];

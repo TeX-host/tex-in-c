@@ -20,7 +20,7 @@ var group___s511x538___p188x195 =
     [ "extdelimiter", "group___s511x538___p188x195.html#gad8312e9bd67d16f938a4998a346521c7", null ],
     [ "filename_k", "group___s511x538___p188x195.html#ga26de7b0cc6daf6e2ad76d2f7a8f4f8d2", null ],
     [ "job_name", "group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c", null ],
-    [ "log_opened", "group___s511x538___p188x195.html#gaa937c020bb2450fa52b486854eaab356", null ],
+    [ "log_opened", "group___s511x538___p188x195.html#gab24200a18c2851605e53bfeab44eace1", null ],
     [ "logname", "group___s511x538___p188x195.html#gaa160c66736acfeeec16c303d89cd9059", null ],
     [ "name_in_progress", "group___s511x538___p188x195.html#ga20d28e7039b8ce5fb1b280c6cbc495fe", null ],
     [ "output_file_name", "group___s511x538___p188x195.html#ga4ca0ef07b9397da81b9657fbe2d0143c", null ],

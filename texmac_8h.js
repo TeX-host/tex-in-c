@@ -36,7 +36,6 @@ var texmac_8h =
     [ "brokenptr", "texmac_8h.html#ae350c7237574ae6de97bfc665603fead", null ],
     [ "catcode", "texmac_8h.html#a8264bce230c3cf6439a3632d5f915b0d", null ],
     [ "character", "group___s133x161___p50x57.html#ga4f5a94971246d9eb113d8cb11d278a0c", null ],
-    [ "checkinterrupt", "texmac_8h.html#a1e65cff0e8116a9be6b09e362203e323", null ],
     [ "checkshrinkage", "texmac_8h.html#a0ef1a47284bf2a7d3440896f21dd54e2", null ],
     [ "clang", "group___s211x219___p77x80.html#gaa421b5433f5d1ee6a1c8f942d408ee41", null ],
     [ "clubpenalty", "texmac_8h.html#a335a80278b136fed32b0d37ee04c81ec", null ],
