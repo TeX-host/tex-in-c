@@ -51,18 +51,10 @@
 #define TERM_OUT    stdout
 
 /// [#34] empty the terminal output buffer.
-#define update_terminal() fflush(stdout)
+#define update_terminal() fflush(TERM_OUT)
 /// [#34] clear the terminal input buffer.
+/// xref: 330(#clearforerrorprompt), 530(#promptfilename).
 #define clear_terminal()
-// #define clear_terminal()                            \
-//     do {                                            \
-//         int c;                                      \
-//         while ((c = getchar()) != '\n' && c != EOF) \
-//             ;                                       \
-//     } while (0)
-
-/// [#34] cancel the user’s cancellation of output.
-#define wake_up_terminal()
 
 /** @}*/ // end group S25x37_P13x18
 

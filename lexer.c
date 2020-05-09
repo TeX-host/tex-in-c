@@ -629,6 +629,7 @@ void clearforerrorprompt(void) {
         endfilereading();
     } // while
     println();
+    clear_terminal();
 } // [#330] clearforerrorprompt
 
 /// [#331] 初始化变量
@@ -823,7 +824,7 @@ _getnext_worker__restart:
                 if (force_eof) {
                     print_char(')');
                     openparens--;
-                    update_terminal();
+                    update_terminal(); // show user that file has been read
                     force_eof = false;
                     endfilereading();
                     cur_cs = check_outer_validity(cur_cs);

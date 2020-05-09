@@ -6,6 +6,7 @@
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [export]
 #include "global.h" // [var] buffer, last, first, name_of_file
+#include "global_const.h" // [macro] update_terminal
 
 static char my_buff[256];
 
@@ -175,6 +176,7 @@ int PASCAL_MAIN(int argc, char** argv) {
 
 static Boolean a_open_in1(char* name, char** path_lst, FILE** f);
 
+/// [#524]
 Boolean open_fmt(FILE** fmt) {
     char* fmt_name;
     char name_buf[256] = "plain.fmt";
@@ -191,6 +193,7 @@ Boolean open_fmt(FILE** fmt) {
         return true;
     } else {
         fprintf(TERM_OUT, "Sorry, I can't find that format; will try PLAIN.\n");
+        update_terminal();
         if (a_open_in1("plain.fmt", format_path, fmt)) {
             return true;
         } else {

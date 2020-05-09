@@ -81,8 +81,7 @@ void set_help(SChar k, ...) {
 void term_input(void) {
     UInt16 k; // [0, BUF_SIZE=5000]
 
-    // now the user sees the prompt for sure
-    update_terminal(); // update terminal
+    update_terminal(); // now the user sees the prompt for sure
     if (!inputln(TERM_IN, true)) {
         fatalerror(S(302)); // "End of file on the terminal!"
     }
@@ -2835,8 +2834,10 @@ Static void promptfilename(StrNumber s, StrNumber e) {
     printnl(S(670));
     print(s);
     if (interaction < SCROLL_MODE) fatalerror(S(671));
+    clear_terminal();
     print(S(488));
-    term_input(); /*531:*/
+    term_input(); 
+    /*531:*/
     beginname();
     k = first;
     while (buffer[k] == ' ' && k < last)
@@ -3510,7 +3511,7 @@ Static void shipout(Pointer p) {
         print_int(count(k));
         if (k < j) print_char('.');
     }
-    update_terminal(); // update_terminal
+    update_terminal();
 
     if (tracingoutput > 0) {
         print_char(']');
@@ -14489,7 +14490,7 @@ static void S55_Initialize_the_output_routines(void) {
         slow_print(format_ident);
         println();
     }
-    update_terminal(); // update terminal;
+    update_terminal();
 
     // #528
     job_name = 0;
