@@ -3,7 +3,7 @@
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
     // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
-#include "macros.h" // [macro] NON_CHAR
+#include "macros.h" // [macro] NON_CHAR, help4,
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
 #include "error.h"  // [func] error, print_err,
@@ -485,11 +485,12 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
             print_int(-s);
         }
         print(S(1284)); // " not loaded: Not enough room left"
-
-        // "I´m afraid I won´t be able to make use of this font,"
-        // "because my memory for character−size data is too small."
-        // "If you´re really stuck, ask a wizard to enlarge me."
-        // "Or maybe try `I\font<same font id>=<name of loaded font>´."
+        /*
+         * (1285) "I´m afraid I won´t be able to make use of this font,"
+         * (1286) "because my memory for character−size data is too small."
+         * (1287) "If you´re really stuck, ask a wizard to enlarge me."
+         * (1288) "Or maybe try `I\font<same font id>=<name of loaded font>´."
+         */
         help4(S(1285), S(1286), S(1287), S(1288));
         error();
         goto _Ldone;

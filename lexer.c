@@ -738,6 +738,12 @@ static int check_outer_validity(int local_curcs) {
         inslist(p); /*:339*/
         print(S(516));
         sprint_cs(warning_index);
+        /*
+         * (517) "I suspect you have forgotten a `}' causing me"
+         * (518) "to read past where you wanted me to stop."
+         * (519) "I'll try to recover; but if the error is serious"
+         * (520)s "you'd better type `E' or `X' now and fix your file."
+         */
         help4(S(517), S(518), S(519), S(520));
         error();
     } else {

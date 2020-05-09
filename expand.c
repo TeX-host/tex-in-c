@@ -131,6 +131,12 @@ void macrocall(Pointer refcount) {
                     print_err(S(538));
                     sprint_cs(warning_index);
                     print(S(539));
+                    /*
+                     * (540) "If you say e.g. `\\def\\a1{...}' then you must always"
+                     * (541) "put `1' after `\\a' since control sequence names are"
+                     * (542) "made up of letters only. The macro here has not been"
+                     * (543) "followed by the required stuff so I'm ignoring it."
+                     */
                     help4(S(540), S(541), S(542), S(543));
                     error();
                     goto _Lexit;

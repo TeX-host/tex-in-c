@@ -4,7 +4,7 @@
 #include "tex.h"
 #include "tex_inc.h"
 #include "global.h"
-#include "macros.h"
+#include "macros.h" // [macro] help4,
 #include "expand.h"
 #include "texmac.h" // [macro] ischarnode
 
@@ -84,10 +84,11 @@ void scan_left_brace(void) {
     if (curcmd == LEFT_BRACE) return;
 
     print_err(S(566));   // "Missing { inserted"
-    /* "A left brace was mandatory here, so I´ve put one in."
-     * "You might want to delete and/or insert some corrections"
-     * "so that I will find a matching right brace soon."
-     * "(If you´re confused by all this, try typing `I}´ now.)"
+    /*
+     * (567) "A left brace was mandatory here, so I´ve put one in."
+     * (568) "You might want to delete and/or insert some corrections"
+     * (569) "so that I will find a matching right brace soon."
+     * (570) "(If you´re confused by all this, try typing `I}´ now.)"
      */
     help4(S(567), S(568), S(569), S(570));
     backerror();
@@ -261,6 +262,12 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             if (labs(mode) != m) {
                 print_err(S(597));
                 printcmdchr(SET_AUX, m);
+                /*
+                 * (598) "You can refer to \\spacefactor only in horizontal mode;"
+                 * (599) "you can refer to \\prevdepth only in vertical mode; and"
+                 * (600) "neither of these is meaningful inside \\write. So"
+                 * (601) "I'm forgetting what you said and using zero instead."
+                 */
                 help4(S(598), S(599), S(600), S(601));
                 error();
                 if (level != TOK_VAL) {
@@ -813,10 +820,11 @@ _Lnotfound:   /*:455*/
         else { /*:456*/
             print_err(S(611));   // "Illegal unit of measure ("
             print(S(616));   // "mu inserted)"
-            /* "The unit of measurement in math glue must be mu."
-             * "To recover gracefully from this error, it´s best to"
-             * "delete the erroneous units; e.g., type `2´ to delete"
-             * "two letters. (See Chapter 27 of The TeXbook.)"
+            /*
+             * (617) "The unit of measurement in math glue must be mu."
+             * (618) "To recover gracefully from this error, it´s best to"
+             * (619) "delete the erroneous units; e.g., type `2´ to delete"
+             * (620) "two letters. (See Chapter 27 of The TeXbook.)"
              */
             help4(S(617), S(618), S(619), S(620));
             error();

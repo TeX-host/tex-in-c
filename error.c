@@ -1,7 +1,7 @@
 #include "tex_types.h" // [types] StrNumber, Integer
 #include "global.h"
 #include "texfunc.h"
-#include "macros.h"
+#include "macros.h" // [macro] help4,
 #include "print.h" // 
 #include "error.h"
 
@@ -136,10 +136,10 @@ void error(void) {
                     } // if (<> use_err_help)
 
                     /* 
-                     * "Sorry I already gave what help I could..."
-                     * "Maybe you should try asking a human?"
-                     * "An error might have occurred before I noticed any problems."
-                     * "``If all else fails read the instructions.''"
+                     * (276) "Sorry I already gave what help I could..."
+                     * (275) "Maybe you should try asking a human?"
+                     * (277) "An error might have occurred before I noticed any problems."
+                     * (278) "``If all else fails read the instructions.''"
                      */
                     help4(S(276), S(275), S(277), S(278));
                     continue;
