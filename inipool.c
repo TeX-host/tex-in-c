@@ -47,7 +47,7 @@ Boolean str_pool_init(void) {
         const char* const sp = pool_strs[k];
         l = strlen(sp);
         if ((l + STRING_VACANCIES) != str_adjust_to_room(l + STRING_VACANCIES)) {
-            fprintf(stderr, "! You have to increase POOLSIZE.\n");
+            fprintf(TERM_ERR, "! You have to increase POOLSIZE.\n");
             return false;
         }
 

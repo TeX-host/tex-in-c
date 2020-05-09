@@ -107,7 +107,7 @@ static void env_to_path(char*** path, char** buf, char* env_var) {
     my_path_buf = (char*)malloc(i + 1);
     my_path = (char**)malloc(sizeof(char*) * (i + 2));
     if (!my_path_buf || !my_path) {
-        fprintf(stderr, "Out of memory\n");
+        fprintf(TERM_ERR, "Out of memory\n");
         exit(11);
     }
     strcpy(my_path_buf, env_var);
@@ -208,7 +208,7 @@ static void trimspaces(void) {
     memcpy(my_buff, name_of_file, FILE_NAME_SIZE);
     my_buff[FILE_NAME_SIZE] = 0;
     my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : FILE_NAME_SIZE] = 0;
-    fprintf(stderr, "%s", my_buff);
+    fprintf(TERM_ERR, "%s", my_buff);
 }
 
 static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {

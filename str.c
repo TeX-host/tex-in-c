@@ -280,13 +280,13 @@ void str_print(StrNumber s) {
     str_map(s, print_char);
 }
 
-static void f_pool_helper(ASCIICode c) { fputc(c, stderr); }
+static void f_pool_helper(ASCIICode c) { fputc(c, TERM_ERR); }
 
 void f_pool(StrNumber s) {
     if (s >= str_ptr || s < 0) s = 274;
     str_map(s, f_pool_helper);
-    fputc('\n', stderr);
-    fflush(stderr);
+    fputc('\n', TERM_ERR);
+    fflush(TERM_ERR);
 }
 
 StrNumber idlookup_s(StrNumber s, Boolean no_new_cs) {

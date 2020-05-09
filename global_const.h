@@ -49,6 +49,8 @@
 #define TERM_IN     stdin
 /// [#32] the terminal as an output file.
 #define TERM_OUT    stdout
+/// 错误输出到 stderr
+#define TERM_ERR    stderr
 
 /// [#34] empty the terminal output buffer.
 #define update_terminal() fflush(TERM_OUT)

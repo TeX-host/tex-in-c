@@ -169,7 +169,7 @@ static MovePtr get_move_node(void) {
     if (pom) {
         return pom;
     } else {
-        fprintf(stderr, "dviout: Out of memory\n");
+        fprintf(TERM_ERR, "dviout: Out of memory\n");
         exit(31);
     }
 }

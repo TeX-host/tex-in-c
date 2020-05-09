@@ -36,7 +36,7 @@ Boolean inputln(FILE* f, Boolean bypass_eoln) {
             if (max_buf_stack == BUF_SIZE) {
                 // #35: Report overflow of the input buffer, and abort
                 if (format_ident == 0) {
-                    fprintf(stderr, "Buffer size exceeded!\n");
+                    fprintf(TERM_ERR, "Buffer size exceeded!\n");
                     longjmp(_JMP_global__final_end, 1);
                 } else {
                     cur_input.locfield = first;
