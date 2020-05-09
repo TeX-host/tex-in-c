@@ -422,6 +422,13 @@ void expand(void) {
                 #else
                     print_err_str("Undefined control sequence");
                 #endif // USE_REAL_STR
+                /*
+                 * (561) "The control sequence at the end of the top line"
+                 * (562) "of your error message was never \\def'ed. If you have"
+                 * (563) "misspelled it (e.g. `\\hobx') type `I' and the correct"
+                 * (564) "spelling (e.g. `I\\hbox'). Otherwise just continue"
+                 * (565) "and I'll forget about whatever was undefined."
+                 */
                 help5(S(561), S(562), S(563), S(564), S(565));
                 error(); /*:370*/
                 break;

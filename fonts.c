@@ -831,11 +831,13 @@ _L_bad_TFM:
         print(S(1290)); // " not loadable: Metric (TFM) file not found"
     }
 
-    // "I wasn´t able to read the size data for this font,"
-    // "so I will ignore the font specification."
-    // "[Wizards can fix TFM files using TFtoPL/PLtoTF.]"
-    // "You might try inserting a different font spec;"
-    // "e.g., type `I\font<same font id>=<substitute font name>´."
+    /*
+     * (1291) "I wasn´t able to read the size data for this font,"
+     * (1292) "so I will ignore the font specification."
+     * (1293) "[Wizards can fix TFM files using TFtoPL/PLtoTF.]"
+     * (1294) "You might try inserting a different font spec;"
+     * (1295) "e.g., type `I\font<same font id>=<substitute font name>´."
+     */
     help5(S(1291), S(1292), S(1293), S(1294), S(1295));
     error();
 

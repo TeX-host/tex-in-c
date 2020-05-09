@@ -6123,7 +6123,14 @@ Static HalfWord finiteshrink(HalfWord p) {
 
     if (noshrinkerroryet) {
         noshrinkerroryet = false;
-        print_err(S(748));
+        print_err(S(748)); // "Infinite glue shrinkage found in a paragraph"
+        /*
+         * (749) "The paragraph just ended includes some glue that has"
+         * (750) "infinite shrinkability e.g. `\\hskip 0pt minus 1fil'."
+         * (751) "Such glue doesn't belong there---it allows a paragraph"
+         * (752) "of any length to fit on one line. But it's safe to proceed"
+         * (753) "since the offensive shrinkability has been made finite."
+         */
         help5(S(749), S(750), S(751), S(752), S(753));
         error();
     }
@@ -9211,37 +9218,44 @@ Static void offsave(void) {
     }
     print(S(555));
     inslist(link(temphead));
+    /*
+     * (838) "I've inserted something that you may have forgotten."
+     * (839) "(See the <inserted text> above.)"
+     * (840) "With luck this will get me unwedged. But if you"
+     * (841) "really didn't forget anything try typing `2' now; then"
+     * (842) "my insertion and my current dilemma will both disappear."
+     */
     help5(S(838), S(839), S(840), S(841), S(842));
     error();
 } // #1064: offsave
 
-// #1069:
+// [#1069]:
 Static void extrarightbrace(void) {
-    print_err(S(843));
+    print_err(S(843)); // "Extra } or forgotten "
     switch (curgroup) {
-        case semisimplegroup: print_esc(S(836)); break;
+        case semisimplegroup: print_esc(S(836)); break; // "endgroup"
         case mathshiftgroup: print_char('$'); break;
-        case mathleftgroup: print_esc(S(419)); break;
+        case mathleftgroup: print_esc(S(419)); break; // "right"
     }
+    /*
+     * (844) "I've deleted a group-closing symbol because it seems to be"
+     * (845) "spurious as in `$x}$'. But perhaps the } is legitimate and"
+     * (846) "you forgot something else as in `\\hbox{$x}'. In such cases"
+     * (847) "the way to recover is to insert both the forgotten and the"
+     * (848) "deleted material e.g. by typing `I$}'."
+     */
     help5(S(844), S(845), S(846), S(847), S(848));
     error();
     align_state++;
 } // #1069: extrarightbrace
 
-
 /*1070:*/
-Static void normalparagraph(void)
-{
-  if (looseness != 0)
-    eqworddefine(intbase + loosenesscode, 0);
-  if (hangindent != 0)
-    eqworddefine(dimenbase + hangindentcode, 0);
-  if (hangafter != 1)
-    eqworddefine(intbase + hangaftercode, 1);
-  if (parshapeptr != 0)
-    eqdefine(parshapeloc, SHAPE_REF, 0);
-}  /*:1070*/
-
+Static void normalparagraph(void) {
+    if (looseness   != 0) eqworddefine(intbase   + loosenesscode,  0);
+    if (hangindent  != 0) eqworddefine(dimenbase + hangindentcode, 0);
+    if (hangafter   != 1) eqworddefine(intbase   + hangaftercode,  1);
+    if (parshapeptr != 0) eqdefine(parshapeloc, SHAPE_REF, 0);
+} /*:1070*/
 
 /*1075:*/
 Static void boxend(long boxcontext)
@@ -9884,22 +9898,21 @@ Static void alignerror(void) {
         printcmdchr(curcmd, curchr);
         if (curtok == (tabtoken + '&')) {
             /*
-             * [886] "I can't figure out why you would want to use a tab mark"
-             * [887] "here. If you just want an ampersand the remedy is"
-             * [888] "simple: Just type `I\\&' now. But if some right brace"
-             * [889] "up above has ended a previous alignment prematurely"
-             * [890] "you're probably due for more error messages and you"
-             * [891] "might try typing `S' now just to see what is salvageable."
+             * (886) "I can't figure out why you would want to use a tab mark"
+             * (887) "here. If you just want an ampersand the remedy is"
+             * (888) "simple: Just type `I\\&' now. But if some right brace"
+             * (889) "up above has ended a previous alignment prematurely"
+             * (890) "you're probably due for more error messages and you"
+             * (891) "might try typing `S' now just to see what is salvageable."
              */
             help6(S(886), S(887), S(888), S(889), S(890), S(891));
         } else {
             /*
-             * [886] "I can't figure out why you would want to use a tab mark"
-             * [892] "or \\cr or \\span just now. If something like a right
-             * brace" [889] "up above has ended a previous alignment
-             * prematurely" [890] "you're probably due for more error messages
-             * and you" [891] "might try typing `S' now just to see what is
-             * salvageable."
+             * (886) "I can't figure out why you would want to use a tab mark"
+             * (892) "or \\cr or \\span just now. If something like a right brace"
+             * (889) "up above has ended a previous alignment prematurely" 
+             * (890) "you're probably due for more error messages and you" 
+             * (891) "might try typing `S' now just to see what is salvageable."
              */
             help5(S(886), S(892), S(889), S(890), S(891));
         } // if ( curtok <> (tabtoken + '&') )
@@ -10764,7 +10777,15 @@ _Lrestart:
         gettoken();
     } while (curtok == spacetoken);
     if (curcs != 0 && curcs <= frozencontrolsequence) return;
-    print_err(S(935));
+
+    print_err(S(935)); // "Missing control sequence inserted"
+    /*
+     * (936) "Please don't say `\\def cs{...}' say `\\def\\cs{...}'."
+     * (937) "I've inserted an inaccessible control sequence so that your"
+     * (938) "definition will be completed without mixing me up too badly."
+     * (939) "You can recover graciously from this error if you're"
+     * (940) "careful; see exercise 27.2 in The TeXbook."
+     */
     help5(S(936), S(937), S(938), S(939), S(940));
     if (curcs == 0) backinput();
     curtok = CS_TOKEN_FLAG + frozenprotection;
@@ -11612,8 +11633,9 @@ Static void showwhatever(void) {
             goto _Lcommonending; /*:1297*/
             break;
     } /*1298:*/
+
     enddiagnostic(true);
-    print_err(S(981));
+    print_err(S(981)); // "OK"
     if (selector == TERM_AND_LOG) {
         if (tracingonline <= 0) { /*:1298*/
             selector = TERM_ONLY;
@@ -11621,6 +11643,7 @@ Static void showwhatever(void) {
             selector = TERM_AND_LOG;
         }
     }
+
 _Lcommonending:
     if (interaction < ERROR_STOP_MODE) {
         help_ptr = 0;
@@ -11628,6 +11651,13 @@ _Lcommonending:
     } else if (tracingonline > 0) {
         help3(S(983), S(984), S(985));
     } else {
+        /*
+         * (983) "This isn't an error message; I'm just \\showing something."
+         * (984) "Type `I\\show...' to show more (e.g. \\show\\cs"
+         * (985) "\\showthe\\count10 \\showbox255 \\showlists)."
+         * (986) "And type `I\\tracingonline=1\\show...' to show boxes and"
+         * (987) "lists on your terminal as well as in the transcript file."
+         */
         help5(S(983), S(984), S(985), S(986), S(987));
     }
     error();
