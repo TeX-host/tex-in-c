@@ -82,7 +82,7 @@ void term_input(void) {
     UInt16 k; // [0, BUF_SIZE=5000]
 
     // now the user sees the prompt for sure
-    fflush(stdout); // update terminal
+    update_terminal(); // update terminal
     if (!inputln(TERM_IN, true)) {
         fatalerror(S(302)); // "End of file on the terminal!"
     }
@@ -2926,7 +2926,7 @@ void startinput(void) {
     print_char('(');
     openparens++;
     slow_print(NAME);
-    fflush(stdout);
+    update_terminal();
     STATE = NEW_LINE;
 
 #if 0
@@ -3510,7 +3510,7 @@ Static void shipout(Pointer p) {
         print_int(count(k));
         if (k < j) print_char('.');
     }
-    fflush(stdout); // update_terminal
+    update_terminal(); // update_terminal
 
     if (tracingoutput > 0) {
         print_char(']');
@@ -3604,7 +3604,7 @@ Static void shipout(Pointer p) {
 _L_shipout_done:
     if (tracingoutput <= 0) print_char(']');
     deadcycles = 0;
-    fflush(stdout); // progress report
+    update_terminal(); // progress report
 
     /// [p236#639]
     /// Flush the box from memory, showing statistics if requested
@@ -11570,7 +11570,7 @@ Static void issuemessage(void) {
         } else if (term_offset > 0 || file_offset > 0)
             print_char(' ');
         slow_print(s);
-        fflush(stdout);
+        update_terminal();
         /*1283:*/
     } else {      /*:1283*/
         print_err(S(385));
@@ -12288,7 +12288,7 @@ void debughelp(void) {
 
     while (true) {
         printnl(S(1253)); // "debug # (−1 to exit):"
-        fflush(stdout);
+        update_terminal();
 
         fscanf(TERM_IN, " %ld", &m);
         if (m < 0) {
@@ -14489,7 +14489,7 @@ static void S55_Initialize_the_output_routines(void) {
         slow_print(format_ident);
         println();
     }
-    fflush(stdout); // update terminal;
+    update_terminal(); // update terminal;
 
     // #528
     job_name = 0;

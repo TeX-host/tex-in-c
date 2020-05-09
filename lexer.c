@@ -115,7 +115,7 @@ static Boolean initterminal(void) {
     }
     while (true) {
         fprintf(TERM_OUT, "**");
-        fflush(stdout);
+        update_terminal();
         if (!inputln(TERM_IN, true)) {
             putc('\n', TERM_OUT);
             fprintf(TERM_OUT, "! End of file on the terminal... why?");
@@ -823,7 +823,7 @@ _getnext_worker__restart:
                 if (force_eof) {
                     print_char(')');
                     openparens--;
-                    fflush(stdout);
+                    update_terminal();
                     force_eof = false;
                     endfilereading();
                     cur_cs = check_outer_validity(cur_cs);

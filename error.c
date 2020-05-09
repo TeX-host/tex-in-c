@@ -198,7 +198,7 @@ void error(void) {
                     #endif // USE_REAL_STR
             
                     println();
-                    fflush(stdout);
+                    update_terminal();
                     return;
                 } // [#86] case: [QRS]
 
