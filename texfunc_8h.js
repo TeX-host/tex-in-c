@@ -40,7 +40,7 @@ var texfunc_8h =
     [ "printnl", "group___s54x71___p24x29.html#ga4f096c20378d51e14ecde5516c8bca90", null ],
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],
     [ "scanfontident", "group___s539x582___p196x213.html#gaf10db9e739cab7816d69a23ae8348f8a", null ],
-    [ "set_help", "texfunc_8h.html#adbae7ae6c30622758aee9cc8030b3d4e", null ],
+    [ "set_help", "texfunc_8h.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
     [ "sprint_cs", "texfunc_8h.html#a8a1618d38ab18457ab7daad7d45d9dcb", null ],
     [ "startinput", "group___s511x538___p188x195.html#ga36e1e896f8f7b67ca95b8c20295fc18f", null ],
     [ "strtoks", "texfunc_8h.html#a80fe6425d210c2854268e77530a8c9d6", null ],

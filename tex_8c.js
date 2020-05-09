@@ -221,7 +221,7 @@ var tex_8c =
     [ "scantoks", "tex_8c.html#a33c3d6a1c4b206e23c5c1b80f5aba001", null ],
     [ "searchmem", "group___s162x172___p58x61.html#gaa5140b7bf614403e5c600966fbc458ad", null ],
     [ "set_fontidtext", "tex_8c.html#ad7dd7e5e37e8b1e70c14f1ab86da9501", null ],
-    [ "set_help", "tex_8c.html#adbae7ae6c30622758aee9cc8030b3d4e", null ],
+    [ "set_help", "tex_8c.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
     [ "setmathchar", "tex_8c.html#a0b9fb0c254ed5b0377041547e3ae3a51", null ],
     [ "shiftcase", "tex_8c.html#ac9cd25f1dd22a6c4aaa17cc28dfdc853", null ],
     [ "shipout", "tex_8c.html#a9217c20531c58a834e6dee5aaa16c2c3", null ],
