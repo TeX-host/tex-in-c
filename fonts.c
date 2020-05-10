@@ -7,6 +7,8 @@
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [func] a_open_in
 #include "error.h"  // [func] error, print_err,
+#include "lexer.h"  // curcmd
+#include "global.h" // eqtb
 #include "fonts.h"  // [export], [func] fontidtext
 #include "texfunc.h"
     // [func] print_*,
@@ -24,6 +26,7 @@
  */
 
 // p201#549
+
 MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
 FontIndex fmemptr; ///< first unused word of font info
 InternalFontNumber fontptr; ///< largest internal font number in use
@@ -34,35 +37,38 @@ FontIndex fontparams[FONT_MAX + 1]; ///< how many font parameters are present
 Static StrNumber fontname[FONT_MAX + 1];     ///< name of the font
 Static StrNumber fontarea[FONT_MAX + 1];     ///< area of the font
 EightBits fontbc[FONT_MAX + 1]; ///< beginning (smallest) character code
-EightBits fontec[FONT_MAX + 1]; ///< ending (largest) character code
-/// glue specification for interword space, null if not allocated
+EightBits fontec[FONT_MAX + 1]; ///< ending (largest) character code.
+/// glue specification for interword space, null if not allocated.
 Pointer fontglue[FONT_MAX + 1];
 /// has a character from this font actually appeared in the output?
 Boolean fontused[FONT_MAX + 1];
 Static Integer hyphenchar[FONT_MAX + 1]; ///< current `\hyphenchar` values
-Static Integer skewchar[FONT_MAX + 1];   ///< current `\skewchar` values
+Static Integer skewchar[FONT_MAX + 1];   ///< current `\skewchar` values.
 /// start of lig kern program for left boundary character, 
 /// non address if there is none.
 FontIndex bcharlabel[FONT_MAX + 1];
-/// right boundary character, non char if there is none
+/// right boundary character, non char if there is none.
 Integer fontbchar[FONT_MAX + 1];
-/// font bchar if it doesn’t exist in the font, otherwise non char
+/// font bchar if it doesn’t exist in the font, otherwise non char.
 Integer fontfalsebchar[FONT_MAX + 1];
 
 // #550
-Static Integer charbase[FONT_MAX + 1]; ///< base addresses for char info
-Static Integer widthbase[FONT_MAX + 1]; ///< base addresses for widths
-Static Integer heightbase[FONT_MAX + 1]; ///< base addresses for heights
-Static Integer depthbase[FONT_MAX + 1];  ///< base addresses for depths
-/// base addresses for italic corrections
+
+Static Integer charbase[FONT_MAX + 1]; ///< base addresses for char info.
+Static Integer widthbase[FONT_MAX + 1]; ///< base addresses for widths.
+Static Integer heightbase[FONT_MAX + 1]; ///< base addresses for heights.
+Static Integer depthbase[FONT_MAX + 1];  ///< base addresses for depths.
+/// base addresses for italic corrections.
 Static Integer italicbase[FONT_MAX + 1]; 
-/// base addresses for ligature/kerning programs
+/// base addresses for ligature/kerning programs.
 Integer ligkernbase[FONT_MAX + 1];
-Static Integer kernbase[FONT_MAX + 1]; ///< base addresses for kerns
-/// base addresses for extensible recipes
+/// base addresses for kerns.
+Static Integer kernbase[FONT_MAX + 1];
+/// base addresses for extensible recipes.
 Integer extenbase[FONT_MAX + 1];
-/// base addresses for font parameters
+/// base addresses for font parameters.
 Integer parambase[FONT_MAX + 1];
+
 
 Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
 void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
@@ -316,7 +322,7 @@ _Lbadfmt_:
     return 0;
 }
 
-/// [p205#560]: input a TFM file
+/// [p205#560]: input a TFM file.
 InternalFontNumber
 readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     FontIndex k; ///< index into font info
@@ -889,5 +895,109 @@ _Ldone:
     if (fileopened) fclose(tfmfile);
     return g;
 } // p205#560: readfontinfo
+
+/// [#577]
+void scanfontident(void) { /*406:*/
+    InternalFontNumber f;
+    HalfWord m;
+
+    skip_spaces();
+    if (curcmd == DEF_FONT)
+        f = curfont;
+    else if (curcmd == SET_FONT)
+        f = curchr;
+    else if (curcmd == DEF_FAMILY) {
+        m = curchr;
+        scan_four_bit_int();
+        f = equiv(m + cur_val);
+    } else {
+        print_err(S(584));
+        help2(S(585), S(586));
+        backerror();
+        f = NULL_FONT;
+    }
+    cur_val = f;
+} // [#577] scanfontident
+
+/// [#578]
+void findfontdimen(Boolean writing) {
+    InternalFontNumber f;
+    long n;
+
+    scan_int();
+    n = cur_val;
+    scanfontident();
+    f = cur_val;
+    if (n <= 0) {
+        cur_val = fmemptr;
+    } else {
+        if (writing 
+            && n <= SPACE_SHRINK_CODE 
+            && n >= SPACE_CODE 
+            && fontglue[f] != 0) {
+            delete_glue_ref(fontglue[f]);
+            fontglue[f] = 0;
+        }
+        if (n > fontparams[f]) {
+            if (f < fontptr) {
+                cur_val = fmemptr;
+            } else { /*:580*/
+                do {
+                    if (fmemptr == FONT_MEM_SIZE)
+                        overflow(S(587), FONT_MEM_SIZE);
+                    fontinfo[fmemptr].sc = 0;
+                    fmemptr++;
+                    fontparams[f]++;
+                } while (n != fontparams[f]);
+                cur_val = fmemptr - 1;
+            }
+        } else {
+            cur_val = n + parambase[f];
+        }
+    }                               /*579:*/
+    if (cur_val != fmemptr) return; /*:579*/
+
+    print_err(S(588));
+    print_esc(fontidtext(f));
+    print(S(589));
+    print_int(fontparams[f]);
+    print(S(590));
+    help2(S(591), S(592));
+    error();
+} // [#578] findfontdimen
+
+/// [#581]
+void charwarning(InternalFontNumber f, EightBits c) {
+    if (tracinglostchars <= 0) return;
+    begindiagnostic();
+    printnl(S(678));
+    print(c);
+    print(S(679));
+    slow_print(get_fontname(f));
+    print_char('!');
+    enddiagnostic(false);
+} // [#581] charwarning
+
+/// [#582]
+HalfWord newcharacter(InternalFontNumber f, EightBits c) {
+    HalfWord Result;
+    Pointer p;
+
+    if (fontbc[f] <= c) {
+        if (fontec[f] >= c) {
+            if (charexists(charinfo(f, c))) {
+                p = get_avail();
+                font(p) = f;
+                character(p) = c;
+                Result = p;
+                goto _Lexit;
+            }
+        }
+    }
+    charwarning(f, c);
+    Result = 0;
+_Lexit:
+    return Result;
+} // [#582] newcharacter
 
 /** @}*/ // end group S539x582_P196x213

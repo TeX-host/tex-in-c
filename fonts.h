@@ -39,14 +39,20 @@ extern Scaled chardepth(InternalFontNumber x, Integer y);
 extern Scaled charkern(InternalFontNumber x, FourQuarters y);
 extern FourQuarters get_fontcheck(InternalFontNumber x);
 extern void fonts_init(void);
-extern InternalFontNumber
-readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s);
+
 extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);
 extern Integer get_hyphenchar(InternalFontNumber x); // texmac.h
 extern void set_hyphenchar(InternalFontNumber x, Integer c);
 extern Integer get_skewchar(InternalFontNumber x);
 extern void set_skewchar(InternalFontNumber x, Integer c);
+
+extern InternalFontNumber
+readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s);
+extern void scanfontident(void);
+extern void findfontdimen(Boolean writing);
+extern void charwarning(InternalFontNumber f, EightBits c);
+extern HalfWord newcharacter(InternalFontNumber f, EightBits c);
 
 extern FontIndex fmemptr;
 extern MemoryWord fontinfo[FONT_MEM_SIZE + 1];

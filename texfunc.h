@@ -55,13 +55,10 @@ extern void startinput(void);
 extern void freenode(Pointer p, HalfWord s);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
 extern HalfWord getnode(long s);
-
-extern void scanfontident(void);
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 
 // [tex] scan
-extern void findfontdimen(Boolean writing);
 extern void delete_glue_ref(HalfWord p);
 extern void preparemag(void);
 extern Pointer newrule(void);

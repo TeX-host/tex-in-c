@@ -2350,82 +2350,6 @@ void preparemag(void) {
 /** @}*/ // end group S268x288_P109x114
 
 
-/** @addtogroup S539x582_P196x213
- * @{
- */
-
-/// [ #539~582: PART 30: FONT METRIC DATA ]
-
-/*577:*/
-void scanfontident(void) { /*406:*/
-    InternalFontNumber f;
-    HalfWord m;
-
-    skip_spaces();
-    if (curcmd == DEF_FONT)
-        f = curfont;
-    else if (curcmd == SET_FONT)
-        f = curchr;
-    else if (curcmd == DEF_FAMILY) {
-        m = curchr;
-        scan_four_bit_int();
-        f = equiv(m + cur_val);
-    } else {
-        print_err(S(584));
-        help2(S(585), S(586));
-        backerror();
-        f = NULL_FONT;
-    }
-    cur_val = f;
-}
-/*:577*/
-
-/*578:*/
-void findfontdimen(Boolean writing) {
-    InternalFontNumber f;
-    long n;
-
-    scan_int();
-    n = cur_val;
-    scanfontident();
-    f = cur_val;
-    if (n <= 0) {
-        cur_val = fmemptr;
-    } else {
-        if (writing && n <= SPACE_SHRINK_CODE && n >= SPACE_CODE &&
-            fontglue[f] != 0) {
-            delete_glue_ref(fontglue[f]);
-            fontglue[f] = 0;
-        }
-        if (n > fontparams[f]) {
-            if (f < fontptr) {
-                cur_val = fmemptr;
-            } else { /*:580*/
-                do {
-                    if (fmemptr == FONT_MEM_SIZE) overflow(S(587), FONT_MEM_SIZE);
-                    fontinfo[fmemptr].sc = 0;
-                    fmemptr++;
-                    fontparams[f]++;
-                } while (n != fontparams[f]);
-                cur_val = fmemptr - 1;
-            }
-        } else {
-            cur_val = n + parambase[f];
-        }
-    } /*579:*/
-    if (cur_val != fmemptr) return; /*:579*/
-    print_err(S(588));
-    print_esc(fontidtext(f));
-    print(S(589));
-    print_int(fontparams[f]);
-    print(S(590));
-    help2(S(591), S(592));
-    error();
-}
-/*:578*/
-/** @}*/ // end group S539x582_P196x213
-
-
 /*464:*/
 
 Pointer tex_global_p;
@@ -2954,51 +2878,7 @@ void startinput(void) {
 /** @}*/ // end group S511x538_P188x195
 
 
-/*581:*/
-Static void charwarning(InternalFontNumber f, EightBits c) {
-    if (tracinglostchars <= 0) return;
-    begindiagnostic();
-    printnl(S(678));
-    print(c);
-    print(S(679));
-    slow_print(get_fontname(f));
-    print_char('!');
-    enddiagnostic(false);
-}
-/*:581*/
-
-/*582:*/
-Static HalfWord newcharacter(InternalFontNumber f, EightBits c) {
-    HalfWord Result;
-    Pointer p;
-
-    if (fontbc[f] <= c) {
-        if (fontec[f] >= c) {
-            if (charexists(charinfo(f, c))) {
-                p = get_avail();
-                font(p) = f;
-                character(p) = c;
-                Result = p;
-                goto _Lexit;
-            }
-        }
-    }
-    charwarning(f, c);
-    Result = 0;
-_Lexit:
-    return Result;
-}
-/*:582*/
-
-/*618:*/
-
-/*:618*/
-
 /*619:*/
-
-
-
-
 /// [ #1340. Extensions. ]
 
 // #1368
