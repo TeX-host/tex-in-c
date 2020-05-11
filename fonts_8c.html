@@ -276,10 +276,10 @@ fonts.c 的引用(Include)关系图:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>值:</b><div class="fragment"><div class="line">            <span class="keywordflow">do</span> {              \</div>
-<div class="line">            var = getc(tfmfile);                \</div>
-<div class="line">            if (var &gt; 127) goto _L_bad_TFM;      \</div>
-<div class="line">            var = var * 256 + getc(tfmfile);    \</div>
+<b>值:</b><div class="fragment"><div class="line">        <span class="keywordflow">do</span> {                                 \</div>
+<div class="line">            var = getc(tfmfile);             \</div>
+<div class="line">            if (var &gt; 127) goto _L_bad_TFM;  \</div>
+<div class="line">            var = var * 256 + getc(tfmfile); \</div>
 <div class="line">        } while (0)</div>
 </div><!-- fragment -->
 </div>
