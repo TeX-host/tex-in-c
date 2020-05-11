@@ -11,7 +11,7 @@ var searchData=
   ['nest_5fsize_1180',['NEST_SIZE',['../group___s1x16___p3x9.html#gad98a9352ecd1bb1bd0454543189566f1',1,'tex_constant.h']]],
   ['new_5fline_1181',['NEW_LINE',['../group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5',1,'lexer.h']]],
   ['new_5fstring_1182',['NEW_STRING',['../group___s54x71___p24x29.html#gga4da995632f9196a87e0f5a39a55fe0a8a0e1613a1f3a18243d313f514b32b58ff',1,'print.h']]],
-  ['newcharacter_1183',['newcharacter',['../tex_8c.html#a9b819afbdd010bd4e28b0ab164b2971f',1,'tex.c']]],
+  ['newcharacter_1183',['newcharacter',['../group___s539x582___p196x213.html#ga75ae9868c2f633e9e94c7a016170a770',1,'newcharacter(InternalFontNumber f, EightBits c):&#160;fonts.c'],['../group___s539x582___p196x213.html#ga75ae9868c2f633e9e94c7a016170a770',1,'newcharacter(InternalFontNumber f, EightBits c):&#160;fonts.c']]],
   ['newchoice_1184',['newchoice',['../tex_8c.html#acb96c8504a920fa3beb3701726b66a00',1,'tex.c']]],
   ['newdeltafrombreakwidth_1185',['newdeltafrombreakwidth',['../texmac_8h.html#a7cb322770337dd8ee24ecf004013b599',1,'texmac.h']]],
   ['newdeltatobreakwidth_1186',['newdeltatobreakwidth',['../texmac_8h.html#afbfe72124372b70d257ebcba65980b6f',1,'texmac.h']]],

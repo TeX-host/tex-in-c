@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['newcharacter_2377',['newcharacter',['../tex_8c.html#a9b819afbdd010bd4e28b0ab164b2971f',1,'tex.c']]],
+  ['newcharacter_2377',['newcharacter',['../group___s539x582___p196x213.html#ga75ae9868c2f633e9e94c7a016170a770',1,'newcharacter(InternalFontNumber f, EightBits c):&#160;fonts.c'],['../group___s539x582___p196x213.html#ga75ae9868c2f633e9e94c7a016170a770',1,'newcharacter(InternalFontNumber f, EightBits c):&#160;fonts.c']]],
   ['newchoice_2378',['newchoice',['../tex_8c.html#acb96c8504a920fa3beb3701726b66a00',1,'tex.c']]],
   ['newdisc_2379',['newdisc',['../group___s133x161___p50x57.html#gae498f920a6da3cfe32688a14cdf08838',1,'tex.c']]],
   ['newfont_2380',['newfont',['../tex_8c.html#a8030055a634cdba99044f010fc5a469c',1,'tex.c']]],

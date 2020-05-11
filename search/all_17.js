@@ -18,7 +18,7 @@ var searchData=
   ['whatsit_5fnode_2046',['WHATSIT_NODE',['../group___s133x161___p50x57.html#ggacac9cbaeea226ed297804c012dc12b16a47d2be9478f5b5bad0fdc479faf879a8',1,'tex_constant.h']]],
   ['widowpenalty_2047',['widowpenalty',['../texmac_8h.html#ae3bfcb90d7b3223873cfdaf4418531c5',1,'texmac.h']]],
   ['widowpenaltycode_2048',['widowpenaltycode',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dace6ba26bfcc041d843949a58ace0c8d6',1,'tex_constant.h']]],
-  ['width_2049',['width',['../group___s133x161___p50x57.html#ga3ce0f2deca56c201d8a649ee0ea0efa2',1,'width():&#160;texmac.h'],['../dviout_8c.html#a9978c9be0f4161638ec49b4eda697d42',1,'WIDTH():&#160;dviout.c']]],
+  ['width_2049',['WIDTH',['../dviout_8c.html#a9978c9be0f4161638ec49b4eda697d42',1,'WIDTH():&#160;dviout.c'],['../group___s133x161___p50x57.html#ga3ce0f2deca56c201d8a649ee0ea0efa2',1,'width():&#160;texmac.h']]],
   ['widthbase_2050',['widthbase',['../group___s539x582___p196x213.html#ga3ebfaadef569e7ef35d6d3c34fe266c1',1,'fonts.c']]],
   ['widthf_2051',['widthf',['../structmove.html#a266f8d26cf6b5109aa85d738cea73df9',1,'move']]],
   ['widthoffset_2052',['widthoffset',['../group___s133x161___p50x57.html#ga4b4d9555968516e85aba7241d3d40810',1,'texmac.h']]],

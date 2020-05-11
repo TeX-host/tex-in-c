@@ -60,12 +60,12 @@ var NAVTREEINDEX =
 "group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd",
 "group___s402x463___p155x173.html#gaa938155c6989125a7ea089589e38e1a3",
 "group___s539x582___p196x213.html#ga65662bafd910de56b1382827a8eaabfc",
-"group___s680x698___p249x257.html#ga911da88d2962c80a30917f0363aadb0a",
-"macros_8h_source.html",
-"tex_8c.html#abd5f3cff4611d697feaef6923a813ad1",
-"tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56daed5e4eca8846b797a7516b57b3b5e68c",
-"texmac_8h.html#a04176f6d8de5574e88c2cacb11b5954d",
-"texmac_8h_source.html"
+"group___s680x698___p249x257.html#ga62b850ec2697d86b08195705eaa0ed4d",
+"macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112",
+"tex_8c.html#abacd0576b6b28e0550561556735209b3",
+"tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dadfd4880d4c8d18f6ab3f4944c1a26b45",
+"texmac_8h.html#a018b850a8c0a52f30b93b95abeddd5cf",
+"texmac_8h.html#afcd1f831a7a72edcbdf38a3ef4644db9"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
