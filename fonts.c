@@ -394,10 +394,11 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     if (!a_open_in(&tfmfile)) goto _L_bad_TFM;
     fileopened = true;
 
-    #define READ_SIXTEEN(var) do {              \
-            var = getc(tfmfile);                \
-            if (var > 127) goto _L_bad_TFM;      \
-            var = var * 256 + getc(tfmfile);    \
+    #define READ_SIXTEEN(var)                \
+        do {                                 \
+            var = getc(tfmfile);             \
+            if (var > 127) goto _L_bad_TFM;  \
+            var = var * 256 + getc(tfmfile); \
         } while (0)
 
     // #565: Read the TFM size fields
@@ -473,7 +474,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     ) goto _L_bad_TFM;
     if (nw == 0 || nh == 0 || nd == 0 || ni == 0) goto _L_bad_TFM;
 
-    /// #566: Use size fields to allocate font information
+    /// #566: Use size fields to allocate font information.
     // lf words should be loaded into font info
     lf += -lh - 6; 
     // at least seven parameters will appear
@@ -571,7 +572,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
         READ_SIXTEEN(z);
     #endif
     z = z * 256 + getc(tfmfile);
-    z = z * 16 + getc(tfmfile) / 16;
+    z = z * 16 + (getc(tfmfile) / 16);
     if (z < UNITY) goto _L_bad_TFM;
 
     // ignore the rest of the header
@@ -706,7 +707,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
                     if (!charexists(qw)) goto _L_bad_TFM;
                 }
                 if (c < 128) {
-                    // // check_existence(d)
+                    // check_existence(d)
                     if (d < bc || d > ec) goto _L_bad_TFM;
                     qw = charinfo(f, d);
                     if (!charexists(qw)) goto _L_bad_TFM;
