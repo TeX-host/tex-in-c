@@ -82,14 +82,14 @@ Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans) {
 
 /// [#106]: `x / n`
 Scaled x_over_n(Scaled x, Integer n) {
-    Scaled result;
+    Scaled quotient;
     // should remainder be negated?
     Boolean negative = false;
 
     if (n == 0) {
         // 除 0 错误
         arith_error = true;
-        result = 0;
+        quotient = 0;
         tex_remainder = x;
     } else { // n != 0
         if (n < 0) {
@@ -100,21 +100,21 @@ Scaled x_over_n(Scaled x, Integer n) {
 
         // assert(n > 0)
         if (x >= 0) {
-            result = x / n;
+            quotient = x / n;
             tex_remainder = x % n;
         } else { // x < 0
-            result = -(-x / n);
+            quotient = -(-x / n);
             tex_remainder = -(-x % n);
         } // if (x <> 0)
     } // if (n <> 0)
 
     if (negative) tex_remainder = -tex_remainder;
-    return result;
+    return quotient;
 } // #106: x_over_n
 
 /// [#107]: `x * (n / d)`
 Scaled xn_over_d(Scaled x, Integer n, Integer d) {
-    Scaled result;
+    Scaled quotient;
     // Note: 0100000L == 32768L == UNITY / 2
     const Scaled HALF = 0100000L; 
     Boolean positive; // was x >= 0?
@@ -138,13 +138,13 @@ Scaled xn_over_d(Scaled x, Integer n, Integer d) {
     }
 
     if (positive) {
-        result = u;
+        quotient = u;
         tex_remainder = (v % d);
     } else {
-        result = -u;
+        quotient = -u;
         tex_remainder = -(v % d);
     }
-    return result;
+    return quotient;
 } // #107: xn_over_d
 
 /// [#108]: compute the “badness” of glue.
