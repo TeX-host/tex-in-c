@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: macros.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.18 -->
+<!-- 制作者 Doxygen 1.8.19 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -96,31 +96,31 @@ $(document).ready(function(){initNavTree('macros_8h_source.html',''); initResiza
 <a href="macros_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef MACROS_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define MACROS_H</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="macros_8h.html#a3b0d58df33d14577c0022f631774a5e3">    5</a></span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// fonts, str, tex</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define pget(x) fread(&amp;x, 8, 1, fmtfile)</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="macros_8h.html#aeab5df1e30bdc8ca08e6b9b3450db0a4">    8</a></span>&#160;<span class="preprocessor">#define pput(x) fwrite(&amp;x, 8, 1, fmtfile)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="macros_8h.html#aedd65168720a93139164bccf7ab1ad9e">    9</a></span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="macros_8h.html#aeab5df1e30bdc8ca08e6b9b3450db0a4">    7</a></span>&#160;<span class="preprocessor">#define pget(x) fread(&amp;x, 8, 1, fmtfile)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="macros_8h.html#aedd65168720a93139164bccf7ab1ad9e">    8</a></span>&#160;<span class="preprocessor">#define pput(x) fwrite(&amp;x, 8, 1, fmtfile)</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// fonts, tex</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define NON_CHAR 256</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112">   14</a></span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define opbyte(x) (x.b2)</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="macros_8h.html#af5864224e50350a4279278a916685959">   17</a></span>&#160;<span class="preprocessor">#define rembyte(x) (x.b3)</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="macros_8h.html#ad4dfd72dc4d195c3c40f35e395ee9418">   18</a></span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define chartag(x) (((x).b2) % 4)</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="macros_8h.html#aaa08111c2d3dfbdad2e7207ecd4e9b5c">   21</a></span>&#160;<span class="preprocessor">#define charexists(x) ((x).b0 &gt; MIN_QUARTER_WORD)</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="macros_8h.html#a0eb0898a6cae8ba19bf74324d1ccf61f">   22</a></span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112">   13</a></span>&#160;<span class="preprocessor">#define NON_CHAR 256</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="macros_8h.html#af5864224e50350a4279278a916685959">   16</a></span>&#160;<span class="preprocessor">#define opbyte(x) (x.b2)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="macros_8h.html#ad4dfd72dc4d195c3c40f35e395ee9418">   17</a></span>&#160;<span class="preprocessor">#define rembyte(x) (x.b3)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="macros_8h.html#aaa08111c2d3dfbdad2e7207ecd4e9b5c">   20</a></span>&#160;<span class="preprocessor">#define chartag(x) (((x).b2) % 4)</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="macros_8h.html#a0eb0898a6cae8ba19bf74324d1ccf61f">   21</a></span>&#160;<span class="preprocessor">#define charexists(x) ((x).b0 &gt; MIN_QUARTER_WORD)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// tex only</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#define help1(x1) set_help(1, x1)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga8da013a1bb18edf91cbacc094848b17f">   29</a></span>&#160;<span class="preprocessor">#define help2(x1, x2) set_help(2, x1, x2)</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#gab7ada5e9ae9ef4f865638e6a06913c7b">   30</a></span>&#160;<span class="preprocessor">#define help3(x1, x2, x3) set_help(3, x1, x2, x3)</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#gae6e250c5c6e0e84cf564237557f455df">   31</a></span>&#160;<span class="comment">// fonts, tex</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#define help4(x1, x2, x3, x4) set_help(4, x1, x2, x3, x4)</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga16fe42a0eed3bd39434cbacf2e6be371">   33</a></span>&#160;<span class="preprocessor">#define help5(x1, x2, x3, x4, x5) set_help(5, x1, x2, x3, x4, x5)</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga4d8ceb2b7934cd5b7e9744a566892891">   34</a></span>&#160;<span class="comment">// tex only</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#define help6(x1, x2, x3, x4, x5, x6) set_help(6, x1, x2, x3, x4, x5, x6)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga8161d183f59f084fab4d1a83831c0dd9">   36</a></span>&#160; <span class="comment">// end group S72x98_P30x37</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga8da013a1bb18edf91cbacc094848b17f">   28</a></span>&#160;<span class="preprocessor">#define help1(x1) set_help(1, x1)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#gab7ada5e9ae9ef4f865638e6a06913c7b">   29</a></span>&#160;<span class="preprocessor">#define help2(x1, x2) set_help(2, x1, x2)</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#gae6e250c5c6e0e84cf564237557f455df">   30</a></span>&#160;<span class="preprocessor">#define help3(x1, x2, x3) set_help(3, x1, x2, x3)</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// fonts, tex</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga16fe42a0eed3bd39434cbacf2e6be371">   32</a></span>&#160;<span class="preprocessor">#define help4(x1, x2, x3, x4) set_help(4, x1, x2, x3, x4)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga4d8ceb2b7934cd5b7e9744a566892891">   33</a></span>&#160;<span class="preprocessor">#define help5(x1, x2, x3, x4, x5) set_help(5, x1, x2, x3, x4, x5)</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// tex only</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="group___s72x98___p30x37.html#ga8161d183f59f084fab4d1a83831c0dd9">   35</a></span>&#160;<span class="preprocessor">#define help6(x1, x2, x3, x4, x5, x6) set_help(6, x1, x2, x3, x4, x5, x6)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; <span class="comment">// end group S72x98_P30x37</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif // #ifndef MACROS_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -129,9 +129,7 @@ $(document).ready(function(){initNavTree('macros_8h_source.html',''); initResiza
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="macros_8h.html">macros.h</a></li>
-    <li class="footer">制作者
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
   </ul>
 </div>
 </body>

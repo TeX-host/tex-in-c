@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: scan.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.18 -->
+<!-- 制作者 Doxygen 1.8.19 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -96,8 +96,8 @@ $(document).ready(function(){initNavTree('scan_8h_source.html',''); initResizabl
 <a href="scan_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_SCAN_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#define INC_SCAN_H</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="scan_8h.html#a53b375822b230d0de3f45cf15ae59d55">    8</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span> <span class="comment">// [macro] othertoken; [var] curcmd,</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="scan_8h.html#a53b375822b230d0de3f45cf15ae59d55">    7</a></span>&#160;<span class="preprocessor">#define INC_SCAN_H</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span> <span class="comment">// [macro] othertoken; [var] curcmd,</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">enum</span> <a class="code" href="group___s402x463___p155x173.html#gacdf722e52e0a319141e934c8f9649619">TokenLevel</a> {</div>
@@ -109,18 +109,18 @@ $(document).ready(function(){initNavTree('scan_8h_source.html',''); initResizabl
 <div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42">   22</a></span>&#160;    <a class="code" href="group___s402x463___p155x173.html#ggacdf722e52e0a319141e934c8f9649619ab6e368a50589f524d962e745214e5a42">TOK_VAL</a>,   </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}; <span class="comment">// [#410] enum TokenLevel</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define INPUT_LINE_NO_CODE  (GLUE_VAL + 1)</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#ga6a217531057bc9de2c22cdd790e9c503">   27</a></span>&#160;<span class="preprocessor">#define BADNESS_CODE        (GLUE_VAL + 2)</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#gab9bfaad38716e16f3da04df382693e72">   29</a></span>&#160;<span class="preprocessor">#define MAX_DIMEN   1073741823L</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#gad0f1d9074a78d84419a57b2f9f728c25">   31</a></span>&#160;<span class="preprocessor">#define ZERO_TOKEN  (othertoken + &#39;0&#39;)</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#gabb34b376206da82929a5e31c53e7899c">   33</a></span>&#160;<span class="comment">// [#448] label</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#ga6a217531057bc9de2c22cdd790e9c503">   26</a></span>&#160;<span class="preprocessor">#define INPUT_LINE_NO_CODE  (GLUE_VAL + 1)</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#define BADNESS_CODE        (GLUE_VAL + 2)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define MAX_DIMEN   1073741823L</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#define ZERO_TOKEN  (othertoken + &#39;0&#39;)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// [#448] label</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// /// go here to pack cur val and f into cur val</span></div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// #define attachfraction  88</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// //// go here when cur val is correct except perhaps for sign</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// #define attachsign      89</span></div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#define SCAN_NORMAL_DIMEN() scan_dimen(false, false, false)</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#ga1887451cf487bddcd855a1c4aca71203">   41</a></span>&#160; <span class="comment">// end group S402x463_P155x173</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="group___s402x463___p155x173.html#ga1887451cf487bddcd855a1c4aca71203">   40</a></span>&#160;<span class="preprocessor">#define SCAN_NORMAL_DIMEN() scan_dimen(false, false, false)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; <span class="comment">// end group S402x463_P155x173</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> <a class="code" href="group___s402x463___p155x173.html#ga61e0deab2e0b57d51c07f9cf6cd05d8c">cur_val</a>;</div>
@@ -189,9 +189,7 @@ $(document).ready(function(){initNavTree('scan_8h_source.html',''); initResizabl
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="scan_8h.html">scan.h</a></li>
-    <li class="footer">制作者
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
   </ul>
 </div>
 </body>

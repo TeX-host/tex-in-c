@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: tex_header.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.18 -->
+<!-- 制作者 Doxygen 1.8.19 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -97,8 +97,8 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_TEX_HEADER</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// 存放 tex.c 的头部。</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// 导入库、其他模块，声明 tex.c 的内部静态变量</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define INC_TEX_HEADER</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="tex__header_8h.html#af56fcbe0488de1936c6c57094321899f">    6</a></span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="tex__header_8h.html#af56fcbe0488de1936c6c57094321899f">    5</a></span>&#160;<span class="preprocessor">#define INC_TEX_HEADER</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span>  <span class="comment">// FILE</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;stdarg.h&gt;</span> <span class="comment">// va_start, va_arg, va_end,</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span> <span class="comment">// labs, abs, exit, EXIT_SUCCESS</span></div>
@@ -299,12 +299,12 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="line"><a name="l00318"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a5412ddd2e55e9f9a00915cc231342853">  318</a></span>&#160;<a class="code" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="code" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> <a class="code" href="tex__header_8h.html#a628d6540ee843382fc786cd0ce3f0975">dvih</a> = 0, <a class="code" href="tex__header_8h.html#a5412ddd2e55e9f9a00915cc231342853">dviv</a> = 0, <span class="comment">// a DVI reader program thinks we are here</span></div>
 <div class="line"><a name="l00319"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a14beb6776b654db203d4855c6ce3691b">  319</a></span>&#160;    <a class="code" href="tex__header_8h.html#a083b62d722e2471adeed789654287904">curh</a>, <a class="code" href="tex__header_8h.html#a14beb6776b654db203d4855c6ce3691b">curv</a>,                   <span class="comment">// TeX thinks we are here</span></div>
 <div class="line"><a name="l00320"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a610bb2b4ffe02f3cebf140bbeab8a47b">  320</a></span>&#160;    <a class="code" href="tex__header_8h.html#a610bb2b4ffe02f3cebf140bbeab8a47b">curmu</a>;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="preprocessor">#define synchh()                                                               \</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a3a506d8dfa3d99fae73fda84b990d205">  322</a></span>&#160;<span class="preprocessor">    do {                                                                       \</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a3a506d8dfa3d99fae73fda84b990d205">  321</a></span>&#160;<span class="preprocessor">#define synchh()                                                               \</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="preprocessor">    do {                                                                       \</span></div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="preprocessor">        dvih = synch_h(curh, dvih);                                            \</span></div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="preprocessor">    } while (0)</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="preprocessor">#define synchv()                                                               \</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a89a7c07277382d49aa8814ecc1290836">  326</a></span>&#160;<span class="preprocessor">    do {                                                                       \</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a89a7c07277382d49aa8814ecc1290836">  325</a></span>&#160;<span class="preprocessor">#define synchv()                                                               \</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="preprocessor">    do {                                                                       \</span></div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="preprocessor">        dviv = synch_v(curv, dviv);                                            \</span></div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="preprocessor">    } while (0)</span></div>
 <div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="tex__header_8h.html#ade03dbeb0e3a67155543b9c35edd6105">  329</a></span>&#160;<a class="code" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="code" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> <a class="code" href="tex__header_8h.html#ade03dbeb0e3a67155543b9c35edd6105">dvif</a> = <a class="code" href="tex_8h.html#a09478f26f92a0a027af8401e1248ac90">NULL_FONT</a>; <span class="comment">// the current font</span></div>
@@ -822,9 +822,7 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="tex__header_8h.html">tex_header.h</a></li>
-    <li class="footer">制作者
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
   </ul>
 </div>
 </body>

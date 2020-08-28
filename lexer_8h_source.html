@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: lexer.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.18 -->
+<!-- 制作者 Doxygen 1.8.19 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -96,30 +96,30 @@ $(document).ready(function(){initNavTree('lexer_8h_source.html',''); initResizab
 <a href="lexer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_LEXER_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define INC_LEXER_H</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="lexer_8h.html#a240d9bae7cfe29496bea6c78c598d26f">   13</a></span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="lexer_8h.html#a240d9bae7cfe29496bea6c78c598d26f">   12</a></span>&#160;<span class="preprocessor">#define INC_LEXER_H</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex_8h.html">tex.h</a>&quot;</span> <span class="comment">// [macro] dwa_do_8</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define LOC     cur_input.locfield</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="group___s25x37___p13x18.html#ga0fee446a4a4ef6536664bc1ff47ff694">   22</a></span>&#160; <span class="comment">// end group S25x37_P13x18</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; <span class="comment">// end group S25x37_P13x18</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define CS_TOKEN_FLAG   (dwa_do_8 * 16 - 1)</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga501739ac0f4da495498e04c1a4dee257">   35</a></span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#define leftbracetoken  (dwa_do_8 * LEFT_BRACE)</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gad5615bd24d8b89ce9b67598da2107bd8">   37</a></span>&#160;<span class="preprocessor">#define leftbracelimit  (dwa_do_8 * (LEFT_BRACE + 1))</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga896d94b3852575421b95621b15e3509a">   38</a></span>&#160;<span class="preprocessor">#define rightbracetoken (dwa_do_8 * RIGHT_BRACE)</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gab4c650681fcd35fcf64d0bc96026e0d3">   39</a></span>&#160;<span class="preprocessor">#define rightbracelimit (dwa_do_8 * (RIGHT_BRACE + 1))</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga489ba20169f01995f859cdc7764c807c">   40</a></span>&#160;<span class="preprocessor">#define mathshifttoken  (dwa_do_8 * MATH_SHIFT)</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga059d2071328ec7d0a2af00321fe49984">   41</a></span>&#160;<span class="preprocessor">#define tabtoken        (dwa_do_8 * TAB_MARK)</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga8598aef6d8b3febc93caddcfde57d3c1">   42</a></span>&#160;<span class="preprocessor">#define outparamtoken   (dwa_do_8 * OUT_PARAM)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga62dd264d733a6b7d718ba9c06460024b">   43</a></span>&#160;<span class="preprocessor">#define spacetoken      (dwa_do_8 * SPACER + &#39; &#39;)</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gaac2d7b88a5b699874ff2d5afe3829487">   44</a></span>&#160;<span class="preprocessor">#define lettertoken     (dwa_do_8 * LETTER)</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga1cdda1ab738ac5a05633f228824206e0">   45</a></span>&#160;<span class="preprocessor">#define othertoken      (dwa_do_8 * OTHER_CHAR)</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga7c1fff995284018b49a5ba61dc9f7ba0">   46</a></span>&#160;<span class="preprocessor">#define matchtoken      (dwa_do_8 * MATCH)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga89d6e3b8cee4a1a40b75f11e94e4e414">   47</a></span>&#160;<span class="preprocessor">#define endmatchtoken   (dwa_do_8 * END_MATCH)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gab46a1e1367680778f31796554fca7e3f">   48</a></span>&#160; <span class="comment">// end group S289x296_P115x118</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gad5615bd24d8b89ce9b67598da2107bd8">   36</a></span>&#160;<span class="preprocessor">#define leftbracetoken  (dwa_do_8 * LEFT_BRACE)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga896d94b3852575421b95621b15e3509a">   37</a></span>&#160;<span class="preprocessor">#define leftbracelimit  (dwa_do_8 * (LEFT_BRACE + 1))</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gab4c650681fcd35fcf64d0bc96026e0d3">   38</a></span>&#160;<span class="preprocessor">#define rightbracetoken (dwa_do_8 * RIGHT_BRACE)</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga489ba20169f01995f859cdc7764c807c">   39</a></span>&#160;<span class="preprocessor">#define rightbracelimit (dwa_do_8 * (RIGHT_BRACE + 1))</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga059d2071328ec7d0a2af00321fe49984">   40</a></span>&#160;<span class="preprocessor">#define mathshifttoken  (dwa_do_8 * MATH_SHIFT)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga8598aef6d8b3febc93caddcfde57d3c1">   41</a></span>&#160;<span class="preprocessor">#define tabtoken        (dwa_do_8 * TAB_MARK)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga62dd264d733a6b7d718ba9c06460024b">   42</a></span>&#160;<span class="preprocessor">#define outparamtoken   (dwa_do_8 * OUT_PARAM)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gaac2d7b88a5b699874ff2d5afe3829487">   43</a></span>&#160;<span class="preprocessor">#define spacetoken      (dwa_do_8 * SPACER + &#39; &#39;)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga1cdda1ab738ac5a05633f228824206e0">   44</a></span>&#160;<span class="preprocessor">#define lettertoken     (dwa_do_8 * LETTER)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga7c1fff995284018b49a5ba61dc9f7ba0">   45</a></span>&#160;<span class="preprocessor">#define othertoken      (dwa_do_8 * OTHER_CHAR)</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#ga89d6e3b8cee4a1a40b75f11e94e4e414">   46</a></span>&#160;<span class="preprocessor">#define matchtoken      (dwa_do_8 * MATCH)</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="group___s289x296___p115x118.html#gab46a1e1367680778f31796554fca7e3f">   47</a></span>&#160;<span class="preprocessor">#define endmatchtoken   (dwa_do_8 * END_MATCH)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; <span class="comment">// end group S289x296_P115x118</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="struct_in_state_record.html">   63</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
@@ -157,24 +157,24 @@ $(document).ready(function(){initNavTree('lexer_8h_source.html',''); initResizab
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <a class="code" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313">WRITE_TEXT</a>          </div>
 <div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313">   98</a></span>&#160;};</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#define TOKEN_LIST 0</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gad388d09b1c4e346165f34e31e7842e6d">  102</a></span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#define STATE   cur_input.statefield </span></div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd">  120</a></span>&#160;<span class="preprocessor">#define IINDEX  cur_input.indexfield </span></div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">  121</a></span>&#160;<span class="preprocessor">#define START   cur_input.startfield </span></div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga3018c7600b7bb9866400596a56a57af7">  122</a></span>&#160;<span class="preprocessor">#define LIMIT   cur_input.limitfield </span></div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">  123</a></span>&#160;<span class="preprocessor">#define NAME    cur_input.namefield  </span></div>
-<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">  124</a></span>&#160;<span class="preprocessor"></span> </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gad388d09b1c4e346165f34e31e7842e6d">  101</a></span>&#160;<span class="preprocessor">#define TOKEN_LIST 0</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd">  119</a></span>&#160;<span class="preprocessor">#define STATE   cur_input.statefield </span></div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b">  120</a></span>&#160;<span class="preprocessor">#define IINDEX  cur_input.indexfield </span></div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga3018c7600b7bb9866400596a56a57af7">  121</a></span>&#160;<span class="preprocessor">#define START   cur_input.startfield </span></div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c">  122</a></span>&#160;<span class="preprocessor">#define LIMIT   cur_input.limitfield </span></div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e">  123</a></span>&#160;<span class="preprocessor">#define NAME    cur_input.namefield  </span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor"></span> </div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor">#define MID_LINE    1</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga1f137ad43659c532ed69bbc0b776e561">  127</a></span>&#160;<span class="preprocessor">#define SKIP_BLANKS (MAX_CHAR_CODE + 2)</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga764bdced1d55967df03accf048f32e84">  129</a></span>&#160;<span class="preprocessor">#define NEW_LINE    (MAX_CHAR_CODE + MAX_CHAR_CODE + 3)</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5">  131</a></span>&#160; </div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor">#define terminal_input (NAME == 0) </span></div>
-<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga2e8361bf4e29d0f94a9566ac28b5891e">  134</a></span>&#160;<span class="preprocessor">#define curfile     (inputfile[IINDEX - 1])</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga92fda472e735fd9d101174fcb62eed02">  136</a></span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="preprocessor">#define token_type  IINDEX </span></div>
-<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gad276ef28eb362f94597f71020a451bf3">  139</a></span>&#160;<span class="preprocessor">#define param_start LIMIT</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gaecf6e711c43a91e04134fbe50874c544">  141</a></span>&#160; <span class="comment">// end group S300x320_P121x130</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#define SKIP_BLANKS (MAX_CHAR_CODE + 2)</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor">#define NEW_LINE    (MAX_CHAR_CODE + MAX_CHAR_CODE + 3)</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#ga2e8361bf4e29d0f94a9566ac28b5891e">  133</a></span>&#160;<span class="preprocessor">#define terminal_input (NAME == 0) </span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor">#define curfile     (inputfile[IINDEX - 1])</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="group___s300x320___p121x130.html#gad276ef28eb362f94597f71020a451bf3">  138</a></span>&#160;<span class="preprocessor">#define token_type  IINDEX </span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">#define param_start LIMIT</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; <span class="comment">// end group S300x320_P121x130</span></div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">extern</span> <a class="code" href="group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a> <a class="code" href="group___s297x299___p119x120.html#ga1e84d4478863fea189666d47b90d5606">curcmd</a>;</div>
@@ -307,9 +307,7 @@ $(document).ready(function(){initNavTree('lexer_8h_source.html',''); initResizab
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="lexer_8h.html">lexer.h</a></li>
-    <li class="footer">制作者
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
   </ul>
 </div>
 </body>

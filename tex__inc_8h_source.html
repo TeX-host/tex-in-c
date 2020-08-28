@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.18"/>
+<meta name="generator" content="Doxygen 1.8.19"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: tex_inc.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.18 -->
+<!-- 制作者 Doxygen 1.8.19 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -96,16 +96,16 @@ $(document).ready(function(){initNavTree('tex__inc_8h_source.html',''); initResi
 <a href="tex__inc_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef _INC_TEX_ONLY</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define _INC_TEX_ONLY</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a227f2df49b49687729640fd964786229">    5</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global__const_8h.html">global_const.h</a>&quot;</span> <span class="comment">// tt_STAT</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global__const_8h.html">global_const.h</a>&quot;</span> <span class="comment">// tt_STAT</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifdef tt_STAT</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define FREE_AVAIL(x) \</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#ab47b16359226d4d7429011d72cb1a288">   12</a></span>&#160;<span class="preprocessor">    (mem[(x)].hh.rh = avail, avail = (x), dyn_used -= CHAR_NODE_SIZE)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">    (mem[(x)].hh.rh = avail, avail = (x), dyn_used -= CHAR_NODE_SIZE)</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// end #define FREE_AVAIL(x)</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define FAST_GET_AVAIL(x)               \</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a83d7532b1b98ad65516b3388cf6d348f">   17</a></span>&#160;<span class="preprocessor">    do {                                \</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a83d7532b1b98ad65516b3388cf6d348f">   16</a></span>&#160;<span class="preprocessor">#define FAST_GET_AVAIL(x)               \</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">    do {                                \</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">        if (((x) = avail)) {            \</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">            type(x) = charnodetype;     \</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">            avail = link(x);            \</span></div>
@@ -135,8 +135,8 @@ $(document).ready(function(){initNavTree('tex__inc_8h_source.html',''); initResi
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif // #121,122: tt_STAT</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#define STORE_NEW_TOKEN(p, x) \</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a130cf00e6f6bdf658188a11e7d889e87">   49</a></span>&#160;<span class="preprocessor">    do {                      \</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#a130cf00e6f6bdf658188a11e7d889e87">   48</a></span>&#160;<span class="preprocessor">#define STORE_NEW_TOKEN(p, x) \</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">    do {                      \</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">        int q = get_avail();  \</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        link(p) = q;          \</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">        info(q) = (x);        \</span></div>
@@ -144,8 +144,8 @@ $(document).ready(function(){initNavTree('tex__inc_8h_source.html',''); initResi
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">    } while (0)</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// end #define STORE_NEW_TOKEN(p, x)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#define FAST_STORE_NEW_TOKEN(p, x) \</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#aaaeb0aae883995b2f24c20b28b2854af">   59</a></span>&#160;<span class="preprocessor">    do {                           \</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="tex__inc_8h.html#aaaeb0aae883995b2f24c20b28b2854af">   58</a></span>&#160;<span class="preprocessor">#define FAST_STORE_NEW_TOKEN(p, x) \</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">    do {                           \</span></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">        int q;                     \</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">        FAST_GET_AVAIL(q);         \</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">        link(p) = q;               \</span></div>
@@ -162,9 +162,7 @@ $(document).ready(function(){initNavTree('tex__inc_8h_source.html',''); initResi
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="tex__inc_8h.html">tex_inc.h</a></li>
-    <li class="footer">制作者
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.18 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
   </ul>
 </div>
 </body>
