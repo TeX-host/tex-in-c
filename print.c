@@ -56,11 +56,9 @@ Integer first_count; ///< another variable for pseudoprinting.
  */
 void println(void) {
     switch (selector) {
-        case TERM_AND_LOG:
+        case TERM_ONLY:
             putc('\n', TERM_OUT);
-            putc('\n', log_file);
             term_offset = 0;
-            file_offset = 0;
             break;
 
         case LOG_ONLY:
@@ -68,9 +66,11 @@ void println(void) {
             file_offset = 0;
             break;
 
-        case TERM_ONLY:
+        case TERM_AND_LOG:
             putc('\n', TERM_OUT);
+            putc('\n', log_file);
             term_offset = 0;
+            file_offset = 0;
             break;
 
         case NO_PRINT:
@@ -109,33 +109,29 @@ void print_char(ASCIICode c) {
     }
 
     switch (selector) {
-        case TERM_AND_LOG:
-            putc(xchr[c], TERM_OUT);
-            putc(xchr[c], log_file);
-            // fwrite(&xchr[s], 1, 1, stdout);
-            // fwrite(&xchr[s], 1, 1, log_file);
-            term_offset++;
-            file_offset++;
-            if (term_offset == MAX_PRINT_LINE) println();
-            if (file_offset == MAX_PRINT_LINE) println();
-            break;
-
-        case LOG_ONLY:
-            putc(xchr[c], log_file);
-            // fwrite(&xchr[s], 1, 1, log_file);
-            file_offset++;
-            if (file_offset == MAX_PRINT_LINE) println();
+        case NO_PRINT:
+            /* blank case */
             break;
 
         case TERM_ONLY:
             putc(xchr[c], TERM_OUT);
-            // fwrite(&xchr[s], 1, 1, stdout);
             term_offset++;
             if (term_offset == MAX_PRINT_LINE) println();
             break;
 
-        case NO_PRINT:
-            /* blank case */
+        case LOG_ONLY:
+            putc(xchr[c], log_file);
+            file_offset++;
+            if (file_offset == MAX_PRINT_LINE) println();
+            break;
+
+        case TERM_AND_LOG:
+            putc(xchr[c], TERM_OUT);
+            putc(xchr[c], log_file);
+            term_offset++;
+            file_offset++;
+            if (term_offset == MAX_PRINT_LINE) println();
+            if (file_offset == MAX_PRINT_LINE) println();
             break;
 
         case PSEUDO:
@@ -150,7 +146,6 @@ void print_char(ASCIICode c) {
 
         default: /* 0~15 */
             putc(xchr[c], write_file[selector]);
-            // fwrite(&xchr[s], 1, 1, write_file[selector]); 
             break;
     } // switch (selector)
     tally++;
