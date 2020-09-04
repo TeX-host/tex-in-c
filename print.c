@@ -161,10 +161,11 @@ void print(StrNumber s) {
     long nl; // new-line character to restore
 
     if (0 <= s && s <= 255) {
-        if (selector > PSEUDO) {
+        if (selector > PSEUDO) { // == NEW_STRING
             print_char(s); // internal strings are not expanded
             return;
         }
+
         if (newlinechar == s && selector < PSEUDO) { // #244
             println();
             return;

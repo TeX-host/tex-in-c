@@ -190,10 +190,13 @@ void error(void) {
                         print_str("OK entering ");
                         switch (c) {
                             case 'Q': print_esc_str("batchmode");
+                                // NO terminal output
+                                //  TERM_ONLY => NO_PRINT
+                                //  TERM_AND_LOG => LOG_ONLY
                                 selector--; break;
                             case 'R': print_esc_str("nonstopmode"); break;
                             case 'S': print_esc_str("scrollmode"); break;
-                        }
+                        } 
                         print_str("..."); 
                     #endif // USE_REAL_STR
             
@@ -246,8 +249,11 @@ void error(void) {
         jumpout();
     }
 
-    // [#90] Put help message on the transcript file
-    if (interaction > BATCH_MODE) selector--; // avoid terminal output
+    /* [#90] Put help message on the transcript file */
+    // avoid terminal output
+    //  TERM_ONLY => NO_PRINT
+    //  TERM_AND_LOG => LOG_ONLY
+    if (interaction > BATCH_MODE) selector--;
     if (use_err_help) {
         println();
         giveerrhelp();
@@ -260,6 +266,8 @@ void error(void) {
     println();
 
     // re-enable terminal output
+    //  NO_PRINT => TERM_ONLY
+    //  LOG_ONLY => TERM_AND_LOG
     if (interaction > BATCH_MODE) selector++;
     println();
 } // #82: error
@@ -286,6 +294,10 @@ void normalize_selector(void) {
         selector = TERM_ONLY;
     }
     if (job_name == 0) openlogfile();
+
+    // NO terminal output
+    //  TERM_ONLY => NO_PRINT
+    //  TERM_AND_LOG => LOG_ONLY
     if (interaction == BATCH_MODE) selector--;
 } // [#92] normalize_selector
 
@@ -365,6 +377,10 @@ void pause_for_instructions(void) {
     if (!OK_to_interrupt) return;
 
     interaction = ERROR_STOP_MODE;
+
+    // Open terminal output
+    //  NO_PRINT => TERM_ONLY
+    //  LOG_ONLY => TERM_AND_LOG
     if (selector == LOG_ONLY || selector == NO_PRINT) selector++;
 
 #ifndef USE_REAL_STR

@@ -862,6 +862,8 @@ _getnext_worker__restart:
                     endfilereading();
                     goto _getnext_worker__restart; // resume previous level
                 }
+
+                // selector in [NO_PRINT, TERM_ONLY]
                 if (selector < LOG_ONLY) openlogfile();
                 if (interaction > NON_STOP_MODE) {
                     if (end_line_char_inactive) {
