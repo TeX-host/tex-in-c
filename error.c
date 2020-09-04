@@ -287,19 +287,26 @@ void int_error(Integer n) {
 } // [#91] int_error
 
 /// [#92] fix selector state just enough to keep running a bit longer.
+///
+/// used in anomalous cases.
+///     + fatalerror
+///     + overflow
+///     + confusion
 void normalize_selector(void) {
     if (log_opened) {
         selector = TERM_AND_LOG;
     } else {
         selector = TERM_ONLY;
     }
+
+    // not open log file
     if (job_name == 0) openlogfile();
 
     // NO terminal output
     //  TERM_ONLY => NO_PRINT
     //  TERM_AND_LOG => LOG_ONLY
     if (interaction == BATCH_MODE) selector--;
-} // [#92] normalize_selector
+} /* [#92] normalize_selector */
 
 /// [#93]: prints TEX’s last words before dying.
 void succumb(void) {
