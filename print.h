@@ -19,6 +19,8 @@ typedef char* Str;
 /// `enum Selector` = [16, 21],
 ///     use by #selector
 enum Selector {
+    /* [0~15] write_file[16] */
+
     NO_PRINT = 16, ///< doesn't print at all.
     TERM_ONLY,     ///< prints only on the terminal.
     LOG_ONLY,      ///< prints only on the transcript file.

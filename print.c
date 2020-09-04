@@ -79,7 +79,7 @@ void println(void) {
             /* blank case */
             break;
 
-        default: 
+        default: /* 0~15 */
             putc('\n', write_file[selector]); 
             break;
     } // switch (selector)
@@ -148,7 +148,7 @@ void print_char(ASCIICode c) {
             append_char(c); // we drop characters if the string space is full
             break;
 
-        default:
+        default: /* 0~15 */
             putc(xchr[c], write_file[selector]);
             // fwrite(&xchr[s], 1, 1, write_file[selector]); 
             break;

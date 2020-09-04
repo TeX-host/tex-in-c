@@ -538,10 +538,15 @@ Static FILE* fmtfile = NULL;
 /*:1305*/
 
 
-/*1342:*/
-FILE* write_file[16]; // [0~15]
-Static Boolean writeopen[18];
-/*:1342*/
+/// [#1342] Hold 16 possible `\write` streams.
+/// Selector [0~15]
+FILE* write_file[16];
+/// [#1342] Set to true if that file is open.
+/// + j=0..16: j-th file is open if and only if write open[j] = true.
+/// + write_open[16]: stream number greater than 15
+/// + write_open[17]: negative stream number
+Static Boolean write_open[18];
+
 /*1345:*/
 Static Pointer writeloc; 
 /*:1345*/

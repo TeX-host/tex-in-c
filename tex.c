@@ -2940,9 +2940,9 @@ Static void writeout(HalfWord p) { /*1371:*/
     endtokenlist();
     old_setting = selector;
     j = writestream(p);
-    if (writeopen[j])
+    if (write_open[j]) {
         selector = j;
-    else {
+    } else {
         if (j == 17 && selector == TERM_AND_LOG) selector = LOG_ONLY;
         printnl(S(385));
     }
@@ -2966,10 +2966,10 @@ Static void outwhat(HalfWord p) {
                 if (subtype(p) == writenode)
                     writeout(p);
                 else {
-                    if (writeopen[j]) aclose(&write_file[j]);
-                    if (subtype(p) == closenode)
-                        writeopen[j] = false;
-                    else if (j < 16) {
+                    if (write_open[j]) aclose(&write_file[j]);
+                    if (subtype(p) == closenode) {
+                        write_open[j] = false;
+                    } else if (j < 16) {
                         curname = openname(p);
                         curarea = openarea(p);
                         curext = openext(p);
@@ -2977,7 +2977,7 @@ Static void outwhat(HalfWord p) {
                         packfilename(curname, curarea, curext);
                         while (!a_open_out(&write_file[j]))
                             promptfilename(S(683), S(669));
-                        writeopen[j] = true;
+                        write_open[j] = true;
                     }
                 }
             }
@@ -13359,8 +13359,7 @@ Static void close_files_and_terminate(void) {
 
     // #1378: Finish the extensions
     for (k = 0; k <= 15; k++) {
-        if (writeopen[k])
-            aclose(&write_file[k]);
+        if (write_open[k]) aclose(&write_file[k]);
     }
 
     #ifdef tt_STAT
@@ -14092,9 +14091,9 @@ Static void initialize(void) {
         /*1282:*/
         longhelpseen = false; /*:1282*/
         format_ident = 0; // #1300
-        /*1343:*/
-        for (k = 0; k <= 17; k++) /*:1343*/
-            writeopen[k] = false;
+        for (k = 0; k <= 17; k++) { // [#1343]
+            write_open[k] = false;
+        }
     } // end block p11#21
 
     /// p59#164: Initialize table entries (done by INITEX only)
