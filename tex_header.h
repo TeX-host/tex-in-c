@@ -292,10 +292,18 @@ Static StrNumber extdelimiter;
 /*:513*/
 /*520:*/
 Static Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
-/*527:*/
+
+/// [#527] is a file name being scanned?
+/// xref: scanfilename, newfont, expand
 Boolean name_in_progress;
+/// [#527] principal file name.
+/// contains the file name that was first `\\input` by the user.
+/// This name is extended by `.log` and `.dvi` and `.fmt` 
+///     in the names of TEX’s output files.
 StrNumber job_name;
-Boolean log_opened; /*:527*/
+/// [#527] has the transcript file been opened?
+Boolean log_opened;
+
 /*532:*/
 Static StrNumber output_file_name, logname; 
 /*:532*/
