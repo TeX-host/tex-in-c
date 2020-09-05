@@ -9144,9 +9144,9 @@ Static void insertdollarsign(void) {
 
 // #1049
 Static void youcant(void) {
-    print_err(S(602));
+    print_err(S(602)); // "You can't use `"
     printcmdchr(curcmd, curchr);
-    print(S(830));
+    print(S(830)); // "' in "
     print_mode(mode);
 } // #1049: youcant
 
@@ -9587,28 +9587,27 @@ Static void indentinhmode(void)
 }
 /*:1093*/
 
-/*1095:*/
-Static void headforvmode(void)
-{
-  if (mode < 0) {
-    if (curcmd != HRULE) {
-      offsave();
-      return;
+Static void headforvmode(void) {
+    if (mode < 0) {
+        if (curcmd != HRULE) {
+            offsave();
+            return;
+        }
+        print_err(S(602)); // "You can't use `"
+        print_esc(S(863)); // "hrule"
+        print(S(864));     // "' here except with leaders"
+        // "To put a horizontal rule in an hbox or an alignment"
+        // "you should use \\leaders or \\hrulefill (see The TeXbook)."
+        help2(S(865), S(866));
+        error();
+        return;
     }
-    print_err(S(602));
-    print_esc(S(863));
-    print(S(864));
-    help2(S(865),
-          S(866));
-    error();
-    return;
-  }
-  backinput();
-  curtok = partoken;
-  backinput();
-  token_type = INSERTED;
-}
-/*:1095*/
+
+    backinput();
+    curtok = partoken;
+    backinput();
+    token_type = INSERTED;
+} // headforvmode
 
 /*1096:*/
 Static void endgraf(void)
@@ -10863,7 +10862,7 @@ Static void doregistercommand(SmallNumber a) {
             goto _Lfound;
         }
         if (curcmd != REGISTER) {
-            print_err(S(602));
+            print_err(S(602)); // "You can't use `"
             printcmdchr(curcmd, curchr);
             print(S(603));
             printcmdchr(q, 0);
