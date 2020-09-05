@@ -4398,7 +4398,7 @@ Static void fetch(HalfWord a) {
     curc = character(a);
     curf = famfnt(fam(a) + cursize);
     if (curf == NULL_FONT) { /*723:*/
-        print_err(S(385));
+        print_err(S(385)); // ""
         print_size(cursize);
         print_char(' ');
         print_int(fam(a));
@@ -8322,7 +8322,7 @@ Static HalfWord vsplit(EightBits n, long h) {
         goto _Lexit;
     }
     if (type(v) != VLIST_NODE) { /*:978*/
-        print_err(S(385));
+        print_err(S(385)); // ""
         print_esc(S(797));
         print(S(798));
         print_esc(S(799));
@@ -8483,12 +8483,11 @@ Static void fireup(HalfWord c)
   if (c == bestpagebreak)   /*1015:*/
     bestpagebreak = 0;
   if (box(255) != 0) {   /*:1015*/
-    print_err(S(385));
-    print_esc(S(464));
-    print(S(810));
-    help2(S(811),
-          S(809));
-    boxerror(255);
+      print_err(S(385)); // ""
+      print_esc(S(464));
+      print(S(810));
+      help2(S(811), S(809));
+      boxerror(255);
   }
   insertpenalties = 0;
   savesplittopskip = splittopskip;
@@ -11488,7 +11487,7 @@ Static void issuemessage(void) {
         update_terminal();
         /*1283:*/
     } else {      /*:1283*/
-        print_err(S(385));
+        print_err(S(385)); // ""
         slow_print(s);
         if (errhelp != 0)
             use_err_help = true;
