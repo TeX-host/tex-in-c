@@ -571,6 +571,7 @@ void backinput(void) {
     }
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
+        // "input stack size"
         if (inputptr == STACK_SIZE) overflow(S(508), STACK_SIZE);
     }
     inputstack[inputptr] = cur_input;
@@ -601,11 +602,14 @@ void inserror(void) {
 /// [#328] starts a new level of input for lines of characters to be read from
 /// a file, or as an insertion from the terminal.
 void beginfilereading(void) {
+    // "text input levels"
     if (inopen == MAX_IN_OPEN) overflow(S(510), MAX_IN_OPEN);
+    // "buffer size"
     if (first == BUF_SIZE) overflow(S(511), BUF_SIZE);
     inopen++;
     if (inputptr > maxinstack) {
         maxinstack = inputptr;
+        // "input stack size"
         if (inputptr == STACK_SIZE) overflow(S(508), STACK_SIZE);
     }
     inputstack[inputptr] = cur_input;

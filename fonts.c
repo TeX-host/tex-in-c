@@ -944,8 +944,10 @@ void findfontdimen(Boolean writing) {
                 cur_val = fmemptr;
             } else { /*:580*/
                 do {
-                    if (fmemptr == FONT_MEM_SIZE)
+                    if (fmemptr == FONT_MEM_SIZE) {
+                        // "font memory"
                         overflow(S(587), FONT_MEM_SIZE);
+                    }
                     fontinfo[fmemptr].sc = 0;
                     fmemptr++;
                     fontparams[f]++;

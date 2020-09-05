@@ -256,6 +256,7 @@ Pointer get_avail(void) {
         hi_mem_min -= CHAR_NODE_SIZE;
         if (hi_mem_min <= lo_mem_max) {
             runaway();
+            // "main memory size"
             overflow(S(317), MEM_MAX - MEM_MIN + 1);
         }
     }
@@ -349,6 +350,7 @@ _Lrestart:
         }
         /*:126*/
     }
+    // "main memory size"
     overflow(S(317), MEM_MAX - MEM_MIN + 1);
 _Lfound:
     link(r) = 0;
@@ -1739,8 +1741,8 @@ Static void pushnest(void)
 {
   if (nest_ptr > max_nest_stack) {
     max_nest_stack = nest_ptr;
-    if (nest_ptr == NEST_SIZE)
-      overflow(S(438), NEST_SIZE);
+    // "semantic nest size"
+    if (nest_ptr == NEST_SIZE) overflow(S(438), NEST_SIZE);
   }
   nest[nest_ptr] = cur_list;
   nest_ptr++;
@@ -2095,7 +2097,8 @@ HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs) {
                 if (text(p) > 0) {
                     do { // search for an empty location in hash
                         if (hashisfull) {
-                            overflow(S(475), HASH_SIZE); // "hash size
+                            // "hash size
+                            overflow(S(475), HASH_SIZE); 
                         }
                         hash_used--;
                     } while (text(hash_used) != 0);
@@ -2146,13 +2149,16 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
 Static void newsavelevel(GroupCode c) {
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
+        // "save size"
         if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
     savetype(saveptr) = levelboundary;
     savelevel(saveptr) = curgroup;
     saveindex(saveptr) = curboundary;
-    if (curlevel == MAX_QUARTER_WORD)
+    if (curlevel == MAX_QUARTER_WORD) {
+        // "grouping levels"
         overflow(S(477), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
+    }
     curboundary = saveptr;
     curlevel++;
     saveptr++;
@@ -2186,6 +2192,7 @@ Static void eqdestroy(MemoryWord w) {
 Static void eqsave(HalfWord p, QuarterWord l) {
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
+        // "save size"
         if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
     if (l == levelzero) {
@@ -2243,6 +2250,7 @@ Static void saveforafter(HalfWord t) {
     if (curlevel <= levelone) return;
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
+        // "save size"
         if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
     savetype(saveptr) = inserttoken;
@@ -7115,10 +7123,13 @@ Static QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {
     while (true) {
         l = trieophash[h + TRIE_OP_SIZE];
         if (l == 0) {
+            // "pattern memory ops"
             if (trieopptr == TRIE_OP_SIZE) overflow(S(767), TRIE_OP_SIZE);
             u = trieused[curlang];
-            if (u == MAX_QUARTER_WORD)
+            if (u == MAX_QUARTER_WORD) {
+                // "pattern memory ops per language"
                 overflow(S(768), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
+            }
             trieopptr++;
             u++;
             trieused[curlang] = u;
@@ -7195,6 +7206,7 @@ Static void firstfit(TriePointer p) {
     while (true) {
         h = z - c;               /*954:*/
         if (triemax < h + 256) { /*:954*/
+            // "pattern memory"
             if (TRIE_SIZE <= h + 256) overflow(S(769), TRIE_SIZE);
             do {
                 triemax++;
@@ -7345,8 +7357,10 @@ Static void newpatterns(void) {
                                 firstchild = false;
                             }
                             if (p == 0 || c < triec[p]) { /*964:*/
-                                if (trieptr == TRIE_SIZE)
+                                if (trieptr == TRIE_SIZE) {
+                                    // "pattern memory"
                                     overflow(S(769), TRIE_SIZE);
+                                }
                                 trieptr++;
                                 trier[trieptr] = p;
                                 p = trieptr;
@@ -8040,8 +8054,8 @@ _LN_newhyphexceptions__reswitch:
 	  h = (h + h + hc[j]) % HYPH_SIZE;
 	}
 	s = str_ins(hc+1,n);
-	if (hyphcount == HYPH_SIZE)
-	  overflow(S(786), HYPH_SIZE);
+    // "exception dictionary"
+    if (hyphcount == HYPH_SIZE) overflow(S(786), HYPH_SIZE);
 	hyphcount++;
 	while (hyphword[h] != 0) {  /*941:*/
 	  k = hyphword[h];

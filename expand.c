@@ -287,6 +287,7 @@ void macrocall(Pointer refcount) {
     if (n > 0) { /*:390*/
         if (paramptr + n > maxparamstack) {
             maxparamstack = paramptr + n;
+            // "parameter stack size"
             if (maxparamstack > PARAM_SIZE) overflow(S(553), PARAM_SIZE);
         }
         for (m = 0; m < n; m++)
@@ -400,8 +401,10 @@ void expand(void) {
                 while (p != 0) {
                     if (j >= max_buf_stack) {
                         max_buf_stack = j + 1;
-                        if (max_buf_stack == BUF_SIZE)
+                        if (max_buf_stack == BUF_SIZE) {
+                            // "buffer size"
                             overflow(S(511), BUF_SIZE);
+                        }
                     }
                     buffer[j] = (info(p)) & (dwa_do_8 - 1);
                     j++;
