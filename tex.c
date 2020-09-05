@@ -1585,128 +1585,130 @@ Static void flush_node_list(HalfWord p) {
  */
 
 /*204:*/
-Static HalfWord copynodelist(HalfWord p)
-{
-  Pointer h, q, r=0 /* XXXX */;
-  char words;
+Static HalfWord copynodelist(HalfWord p) {
+    Pointer h, q, r = 0 /* XXXX */;
+    char words;
 
-  h = get_avail();
-  q = h;
-  while (p != 0) {  /*205:*/
-    words = 1;
-    if (ischarnode(p)) {
-      r = get_avail();
+    h = get_avail();
+    q = h;
+    while (p != 0) { /*205:*/
+        words = 1;
+        if (ischarnode(p)) {
+            r = get_avail();
 #ifdef BIG_CHARNODE
-	words = CHAR_NODE_SIZE;
+            words = CHAR_NODE_SIZE;
 #endif
-    } else {  /*206:*/
-      switch (type(p)) {   /*:206*/
+        } else {               /*206:*/
+            switch (type(p)) { /*:206*/
 
-      case HLIST_NODE:
-      case VLIST_NODE:
-      case UNSET_NODE:
-	r = getnode(boxnodesize);
-	mem[r - MEM_MIN + 6] = mem[p - MEM_MIN + 6];
-	mem[r - MEM_MIN + 5] = mem[p - MEM_MIN + 5];
-	listptr(r) = copynodelist(listptr(p));
-	words = 5;
-	break;
+                case HLIST_NODE:
+                case VLIST_NODE:
+                case UNSET_NODE:
+                    r = getnode(boxnodesize);
+                    mem[r - MEM_MIN + 6] = mem[p - MEM_MIN + 6];
+                    mem[r - MEM_MIN + 5] = mem[p - MEM_MIN + 5];
+                    listptr(r) = copynodelist(listptr(p));
+                    words = 5;
+                    break;
 
-      case RULE_NODE:
-	r = getnode(rulenodesize);
-	words = rulenodesize;
-	break;
+                case RULE_NODE:
+                    r = getnode(rulenodesize);
+                    words = rulenodesize;
+                    break;
 
-      case INS_NODE:
-	r = getnode(insnodesize);
-	mem[r - MEM_MIN + 4] = mem[p - MEM_MIN + 4];
-	addglueref(splittopptr(p));
-	insptr(r) = copynodelist(insptr(p));
-	words = insnodesize - 1;
-	break;
+                case INS_NODE:
+                    r = getnode(insnodesize);
+                    mem[r - MEM_MIN + 4] = mem[p - MEM_MIN + 4];
+                    addglueref(splittopptr(p));
+                    insptr(r) = copynodelist(insptr(p));
+                    words = insnodesize - 1;
+                    break;
 
-      case WHATSIT_NODE:   /*1357:*/
-	switch (subtype(p)) {   /*:1357*/
+                case WHATSIT_NODE:        /*1357:*/
+                    switch (subtype(p)) { /*:1357*/
 
-	case opennode:
-	  r = getnode(opennodesize);
-	  words = opennodesize;
-	  break;
+                        case opennode:
+                            r = getnode(opennodesize);
+                            words = opennodesize;
+                            break;
 
-	case writenode:
-	case specialnode:
-	  r = getnode(writenodesize);
-	  addtokenref(writetokens(p));
-	  words = writenodesize;
-	  break;
+                        case writenode:
+                        case specialnode:
+                            r = getnode(writenodesize);
+                            addtokenref(writetokens(p));
+                            words = writenodesize;
+                            break;
 
-	case closenode:
-	case languagenode:
-	  r = getnode(smallnodesize);
-	  words = smallnodesize;
-	  break;
+                        case closenode:
+                        case languagenode:
+                            r = getnode(smallnodesize);
+                            words = smallnodesize;
+                            break;
 
-	default:
-	  confusion(S(429));
-	  break;
-	}
-	break;
+                        default: 
+                            confusion(S(429)); 
+                            break;
+                    } // switch (subtype(p)
+                    break;
 
-      case GLUE_NODE:
-	r = getnode(smallnodesize);
-	addglueref(glueptr(p));
-	glueptr(r) = glueptr(p);
-	leaderptr(r) = copynodelist(leaderptr(p));
-	break;
+                case GLUE_NODE:
+                    r = getnode(smallnodesize);
+                    addglueref(glueptr(p));
+                    glueptr(r) = glueptr(p);
+                    leaderptr(r) = copynodelist(leaderptr(p));
+                    break;
 
-      case KERN_NODE:
-      case MATH_NODE:
-      case PENALTY_NODE:
-	r = getnode(smallnodesize);
-	words = smallnodesize;
-	break;
+                case KERN_NODE:
+                case MATH_NODE:
+                case PENALTY_NODE:
+                    r = getnode(smallnodesize);
+                    words = smallnodesize;
+                    break;
 
-      case LIGATURE_NODE:
-	r = getnode(smallnodesize);
-	mem[ligchar(r) - MEM_MIN] = mem[ligchar(p) - MEM_MIN];
-	ligptr(r) = copynodelist(ligptr(p));
-	break;
+                case LIGATURE_NODE:
+                    r = getnode(smallnodesize);
+                    mem[ligchar(r) - MEM_MIN] = mem[ligchar(p) - MEM_MIN];
+                    ligptr(r) = copynodelist(ligptr(p));
+                    break;
 
-      case DISC_NODE:
-	r = getnode(smallnodesize);
-	prebreak(r) = copynodelist(prebreak(p));
-	postbreak(r) = copynodelist(postbreak(p));
-	break;
+                case DISC_NODE:
+                    r = getnode(smallnodesize);
+                    prebreak(r) = copynodelist(prebreak(p));
+                    postbreak(r) = copynodelist(postbreak(p));
+                    break;
 
-      case MARK_NODE:
-	r = getnode(smallnodesize);
-	addtokenref(markptr(p));
-	words = smallnodesize;
-	break;
+                case MARK_NODE:
+                    r = getnode(smallnodesize);
+                    addtokenref(markptr(p));
+                    words = smallnodesize;
+                    break;
 
-      case ADJUST_NODE:
-	r = getnode(smallnodesize);
-	adjustptr(r) = copynodelist(adjustptr(p));
-	break;
+                case ADJUST_NODE:
+                    r = getnode(smallnodesize);
+                    adjustptr(r) = copynodelist(adjustptr(p));
+                    break;
 
-      default:
-	confusion(S(430));
-	break;
-      }
-    }
-    while (words > 0) {   /*:205*/
-      words--;
-      mem[r + words - MEM_MIN] = mem[p + words - MEM_MIN];
-    }
-    link(q) = r;
-    q = r;
-    p = link(p);
-  }
-  link(q) = 0;
-  q = link(h);
-  FREE_AVAIL(h);
-  return q;
-}
+                default: 
+                    confusion(S(430)); 
+                    break;
+            } // switch (type(p)
+        } // if (<=>ischarnode(p))
+
+        while (words > 0) { /*:205*/
+            words--;
+            mem[r + words - MEM_MIN] = mem[p + words - MEM_MIN];
+        } // while (words > 0)
+
+        link(q) = r;
+        q = r;
+        p = link(p);
+    } // while (p != 0)
+
+    link(q) = 0;
+    q = link(h);
+    FREE_AVAIL(h);
+    return q;
+} // copynodelist
 /*:204*/
 /** @}*/ // end group S203x206_P71x72
 
@@ -2994,13 +2996,17 @@ Static void outwhat(HalfWord p) {
             }
             break;
 
-        case specialnode: specialout(p); break;
+        case specialnode: 
+            specialout(p); 
+            break;
 
         case languagenode:
             /* blank case */
             break;
 
-        default: confusion(S(684)); break;
+        default: 
+            confusion(S(684)); 
+            break;
     }
 }
 /*:1373*/
@@ -3820,9 +3826,9 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l) {
     totalstretch[FILLL - NORMAL] = 0;
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*669:*/
-        if (ischarnode(p))
+        if (ischarnode(p)) {
             confusion(S(710));
-        else {
+        } else {
             switch (type(p)) {
 
                 case HLIST_NODE:
@@ -5134,7 +5140,9 @@ Static void mlisttohlist(void) {
                 goto _Ldonewithnode_;
                 break;
 
-            default: confusion(S(720)); break;
+            default: 
+                confusion(S(720)); 
+                break;
         }
         /*754:*/
         switch (mathtype(nucleus(q))) {
@@ -5175,7 +5183,9 @@ Static void mlisttohlist(void) {
                 p = hpack(link(temphead), 0, additional);
                 break;
 
-            default: confusion(S(721)); break;
+            default: 
+                confusion(S(721)); 
+                break;
         }
         newhlist(q) = p;
         if ((mathtype(subscr(q)) == EMPTY) & (mathtype(supscr(q)) == EMPTY))
@@ -5278,7 +5288,9 @@ Static void mlisttohlist(void) {
                 goto _Ldone;
                 break;
 
-            default: confusion(S(722)); break;
+            default: 
+                confusion(S(722)); 
+                break;
         }
         /*766:*/
         if (rtype > 0) { /*:766*/
@@ -5310,7 +5322,9 @@ Static void mlisttohlist(void) {
                         x = 0;
                     break;
 
-                default: confusion(S(723)); break;
+                default: 
+                    confusion(S(723)); 
+                    break;
             }
             if (x != 0) {
                 y = mathglue(gluepar(x), curmu);
@@ -5627,6 +5641,7 @@ Static Boolean fincol(void) {
                 n++;
                 q = link(link(q));
             } while (q != curalign);
+
             if (n > MAX_QUARTER_WORD) confusion(S(741));
             q = curspan;
             while (link(info(q)) < n)
@@ -8107,186 +8122,184 @@ _Lexit: ;
 /*:934*/
 
 /*968:*/
-Static HalfWord prunepagetop(HalfWord p)
-{
-  Pointer prevp, q;
+Static HalfWord prunepagetop(HalfWord p) {
+    Pointer prevp, q;
 
-  prevp = temphead;
-  link(temphead) = p;
-  while (p != 0) {
-    switch (type(p)) {
+    prevp = temphead;
+    link(temphead) = p;
+    while (p != 0) {
+        switch (type(p)) {
+            case HLIST_NODE:
+            case VLIST_NODE:
+            case RULE_NODE: /*969:*/
+                q = newskipparam(SPLIT_TOP_SKIP_CODE);
+                link(prevp) = q;
+                link(q) = p;
+                if (width(temp_ptr) > height(p))
+                    width(temp_ptr) -= height(p);
+                else
+                    width(temp_ptr) = 0;
+                p = 0;
+                break;
+                /*:969*/
 
-    case HLIST_NODE:
-    case VLIST_NODE:
-    case RULE_NODE:   /*969:*/
-      q = newskipparam(SPLIT_TOP_SKIP_CODE);
-      link(prevp) = q;
-      link(q) = p;
-      if (width(temp_ptr) > height(p))
-	width(temp_ptr) -= height(p);
-      else
-	width(temp_ptr) = 0;
-      p = 0;
-      break;
-      /*:969*/
+            case WHATSIT_NODE:
+            case MARK_NODE:
+            case INS_NODE:
+                prevp = p;
+                p = link(prevp);
+                break;
 
-    case WHATSIT_NODE:
-    case MARK_NODE:
-    case INS_NODE:
-      prevp = p;
-      p = link(prevp);
-      break;
+            case GLUE_NODE:
+            case KERN_NODE:
+            case PENALTY_NODE:
+                q = p;
+                p = link(q);
+                link(q) = 0;
+                link(prevp) = p;
+                flush_node_list(q);
+                break;
 
-    case GLUE_NODE:
-    case KERN_NODE:
-    case PENALTY_NODE:
-      q = p;
-      p = link(q);
-      link(q) = 0;
-      link(prevp) = p;
-      flush_node_list(q);
-      break;
-
-    default:
-      confusion(S(791));
-      break;
+            default: 
+                confusion(S(791)); 
+                break;
+        }
     }
-  }
-  return (link(temphead));
+    return (link(temphead));
 }
 /*:968*/
 
 /*970:*/
-Static HalfWord vertbreak(HalfWord p, long h, long d)
-{
-  Pointer prevp, q, r, bestplace=p /* XXXX */ ;
-  long pi=0 /* XXXX */, b, leastcost;
-  Scaled prevdp;
-  SmallNumber t;
+Static HalfWord vertbreak(HalfWord p, long h, long d) {
+    Pointer prevp, q, r, bestplace = p /* XXXX */;
+    long pi = 0 /* XXXX */, b, leastcost;
+    Scaled prevdp;
+    SmallNumber t;
 
-  prevp = p;
-  leastcost = awfulbad;
-  setheightzero(1);
-  setheightzero(2);
-  setheightzero(3);
-  setheightzero(4);
-  setheightzero(5);
-  setheightzero(6);
-  prevdp = 0;
-  while (true) {  /*972:*/
-    if (p == 0)   /*974:*/
-      pi = EJECT_PENALTY;
-    else {  /*973:*/
-      switch (type(p)) {   /*:973*/
-
-      case HLIST_NODE:
-      case VLIST_NODE:
-      case RULE_NODE:
-	curheight += prevdp + height(p);
-	prevdp = depth(p);
-	goto _Lnotfound;
-	break;
-
-      case WHATSIT_NODE:   /*1365:*/
-	goto _Lnotfound;   /*:1365*/
-	break;
-
-      case GLUE_NODE:
-	if (!precedesbreak(prevp))
-	  goto _Lupdateheights_;
-	pi = 0;
-	break;
-
-      case KERN_NODE:
-	if (link(p) == 0)
-	  t = PENALTY_NODE;
-	else
-	  t = type(link(p));
-	if (t != GLUE_NODE)
-	  goto _Lupdateheights_;
-	pi = 0;
-	break;
-
-      case PENALTY_NODE:
-	pi = penalty(p);
-	break;
-
-      case MARK_NODE:
-      case INS_NODE:
-	goto _Lnotfound;
-	break;
-
-      default:
-	confusion(S(792));
-	break;
-      }
-    }
-    if (pi < INF_PENALTY)   /*:974*/
-    {  /*975:*/
-      if (curheight < h) {
-	if (activeheight[2] != 0 || activeheight[3] != 0 ||
-	    activeheight[4] != 0)
-	  b = 0;
-	else
-	  b = badness(h - curheight, activeheight[1]);
-      } else if (curheight - h > activeheight[5])
-	b = awfulbad;
-      else
-	b = badness(curheight - h, activeheight[5]);   /*:975*/
-      if (b < awfulbad) {
-	if (pi <= EJECT_PENALTY)
-	  b = pi;
-	else if (b < INF_BAD)
-	  b += pi;
-	else
-	  b = deplorable;
-      }
-      if (b <= leastcost) {
-	bestplace = p;
-	leastcost = b;
-	bestheightplusdepth = curheight + prevdp;
-      }
-      if (b == awfulbad || pi <= EJECT_PENALTY)
-	goto _Ldone;
-    }
-    if ((type(p) < GLUE_NODE) | (type(p) > KERN_NODE))
-      goto _Lnotfound;
-_Lupdateheights_:   /*976:*/
-    if (type(p) == KERN_NODE)
-      q = p;
-    else {
-      q = glueptr(p);
-      activeheight[stretchorder(q) + 1] += stretch(q);
-      activeheight[5] += shrink(q);
-      if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
-	print_err(S(793));
-    /*
-     * (794) "The box you are \\vsplitting contains some infinitely"
-     * (795) "shrinkable glue e.g. `\\vss' or `\\vskip 0pt minus 1fil'."
-     * (796) "Such glue doesn't belong there; but you can safely proceed"
-     * (753) "since the offensive shrinkability has been made finite."
-     */
-    help4(S(794), S(795), S(796), S(753));
-    error();
-	r = newspec(q);
-	shrinkorder(r) = NORMAL;
-	delete_glue_ref(q);
-	glueptr(p) = r;
-	q = r;
-      }
-    }
-    curheight += prevdp + width(q);
-    prevdp = 0;   /*:976*/
-_Lnotfound:
-    if (prevdp > d) {   /*:972*/
-      curheight += prevdp - d;
-      prevdp = d;
-    }
     prevp = p;
-    p = link(prevp);
-  }
+    leastcost = awfulbad;
+    setheightzero(1);
+    setheightzero(2);
+    setheightzero(3);
+    setheightzero(4);
+    setheightzero(5);
+    setheightzero(6);
+    prevdp = 0;
+    while (true) {  /*972:*/
+        if (p == 0) { /*974:*/
+            pi = EJECT_PENALTY;
+        } else {                 /*973:*/
+            switch (type(p)) { /*:973*/
+                case HLIST_NODE:
+                case VLIST_NODE:
+                case RULE_NODE:
+                    curheight += prevdp + height(p);
+                    prevdp = depth(p);
+                    goto _Lnotfound;
+                    break;
+
+                case WHATSIT_NODE:   /*1365:*/
+                    goto _Lnotfound; /*:1365*/
+                    break;
+
+                case GLUE_NODE:
+                    if (!precedesbreak(prevp)) goto _Lupdateheights_;
+                    pi = 0;
+                    break;
+
+                case KERN_NODE:
+                    if (link(p) == 0) {
+                        t = PENALTY_NODE;
+                    } else {
+                        t = type(link(p));
+                    }
+                    if (t != GLUE_NODE) goto _Lupdateheights_;
+                    pi = 0;
+                    break;
+
+                case PENALTY_NODE: 
+                    pi = penalty(p); 
+                    break;
+
+                case MARK_NODE:
+                case INS_NODE: 
+                    goto _Lnotfound; 
+                    break;
+
+                default: 
+                    confusion(S(792)); 
+                    break;
+            }
+        }
+    
+        if (pi < INF_PENALTY) { /*:974*/ /*975:*/
+            if (curheight < h) {
+                if (activeheight[2] != 0 || activeheight[3] != 0 ||
+                    activeheight[4] != 0)
+                    b = 0;
+                else
+                    b = badness(h - curheight, activeheight[1]);
+            } else if (curheight - h > activeheight[5])
+                b = awfulbad;
+            else
+                b = badness(curheight - h, activeheight[5]); /*:975*/
+            if (b < awfulbad) {
+                if (pi <= EJECT_PENALTY)
+                    b = pi;
+                else if (b < INF_BAD)
+                    b += pi;
+                else
+                    b = deplorable;
+            }
+            if (b <= leastcost) {
+                bestplace = p;
+                leastcost = b;
+                bestheightplusdepth = curheight + prevdp;
+            }
+            if (b == awfulbad || pi <= EJECT_PENALTY) goto _Ldone;
+        }
+
+        if ((type(p) < GLUE_NODE) | (type(p) > KERN_NODE)) goto _Lnotfound;
+
+    _Lupdateheights_: /*976:*/
+        if (type(p) == KERN_NODE) {
+            q = p;
+        } else {
+            q = glueptr(p);
+            activeheight[stretchorder(q) + 1] += stretch(q);
+            activeheight[5] += shrink(q);
+            if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
+                print_err(S(793));
+                /*
+                 * (794) "The box you are \\vsplitting contains some infinitely"
+                 * (795) "shrinkable glue e.g. `\\vss' or `\\vskip 0pt minus
+                 * 1fil'." (796) "Such glue doesn't belong there; but you can
+                 * safely proceed" (753) "since the offensive shrinkability has
+                 * been made finite."
+                 */
+                help4(S(794), S(795), S(796), S(753));
+                error();
+                r = newspec(q);
+                shrinkorder(r) = NORMAL;
+                delete_glue_ref(q);
+                glueptr(p) = r;
+                q = r;
+            }
+        }
+        curheight += prevdp + width(q);
+        prevdp = 0; /*:976*/
+
+    _Lnotfound:
+        if (prevdp > d) { /*:972*/
+            curheight += prevdp - d;
+            prevdp = d;
+        }
+        prevp = p;
+        p = link(prevp);
+    }
+
 _Ldone:
-  return bestplace;
+    return bestplace;
 }
 /*:970*/
 
@@ -10265,30 +10278,28 @@ Static void appendchoices(void)
 
 /*1174:*/
 /*1184:*/
-Static HalfWord finmlist(HalfWord p)
-{
-  Pointer q;
+Static HalfWord finmlist(HalfWord p) {
+    Pointer q;
 
-  if (incompleatnoad != 0) {   /*1185:*/
-    mathtype(denominator(incompleatnoad)) = submlist;
-    info(denominator(incompleatnoad)) = link(head);
-    if (p == 0)
-      q = incompleatnoad;
-    else {
-      q = info(numerator(incompleatnoad));
-      if (type(q) != leftnoad)
-	confusion(S(419));
-      info(numerator(incompleatnoad)) = link(q);
-      link(q) = incompleatnoad;
-      link(incompleatnoad) = p;
+    if (incompleatnoad != 0) { /*1185:*/
+        mathtype(denominator(incompleatnoad)) = submlist;
+        info(denominator(incompleatnoad)) = link(head);
+        if (p == 0) {
+            q = incompleatnoad;
+        } else {
+            q = info(numerator(incompleatnoad));
+
+            if (type(q) != leftnoad) confusion(S(419));
+            info(numerator(incompleatnoad)) = link(q);
+            link(q) = incompleatnoad;
+            link(incompleatnoad) = p;
+        }
+    } else {/*:1185*/
+        link(tail) = p;
+        q = link(head);
     }
-  }  /*:1185*/
-  else {
-    link(tail) = p;
-    q = link(head);
-  }
-  popnest();
-  return q;
+    popnest();
+    return q;
 }
 /*:1184*/
 
@@ -10659,25 +10670,24 @@ Static void aftermath(void)
 /*:1194*/
 
 /*1200:*/
-Static void resumeafterdisplay(void)
-{
-  if (curgroup != mathshiftgroup)
-    confusion(S(934));
-  unsave();
-  prevgraf += 3;
-  pushnest();
-  mode = H_MODE;
-  spacefactor = 1000;
-  setcurlang();
-  clang = curlang;
-  prevgraf = (normmin(lefthyphenmin) * 64 + normmin(righthyphenmin)) * 65536L +
-	     curlang;
-      /*443:*/
-  get_x_token();
-  if (curcmd != SPACER)   /*:443*/
-    backinput();
-  if (nest_ptr == 1)
-    buildpage();
+Static void resumeafterdisplay(void) {
+    if (curgroup != mathshiftgroup) confusion(S(934));
+
+    unsave();
+    prevgraf += 3;
+    pushnest();
+    mode = H_MODE;
+    spacefactor = 1000;
+    setcurlang();
+    clang = curlang;
+    prevgraf =
+        (normmin(lefthyphenmin) * 64 + normmin(righthyphenmin)) * 65536L +
+        curlang;
+    /*443:*/
+    get_x_token();
+    if (curcmd != SPACER) backinput();
+    /*:443*/
+    if (nest_ptr == 1) buildpage();
 }
 /*:1200*/
 
@@ -11402,7 +11412,9 @@ Static void prefixedcommand(void) {
         case SET_INTERACTION: newinteraction(); break;
 
         /*:1264*/
-        default: confusion(S(973)); break;
+        default: 
+            confusion(S(973)); 
+            break;
     } // switch (curcmd)
 
 _Ldone:
@@ -11882,82 +11894,81 @@ Static void newwritewhatsit(SmallNumber w) {
 }
 /*:1350*/
 
-Static void doextension(void)
-{
-  long k;
-  Pointer p;
+Static void doextension(void) {
+    long k;
+    Pointer p;
 
-  switch (curchr) {
+    switch (curchr) {
+        case opennode: /*1351:*/
+            newwritewhatsit(opennodesize);
+            scan_optional_equals();
+            scanfilename();
+            openname(tail) = curname;
+            openarea(tail) = curarea;
+            openext(tail) = curext;
+            break;
+            /*:1351*/
 
-  case opennode:   /*1351:*/
-    newwritewhatsit(opennodesize);
-    scan_optional_equals();
-    scanfilename();
-    openname(tail) = curname;
-    openarea(tail) = curarea;
-    openext(tail) = curext;
-    break;
-    /*:1351*/
+        case writenode: /*1352:*/
+            k = curcs;
+            newwritewhatsit(writenodesize);
+            curcs = k;
+            p = scantoks(false, false);
+            writetokens(tail) = defref;
+            break;
+            /*:1352*/
 
-  case writenode:   /*1352:*/
-    k = curcs;
-    newwritewhatsit(writenodesize);
-    curcs = k;
-    p = scantoks(false, false);
-    writetokens(tail) = defref;
-    break;
-    /*:1352*/
+        case closenode: /*1353:*/
+            newwritewhatsit(writenodesize);
+            writetokens(tail) = 0;
+            break;
+            /*:1353*/
 
-  case closenode:   /*1353:*/
-    newwritewhatsit(writenodesize);
-    writetokens(tail) = 0;
-    break;
-    /*:1353*/
+        case specialnode: /*1354:*/
+            newwhatsit(specialnode, writenodesize);
+            writestream(tail) = 0;
+            p = scantoks(false, true);
+            writetokens(tail) = defref;
+            break;
+            /*:1354*/
 
-  case specialnode:   /*1354:*/
-    newwhatsit(specialnode, writenodesize);
-    writestream(tail) = 0;
-    p = scantoks(false, true);
-    writetokens(tail) = defref;
-    break;
-    /*:1354*/
+        case immediatecode: /*1375:*/
+            get_x_token();
+            if (curcmd == EXTENSION && curchr <= closenode) {
+                p = tail;
+                doextension();
+                outwhat(tail);
+                flush_node_list(tail);
+                tail = p;
+                link(p) = 0;
+            } else {
+                backinput();
+            }
+            break;
+            /*:1375*/
 
-  case immediatecode:   /*1375:*/
-    get_x_token();
-    if (curcmd == EXTENSION && curchr <= closenode) {
-      p = tail;
-      doextension();
-      outwhat(tail);
-      flush_node_list(tail);
-      tail = p;
-      link(p) = 0;
-    } else
-      backinput();
-    break;
-    /*:1375*/
+        case setlanguagecode: /*1377:*/
+            if (labs(mode) != H_MODE) {
+                reportillegalcase();
+            } else { /*:1377*/
+                newwhatsit(languagenode, smallnodesize);
+                scan_int();
+                if (cur_val <= 0)
+                    clang = 0;
+                else if (cur_val > 255)
+                    clang = 0;
+                else
+                    clang = cur_val;
+                whatlang(tail) = clang;
+                whatlhm(tail) = normmin(lefthyphenmin);
+                whatrhm(tail) = normmin(righthyphenmin);
+            }
+            break;
 
-  case setlanguagecode:   /*1377:*/
-    if (labs(mode) != H_MODE)
-      reportillegalcase();
-    else {   /*:1377*/
-      newwhatsit(languagenode, smallnodesize);
-      scan_int();
-      if (cur_val <= 0)
-	clang = 0;
-      else if (cur_val > 255)
-	clang = 0;
-      else
-	clang = cur_val;
-      whatlang(tail) = clang;
-      whatlhm(tail) = normmin(lefthyphenmin);
-      whatrhm(tail) = normmin(righthyphenmin);
+        default: 
+            confusion(S(1001)); 
+            break;
     }
-    break;
-
-  default:
-    confusion(S(1001));
-    break;
-  }
 }
 /*:1348*/
 

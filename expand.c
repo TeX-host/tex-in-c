@@ -657,9 +657,9 @@ static void passtext(void) {
 static void changeiflimit(SmallNumber l, HalfWord p) {
     Pointer q;
 
-    if (p == condptr)
+    if (p == condptr) {
         iflimit = l;
-    else {
+    } else {
         q = condptr;
         while (true) {
             if (q == 0) confusion(S(658));
