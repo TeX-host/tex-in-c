@@ -8616,20 +8616,18 @@ Static void boxerror(EightBits n)
 /*:992*/
 
 /*993:*/
-Static void ensurevbox(EightBits n)
-{
-  Pointer p;
+Static void ensurevbox(EightBits n) {
+    Pointer p;
 
-  p = box(n);
-  if (p == 0)
-    return;
-  if (type(p) != HLIST_NODE)
-    return;
-  print_err(S(806));
-  help3(S(807),
-        S(808),
-        S(809));
-  boxerror(n);
+    p = box(n);
+    if (p == 0) return;
+    if (type(p) != HLIST_NODE) return;
+    print_err(S(806)); // "Insertions can only be added to a vbox"
+    // "Tut tut: You're trying to \\insert into a"
+    // "\\box register that now contains an \\hbox."
+    // "Proceed and I'll discard its present contents."
+    help3(S(807), S(808), S(809));
+    boxerror(n);
 }
 /*:993*/
 
@@ -8815,12 +8813,13 @@ Static void fireup(HalfWord c)
       goto _Lexit;
     }
     /*:1024*/
-    print_err(S(812));
+    print_err(S(812)); // "Output loop---"
     print_int(deadcycles);
-    print(S(813));
-    help3(S(814),
-          S(815),
-          S(816));
+    print(S(813)); // " consecutive dead cycles"
+    // "I've concluded that your \\output is awry; it never does a"
+    // "\\shipout so I'm shipping \\box255 out myself. Next time"
+    // "increase \\maxdeadcycles if you want me to be more patient!"
+    help3(S(814), S(815), S(816));
     error();
   }
   if (link(pagehead) != 0) {
