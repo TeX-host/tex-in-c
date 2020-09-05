@@ -1645,8 +1645,8 @@ Static HalfWord copynodelist(HalfWord p) {
                             words = smallnodesize;
                             break;
 
-                        default: 
-                            confusion(S(429)); 
+                        default:
+                            confusion(S(429)); // "ext2"
                             break;
                     } // switch (subtype(p)
                     break;
@@ -1688,8 +1688,8 @@ Static HalfWord copynodelist(HalfWord p) {
                     adjustptr(r) = copynodelist(adjustptr(p));
                     break;
 
-                default: 
-                    confusion(S(430)); 
+                default:
+                    confusion(S(430)); // "copying"
                     break;
             } // switch (type(p)
         } // if (<=>ischarnode(p))
@@ -2282,7 +2282,7 @@ Static void unsave(void) {
     QuarterWord l = 0 /* XXXX */;
 
     if (curlevel <= levelone) {
-        confusion(S(478));
+        confusion(S(478)); // "curlevel"
         return;
     }
     curlevel--; /*282:*/
@@ -3004,8 +3004,8 @@ Static void outwhat(HalfWord p) {
             /* blank case */
             break;
 
-        default: 
-            confusion(S(684)); 
+        default:
+            confusion(S(684)); // "ext4"
             break;
     }
 }
@@ -3827,7 +3827,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l) {
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*669:*/
         if (ischarnode(p)) {
-            confusion(S(710));
+            confusion(S(710)); // "mathclose"
         } else {
             switch (type(p)) {
 
@@ -4469,7 +4469,7 @@ Static void makevcenter(HalfWord q) {
     Scaled delta;
 
     v = info(nucleus(q));
-    if (type(v) != VLIST_NODE) confusion(S(415));
+    if (type(v) != VLIST_NODE) confusion(S(415)); // "vcenter"
     delta = height(v) + depth(v);
     height(v) = axisheight(cursize) + half(delta);
     depth(v) = delta - height(v);
@@ -5140,8 +5140,8 @@ Static void mlisttohlist(void) {
                 goto _Ldonewithnode_;
                 break;
 
-            default: 
-                confusion(S(720)); 
+            default:
+                confusion(S(720)); // "mlist1"
                 break;
         }
         /*754:*/
@@ -5183,8 +5183,8 @@ Static void mlisttohlist(void) {
                 p = hpack(link(temphead), 0, additional);
                 break;
 
-            default: 
-                confusion(S(721)); 
+            default:
+                confusion(S(721)); // "mlist2"
                 break;
         }
         newhlist(q) = p;
@@ -5288,8 +5288,8 @@ Static void mlisttohlist(void) {
                 goto _Ldone;
                 break;
 
-            default: 
-                confusion(S(722)); 
+            default:
+                confusion(S(722)); // "mlist3"
                 break;
         }
         /*766:*/
@@ -5322,8 +5322,8 @@ Static void mlisttohlist(void) {
                         x = 0;
                     break;
 
-                default: 
-                    confusion(S(723)); 
+                default:
+                    confusion(S(723)); // "mlist4"
                     break;
             }
             if (x != 0) {
@@ -5576,9 +5576,9 @@ Static Boolean fincol(void) {
     GlueOrd o;
     HalfWord n;
 
-    if (curalign == 0) confusion(S(735));
+    if (curalign == 0) confusion(S(735)); // "endv"
     q = link(curalign);
-    if (q == 0) confusion(S(735));
+    if (q == 0) confusion(S(735)); // "endv"
     // "(interwoven alignment preambles are not allowed)"
     if (align_state < 500000L) fatalerror(S(509));
     p = link(q);
@@ -5642,7 +5642,7 @@ Static Boolean fincol(void) {
                 q = link(link(q));
             } while (q != curalign);
 
-            if (n > MAX_QUARTER_WORD) confusion(S(741));
+            if (n > MAX_QUARTER_WORD) confusion(S(741)); // "256 spans"
             q = curspan;
             while (link(info(q)) < n)
                 q = info(q);
@@ -5736,9 +5736,9 @@ Static void finalign(void) {
     HalfWord n;
     MemoryWord auxsave;
 
-    if (curgroup != aligngroup) confusion(S(742));
+    if (curgroup != aligngroup) confusion(S(742)); // "align1"
     unsave();
-    if (curgroup != aligngroup) confusion(S(743));
+    if (curgroup != aligngroup) confusion(S(743)); // "align0"
     unsave();
     if (nest[nest_ptr - 1].modefield == M_MODE)
         o = displayindent;
@@ -6148,7 +6148,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                         break;
 
                                     default:
-                                        confusion(S(754));
+                                        confusion(S(754)); // "disc1"
                                         break;
                                 }
                             }
@@ -6176,7 +6176,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                             break;
 
                                         default:
-                                            confusion(S(755));
+                                            confusion(S(755)); // "disc2"
                                             break;
                                     }
                                 }
@@ -6693,6 +6693,7 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
         }
     } while (curp != 0);
     /*881:*/
+    // "line breaking"
     if ((curline != bestline) | (link(temphead) != 0)) confusion(S(766));
     prevgraf = bestline - 1;
 }
@@ -7830,7 +7831,7 @@ Static void linebreak(long finalwidowpenalty) {
                                         break;
 
                                     default:
-                                        confusion(S(778));
+                                        confusion(S(778)); // "disc3"
                                         break;
                                 }
                             }
@@ -7863,7 +7864,7 @@ Static void linebreak(long finalwidowpenalty) {
                                     break;
 
                                 default:
-                                    confusion(S(779));
+                                    confusion(S(779)); // "disc4"
                                     break;
                             }
                         }
@@ -7892,7 +7893,7 @@ Static void linebreak(long finalwidowpenalty) {
                     break;
 
                 default:
-                    confusion(S(780));
+                    confusion(S(780)); // "paragraph"
                     break;
             }
             prevp = curp;
@@ -8160,8 +8161,8 @@ Static HalfWord prunepagetop(HalfWord p) {
                 flush_node_list(q);
                 break;
 
-            default: 
-                confusion(S(791)); 
+            default:
+                confusion(S(791)); // "pruning"
                 break;
         }
     }
@@ -8226,8 +8227,8 @@ Static HalfWord vertbreak(HalfWord p, long h, long d) {
                     goto _Lnotfound; 
                     break;
 
-                default: 
-                    confusion(S(792)); 
+                default:
+                    confusion(S(792)); // "vertbreak"
                     break;
             }
         }
@@ -8844,9 +8845,10 @@ Static void buildpage(void) {
                 /*:1008*/
 
             default:
-                confusion(S(822));
+                confusion(S(822)); // "page"
                 break;
         }
+
         /*1005:*/
         if (pi < INF_PENALTY) /*:1005*/
         {                    /*1007:*/
@@ -10288,7 +10290,7 @@ Static HalfWord finmlist(HalfWord p) {
             q = incompleatnoad;
         } else {
             q = info(numerator(incompleatnoad));
-
+            // "right"
             if (type(q) != leftnoad) confusion(S(419));
             info(numerator(incompleatnoad)) = link(q);
             link(q) = incompleatnoad;
@@ -10671,6 +10673,7 @@ Static void aftermath(void)
 
 /*1200:*/
 Static void resumeafterdisplay(void) {
+    // "display"
     if (curgroup != mathshiftgroup) confusion(S(934));
 
     unsave();
@@ -11412,8 +11415,8 @@ Static void prefixedcommand(void) {
         case SET_INTERACTION: newinteraction(); break;
 
         /*:1264*/
-        default: 
-            confusion(S(973)); 
+        default:
+            confusion(S(973)); // "prefix"
             break;
     } // switch (curcmd)
 
@@ -11965,8 +11968,8 @@ Static void doextension(void) {
             }
             break;
 
-        default: 
-            confusion(S(1001)); 
+        default:
+            confusion(S(1001)); // "ext1"
             break;
     }
 }
@@ -12184,7 +12187,7 @@ Static void handlerightbrace(void) {
             /*:1186*/
 
         default:
-            confusion(S(1012));
+            confusion(S(1012)); // "rightbrace"
             break;
     }
 
