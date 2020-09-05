@@ -9571,7 +9571,10 @@ Static void scanbox(long boxcontext)
     boxend(boxcontext);
     return;
   }
-  print_err(S(859));
+  print_err(S(859)); // "A <box> was supposed to be here"
+  // "I was expecting to see \\hbox or \\vbox or \\copy or \\box or"
+  // "something like that. So you might find something missing in"
+  // "your output. But keep trying; you can fix this later."
   help3(S(860),
         S(861),
         S(862));
