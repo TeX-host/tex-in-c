@@ -11095,9 +11095,9 @@ Static void alterprevgraf(void) {
         cur_list = nest[nest_ptr];
         return;
     }
-    print_err(S(773));
-    print_esc(S(948));
-    help1(S(949));
+    print_err(S(773)); // "Bad "
+    print_esc(S(948)); // "prevgraf"
+    help1(S(949)); // "I allow only nonnegative values here."
     int_error(cur_val);
 } // #1244: alterprevgraf
 
