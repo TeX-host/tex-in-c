@@ -10527,43 +10527,43 @@ Static void buildchoices(void) {
 /*:1174*/
 
 /*1176:*/
-Static void subsup(void)
-{
-  SmallNumber t;
-  Pointer p;
+Static void subsup(void) {
+    SmallNumber t;
+    Pointer p;
 
-  t = EMPTY;
-  p = 0;
-  if (tail != head) {
-    if (scriptsallowed(tail)) {
-	if(curcmd == SUP_MARK) {
-		p = supscr(tail);
-	} else {
-		p = subscr(tail);
-	}
-      t = mathtype(p);
+    t = EMPTY;
+    p = 0;
+    if (tail != head) {
+        if (scriptsallowed(tail)) {
+            if (curcmd == SUP_MARK) {
+                p = supscr(tail);
+            } else {
+                p = subscr(tail);
+            }
+            t = mathtype(p);
+        }
     }
-  }
-  if (p == 0 || t != EMPTY) {   /*1177:*/
-    tailappend(newnoad());
-    if(curcmd == SUP_MARK) {
-	p = supscr(tail);
-    } else {
-	p = subscr(tail);
+    if (p == 0 || t != EMPTY) { /*1177:*/
+        tailappend(newnoad());
+        if (curcmd == SUP_MARK) {
+            p = supscr(tail);
+        } else {
+            p = subscr(tail);
+        }
+        if (t != EMPTY) {
+            if (curcmd == SUP_MARK) {
+                print_err(S(917)); // "Double superscript"
+                // "I treat `x^1^2' essentially like `x^1{}^2'."
+                help1(S(918));
+            } else {
+                print_err(S(919)); // "Double subscript"
+                help1(S(920)); // "I treat `x_1_2' essentially like `x_1{}_2'."
+            }
+            error();
+        }
     }
-    if (t != EMPTY) {
-      if (curcmd == SUP_MARK) {
-	print_err(S(917));
-	help1(S(918));
-      } else {
-	print_err(S(919));
-	help1(S(920));
-      }
-      error();
-    }
-  }
-  /*:1177*/
-  scanmath(p);
+    /*:1177*/
+    scanmath(p);
 }
 /*:1176*/
 
