@@ -6122,17 +6122,22 @@ Static void finalign(void) {
     if (mode == M_MODE) { /*1206:*/
         doassignments();
         if (curcmd != MATH_SHIFT) { /*1207:*/
-            print_err(S(744));
+            print_err(S(744)); // "Missing $$ inserted"
+            // "Displays can use special alignments (like \\eqalignno)"
+            // "only if nothing but the alignment itself is between $$'s."
             help2(S(726), S(727));
             backerror();
         } else { /*1197:*/
             get_x_token();
             if (curcmd != MATH_SHIFT) {
-                print_err(S(745));
+                print_err(S(745)); // "Display math should end with $$"
+                // "The `$' that I just saw supposedly matches a previous `$$'."
+                // "So I shall assume that you typed `$$' both times."
                 help2(S(746), S(747));
                 backerror();
             }
         }
+
         /*:1207*/
         popnest();
         tailappend(newpenalty(predisplaypenalty));
@@ -6145,6 +6150,7 @@ Static void finalign(void) {
         resumeafterdisplay();
         return;
     }
+
     /*:1206*/
     aux = auxsave;
     link(tail) = p;
