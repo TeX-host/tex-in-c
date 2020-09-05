@@ -2987,7 +2987,9 @@ Static void writeout(HalfWord p) { /*1371:*/
     q = scantoks(false, true);
     gettoken();
     if (curtok != endwritetoken) { /*1372:*/
-        print_err(S(680));
+        print_err(S(680)); // "Unbalanced write command"
+        // "On this page there's a \\write with fewer real {'s than }'s."
+        // "I can't handle that very well; good luck."
         help2(S(681), S(682));
         error();
         do {
@@ -3003,7 +3005,7 @@ Static void writeout(HalfWord p) { /*1371:*/
         selector = j;
     } else {
         if (j == 17 && selector == TERM_AND_LOG) selector = LOG_ONLY;
-        printnl(S(385));
+        printnl(S(385)); // ""
     }
     tokenshow(defref);
     println();
