@@ -10568,55 +10568,52 @@ Static void subsup(void) {
 /*:1176*/
 
 /*1181:*/
-Static void mathfraction(void)
-{
-  SmallNumber c;
+Static void mathfraction(void) {
+    SmallNumber c;
 
-  c = curchr;
-  if (incompleatnoad != 0) {   /*1183:*/
+    c = curchr;
+    if (incompleatnoad != 0) { /*1183:*/
+        if (c >= delimitedcode) {
+            scandelimiter(garbage, false);
+            scandelimiter(garbage, false);
+        }
+        if (c % delimitedcode == abovecode) {
+            SCAN_NORMAL_DIMEN();
+        }
+        print_err(S(921)); // "Ambiguous; you need another { and }"
+        // "I'm ignoring this fraction specification since I don't"
+        // "know whether a construction like `x \\over y \\over z'"
+        // "means `{x \\over y} \\over z' or `x \\over {y \\over z}'."
+        help3(S(922), S(923), S(924));
+        error();
+        return;
+    } /*:1183*/
+
+    incompleatnoad = getnode(fractionnoadsize);
+    type(incompleatnoad) = fractionnoad;
+    subtype(incompleatnoad) = NORMAL;
+    mathtype(numerator(incompleatnoad)) = submlist;
+    info(numerator(incompleatnoad)) = link(head);
+    mem[denominator(incompleatnoad) - MEM_MIN].hh = emptyfield;
+    mem[leftdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
+    mem[rightdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
+    link(head) = 0;
+    tail = head; /*1182:*/
     if (c >= delimitedcode) {
-      scandelimiter(garbage, false);
-      scandelimiter(garbage, false);
+        scandelimiter(leftdelimiter(incompleatnoad), false);
+        scandelimiter(rightdelimiter(incompleatnoad), false);
     }
-    if (c % delimitedcode == abovecode) {
-      SCAN_NORMAL_DIMEN();
+
+    switch (c % delimitedcode) { /*:1182*/
+        case abovecode:
+            SCAN_NORMAL_DIMEN();
+            thickness(incompleatnoad) = cur_val;
+            break;
+
+        case overcode: thickness(incompleatnoad) = defaultcode; break;
+
+        case atopcode: thickness(incompleatnoad) = 0; break;
     }
-    print_err(S(921));
-    help3(S(922),
-          S(923),
-          S(924));
-    error();
-    return;
-  }  /*:1183*/
-  incompleatnoad = getnode(fractionnoadsize);
-  type(incompleatnoad) = fractionnoad;
-  subtype(incompleatnoad) = NORMAL;
-  mathtype(numerator(incompleatnoad)) = submlist;
-  info(numerator(incompleatnoad)) = link(head);
-  mem[denominator(incompleatnoad) - MEM_MIN].hh = emptyfield;
-  mem[leftdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
-  mem[rightdelimiter(incompleatnoad) - MEM_MIN].qqqq = nulldelimiter;
-  link(head) = 0;
-  tail = head;   /*1182:*/
-  if (c >= delimitedcode) {
-    scandelimiter(leftdelimiter(incompleatnoad), false);
-    scandelimiter(rightdelimiter(incompleatnoad), false);
-  }
-  switch (c % delimitedcode) {   /*:1182*/
-
-  case abovecode:
-    SCAN_NORMAL_DIMEN();
-    thickness(incompleatnoad) = cur_val;
-    break;
-
-  case overcode:
-    thickness(incompleatnoad) = defaultcode;
-    break;
-
-  case atopcode:
-    thickness(incompleatnoad) = 0;
-    break;
-  }
 }
 /*:1181*/
 
