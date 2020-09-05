@@ -2340,16 +2340,20 @@ Static void unsave(void) {
 /*288:*/
 void preparemag(void) {
     if (magset > 0 && mag != magset) {
-        print_err(S(481));
+        print_err(S(481)); // "Incompatible magnification ("
         print_int(mag);
-        print(S(482));
-        printnl(S(483));
+        print(S(482)); // ");"
+        printnl(S(483)); // " the previous value will be retained"
+        // "I can handle only one magnification ratio per job. So I've"
+        // "reverted to the magnification you used earlier on this run."
         help2(S(484), S(485));
         int_error(magset);
         geqworddefine(intbase + magcode, magset);
     }
+
     if (mag <= 0 || mag > 32768L) {
-        print_err(S(486));
+        print_err(S(486)); // "Illegal magnification has been changed to 1000"
+        // "The magnification ratio must be between 1 and 32768."
         help1(S(487));
         int_error(mag);
         geqworddefine(intbase + magcode, 1000);
