@@ -11097,7 +11097,8 @@ Static void alteraux(void) {
         spacefactor = cur_val;
         return;
     }
-    print_err(S(946));
+    print_err(S(946)); // "Bad space factor"
+    // "I allow only values in the range 1..32767 here."
     help1(S(947));
     int_error(cur_val);
 } // #1243: alteraux
