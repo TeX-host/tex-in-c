@@ -686,33 +686,42 @@ void scan_int(void) {
  * xref[6]: 410, 440, 447, 461, 462, 1061
  */
 void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
-    Boolean negative;
-    long f;
-    /*450:*/
-    long num, denom;
-    /* SmallNumber */ int k, kk; /* INT */
-    Pointer p, q;
-    Scaled v;
-    long savecurval; /*:450*/
+    Boolean negative; ///< should the answer be negated?
+    Integer f;        ///<  numerator of a fraction whose denominator is 2^16.
+
+    /// [#450] Local variables for dimension calculations
+    long num, denom; // conversion ratio for the scanned units
+    /* SmallNumber */ int k, kk; // number of digits in a decimal fraction
+    Pointer p, q; // top of decimal digit stack
+    Scaled v; // an internal dimension
+    long savecurval; // temporary storage of cur_val
+
     char digs[23];
+
 
     f = 0;
     arith_error = false;
     cur_order = NORMAL;
     negative = false;
-    if (!shortcut) { /*441:*/
+    if (!shortcut) {
+        /// [#441] Get the next non-blank non-sign token; 
+        /// set negative appropriately
         negative = false;
         do {
             skip_spaces();
-            if (curtok == othertoken + '-') { /*:441*/
+            if (curtok == othertoken + '-') {
                 negative = !negative;
                 curtok = othertoken + '+';
             }
         } while (curtok == othertoken + '+');
-        if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) { /*449:*/
+
+        if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) {
+            /// [#449] Fetch an internal dimension and goto attach sign,
+            /// or fetch an internal integer
             if (mu) {
-                scan_something_internal(MU_VAL, false); /*451:*/
-                if (cur_val_level >= GLUE_VAL) {        /*:451*/
+                scan_something_internal(MU_VAL, false);
+                /// [#451] Coerce glue to a dimension.
+                if (cur_val_level >= GLUE_VAL) {
                     v = width(cur_val);
                     delete_glue_ref(cur_val);
                     cur_val = v;
@@ -722,32 +731,35 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
             } else {
                 scan_something_internal(DIMEN_VAL, false);
                 if (cur_val_level == DIMEN_VAL) goto _Lattachsign_;
-            } /*:449*/
+            } // if (<=>mu)
         } else {
             backinput();
             if (curtok == CONTINENTAL_POINT_TOKEN) curtok = POINT_TOKEN;
-            if (curtok != POINT_TOKEN)
+            if (curtok != POINT_TOKEN) {
                 scan_int();
-            else {
+            } else {
                 radix = 10;
                 cur_val = 0;
             }
             if (curtok == CONTINENTAL_POINT_TOKEN) curtok = POINT_TOKEN;
-            if (radix == 10 && curtok == POINT_TOKEN) { /*452:*/
+            if (radix == 10 && curtok == POINT_TOKEN) { 
+                /// [#452] 
                 k = 0;
                 p = 0;
                 gettoken();
                 while (true) {
                     get_x_token();
-                    if (curtok > ZERO_TOKEN + 9 || curtok < ZERO_TOKEN)
+                    if (curtok > ZERO_TOKEN + 9 || curtok < ZERO_TOKEN) {
                         goto _Ldone1;
+                    }
                     if (k >= 17) continue;
                     q = get_avail();
                     link(q) = p;
                     info(q) = curtok - ZERO_TOKEN;
                     p = q;
                     k++;
-                }
+                } // while (true)
+
             _Ldone1:
                 for (kk = k - 1; kk >= 0; kk--) {
                     digs[kk] = info(p);
@@ -757,16 +769,23 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
                 }
                 f = round_decimals(k, digs);
                 if (curcmd != SPACER) backinput();
-            }
-            /*:452*/
+            } // if (radix == 10 && curtok == POINT_TOKEN)
         }
-    }
+    } // if (!shortcut)
+
+    /// [#451]
     if (cur_val < 0) {
         negative = !negative;
         cur_val = -cur_val;
-    }                              /*453:*/
-    if (inf) {                     /*454:*/
-        if (scankeyword(S(330))) { /*:454*/
+    }
+
+    /// [#453] Scan units and set cur_val to
+    ///     x · (cur val + f/2^16)
+    /// where there are x sp per unit;
+    /// goto attach sign if the units are internal
+    if (inf) {
+        /// [#454] Scan for fil units; goto attach_fraction if found
+        if (scankeyword(S(330))) {
             cur_order = FIL;
             while (scankeyword('l')) {
                 if (cur_order != FILLL) {
@@ -780,50 +799,54 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
             }
             goto _Lattachfraction_;
         }
-    }
-    /*455:*/
+    } // if (inf)
+
+    /// [#455] Scan for units that are internal dimensions;
+    /// goto attach sign with cur val set if found.
     savecurval = cur_val;
     skip_spaces();
     if (curcmd >= MIN_INTERNAL && curcmd <= MAX_INTERNAL) {
         if (mu) {
-            scan_something_internal(MU_VAL, false); /*451:*/
-            if (cur_val_level >= GLUE_VAL) {        /*:451*/
+            scan_something_internal(MU_VAL, false);
+            /// [#451] Coerce glue to a dimension.
+            if (cur_val_level >= GLUE_VAL) {
                 v = width(cur_val);
                 delete_glue_ref(cur_val);
                 cur_val = v;
             }
             if (cur_val_level != MU_VAL) mu_error();
-        } else
+        } else {
             scan_something_internal(DIMEN_VAL, false);
+        }
         v = cur_val;
         goto _Lfound;
     }
     backinput();
     if (mu) goto _Lnotfound;
-    // "em"
-    if (scankeyword(S(614))) /*443:*/
-        v = quad(curfont);   /*558:*/
-                             /*:558*/
-    // "ex"
-    else if (scankeyword(S(615)))
-        v = xheight(curfont); /*559:*/
-                              /*:559*/
-    else
+    
+    if (scankeyword(S(614))) { // "em"
+        v = quad(curfont); /// [#558] The em width for cur_font.
+    } else if (scankeyword(S(615))) { // "ex"
+        v = xheight(curfont); /// [#559] The x-height for cur_font.
+    } else {
         goto _Lnotfound;
+    }
 
     get_x_token();
-    if (curcmd != SPACER) /*:443*/
+    if (curcmd != SPACER) {
         backinput();
+    }
 
 _Lfound:
     cur_val = nx_plus_y(savecurval, v, xn_over_d(v, f, 65536L));
     goto _Lattachsign_;
 
-_Lnotfound:   /*:455*/
-    if (mu) { /*456:*/
-        if (scankeyword(S(390))) //  "mu"
+_Lnotfound:
+    /// [#456] Scan for mu units and goto attach fraction.
+    if (mu) {
+        if (scankeyword(S(390))) { // "mu"
             goto _Lattachfraction_;
-        else { /*:456*/
+        } else {
             print_err(S(611)); // "Illegal unit of measure ("
             print(S(616)); // "mu inserted)"
             /*
@@ -836,7 +859,7 @@ _Lnotfound:   /*:455*/
             error();
             goto _Lattachfraction_;
         }
-    }
+    } // if (mu)
 
     if (scankeyword(S(621))) { //  true"
         // [#457] Adjust for the magnification ratio.
@@ -848,10 +871,10 @@ _Lnotfound:   /*:455*/
             f %= 65536L;
         }
     }
-    /*:457*/
 
-    if (scankeyword(S(459))) // "pt"
+    if (scankeyword(S(459))) { // "pt"
         goto _Lattachfraction_;
+    }
 
     // [#458] Scan for all other units and adjust cur val and f accordingly;
     // goto done in the case of scaled points
@@ -900,21 +923,23 @@ _Lnotfound:   /*:455*/
     cur_val += f / 65536L;
     f %= 65536L;
 
-_Ldone2: /*:458*/
+_Ldone2:
 _Lattachfraction_:
-    if (cur_val >= 16384)
+    if (cur_val >= 16384) {
         arith_error = true;
-    else
+    } else {
         cur_val = cur_val * UNITY + f;
+    }
 
-_Ldone: /*:453*/
-    /*443:*/
+_Ldone:
+    /// [#443] Scan an optional space.
     get_x_token();
-    if (curcmd != SPACER) /*:443*/
+    if (curcmd != SPACER) {
         backinput();
+    }
 
 _Lattachsign_:
-    if (arith_error || labs(cur_val) >= 1073741824L) { /*460:*/
+    if (arith_error || labs(cur_val) >= 1073741824L) {
         // [#460] Report that this dimension is out of range.
         print_err(S(634)); // " Dimension too large"
         // "I can´t work with sizes bigger than about 19 feet."
@@ -925,12 +950,8 @@ _Lattachsign_:
         arith_error = false;
     }
 
-    /*:460*/
     if (negative) cur_val = -cur_val;
-
-    /*459:*/
-    /*:459*/
-} // [#448] scan_dimen
+} /* [#448] scan_dimen */
 
 /** [#461] sets #cur_val to a glue spec pointer.
  *
