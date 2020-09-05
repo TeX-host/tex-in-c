@@ -7485,8 +7485,8 @@ Static void newpatterns(void) {
                         } else {
                             cur_chr = lccode(curchr);
                             if (cur_chr == 0) {
-                                print_err(S(770));
-                                help1(S(771));
+                                print_err(S(770)); // "Nonletter"
+                                help1(S(771));     // "(See Appendix H.)"
                                 error();
                             }
                         }
@@ -7547,8 +7547,8 @@ Static void newpatterns(void) {
                             q = p;
                         }
                         if (trieo[q] != MIN_QUARTER_WORD) {
-                            print_err(S(772));
-                            help1(S(771));
+                            print_err(S(772)); // "Duplicate pattern"
+                            help1(S(771));     // "(See Appendix H.)"
                             error();
                         }
                         trieo[q] = v;
@@ -7562,9 +7562,9 @@ Static void newpatterns(void) {
                     break;
 
                 default:
-                    print_err(S(773));
-                    print_esc(S(774));
-                    help1(S(771));
+                    print_err(S(773)); // "Bad "
+                    print_esc(S(774)); // "patterns"
+                    help1(S(771));     // "(See Appendix H.)"
                     error();
                     break;
             } // switch (curcmd)
@@ -7573,8 +7573,9 @@ Static void newpatterns(void) {
         return;
     } // if (trie_not_ready)
 
-    print_err(S(775));
-    print_esc(S(774));
+    print_err(S(775)); // "Too late for "
+    print_esc(S(774)); // "patterns"
+    // "All patterns must be given before typesetting begins."
     help1(S(776));
     error();
     link(garbage) = scantoks(false, false);
