@@ -10367,12 +10367,13 @@ Static void setmathchar(long c)
 /*1159:*/
 Static void mathlimitswitch(void) {
     if (head != tail) {
-    if (type(tail) == opnoad) {
-        subtype(tail) = curchr;
-        return;
+        if (type(tail) == opnoad) {
+            subtype(tail) = curchr;
+            return;
+        }
     }
-    }
-    print_err(S(903));
+    print_err(S(903)); // "Limit controls must follow a math operator"
+    // "I'm ignoring this misplaced \\limits or \\nolimits command."
     help1(S(904));
     error();
 }
