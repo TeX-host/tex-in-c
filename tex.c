@@ -8445,6 +8445,7 @@ Static HalfWord vertbreak(HalfWord p, long h, long d) {
             activeheight[stretchorder(q) + 1] += stretch(q);
             activeheight[5] += shrink(q);
             if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
+                // "Infinite glue shrinkage found in box being split"
                 print_err(S(793));
                 /*
                  * (794) "The box you are \\vsplitting contains some infinitely"
