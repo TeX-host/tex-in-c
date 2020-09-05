@@ -11176,13 +11176,13 @@ Static void newfont(SmallNumber a) {
         t = text(u);
     } else if (u >= singlebase) {
         if (u == nullcs)
-            t = S(950);
+            t = S(950); // "FONT"
         else
             t = u - singlebase;
     } else {
         old_setting = selector;
         selector = NEW_STRING;
-        print(S(950));
+        print(S(950)); // "FONT"
         print(u - activebase);
         selector = old_setting;
         str_room(1);
@@ -11193,23 +11193,28 @@ Static void newfont(SmallNumber a) {
     scanfilename(); /*1258:*/
 
     name_in_progress = true;
-    if (scankeyword(S(951))) { /*1259:*/
+    if (scankeyword(S(951))) { // "at"
+        /*1259:*/
         SCAN_NORMAL_DIMEN();
         s = cur_val;
         if (s <= 0 || s >= 134217728L) {
-            print_err(S(952));
+            print_err(S(952)); // "Improper `at' size ("
             print_scaled(s);
-            print(S(953));
+            print(S(953)); // "pt) replaced by 10pt"
+            // "I can only handle fonts at positive sizes that are"
+            // "less than 2048pt so I've changed what you said to 10pt."
             help2(S(954), S(955));
             error();
             s = UNITY * 10;
         }
         /*:1259*/
-    } else if (scankeyword(S(956))) {
+    } else if (scankeyword(S(956))) { // "scaled"
         scan_int();
         s = -cur_val;
         if (cur_val <= 0 || cur_val > 32768L) {
+            // "Illegal magnification has been changed to 1000"
             print_err(S(486));
+            // "The magnification ratio must be between 1 and 32768."
             help1(S(487));
             int_error(cur_val);
             s = -1000;
