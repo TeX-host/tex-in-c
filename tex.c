@@ -8865,7 +8865,6 @@ Static void buildpage(void) {
         }
         /*1000:*/
         switch (type(p)) { /*:1000*/
-
             case HLIST_NODE:
             case VLIST_NODE:
             case RULE_NODE:
@@ -8946,9 +8945,14 @@ Static void buildpage(void) {
                     pagesofar[stretchorder(q) + 2] += stretch(q);
                     pageshrink += shrink(q);
                     if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
+                        // "Infinite glue shrinkage inserted from "
                         print_err(S(817));
+                        // "skip"
                         print_esc(S(460));
                         print_int(n);
+                        // "The correction glue for page breaking with insertions"
+                        // "must have finite shrinkability. But you may proceed"
+                        // "since the offensive shrinkability has been made finite."
                         help3(S(818), S(819), S(753));
                         error();
                     }
@@ -8984,13 +8988,13 @@ Static void buildpage(void) {
                             if (tracingpages > 0) {
                                 /*1011:*/
                                 begindiagnostic();
-                                printnl(S(820));
+                                printnl(S(820)); // "% split"
                                 print_int(n);
-                                print(S(821));
+                                print(S(821)); // " to "
                                 print_scaled(w);
                                 print_char(',');
                                 print_scaled(bestheightplusdepth);
-                                print(S(764));
+                                print(S(764)); // " p="
                                 if (q == 0)
                                     print_int(EJECT_PENALTY);
                                 else if (type(q) == PENALTY_NODE)
@@ -9051,18 +9055,18 @@ Static void buildpage(void) {
                 if (tracingpages > 0) { /*1006:*/
                     begindiagnostic();
                     printnl('%');
-                    print(S(758));
+                    print(S(758)); // " t="
                     printtotals();
-                    print(S(823));
+                    print(S(823)); // " g="
                     print_scaled(pagegoal);
-                    print(S(763));
+                    print(S(763)); // " b="
                     if (b == awfulbad)
                         print_char('*');
                     else
                         print_int(b);
-                    print(S(764));
+                    print(S(764)); // " p="
                     print_int(pi);
-                    print(S(824));
+                    print(S(824)); // " c="
                     if (c == awfulbad)
                         print_char('*');
                     else
@@ -9098,6 +9102,7 @@ Static void buildpage(void) {
             pagesofar[stretchorder(q) + 2] += stretch(q);
             pageshrink += shrink(q);
             if ((shrinkorder(q) != NORMAL) & (shrink(q) != 0)) {
+                // "Infinite glue shrinkage found on current page"
                 print_err(S(825));
                 /*
                  * (826) "The page about to be output contains some infinitely"
