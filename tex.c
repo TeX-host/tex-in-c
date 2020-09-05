@@ -10848,12 +10848,14 @@ Static void trapzeroglue(void) {
     cur_val = zeroglue;
 } // #1229: trapzeroglue
 
-// #1236
+/// [#1236]
 Static void doregistercommand(SmallNumber a) {
-    Pointer l = 0 /* XXXX */, q, r, s;
-    char p;
+    Pointer l = 0 /* XXXX */, q, r, s; // for list manipulation
+    char p; // type of register involved
 
-    q = curcmd; /*1237:*/
+    q = curcmd;
+    /// [#1237] Compute the register location l and its type p;
+    /// but return if invalid.
     if (q != REGISTER) {
         get_x_token();
         if (curcmd >= ASSIGN_INT && curcmd <= ASSIGN_MU_GLUE) {
@@ -10861,16 +10863,19 @@ Static void doregistercommand(SmallNumber a) {
             p = curcmd - ASSIGN_INT;
             goto _Lfound;
         }
+
         if (curcmd != REGISTER) {
             print_err(S(602)); // "You can't use `"
             printcmdchr(curcmd, curchr);
-            print(S(603));
+            print(S(603)); // "' after "
             printcmdchr(q, 0);
+            // "I'm forgetting what you said and not changing anything."
             help1(S(941));
             error();
             goto _Lexit;
         }
-    }
+    } // if (q != REGISTER)
+
     p = curchr;
     scan_eight_bit_int();
     switch (p) {
@@ -10878,49 +10883,56 @@ Static void doregistercommand(SmallNumber a) {
         case DIMEN_VAL: l = cur_val + SCALED_BASE; break;
         case GLUE_VAL: l = cur_val + skipbase; break;
         case MU_VAL: l = cur_val + muskipbase; break;
-    }
+    } // switch (p)
 
 _Lfound: /*:1237*/
-    if (q == REGISTER)
+    if (q == REGISTER) {
         scan_optional_equals();
-    else
-        scankeyword(S(942));
+    } else {
+        scankeyword(S(942)); // "by"
+    }
+
     arith_error = false;
-    if (q < MULTIPLY) { /*1238:*/
+    if (q < MULTIPLY) {
+        /// [#1238] Compute result of register or advance, put it in cur_val.
         if (p < GLUE_VAL) {
-            if (p == INT_VAL)
+            if (p == INT_VAL) {
                 scan_int();
-            else {
+            } else {
                 SCAN_NORMAL_DIMEN();
             }
             if (q == ADVANCE) cur_val += eqtb[l - activebase].int_;
-        } else { /*:1238*/
+        } else {
             scan_glue(p);
-            if (q == ADVANCE) { /*1239:*/
+            if (q == ADVANCE) {
+                /// [#1239] Compute the sum of two glue specs.
                 q = newspec(cur_val);
                 r = equiv(l);
                 delete_glue_ref(cur_val);
                 width(q) += width(r);
+
                 if (stretch(q) == 0) stretchorder(q) = NORMAL;
-                if (stretchorder(q) == stretchorder(r))
+                if (stretchorder(q) == stretchorder(r)) {
                     stretch(q) += stretch(r);
-                else if ((stretchorder(q) < stretchorder(r)) &
-                         (stretch(r) != 0)) {
+                } else if ((stretchorder(q) < stretchorder(r)) 
+                            & (stretch(r) != 0)) {
                     stretch(q) = stretch(r);
                     stretchorder(q) = stretchorder(r);
                 }
+
                 if (shrink(q) == 0) shrinkorder(q) = NORMAL;
-                if (shrinkorder(q) == shrinkorder(r))
+                if (shrinkorder(q) == shrinkorder(r)) {
                     shrink(q) += shrink(r);
-                else if ((shrinkorder(q) < shrinkorder(r)) & (shrink(r) != 0)) {
+                } else if ((shrinkorder(q) < shrinkorder(r)) 
+                            & (shrink(r) != 0)) {
                     shrink(q) = shrink(r);
                     shrinkorder(q) = shrinkorder(r);
                 }
                 cur_val = q;
-            }
-            /*:1239*/
-        }
-    } else { /*1240:*/
+            } // if (q == ADVANCE)
+        }     // [#1238] if (p <=> GLUE_VAL)
+    } else {
+        /// [#1240] Compute result of multiply or divide, put it in cur_val.
         scan_int();
         if (p < GLUE_VAL) {
             if (q == MULTIPLY) {
@@ -10945,20 +10957,25 @@ _Lfound: /*:1237*/
                 shrink(r)  = x_over_n(shrink(s), cur_val);
             }
             cur_val = r;
-        }
-    } /*:1240*/
+        } // if (p <=> GLUE_VAL)
+    } // if (q <=> MULTIPLY)
+
     if (arith_error) {
-        print_err(S(943));
+        print_err(S(943)); // "Arithmetic overflow"
+        // "I can't carry out that multiplication or division"
+        // "since the result is out of range."
         help2(S(944), S(945));
         error();
         goto _Lexit;
     }
+
     if (p < GLUE_VAL) {
         worddefine(l, cur_val);
     } else {
         trapzeroglue();
         define(l, GLUE_REF, cur_val);
     }
+
 _Lexit:;
 } // #1236: doregistercommand
 
