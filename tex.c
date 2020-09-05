@@ -2795,40 +2795,46 @@ Static void packjobname(StrNumber s) {
 }
 /*:529*/
 
-/*530:*/
+/// [#530]
 Static void promptfilename(StrNumber s, StrNumber e) {
-    short k;
+    short k; ///< index into buffer.
 
-    if (s == S(665)) {
-        print_err(S(666));
+    if (s == S(665)) { // "input file name"
+        print_err(S(666)); // "I can't find file `"
     } else {
-        print_err(S(667));
+        print_err(S(667)); // "I can't write on file `"
     }
+
     print_file_name(curname, curarea, curext);
-    print(S(668));
+    print(S(668)); // "'."
+
+    // ".tex"
     if (e == S(669)) showcontext();
-    printnl(S(670));
+    printnl(S(670)); // "Please type another "
     print(s);
+
     // "*** (job aborted file error in nonstop mode)"
     if (interaction < SCROLL_MODE) fatalerror(S(671));
     clear_terminal();
-    print(S(488));
-    term_input(); 
-    /*531:*/
+    print(S(488)); // ": "
+    term_input();
+
+    /// [#531] Scan file name in the buffer.
     beginname();
     k = first;
-    while (buffer[k] == ' ' && k < last)
-        k++;
+    while (buffer[k] == ' ' && k < last) k++;
+
     while (true) {
         if (k == last) break;
         if (!morename(buffer[k])) break;
         k++;
     }
-    endname(); /*:531*/
+    endname();
+
+    // ""
     if (curext == S(385)) curext = e;
     packfilename(curname, curarea, curext);
-}
-/*:530*/
+} /* [#530] promptfilename */
 
 /*534:*/
 void openlogfile(void) {
