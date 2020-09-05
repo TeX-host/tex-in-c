@@ -3439,9 +3439,9 @@ Static void shipout(Pointer p) {
     enum Selector old_setting; // saved selector setting
 
     if (tracingoutput > 0) {
-        printnl(S(385));
+        printnl(S(385)); // ""
         println();
-        print(S(686));
+        print(S(686)); // "Completed box being shipped out"
     }
     if (term_offset > (MAX_PRINT_LINE - 9)) {
         println();
@@ -3472,12 +3472,14 @@ Static void shipout(Pointer p) {
         || (depth(p) > MAX_DIMEN) 
         || ((height(p) + depth(p) + voffset) > MAX_DIMEN) 
         || ((width(p) + hoffset) > MAX_DIMEN) ) {
-        print_err(S(687));
+        print_err(S(687)); // "Huge page cannot be shipped out"
+        // "The page just created is more than 18 feet tall or"
+        // "more than 18 feet wide so I suspect something went wrong."
         help2(S(688), S(689));
         error();
         if (tracingoutput <= 0) {
             begindiagnostic();
-            printnl(S(690));
+            printnl(S(690)); // "The following box has been deleted:"
             showbox(p);
             enddiagnostic(true);
         }
@@ -3496,11 +3498,15 @@ Static void shipout(Pointer p) {
     // ensure dvi open
     if (output_file_name == 0) {
         if (job_name == 0) openlogfile();
-        packjobname(S(691));
-        while (!dvi_openout())
+        packjobname(S(691)); // ".dvi"
+        while (!dvi_openout()) {
+            // "file name for output"
+            // " TeX output "
             promptfilename(S(692), S(691));
+        }
         output_file_name = bmakenamestring();
     }
+
     if (totalpages == 0) {
         // output the preamble
         dviout_PRE();
