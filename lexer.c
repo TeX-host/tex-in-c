@@ -544,10 +544,12 @@ void endtokenlist(void) {
             }
         }
     } else if (token_type == U_TEMPLATE) {
-        if (align_state > 500000L)
+        if (align_state > 500000L) {
             align_state = 0;
-        else
+        } else {
+            // "(interwoven alignment preambles are not allowed)"
             fatalerror(S(509));
+        }
     }
     popinput();
     checkinterrupt();

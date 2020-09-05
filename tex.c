@@ -2582,8 +2582,10 @@ Static void readtoks(long n, HalfWord r) {
                     term_input();
                     n = -1;
                 }
-            } else /*:484*/
+            } else {/*:484*/
+                // "*** (cannot \read from terminal in nonstop modes)"
                 fatalerror(S(654));
+            }
         } else if (readopen[m] == justopen) {
             if (inputln(readfile[m], false))
                 readopen[m] = NORMAL;
@@ -2757,6 +2759,7 @@ Static void promptfilename(StrNumber s, StrNumber e) {
     if (e == S(669)) showcontext();
     printnl(S(670));
     print(s);
+    // "*** (job aborted file error in nonstop mode)"
     if (interaction < SCROLL_MODE) fatalerror(S(671));
     clear_terminal();
     print(S(488));
@@ -5392,6 +5395,7 @@ _Lrestart:
             gettoken();
         }
     }
+    // "(interwoven alignment preambles are not allowed)"
     if (curcmd == ENDV) fatalerror(S(509));
     if (curcmd != ASSIGN_GLUE || curchr != gluebase + TAB_SKIP_CODE) return;
     scan_optional_equals();
@@ -5553,6 +5557,7 @@ Static Boolean fincol(void) {
     if (curalign == 0) confusion(S(735));
     q = link(curalign);
     if (q == 0) confusion(S(735));
+    // "(interwoven alignment preambles are not allowed)"
     if (align_state < 500000L) fatalerror(S(509));
     p = link(q);
     /*792:*/
