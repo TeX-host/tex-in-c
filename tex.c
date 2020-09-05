@@ -10439,33 +10439,33 @@ Static void mathradical(void)
 /*:1163*/
 
 /*1165:*/
-Static void mathac(void)
-{
-  if (curcmd == ACCENT) {   /*1166:*/
-    print_err(S(912));
-    print_esc(S(913));
-    print(S(914));
-    help2(S(915),
-          S(916));
-    error();
-  }
-  /*:1166*/
-  tailappend(getnode(accentnoadsize));
-  type(tail) = accentnoad;
-  subtype(tail) = NORMAL;
-  mem[nucleus(tail) - MEM_MIN].hh = emptyfield;
-  mem[subscr(tail) - MEM_MIN].hh = emptyfield;
-  mem[supscr(tail) - MEM_MIN].hh = emptyfield;
-  mathtype(accentchr(tail)) = mathchar;
-  scan_fifteen_bit_int();
-  character(accentchr(tail)) = cur_val & 255;
-  if (cur_val >= varcode && faminrange) {
-    fam(accentchr(tail)) = curfam;
-  } else
-    fam(accentchr(tail)) = (cur_val / 256) & 15;
-  scanmath(nucleus(tail));
-}
-/*:1165*/
+Static void mathac(void) {
+    if (curcmd == ACCENT) { /*1166:*/
+        print_err(S(912)); // "Please use "
+        print_esc(S(913)); // "mathaccent"
+        print(S(914));     // " for accents in math mode"
+        // "I'm changing \\accent to \\mathaccent here; wish me luck."
+        // "(Accents are not the same in formulas as they are in text.)"
+        help2(S(915), S(916));
+        error();
+    } /*:1166*/
+
+    tailappend(getnode(accentnoadsize));
+    type(tail) = accentnoad;
+    subtype(tail) = NORMAL;
+    mem[nucleus(tail) - MEM_MIN].hh = emptyfield;
+    mem[subscr(tail) - MEM_MIN].hh = emptyfield;
+    mem[supscr(tail) - MEM_MIN].hh = emptyfield;
+    mathtype(accentchr(tail)) = mathchar;
+    scan_fifteen_bit_int();
+    character(accentchr(tail)) = cur_val & 255;
+    if (cur_val >= varcode && faminrange) {
+        fam(accentchr(tail)) = curfam;
+    } else {
+        fam(accentchr(tail)) = (cur_val / 256) & 15;
+    }
+    scanmath(nucleus(tail));
+} /*:1165*/
 
 /*1172:*/
 Static void appendchoices(void)
