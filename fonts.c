@@ -897,28 +897,32 @@ _Ldone:
     return g;
 } // p205#560: readfontinfo
 
-/// [#577]
-void scanfontident(void) { /*406:*/
+/// [#577] Declare procedures that scan font-related stuff.
+void scanfontident(void) {
     InternalFontNumber f;
     HalfWord m;
 
-    skip_spaces();
-    if (curcmd == DEF_FONT)
+    skip_spaces(); // [#406]
+
+    if (curcmd == DEF_FONT) {
         f = curfont;
-    else if (curcmd == SET_FONT)
+    } else if (curcmd == SET_FONT) {
         f = curchr;
-    else if (curcmd == DEF_FAMILY) {
+    } else if (curcmd == DEF_FAMILY) {
         m = curchr;
         scan_four_bit_int();
         f = equiv(m + cur_val);
     } else {
-        print_err(S(584));
+        print_err(S(584)); // "Missing font identifier"
+        // "I was looking for a control sequence whose"
+        // "current meaning has been defined by \\font."
         help2(S(585), S(586));
         backerror();
         f = NULL_FONT;
     }
+
     cur_val = f;
-} // [#577] scanfontident
+} /* [#577] scanfontident */
 
 /// [#578]
 void findfontdimen(Boolean writing) {
