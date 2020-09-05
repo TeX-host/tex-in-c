@@ -924,7 +924,10 @@ void scanfontident(void) {
     cur_val = f;
 } /* [#577] scanfontident */
 
-/// [#578]
+/// [#578] sets `cur_val` to `font_info` location.
+/// implement `\\fontdimen n f`.
+/// The boolean parameter writing is set true
+///     if the calling program intends to change the parameter value.
 void findfontdimen(Boolean writing) {
     InternalFontNumber f;
     long n;
@@ -943,10 +946,12 @@ void findfontdimen(Boolean writing) {
             delete_glue_ref(fontglue[f]);
             fontglue[f] = 0;
         }
+
         if (n > fontparams[f]) {
             if (f < fontptr) {
                 cur_val = fmemptr;
-            } else { /*:580*/
+            } else { 
+                // [#580] Increase the number of parameters in the last font.
                 do {
                     if (fmemptr == FONT_MEM_SIZE) {
                         // "font memory"
@@ -956,22 +961,27 @@ void findfontdimen(Boolean writing) {
                     fmemptr++;
                     fontparams[f]++;
                 } while (n != fontparams[f]);
+                // this equals `param base[f] + font params[f]`
                 cur_val = fmemptr - 1;
             }
         } else {
             cur_val = n + parambase[f];
         }
-    }                               /*579:*/
-    if (cur_val != fmemptr) return; /*:579*/
+    }
 
-    print_err(S(588));
+    // [#579] Issue an error message if `cur_val = fmem ptr`.
+    if (cur_val != fmemptr) return;
+
+    print_err(S(588)); // "Font "
     print_esc(fontidtext(f));
-    print(S(589));
+    print(S(589)); // " has only "
     print_int(fontparams[f]);
-    print(S(590));
+    print(S(590)); // " fontdimen parameters"
+    // "To increase the number of font parameters you must"
+    // "use \\fontdimen immediately after the \\font is loaded."
     help2(S(591), S(592));
     error();
-} // [#578] findfontdimen
+} /* [#578] findfontdimen */
 
 /// [#581]
 void charwarning(InternalFontNumber f, EightBits c) {
