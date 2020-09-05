@@ -802,7 +802,6 @@
 
 /// [p437#1214]
 /// 1218, 1241
-#define global (a >= 4)
 #define define(x, y, z) \
     ((a >= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))
 #define worddefine(x, y) \

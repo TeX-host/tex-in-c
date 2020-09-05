@@ -11149,59 +11149,71 @@ Static void newinteraction(void) {
 } // #1265: newinteraction
 
 
-// [#1211]
+/// [#1211] If the user says, e.g., `\\global\\global`, 
+/// the redundancy is silently accepted.
 Static void prefixedcommand(void) {
-    SmallNumber a;
-    InternalFontNumber f;
-    HalfWord j;
-    FontIndex k;
-    Pointer p, q;
-    long n;
-    Boolean e;
+    SmallNumber a; ///< accumulated prefix codes so far.
+    InternalFontNumber f; ///< identifies a font.
+    HalfWord j; ///< index into a \\parshape specification.
+    FontIndex k; ///< index into font_info.
+    Pointer p, q; ///< for temporary short-term use.
+    long n; ///< ditto.
+    Boolean e; ///< should a definition be expanded? or was \\let not done?
 
     a = 0;
     while (curcmd == PREFIX) {
+        // if (not_odd(a // curchr))
         if (!((a / curchr) & 1)) a += curchr;
         skip_spaces_or_relax();
-        if (curcmd > MAX_NON_PREFIXED_COMMAND) /*1212:*/
-            continue;
-        /*:1212*/
-        print_err(S(957));
+        if (curcmd > MAX_NON_PREFIXED_COMMAND) continue;
+
+        /// [#1212] Discard erroneous prefixes and return.
+        print_err(S(957)); // "You can't use a prefix with `"
         printcmdchr(curcmd, curchr);
         print_char('\'');
+        // "I'll pretend you didn't say \\long or \\outer or \\global."
         help1(S(958));
         backerror();
         goto _Lexit;
-    }                                    /*1213:*/
-    if (curcmd != DEF && (a & 3) != 0) { /*:1213*/
-        print_err(S(602));
-        print_esc(S(959));
-        print(S(960));
-        print_esc(S(961));
-        print(S(962));
+        /// end [#1212]
+    } // while (curcmd == PREFIX)
+
+    /// [#1213]  Discard the prefixes \\long and \\outer if they are irrelevant.
+    if (curcmd != DEF && (a % 4) != 0) {
+        print_err(S(602)); // "You can't use `"
+        print_esc(S(959)); // "long"
+        print(S(960));     // "' or `"
+        print_esc(S(961)); // "outer"
+        print(S(962));     // "' with `"
         printcmdchr(curcmd, curchr);
         print_char('\'');
+        // "I'll pretend you didn't say \\long or \\outer here."
         help1(S(963));
         error();
-    }
-    /*1214:*/
+    } // end [#1213]
+
+    /// [#1214] Adjust for the setting of \\globaldefs.
     if (globaldefs != 0) {
         if (globaldefs < 0) {
-            if (global) {
+            if (a >= 4) {
                 a -= 4;
             }
-        } else { /*:1214*/
-            if (!global) {
+        } else {
+            if (!(a >= 4)) {
                 a += 4;
             }
         }
-    }
-    switch (curcmd) { /*1217:*/
-        case SET_FONT: /*:1217*/ define(curfontloc, DATA, curchr); break;
+    } /* end [#1214] if (globaldefs != 0) */
 
-        /*1218:*/
-        case DEF: /*:1218*/
-            if ((curchr & 1) && !global && globaldefs >= 0) {
+    switch (curcmd) {
+        /// [#1217] Assignments.
+        case SET_FONT:
+            define(curfontloc, DATA, curchr);
+            break;
+
+        /// [#1218]
+        case DEF:
+            if ((curchr & 1) && !(a >= 4) && globaldefs >= 0) {
                 a += 4;
             }
             e = (curchr >= 2);
@@ -11210,8 +11222,8 @@ Static void prefixedcommand(void) {
             q = scantoks(true, e);
             define(p, CALL + (a & 3), defref);
             break;
-            /*1221:*/
 
+        /// [#1221]
         case LET:
             n = curchr;
             getrtoken();
@@ -11225,21 +11237,21 @@ Static void prefixedcommand(void) {
                     if (curcmd == SPACER) gettoken();
                 }
             } else {
+                // look ahead, then back up
                 gettoken();
                 q = curtok;
                 gettoken();
                 backinput();
                 curtok = q;
                 backinput();
-            }
+            } // note that back input doesn’t affect `cur_cmd`, `cur_chr`
             if (curcmd >= CALL) {
                 addtokenref(curchr);
             }
             define(p, curcmd, curchr);
             break;
 
-        /*:1221*/
-        /*1224:*/
+        /// [#1224]
         case SHORTHAND_DEF:
             n = curchr;
             getrtoken();
@@ -11247,7 +11259,6 @@ Static void prefixedcommand(void) {
             define(p, RELAX, 256);
             scan_optional_equals();
             switch (n) {
-
                 case chardefcode:
                     scan_char_num();
                     define(p, CHAR_GIVEN, cur_val);
@@ -11261,7 +11272,6 @@ Static void prefixedcommand(void) {
                 default:
                     scan_eight_bit_int();
                     switch (n) {
-
                         case countdefcode:
                             define(p, ASSIGN_INT, countbase + cur_val);
                             break;
@@ -11281,18 +11291,21 @@ Static void prefixedcommand(void) {
                         case toksdefcode:
                             define(p, ASSIGN_TOKS, toksbase + cur_val);
                             break;
-                    }
-                    break;
-            }
-            break;
-            /*:1224*/
 
-        /*1225:*/
-        case READ_TO_CS: /*:1225*/
+                        /* there are no other cases */
+                    } // switch (n)
+                    break;
+            } // switch (n)
+            break;
+
+        /// [#1225]
+        case READ_TO_CS:
             scan_int();
             n = cur_val;
-            if (!scankeyword(S(697))) {
-                print_err(S(856));
+            if (!scankeyword(S(697))) { // "to"
+                print_err(S(856)); // "Missing `to' inserted"
+                // "You should have said `\\read<number> to \\cs'."
+                // "I'm going to look for the \\cs now."
                 help2(S(964), S(965));
                 error();
             }
@@ -11301,19 +11314,23 @@ Static void prefixedcommand(void) {
             readtoks(n, p);
             define(p, CALL, cur_val);
             break;
-            /*1226:*/
 
+        /// [#1226]
         case TOKS_REGISTER:
-        case ASSIGN_TOKS: /*:1226*/
+        case ASSIGN_TOKS:
             q = curcs;
             if (curcmd == TOKS_REGISTER) {
                 scan_eight_bit_int();
                 p = toksbase + cur_val;
-            } else
-                p = curchr;
+            } else {
+                // p = `every_par_loc` or `output_routine_loc` or ...
+                p = curchr; 
+            }
             scan_optional_equals();
             skip_spaces_or_relax();
-            if (curcmd != LEFT_BRACE) { /*1227:*/
+            if (curcmd != LEFT_BRACE) { 
+                /// [#1227] If the right-hand side is a token parameter 
+                /// or token register, finish the assignment and goto done
                 int cur_chr = curchr;
                 if (curcmd == TOKS_REGISTER) {
                     scan_eight_bit_int();
@@ -11330,16 +11347,17 @@ Static void prefixedcommand(void) {
                     }
                     goto _Ldone;
                 }
-            }
-            /*:1227*/
+            } /* [#1227] if (curcmd != LEFT_BRACE) */
+
             backinput();
             curcs = q;
             q = scantoks(false, false);
-            if (link(defref) == 0) {
+            if (link(defref) == 0) { // empty list: revert to the default
                 define(p, UNDEFINED_CS, 0);
                 FREE_AVAIL(defref);
             } else {
                 if (p == outputroutineloc) {
+                    // enclose in curlies
                     link(q) = get_avail();
                     q = link(q);
                     info(q) = rightbracetoken + '}';
@@ -11351,8 +11369,8 @@ Static void prefixedcommand(void) {
                 define(p, CALL, defref);
             }
             break;
-            /*1228:*/
 
+        /// [#1228]
         case ASSIGN_INT:
             p = curchr;
             scan_optional_equals();
@@ -11368,44 +11386,49 @@ Static void prefixedcommand(void) {
             break;
 
         case ASSIGN_GLUE:
-        case ASSIGN_MU_GLUE: /*:1228*/
+        case ASSIGN_MU_GLUE:
             p = curchr;
             n = curcmd;
             scan_optional_equals();
-            if (n == ASSIGN_MU_GLUE)
+            if (n == ASSIGN_MU_GLUE) {
                 scan_glue(MU_VAL);
-            else
+            } else {
                 scan_glue(GLUE_VAL);
+            }
             trapzeroglue();
             define(p, GLUE_REF, cur_val);
             break;
-            /*1232:*/
 
-        case DEF_CODE: /*:1232*/
-            /*1233:*/
-            if (curchr == catcodebase)
+        /// [#1232]
+        case DEF_CODE:
+            /// [#1233] Let n be the largest legal code value, based on cur_chr.
+            if (curchr == catcodebase) {
                 n = MAX_CHAR_CODE;
-            else if (curchr == mathcodebase)
+            } else if (curchr == mathcodebase) {
                 n = 32768L;
-            else if (curchr == sfcodebase)
+            } else if (curchr == sfcodebase) {
                 n = 32767;
-            else if (curchr == delcodebase)
+            } else if (curchr == delcodebase) {
                 n = 16777215L;
-            else
-                n = 255; /*:1233*/
+            } else {
+                n = 255; 
+            } // end [#1233]
+
             p = curchr;
             scan_char_num();
             p += cur_val;
             scan_optional_equals();
             scan_int();
             if ((cur_val < 0 && p < delcodebase) || cur_val > n) {
-                print_err(S(966));
+                print_err(S(966)); // "Invalid code ("
                 print_int(cur_val);
-                if (p < delcodebase)
-                    print(S(967));
-                else
-                    print(S(968));
+                if (p < delcodebase) {
+                    print(S(967)); // ") should be in the range 0.."
+                } else {
+                    print(S(968)); // ") should be at most "
+                }
                 print_int(n);
+                // "I'm going to use 0 instead of that illegal code value."
                 help1(S(969));
                 error();
                 cur_val = 0;
@@ -11418,9 +11441,9 @@ Static void prefixedcommand(void) {
                 worddefine(p, cur_val);
             }
             break;
-            /*1234:*/
 
-        case DEF_FAMILY: /*:1234*/
+        /// [#1234]
+        case DEF_FAMILY:
             p = curchr;
             scan_four_bit_int();
             p += cur_val;
@@ -11428,60 +11451,64 @@ Static void prefixedcommand(void) {
             scanfontident();
             define(p, DATA, cur_val);
             break;
-            /*1235:*/
 
+        /// [#1235]
         case REGISTER:
         case ADVANCE:
         case MULTIPLY:
-        case DIVIDE: /*:1235*/
+        case DIVIDE:
             doregistercommand(a);
             break;
-            /*1241:*/
 
-        case SET_BOX: /*:1241*/
+        /// [#1241]
+        case SET_BOX:
             scan_eight_bit_int();
-            if (global) {
+            if (a >= 4) {
                 n = cur_val + 256;
-            } else
+            } else {
                 n = cur_val;
+            }
             scan_optional_equals();
-            if (set_box_allowed)
+            if (set_box_allowed) {
                 scanbox(boxflag + n);
-            else {
+            } else {
                 print_err(S(597)); // "Improper "
-                print_esc(S(970));
+                print_esc(S(970)); // "setbox"
+                // "Sorry \\setbox is not allowed after \\halign in a display"
+                // "or between \\accent and an accented character."
                 help2(S(971), S(972));
                 error();
             }
             break;
-            /*1242:*/
 
+        /// [#1242]
         case SET_AUX: alteraux(); break;
         case SET_PREV_GRAF: alterprevgraf(); break;
         case SET_PAGE_DIMEN: alterpagesofar(); break;
         case SET_PAGE_INT: alterinteger(); break;
         case SET_BOX_DIMEN:  alterboxdimen(); break;
-            /*1248:*/
 
-        case SET_SHAPE: /*:1248*/
+        /// [#1248]
+        case SET_SHAPE:
             scan_optional_equals();
             scan_int();
             n = cur_val;
-            if (n <= 0)
+            if (n <= 0) {
                 p = 0;
-            else {
+            } else {
                 p = getnode(n * 2 + 1);
                 info(p) = n;
                 for (j = 1; j <= n; j++) {
                     SCAN_NORMAL_DIMEN();
-                    mem[p + j * 2 - MEM_MIN - 1].sc = cur_val;
+                    mem[p + j * 2 - MEM_MIN - 1].sc = cur_val; // indentation
                     SCAN_NORMAL_DIMEN();
-                    mem[p + j * 2 - MEM_MIN].sc = cur_val;
+                    mem[p + j * 2 - MEM_MIN].sc = cur_val; // width
                 }
             }
             define(parshapeloc, SHAPE_REF, p);
             break;
 
+        /// [#1252]
         case HYPH_DATA:
             if (curchr == 1) {
             #ifdef tt_INIT
@@ -11489,13 +11516,20 @@ Static void prefixedcommand(void) {
                 newpatterns();
                 goto _Ldone;
             #endif // #1252: tt_INIT
+            /* NOT_USE ???
+                print_err_str("Patterns can be loaded only by INITEX");
+                error();
+                do {
+                    get_token(); // flush the patterns
+                } while (curcmd != RIGHT_BRACE);
+            */
             } else {
                 newhyphexceptions();
                 goto _Ldone;
             }
             break;
-            /*1253:*/
 
+        /// [#1253]
         case ASSIGN_FONT_DIMEN:
             findfontdimen(true);
             k = cur_val;
@@ -11510,35 +11544,38 @@ Static void prefixedcommand(void) {
             f = cur_val;
             scan_optional_equals();
             scan_int();
-            if (n == 0)
+            if (n == 0) {
                 set_hyphenchar(f, cur_val);
-            else
+            } else {
                 set_skewchar(f, cur_val);
+            }
             break;
-            /*:1253*/
 
-        /*1256:*/
-        case DEF_FONT: newfont(a); break;
+        /// [#1256]
+        case DEF_FONT:
+            newfont(a); 
+            break;
 
-        /*:1256*/
-        /*1264:*/
-        case SET_INTERACTION: newinteraction(); break;
+        /// [#1264]
+        case SET_INTERACTION:
+            newinteraction();
+            break;
 
-        /*:1264*/
         default:
             confusion(S(973)); // "prefix"
             break;
     } // switch (curcmd)
 
 _Ldone:
-    /*1269:*/
-    if (aftertoken != 0) { /*:1269*/
+    /// [#1269] Insert a token saved by \\afterassignment, if any.
+    if (aftertoken != 0) {
         curtok = aftertoken;
         backinput();
         aftertoken = 0;
     }
+
 _Lexit:;
-} // #1211: prefixedcommand
+} /* [#1211]: prefixedcommand */
 
 
 /*1270:*/
