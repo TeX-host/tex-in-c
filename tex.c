@@ -11881,14 +11881,14 @@ Static void storefmtfile(void) { /*1304:*/
     Pointer p, q;
     MemoryWord pppfmtfile;
     if (saveptr != 0) {
-        print_err(S(988));
-        help1(S(989));
+        print_err(S(988)); // "You can't dump inside a group"
+        help1(S(989)); // "`{...\\dump}' is a no-no."
         succumb();
     }
     /*:1304*/
     /*1328:*/
     selector = NEW_STRING;
-    print(S(990));
+    print(S(990)); // " (preloaded format="
     print(job_name);
     print_char(' ');
     print_int(year % 100);
@@ -11904,12 +11904,16 @@ Static void storefmtfile(void) { /*1304:*/
     str_room(1);
     format_ident = makestring();
     packjobname(formatextension);
-    while (!wopenout(&fmtfile))
+    while (!wopenout(&fmtfile)) {
+        // "format file name"
         promptfilename(S(991), formatextension);
-    printnl(S(992));
+    }
+    printnl(S(992)); // "Beginning to dump on file "
     slow_print(wmakenamestring());
     flush_string();
-    printnl(S(385));        /*:1328*/
+    printnl(S(385)); // ""
+    /*:1328*/
+
     slow_print(format_ident); /*1307:*/
     pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
@@ -11972,7 +11976,7 @@ Static void storefmtfile(void) { /*1304:*/
     pput(pppfmtfile);
     println();
     print_int(x);
-    print(S(993));
+    print(S(993)); // " memory locations dumped; current usage is "
     print_int(var_used);
     print_char('&');    /*:1311*/
     print_int(dyn_used); /*1313:*/
@@ -12065,7 +12069,7 @@ _Ldone2:
     println();
     print_int(cs_count); /*:1318*/
     /*:1313*/
-    print(S(994));
+    print(S(994)); // " multiletter control sequences"
     fonts_dump(fmtfile);
     /*1324:*/
     pppfmtfile.int_ = hyphcount;
@@ -12082,7 +12086,7 @@ _Ldone2:
     }
     println();
     print_int(hyphcount);
-    print(S(995));
+    print(S(995)); // " hyphenation exception"
     if (hyphcount != 1) print_char('s');
     if (trie_not_ready) inittrie();
     pppfmtfile.int_ = triemax;
@@ -12101,19 +12105,19 @@ _Ldone2:
         pppfmtfile.int_ = hyfnext[k];
         pput(pppfmtfile);
     }
-    printnl(S(996));
+    printnl(S(996)); // "Hyphenation trie of length "
     print_int(triemax);
-    print(S(997));
+    print(S(997)); // " has "
     print_int(trieopptr);
-    print(S(998));
+    print(S(998)); // " op"
     if (trieopptr != 1) print_char('s');
-    print(S(999));
+    print(S(999)); // " out of "
     print_int(TRIE_OP_SIZE);
     for (k = 255; k >= 0; k--) {            /*1326:*/
         if (trieused[k] > MIN_QUARTER_WORD) { /*:1324*/
-            printnl(S(675));
+            printnl(S(675));                  // "  "
             print_int(trieused[k] - MIN_QUARTER_WORD);
-            print(S(1000));
+            print(S(1000)); // " for language "
             print_int(k);
             pppfmtfile.int_ = k;
             pput(pppfmtfile);
