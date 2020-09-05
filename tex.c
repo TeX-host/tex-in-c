@@ -9435,7 +9435,10 @@ Static void boxend(long boxcontext)
     leaderptr(tail) = curbox;
     return;
   }
-  print_err(S(849));
+  print_err(S(849)); // "Leaders not followed by proper glue"
+  // "You should say `\\leaders <box or rule><hskip or vskip>'."
+  // "I found the <box or rule> but there's no suitable"
+  // "<hskip or vskip> so I'm ignoring these leaders."
   help3(S(850),
         S(851),
         S(852));
