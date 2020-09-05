@@ -9121,20 +9121,23 @@ Static void offsave(void) {
     Pointer p;
 
     if (curgroup == bottomlevel) { /*1066:*/
-        print_err(S(558));
+        print_err(S(558));         // "Extra "
         printcmdchr(curcmd, curchr);
+        // "Things are pretty mixed up but I think the worst is over."
         help1(S(835));
         error();
         return;
     } /*:1066*/
+
     backinput();
     p = get_avail();
     link(temphead) = p;
-    print_err(S(554));      /*1065:*/
+    print_err(S(554)); // "Missing "
+    /*1065:*/
     switch (curgroup) { /*:1065*/
         case semisimplegroup:
             info(p) = CS_TOKEN_FLAG + frozenendgroup;
-            print_esc(S(836));
+            print_esc(S(836)); // "endgroup"
             break;
 
         case mathshiftgroup:
@@ -9147,7 +9150,7 @@ Static void offsave(void) {
             link(p) = get_avail();
             p = link(p);
             info(p) = othertoken + '.';
-            print_esc(S(837));
+            print_esc(S(837)); // "right."
             break;
 
         default:
@@ -9155,7 +9158,7 @@ Static void offsave(void) {
             print_char('}');
             break;
     }
-    print(S(555));
+    print(S(555)); // " inserted"
     inslist(link(temphead));
     /*
      * (838) "I've inserted something that you may have forgotten."
@@ -12122,7 +12125,7 @@ Static void handlerightbrace(void) {
         case aligngroup: /*:1132*/
             backinput();
             curtok = CS_TOKEN_FLAG + frozencr;
-            print_err(S(554));
+            print_err(S(554)); // "Missing "
             print_esc(S(737));
             print(S(555));
             help1(S(1011));
