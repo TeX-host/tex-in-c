@@ -2449,16 +2449,19 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
     HalfWord t, s, unbalance, hashbrace;
     Pointer p;
 
-    if (macrodef)
+    if (macrodef) {
         scanner_status = DEFINING;
-    else
+    } else {
         scanner_status = ABSORBING;
+    }
+
     warning_index = curcs;
     defref = get_avail();
     tokenrefcount(defref) = 0;
     p = defref;
     hashbrace = 0;
     t = ZERO_TOKEN;
+
     if (macrodef) { /*474:*/
         while (true) {
             gettoken();
@@ -2473,13 +2476,17 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     goto _Ldone;
                 }
                 if (t == ZERO_TOKEN + 9) {
-                    print_err(S(643));
+                    print_err(S(643)); // "You already have nine parameters"
+                    // "I'm going to ignore the # sign you just used."
                     help1(S(644));
                     error();
                 } else {
                     t++;
                     if (curtok != t) {
+                        // "Parameters must be numbered consecutively"
                         print_err(S(645));
+                        // "I've inserted the digit you should have used after the #."
+                        // "Type `1' to delete what you did use."
                         help2(S(646), S(647));
                         backerror();
                     }
@@ -2489,20 +2496,24 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
             /*:476*/
             STORE_NEW_TOKEN(p, curtok);
         }
+
     _Ldone1:
         STORE_NEW_TOKEN(p, endmatchtoken);
         if (curcmd == RIGHT_BRACE) { /*475:*/
-            print_err(S(566));
+            print_err(S(566)); // "Missing { inserted"
             align_state++;
+            // "Where was the left brace? You said something like `\\def\\a}'"
+            // "which I'm going to interpret as `\\def\\a{}'."
             help2(S(648), S(649));
             error();
             goto _Lfound;
-        }
-        /*:475*/
+        } /*:475*/
+
     _Ldone:;
-    } else
+    } else {
         scan_left_brace();
-    /*:474*/
+    } /*:474*/
+
     /*477:*/
     unbalance = 1;
     while (true) {   /*:477*/
@@ -2510,9 +2521,9 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
             while (true) {
                 getnext();
                 if (curcmd <= MAX_COMMAND) goto _Ldone2;
-                if (curcmd != THE)
+                if (curcmd != THE) {
                     expand();
-                else {
+                } else {
                     Pointer q = thetoks();
                     if (link(temphead) != 0) {
                         link(p) = link(temphead);
@@ -2520,45 +2531,57 @@ Static HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                     }
                 }
             }
+
         _Ldone2:
             xtoken();
-        } else
+        } else {
             gettoken();
+        }
+
         /*:478*/
         if (curtok < rightbracelimit) {
-            if (curcmd < RIGHT_BRACE)
+            if (curcmd < RIGHT_BRACE) {
                 unbalance++;
-            else {
+            } else {
                 unbalance--;
                 if (unbalance == 0) goto _Lfound;
             }
         } else if (curcmd == MAC_PARAM) {
             if (macrodef) { /*479:*/
                 s = curtok;
-                if (xpand)
+                if (xpand) {
                     get_x_token();
-                else
+                } else {
                     gettoken();
+                }
                 if (curcmd != MAC_PARAM) {
                     if (curtok <= ZERO_TOKEN || curtok > t) {
+                        // "Illegal parameter number in definition of "
                         print_err(S(650));
                         sprint_cs(warning_index);
+                        /*
+                         * "You meant to type ## instead of # right?"
+                         * "Or maybe a } was forgotten somewhere earlier and things"
+                         * "are all screwed up? I'm going to assume that you meant ##."
+                         */
                         help3(S(651), S(652), S(653));
                         backerror();
                         curtok = s;
-                    } else
+                    } else {
                         curtok = outparamtoken - '0' + curchr;
+                    }
                 }
-            }
-            /*:479*/
+            } /*:479*/
         }
         STORE_NEW_TOKEN(p, curtok);
     }
+
 _Lfound:
     scanner_status = NORMAL;
     if (hashbrace != 0) {
         STORE_NEW_TOKEN(p, hashbrace);
     }
+
     return p;
 } /*:473*/
 
