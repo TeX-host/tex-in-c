@@ -5457,52 +5457,95 @@ _Lrestart:
 }
 /*:782*/
 
+/// [#774] When \\halign or \\valign has been scanned,
+///     get everything off to a good start.
+///
+/// This mostly involves scanning the preamble and putting its
+///     information into the preamble list.
 Static void initalign(void) {
-    Pointer savecsptr, p;
+    Pointer savecsptr; ///< `warning_index` value for error messages.
+    Pointer p;         ///< for short-term temporary use.
 
-    savecsptr = curcs;
+    // \halign or \valign, usually
+    savecsptr = curcs; 
+    // enter a new alignment level
     pushalignment();
-    align_state = -1000000L;                                        /*776:*/
-    if (mode == M_MODE && (tail != head || incompleatnoad != 0)) { /*:776*/
-        print_err(S(597));
-        print_esc(S(724));
-        print(S(725));
+    align_state = -1000000L;
+
+    // [#776] Check for improper alignment in displayed math.
+    // When \halign is used as a displayed formula, there should be no other
+    // pieces of mlists present.
+    if (mode == M_MODE && (tail != head || incompleatnoad != 0)) {
+        print_err(S(597)); // "Improper "
+        print_esc(S(724)); // "halign"
+        print(S(725));     // " inside $$'s"
+        /*
+         * "Displays can use special alignments (like \\eqalignno)"
+         * "only if nothing but the alignment itself is between $$'s."
+         * "So I've deleted the formulas that preceded this alignment."
+         */
         help3(S(726), S(727), S(728));
         error();
         flushmath();
-    }
-    pushnest(); /*775:*/
+    } // [#776]
+
+    // enter a new semantic level
+    pushnest();
+
+    // [#775] Change current mode to:
+    //  + `-vmode` for `\halign`
+    //  + `-hmode` for `\valign`
     if (mode == M_MODE) {
         mode = -V_MODE;
         prevdepth = nest[nest_ptr - 2].auxfield.sc;
-    } else if (mode > 0)
-        mode = -mode; /*:775*/
+    } else if (mode > 0) {
+        mode = -mode;
+    } /* [#775] if (mode <=> M_MODE) */
+
     scanspec(aligngroup, false);
-    /*777:*/
+
+    // [#777] Scan the preamble and record it in the `preamble` list.
     preamble = 0;
     curalign = alignhead;
     curloop = 0;
     scanner_status = ALIGNING;
+    // at this point, `cur_cmd = left_brace`
     warning_index = savecsptr;
     align_state = -1000000L;
-    while (true) { /*778:*/
+
+    while (true) {
+        // [#778] Append the current tabskip glue to the preamble list
         link(curalign) = newparamglue(TAB_SKIP_CODE);
-        curalign = link(curalign); /*:778*/
+        curalign = link(curalign);
+
+        // `\cr` ends the preamble
         if (curcmd == CAR_RET) goto _Ldone;
-        /*779:*/
-        /*783:*/
+
+        /// [#779] Scan preamble text until cur cmd is tab mark or car ret,
+        ///     looking for changes in the tabskip glue;
+        ///     append an alignrecord to the preamble list.
+
+
+        /// [#783] Scan the template ⟨ u_j ⟩, putting the resulting token list in hold head.
         p = holdhead;
         link(p) = 0;
         while (true) {
             getpreambletoken();
             if (curcmd == MAC_PARAM) goto _Ldone1;
-            if (curcmd <= CAR_RET && curcmd >= TAB_MARK &&
-                align_state == -1000000L) {
+            if (   curcmd <= CAR_RET 
+                && curcmd >= TAB_MARK 
+                && align_state == -1000000L) {
                 if (p == holdhead && curloop == 0 && curcmd == TAB_MARK) {
                     curloop = curalign;
                     continue;
                 } else {
+                    // "Missing # inserted in alignment preamble"
                     print_err(S(729));
+                    /*
+                     * "There should be exactly one # between &'s when an"
+                     * "\\halign or \\valign is being set up. In this case you had"
+                     * "none so I've put one in; maybe that will work."
+                     */
                     help3(S(730), S(731), S(732));
                     backerror();
                     goto _Ldone1;
@@ -5515,23 +5558,36 @@ Static void initalign(void) {
                 }
                 continue;
             }
-        }
-    _Ldone1: /*:783*/
+        } // while (true)
+        _Ldone1:
+        /// end [#783]
+
+        // a new alignrecord
         link(curalign) = newnullbox();
         curalign = link(curalign);
+
         info(curalign) = endspan;
         width(curalign) = nullflag;
-        upart(curalign) = link(holdhead); /*784:*/
+        upart(curalign) = link(holdhead); 
+        
+        /// [#784] Scan the template ⟨ v_j ⟩, putting the resulting token list in `hold_head`
         p = holdhead;
         link(p) = 0;
         while (true) {
         _Llabcontinue:
             getpreambletoken();
-            if (curcmd <= CAR_RET && curcmd >= TAB_MARK &&
-                align_state == -1000000L)
+            if (   curcmd <= CAR_RET 
+                && curcmd >= TAB_MARK 
+                && align_state == -1000000L) {
                 goto _Ldone2;
+            }
             if (curcmd == MAC_PARAM) {
-                print_err(S(733));
+                print_err(S(733)); // "Only one # is allowed per tab"
+                /*
+                 * "There should be exactly one # between &'s when an"
+                 * "\\halign or \\valign is being set up. In this case you had"
+                 * "more than one so I'm ignoring all but the first."
+                 */
                 help3(S(730), S(731), S(734));
                 error();
                 goto _Llabcontinue;
@@ -5539,20 +5595,26 @@ Static void initalign(void) {
             link(p) = get_avail();
             p = link(p);
             info(p) = curtok;
-        }
-    _Ldone2:
+        } // while (true)
+        _Ldone2:
+
+        // put `\endtemplate` at the end
         link(p) = get_avail();
         p = link(p);
-        info(p) = endtemplatetoken;       /*:784*/
-        vpart(curalign) = link(holdhead); /*:779*/
-    }
+        info(p) = endtemplatetoken; 
+        /// end [#784]
+
+        vpart(curalign) = link(holdhead);
+        /// 3nd [#779]
+    } // while (true)
+
 _Ldone:
-    scanner_status = NORMAL; /*:777*/
+    scanner_status = NORMAL; // end [#777]
+
     newsavelevel(aligngroup);
     if (everycr != 0) begintokenlist(everycr, EVERY_CR_TEXT);
-    alignpeek();
-}
-/*:774*/
+    alignpeek(); //  look for `\noalign` or `\omit`
+} /* [#774] initalign */
 
 /*786:*/
 /*787:*/
@@ -8136,13 +8198,12 @@ _Lnotfound:   /*:941*/
       break;
 
     default:
-      print_err(S(597));
-      print_esc(S(787));
-      print(S(788));
-      help2(S(789),
-            S(790));
-      error();   /*:936*/
-      break;
+        print_err(S(597)); // "Improper "
+        print_esc(S(787));
+        print(S(788));
+        help2(S(789), S(790));
+        error(); /*:936*/
+        break;
     }
   }
 _Lexit: ;
@@ -11367,7 +11428,7 @@ Static void prefixedcommand(void) {
             if (set_box_allowed)
                 scanbox(boxflag + n);
             else {
-                print_err(S(597));
+                print_err(S(597)); // "Improper "
                 print_esc(S(970));
                 help2(S(971), S(972));
                 error();
