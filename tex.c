@@ -10634,215 +10634,224 @@ Static void mathleftright(void) {
 /*:1191*/
 
 /*1194:*/
-Static void aftermath(void)
-{
-  Boolean l, danger;
-  long m;
-  Pointer p, a;
-  /*1198:*/
-  Pointer b, r, t;   /*:1198*/
-  Scaled w, z, e, q, d, s;
-  SmallNumber g1, g2;
+Static void aftermath(void) {
+    Boolean l, danger;
+    long m;
+    Pointer p, a;
+    /*1198:*/
+    Pointer b, r, t; /*:1198*/
+    Scaled w, z, e, q, d, s;
+    SmallNumber g1, g2;
 
-  danger = false;   /*1195:*/
-  if ((fontparams[famfnt(TEXT_SIZE + 2) ] < totalmathsyparams) |
-      (fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
-      (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
-       totalmathsyparams)) {
-    print_err(S(926));
-    help3(S(927),
-          S(928),
-          S(929));
-    error();
-    flushmath();
-    danger = true;
-  } else if ((fontparams[famfnt(TEXT_SIZE + 3) ] <
-	      totalmathexparams) |
-	     (fontparams[famfnt(SCRIPT_SIZE + 3) ] <
-	      totalmathexparams) |
-	     (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
-	      totalmathexparams)) {
-    print_err(S(930));
-    help3(S(931),
-          S(932),
-          S(933));
-    error();
-    flushmath();
-    danger = true;
-  }
-  m = mode;
-  l = false;
-  p = finmlist(0);
-  if (mode == -m) {   /*1197:*/
-    get_x_token();
-    if (curcmd != MATH_SHIFT) {   /*:1197*/
-      print_err(S(745));
-      help2(S(746),
-            S(747));
-      backerror();
+    danger = false; /*1195:*/
+    if ((fontparams[famfnt(TEXT_SIZE + 2)] < totalmathsyparams) |
+        (fontparams[famfnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
+        (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
+        print_err(S(926)); // "Math formula deleted: Insufficient symbol fonts"
+        // "Sorry but I can't typeset math unless \\textfont 2"
+        // "and \\scriptfont 2 and \\scriptscriptfont 2 have all"
+        // "the \\fontdimen values needed in math symbol fonts."
+        help3(S(927), S(928), S(929));
+        error();
+        flushmath();
+        danger = true;
+    } else if ((fontparams[famfnt(TEXT_SIZE + 3)] < totalmathexparams) |
+               (fontparams[famfnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
+               (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3)] <
+                totalmathexparams)) {
+        print_err(S(930)); // "Math formula deleted: Insufficient extension fonts"
+        // "Sorry but I can't typeset math unless \\textfont 3"
+        // "and \\scriptfont 3 and \\scriptscriptfont 3 have all"
+        // "the \\fontdimen values needed in math extension fonts."
+        help3(S(931), S(932), S(933));
+        error();
+        flushmath();
+        danger = true;
     }
+
+    m = mode;
+    l = false;
+    p = finmlist(0);
+    if (mode == -m) { /*1197:*/
+        get_x_token();
+        if (curcmd != MATH_SHIFT) { /*:1197*/
+            print_err(S(745)); // "Display math should end with $$"
+            // "Bad space factor"
+            // "I allow only values in the range 1..32767 here."
+            help2(S(746), S(747));
+            backerror();
+        }
+        curmlist = p;
+        curstyle = textstyle;
+        mlistpenalties = false;
+        mlisttohlist();
+        a = hpack(link(temphead), 0, additional);
+        unsave();
+        saveptr--;
+        if (saved(0) == 1) l = true;
+        danger = false; /*1195:*/
+
+        if ((fontparams[famfnt(TEXT_SIZE + 2)] < totalmathsyparams) |
+            (fontparams[famfnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
+            (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
+            print_err(S(926)); // "Math formula deleted: Insufficient symbol fonts"
+            // "Sorry but I can't typeset math unless \\textfont 2"
+            // "and \\scriptfont 2 and \\scriptscriptfont 2 have all"
+            // "the \\fontdimen values needed in math symbol fonts."
+            help3(S(927), S(928), S(929));
+            error();
+            flushmath();
+            danger = true;
+        } else if ((fontparams[famfnt(TEXT_SIZE + 3)] < totalmathexparams) |
+                   (fontparams[famfnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
+                   (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3)] <
+                    totalmathexparams)) {
+            print_err(S(930)); // "Math formula deleted: Insufficient extension fonts"
+            // "Sorry but I can't typeset math unless \\textfont 3"
+            // "and \\scriptfont 3 and \\scriptscriptfont 3 have all"
+            // "the \\fontdimen values needed in math extension fonts."
+            help3(S(931), S(932), S(933));
+            error();
+            flushmath();
+            danger = true;
+        }
+        m = mode;
+        p = finmlist(0);
+    } else {
+        a = 0;
+    }
+
+    if (m < 0) { /*1196:*/
+        tailappend(newmath(mathsurround, before));
+        curmlist = p;
+        curstyle = textstyle;
+        mlistpenalties = (mode > 0);
+        mlisttohlist();
+        link(tail) = link(temphead);
+        while (link(tail) != 0)
+            tail = link(tail);
+        tailappend(newmath(mathsurround, after));
+        spacefactor = 1000;
+        unsave();
+        return;
+    }
+
+    /*:1196*/
+    if (a == 0) { /*1197:*/
+        get_x_token();
+        if (curcmd != MATH_SHIFT) {
+            print_err(S(745)); // "Display math should end with $$"
+            // "The `$' that I just saw supposedly matches a previous `$$'."
+            // "So I shall assume that you typed `$$' both times."
+            help2(S(746), S(747));
+            backerror();
+        }
+    }
+    /*:1197*/
+    /*1199:*/
     curmlist = p;
-    curstyle = textstyle;
+    curstyle = displaystyle;
     mlistpenalties = false;
     mlisttohlist();
-    a = hpack(link(temphead), 0, additional);
-    unsave();
-    saveptr--;
-    if (saved(0) == 1)
-      l = true;
-    danger = false;   /*1195:*/
-    if ((fontparams[famfnt(TEXT_SIZE + 2) ] < totalmathsyparams) |
-	(fontparams[famfnt(SCRIPT_SIZE + 2) ] < totalmathsyparams) |
-	(fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2) ] <
-	 totalmathsyparams)) {
-      print_err(S(926));
-      help3(S(927),
-            S(928),
-            S(929));
-      error();
-      flushmath();
-      danger = true;
-    } else if ((fontparams[famfnt(TEXT_SIZE + 3) ] <
-		totalmathexparams) |
-	       (fontparams[famfnt(SCRIPT_SIZE + 3) ] <
-		totalmathexparams) |
-	       (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3) ] <
-		totalmathexparams)) {
-      print_err(S(930));
-      help3(S(931),
-            S(932),
-            S(933));
-      error();
-      flushmath();
-      danger = true;
-    }
-    m = mode;
-    p = finmlist(0);
-  } else
-    a = 0;
-  if (m < 0) {   /*1196:*/
-    tailappend(newmath(mathsurround, before));
-    curmlist = p;
-    curstyle = textstyle;
-    mlistpenalties = (mode > 0);
-    mlisttohlist();
-    link(tail) = link(temphead);
-    while (link(tail) != 0)
-      tail = link(tail);
-    tailappend(newmath(mathsurround, after));
-    spacefactor = 1000;
-    unsave();
-    return;
-  }
-  /*:1196*/
-  if (a == 0) {   /*1197:*/
-    get_x_token();
-    if (curcmd != MATH_SHIFT) {
-      print_err(S(745));
-      help2(S(746),
-            S(747));
-      backerror();
-    }
-  }
-  /*:1197*/
-  /*1199:*/
-  curmlist = p;
-  curstyle = displaystyle;
-  mlistpenalties = false;
-  mlisttohlist();
-  p = link(temphead);
-  adjusttail = adjusthead;
-  b = hpack(p, 0, additional);
-  p = listptr(b);
-  t = adjusttail;
-  adjusttail = 0;
-  w = width(b);
-  z = displaywidth;
-  s = displayindent;
-  if (a == 0 || danger) {
-    e = 0;
-    q = 0;
-  } else {
-    e = width(a);
-    q = e + mathquad(TEXT_SIZE);
-  }
-  if (w + q > z) {   /*1201:*/
-    if (e != 0 && (w - totalshrink[0] + q <= z ||
-		   totalshrink[FIL - NORMAL] != 0 ||
-		   totalshrink[FILL - NORMAL] != 0 ||
-		   totalshrink[FILLL - NORMAL] != 0)) {
-      freenode(b, boxnodesize);
-      b = hpack(p, z - q, exactly);
-    } else {
-      e = 0;
-      if (w > z) {
-	freenode(b, boxnodesize);
-	b = hpack(p, z, exactly);
-      }
-    }
+    p = link(temphead);
+    adjusttail = adjusthead;
+    b = hpack(p, 0, additional);
+    p = listptr(b);
+    t = adjusttail;
+    adjusttail = 0;
     w = width(b);
-  }
-  /*:1201*/
-  /*1202:*/
-  d = half(z - w);
-  if (e > 0 && d < e * 2) {   /*:1202*/
-    d = half(z - w - e);
-    if (p != 0) {
-      if (!ischarnode(p)) {
-	if (type(p) == GLUE_NODE)
-	  d = 0;
-      }
-    }
-  }
-  /*1203:*/
-  tailappend(newpenalty(predisplaypenalty));
-  if (d + s <= predisplaysize || l) {
-    g1 = ABOVE_DISPLAY_SKIP_CODE;
-    g2 = BELOW_DISPLAY_SKIP_CODE;
-  } else {
-    g1 = ABOVE_DISPLAY_SHORT_SKIP_CODE;
-    g2 = BELOW_DISPLAY_SHORT_SKIP_CODE;
-  }
-  if (l && e == 0) {   /*1204:*/
-    shiftamount(a) = s;
-    appendtovlist(a);
-    tailappend(newpenalty(INF_PENALTY));
-  } else {
-    tailappend(newparamglue(g1));   /*:1203*/
-  }
-  if (e != 0) {
-    r = newkern(z - w - e - d);
-    if (l) {
-      link(a) = r;
-      link(r) = b;
-      b = a;
-      d = 0;
-    } else {
-      link(b) = r;
-      link(r) = a;
-    }
-    b = hpack(b, 0, additional);
-  }
-  shiftamount(b) = s + d;   /*:1204*/
-  appendtovlist(b);   /*1205:*/
-  if (a != 0 && e == 0 && !l) {
-    tailappend(newpenalty(INF_PENALTY));
-    shiftamount(a) = s + z - width(a);
-    appendtovlist(a);
-    g2 = 0;
-  }
-  if (t != adjusthead) {
-    link(tail) = link(adjusthead);
-    tail = t;
-  }
-  tailappend(newpenalty(postdisplaypenalty));
-  if (g2 > 0) {   /*:1199*/
-    tailappend(newparamglue(g2));   /*:1205*/
-  }
-  resumeafterdisplay();
+    z = displaywidth;
+    s = displayindent;
 
-  /*:1195*/
-  /*:1195*/
+    if (a == 0 || danger) {
+        e = 0;
+        q = 0;
+    } else {
+        e = width(a);
+        q = e + mathquad(TEXT_SIZE);
+    }
+
+    if (w + q > z) { /*1201:*/
+        if (e != 0 &&
+            (w - totalshrink[0] + q <= z || totalshrink[FIL - NORMAL] != 0 ||
+             totalshrink[FILL - NORMAL] != 0 ||
+             totalshrink[FILLL - NORMAL] != 0)) {
+            freenode(b, boxnodesize);
+            b = hpack(p, z - q, exactly);
+        } else {
+            e = 0;
+            if (w > z) {
+                freenode(b, boxnodesize);
+                b = hpack(p, z, exactly);
+            }
+        }
+        w = width(b);
+    }
+
+    /*:1201*/
+    /*1202:*/
+    d = half(z - w);
+    if (e > 0 && d < e * 2) { /*:1202*/
+        d = half(z - w - e);
+        if (p != 0) {
+            if (!ischarnode(p)) {
+                if (type(p) == GLUE_NODE) d = 0;
+            }
+        }
+    }
+
+    /*1203:*/
+    tailappend(newpenalty(predisplaypenalty));
+    if (d + s <= predisplaysize || l) {
+        g1 = ABOVE_DISPLAY_SKIP_CODE;
+        g2 = BELOW_DISPLAY_SKIP_CODE;
+    } else {
+        g1 = ABOVE_DISPLAY_SHORT_SKIP_CODE;
+        g2 = BELOW_DISPLAY_SHORT_SKIP_CODE;
+    }
+
+    if (l && e == 0) { /*1204:*/
+        shiftamount(a) = s;
+        appendtovlist(a);
+        tailappend(newpenalty(INF_PENALTY));
+    } else {
+        tailappend(newparamglue(g1)); /*:1203*/
+    }
+
+    if (e != 0) {
+        r = newkern(z - w - e - d);
+        if (l) {
+            link(a) = r;
+            link(r) = b;
+            b = a;
+            d = 0;
+        } else {
+            link(b) = r;
+            link(r) = a;
+        }
+        b = hpack(b, 0, additional);
+    }
+
+    shiftamount(b) = s + d; /*:1204*/
+    appendtovlist(b);       /*1205:*/
+    if (a != 0 && e == 0 && !l) {
+        tailappend(newpenalty(INF_PENALTY));
+        shiftamount(a) = s + z - width(a);
+        appendtovlist(a);
+        g2 = 0;
+    }
+    if (t != adjusthead) {
+        link(tail) = link(adjusthead);
+        tail = t;
+    }
+    tailappend(newpenalty(postdisplaypenalty));
+    if (g2 > 0) {                     /*:1199*/
+        tailappend(newparamglue(g2)); /*:1205*/
+    }
+    resumeafterdisplay();
+
+    /*:1195*/
+    /*:1195*/
 }
 /*:1194*/
 
