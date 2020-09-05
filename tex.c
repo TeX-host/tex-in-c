@@ -5684,13 +5684,16 @@ Static void initcol(void) {
 }
 /*:788*/
 
-/*791:*/
+/// [#791] 
 Static Boolean fincol(void) {
+    Pointer p;  ///< the alignrecord after the current one.
+    Pointer q, r; ///< temporary pointers for list manipulation
+    Pointer s;  ///< a new span node
+    Pointer u;  ///< a new unset box
+    Scaled w;   ///< natural width
+    GlueOrd o;  ///< order of infinity
+    HalfWord n; ///< span counter
     Boolean Result;
-    Pointer p, q, r, s, u;
-    Scaled w;
-    GlueOrd o;
-    HalfWord n;
 
     if (curalign == 0) confusion(S(735)); // "endv"
     q = link(curalign);
@@ -5698,14 +5701,19 @@ Static Boolean fincol(void) {
     // "(interwoven alignment preambles are not allowed)"
     if (align_state < 500000L) fatalerror(S(509));
     p = link(q);
-    /*792:*/
+
+    /// [#792]  If the preamble list has been traversed,
+    /// check that the row has ended.
     if ((p == 0) & (extrainfo(curalign) < crcode)) {
-        if (curloop != 0) { /*793:*/
+        if (curloop != 0) {
+            /// [#793] Lengthen the preamble periodically
             link(q) = newnullbox();
             p = link(q);
             info(p) = endspan;
             width(p) = nullflag;
-            curloop = link(curloop); /*794:*/
+            curloop = link(curloop); 
+
+            /// [#794] Copy the templates from node cur loop into node p
             q = holdhead;
             r = upart(curloop);
             while (r != 0) {
@@ -5716,6 +5724,7 @@ Static Boolean fincol(void) {
             }
             link(q) = 0;
             upart(p) = link(holdhead);
+
             q = holdhead;
             r = vpart(curloop);
             while (r != 0) {
@@ -5725,21 +5734,30 @@ Static Boolean fincol(void) {
                 r = link(r);
             }
             link(q) = 0;
-            vpart(p) = link(holdhead); /*:794*/
+            vpart(p) = link(holdhead);
+            /// end [#794]
+
             curloop = link(curloop);
             link(p) = newglue(glueptr(curloop));
-        } else { /*:792*/
-            print_err(S(736));
-            print_esc(S(737));
+            /// end [#793]
+        } else {
+            print_err(S(736)); // "Extra alignment tab has been changed to "
+            print_esc(S(737)); // "cr"
+            // "You have given more \\span or & marks than there were"
+            // "in the preamble to the \\halign or \\valign now in progress."
+            // "So I'll assume that you meant to type \\cr instead."
             help3(S(738), S(739), S(740));
             extrainfo(curalign) = crcode;
             error();
-        }
-        /*:793*/
-    }
+        } // end [#792] if (curloop <=> 0)
+    } // if ((p == 0) & (extrainfo(curalign) < crcode))
+
     if (extrainfo(curalign) != spancode) {
         unsave();
-        newsavelevel(aligngroup); /*796:*/
+        newsavelevel(aligngroup);
+
+        /// [#796] Package an unset box for the current column 
+        /// and record its width
         if (mode == -H_MODE) {
             adjusttail = curtail;
             u = hpack(link(head), 0, additional);
@@ -5750,8 +5768,10 @@ Static Boolean fincol(void) {
             u = vpackage(link(head), 0, additional, 0);
             w = height(u);
         }
-        n = MIN_QUARTER_WORD;
-        if (curspan != curalign) { /*798:*/
+        n = MIN_QUARTER_WORD; // this represents a span count of 1
+
+        if (curspan != curalign) {
+            /// [#798] Update width entry for spanned columns.
             q = curspan;
             do {
                 n++;
@@ -5760,63 +5780,76 @@ Static Boolean fincol(void) {
 
             if (n > MAX_QUARTER_WORD) confusion(S(741)); // "256 spans"
             q = curspan;
-            while (link(info(q)) < n)
+            while (link(info(q)) < n) {
                 q = info(q);
+            }
             if (link(info(q)) > n) {
                 s = getnode(spannodesize);
                 info(s) = info(q);
                 link(s) = n;
                 info(q) = s;
                 width(s) = w;
-            } else if (width(info(q)) < w)
+            } else if (width(info(q)) < w) {
                 width(info(q)) = w;
-        } else if (w > width(curalign)) /*:798*/
+            }
+        } else if (w > width(curalign)) {
             width(curalign) = w;
+        }
+    
         type(u) = UNSET_NODE;
-        spancount(u) = n; /*659:*/
-        if (totalstretch[FILLL - NORMAL] != 0)
+        spancount(u) = n; 
+        
+        /// [#659] Determine the stretch order.
+        if (totalstretch[FILLL - NORMAL] != 0) {
             o = FILLL;
-        else if (totalstretch[FILL - NORMAL] != 0)
+        } else if (totalstretch[FILL - NORMAL] != 0) {
             o = FILL;
-        else if (totalstretch[FIL - NORMAL] != 0)
+        } else if (totalstretch[FIL - NORMAL] != 0) {
             o = FIL;
-        else {
+        } else {
             o = NORMAL;
-            /*:659*/
         }
         glueorder(u) = o;
-        gluestretch(u) = totalstretch[o - NORMAL]; /*665:*/
-        if (totalshrink[FILLL - NORMAL] != 0)
+        gluestretch(u) = totalstretch[o - NORMAL];
+
+        /// [#655] Determine the shrink order.
+        if (totalshrink[FILLL - NORMAL] != 0) {
             o = FILLL;
-        else if (totalshrink[FILL - NORMAL] != 0)
+        } else if (totalshrink[FILL - NORMAL] != 0) {
             o = FILL;
-        else if (totalshrink[FIL - NORMAL] != 0)
+        } else if (totalshrink[FIL - NORMAL] != 0) {
             o = FIL;
-        else
-            o = NORMAL; /*:665*/
+        } else {
+            o = NORMAL;
+        }
         gluesign(u) = o;
         glueshrink(u) = totalshrink[o - NORMAL];
+
         popnest();
         link(tail) = u;
-        tail = u; /*:796*/
-        /*795:*/
+        tail = u;
+        /// end [#796]
+
+        /// [#795] Copy the tabskip glue between columns.
         tailappend(newglue(glueptr(link(curalign))));
-        subtype(tail) = TAB_SKIP_CODE + 1; /*:795*/
+        subtype(tail) = TAB_SKIP_CODE + 1;
+
         if (extrainfo(curalign) >= crcode) {
             Result = true;
             goto _Lexit;
         }
         initspan(p);
-    }
+    } // if (extrainfo(curalign) != spancode)
+
     align_state = 1000000L;
     skip_spaces();
     curalign = p;
     initcol();
     Result = false;
+
 _Lexit:
     return Result;
-}
-/*:791*/
+} /* [#791] fincol */
 
 /*799:*/
 Static void finrow(void) {
