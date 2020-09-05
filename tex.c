@@ -9509,8 +9509,10 @@ _Ldone:;
     case vsplitcode: /*1082:*/
         scan_eight_bit_int();
         n = cur_val;
-        if (!scankeyword(S(697))) {
-            print_err(S(856));
+        if (!scankeyword(S(697))) { // "to"
+            print_err(S(856)); // "Missing `to' inserted"
+            // "I'm working on `\\vsplit<box number> to <dimen>';"
+            // "will look for the <dimen> next."
             help2(S(857), S(858));
             error();
         }
