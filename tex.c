@@ -9900,10 +9900,12 @@ Static void builddiscretionary(void) {
             if (type(p) > RULE_NODE) {
                 if (type(p) != KERN_NODE) {
                     if (type(p) != LIGATURE_NODE) {
-                        print_err(S(876));
-                        help1(S(877));
+                        print_err(S(876)); // "Improper discretionary list"
+                        // "Discretionary lists must contain only boxes and kerns."
+                        help1(S(877)); 
                         error();
                         begindiagnostic();
+                        // "The following discretionary sublist has been deleted:"
                         printnl(S(878));
                         showbox(p);
                         enddiagnostic(true);
@@ -9934,8 +9936,10 @@ Static void builddiscretionary(void) {
 
         case 2: /*1120:*/
             if (n > 0 && labs(mode) == M_MODE) {
-                print_err(S(879));
-                print_esc(S(400));
+                print_err(S(879)); // "Illegal math "
+                print_esc(S(400)); // "discretionary"
+                // "Sorry: The third part of a discretionary break must be"
+                // "empty in math formulas. I had to delete your third part."
                 help2(S(880), S(881));
                 flush_node_list(p);
                 n = 0;
@@ -9945,7 +9949,9 @@ Static void builddiscretionary(void) {
             if (n <= MAX_QUARTER_WORD)
                 replacecount(tail) = n;
             else {
-                print_err(S(882));
+                print_err(S(882)); // "Discretionary list is too long"
+                // "Wow---I never thought anybody would tweak me here."
+                // "You can't seriously need such a huge discretionary list?"
                 help2(S(883), S(884));
                 error();
             }
