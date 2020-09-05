@@ -2586,31 +2586,40 @@ _Lfound:
 } /*:473*/
 
 
-/*482:*/
+/// [#482] constructs a token list like that for any macro definition,
+///     and makes cur val point to it.
+/// Parameter r points to the control sequence 
+///     that will receive this token list.
 Static void readtoks(long n, HalfWord r) {
-    Pointer p;
-    long s;
-    /* SmallNumber */ int m; /* INT */
+    Pointer p; // tail of the token list
+    long s;    // saved value of align_state
+    /* SmallNumber */ int m; // stream number
 
     scanner_status = DEFINING;
     warning_index = r;
     defref = get_avail();
     tokenrefcount(defref) = 0;
-    p = defref;
+    p = defref; // the reference count
     STORE_NEW_TOKEN(p, endmatchtoken);
-    if ((unsigned long)n > 15)
+
+    // OLD: `if ((unsigned long)n > 15)`
+    if (n < 0 || n > 15) {
         m = 16;
-    else
+    } else {
         m = n;
+    }
+
     s = align_state;
-    align_state = 1000000L;
-    do { /*483:*/
+    align_state = 1000000L; // disable tab marks, etc.
+
+    do { /// [#483] Input and store tokens from the next line of the file
         beginfilereading();
         NAME = m + 1;
-        if (readopen[m] == closed) { /*484:*/
+        if (readopen[m] == closed) {
+            /// [#484] Input for \read from the terminal.
             if (interaction > NON_STOP_MODE) {
                 if (n < 0) {
-                    print(S(385));
+                    print(S(385)); // ""
                     term_input();
                 } else {
                     println();
@@ -2619,31 +2628,34 @@ Static void readtoks(long n, HalfWord r) {
                     term_input();
                     n = -1;
                 }
-            } else {/*:484*/
+            } else {
                 // "*** (cannot \read from terminal in nonstop modes)"
                 fatalerror(S(654));
-            }
+            } // if (interaction <=> NON_STOP_MODE)
         } else if (readopen[m] == justopen) {
-            if (inputln(readfile[m], false))
+            /// [#485] Input the first line of read_file[m].
+            if (inputln(readfile[m], false)) {
                 readopen[m] = NORMAL;
-            else { /*:485*/
+            } else {
                 aclose(&readfile[m]);
                 readopen[m] = closed;
             }
         } else {
+            /// [#486] Input the next line of read_file[m].
             if (!inputln(readfile[m], true)) {
                 aclose(&readfile[m]);
                 readopen[m] = closed;
                 if (align_state != 1000000L) {
                     runaway();
-                    print_err(S(655));
-                    print_esc(S(656));
-                    help1(S(657));
+                    print_err(S(655)); // "File ended within "
+                    print_esc(S(656)); // "read"
+                    help1(S(657));     // "This \\read has unbalanced braces."
                     align_state = 1000000L;
                     error();
                 }
             }
-        }
+        } // if (readopen[m] <=>)
+
         LIMIT = last;
         if (end_line_char_inactive) {
             LIMIT--;
@@ -2653,10 +2665,12 @@ Static void readtoks(long n, HalfWord r) {
         first = LIMIT + 1;
         LOC = START;
         STATE = NEW_LINE;
+    
         while (true) {
             gettoken();
+            // cur_cmd = cur_chr = 0 will occur at the end of the line
             if (curtok == 0) goto _Ldone;
-            if (align_state < 1000000L) {
+            if (align_state < 1000000L) { // unmatched ‘}’ aborts the line
                 do {
                     gettoken();
                 } while (curtok != 0);
@@ -2664,17 +2678,16 @@ Static void readtoks(long n, HalfWord r) {
                 goto _Ldone;
             }
             STORE_NEW_TOKEN(p, curtok);
-        }
-_Ldone: /*:483*/    
+        } // while (true)
+
+    _Ldone: /*:483*/    
         endfilereading();
     } while (align_state != 1000000L);
+
     cur_val = defref;
     scanner_status = NORMAL;
     align_state = s;
-
-    /*485:*/
-}
-/*:482*/
+} /* [#482] readtoks */
 
 
 /** @addtogroup S511x538_P188x195
