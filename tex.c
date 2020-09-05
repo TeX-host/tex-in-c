@@ -9812,7 +9812,10 @@ Static void unpackage(void) {
     if ( (labs(mode) == M_MODE) |
         ((labs(mode) == V_MODE) & (type(p) != VLIST_NODE)) |
         ((labs(mode) == H_MODE) & (type(p) != HLIST_NODE))) {
-        print_err(S(872));
+        print_err(S(872)); // "Incompatible list can't be unboxed"
+        // "Sorry Pandora. (You sneaky devil.)"
+        // "I refuse to unbox an \\hbox in vertical mode or vice versa."
+        // "And I can't open any boxes in math mode."
         help3(S(873), S(874), S(875));
         error();
         return;
