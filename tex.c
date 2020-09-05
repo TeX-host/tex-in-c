@@ -9121,7 +9121,7 @@ Static void offsave(void) {
     Pointer p;
 
     if (curgroup == bottomlevel) { /*1066:*/
-        print_err(S(558));         // "Extra "
+        print_err(S(558)); // "Extra "
         printcmdchr(curcmd, curchr);
         // "Things are pretty mixed up but I think the worst is over."
         help1(S(835));
@@ -9915,13 +9915,12 @@ Static void doendv(void)
 /*:1131*/
 
 /*1135:*/
-Static void cserror(void)
-{
-  print_err(S(558));
-  print_esc(S(263));
-  help1(S(902));
-  error();
-}  /*:1135*/
+Static void cserror(void) {
+    print_err(S(558)); // "Extra "
+    print_esc(S(263)); // "endcsname"
+    help1(S(902));     // "I'm ignoring this since I wasn't doing a \\csname."
+    error();
+} /*:1135*/
 
 
 /*1136:*/
@@ -10427,40 +10426,41 @@ Static void mathfraction(void)
 /*:1181*/
 
 /*1191:*/
-Static void mathleftright(void)
-{
-  SmallNumber t;
-  Pointer p;
+Static void mathleftright(void) {
+    SmallNumber t;
+    Pointer p;
 
-  t = curchr;
-  if (t == rightnoad && curgroup != mathleftgroup) {   /*1192:*/
-    if (curgroup != mathshiftgroup) {
-      offsave();
-      return;
+    t = curchr;
+    /*1192:*/
+    if (t == rightnoad && curgroup != mathleftgroup) {
+        if (curgroup != mathshiftgroup) {
+            offsave();
+            return;
+        }
+        scandelimiter(garbage, false);
+        print_err(S(558)); // "Extra "
+        print_esc(S(419)); // "right"
+        help1(S(925)); // "I'm ignoring a \\right that had no matching \\left."
+        error();
+        return;
+    } /*:1192*/
+
+    p = newnoad();
+    type(p) = t;
+    scandelimiter(delimiter(p), false);
+    if (t == leftnoad) {
+        pushmath(mathleftgroup);
+        link(head) = p;
+        tail = p;
+        return;
     }
-    scandelimiter(garbage, false);
-    print_err(S(558));
-    print_esc(S(419));
-    help1(S(925));
-    error();
-    return;
-  }
-  /*:1192*/
-  p = newnoad();
-  type(p) = t;
-  scandelimiter(delimiter(p), false);
-  if (t == leftnoad) {
-    pushmath(mathleftgroup);
-    link(head) = p;
-    tail = p;
-    return;
-  }
-  p = finmlist(p);
-  unsave();
-  tailappend(newnoad());
-  type(tail) = innernoad;
-  mathtype(nucleus(tail)) = submlist;
-  info(nucleus(tail)) = p;
+
+    p = finmlist(p);
+    unsave();
+    tailappend(newnoad());
+    type(tail) = innernoad;
+    mathtype(nucleus(tail)) = submlist;
+    info(nucleus(tail)) = p;
 }
 /*:1191*/
 

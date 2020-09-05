@@ -832,7 +832,7 @@ static void conditional(void) { /*495:*/
             n = cur_val;
             if (tracingcommands > 1) {
                 begindiagnostic();
-                print(S(661));
+                print(S(661)); // "{case "
                 print_int(n);
                 print_char('}');
                 enddiagnostic(false);
@@ -862,9 +862,9 @@ static void conditional(void) { /*495:*/
     if (tracingcommands > 1) { /*502:*/
         begindiagnostic();
         if (b)
-            print(S(662));
+            print(S(662)); // "{true}"
         else
-            print(S(663));
+            print(S(663)); // "{false}"
         enddiagnostic(false);
     }
     /*:502*/
