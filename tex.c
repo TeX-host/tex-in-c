@@ -10076,23 +10076,22 @@ Static void alignerror(void) {
 } // [#1127] alignerror
 
 /*1129:*/
-Static void noalignerror(void)
-{
-  print_err(S(885));
-  print_esc(S(897));
-  help2(S(898),
-        S(899));
-  error();
+Static void noalignerror(void) {
+    print_err(S(885)); // "Misplaced "
+    print_esc(S(897)); // "noalign"
+    // "I expect to see \\noalign only after the \\cr of"
+    // "an alignment. Proceed and I'll ignore this case."
+    help2(S(898), S(899));
+    error();
 }
 
-
-Static void omiterror(void)
-{
-  print_err(S(885));
-  print_esc(S(900));
-  help2(S(901),
-        S(899));
-  error();
+Static void omiterror(void) {
+    print_err(S(885)); // "Misplaced "
+    print_esc(S(900)); // "omit"
+    // "I expect to see \\omit only after tab marks or the \\cr of"
+    // "an alignment. Proceed and I'll ignore this case."
+    help2(S(901), S(899));
+    error();
 }
 /*:1129*/
 
