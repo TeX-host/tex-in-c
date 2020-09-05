@@ -9713,9 +9713,10 @@ Static void begininsertoradjust(void)
   else {
     scan_eight_bit_int();
     if (cur_val == 255) {
-      print_err(S(867));
-      print_esc(S(374));
+      print_err(S(867)); // "You can't "
+      print_esc(S(374)); // "insert"
       print_int(255);
+      // "I'm changing to \\insert0; box 255 is special."
       help1(S(868));
       error();
       cur_val = 0;
