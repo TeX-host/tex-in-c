@@ -12235,7 +12235,6 @@ Static void fixlanguage(void) {
 /*:1376*/
 
 
-
 /*1068:*/
 Static void handlerightbrace(void) {
     Pointer p, q;
@@ -12243,13 +12242,14 @@ Static void handlerightbrace(void) {
     long f;
 
     switch (curgroup) {
-
         case simplegroup:
             unsave();
             break;
 
         case bottomlevel:
-            print_err(S(1002));
+            print_err(S(1002)); // "Too many }'s"
+            // "You've closed more groups than you opened."
+            // "Such booboos are generally harmless so keep going."
             help2(S(1003), S(1004));
             error();
             break;
@@ -12314,7 +12314,9 @@ Static void handlerightbrace(void) {
         case outputgroup: /*1026:*/
             if (LOC != 0 ||
                 (token_type != OUTPUT_TEXT && token_type != BACKED_UP)) { /*:1027*/
-                print_err(S(1005));
+                print_err(S(1005)); // "Unbalanced output routine"
+                // "Your sneaky output routine has problematic {'s and/or }'s."
+                // "I can't handle that very well; good luck."
                 help2(S(1006), S(682));
                 error();
                 do {
@@ -12327,9 +12329,12 @@ Static void handlerightbrace(void) {
             outputactive = false;
             insertpenalties = 0; /*1028:*/
             if (box(255) != 0) { /*:1028*/
-                print_err(S(1007));
-                print_esc(S(464));
+                print_err(S(1007)); // "Output routine didn't use all of "
+                print_esc(S(464));  // "box"
                 print_int(255);
+                // "Your \\output commands should empty \\box255"
+                // "e.g. by saying `\\shipout\\box255'."
+                // "Proceed; I'll discard its present contents."
                 help3(S(1008), S(1009), S(1010));
                 boxerror(255);
             }
@@ -12360,9 +12365,10 @@ Static void handlerightbrace(void) {
             backinput();
             curtok = CS_TOKEN_FLAG + frozencr;
             print_err(S(554)); // "Missing "
-            print_esc(S(737));
-            print(S(555));
-            help1(S(1011));
+            print_esc(S(737)); // "cr"
+            print(S(555)); // " inserted"
+            // "I'm guessing that you meant to end an alignment here."
+            help1(S(1011)); 
             inserror();
             break;
             /*1133:*/
