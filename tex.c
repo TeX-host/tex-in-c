@@ -9209,7 +9209,9 @@ Static void appspace(void) {
 Static void insertdollarsign(void) {
     backinput();
     curtok = mathshifttoken + '$';
-    print_err(S(827));
+    print_err(S(827)); // "Missing $ inserted"
+    // "I've inserted a begin-math/end-math symbol since I think"
+    // "you left one out. Proceed with fingers crossed."
     help2(S(828), S(829));
     inserror();
 } // #1047: insertdollarsign
