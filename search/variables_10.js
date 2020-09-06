@@ -16,7 +16,7 @@ var searchData=
   ['passnumber_2855',['passnumber',['../tex__header_8h.html#aab4183fcddd8b92aad744eb7d378bc8d',1,'tex_header.h']]],
   ['pgfield_2856',['pgfield',['../struct_list_state_record.html#a5b4f80bdec93e5ff4b65de8208fc143b',1,'ListStateRecord']]],
   ['pool_5fptr_2857',['pool_ptr',['../group___s38x53___p19x23.html#ga237b76c2fd1c09d8479da33238c57cac',1,'str.c']]],
-  ['pool_5fstrs_2858',['pool_strs',['../pool__str_8c.html#a2f091167f3d194fed8f362a7fb8d778f',1,'pool_str.c']]],
+  ['pool_5fstrs_2858',['pool_strs',['../pool__init_8h.html#a2f091167f3d194fed8f362a7fb8d778f',1,'pool_init.h']]],
   ['pos_2859',['pos',['../funcs_8c.html#a1910d262855b71da353ed0d07a6c7823',1,'funcs.c']]],
   ['printednode_2860',['printednode',['../tex__header_8h.html#ae1d3307b3c4137cc8844a70425dd15f8',1,'tex_header.h']]]
 ];

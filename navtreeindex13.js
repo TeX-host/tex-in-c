@@ -1,5 +1,6 @@
 var NAVTREEINDEX13 =
 {
+"texmac_8h.html#a015390f60b8fbebcf85638a3d6954ac7":[2,0,37,331],
 "texmac_8h.html#a018b850a8c0a52f30b93b95abeddd5cf":[2,0,37,80],
 "texmac_8h.html#a01a0b5bb78563d46acbdfc897e3264bf":[2,0,37,341],
 "texmac_8h.html#a01b2fe8c7fef180a5d81696188249582":[2,0,37,39],
@@ -248,6 +249,5 @@ var NAVTREEINDEX13 =
 "texmac_8h.html#afbc598b7f4dc831c0147ad7ae005eef2":[2,0,37,41],
 "texmac_8h.html#afbfe72124372b70d257ebcba65980b6f":[2,0,37,186],
 "texmac_8h.html#afc065c0f9ddf63563bf82a971703f4fc":[2,0,37,232],
-"texmac_8h.html#afc29d464b8a8b2e609b3d35c46596b1b":[2,0,37,134],
-"texmac_8h.html#afcd1f831a7a72edcbdf38a3ef4644db9":[2,0,37,353]
+"texmac_8h.html#afc29d464b8a8b2e609b3d35c46596b1b":[2,0,37,134]
 };

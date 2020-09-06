@@ -13,7 +13,7 @@ var searchData=
   ['alterpagesofar_2169',['alterpagesofar',['../tex_8c.html#a0da3c37e5fe689c0d5cf85ba9b44a1cd',1,'tex.c']]],
   ['alterprevgraf_2170',['alterprevgraf',['../tex_8c.html#abddfd820e73d2dafc588482f9ea831ce',1,'tex.c']]],
   ['amakenamestring_2171',['amakenamestring',['../group___s511x538___p188x195.html#ga339797e0e9cf5a61337a1f9fa82ffc27',1,'tex.c']]],
-  ['app_5flc_5fhex_2172',['app_lc_hex',['../inipool_8c.html#a639e51c346a46ad385a62ddfbd764396',1,'inipool.c']]],
+  ['app_5flc_5fhex_2172',['app_lc_hex',['../pool__init_8c.html#aa8eea219ebd3aab316362c8eae52aded',1,'pool_init.c']]],
   ['append_5fchar_2173',['append_char',['../group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855',1,'append_char(ASCIICode s):&#160;str.c'],['../group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855',1,'append_char(ASCIICode s):&#160;str.c']]],
   ['appendchoices_2174',['appendchoices',['../tex_8c.html#acb44728a967d727cde1402d7279119e4',1,'tex.c']]],
   ['appenddiscretionary_2175',['appenddiscretionary',['../tex_8c.html#a279b8ad68ea382bf49db03bcbf127dbf',1,'tex.c']]],
