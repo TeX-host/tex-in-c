@@ -4,7 +4,7 @@ CFLAGS += -pedantic -Wall -Wno-unused-result
 LDFLAGS = -lm
 
 SRCS  = tex
-SRCS += inipool pure_func
+SRCS += pool_init pure_func
 SRCS += funcs inputln
 SRCS += texmath str printout print
 SRCS += lexer fonts dviout expand scan error

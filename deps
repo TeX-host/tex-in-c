@@ -2,8 +2,8 @@ tex.o: tex.c tex_header.h global_const.h tex_inc.h texmath.h tex_types.h \
  tex.h tex_constant.h str.h texmac.h macros.h funcs.h global.h scan.h \
  lexer.h printout.h fonts.h inputln.h dviout.h pure_func.h print.h \
  expand.h error.h texfunc.h
-inipool.o: inipool.c tex.h tex_types.h tex_constant.h str.h \
- global_const.h pool_str.c
+pool_init.o: pool_init.c tex.h tex_types.h tex_constant.h str.h \
+ global_const.h pool_init.h
 pure_func.o: pure_func.c pure_func.h
 funcs.o: funcs.c tex.h tex_types.h tex_constant.h str.h global_const.h \
  funcs.h global.h scan.h lexer.h

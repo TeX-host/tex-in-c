@@ -4,7 +4,7 @@
 #include "str.h" // [export] str_pool_init
     // [macro] STRING_VACANCIES,
     // [func] str_adjust_to_room, makestring
-#include "pool_str.c" // [var] pool_strs
+#include "pool_init.h" // [var] pool_strs
 
 
 /// [#48] int to hex
