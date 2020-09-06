@@ -99,6 +99,7 @@ Boolean str_eq_str(StrNumber s, StrNumber t) {
 #ifdef tt_INIT
 /// [#47]: initializes the string pool, 
 ///  but returns false if something goes wrong.
+/// called by: main()
 Boolean get_strings_started(void) {
     #if POOLPOINTER_IS_POINTER
         pool_ptr = str_pool;
