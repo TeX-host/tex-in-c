@@ -218,8 +218,8 @@ var tex__header_8h =
     [ "was_lo_max", "group___s162x172___p58x61.html#gaa2ae9bdc22241da4ec21bf6935b0d907", null ],
     [ "was_mem_end", "group___s162x172___p58x61.html#gaeabeceb89e687f37bfc1e8128b847c72", null ],
     [ "write_file", "tex__header_8h.html#aa725d4f86d3ba53fc5a77fda0d138edc", null ],
+    [ "write_open", "tex__header_8h.html#aa6fe88a7a5a094db655e4a708eb8addb", null ],
     [ "writeloc", "tex__header_8h.html#a21a1bc25e0e2b3808290ef29a309a6d9", null ],
-    [ "writeopen", "tex__header_8h.html#a29a0a2290534e62e83d02c8f1e0092fc", null ],
     [ "xchr", "group___s17x24___p10x12.html#ga5f0ded4ff06bc8d2e1e2097c5225885d", null ],
     [ "xeqlevel", "group___s220x255___p81x101.html#ga0719ae628ff044176b0cf12a31f7cf6a", null ],
     [ "xord", "group___s17x24___p10x12.html#gaea31bab5f79624105d57ef4ad3b56eb5", null ]

@@ -64,13 +64,12 @@ var NAVTREEINDEX12 =
 "tex__header_8h.html#a1992bbb7b71c3498d61225090d1a3871":[2,0,33,197],
 "tex__header_8h.html#a1ab057e190763026606ea5fb3fe77af6":[2,0,33,70],
 "tex__header_8h.html#a1b49d5a79968331072b9382641753f92":[2,0,33,74],
-"tex__header_8h.html#a21a1bc25e0e2b3808290ef29a309a6d9":[2,0,33,218],
+"tex__header_8h.html#a21a1bc25e0e2b3808290ef29a309a6d9":[2,0,33,219],
 "tex__header_8h.html#a23125c23bcd674c928c503e509457338":[2,0,33,185],
 "tex__header_8h.html#a23ff7917c0e059bc692b6c915946633f":[2,0,33,125],
 "tex__header_8h.html#a261fba92fc0c4c6e1e7e039b8f8b55f9":[2,0,33,100],
 "tex__header_8h.html#a263ca2c7a40bd2cec6a043551cb0afe5":[2,0,33,38],
 "tex__header_8h.html#a28975509cc5007b99c1660d539e466d1":[2,0,33,8],
-"tex__header_8h.html#a29a0a2290534e62e83d02c8f1e0092fc":[2,0,33,219],
 "tex__header_8h.html#a2ad6ed947e6967d90038a6d71a27f567":[2,0,33,96],
 "tex__header_8h.html#a2cd896c7c5586ef5cbb19ca38493a64d":[2,0,33,107],
 "tex__header_8h.html#a2e89ce221ced3c70dffd8bebf314ff7c":[2,0,33,106],
@@ -140,6 +139,7 @@ var NAVTREEINDEX12 =
 "tex__header_8h.html#aa0734e94ea53fdf8c3239651d57e5a75":[2,0,33,165],
 "tex__header_8h.html#aa425092bcc6c69a9c5b1556b65077a69":[2,0,33,50],
 "tex__header_8h.html#aa49f189995f27b83c4da93d0d41c3998":[2,0,33,7],
+"tex__header_8h.html#aa6fe88a7a5a094db655e4a708eb8addb":[2,0,33,218],
 "tex__header_8h.html#aa725d4f86d3ba53fc5a77fda0d138edc":[2,0,33,217],
 "tex__header_8h.html#aa7aad7ddbc9401a430010db201108292":[2,0,33,124],
 "tex__header_8h.html#aa8cfe1e3998a5338d09607abfe7439af":[2,0,33,26],
@@ -247,7 +247,7 @@ var NAVTREEINDEX12 =
 "texfunc_8h.html#afb9e5ed98c958ac59ed9995080326ddd":[2,0,36,2],
 "texfunc_8h_source.html":[2,0,36],
 "texmac_8h.html":[2,0,37],
-"texmac_8h.html#a011de50430b475f072b57170b384b1bf":[2,0,37,156],
-"texmac_8h.html#a012f232aa59907601a6c3ce0b917ab5d":[2,0,37,193],
-"texmac_8h.html#a015390f60b8fbebcf85638a3d6954ac7":[2,0,37,332]
+"texmac_8h.html#a011de50430b475f072b57170b384b1bf":[2,0,37,155],
+"texmac_8h.html#a012f232aa59907601a6c3ce0b917ab5d":[2,0,37,192],
+"texmac_8h.html#a015390f60b8fbebcf85638a3d6954ac7":[2,0,37,331]
 };

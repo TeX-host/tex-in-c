@@ -111,7 +111,6 @@ var texmac_8h =
     [ "floatcost", "group___s133x161___p50x57.html#ga596f8b9c9066ff9507a88e6d75f12184", null ],
     [ "floatingpenalty", "texmac_8h.html#a7b84d70238d0cf661b0e80ba846922ef", null ],
     [ "font", "group___s133x161___p50x57.html#ga17acbbb487d18bb7d1cdbcece2bd6e39", null ],
-    [ "global", "texmac_8h.html#ade0c4ce3ba05e8b390eb52855e4a0e20", null ],
     [ "globaldefs", "texmac_8h.html#a44ed0b87218e0e0bc4849175745d032c", null ],
     [ "glueoffset", "group___s133x161___p50x57.html#gab33e7b1289a2bb1e4c6bce6d267fde8c", null ],
     [ "glueorder", "group___s133x161___p50x57.html#gaa611f4fbed9a74bb08b6645fe08f6743", null ],

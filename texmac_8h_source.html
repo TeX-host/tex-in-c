@@ -729,37 +729,36 @@ $(document).ready(function(){initNavTree('texmac_8h_source.html',''); initResiza
 <div class="line"><a name="l00799"></a><span class="lineno"><a class="line" href="texmac_8h.html#a3843280b3dac31ae97b195413e58ef56">  799</a></span>&#160; </div>
 <div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;<span class="preprocessor">#define faminrange ((curfam &gt;= 0) &amp;&amp; (curfam &lt; 16))</span></div>
 <div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160; </div>
-<div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;<span class="preprocessor">#define global (a &gt;= 4)</span></div>
-<div class="line"><a name="l00806"></a><span class="lineno"><a class="line" href="texmac_8h.html#a91fad6fa007f046d167fdedfa30f08be">  806</a></span>&#160;<span class="preprocessor">#define define(x, y, z) \</span></div>
-<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))</span></div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;<span class="preprocessor">#define worddefine(x, y) \</span></div>
-<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))</span></div>
-<div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160; </div>
-<div class="line"><a name="l00811"></a><span class="lineno"><a class="line" href="texmac_8h.html#a3783b1648d81a731945b58079900184f">  811</a></span>&#160; </div>
-<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;<span class="preprocessor">#define advpast(x)                        \</span></div>
-<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;<span class="preprocessor">    {                                     \</span></div>
-<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;<span class="preprocessor">        if (subtype(x) == languagenode) { \</span></div>
-<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;<span class="preprocessor">            curlang = whatlang(x);        \</span></div>
-<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;<span class="preprocessor">            lhyf = whatlhm(x);            \</span></div>
-<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;<span class="preprocessor">            rhyf = whatrhm(x);            \</span></div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;<span class="preprocessor">        }                                 \</span></div>
-<div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;<span class="preprocessor">    }</span></div>
-<div class="line"><a name="l00821"></a><span class="lineno"><a class="line" href="texmac_8h.html#ad9269e34f41010c68a631365bd5f11e0">  821</a></span>&#160; </div>
-<div class="line"><a name="l00823"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac9e67befd17a11165c9532ff811b4a9a">  823</a></span>&#160;<span class="preprocessor">#define whatlang(x)  link(x+1) </span><span class="comment">/* language number, in the range |0..255|}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00824"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac41879a7954d295be3e94c80eea84f55">  824</a></span>&#160;<span class="preprocessor">#define whatlhm(x)  type(x+1) </span><span class="comment">/* minimum left fragment, in the range |1..63|}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00825"></a><span class="lineno"><a class="line" href="texmac_8h.html#a09e7e6ae6793e13375a3faf02d1a8db4">  825</a></span>&#160;<span class="preprocessor">#define whatrhm(x)  subtype(x+1) </span><span class="comment">/* minimum right fragment, in the range |1..63|}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00826"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac6009b228fcf055ffda3499153023075">  826</a></span>&#160;<span class="preprocessor">#define writetokens(x)    link(x+1) </span><span class="comment">/* reference count of token list to write}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00827"></a><span class="lineno"><a class="line" href="texmac_8h.html#afe5efe939b2768f7783c2b22c1b2a310">  827</a></span>&#160;<span class="preprocessor">#define writestream(x)    info(x+1) </span><span class="comment">/* stream number (0 to 17)}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00828"></a><span class="lineno"><a class="line" href="texmac_8h.html#aa6cff7b9e34edb7168180790ee4c98fc">  828</a></span>&#160;<span class="preprocessor">#define openname(x)    link(x+1) </span><span class="comment">/* string number of file name to open}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;<span class="preprocessor">#define openarea(x)    info(x+2) </span><span class="comment">/* string number of file area for |openname|}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;<span class="preprocessor">#define openext(x)    link(x+2) </span><span class="comment">/* string number of file extension for |openname|}*/</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160; </div>
-<div class="line"><a name="l00832"></a><span class="lineno"><a class="line" href="texmac_8h.html#ad0d1f7922f361ed20e752cc42b5ac7ef">  832</a></span>&#160; </div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;<span class="comment">// #866</span></div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;<span class="preprocessor">#define actwidth activewidth[0] // length from first active node to current node</span></div>
+<div class="line"><a name="l00805"></a><span class="lineno"><a class="line" href="texmac_8h.html#a91fad6fa007f046d167fdedfa30f08be">  805</a></span>&#160;<span class="preprocessor">#define define(x, y, z) \</span></div>
+<div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))</span></div>
+<div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;<span class="preprocessor">#define worddefine(x, y) \</span></div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))</span></div>
+<div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160; </div>
+<div class="line"><a name="l00810"></a><span class="lineno"><a class="line" href="texmac_8h.html#a3783b1648d81a731945b58079900184f">  810</a></span>&#160; </div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;<span class="preprocessor">#define advpast(x)                        \</span></div>
+<div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;<span class="preprocessor">    {                                     \</span></div>
+<div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;<span class="preprocessor">        if (subtype(x) == languagenode) { \</span></div>
+<div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;<span class="preprocessor">            curlang = whatlang(x);        \</span></div>
+<div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;<span class="preprocessor">            lhyf = whatlhm(x);            \</span></div>
+<div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;<span class="preprocessor">            rhyf = whatrhm(x);            \</span></div>
+<div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;<span class="preprocessor">        }                                 \</span></div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;<span class="preprocessor">    }</span></div>
+<div class="line"><a name="l00820"></a><span class="lineno"><a class="line" href="texmac_8h.html#ad9269e34f41010c68a631365bd5f11e0">  820</a></span>&#160; </div>
+<div class="line"><a name="l00822"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac9e67befd17a11165c9532ff811b4a9a">  822</a></span>&#160;<span class="preprocessor">#define whatlang(x)  link(x+1) </span><span class="comment">/* language number, in the range |0..255|}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00823"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac41879a7954d295be3e94c80eea84f55">  823</a></span>&#160;<span class="preprocessor">#define whatlhm(x)  type(x+1) </span><span class="comment">/* minimum left fragment, in the range |1..63|}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00824"></a><span class="lineno"><a class="line" href="texmac_8h.html#a09e7e6ae6793e13375a3faf02d1a8db4">  824</a></span>&#160;<span class="preprocessor">#define whatrhm(x)  subtype(x+1) </span><span class="comment">/* minimum right fragment, in the range |1..63|}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00825"></a><span class="lineno"><a class="line" href="texmac_8h.html#ac6009b228fcf055ffda3499153023075">  825</a></span>&#160;<span class="preprocessor">#define writetokens(x)    link(x+1) </span><span class="comment">/* reference count of token list to write}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00826"></a><span class="lineno"><a class="line" href="texmac_8h.html#afe5efe939b2768f7783c2b22c1b2a310">  826</a></span>&#160;<span class="preprocessor">#define writestream(x)    info(x+1) </span><span class="comment">/* stream number (0 to 17)}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00827"></a><span class="lineno"><a class="line" href="texmac_8h.html#aa6cff7b9e34edb7168180790ee4c98fc">  827</a></span>&#160;<span class="preprocessor">#define openname(x)    link(x+1) </span><span class="comment">/* string number of file name to open}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;<span class="preprocessor">#define openarea(x)    info(x+2) </span><span class="comment">/* string number of file area for |openname|}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;<span class="preprocessor">#define openext(x)    link(x+2) </span><span class="comment">/* string number of file extension for |openname|}*/</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160; </div>
+<div class="line"><a name="l00831"></a><span class="lineno"><a class="line" href="texmac_8h.html#ad0d1f7922f361ed20e752cc42b5ac7ef">  831</a></span>&#160; </div>
+<div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;<span class="comment">// #866</span></div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;<span class="preprocessor">#define actwidth activewidth[0] // length from first active node to current node</span></div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160; </div>
 <div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160; </div>
-<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160; </div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;<span class="preprocessor">#endif // TEXMAC_H</span></div>
+<div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;<span class="preprocessor">#endif // TEXMAC_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

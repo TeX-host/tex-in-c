@@ -65,7 +65,7 @@ var NAVTREEINDEX =
 "tex_8c.html#abacd0576b6b28e0550561556735209b3",
 "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dadfd4880d4c8d18f6ab3f4944c1a26b45",
 "texmac_8h.html#a018b850a8c0a52f30b93b95abeddd5cf",
-"texmac_8h.html#afcd1f831a7a72edcbdf38a3ef4644db9"
+"texmac_8h.html#afd096ffa0ff3cf50215b60e8b3fcd8fd"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';
