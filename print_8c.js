@@ -1,11 +1,14 @@
 var print_8c =
 [
+    [ "begin_pseudo_print", "group___s300x320___p121x130.html#ga154a33e00654c6b349daeca66bbae8f5", null ],
+    [ "newline_or_space", "print_8c.html#adc2cf7a3699c0b9cc0e70c1851ed3d8f", null ],
     [ "print", "group___s54x71___p24x29.html#gaad786ee811b86d2784a6a19a294f1de6", null ],
     [ "print_char", "group___s54x71___p24x29.html#ga483fffec16d3e5c6706dba49c69f97a3", null ],
     [ "print_esc", "group___s54x71___p24x29.html#ga0c018449eb2c8069b74269c37a931394", null ],
     [ "print_esc_str", "print_8c.html#a5768ed35efcd7460703e0c645674642d", null ],
     [ "print_hex", "group___s54x71___p24x29.html#ga1f134ab06d2ce2d719977640811ad6f8", null ],
     [ "print_int", "group___s54x71___p24x29.html#ga10d4c74ca848a0557d46565d64282ef6", null ],
+    [ "print_mod_init", "print_8c.html#ae18a260b4844b5f1c9485aa18f81068e", null ],
     [ "print_roman_int", "group___s54x71___p24x29.html#ga7a1aeba0ccdc81d4c12795a0a40e0d6c", null ],
     [ "print_str", "print_8c.html#a1ca2de5cb25c318da4e938ca5997dd2e", null ],
     [ "print_the_digs", "group___s54x71___p24x29.html#gaa1a2bf584649589604ae24f7cd980dbb", null ],
@@ -13,6 +16,7 @@ var print_8c =
     [ "println", "group___s54x71___p24x29.html#gac52ac3c4e4f907c35038591b801f7191", null ],
     [ "printnl", "group___s54x71___p24x29.html#ga4f096c20378d51e14ecde5516c8bca90", null ],
     [ "printnl_str", "print_8c.html#ac32cd72e4bf407b43ed66c0e5439343b", null ],
+    [ "set_trick_count", "group___s300x320___p121x130.html#gadbfc1f0aba619d524af4361b5ca03abc", null ],
     [ "term_input", "group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82", null ],
     [ "file_offset", "group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50", null ],
     [ "first_count", "group___s54x71___p24x29.html#ga7ffd670d28ee97732bf95350e740ec9d", null ],

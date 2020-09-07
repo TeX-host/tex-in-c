@@ -13,7 +13,6 @@ var group___s300x320___p121x130 =
       [ "tok_param", "struct_in_state_record.html#a1609511da114bc1f802fdce66515481b", null ],
       [ "tok_type", "struct_in_state_record.html#acb346987af4448f51963e8eff3cb7a6e", null ]
     ] ],
-    [ "beginpseudoprint", "group___s300x320___p121x130.html#gabb1cdea470be63dae7676381d68ad592", null ],
     [ "curfile", "group___s300x320___p121x130.html#ga92fda472e735fd9d101174fcb62eed02", null ],
     [ "IINDEX", "group___s300x320___p121x130.html#gab0825379d657c8cd853dd2fdd688323b", null ],
     [ "LIMIT", "group___s300x320___p121x130.html#ga5977928b042d0a4b2ce93baa979e5f5c", null ],
@@ -21,7 +20,6 @@ var group___s300x320___p121x130 =
     [ "NAME", "group___s300x320___p121x130.html#ga47f2e62c0dbebc787052c165afcada0e", null ],
     [ "NEW_LINE", "group___s300x320___p121x130.html#ga7b99dc1e1c86b4897498c2d436ead1b5", null ],
     [ "param_start", "group___s300x320___p121x130.html#gaecf6e711c43a91e04134fbe50874c544", null ],
-    [ "settrick_count", "group___s300x320___p121x130.html#ga1265f82599506d5085ae4666d3e9668c", null ],
     [ "SKIP_BLANKS", "group___s300x320___p121x130.html#ga764bdced1d55967df03accf048f32e84", null ],
     [ "START", "group___s300x320___p121x130.html#ga3018c7600b7bb9866400596a56a57af7", null ],
     [ "STATE", "group___s300x320___p121x130.html#gaacd2cf60f504e45efada9aec028ee3cd", null ],
@@ -53,7 +51,9 @@ var group___s300x320___p121x130 =
       [ "MARK_TEXT", "group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2", null ],
       [ "WRITE_TEXT", "group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313", null ]
     ] ],
+    [ "begin_pseudo_print", "group___s300x320___p121x130.html#ga154a33e00654c6b349daeca66bbae8f5", null ],
     [ "runaway", "group___s300x320___p121x130.html#gac542a0034fbac204b2532deac2e1e414", null ],
+    [ "set_trick_count", "group___s300x320___p121x130.html#gadbfc1f0aba619d524af4361b5ca03abc", null ],
     [ "showcontext", "group___s300x320___p121x130.html#ga08865d4e55bc6116a39dbd5679041e61", null ],
     [ "align_state", "group___s300x320___p121x130.html#ga650d10a64dbc4f8309abfa96e210f074", null ],
     [ "baseptr", "group___s300x320___p121x130.html#gadc63a95455f9c0521a411a0271174910", null ],

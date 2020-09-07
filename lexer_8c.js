@@ -1,10 +1,8 @@
 var lexer_8c =
 [
-    [ "beginpseudoprint", "group___s300x320___p121x130.html#gabb1cdea470be63dae7676381d68ad592", null ],
     [ "CHECK_OUTER", "group___s332x365___p134x143.html#ga0f975ce4b651edcf344f216e0fd7f064", null ],
     [ "process_cmd", "group___s332x365___p134x143.html#ga3325a7929932a5c427272a8b1cbdc0e2", null ],
     [ "Process_cs", "group___s332x365___p134x143.html#gaf2397d3a044f1f72f5c2b1877c1df807", null ],
-    [ "settrick_count", "group___s300x320___p121x130.html#ga1265f82599506d5085ae4666d3e9668c", null ],
     [ "backerror", "group___s321x331___p131x133.html#ga65b8b2c3bf6ac32ae0eec0468e9d265e", null ],
     [ "backinput", "group___s321x331___p131x133.html#gafd6e40e89c0d293c90a471cef22e934a", null ],
     [ "beginfilereading", "group___s321x331___p131x133.html#gaf501832c4c8d2d3ee398905b7857c4b1", null ],

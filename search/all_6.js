@@ -18,7 +18,7 @@ var searchData=
   ['fil_5fcode_541',['FIL_CODE',['../tex__constant_8h.html#ad9f012c8619fee561d43c08679119823ad3ac6e826b765b99f33cadd8cc75f18c',1,'tex_constant.h']]],
   ['fil_5fneg_5fcode_542',['FIL_NEG_CODE',['../tex__constant_8h.html#ad9f012c8619fee561d43c08679119823a99b86b3323831ab272f4da8911a64934',1,'tex_constant.h']]],
   ['file_5fname_5fsize_543',['FILE_NAME_SIZE',['../group___s1x16___p3x9.html#gaa7a7fd4622267bc1b90eca7fbf99c7dd',1,'tex_constant.h']]],
-  ['file_5foffset_544',['file_offset',['../group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c'],['../group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50',1,'file_offset():&#160;print.c']]],
+  ['file_5foffset_544',['file_offset',['../group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50',1,'print.c']]],
   ['filename_5fk_545',['filename_k',['../group___s511x538___p188x195.html#ga26de7b0cc6daf6e2ad76d2f7a8f4f8d2',1,'tex.c']]],
   ['filglue_546',['filglue',['../group___s162x172___p58x61.html#ga9075ed44fbc97269a0c2a93c034fccc2',1,'tex.h']]],
   ['fill_547',['FILL',['../group___s133x161___p50x57.html#gga2cad1bc7b42b016cc06580acc3c0be4ea1d3754a297a681486f8cb3138a27c28b',1,'tex_constant.h']]],
