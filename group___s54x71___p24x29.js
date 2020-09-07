@@ -23,7 +23,7 @@ var group___s54x71___p24x29 =
     [ "file_offset", "group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50", null ],
     [ "first_count", "group___s54x71___p24x29.html#ga7ffd670d28ee97732bf95350e740ec9d", null ],
     [ "log_file", "group___s54x71___p24x29.html#gab936051f5aaca44c6c3c41dee0d19c36", null ],
-    [ "selector", "group___s54x71___p24x29.html#ga90543b928047dd29fabab14786c31d3b", null ],
+    [ "selector", "group___s54x71___p24x29.html#ga1f00eb3e983a5cfa7751a09614447120", null ],
     [ "tally", "group___s54x71___p24x29.html#ga89b3f351f42b094a4ee47b7d0c066691", null ],
     [ "term_offset", "group___s54x71___p24x29.html#ga3bb43835106e1520026aacb4632aa288", null ],
     [ "trick_buf", "group___s54x71___p24x29.html#ga65e8e215bb3d673ff542811fe3203fab", null ],
