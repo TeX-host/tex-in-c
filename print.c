@@ -45,6 +45,8 @@ Integer first_count; ///< another variable for pseudoprinting.
 
 /** [p25#57]: 输出换行 . prints an end-of-line.
  *
+ * #tally is not affected.
+ *
  * 全局变量:
  *  + [in]  #selector
  *  + [out] #write_file
@@ -53,6 +55,21 @@ Integer first_count; ///< another variable for pseudoprinting.
  *  + [out] #log_file
  *  + [out] #term_offset
  *  + [out] #file_offset
+ *
+ * ## used by
+ *  [58]print_char, [59]print, [61]S55_Initialize_the_output_routines,
+ *  [62]printnl, [71]term_input, [82]error,
+ *  [114]printword, [182]shownodelist, [198]showbox, 
+ *  [218]showactivities, [245]begindiagnostic, [296]printmeaning, 
+ *  [306]runaway, [330]clearforerrorprompt, [331]showcontext, 
+ *  [341]getnext_worker, [363]firm_up_the_line, [389]macrocall,
+ *  [482]readtoks, 
+ *  [534]openlogfile, [537]startinput,
+ *  [638]shipout, [649]hpack, [668]vpackage, [692]printsubsidiarydata, 
+ *  [1265]newinteraction, [1279]issuemessage, 
+ *  [1302/1309,1311,1320,1324]storefmtfile,
+ *  [1333]close_files_and_terminate,
+ *  [1370]writeout
  */
 void println(void) {
     switch (selector) {
