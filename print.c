@@ -13,7 +13,7 @@
                 // 作为函数参数
 
 FILE* log_file = NULL;  ///< transcript of TeX session.
-enum Selector selector; ///< where to print a message.
+Selector selector; ///< where to print a message.
 Integer tally; ///< the number of characters recently printed.
 
 /// the number of characters on the current terminal line.

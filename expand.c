@@ -559,7 +559,7 @@ static void insthetoks(void) {
 /// insert the token list for convert functions into the scanner;
 /// `\outer` control sequences are allowed to follow `\string` and `\meaning`.
 static void convtoks(void) {
-    enum Selector old_setting;
+    Selector old_setting;
     char c;
     SmallNumber savescannerstatus;
     StrPoolPtr b;

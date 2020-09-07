@@ -2393,7 +2393,7 @@ HalfWord strtoks(StrPoolPtr b) {
 
 /*465:*/
 HalfWord thetoks(void) {
-    enum Selector old_setting;
+    Selector old_setting;
     Pointer p, r;
 
     get_x_token();
@@ -2838,7 +2838,7 @@ Static void promptfilename(StrNumber s, StrNumber e) {
 
 /*534:*/
 void openlogfile(void) {
-    enum Selector old_setting;
+    Selector old_setting;
     short k;
     short l;
     Char months[36];
@@ -2942,7 +2942,7 @@ void startinput(void) {
 
 // #1368
 Static void specialout(HalfWord p) {
-    enum Selector old_setting;
+    Selector old_setting;
 
     synchh();
     synchv();
@@ -2966,7 +2966,7 @@ Static void specialout(HalfWord p) {
 
 /*1370:*/
 Static void writeout(HalfWord p) { /*1371:*/
-    enum Selector old_setting;
+    Selector old_setting;
     long oldmode;
     /* SmallNumber */ int j; /* INT */
     Pointer q, r;
@@ -3436,7 +3436,7 @@ Static void vlistout(void) {
 // [ p236#638 ]: output the box `p`
 Static void shipout(Pointer p) {
     int j, k; // [0, 9]: indices to first ten count registers
-    enum Selector old_setting; // saved selector setting
+    Selector old_setting; // saved selector setting
 
     if (tracingoutput > 0) {
         printnl(S(385)); // ""
@@ -11166,7 +11166,7 @@ Static void newfont(SmallNumber a) {
     Scaled s;
     InternalFontNumber f;
     StrNumber t;
-    enum Selector old_setting;
+    Selector old_setting;
     /* XXXX  StrNumber flushablestring; */
 
     if (job_name == 0) openlogfile();
@@ -11733,7 +11733,7 @@ Static void openorclosein(void) {
 
 /*1279:*/
 Static void issuemessage(void) {
-    enum Selector old_setting;
+    Selector old_setting;
     char c;
     StrNumber s;
 

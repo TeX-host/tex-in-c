@@ -326,7 +326,7 @@ void runaway(void) {
 
 /// [#311] prints where the scanner is.
 void showcontext(void) { /*:315*/
-    enum Selector old_setting;
+    Selector old_setting;
     long nn;
     Boolean bottomline; /*315:*/
     short i;
