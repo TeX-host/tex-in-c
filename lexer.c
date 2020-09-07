@@ -12,20 +12,6 @@
     // [macro] checkinterrupt,
 #include "lexer.h"
 
-/** @addtogroup S300x320_P121x130
- *  @{
- */
-
-#define beginpseudoprint() \
-    (l = tally, tally = 0, selector = PSEUDO, trick_count = 1000000)
-
-#define settrick_count()                                     \
-    (first_count = tally,                                    \
-     trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE, \
-     ((trick_count < ERROR_LINE) ? trick_count = ERROR_LINE : 0))
-
-/** @}*/ // end group S300x320_P121x130
-
 
 /** @addtogroup S297x299_P119x120
  *  @{
@@ -154,7 +140,7 @@ void showtokenlist(Integer p, Integer q, Integer l) {
     while (p != 0 && tally < l) {
         if (p == q) {
             // #320 Do magic computation
-            settrick_count();
+            set_trick_count();
         }
 
         // [#293] Display token p, and return if there are problems
@@ -371,7 +357,7 @@ void showcontext(void) { /*:315*/
                         print_int(line);
                     }
                     print_char(' '); /*318:*/
-                    beginpseudoprint();
+                    begin_pseudo_print(&l);
                     if (buffer[LIMIT] == end_line_char)
                         j = LIMIT;
                     else
@@ -379,7 +365,7 @@ void showcontext(void) { /*:315*/
                     if (j > 0) {
                         for (i = START; i < j; i++) { /*:318*/
                             if (i == LOC) {
-                                settrick_count();
+                                set_trick_count();
                             }
                             print(buffer[i]);
                         }
@@ -415,7 +401,7 @@ void showcontext(void) { /*:315*/
                         default: printnl('?'); break;
                     }
                     /*319:*/
-                    beginpseudoprint();
+                    begin_pseudo_print(&l);
                     if (token_type < MACRO)
                         showtokenlist(START, LOC, 100000L);
                     else /*:319*/
@@ -423,7 +409,7 @@ void showcontext(void) { /*:315*/
                 }
                 selector = old_setting; /*317:*/
                 if (trick_count == 1000000L) {
-                    settrick_count();
+                    set_trick_count();
                 }
                 if (tally < trick_count)
                     m = tally - first_count;

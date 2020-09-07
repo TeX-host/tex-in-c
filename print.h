@@ -48,8 +48,6 @@ typedef enum _Selector {
 extern FILE* log_file;
 extern Selector selector;
 extern Integer tally;
-extern UChar term_offset;
-extern UChar file_offset;
 extern ASCIICode trick_buf[ERROR_LINE + 1];
 extern Integer trick_count;
 extern Integer first_count;
@@ -66,9 +64,14 @@ extern void print_hex(Integer n);
 extern void print_roman_int(Integer n);
 extern void term_input(void);
 
+extern void print_mod_init();
+extern void newline_or_space(size_t len);
 // 直接输出 string 的函数
 extern void print_str(Str s);
 extern void printnl_str(Str s);
 extern void print_esc_str(Str s);
+
+extern void begin_pseudo_print(char* l);
+extern void set_trick_count();
 
 #endif // INC_PRINT

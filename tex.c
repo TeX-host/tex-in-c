@@ -2876,10 +2876,9 @@ void startinput(void) {
         job_name = curname;
         openlogfile();
     }
-    if (term_offset + str_length(NAME) > MAX_PRINT_LINE - 2) {
-        println();
-    } else if (term_offset > 0 || file_offset > 0)
-        print_char(' ');
+
+    newline_or_space(str_length(NAME));
+
     print_char('(');
     openparens++;
     slow_print(NAME);
@@ -3416,11 +3415,9 @@ Static void shipout(Pointer p) {
         println();
         print(S(686)); // "Completed box being shipped out"
     }
-    if (term_offset > (MAX_PRINT_LINE - 9)) {
-        println();
-    } else if (term_offset > 0 || file_offset > 0) {
-        print_char(' ');
-    }
+
+    newline_or_space(7);
+
     print_char('[');
     j = 9;
     while (count(j) == 0 && j > 0)
@@ -11720,10 +11717,8 @@ Static void issuemessage(void) {
     str_room(1);
     s = makestring();
     if (c == 0) { /*1280:*/
-        if (term_offset + str_length(s) > MAX_PRINT_LINE - 2) {
-            println();
-        } else if (term_offset > 0 || file_offset > 0)
-            print_char(' ');
+        newline_or_space(str_length(s));;
+
         slow_print(s);
         update_terminal();
         /*1283:*/
@@ -14638,21 +14633,8 @@ static Integer S14_Check_the_constant_values_for_consistency(void) {
 // [p24#55]: <Initialize the output routines> 
 // [55], 61, 528, 533 Used in section 1332@main.
 static void S55_Initialize_the_output_routines(void) {
-    // #55
-    selector = TERM_ONLY;
-    tally = 0;
-    term_offset = 0;
-    file_offset = 0;
-
-    // #61
-    fprintf(TERM_OUT, "%s", TEX_BANNER); // wterm(banner);
-    if (format_ident == 0) {
-        fprintf(TERM_OUT, " (no format preloaded)\n");
-    } else {
-        slow_print(format_ident);
-        println();
-    }
-    update_terminal();
+    // [#55. #61]
+    print_mod_init();
 
     // #528
     job_name = 0;

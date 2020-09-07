@@ -15,26 +15,34 @@
 // ? dig[23]    // digits in a number being output
                 // 作为函数参数
 
-FILE* log_file = NULL;  ///< transcript of TeX session.
+FILE* log_file = NULL; ///< transcript of TeX session.
 Selector selector; ///< where to print a message.
-Integer tally; ///< the number of characters recently printed.
+
+/// the number of characters recently printed.
+/// only used by: lexer.c
+Integer tally;
 
 /// the number of characters on the current terminal line.
 /// #term_offset = [0, MAX_PRINT_LINE=79]
-UChar term_offset;
+static UChar term_offset;
 static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
               "term_offset = [0, MAX_PRINT_LINE=79]");
 
 /// the number of characters on the current file line.
 /// #file_offset = [0, MAX_PRINT_LINE=79]
-UChar file_offset;
+static UChar file_offset;
 static_assert(UMAXOF(UChar) >= MAX_PRINT_LINE,
               "file_offset = [0, MAX_PRINT_LINE=79]");
 
 /// circular buffer for pseudoprinting.
+/// only used by: lexer.c
 ASCIICode trick_buf[ERROR_LINE + 1];
-Integer trick_count; ///< threshold for pseudoprinting, explained later.
-Integer first_count; ///< another variable for pseudoprinting.
+/// threshold for pseudoprinting, explained later.
+/// only used by: lexer.c
+Integer trick_count;
+/// another variable for pseudoprinting.
+/// only used by: lexer.c
+Integer first_count; 
 
 
 /*
@@ -387,6 +395,42 @@ void term_input(void) {
 /** @}*/ // end group S54x71_P24x29
 
 
+/// help fucntions
+
+/// init global var
+void print_mod_init() {
+    // [#55]
+    selector = TERM_ONLY;
+    tally = 0;
+    term_offset = 0;
+    file_offset = 0;
+
+    // [#61]
+    fprintf(TERM_OUT, "%s", TEX_BANNER); // wterm(banner);
+    if (format_ident == 0) {
+        fprintf(TERM_OUT, " (no format preloaded)\n");
+    } else {
+        slow_print(format_ident);
+        println();
+    }
+    update_terminal();
+}
+
+/** Choose add newline or space based on the length to be printed.
+ *
+ * ## used by:
+ *  + [p195#537] startinput;
+ *  + [p236#638] shipout;
+ *  + [p451#1279/1280] issuemessage;
+ */
+void newline_or_space(size_t len) {
+    if ((term_offset + len) > (MAX_PRINT_LINE - 2)) {
+        println();
+    } else if (term_offset > 0 || file_offset > 0) {
+        print_char(' ');
+    }
+}
+
 void print_str(Str s) {
     long nl = newlinechar;
 
@@ -421,3 +465,30 @@ void print_esc_str(Str s) {
     print_char(c);
     print_str(s);
 }
+
+
+/** @addtogroup S300x320_P121x130
+ *  @{
+ */
+
+/// [#316]
+void begin_pseudo_print(char* l) {
+    (*l) = tally;
+    tally = 0;
+    selector = PSEUDO;
+    trick_count = 1000000;
+}
+
+/// [#316]
+void set_trick_count() {
+    first_count = tally;
+    trick_count = tally + 1 + ERROR_LINE - HALF_ERROR_LINE;
+
+    if (trick_count < ERROR_LINE) {
+        trick_count = ERROR_LINE;
+    } else {
+        /* do nothing */
+    }
+}
+
+/** @}*/ // end group S300x320_P121x130
