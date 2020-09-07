@@ -71,33 +71,6 @@ void set_help(SChar k, ...) {
     print_file_name, print_size, print_write_whatsit
 */
 
-// #70: print current string #str.c
-
-/** @addtogroup S54x71_P24x29
- * @{
- */
-
-/// #71: gets a line from the terminal
-void term_input(void) {
-    UInt16 k; // [0, BUF_SIZE=5000]
-
-    update_terminal(); // now the user sees the prompt for sure
-    if (!inputln(TERM_IN, true)) {
-        fatalerror(S(302)); // "End of file on the terminal!"
-    }
-
-    term_offset = 0; // the user’s line ended with <return>
-    selector--;      // prepare to echo the input
-    if (last != first) {
-        for (k = first; k < last; k++)
-            print(buffer[k]);
-    }
-    println();
-    selector++; // restore previous status
-} // #71: term_input
-/** @}*/ // end group S54x71_P24x29
-
-
 // #262: prints a purported control sequence
 // [Basic printing procedures]
 void print_cs(long p) {

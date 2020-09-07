@@ -1,7 +1,10 @@
 #include <stdlib.h> // [func] labs, 
 #include "global_const.h"
 #include "print.h"
-#include "global.h" // [func] xchr, eqtb, write_file
+#include "global.h" // [func] xchr, eqtb, write_file, 
+    // last, first, buffer[]
+#include "inputln.h" // [func] inputln
+#include "error.h"  // [func] fatalerror
 
 
 /** @addtogroup S54x71_P24x29
@@ -353,6 +356,33 @@ void print_roman_int(Integer n) {
         }
     } // while (true)
 } // #69: print_roman_int
+
+/// [#70] print_current_string in #str.c .
+
+/** [#71]: gets a line from the terminal.
+ *
+ *
+ *  @param[in]  last    [global]
+ *  @param[in]  first   [global]
+ *  @param[out] term_offset [global]
+ *  @param[out] selector    [global]
+ *
+ */
+void term_input(void) {
+    update_terminal(); // now the user sees the prompt for sure
+    if (!inputln(TERM_IN, true)) {
+        fatalerror(S(302)); // "End of file on the terminal!"
+    }
+
+    term_offset = 0; // the user’s line ended with <return>
+    selector--;      // prepare to echo the input
+    if (last != first) {
+        for (UInt16 k = first; k < last; k++)
+            print(buffer[k]);
+    }
+    println();
+    selector++; // restore previous status
+} // #71: term_input
 
 /** @}*/ // end group S54x71_P24x29
 

@@ -2,7 +2,7 @@
 #include "global.h"
 #include "texfunc.h"
 #include "macros.h" // [macro] help4,
-#include "print.h" // 
+#include "print.h"  // term_input
 #include "error.h"
 
 

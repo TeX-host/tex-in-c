@@ -47,7 +47,6 @@ extern void print_mode(Integer m);
 extern Pointer get_avail(void);
 extern void flushlist(HalfWord p);
 extern void delete_token_ref(HalfWord p);
-extern void term_input(void);
 extern void openlogfile(void);
 
 // [tex] expand

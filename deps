@@ -16,7 +16,7 @@ printout.o: printout.c tex.h tex_types.h tex_constant.h str.h \
  global_const.h fonts.h texfunc.h texmath.h texmac.h expand.h scan.h \
  lexer.h printout.h
 print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
- texmac.h str.h global.h scan.h lexer.h
+ texmac.h str.h global.h scan.h lexer.h inputln.h error.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h str.h \
  global_const.h global.h scan.h lexer.h texfunc.h printout.h pure_func.h \
  macros.h inputln.h funcs.h expand.h error.h

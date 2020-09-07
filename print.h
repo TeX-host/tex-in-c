@@ -64,6 +64,7 @@ extern void print_int(Integer n);
 extern void print_two(Integer n);
 extern void print_hex(Integer n);
 extern void print_roman_int(Integer n);
+extern void term_input(void);
 
 // 直接输出 string 的函数
 extern void print_str(Str s);

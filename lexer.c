@@ -1,4 +1,4 @@
-#include "print.h"      // [var] tally,
+#include "print.h"      // [var] tally, term_input
 #include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
 #include "texfunc.h"    // [func] print_cs
 #include "printout.h"   // [func] printcmdchr,
