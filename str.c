@@ -136,7 +136,7 @@ void slow_print(StrNumber s) {
     }
 } // #60: slow_print
 
-/// #70
+/// [#70] prints a yet-unmade string.
 void printcurrentstring(void) {
     PoolPtr j;
 

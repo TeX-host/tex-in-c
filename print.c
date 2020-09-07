@@ -229,7 +229,9 @@ void printnl(StrNumber s) {
 } // #62: printnl
 
 /** [#63]: prints escape character, then `s` .
- * 
+ *
+ * prints a string that is preceded by the user’s escape character 
+ *  (which is usually a backslash).
  */
 void print_esc(StrNumber s) {
     Integer c = ESCAPE_CHAR; // the escape character code
@@ -305,7 +307,7 @@ void print_two(Integer n) {
  * 
  */
 void print_hex(Integer n) {
-    UChar k = 0; // [0, 22], 0<= n <= 16^22
+    UChar k = 0; // [0, 22], 0<= n < 16^22
     char digs[23];
 
     print_char('"');

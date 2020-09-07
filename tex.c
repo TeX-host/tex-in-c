@@ -86,7 +86,7 @@ void term_input(void) {
         fatalerror(S(302)); // "End of file on the terminal!"
     }
 
-    term_offset = 0; // the user’s line ended with hreturni
+    term_offset = 0; // the user’s line ended with <return>
     selector--;      // prepare to echo the input
     if (last != first) {
         for (k = first; k < last; k++)
