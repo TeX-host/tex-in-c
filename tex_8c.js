@@ -231,7 +231,6 @@ var tex_8c =
     [ "strtoks", "tex_8c.html#a80fe6425d210c2854268e77530a8c9d6", null ],
     [ "strtoks_helper", "tex_8c.html#ae3337b37a6edfca9c32143c76ee9fe41", null ],
     [ "subsup", "tex_8c.html#a68900cf5ed043c853505cd2b400fd4ac", null ],
-    [ "term_input", "group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82", null ],
     [ "tex_round", "tex_8c.html#a0b21d450cfc163e6a3a817682f151114", null ],
     [ "thetoks", "tex_8c.html#a6b6f36120a008973281d7ea9d596d6ff", null ],
     [ "trapzeroglue", "tex_8c.html#a1e690375d513ec23d2c3375f4c6c2cff", null ],

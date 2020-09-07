@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['term_5finput_2561',['term_input',['../group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c'],['../group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;tex.c']]],
+  ['term_5finput_2561',['term_input',['../group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;print.c'],['../group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82',1,'term_input(void):&#160;print.c']]],
   ['tex_5fround_2562',['tex_round',['../tex_8c.html#a0b21d450cfc163e6a3a817682f151114',1,'tex.c']]],
   ['thetoks_2563',['thetoks',['../tex_8c.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c'],['../texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff',1,'thetoks(void):&#160;tex.c']]],
   ['tokenshow_2564',['tokenshow',['../group___s289x296___p115x118.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c'],['../group___s289x296___p115x118.html#gad9aabc8fcac50f25367c22342331240f',1,'tokenshow(HalfWord p):&#160;lexer.c']]],

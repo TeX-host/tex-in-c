@@ -38,6 +38,5 @@ var texfunc_8h =
     [ "sprint_cs", "texfunc_8h.html#a8a1618d38ab18457ab7daad7d45d9dcb", null ],
     [ "startinput", "group___s511x538___p188x195.html#ga36e1e896f8f7b67ca95b8c20295fc18f", null ],
     [ "strtoks", "texfunc_8h.html#a80fe6425d210c2854268e77530a8c9d6", null ],
-    [ "term_input", "group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82", null ],
     [ "thetoks", "texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff", null ]
 ];

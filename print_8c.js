@@ -13,6 +13,7 @@ var print_8c =
     [ "println", "group___s54x71___p24x29.html#gac52ac3c4e4f907c35038591b801f7191", null ],
     [ "printnl", "group___s54x71___p24x29.html#ga4f096c20378d51e14ecde5516c8bca90", null ],
     [ "printnl_str", "print_8c.html#ac32cd72e4bf407b43ed66c0e5439343b", null ],
+    [ "term_input", "group___s54x71___p24x29.html#ga4c0b64e3750054d6eae6e3ba951dfd82", null ],
     [ "file_offset", "group___s54x71___p24x29.html#ga6631bd855f4f2d1a030cd1f94c33cc50", null ],
     [ "first_count", "group___s54x71___p24x29.html#ga7ffd670d28ee97732bf95350e740ec9d", null ],
     [ "log_file", "group___s54x71___p24x29.html#gab936051f5aaca44c6c3c41dee0d19c36", null ],
