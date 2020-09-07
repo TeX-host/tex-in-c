@@ -104,6 +104,11 @@ void println(void) {
 
 /** [p25#58]: 输出单个 ASCII 字符 . prints a single character.
  *
+ * The print char procedure sends one character to the desired destination,
+ *  using the xchr array to map it into an external character compatible 
+ *  with input ln. 
+ * All printing comes through #println or #print_char.
+ * 
  * 根据 #selector 选择输出位置.
  *
  * 全局变量:
@@ -158,13 +163,17 @@ void print_char(ASCIICode c) {
             break;
 
         case NEW_STRING:
-            append_char(c); // we drop characters if the string space is full
+            // we drop characters if the string space is full
+            if (str_adjust_to_room(1)==1) {
+                append_char(c); 
+            }
             break;
 
         default: /* 0~15 */
             putc(xchr[c], write_file[selector]);
             break;
     } // switch (selector)
+
     tally++;
 } // #58: print_char
 

@@ -7,7 +7,7 @@
 #include "tex_types.h" // Integer, UChar, ASCIICode
 #include "tex.h"       // MAX_PRINT_LINE
 #include "texmac.h"    // newlinechar
-#include "str.h"       // StrNumber
+#include "str.h"       // StrNumber, str_adjust_to_room
 
 typedef char* Str;
 
