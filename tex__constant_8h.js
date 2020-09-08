@@ -168,7 +168,7 @@ var tex__constant_8h =
       [ "righthyphenmincode", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da962693768731cf33af68bb7585b3de8a", null ],
       [ "holdinginsertscode", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da8bf579aacff5a93c782a3c39f87e63d3", null ],
       [ "errorcontextlinescode", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dab529d216e33fbf291edf9ad0a030a09f", null ],
-      [ "intpars", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da733a0a4dbc925c7582a5d1b2cdc6e14c", null ]
+      [ "INT_PARS", "tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56dab68de3608395455f345683babf948f6f", null ]
     ] ],
     [ "DimensionRegisters", "tex__constant_8h.html#a8ff17b6afac8a3f24b743e19f1c576ee", [
       [ "parindentcode", "tex__constant_8h.html#a8ff17b6afac8a3f24b743e19f1c576eea6a119b3e51fa8332ab795ead6d8d88cc", null ],
