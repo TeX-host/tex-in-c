@@ -52,19 +52,24 @@ typedef enum _EqLevel {
     LEVEL_ONE,
 } EqLevel;
 
-/// p82#222
 
+/** [p82#222] [region 1] eqtb[ACTIVE_BASE, (HASH_BASE - 1)] holds
+ *  current equivalents of single-character control sequences.
+ */
 /// [p82#222] beginning of [region 1], for active character equivalents.
 #define ACTIVE_BASE                  1
 /// [p82#222] equivalents of one-character control sequences.
 #define SINGLE_BASE                 (ACTIVE_BASE + 256)
 /// [p82#222] equivalent of \\csname\\endcsname
 #define NULL_CS                     (ACTIVE_BASE + 256)
+
+/** [p82#222] [region 2] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds
+ *  current equivalents of multiletter control sequences.
+ */
 /// [p82#222] beginning of [region 2], for the hash table.
 #define HASH_BASE                   (NULL_CS + 1)
-
 #define frozencontrolsequence       (HASH_BASE + HASH_SIZE)
-#define frozenprotection            frozencontrolsequence
+#define frozenprotection             frozencontrolsequence
 #define frozencr                    (frozencontrolsequence + 1)
 #define frozenendgroup              (frozencontrolsequence + 2)
 #define frozenright                 (frozencontrolsequence + 3)
@@ -74,20 +79,29 @@ typedef enum _EqLevel {
 #define frozenrelax                 (frozencontrolsequence + 7)
 #define endwrite                    (frozencontrolsequence + 8)
 #define frozendontexpand            (frozencontrolsequence + 9)
-#define FROZEN_NULL_FONT              (frozencontrolsequence + 10)
+#define FROZEN_NULL_FONT            (frozencontrolsequence + 10)
 #define fontidbase                  (FROZEN_NULL_FONT)
-#define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
-/// [p82#222] beginning of region 3
-#define GLUE_BASE                   (UNDEFINED_CONTROL_SEQUENCE + 1)
+#define UNDEFINED_CONTROL_SEQUENCE  (FROZEN_NULL_FONT + 257)
 
+/** [p82#222] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
+ *  current equivalents of glue parameters like the current baselineskip.
+ */
+/// [p82#222] beginning of region 3
+#define GLUE_BASE       (UNDEFINED_CONTROL_SEQUENCE + 1)
 /// [p83#224] table of 256 “skip” registers
 #define SKIP_BASE       (GLUE_BASE + GLUE_PARS)
 /// [p83#224] table of 256 “muskip” registers.
 #define MU_SKIP_BASE    (SKIP_BASE + 256)
 
+/** [p82#222] [region 4] eqtb[GLUE_BASE, (LOCAL_BASE - 1)] holds
+ *  current equivalents of local halfword quantities like
+ *  + the current box registers,
+ *  + the current “catcodes,”
+ *  + the current font,
+ *  + and a pointer to the current paragraph shape.
+ */
 /// [p83#224] beginning of [region 4].
 #define LOCAL_BASE      (MU_SKIP_BASE + 256)
-
 // [p87#230]
 #define parshapeloc     LOCAL_BASE
 #define outputroutineloc  (LOCAL_BASE + 1)
@@ -109,12 +123,23 @@ typedef enum _EqLevel {
 #define uccodebase      (lccodebase + 256)
 #define sfcodebase      (uccodebase + 256)
 #define mathcodebase    (sfcodebase + 256)
+
+/** [p87#230] [region 5] eqtb[INT_BASE, (DIMEN_BASE - 1)] holds
+ *  current equivalents of fullword integer parameters like
+ *  the current hyphenation penalty.
+ */
+/// [p87#230] beginning of [region 5].
 #define INT_BASE         (mathcodebase + 256)
 /** @}*/ // end group S220x255_P81x101
-
-// [p92]
+/// [p92#236]
 #define countbase       (INT_BASE + intpars)
 #define delcodebase     (countbase + 256)
+
+/** [p92#236] [region 6] eqtb[DIMEN_BASE, EQTB_SIZE] holds
+ *  current equivalents of fullword dimension parameters like
+ *  the current hsize or amount of hanging indentation.
+ */
+/// [p92#236] beginning of region 6.
 #define DIMEN_BASE       (delcodebase + 256)
 
 
