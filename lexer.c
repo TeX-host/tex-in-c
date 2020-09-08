@@ -784,7 +784,7 @@ static int check_outer_validity(int local_curcs) {
 
 #define Process_cs                \
     {                             \
-        cur_cmd = eqtype(cur_cs); \
+        cur_cmd = eq_type(cur_cs); \
         cur_chr = equiv(cur_cs);  \
         process_cmd               \
     }
@@ -1152,14 +1152,14 @@ _getnext_worker__restart:
         LOC = link(LOC);          // move to next
         if (t >= CS_TOKEN_FLAG) { // a control sequence token
             cur_cs = t - CS_TOKEN_FLAG;
-            cur_cmd = eqtype(cur_cs);
+            cur_cmd = eq_type(cur_cs);
             cur_chr = equiv(cur_cs);
             if (cur_cmd >= OUTER_CALL) {
                 if (cur_cmd == DONT_EXPAND) {
                     // [#358] Get the next token, suppressing expansion
                     cur_cs = info(LOC) - CS_TOKEN_FLAG;
                     LOC = 0;
-                    cur_cmd = eqtype(cur_cs);
+                    cur_cmd = eq_type(cur_cs);
                     cur_chr = equiv(cur_cs);
                     if (cur_cmd > MAX_COMMAND) {
                         cur_cmd = RELAX;

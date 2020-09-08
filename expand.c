@@ -110,7 +110,7 @@ void macrocall(Pointer refcount) {
     if (info(r) != endmatchtoken) { /*391:*/
         scanner_status = MATCHING;
         unbalance = 0;
-        longstate = eqtype(curcs);
+        longstate = eq_type(curcs);
         if (longstate >= OUTER_CALL) longstate -= 2;
         do {
             link(temphead) = 0;
@@ -417,7 +417,7 @@ void expand(void) {
                 else
                     curcs = singlebase + buffer[first]; /*:374*/
                 flushlist(r);
-                if (eqtype(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
+                if (eq_type(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
                 curtok = curcs + CS_TOKEN_FLAG;
                 backinput();
                 break;

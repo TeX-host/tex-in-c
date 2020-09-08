@@ -191,13 +191,13 @@
 
 
 /// [p81#221]
-#define eqlevelfield(x) x.hh.UU.U2.b1
-#define eqtypefield(x) x.hh.UU.U2.b0
+#define eq_level_field(x) x.hh.UU.U2.b1
+#define eq_type_field(x) x.hh.UU.U2.b0
 #define equivfield(x) x.hh.rh
 /// ::EqLevel, level of definition
-#define eq_level(x) eqlevelfield(eqtb[x - activebase])
-#define eqtype(x) \
-    eqtypefield(eqtb[x - activebase]) /* command code for equivalent}*/
+#define eq_level(x) eq_level_field(eqtb[x - activebase])
+/// ::TexCommandCode, command code for equivalent
+#define eq_type(x)  eq_type_field(eqtb[x - activebase])
 
 /// [p81#221] equivalent value.
 #define equiv(x) (eqtb[(x)-activebase].hh.rh)

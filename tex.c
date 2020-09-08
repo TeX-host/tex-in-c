@@ -1881,8 +1881,8 @@ Static void showeqtb(HalfWord n) {
         /*223:*/
         sprint_cs(n);
         print_char('=');
-        printcmdchr(eqtype(n), equiv(n));
-        if (eqtype(n) >= CALL) {
+        printcmdchr(eq_type(n), equiv(n));
+        if (eq_type(n) >= CALL) {
             print_char(':');
             showtokenlist(link(equiv(n)), 0, 32);
         }
@@ -2109,7 +2109,7 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
         text(cur_val) = s;
     }
     eq_level(cur_val) = LEVEL_ONE;
-    eqtype(cur_val) = c;
+    eq_type(cur_val) = c;
     equiv(cur_val) = o;
 } // #264: primitive
 #endif // #264: tt_INIT
@@ -2145,7 +2145,7 @@ Static void newsavelevel(GroupCode c) {
 Static void eqdestroy(MemoryWord w) {
     Pointer q;
 
-    switch (eqtypefield(w)) {
+    switch (eq_type_field(w)) {
         case CALL:
         case LONG_CALL:
         case OUTER_CALL:
@@ -2190,7 +2190,7 @@ void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     else if (curlevel > LEVEL_ONE)
         eqsave(p, eq_level(p));
     eq_level(p) = curlevel;
-    eqtype(p) = t;
+    eq_type(p) = t;
     equiv(p) = e;
 }
 /*:277*/
@@ -2209,7 +2209,7 @@ Static void eqworddefine(HalfWord p, long w) {
 Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     eqdestroy(eqtb[p - activebase]);
     eq_level(p) = LEVEL_ONE;
-    eqtype(p) = t;
+    eq_type(p) = t;
     equiv(p) = e;
 }
 
@@ -10255,7 +10255,7 @@ _LN_scanmath__reswitch:
             c = mathcode(curchr);
             if (c == 32768L) { /*1152:*/
                 curcs = curchr + activebase;
-                curcmd = eqtype(curcs);
+                curcmd = eq_type(curcs);
                 curchr = equiv(curcs);
                 xtoken();
                 backinput(); /*:1152*/
@@ -10312,7 +10312,7 @@ Static void setmathchar(long c)
 
   if (c >= 32768L) {   /*1152:*/
     curcs = curchr + activebase;
-    curcmd = eqtype(curcs);
+    curcmd = eq_type(curcs);
     curchr = equiv(curcs);
     xtoken();
     backinput();
@@ -11954,7 +11954,7 @@ Static void storefmtfile(void) { /*1304:*/
     do { /*1316:*/
         j = k;
         while (j < intbase - 1) {
-            if ((equiv(j) == equiv(j + 1)) & (eqtype(j) == eqtype(j + 1)) &
+            if ((equiv(j) == equiv(j + 1)) & (eq_type(j) == eq_type(j + 1)) &
                 (eq_level(j) == eq_level(j + 1)))
                 goto _Lfound1;
             j++;
@@ -11965,7 +11965,7 @@ _Lfound1:
         j++;
         l = j;
         while (j < intbase - 1) {
-            if ((equiv(j) != equiv(j + 1)) | (eqtype(j) != eqtype(j + 1)) |
+            if ((equiv(j) != equiv(j + 1)) | (eq_type(j) != eq_type(j + 1)) |
                 (eq_level(j) != eq_level(j + 1)))
                 goto _Ldone1;
             j++;
@@ -14042,11 +14042,11 @@ Static void init_prim(void) {
     primitive(S(1173), CAR_RET, crcrcode);
     text(frozenendtemplate) = S(1174);
     text(frozenendv) = S(1174);
-    eqtype(frozenendv) = ENDV;
+    eq_type(frozenendv) = ENDV;
     equiv(frozenendv) = nulllist;
     eq_level(frozenendv) = LEVEL_ONE;
     eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
-    eqtype(frozenendtemplate) = END_TEMPLATE; /*:780*/
+    eq_type(frozenendtemplate) = END_TEMPLATE; /*:780*/
     /*983:*/
     primitive(S(1175), SET_PAGE_DIMEN, 0);
     primitive(S(1176), SET_PAGE_DIMEN, 1);
@@ -14440,7 +14440,7 @@ Static void initialize(void) {
         dyn_used = himemstatusage; // initialize statistics
 
         /// p82#222
-        eqtype(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
+        eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
         equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
         eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
         for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
@@ -14449,30 +14449,30 @@ Static void initialize(void) {
         /// #228
         equiv(gluebase) = zeroglue;
         eq_level(gluebase) = LEVEL_ONE;
-        eqtype(gluebase) = GLUE_REF;
+        eq_type(gluebase) = GLUE_REF;
         for (k = gluebase + 1; k < localbase; k++)
             eqtb[k - activebase] = eqtb[gluebase - activebase];
         gluerefcount(zeroglue) += localbase - gluebase;
 
         // [#232]
         parshapeptr = 0;
-        eqtype(parshapeloc) = SHAPE_REF;
+        eq_type(parshapeloc) = SHAPE_REF;
         eq_level(parshapeloc) = LEVEL_ONE;
         for (k = outputroutineloc; k <= toksbase + 255; k++)
             eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         box(0) = 0;
-        eqtype(boxbase) = BOX_REF;
+        eq_type(boxbase) = BOX_REF;
         eq_level(boxbase) = LEVEL_ONE;
         for (k = boxbase + 1; k <= boxbase + 255; k++)
             eqtb[k - activebase] = eqtb[boxbase - activebase];
         curfont = NULL_FONT;
-        eqtype(curfontloc) = DATA;
+        eq_type(curfontloc) = DATA;
         eq_level(curfontloc) = LEVEL_ONE;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
             eqtb[k - activebase] = eqtb[curfontloc - activebase];
         
         equiv(catcodebase) = 0;
-        eqtype(catcodebase) = DATA;
+        eq_type(catcodebase) = DATA;
         eq_level(catcodebase) = LEVEL_ONE;
         for (k = catcodebase + 1; k < intbase; k++) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
@@ -14537,7 +14537,7 @@ Static void initialize(void) {
         // #258
         hash_used = frozencontrolsequence; // nothing is used
         cs_count = 0;
-        eqtype(frozendontexpand) = DONT_EXPAND;
+        eq_type(frozendontexpand) = DONT_EXPAND;
         text(frozendontexpand) = S(257);
 
         // #552
@@ -14563,7 +14563,7 @@ Static void initialize(void) {
         // #1369
         text(endwrite) = S(260);
         eq_level(endwrite) = LEVEL_ONE;
-        eqtype(endwrite) = OUTER_CALL;
+        eq_type(endwrite) = OUTER_CALL;
         equiv(endwrite) = 0;
 
 

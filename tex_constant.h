@@ -539,7 +539,7 @@ enum TexCommandCode {
 
     // [p76#210]
 
-    /// [#210] initial state of most #eqtype fields.
+    /// [#210] initial state of most #eq_type fields.
     UNDEFINED_CS = 101,
     EXPAND_AFTER, ///< [#210] [`\expandafter`] special expansion.
     NO_EXPAND,    ///< [#210] `\noexpand`[] special nonexpansion.
