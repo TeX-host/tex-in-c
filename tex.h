@@ -82,7 +82,6 @@
 /// [#232]
 #define varcode         28672
 #define NULL_FONT       0
-#define nullflag        (-1073741824L)
 
 #define defaultcode     1073741824L
 #define awfulbad        1073741823L
