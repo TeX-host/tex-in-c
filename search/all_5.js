@@ -21,7 +21,7 @@ var searchData=
   ['endlinecharcode_443',['endlinecharcode',['../tex__constant_8h.html#a852dd81f66f39df1acf86bba9146d56da1a61a468043e9ffc383f8be2d87d6bc8',1,'tex_constant.h']]],
   ['endmatchtoken_444',['endmatchtoken',['../group___s289x296___p115x118.html#gab46a1e1367680778f31796554fca7e3f',1,'lexer.h']]],
   ['endname_445',['endname',['../group___s511x538___p188x195.html#gabc37d50805c3535d3784cc3b708b6f71',1,'tex.c']]],
-  ['endspan_446',['endspan',['../group___s162x172___p58x61.html#gabfe28a9103b191b8b531535087958349',1,'tex.h']]],
+  ['endspan_446',['endspan',['../group___s162x172___p58x61.html#gabfe28a9103b191b8b531535087958349',1,'tex_constant.h']]],
   ['endtemplatetoken_447',['endtemplatetoken',['../tex_8h.html#a3bb2c41773c7a4dcaadee146d28773cf',1,'tex.h']]],
   ['endtokenlist_448',['endtokenlist',['../group___s321x331___p131x133.html#gad2e3230595ca73c26847af5794f01651',1,'endtokenlist(void):&#160;lexer.c'],['../group___s321x331___p131x133.html#gad2e3230595ca73c26847af5794f01651',1,'endtokenlist(void):&#160;lexer.c']]],
   ['endv_449',['ENDV',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0aba2e6673c152c0680d02f11723ab438d',1,'tex_constant.h']]],
