@@ -40,6 +40,7 @@ void printlengthparam(long n) {
 
 /// 237
 void printparam(long n) {
+#ifndef USE_REAL_STR
     switch (n) {
         case pretolerancecode: print_esc(S(1035)); break;
         case tolerancecode: print_esc(S(1036)); break;
@@ -99,6 +100,72 @@ void printparam(long n) {
 
         default: print(S(1255)); break;
     } // switch (n)
+#else
+    switch (n) {
+        case pretolerancecode: print_esc_str("pretolerance"); break;
+        case tolerancecode: print_esc_str("tolerance"); break;
+
+        case linepenaltycode: print_esc_str("linepenalty"); break;
+        case hyphenpenaltycode: print_esc_str("hyphenpenalty"); break;
+        case exhyphenpenaltycode: print_esc_str("exhyphenpenalty"); break;
+        case clubpenaltycode: print_esc_str("clubpenalty"); break;
+        case widowpenaltycode: print_esc_str("widowpenalty"); break;
+        case displaywidowpenaltycode: print_esc_str("displaywidowpenalty"); break;
+        case brokenpenaltycode: print_esc_str("brokenpenalty"); break;
+        case binoppenaltycode: print_esc_str("binoppenalty"); break;
+        case relpenaltycode: print_esc_str("relpenalty"); break;
+        case predisplaypenaltycode: print_esc_str("predisplaypenalty"); break;
+        case postdisplaypenaltycode: print_esc_str("postdisplaypenalty"); break;
+        case interlinepenaltycode: print_esc_str("interlinepenalty"); break;
+
+        case doublehyphendemeritscode: print_esc_str("doublehyphendemerits"); break;
+        case finalhyphendemeritscode: print_esc_str("finalhyphendemerits"); break;
+        case adjdemeritscode: print_esc_str("adjdemerits"); break;
+        case magcode: print_esc_str("mag"); break;
+        case delimiterfactorcode: print_esc_str("delimiterfactor"); break;
+        case loosenesscode: print_esc_str("looseness"); break;
+        case timecode: print_esc_str("time"); break;
+        case daycode: print_esc_str("day"); break;
+        case monthcode: print_esc_str("month"); break;
+        case yearcode: print_esc_str("year"); break;
+        case showboxbreadthcode: print_esc_str("showboxbreadth"); break;
+        case showboxdepthcode: print_esc_str("showboxdepth"); break;
+        case hbadnesscode: print_esc_str("hbadness"); break;
+        case vbadnesscode: print_esc_str("vbadness"); break;
+        case pausingcode: print_esc_str("pausing"); break;
+
+        case tracingonlinecode: print_esc_str("tracingonline"); break;
+        case tracingmacroscode: print_esc_str("tracingmacros"); break;
+        case tracingstatscode: print_esc_str("tracingstats"); break;
+        case tracingparagraphscode: print_esc_str("tracingparagraphs"); break;
+        case tracingpagescode: print_esc_str("tracingpages"); break;
+        case tracingoutputcode: print_esc_str("tracingoutput"); break;
+        case tracinglostcharscode: print_esc_str("tracinglostchars"); break;
+        case tracingcommandscode: print_esc_str("tracingcommands"); break;
+        case tracingrestorescode: print_esc_str("tracingrestores"); break;
+
+        case uchyphcode: print_esc_str("uchyph"); break;
+        case outputpenaltycode: print_esc_str("outputpenalty"); break;
+        case maxdeadcyclescode: print_esc_str("maxdeadcycles"); break;
+        case hangaftercode: print_esc_str("hangafter"); break;
+        case floatingpenaltycode: print_esc_str("floatingpenalty"); break;
+        case globaldefscode: print_esc_str("globaldefs"); break;
+        case curfamcode: print_esc_str("fam"); break;
+        case ESCAPE_CHARcode: print_esc_str("escapechar"); break;
+        case defaulthyphencharcode: print_esc_str("defaulthyphenchar"); break;
+        case defaultskewcharcode: print_esc_str("defaultskewchar"); break;
+        case endlinecharcode: print_esc_str("endlinechar"); break;
+        case newlinecharcode: print_esc_str("newlinechar"); break;
+        case languagecode: print_esc_str("language"); break;
+        case lefthyphenmincode: print_esc_str("lefthyphenmin"); break;
+        case righthyphenmincode: print_esc_str("righthyphenmin"); break;
+        case holdinginsertscode: print_esc_str("holdinginserts"); break;
+        case errorcontextlinescode: print_esc_str("errorcontextlines"); break;
+
+        default: print_str("[unknown integer parameter!]"); break;
+    } // switch (n)
+#endif /* USE_REAL_STR */
+    
 } // 237: printparam
 
 /// #298
@@ -168,11 +235,11 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
             /*239:*/
         case ASSIGN_INT:
-            if (chrcode < countbase)
+            if (chrcode < COUNT_BASE)
                 printparam(chrcode - INT_BASE);
             else {
                 print_esc(S(472));
-                print_int(chrcode - countbase);
+                print_int(chrcode - COUNT_BASE);
             } /*:239*/
             break;
             /*249:*/

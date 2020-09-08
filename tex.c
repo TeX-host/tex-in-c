@@ -2016,14 +2016,14 @@ Static void showeqtb(HalfWord n) {
         return;
     }
     if (n < DIMEN_BASE) { /*242:*/
-        if (n < countbase)
+        if (n < COUNT_BASE)
             printparam(n - INT_BASE);
-        else if (n < delcodebase) {
+        else if (n < DEL_CODE_BASE) {
             print_esc(S(472));
-            print_int(n - countbase);
+            print_int(n - COUNT_BASE);
         } else {
             print_esc(S(473));
-            print_int(n - delcodebase);
+            print_int(n - DEL_CODE_BASE);
         }
         print_char('=');
         print_int(eqtb[n - ACTIVE_BASE].int_);
@@ -10384,7 +10384,7 @@ Static void scandelimiter(HalfWord p, Boolean r) {
         switch (curcmd) {
 
             case LETTER:
-            case OTHER_CHAR: cur_val = delcode(curchr); break;
+            case OTHER_CHAR: cur_val = del_code(curchr); break;
 
             case DELIM_NUM: scan_twenty_seven_bit_int(); break;
 
@@ -10973,7 +10973,7 @@ Static void doregistercommand(SmallNumber a) {
     p = curchr;
     scan_eight_bit_int();
     switch (p) {
-        case INT_VAL: l = cur_val + countbase; break;
+        case INT_VAL: l = cur_val + COUNT_BASE; break;
         case DIMEN_VAL: l = cur_val + SCALED_BASE; break;
         case GLUE_VAL: l = cur_val + SKIP_BASE; break;
         case MU_VAL: l = cur_val + MU_SKIP_BASE; break;
@@ -11389,7 +11389,7 @@ Static void prefixedcommand(void) {
                     scan_eight_bit_int();
                     switch (n) {
                         case countdefcode:
-                            define(p, ASSIGN_INT, countbase + cur_val);
+                            define(p, ASSIGN_INT, COUNT_BASE + cur_val);
                             break;
 
                         case dimendefcode:
@@ -11524,7 +11524,7 @@ Static void prefixedcommand(void) {
                 n = 32768L;
             } else if (curchr == SF_CODE_BASE) {
                 n = 32767;
-            } else if (curchr == delcodebase) {
+            } else if (curchr == DEL_CODE_BASE) {
                 n = 16777215L;
             } else {
                 n = 255; 
@@ -11535,10 +11535,10 @@ Static void prefixedcommand(void) {
             p += cur_val;
             scan_optional_equals();
             scan_int();
-            if ((cur_val < 0 && p < delcodebase) || cur_val > n) {
+            if ((cur_val < 0 && p < DEL_CODE_BASE) || cur_val > n) {
                 print_err(S(966)); // "Invalid code ("
                 print_int(cur_val);
-                if (p < delcodebase) {
+                if (p < DEL_CODE_BASE) {
                     print(S(967)); // ") should be in the range 0.."
                 } else {
                     print(S(968)); // ") should be at most "
@@ -11551,7 +11551,7 @@ Static void prefixedcommand(void) {
             }
             if (p < MATH_CODE_BASE) {
                 define(p, DATA, cur_val);
-            } else if (p < delcodebase) {
+            } else if (p < DEL_CODE_BASE) {
                 define(p, DATA, cur_val);
             } else {
                 worddefine(p, cur_val);
@@ -14189,7 +14189,7 @@ Static void init_prim(void) {
     primitive(S(468), DEF_CODE, LC_CODE_BASE);
     primitive(S(469), DEF_CODE, UC_CODE_BASE);
     primitive(S(470), DEF_CODE, SF_CODE_BASE);
-    primitive(S(473), DEF_CODE, delcodebase);
+    primitive(S(473), DEF_CODE, DEL_CODE_BASE);
     primitive(S(266), DEF_FAMILY, MATH_FONT_BASE);
     primitive(S(267), DEF_FAMILY, MATH_FONT_BASE + SCRIPT_SIZE);
     primitive(S(268), DEF_FAMILY, MATH_FONT_BASE + SCRIPT_SCRIPT_SIZE);
@@ -14547,7 +14547,7 @@ Static void initialize(void) {
         } // for (k = 'A'; k <= 'Z'; k++)
 
         // #240
-        for (k = INT_BASE; k < delcodebase; k++)
+        for (k = INT_BASE; k < DEL_CODE_BASE; k++)
             eqtb[k - ACTIVE_BASE].int_ = 0;
         mag = 1000;
         tolerance = 10000;
@@ -14556,8 +14556,8 @@ Static void initialize(void) {
         ESCAPE_CHAR = '\\';
         end_line_char = CARRIAGE_RETURN;
         for (k = 0; k <= 255; k++)
-            delcode(k) = -1;
-        delcode('.') = 0; // this null delimiter is used in error recovery
+            del_code(k) = -1;
+        del_code('.') = 0; // this null delimiter is used in error recovery
 
         // #250
         for (k = DIMEN_BASE; k <= EQTB_SIZE; k++)

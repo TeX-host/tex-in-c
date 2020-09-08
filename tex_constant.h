@@ -680,7 +680,7 @@ enum DelimiterCodesTable {
     holdinginsertscode,    ///< do not remove insertion nodes from `\box255`
     errorcontextlinescode, ///< maximum intermediate line pairs shown
 
-    intpars = 55, ///< total number of integer parameters
+    INT_PARS = 55, ///< total number of integer parameters
 }; // [#236] enum DelimiterCodesTable
 
 /** [p99#247]: final region of `eqtb`

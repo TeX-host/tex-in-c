@@ -159,19 +159,20 @@ typedef enum _TokenListLoc {
  *  the current hyphenation penalty.
  */
 /// [p87#230] beginning of [region 5].
-#define INT_BASE         (MATH_CODE_BASE + 256)
-/** @}*/ // end group S220x255_P81x101
-/// [p92#236]
-#define countbase       (INT_BASE + intpars)
-#define delcodebase     (countbase + 256)
+#define INT_BASE        (MATH_CODE_BASE + 256)
+/// [p92#236] 256 user \\count registers.
+#define COUNT_BASE      (INT_BASE + INT_PARS)
+/// [p92#236] 256 delimiter code mappings.
+#define DEL_CODE_BASE   (COUNT_BASE + 256)
+
 
 /** [p92#236] [region 6] eqtb[DIMEN_BASE, EQTB_SIZE] holds
  *  current equivalents of fullword dimension parameters like
  *  the current hsize or amount of hanging indentation.
  */
 /// [p92#236] beginning of region 6.
-#define DIMEN_BASE       (delcodebase + 256)
-
+#define DIMEN_BASE       (DEL_CODE_BASE + 256)
+/** @}*/ // end group S220x255_P81x101
 
 // [p136#341]
 #define switch_         25
