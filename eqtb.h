@@ -453,7 +453,6 @@ enum DimensionRegisters {
 /** @}*/ // end group S220x255_P81x101
 
 
-extern UChar diag_oldsetting;
 extern MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1];
 extern QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 
