@@ -238,7 +238,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             } else {
                 backinput();
                 scanfontident();
-                cur_val += fontidbase;
+                cur_val += FONT_ID_BASE;
                 cur_val_level = IDENT_VAL;
             }
             break;

@@ -68,19 +68,29 @@ typedef enum _EqLevel {
  */
 /// [p82#222] beginning of [region 2], for the hash table.
 #define HASH_BASE                   (NULL_CS + 1)
-#define frozencontrolsequence       (HASH_BASE + HASH_SIZE)
-#define frozenprotection             frozencontrolsequence
-#define frozencr                    (frozencontrolsequence + 1)
-#define frozenendgroup              (frozencontrolsequence + 2)
-#define frozenright                 (frozencontrolsequence + 3)
-#define frozenfi                    (frozencontrolsequence + 4)
-#define frozenendtemplate           (frozencontrolsequence + 5)
-#define frozenendv                  (frozencontrolsequence + 6)
-#define frozenrelax                 (frozencontrolsequence + 7)
-#define endwrite                    (frozencontrolsequence + 8)
-#define frozendontexpand            (frozencontrolsequence + 9)
-#define FROZEN_NULL_FONT            (frozencontrolsequence + 10)
-#define fontidbase                  (FROZEN_NULL_FONT)
+
+typedef enum _FrozenControlSeq {
+    /// for error recovery.
+    FROZEN_CONTROL_SEQUENCE = (HASH_BASE + HASH_SIZE),
+    /// inaccessible but definable.
+    FROZEN_PROTECTION = FROZEN_CONTROL_SEQUENCE,
+
+    FROZEN_CR,           ///< permanent ‘\\cr’.
+    FROZEN_END_GROUP,    ///< permanent ‘\\endgroup’.
+    FROZEN_RIGHT,        ///< permanent ‘\\right’.
+    FROZEN_FI,           ///< permanent ‘\\fi’.
+    FROZEN_END_TEMPLATE, ///< permanent ‘\\endtemplate’.
+
+    FROZEN_ENDV,        ///< second permanent ‘\\endtemplate’.
+    FROZEN_RELAX,       ///< permanent ‘\\relax’.
+    END_WRITE,          ///< permanent ‘\\endwrite’.
+    FROZEN_DONT_EXPAND, ///< permanent ‘\\notexpanded’.
+    FROZEN_NULL_FONT,   ///< permanent ‘\\nullfont’.
+} FrozenControlSeq;
+
+/// begins table of 257 permanent font identifiers.
+#define FONT_ID_BASE                (FROZEN_NULL_FONT - FONT_BASE)
+/// dummy location.
 #define UNDEFINED_CONTROL_SEQUENCE  (FROZEN_NULL_FONT + 257)
 
 /** [p82#222] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
@@ -211,7 +221,7 @@ typedef enum _EqLevel {
 #define spancode            256
 #define crcode              257
 #define crcrcode            (crcode + 1)
-#define endtemplatetoken    (CS_TOKEN_FLAG + frozenendtemplate)
+#define endtemplatetoken    (CS_TOKEN_FLAG + FROZEN_END_TEMPLATE)
 // [p294#797]
 #define spannodesize    2
 // [p303#817]
@@ -299,7 +309,7 @@ typedef enum _EqLevel {
 #define setlanguagecode  5
 
 /// [p478#1371]
-#define endwritetoken   (CS_TOKEN_FLAG + endwrite)
+#define endwritetoken   (CS_TOKEN_FLAG + END_WRITE)
 
 
 #endif // #ifndef TEX_H

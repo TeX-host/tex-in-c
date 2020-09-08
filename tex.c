@@ -41,10 +41,10 @@ Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
 Integer get_defaultskewchar(void) { return defaultskewchar; }
 Pointer get_lo_mem_max(void) { return lo_mem_max; }
 
-StrNumber fontidtext(InternalFontNumber x) { return text(fontidbase + x); }
+StrNumber fontidtext(InternalFontNumber x) { return text(FONT_ID_BASE + x); }
 
 static void set_fontidtext(InternalFontNumber x, StrNumber t) {
-    text(fontidbase + x) = t;
+    text(FONT_ID_BASE + x) = t;
 }
 
 void set_help(SChar k, ...) {
@@ -1877,8 +1877,8 @@ Static void showeqtb(HalfWord n) {
         print_char('?');
         return;
     }
+    /// [#223] displays the current meaning of an eqtb entry in region 1 or 2.
     if (n < GLUE_BASE) {
-        /*223:*/
         sprint_cs(n);
         print_char('=');
         printcmdchr(eq_type(n), equiv(n));
@@ -1887,7 +1887,8 @@ Static void showeqtb(HalfWord n) {
             showtokenlist(link(equiv(n)), 0, 32);
         }
         return;
-    }                    /*:223*/
+    }
+
     if (n < LOCAL_BASE) { /*229:*/
         if (n < SKIP_BASE) {
             print_skip_param(n - GLUE_BASE);
@@ -9284,7 +9285,7 @@ Static void offsave(void) {
     /*1065:*/
     switch (curgroup) { /*:1065*/
         case semisimplegroup:
-            info(p) = CS_TOKEN_FLAG + frozenendgroup;
+            info(p) = CS_TOKEN_FLAG + FROZEN_END_GROUP;
             print_esc(S(836)); // "endgroup"
             break;
 
@@ -9294,7 +9295,7 @@ Static void offsave(void) {
             break;
 
         case mathleftgroup:
-            info(p) = CS_TOKEN_FLAG + frozenright;
+            info(p) = CS_TOKEN_FLAG + FROZEN_RIGHT;
             link(p) = get_avail();
             p = link(p);
             info(p) = othertoken + '.';
@@ -10887,7 +10888,7 @@ _Lrestart:
     do {
         gettoken();
     } while (curtok == spacetoken);
-    if (curcs != 0 && curcs <= frozencontrolsequence) return;
+    if (curcs != 0 && curcs <= FROZEN_CONTROL_SEQUENCE) return;
 
     print_err(S(935)); // "Missing control sequence inserted"
     /*
@@ -10899,7 +10900,7 @@ _Lrestart:
      */
     help5(S(936), S(937), S(938), S(939), S(940));
     if (curcs == 0) backinput();
-    curtok = CS_TOKEN_FLAG + frozenprotection;
+    curtok = CS_TOKEN_FLAG + FROZEN_PROTECTION;
     inserror();
     goto _Lrestart;
 } // #1215: getrtoken
@@ -11221,7 +11222,7 @@ Static void newfont(SmallNumber a) {
 
 _Lcommonending:
     equiv(u) = f;
-    eqtb[fontidbase + f - ACTIVE_BASE] = eqtb[u - ACTIVE_BASE];
+    eqtb[FONT_ID_BASE + f - ACTIVE_BASE] = eqtb[u - ACTIVE_BASE];
     set_fontidtext(f, t);
 } // #1257: newfont
 
@@ -12018,7 +12019,7 @@ _Ldone2:
     pput(pppfmtfile); /*1318:*/
     pppfmtfile.int_ = hash_used;
     pput(pppfmtfile);
-    cs_count = frozencontrolsequence - hash_used - 1;
+    cs_count = FROZEN_CONTROL_SEQUENCE - hash_used - 1;
     for (p = HASH_BASE; p <= hash_used; p++) {
         if (text(p) != 0) {
             pppfmtfile.int_ = p;
@@ -12362,7 +12363,7 @@ Static void handlerightbrace(void) {
 
         case aligngroup: /*:1132*/
             backinput();
-            curtok = CS_TOKEN_FLAG + frozencr;
+            curtok = CS_TOKEN_FLAG + FROZEN_CR;
             print_err(S(554)); // "Missing "
             print_esc(S(737)); // "cr"
             print(S(555)); // " inserted"
@@ -13494,17 +13495,17 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     } while (k <= EQTB_SIZE);
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < HASH_BASE || x > frozencontrolsequence) goto _Lbadfmt_;
+    if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _Lbadfmt_;
     parloc = x;
     partoken = CS_TOKEN_FLAG + parloc;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < HASH_BASE || x > frozencontrolsequence) /*1319:*/
+    if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) /*1319:*/
         goto _Lbadfmt_;
     writeloc = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < HASH_BASE || x > frozencontrolsequence) goto _Lbadfmt_;
+    if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _Lbadfmt_;
     hash_used = x;
     p = HASH_BASE - 1;
     do {
@@ -13934,8 +13935,8 @@ Static void init_prim(void) {
     primitive(S(1116), DIVIDE, 0);
     primitive(S(263), END_CS_NAME, 0);
     primitive(S(836), END_GROUP, 0);
-    text(frozenendgroup) = S(836);
-    eqtb[frozenendgroup - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    text(FROZEN_END_GROUP) = S(836);
+    eqtb[FROZEN_END_GROUP - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(1117), EXPAND_AFTER, 0);
     primitive(S(1118), DEF_FONT, 0);
     primitive(S(1119), ASSIGN_FONT_DIMEN, 0);
@@ -13959,8 +13960,8 @@ Static void init_prim(void) {
     primitive(S(416), RADICAL, 0);
     primitive(S(656), READ_TO_CS, 0);
     primitive(S(1125), RELAX, 256);
-    text(frozenrelax) = S(1125);
-    eqtb[frozenrelax - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    text(FROZEN_RELAX) = S(1125);
+    eqtb[FROZEN_RELAX - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(970), SET_BOX, 0);
     primitive(S(604), THE, 0);
     primitive(S(463), TOKS_REGISTER, 0);
@@ -14026,8 +14027,8 @@ Static void init_prim(void) {
     primitive(S(1168), IF_TEST, IF_CASE_CODE); /*:487*/
     /*491:*/
     primitive(S(1169), FI_OR_ELSE, ficode);
-    text(frozenfi) = S(1169);
-    eqtb[frozenfi - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    text(FROZEN_FI) = S(1169);
+    eqtb[FROZEN_FI - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(664), FI_OR_ELSE, orcode);
     primitive(S(1170), FI_OR_ELSE, elsecode); /*:491*/
     /*553:*/
@@ -14037,16 +14038,16 @@ Static void init_prim(void) {
     /*780:*/
     primitive(S(1172), TAB_MARK, spancode);
     primitive(S(737), CAR_RET, crcode);
-    text(frozencr) = S(737);
-    eqtb[frozencr - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    text(FROZEN_CR) = S(737);
+    eqtb[FROZEN_CR - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(1173), CAR_RET, crcrcode);
-    text(frozenendtemplate) = S(1174);
-    text(frozenendv) = S(1174);
-    eq_type(frozenendv) = ENDV;
-    equiv(frozenendv) = nulllist;
-    eq_level(frozenendv) = LEVEL_ONE;
-    eqtb[frozenendtemplate - ACTIVE_BASE] = eqtb[frozenendv - ACTIVE_BASE];
-    eq_type(frozenendtemplate) = END_TEMPLATE; /*:780*/
+    text(FROZEN_END_TEMPLATE) = S(1174);
+    text(FROZEN_ENDV) = S(1174);
+    eq_type(FROZEN_ENDV) = ENDV;
+    equiv(FROZEN_ENDV) = nulllist;
+    eq_level(FROZEN_ENDV) = LEVEL_ONE;
+    eqtb[FROZEN_END_TEMPLATE - ACTIVE_BASE] = eqtb[FROZEN_ENDV - ACTIVE_BASE];
+    eq_type(FROZEN_END_TEMPLATE) = END_TEMPLATE; /*:780*/
     /*983:*/
     primitive(S(1175), SET_PAGE_DIMEN, 0);
     primitive(S(1176), SET_PAGE_DIMEN, 1);
@@ -14135,8 +14136,8 @@ Static void init_prim(void) {
     /*1188:*/
     primitive(S(418), LEFT_RIGHT, leftnoad);
     primitive(S(419), LEFT_RIGHT, rightnoad);
-    text(frozenright) = S(419);
-    eqtb[frozenright - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:1188*/
+    text(FROZEN_RIGHT) = S(419);
+    eqtb[FROZEN_RIGHT - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:1188*/
     /*1208:*/
     primitive(S(959), PREFIX, 1);
     primitive(S(961), PREFIX, 2);
@@ -14443,8 +14444,11 @@ Static void initialize(void) {
         eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
         equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
         eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
-        for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++)
+        for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
+            /// TODO: need check
+            /// eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
             eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
+        }
 
         /// #228
         equiv(GLUE_BASE) = zeroglue;
@@ -14535,10 +14539,10 @@ Static void initialize(void) {
             eqtb[k - ACTIVE_BASE].sc = 0;
 
         // #258
-        hash_used = frozencontrolsequence; // nothing is used
+        hash_used = FROZEN_CONTROL_SEQUENCE; // nothing is used
         cs_count = 0;
-        eq_type(frozendontexpand) = DONT_EXPAND;
-        text(frozendontexpand) = S(257);
+        eq_type(FROZEN_DONT_EXPAND) = DONT_EXPAND;
+        text(FROZEN_DONT_EXPAND) = S(257);
 
         // #552
         fonts_init();
@@ -14557,14 +14561,14 @@ Static void initialize(void) {
         trieptr = 0;
 
         // #1216
-        text(frozenprotection) = S(258);
+        text(FROZEN_PROTECTION) = S(258);
         // #1301
         format_ident = S(259); // " (INITEX)"
         // #1369
-        text(endwrite) = S(260);
-        eq_level(endwrite) = LEVEL_ONE;
-        eq_type(endwrite) = OUTER_CALL;
-        equiv(endwrite) = 0;
+        text(END_WRITE) = S(260);
+        eq_level(END_WRITE) = LEVEL_ONE;
+        eq_type(END_WRITE) = OUTER_CALL;
+        equiv(END_WRITE) = 0;
 
 
     #endif // #164: tt_INIT

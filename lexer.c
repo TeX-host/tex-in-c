@@ -724,7 +724,7 @@ static int check_outer_validity(int local_curcs) {
                 q = p;
                 p = get_avail();
                 link(p) = q;
-                info(p) = CS_TOKEN_FLAG + frozencr;
+                info(p) = CS_TOKEN_FLAG + FROZEN_CR;
                 align_state = -1000000L;
                 break;
 
@@ -761,7 +761,7 @@ static int check_outer_validity(int local_curcs) {
             // "The file ended while I was skipping conditional text."
             help_line[2] = S(526);
         }
-        curtok = CS_TOKEN_FLAG + frozenfi;
+        curtok = CS_TOKEN_FLAG + FROZEN_FI;
         inserror();
     }
     /*:338*/

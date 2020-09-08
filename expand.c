@@ -308,7 +308,7 @@ _Lexit:
 void insertrelax(void) {
     curtok = CS_TOKEN_FLAG + curcs;
     backinput();
-    curtok = CS_TOKEN_FLAG + frozenrelax;
+    curtok = CS_TOKEN_FLAG + FROZEN_RELAX;
     backinput();
     token_type = INSERTED;
 } // [#379] insertrelax
@@ -360,7 +360,7 @@ void expand(void) {
                 backinput();
                 if (t >= CS_TOKEN_FLAG) {
                     p = get_avail();
-                    info(p) = CS_TOKEN_FLAG + frozendontexpand;
+                    info(p) = CS_TOKEN_FLAG + FROZEN_DONT_EXPAND;
                     link(p) = LOC;
                     START = p;
                     LOC = p;
@@ -488,7 +488,7 @@ void expand(void) {
     else if (curcmd < END_TEMPLATE)
         macrocall(curchr);
     else {
-        curtok = CS_TOKEN_FLAG + frozenendv;
+        curtok = CS_TOKEN_FLAG + FROZEN_ENDV;
         backinput();
     }
     cur_val = cvbackup;
@@ -519,7 +519,7 @@ void get_x_token(void) {
             if (curcmd < END_TEMPLATE) {
                 macrocall(curchr);
             } else {
-                curcs = frozenendv;
+                curcs = FROZEN_ENDV;
                 curcmd = ENDV;
                 break; // cur_chr = null_list
             }          // if (curcmd <> endtemplate)
