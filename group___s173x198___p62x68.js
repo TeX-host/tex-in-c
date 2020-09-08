@@ -4,11 +4,11 @@ var group___s173x198___p62x68 =
     [ "printglue", "group___s173x198___p62x68.html#gaae5d1518b401f20f66fe7980a5fb584d", null ],
     [ "printmark", "group___s173x198___p62x68.html#ga754ba8c7f0c7792257ecded32cf6aea6", null ],
     [ "printruledimen", "group___s173x198___p62x68.html#gab88cff41c99d01ff347c6890a1042a17", null ],
-    [ "printspec", "group___s173x198___p62x68.html#gaca50c5c77594bd9a8241b9e8329d425e", null ],
+    [ "printspec", "group___s173x198___p62x68.html#ga0d6199228e47c6685f4aaa1637287d6d", null ],
     [ "shortdisplay", "group___s173x198___p62x68.html#ga47601d299b5d970b2ae4fc5707a63fab", null ],
     [ "showbox", "group___s173x198___p62x68.html#ga75c98cd8d333853ca26ed3c224aa9cfd", null ],
-    [ "shownodelist", "group___s173x198___p62x68.html#ga0382acb6fba6c154718a351d98c1531b", null ],
-    [ "breadth_max", "group___s173x198___p62x68.html#ga21829ecccd020f5c840cdbfd5e4dee8e", null ],
-    [ "depth_threshold", "group___s173x198___p62x68.html#ga97d5cc5a8f2a2b1cb08550c6c4a983d0", null ],
+    [ "shownodelist", "group___s173x198___p62x68.html#ga5d81c1bc625de9a8e98c38781c1d9808", null ],
+    [ "breadth_max", "group___s173x198___p62x68.html#gae9df3e1cec09392328c71515605d696a", null ],
+    [ "depth_threshold", "group___s173x198___p62x68.html#gaa36c8a149ee4cdc297811d222ddf0420", null ],
     [ "font_in_short_display", "group___s173x198___p62x68.html#gab993ffbcad88c710f2ff3942b1d39388", null ]
 ];

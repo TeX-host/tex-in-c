@@ -20,7 +20,7 @@ var tex__header_8h =
     [ "bestplace", "tex__header_8h.html#af746c7a184498fd166910fd549c1973c", null ],
     [ "bestplline", "tex__header_8h.html#a51b7850fc114400f85fdbd67a672d668", null ],
     [ "bestsize", "tex__header_8h.html#a3a1eb23becffbfc4efaf229ceeb411ea", null ],
-    [ "breadth_max", "group___s173x198___p62x68.html#ga21829ecccd020f5c840cdbfd5e4dee8e", null ],
+    [ "breadth_max", "group___s173x198___p62x68.html#gae9df3e1cec09392328c71515605d696a", null ],
     [ "breakwidth", "tex__header_8h.html#a9d1756845d7cff86f6bfe2135d10e39e", null ],
     [ "buffer", "group___s25x37___p13x18.html#ga794f68592ecd530001eaf82a6dfaba8d", null ],
     [ "cancelboundary", "tex__header_8h.html#a5a35a87b064db69d13eb91bcb517b570", null ],
@@ -56,8 +56,7 @@ var tex__header_8h =
     [ "curv", "tex__header_8h.html#a14beb6776b654db203d4855c6ce3691b", null ],
     [ "deadcycles", "tex__header_8h.html#a0e8eacd3d8ba7a37789ec9a8cbe13c0d", null ],
     [ "deletions_allowed", "group___s72x98___p30x37.html#ga111f306f8f66ea55ea260b9c94a9cfbb", null ],
-    [ "depth_threshold", "group___s173x198___p62x68.html#ga97d5cc5a8f2a2b1cb08550c6c4a983d0", null ],
-    [ "diag_oldsetting", "group___s220x255___p81x101.html#gaa63eed8ac8f3c2c2497ace36854980f1", null ],
+    [ "depth_threshold", "group___s173x198___p62x68.html#gaa36c8a149ee4cdc297811d222ddf0420", null ],
     [ "discwidth", "tex__header_8h.html#ab59ccfa1be550909d657e2888dd443cc", null ],
     [ "doingleaders", "tex__header_8h.html#aca192d9356ac101e18933d80783be0dc", null ],
     [ "dvif", "tex__header_8h.html#ade03dbeb0e3a67155543b9c35edd6105", null ],
@@ -66,7 +65,6 @@ var tex__header_8h =
     [ "dyn_used", "group___s115x132___p44x49.html#ga18d4b80a9be42ff4d43577bfff002586", null ],
     [ "easyline", "tex__header_8h.html#a13694f221f6ac3e0c4071fbb26909593", null ],
     [ "emptyfield", "tex__header_8h.html#ae917a46dfa66d7de21ca80d154fe1b59", null ],
-    [ "eqtb", "group___s220x255___p81x101.html#gac32bbafff04684bfe1bb8fc84381d006", null ],
     [ "errorcount", "group___s72x98___p30x37.html#ga1ec7a4e6077987d1cba9ba70dafc2158", null ],
     [ "extdelimiter", "group___s511x538___p188x195.html#gad8312e9bd67d16f938a4998a346521c7", null ],
     [ "falsebchar", "tex__header_8h.html#a1ab057e190763026606ea5fb3fe77af6", null ],
@@ -218,6 +216,5 @@ var tex__header_8h =
     [ "write_open", "tex__header_8h.html#aa6fe88a7a5a094db655e4a708eb8addb", null ],
     [ "writeloc", "tex__header_8h.html#a21a1bc25e0e2b3808290ef29a309a6d9", null ],
     [ "xchr", "group___s17x24___p10x12.html#ga5f0ded4ff06bc8d2e1e2097c5225885d", null ],
-    [ "xeqlevel", "group___s220x255___p81x101.html#ga9a57d979f1ae72573bce0c7f7e030e8f", null ],
     [ "xord", "group___s17x24___p10x12.html#gaea31bab5f79624105d57ef4ad3b56eb5", null ]
 ];

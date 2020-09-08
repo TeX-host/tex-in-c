@@ -31,8 +31,10 @@ var texfunc_8h =
     [ "print_size", "texfunc_8h.html#a814c760ed61b461c0a5a2f02c44b9e00", null ],
     [ "print_skip_param", "texfunc_8h.html#a20f05bbef54f2af7c6de5e3aacbdcf13", null ],
     [ "println", "group___s54x71___p24x29.html#gac52ac3c4e4f907c35038591b801f7191", null ],
+    [ "printspec", "group___s173x198___p62x68.html#ga0d6199228e47c6685f4aaa1637287d6d", null ],
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],
     [ "set_help", "texfunc_8h.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
+    [ "shownodelist", "group___s173x198___p62x68.html#ga5d81c1bc625de9a8e98c38781c1d9808", null ],
     [ "startinput", "group___s511x538___p188x195.html#ga36e1e896f8f7b67ca95b8c20295fc18f", null ],
     [ "strtoks", "texfunc_8h.html#a80fe6425d210c2854268e77530a8c9d6", null ],
     [ "thetoks", "texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff", null ]
