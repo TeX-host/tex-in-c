@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['groupcode_2990',['GroupCode',['../group___s268x288___p109x114.html#gaf479e28d591782caf87471ba46820285',1,'tex_constant.h']]]
+  ['frozencontrolseq_2991',['FrozenControlSeq',['../group___s220x255___p81x101.html#ga97560be4c253d536b8db4e889729f578',1,'tex.h']]]
 ];

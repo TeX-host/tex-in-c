@@ -1,5 +1,6 @@
 var NAVTREEINDEX14 =
 {
+"texmac_8h.html#af9c3574b0286b1647f437bf133c85537":[2,0,37,217],
 "texmac_8h.html#afa187c8cf6b9129c87ea6ce1a69d3b6a":[2,0,37,71],
 "texmac_8h.html#afbc598b7f4dc831c0147ad7ae005eef2":[2,0,37,41],
 "texmac_8h.html#afbfe72124372b70d257ebcba65980b6f":[2,0,37,186],
@@ -9,6 +10,7 @@ var NAVTREEINDEX14 =
 "texmac_8h.html#afd096ffa0ff3cf50215b60e8b3fcd8fd":[2,0,37,96],
 "texmac_8h.html#afe5efe939b2768f7783c2b22c1b2a310":[2,0,37,204],
 "texmac_8h.html#afef98c545341cc8a94c14a52e695b3a0":[2,0,37,259],
+"texmac_8h.html#affa7fecbb0695f3b5d43edb36e6c6e23":[2,0,37,112],
 "texmac_8h_source.html":[2,0,37],
 "texmath_8c.html":[2,0,38],
 "texmath_8h.html":[2,0,39],
