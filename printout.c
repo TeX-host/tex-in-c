@@ -118,14 +118,14 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
         /*227:*/
         case ASSIGN_GLUE:
         case ASSIGN_MU_GLUE: /*:227*/
-            if (chrcode < skipbase)
+            if (chrcode < SKIP_BASE)
                 print_skip_param(chrcode - GLUE_BASE);
-            else if (chrcode < muskipbase) {
+            else if (chrcode < MU_SKIP_BASE) {
                 print_esc(S(460));
-                print_int(chrcode - skipbase);
+                print_int(chrcode - SKIP_BASE);
             } else {
                 print_esc(S(461));
-                print_int(chrcode - muskipbase);
+                print_int(chrcode - MU_SKIP_BASE);
             }
             break;
             /*231:*/
@@ -150,7 +150,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             /*239:*/
         case ASSIGN_INT:
             if (chrcode < countbase)
-                printparam(chrcode - intbase);
+                printparam(chrcode - INT_BASE);
             else {
                 print_esc(S(472));
                 print_int(chrcode - countbase);
@@ -159,7 +159,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             /*249:*/
         case ASSIGN_DIMEN: /*:249*/
             if (chrcode < SCALED_BASE)
-                printlengthparam(chrcode - dimenbase);
+                printlengthparam(chrcode - DIMEN_BASE);
             else {
                 print_esc(S(474));
                 print_int(chrcode - SCALED_BASE);

@@ -919,7 +919,7 @@ _getnext_worker__restart:
                 // [#354] Scan a control sequence
                 //  and set state ← `SKIP_BLANKS` or `MID_LINE`
                 if (LOC > LIMIT) {
-                    cur_cs = nullcs; // state is irrelevant in this case
+                    cur_cs = NULL_CS; // state is irrelevant in this case
                 } else {             // LOC <= LIMIT
                 // go here to: start looking for a control sequence
                 _getnext_worker__startcs_:
@@ -1013,7 +1013,7 @@ _getnext_worker__restart:
                         } // #355: if-set
                     }     // if (cat == LETTER && k <= LIMIT)
 
-                    cur_cs = singlebase + buffer[LOC];
+                    cur_cs = ACTIVE_BASE + buffer[LOC];
                     LOC++;
                 } // if (LOC <> LIMIT)
 
@@ -1029,7 +1029,7 @@ _getnext_worker__restart:
                 // [#353]: Process an active-character control sequence
                 // and set state ← mid line
                 STATE = MID_LINE;
-                cur_cs = cur_chr + activebase;
+                cur_cs = cur_chr + ACTIVE_BASE;
                 Process_cs;
                 break; // [#353]
 

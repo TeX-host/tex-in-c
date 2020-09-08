@@ -196,9 +196,9 @@
 #define equiv_field(x)      x.hh.rh
 
 /// ::QuarterWord = EqLevel, level of definition.
-#define eq_level(x) eq_level_field(eqtb[x - activebase])
+#define eq_level(x) eq_level_field(eqtb[x - ACTIVE_BASE])
 /// ::QuarterWord = TexCommandCode, command code for equivalent.
-#define eq_type(x)  eq_type_field(eqtb[x - activebase])
+#define eq_type(x)  eq_type_field(eqtb[x - ACTIVE_BASE])
 /** [p81#221] equiv::HalfWord, equivalent value.
  *
  * may be
@@ -206,11 +206,11 @@
  *  + a pointer into mem,
  *  + a variety of other things
  */
-#define equiv(x)    equiv_field(eqtb[x - activebase])
+#define equiv(x)    equiv_field(eqtb[x - ACTIVE_BASE])
 
 /// [p83#224]
-#define skip(x) equiv(skipbase + x) /* |mem| location of glue specification}*/
-#define muskip(x) equiv(muskipbase + x) /* |mem| location of math glue spec}*/
+#define skip(x) equiv(SKIP_BASE + x) /* |mem| location of glue specification}*/
+#define muskip(x) equiv(MU_SKIP_BASE + x) /* |mem| location of math glue spec}*/
 
 // [p83#224] Glue parameters
 
@@ -248,11 +248,11 @@
 /*  Note: |mathcode(c)| is the true math code plus |minhalfword|} */
 
 /// [p92]
-#define delcode(x) eqtb[delcodebase + x - activebase].int_
-#define count(x) eqtb[countbase + x - activebase].int_
+#define delcode(x) eqtb[delcodebase + x - ACTIVE_BASE].int_
+#define count(x) eqtb[countbase + x - ACTIVE_BASE].int_
 
 // [p92] Integer parameters
-#define intpar(x)  (eqtb[intbase+(x)-activebase].int_) 
+#define intpar(x)  (eqtb[INT_BASE+(x)-ACTIVE_BASE].int_) 
 #define pretolerance  intpar(pretolerancecode)
 #define tolerance  intpar(tolerancecode)
 #define linepenalty  intpar(linepenaltycode)
@@ -310,8 +310,8 @@
 #define errorcontextlines  intpar(errorcontextlinescode)
 
 // [p99#247] Dimen pars
-#define dimen(x) eqtb[SCALED_BASE + x - activebase].sc
-#define dimenpar(x)  (eqtb[dimenbase+(x)-activebase].int_) 
+#define dimen(x) eqtb[SCALED_BASE + x - ACTIVE_BASE].sc
+#define dimenpar(x)  (eqtb[DIMEN_BASE+(x)-ACTIVE_BASE].int_) 
 #define parindent  dimenpar(parindentcode)
 #define mathsurround  dimenpar(mathsurroundcode)
 #define lineskiplimit  dimenpar(lineskiplimitcode)
@@ -353,9 +353,9 @@
  */
 
 /// [p102#256]
-#define next(x)    hash[x-hashbase].UU.lh /* link for coalesced lists}*/
-#define text(x)    hash[x-hashbase].rh /* string number for control sequence name}*/
-#define hashisfull (hash_used == hashbase)
+#define next(x)    hash[x-HASH_BASE].UU.lh /* link for coalesced lists}*/
+#define text(x)    hash[x-HASH_BASE].rh /* string number for control sequence name}*/
+#define hashisfull (hash_used == HASH_BASE)
 /** @}*/ // end group S256x267_P102x108
 
 

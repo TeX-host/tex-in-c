@@ -206,7 +206,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
                 cur_val = equiv(m + cur_val);
                 cur_val_level = INT_VAL;
             } else {
-                cur_val = eqtb[m + cur_val - activebase].int_;
+                cur_val = eqtb[m + cur_val - ACTIVE_BASE].int_;
                 cur_val_level = INT_VAL;
             }
             break;
@@ -244,12 +244,12 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
 
         case ASSIGN_INT:
-            cur_val = eqtb[m - activebase].int_;
+            cur_val = eqtb[m - ACTIVE_BASE].int_;
             cur_val_level = INT_VAL;
             break;
 
         case ASSIGN_DIMEN:
-            cur_val = eqtb[m - activebase].sc;
+            cur_val = eqtb[m - ACTIVE_BASE].sc;
             cur_val_level = DIMEN_VAL;
             break;
 
@@ -599,10 +599,10 @@ void scan_int(void) {
                 else
                     align_state--;
             }
-        } else if (curtok < CS_TOKEN_FLAG + singlebase)
-            cur_val = curtok - CS_TOKEN_FLAG - activebase;
+        } else if (curtok < CS_TOKEN_FLAG + ACTIVE_BASE)
+            cur_val = curtok - CS_TOKEN_FLAG - ACTIVE_BASE;
         else
-            cur_val = curtok - CS_TOKEN_FLAG - singlebase;
+            cur_val = curtok - CS_TOKEN_FLAG - ACTIVE_BASE;
 
         if (cur_val > 255) {
             print_err(S(605)); // "Improper alphabetic constant"

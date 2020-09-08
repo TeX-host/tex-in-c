@@ -208,9 +208,9 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
               "diag_oldsetting = [0, MAX_SELECTOR=21]");
 
 /// #253
-MemoryWord eqtb[EQTB_SIZE - activebase + 1]; // equivalents table
+MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1]; // equivalents table
 // store the eq level information
-Static QuarterWord xeqlevel[EQTB_SIZE - intbase + 1];
+Static QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 /** @}*/ // end group S220x255_P81x101
 
 
@@ -219,7 +219,7 @@ Static QuarterWord xeqlevel[EQTB_SIZE - intbase + 1];
  */
 
 /// [#256]
-Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - hashbase]; // hash table
+Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - HASH_BASE]; // hash table
 Static Pointer hash_used; // allocation pointer for hash
 // ? no_new_control_sequence // are new identifiers legal?
 Static Integer cs_count; // total number of known identifiers

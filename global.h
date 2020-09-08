@@ -22,7 +22,7 @@ extern Char name_of_file[FILE_NAME_SIZE + 1];
 
 // [tex], 仅在 print 中使用
 extern TextChar xchr[256];
-extern MemoryWord eqtb[EQTB_SIZE - activebase + 1];
+extern MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1];
 extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用

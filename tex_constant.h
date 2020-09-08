@@ -720,7 +720,7 @@ enum DimensionRegisters {
 }; // [p99#247] enum DimensionRegisters
 
 /// [#247]
-#define SCALED_BASE  (dimenbase + dimenpars)
+#define SCALED_BASE  (DIMEN_BASE + dimenpars)
 #define EQTB_SIZE    (SCALED_BASE + 255)
 
 

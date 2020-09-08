@@ -413,9 +413,9 @@ void expand(void) {
                 if (j > first + 1) {
                     curcs = idlookup_p(buffer + first, j - first, false);
                 } else if (j == first)
-                    curcs = nullcs;
+                    curcs = NULL_CS;
                 else
-                    curcs = singlebase + buffer[first]; /*:374*/
+                    curcs = ACTIVE_BASE + buffer[first]; /*:374*/
                 flushlist(r);
                 if (eq_type(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
                 curtok = curcs + CS_TOKEN_FLAG;
@@ -675,7 +675,7 @@ static void changeiflimit(SmallNumber l, HalfWord p) {
 #define getxtokenoractivechar()                                           \
     (get_x_token(), ((curcmd == RELAX) && (curchr == noexpandflag))       \
                         ? (curcmd = ACTIVE_CHAR,                          \
-                           cur_chr = curtok - CS_TOKEN_FLAG - activebase) \
+                           cur_chr = curtok - CS_TOKEN_FLAG - ACTIVE_BASE) \
                         : (cur_chr = curchr))
 
 

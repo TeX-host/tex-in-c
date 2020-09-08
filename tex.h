@@ -53,12 +53,17 @@ typedef enum _EqLevel {
 } EqLevel;
 
 /// p82#222
-#define activebase                  1
-#define singlebase                  (activebase + 256)
-#define nullcs                      (singlebase + 256)
-#define hashbase                    (nullcs + 1)
-#define frozencontrolsequence       (hashbase + HASH_SIZE)
 
+/// [p82#222] beginning of [region 1], for active character equivalents.
+#define ACTIVE_BASE                  1
+/// [p82#222] equivalents of one-character control sequences.
+#define SINGLE_BASE                 (ACTIVE_BASE + 256)
+/// [p82#222] equivalent of \\csname\\endcsname
+#define NULL_CS                     (ACTIVE_BASE + 256)
+/// [p82#222] beginning of [region 2], for the hash table.
+#define HASH_BASE                   (NULL_CS + 1)
+
+#define frozencontrolsequence       (HASH_BASE + HASH_SIZE)
 #define frozenprotection            frozencontrolsequence
 #define frozencr                    (frozencontrolsequence + 1)
 #define frozenendgroup              (frozencontrolsequence + 2)
@@ -72,25 +77,29 @@ typedef enum _EqLevel {
 #define FROZEN_NULL_FONT              (frozencontrolsequence + 10)
 #define fontidbase                  (FROZEN_NULL_FONT)
 #define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
+/// [p82#222] beginning of region 3
 #define GLUE_BASE                   (UNDEFINED_CONTROL_SEQUENCE + 1)
 
-#define skipbase        (GLUE_BASE + GLUE_PARS)
-#define muskipbase      (skipbase + 256)
-#define localbase       (muskipbase + 256)
+/// [p83#224] table of 256 “skip” registers
+#define SKIP_BASE       (GLUE_BASE + GLUE_PARS)
+/// [p83#224] table of 256 “muskip” registers.
+#define MU_SKIP_BASE    (SKIP_BASE + 256)
 
+/// [p83#224] beginning of [region 4].
+#define LOCAL_BASE      (MU_SKIP_BASE + 256)
 
 // [p87#230]
-#define parshapeloc     localbase
-#define outputroutineloc  (localbase + 1)
-#define everyparloc     (localbase + 2)
-#define everymathloc    (localbase + 3)
-#define everydisplayloc  (localbase + 4)
-#define everyhboxloc    (localbase + 5)
-#define everyvboxloc    (localbase + 6)
-#define everyjobloc     (localbase + 7)
-#define everycrloc      (localbase + 8)
-#define errhelploc      (localbase + 9)
-#define toksbase        (localbase + 10)
+#define parshapeloc     LOCAL_BASE
+#define outputroutineloc  (LOCAL_BASE + 1)
+#define everyparloc     (LOCAL_BASE + 2)
+#define everymathloc    (LOCAL_BASE + 3)
+#define everydisplayloc  (LOCAL_BASE + 4)
+#define everyhboxloc    (LOCAL_BASE + 5)
+#define everyvboxloc    (LOCAL_BASE + 6)
+#define everyjobloc     (LOCAL_BASE + 7)
+#define everycrloc      (LOCAL_BASE + 8)
+#define errhelploc      (LOCAL_BASE + 9)
+#define toksbase        (LOCAL_BASE + 10)
 
 #define boxbase         (toksbase + 256)
 #define curfontloc      (boxbase + 256)
@@ -100,13 +109,13 @@ typedef enum _EqLevel {
 #define uccodebase      (lccodebase + 256)
 #define sfcodebase      (uccodebase + 256)
 #define mathcodebase    (sfcodebase + 256)
-#define intbase         (mathcodebase + 256)
+#define INT_BASE         (mathcodebase + 256)
 /** @}*/ // end group S220x255_P81x101
 
 // [p92]
-#define countbase       (intbase + intpars)
+#define countbase       (INT_BASE + intpars)
 #define delcodebase     (countbase + 256)
-#define dimenbase       (delcodebase + 256)
+#define DIMEN_BASE       (delcodebase + 256)
 
 
 // [p136#341]

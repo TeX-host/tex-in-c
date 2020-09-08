@@ -74,25 +74,25 @@ void set_help(SChar k, ...) {
 // #262: prints a purported control sequence
 // [Basic printing procedures]
 void print_cs(long p) {
-    if (p < hashbase) {
+    if (p < HASH_BASE) {
         // single character
-        if (p >= singlebase) {
-            if (p == nullcs) {
+        if (p >= ACTIVE_BASE) {
+            if (p == NULL_CS) {
                 print_esc(S(262)); // "csname"
                 print_esc(S(263)); // "endcsname"
                 print_char(' ');
             } else {
-                print_esc(p - singlebase);
-                if (catcode(p - singlebase) == LETTER) 
+                print_esc(p - ACTIVE_BASE);
+                if (catcode(p - ACTIVE_BASE) == LETTER) 
                     print_char(' ');
-            } // if (p == nullcs) - else
+            } // if (p == NULL_CS) - else
         } else {
-            if (p < activebase) {
+            if (p < ACTIVE_BASE) {
                 print_esc(S(264)); // "IMPOSSIBLE."
             } else {
-                print(p - activebase);
-            } // if (p < activebase) - else
-        } // if (p >= singlebase) - else
+                print(p - ACTIVE_BASE);
+            } // if (p < ACTIVE_BASE) - else
+        } // if (p >= ACTIVE_BASE) - else
     } else if (p >= UNDEFINED_CONTROL_SEQUENCE) {
         print_esc(S(264)); // "IMPOSSIBLE."
     } else if (!str_valid(text(p))) {
@@ -105,17 +105,17 @@ void print_cs(long p) {
 
 /// #263: prints a control sequence
 void sprint_cs(Pointer p) {
-    if (p >= hashbase) {
+    if (p >= HASH_BASE) {
         print_esc(text(p));
         return;
     }
-    if (p < singlebase) {
-        print(p - activebase);
+    if (p < ACTIVE_BASE) {
+        print(p - ACTIVE_BASE);
         return;
     }
 
-    if (p < nullcs) {
-        print_esc(p - singlebase);
+    if (p < NULL_CS) {
+        print_esc(p - ACTIVE_BASE);
     } else {
         print_esc(S(262)); // "csname"
         print_esc(S(263)); // "endcsname"
@@ -706,7 +706,7 @@ Static void searchmem(Pointer p) {
             print_char(')');
         }
     }                                               /*255:*/
-    for (q = activebase; q <= boxbase + 255; q++) { /*:255*/
+    for (q = ACTIVE_BASE; q <= boxbase + 255; q++) { /*:255*/
         if (equiv(q) == p) {
             printnl(S(325));
             print_int(q);
@@ -1873,7 +1873,7 @@ void enddiagnostic(Boolean blankline) {
 #ifdef tt_STAT
 /// #252:
 Static void showeqtb(HalfWord n) {
-    if (n < activebase) {
+    if (n < ACTIVE_BASE) {
         print_char('?');
         return;
     }
@@ -1888,8 +1888,8 @@ Static void showeqtb(HalfWord n) {
         }
         return;
     }                    /*:223*/
-    if (n < localbase) { /*229:*/
-        if (n < skipbase) {
+    if (n < LOCAL_BASE) { /*229:*/
+        if (n < SKIP_BASE) {
             print_skip_param(n - GLUE_BASE);
             print_char('=');
             if (n < GLUE_BASE + THIN_MU_SKIP_CODE)
@@ -1898,20 +1898,20 @@ Static void showeqtb(HalfWord n) {
                 printspec(equiv(n), S(390));
             return;
         }
-        if (n < muskipbase) {
+        if (n < MU_SKIP_BASE) {
             print_esc(S(460));
-            print_int(n - skipbase);
+            print_int(n - SKIP_BASE);
             print_char('=');
             printspec(equiv(n), S(459));
             return;
         }
         print_esc(S(461));
-        print_int(n - muskipbase);
+        print_int(n - MU_SKIP_BASE);
         print_char('=');
         printspec(equiv(n), S(390));
         return;
     }
-    if (n < intbase) { /*233:*/
+    if (n < INT_BASE) { /*233:*/
         if (n == parshapeloc) {
             print_esc(S(462));
             print_char('=');
@@ -1989,9 +1989,9 @@ Static void showeqtb(HalfWord n) {
         print_int(equiv(n));
         return;
     }
-    if (n < dimenbase) { /*242:*/
+    if (n < DIMEN_BASE) { /*242:*/
         if (n < countbase)
-            printparam(n - intbase);
+            printparam(n - INT_BASE);
         else if (n < delcodebase) {
             print_esc(S(472));
             print_int(n - countbase);
@@ -2000,7 +2000,7 @@ Static void showeqtb(HalfWord n) {
             print_int(n - delcodebase);
         }
         print_char('=');
-        print_int(eqtb[n - activebase].int_);
+        print_int(eqtb[n - ACTIVE_BASE].int_);
         return;
     }                   /*:242*/
     if (n > EQTB_SIZE) { /*251:*/
@@ -2009,13 +2009,13 @@ Static void showeqtb(HalfWord n) {
     }
     /*:251*/
     if (n < SCALED_BASE)
-        printlengthparam(n - dimenbase);
+        printlengthparam(n - DIMEN_BASE);
     else {
         print_esc(S(474));
         print_int(n - SCALED_BASE);
     }
     print_char('=');
-    print_scaled(eqtb[n - activebase].sc);
+    print_scaled(eqtb[n - ACTIVE_BASE].sc);
     print(S(459));
 
     /*:229*/
@@ -2060,7 +2060,7 @@ HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs) {
 
     // we start searching here; 
     // note that `0 ≤ h < HASH_PRIME`
-    p = h + hashbase;
+    p = h + HASH_BASE;
     while (true) {
         if (text(p) > 0 && str_bcmp(buf_ptr, len, text(p))) break;
         if (next(p) == 0) {
@@ -2099,7 +2099,7 @@ HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs) {
 #ifdef tt_INIT
 Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
     if (s < 256) {
-        cur_val = s + singlebase;
+        cur_val = s + ACTIVE_BASE;
     } else {
         // TODO:
         // k ← str START[s]; l ← str START[s + 1] − k;
@@ -2173,7 +2173,7 @@ Static void eqsave(HalfWord p, QuarterWord l) {
     if (l == LEVEL_ZERO) {
         savetype(saveptr) = restorezero;
     } else {
-        savestack[saveptr] = eqtb[p - activebase];
+        savestack[saveptr] = eqtb[p - ACTIVE_BASE];
         saveptr++;
         savetype(saveptr) = restoreoldvalue;
     }
@@ -2186,7 +2186,7 @@ Static void eqsave(HalfWord p, QuarterWord l) {
 /*277:*/
 void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     if (eq_level(p) == curlevel)
-        eqdestroy(eqtb[p - activebase]);
+        eqdestroy(eqtb[p - ACTIVE_BASE]);
     else if (curlevel > LEVEL_ONE)
         eqsave(p, eq_level(p));
     eq_level(p) = curlevel;
@@ -2197,17 +2197,17 @@ void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
 
 /*278:*/
 Static void eqworddefine(HalfWord p, long w) {
-    if (xeqlevel[p - intbase] != curlevel) {
-        eqsave(p, xeqlevel[p - intbase]);
-        xeqlevel[p - intbase] = curlevel;
+    if (xeqlevel[p - INT_BASE] != curlevel) {
+        eqsave(p, xeqlevel[p - INT_BASE]);
+        xeqlevel[p - INT_BASE] = curlevel;
     }
-    eqtb[p - activebase].int_ = w;
+    eqtb[p - ACTIVE_BASE].int_ = w;
 }
 /*:278*/
 
 /*279:*/
 Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
-    eqdestroy(eqtb[p - activebase]);
+    eqdestroy(eqtb[p - ACTIVE_BASE]);
     eq_level(p) = LEVEL_ONE;
     eq_type(p) = t;
     equiv(p) = e;
@@ -2215,8 +2215,8 @@ Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
 
 
 Static void geqworddefine(HalfWord p, long w) {
-    eqtb[p - activebase].int_ = w;
-    xeqlevel[p - intbase] = LEVEL_ONE;
+    eqtb[p - ACTIVE_BASE].int_ = w;
+    xeqlevel[p - INT_BASE] = LEVEL_ONE;
 }
 /*:279*/
 
@@ -2274,26 +2274,26 @@ Static void unsave(void) {
             l = savelevel(saveptr);
             saveptr--;
         } else {
-            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
+            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
         }
-        if (p < intbase) {
+        if (p < INT_BASE) {
             if (eq_level(p) == LEVEL_ONE) {
                 eqdestroy(savestack[saveptr]);
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restoretrace(p, S(479));
                 #endif // #283.1: tt_STAT
             } else {
-                eqdestroy(eqtb[p - activebase]);
-                eqtb[p - activebase] = savestack[saveptr];
+                eqdestroy(eqtb[p - ACTIVE_BASE]);
+                eqtb[p - ACTIVE_BASE] = savestack[saveptr];
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restoretrace(p, S(480));
                 #endif // #283.2: tt_STAT
             }
             continue;
         }
-        if (xeqlevel[p - intbase] != LEVEL_ONE) {
-            eqtb[p - activebase] = savestack[saveptr];
-            xeqlevel[p - intbase] = l; 
+        if (xeqlevel[p - INT_BASE] != LEVEL_ONE) {
+            eqtb[p - ACTIVE_BASE] = savestack[saveptr];
+            xeqlevel[p - INT_BASE] = l; 
             #ifdef tt_STAT
                 if (tracingrestores > 0) restoretrace(p, S(480));
             #endif // #283.3: tt_STAT
@@ -2321,7 +2321,7 @@ void preparemag(void) {
         // "reverted to the magnification you used earlier on this run."
         help2(S(484), S(485));
         int_error(magset);
-        geqworddefine(intbase + magcode, magset);
+        geqworddefine(INT_BASE + magcode, magset);
     }
 
     if (mag <= 0 || mag > 32768L) {
@@ -2329,7 +2329,7 @@ void preparemag(void) {
         // "The magnification ratio must be between 1 and 32768."
         help1(S(487));
         int_error(mag);
-        geqworddefine(intbase + magcode, 1000);
+        geqworddefine(INT_BASE + magcode, 1000);
     }
     magset = mag;
 }
@@ -8612,10 +8612,10 @@ Static void fireup(HalfWord c)
   Scaled savevfuzz;
 
   if (type(bestpagebreak) == PENALTY_NODE) {
-    geqworddefine(intbase + outputpenaltycode, penalty(bestpagebreak));
+    geqworddefine(INT_BASE + outputpenaltycode, penalty(bestpagebreak));
     penalty(bestpagebreak) = INF_PENALTY;
   } else   /*:1013*/
-    geqworddefine(intbase + outputpenaltycode, INF_PENALTY);
+    geqworddefine(INT_BASE + outputpenaltycode, INF_PENALTY);
   if (botmark != 0) {   /*1014:*/
     if (topmark != 0)
       delete_token_ref(topmark);
@@ -9341,9 +9341,9 @@ Static void extrarightbrace(void) {
 
 /*1070:*/
 Static void normalparagraph(void) {
-    if (looseness   != 0) eqworddefine(intbase   + loosenesscode,  0);
-    if (hangindent  != 0) eqworddefine(dimenbase + hangindentcode, 0);
-    if (hangafter   != 1) eqworddefine(intbase   + hangaftercode,  1);
+    if (looseness   != 0) eqworddefine(INT_BASE   + loosenesscode,  0);
+    if (hangindent  != 0) eqworddefine(DIMEN_BASE + hangindentcode, 0);
+    if (hangafter   != 1) eqworddefine(INT_BASE   + hangaftercode,  1);
     if (parshapeptr != 0) eqdefine(parshapeloc, SHAPE_REF, 0);
 } /*:1070*/
 
@@ -10210,10 +10210,10 @@ _Ldone: ;   /*:1146*/
     }
     pushmath(mathshiftgroup);
     mode = M_MODE;
-    eqworddefine(intbase + curfamcode, -1);
-    eqworddefine(dimenbase + predisplaysizecode, w);
-    eqworddefine(dimenbase + displaywidthcode, l);
-    eqworddefine(dimenbase + displayindentcode, s);
+    eqworddefine(INT_BASE + curfamcode, -1);
+    eqworddefine(DIMEN_BASE + predisplaysizecode, w);
+    eqworddefine(DIMEN_BASE + displaywidthcode, l);
+    eqworddefine(DIMEN_BASE + displayindentcode, s);
     if (everydisplay != 0)
       begintokenlist(everydisplay, EVERY_DISPLAY_TEXT);
     if (nest_ptr == 1)
@@ -10223,7 +10223,7 @@ _Ldone: ;   /*:1146*/
   /*:1145*/
   backinput();   /*1139:*/
   pushmath(mathshiftgroup);
-  eqworddefine(intbase + curfamcode, -1);
+  eqworddefine(INT_BASE + curfamcode, -1);
   if (everymath != 0)   /*:1139*/
     begintokenlist(everymath, EVERY_MATH_TEXT);
 }
@@ -10234,7 +10234,7 @@ Static void starteqno(void) {
     saved(0) = curchr;
     saveptr++; /*1139:*/
     pushmath(mathshiftgroup);
-    eqworddefine(intbase + curfamcode, -1);
+    eqworddefine(INT_BASE + curfamcode, -1);
     if (everymath != 0) /*:1139*/
         begintokenlist(everymath, EVERY_MATH_TEXT);
 }
@@ -10254,7 +10254,7 @@ _LN_scanmath__reswitch:
         case CHAR_GIVEN:
             c = mathcode(curchr);
             if (c == 32768L) { /*1152:*/
-                curcs = curchr + activebase;
+                curcs = curchr + ACTIVE_BASE;
                 curcmd = eq_type(curcs);
                 curchr = equiv(curcs);
                 xtoken();
@@ -10311,7 +10311,7 @@ Static void setmathchar(long c)
   Pointer p;
 
   if (c >= 32768L) {   /*1152:*/
-    curcs = curchr + activebase;
+    curcs = curchr + ACTIVE_BASE;
     curcmd = eq_type(curcs);
     curchr = equiv(curcs);
     xtoken();
@@ -10949,8 +10949,8 @@ Static void doregistercommand(SmallNumber a) {
     switch (p) {
         case INT_VAL: l = cur_val + countbase; break;
         case DIMEN_VAL: l = cur_val + SCALED_BASE; break;
-        case GLUE_VAL: l = cur_val + skipbase; break;
-        case MU_VAL: l = cur_val + muskipbase; break;
+        case GLUE_VAL: l = cur_val + SKIP_BASE; break;
+        case MU_VAL: l = cur_val + MU_SKIP_BASE; break;
     } // switch (p)
 
 _Lfound: /*:1237*/
@@ -10969,7 +10969,7 @@ _Lfound: /*:1237*/
             } else {
                 SCAN_NORMAL_DIMEN();
             }
-            if (q == ADVANCE) cur_val += eqtb[l - activebase].int_;
+            if (q == ADVANCE) cur_val += eqtb[l - ACTIVE_BASE].int_;
         } else {
             scan_glue(p);
             if (q == ADVANCE) {
@@ -11005,12 +11005,12 @@ _Lfound: /*:1237*/
         if (p < GLUE_VAL) {
             if (q == MULTIPLY) {
                 if (p == INT_VAL) {
-                    cur_val = mult_integers(eqtb[l-activebase].int_, cur_val);
+                    cur_val = mult_integers(eqtb[l-ACTIVE_BASE].int_, cur_val);
                 } else {
-                    cur_val = nx_plus_y(eqtb[l-activebase].int_, cur_val, 0);
+                    cur_val = nx_plus_y(eqtb[l-ACTIVE_BASE].int_, cur_val, 0);
                 }
             } else {
-                cur_val = x_over_n(eqtb[l - activebase].int_, cur_val);
+                cur_val = x_over_n(eqtb[l - ACTIVE_BASE].int_, cur_val);
             }
         } else {
             s = equiv(l);
@@ -11142,18 +11142,18 @@ Static void newfont(SmallNumber a) {
     if (job_name == 0) openlogfile();
     getrtoken();
     u = curcs;
-    if (u >= hashbase) {
+    if (u >= HASH_BASE) {
         t = text(u);
-    } else if (u >= singlebase) {
-        if (u == nullcs)
+    } else if (u >= ACTIVE_BASE) {
+        if (u == NULL_CS)
             t = S(950); // "FONT"
         else
-            t = u - singlebase;
+            t = u - ACTIVE_BASE;
     } else {
         old_setting = selector;
         selector = NEW_STRING;
         print(S(950)); // "FONT"
-        print(u - activebase);
+        print(u - ACTIVE_BASE);
         selector = old_setting;
         str_room(1);
         t = makestring();
@@ -11221,7 +11221,7 @@ Static void newfont(SmallNumber a) {
 
 _Lcommonending:
     equiv(u) = f;
-    eqtb[fontidbase + f - activebase] = eqtb[u - activebase];
+    eqtb[fontidbase + f - ACTIVE_BASE] = eqtb[u - ACTIVE_BASE];
     set_fontidtext(f, t);
 } // #1257: newfont
 
@@ -11371,11 +11371,11 @@ Static void prefixedcommand(void) {
                             break;
 
                         case skipdefcode:
-                            define(p, ASSIGN_GLUE, skipbase + cur_val);
+                            define(p, ASSIGN_GLUE, SKIP_BASE + cur_val);
                             break;
 
                         case muskipdefcode:
-                            define(p, ASSIGN_MU_GLUE, muskipbase + cur_val);
+                            define(p, ASSIGN_MU_GLUE, MU_SKIP_BASE + cur_val);
                             break;
 
                         case toksdefcode:
@@ -11757,7 +11757,7 @@ Static void shiftcase(void) {
     p = link(defref);
     while (p != 0) { /*1289:*/
         HalfWord t = info(p);
-        if (t < CS_TOKEN_FLAG + singlebase) { /*:1289*/
+        if (t < CS_TOKEN_FLAG + ACTIVE_BASE) { /*:1289*/
             c = t & (dwa_do_8 - 1);
             if (equiv(b + c) != 0) info(p) = t - c + equiv(b + c);
         }
@@ -11949,22 +11949,22 @@ Static void storefmtfile(void) { /*1304:*/
     print_char('&');    /*:1311*/
     print_int(dyn_used); /*1313:*/
     /*1315:*/
-    k = activebase;
+    k = ACTIVE_BASE;
 
     do { /*1316:*/
         j = k;
-        while (j < intbase - 1) {
+        while (j < INT_BASE - 1) {
             if ((equiv(j) == equiv(j + 1)) & (eq_type(j) == eq_type(j + 1)) &
                 (eq_level(j) == eq_level(j + 1)))
                 goto _Lfound1;
             j++;
         }
-        l = intbase;
+        l = INT_BASE;
         goto _Ldone1;
 _Lfound1:
         j++;
         l = j;
-        while (j < intbase - 1) {
+        while (j < INT_BASE - 1) {
             if ((equiv(j) != equiv(j + 1)) | (eq_type(j) != eq_type(j + 1)) |
                 (eq_level(j) != eq_level(j + 1)))
                 goto _Ldone1;
@@ -11974,18 +11974,18 @@ _Ldone1:
         pppfmtfile.int_ = l - k;
         pput(pppfmtfile);
         while (k < l) {
-            pppfmtfile = eqtb[k - activebase];
+            pppfmtfile = eqtb[k - ACTIVE_BASE];
             pput(pppfmtfile);
             k++;
         }
         k = j + 1;
         pppfmtfile.int_ = k - l;
         pput(pppfmtfile); /*:1315*/
-    } while (k != intbase);
+    } while (k != INT_BASE);
     do {
         j = k;
         while (j < EQTB_SIZE) {
-            if (eqtb[j - activebase].int_ == eqtb[j - activebase + 1].int_)
+            if (eqtb[j - ACTIVE_BASE].int_ == eqtb[j - ACTIVE_BASE + 1].int_)
                 goto _Lfound2;
             j++;
         }
@@ -11995,7 +11995,7 @@ _Lfound2:
         j++;
         l = j;
         while (j < EQTB_SIZE) {
-            if (eqtb[j - activebase].int_ != eqtb[j - activebase + 1].int_)
+            if (eqtb[j - ACTIVE_BASE].int_ != eqtb[j - ACTIVE_BASE + 1].int_)
                 goto _Ldone2;
             j++;
         }
@@ -12003,7 +12003,7 @@ _Ldone2:
         pppfmtfile.int_ = l - k;
         pput(pppfmtfile);
         while (k < l) {
-            pppfmtfile = eqtb[k - activebase];
+            pppfmtfile = eqtb[k - ACTIVE_BASE];
             pput(pppfmtfile);
             k++;
         }
@@ -12019,17 +12019,17 @@ _Ldone2:
     pppfmtfile.int_ = hash_used;
     pput(pppfmtfile);
     cs_count = frozencontrolsequence - hash_used - 1;
-    for (p = hashbase; p <= hash_used; p++) {
+    for (p = HASH_BASE; p <= hash_used; p++) {
         if (text(p) != 0) {
             pppfmtfile.int_ = p;
             pput(pppfmtfile);
-            pppfmtfile.hh = hash[p - hashbase];
+            pppfmtfile.hh = hash[p - HASH_BASE];
             pput(pppfmtfile);
             cs_count++;
         }
     }
     for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
-        pppfmtfile.hh = hash[p - hashbase];
+        pppfmtfile.hh = hash[p - HASH_BASE];
         pput(pppfmtfile);
     }
     pppfmtfile.int_ = cs_count;
@@ -12467,7 +12467,7 @@ void debughelp(void) {
             case 1: printword(mem[n - MEM_MIN]); break;
             case 2: print_int(info(n)); break;
             case 3: print_int(link(n)); break;
-            case 4: printword(eqtb[n - activebase]); break;
+            case 4: printword(eqtb[n - ACTIVE_BASE]); break;
             case 5: printword(fontinfo[n]); break;
             case 6: printword(savestack[n]); break;
             // show a box, abbreviated by show box depth and show box breadth
@@ -13475,49 +13475,49 @@ Static Boolean load_fmt_file(void) { /*1308:*/
     dyn_used = pppfmtfile.int_; /*:1312*/
     /*1314:*/
     /*1317:*/
-    k = activebase;
+    k = ACTIVE_BASE;
     do {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
         if (x < 1 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++) {
             pget(pppfmtfile);
-            eqtb[j - activebase] = pppfmtfile;
+            eqtb[j - ACTIVE_BASE] = pppfmtfile;
         }
         k += x;
         pget(pppfmtfile);
         x = pppfmtfile.int_;
         if (x < 0 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++)
-            eqtb[j - activebase] = eqtb[k - activebase - 1];
+            eqtb[j - ACTIVE_BASE] = eqtb[k - ACTIVE_BASE - 1];
         k += x; /*:1317*/
     } while (k <= EQTB_SIZE);
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
+    if (x < HASH_BASE || x > frozencontrolsequence) goto _Lbadfmt_;
     parloc = x;
     partoken = CS_TOKEN_FLAG + parloc;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < hashbase || x > frozencontrolsequence) /*1319:*/
+    if (x < HASH_BASE || x > frozencontrolsequence) /*1319:*/
         goto _Lbadfmt_;
     writeloc = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if (x < hashbase || x > frozencontrolsequence) goto _Lbadfmt_;
+    if (x < HASH_BASE || x > frozencontrolsequence) goto _Lbadfmt_;
     hash_used = x;
-    p = hashbase - 1;
+    p = HASH_BASE - 1;
     do {
         pget(pppfmtfile);
         x = pppfmtfile.int_;
         if (x <= p || x > hash_used) goto _Lbadfmt_;
         p = x;
         pget(pppfmtfile);
-        hash[p - hashbase] = pppfmtfile.hh;
+        hash[p - HASH_BASE] = pppfmtfile.hh;
     } while (p != hash_used);
     for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
         pget(pppfmtfile);
-        hash[p - hashbase] = pppfmtfile.hh;
+        hash[p - HASH_BASE] = pppfmtfile.hh;
     }
     pget(pppfmtfile);
     cs_count = pppfmtfile.int_; /*:1319*/
@@ -13841,84 +13841,84 @@ Static void init_prim(void) {
     primitive(S(1033), ASSIGN_TOKS, everycrloc);
     primitive(S(1034), ASSIGN_TOKS, errhelploc); /*:230*/
     /*238:*/
-    primitive(S(1035), ASSIGN_INT, intbase);
-    primitive(S(1036), ASSIGN_INT, intbase + tolerancecode);
-    primitive(S(1037), ASSIGN_INT, intbase + linepenaltycode);
-    primitive(S(1038), ASSIGN_INT, intbase + hyphenpenaltycode);
-    primitive(S(1039), ASSIGN_INT, intbase + exhyphenpenaltycode);
-    primitive(S(1040), ASSIGN_INT, intbase + clubpenaltycode);
-    primitive(S(1041), ASSIGN_INT, intbase + widowpenaltycode);
-    primitive(S(1042), ASSIGN_INT, intbase + displaywidowpenaltycode);
-    primitive(S(1043), ASSIGN_INT, intbase + brokenpenaltycode);
-    primitive(S(1044), ASSIGN_INT, intbase + binoppenaltycode);
-    primitive(S(1045), ASSIGN_INT, intbase + relpenaltycode);
-    primitive(S(1046), ASSIGN_INT, intbase + predisplaypenaltycode);
-    primitive(S(1047), ASSIGN_INT, intbase + postdisplaypenaltycode);
-    primitive(S(1048), ASSIGN_INT, intbase + interlinepenaltycode);
-    primitive(S(1049), ASSIGN_INT, intbase + doublehyphendemeritscode);
-    primitive(S(1050), ASSIGN_INT, intbase + finalhyphendemeritscode);
-    primitive(S(1051), ASSIGN_INT, intbase + adjdemeritscode);
-    primitive(S(1052), ASSIGN_INT, intbase + magcode);
-    primitive(S(1053), ASSIGN_INT, intbase + delimiterfactorcode);
-    primitive(S(1054), ASSIGN_INT, intbase + loosenesscode);
-    primitive(S(1055), ASSIGN_INT, intbase + timecode);
-    primitive(S(1056), ASSIGN_INT, intbase + daycode);
-    primitive(S(1057), ASSIGN_INT, intbase + monthcode);
-    primitive(S(1058), ASSIGN_INT, intbase + yearcode);
-    primitive(S(1059), ASSIGN_INT, intbase + showboxbreadthcode);
-    primitive(S(1060), ASSIGN_INT, intbase + showboxdepthcode);
-    primitive(S(1061), ASSIGN_INT, intbase + hbadnesscode);
-    primitive(S(1062), ASSIGN_INT, intbase + vbadnesscode);
-    primitive(S(1063), ASSIGN_INT, intbase + pausingcode);
-    primitive(S(1064), ASSIGN_INT, intbase + tracingonlinecode);
-    primitive(S(1065), ASSIGN_INT, intbase + tracingmacroscode);
-    primitive(S(1066), ASSIGN_INT, intbase + tracingstatscode);
-    primitive(S(1067), ASSIGN_INT, intbase + tracingparagraphscode);
-    primitive(S(1068), ASSIGN_INT, intbase + tracingpagescode);
-    primitive(S(1069), ASSIGN_INT, intbase + tracingoutputcode);
-    primitive(S(1070), ASSIGN_INT, intbase + tracinglostcharscode);
-    primitive(S(1071), ASSIGN_INT, intbase + tracingcommandscode);
-    primitive(S(1072), ASSIGN_INT, intbase + tracingrestorescode);
-    primitive(S(1073), ASSIGN_INT, intbase + uchyphcode);
-    primitive(S(1074), ASSIGN_INT, intbase + outputpenaltycode);
-    primitive(S(1075), ASSIGN_INT, intbase + maxdeadcyclescode);
-    primitive(S(1076), ASSIGN_INT, intbase + hangaftercode);
-    primitive(S(1077), ASSIGN_INT, intbase + floatingpenaltycode);
-    primitive(S(1078), ASSIGN_INT, intbase + globaldefscode);
-    primitive(S(333), ASSIGN_INT, intbase + curfamcode);
-    primitive(S(1079), ASSIGN_INT, intbase + ESCAPE_CHARcode);
-    primitive(S(1080), ASSIGN_INT, intbase + defaulthyphencharcode);
-    primitive(S(1081), ASSIGN_INT, intbase + defaultskewcharcode);
-    primitive(S(1082), ASSIGN_INT, intbase + endlinecharcode);
-    primitive(S(1083), ASSIGN_INT, intbase + newlinecharcode);
-    primitive(S(1084), ASSIGN_INT, intbase + languagecode);
-    primitive(S(1085), ASSIGN_INT, intbase + lefthyphenmincode);
-    primitive(S(1086), ASSIGN_INT, intbase + righthyphenmincode);
-    primitive(S(1087), ASSIGN_INT, intbase + holdinginsertscode);
-    primitive(S(1088), ASSIGN_INT, intbase + errorcontextlinescode);
+    primitive(S(1035), ASSIGN_INT, INT_BASE);
+    primitive(S(1036), ASSIGN_INT, INT_BASE + tolerancecode);
+    primitive(S(1037), ASSIGN_INT, INT_BASE + linepenaltycode);
+    primitive(S(1038), ASSIGN_INT, INT_BASE + hyphenpenaltycode);
+    primitive(S(1039), ASSIGN_INT, INT_BASE + exhyphenpenaltycode);
+    primitive(S(1040), ASSIGN_INT, INT_BASE + clubpenaltycode);
+    primitive(S(1041), ASSIGN_INT, INT_BASE + widowpenaltycode);
+    primitive(S(1042), ASSIGN_INT, INT_BASE + displaywidowpenaltycode);
+    primitive(S(1043), ASSIGN_INT, INT_BASE + brokenpenaltycode);
+    primitive(S(1044), ASSIGN_INT, INT_BASE + binoppenaltycode);
+    primitive(S(1045), ASSIGN_INT, INT_BASE + relpenaltycode);
+    primitive(S(1046), ASSIGN_INT, INT_BASE + predisplaypenaltycode);
+    primitive(S(1047), ASSIGN_INT, INT_BASE + postdisplaypenaltycode);
+    primitive(S(1048), ASSIGN_INT, INT_BASE + interlinepenaltycode);
+    primitive(S(1049), ASSIGN_INT, INT_BASE + doublehyphendemeritscode);
+    primitive(S(1050), ASSIGN_INT, INT_BASE + finalhyphendemeritscode);
+    primitive(S(1051), ASSIGN_INT, INT_BASE + adjdemeritscode);
+    primitive(S(1052), ASSIGN_INT, INT_BASE + magcode);
+    primitive(S(1053), ASSIGN_INT, INT_BASE + delimiterfactorcode);
+    primitive(S(1054), ASSIGN_INT, INT_BASE + loosenesscode);
+    primitive(S(1055), ASSIGN_INT, INT_BASE + timecode);
+    primitive(S(1056), ASSIGN_INT, INT_BASE + daycode);
+    primitive(S(1057), ASSIGN_INT, INT_BASE + monthcode);
+    primitive(S(1058), ASSIGN_INT, INT_BASE + yearcode);
+    primitive(S(1059), ASSIGN_INT, INT_BASE + showboxbreadthcode);
+    primitive(S(1060), ASSIGN_INT, INT_BASE + showboxdepthcode);
+    primitive(S(1061), ASSIGN_INT, INT_BASE + hbadnesscode);
+    primitive(S(1062), ASSIGN_INT, INT_BASE + vbadnesscode);
+    primitive(S(1063), ASSIGN_INT, INT_BASE + pausingcode);
+    primitive(S(1064), ASSIGN_INT, INT_BASE + tracingonlinecode);
+    primitive(S(1065), ASSIGN_INT, INT_BASE + tracingmacroscode);
+    primitive(S(1066), ASSIGN_INT, INT_BASE + tracingstatscode);
+    primitive(S(1067), ASSIGN_INT, INT_BASE + tracingparagraphscode);
+    primitive(S(1068), ASSIGN_INT, INT_BASE + tracingpagescode);
+    primitive(S(1069), ASSIGN_INT, INT_BASE + tracingoutputcode);
+    primitive(S(1070), ASSIGN_INT, INT_BASE + tracinglostcharscode);
+    primitive(S(1071), ASSIGN_INT, INT_BASE + tracingcommandscode);
+    primitive(S(1072), ASSIGN_INT, INT_BASE + tracingrestorescode);
+    primitive(S(1073), ASSIGN_INT, INT_BASE + uchyphcode);
+    primitive(S(1074), ASSIGN_INT, INT_BASE + outputpenaltycode);
+    primitive(S(1075), ASSIGN_INT, INT_BASE + maxdeadcyclescode);
+    primitive(S(1076), ASSIGN_INT, INT_BASE + hangaftercode);
+    primitive(S(1077), ASSIGN_INT, INT_BASE + floatingpenaltycode);
+    primitive(S(1078), ASSIGN_INT, INT_BASE + globaldefscode);
+    primitive(S(333), ASSIGN_INT, INT_BASE + curfamcode);
+    primitive(S(1079), ASSIGN_INT, INT_BASE + ESCAPE_CHARcode);
+    primitive(S(1080), ASSIGN_INT, INT_BASE + defaulthyphencharcode);
+    primitive(S(1081), ASSIGN_INT, INT_BASE + defaultskewcharcode);
+    primitive(S(1082), ASSIGN_INT, INT_BASE + endlinecharcode);
+    primitive(S(1083), ASSIGN_INT, INT_BASE + newlinecharcode);
+    primitive(S(1084), ASSIGN_INT, INT_BASE + languagecode);
+    primitive(S(1085), ASSIGN_INT, INT_BASE + lefthyphenmincode);
+    primitive(S(1086), ASSIGN_INT, INT_BASE + righthyphenmincode);
+    primitive(S(1087), ASSIGN_INT, INT_BASE + holdinginsertscode);
+    primitive(S(1088), ASSIGN_INT, INT_BASE + errorcontextlinescode);
     /*:238*/
     /*248:*/
-    primitive(S(1089), ASSIGN_DIMEN, dimenbase);
-    primitive(S(1090), ASSIGN_DIMEN, dimenbase + mathsurroundcode);
-    primitive(S(1091), ASSIGN_DIMEN, dimenbase + lineskiplimitcode);
-    primitive(S(1092), ASSIGN_DIMEN, dimenbase + hsizecode);
-    primitive(S(1093), ASSIGN_DIMEN, dimenbase + vsizecode);
-    primitive(S(1094), ASSIGN_DIMEN, dimenbase + maxdepthcode);
-    primitive(S(1095), ASSIGN_DIMEN, dimenbase + splitmaxdepthcode);
-    primitive(S(1096), ASSIGN_DIMEN, dimenbase + boxmaxdepthcode);
-    primitive(S(1097), ASSIGN_DIMEN, dimenbase + hfuzzcode);
-    primitive(S(1098), ASSIGN_DIMEN, dimenbase + vfuzzcode);
-    primitive(S(1099), ASSIGN_DIMEN, dimenbase + delimitershortfallcode);
-    primitive(S(1100), ASSIGN_DIMEN, dimenbase + nulldelimiterspacecode);
-    primitive(S(1101), ASSIGN_DIMEN, dimenbase + scriptspacecode);
-    primitive(S(1102), ASSIGN_DIMEN, dimenbase + predisplaysizecode);
-    primitive(S(1103), ASSIGN_DIMEN, dimenbase + displaywidthcode);
-    primitive(S(1104), ASSIGN_DIMEN, dimenbase + displayindentcode);
-    primitive(S(1105), ASSIGN_DIMEN, dimenbase + overfullrulecode);
-    primitive(S(1106), ASSIGN_DIMEN, dimenbase + hangindentcode);
-    primitive(S(1107), ASSIGN_DIMEN, dimenbase + hoffsetcode);
-    primitive(S(1108), ASSIGN_DIMEN, dimenbase + voffsetcode);
-    primitive(S(1109), ASSIGN_DIMEN, dimenbase + emergencystretchcode);
+    primitive(S(1089), ASSIGN_DIMEN, DIMEN_BASE);
+    primitive(S(1090), ASSIGN_DIMEN, DIMEN_BASE + mathsurroundcode);
+    primitive(S(1091), ASSIGN_DIMEN, DIMEN_BASE + lineskiplimitcode);
+    primitive(S(1092), ASSIGN_DIMEN, DIMEN_BASE + hsizecode);
+    primitive(S(1093), ASSIGN_DIMEN, DIMEN_BASE + vsizecode);
+    primitive(S(1094), ASSIGN_DIMEN, DIMEN_BASE + maxdepthcode);
+    primitive(S(1095), ASSIGN_DIMEN, DIMEN_BASE + splitmaxdepthcode);
+    primitive(S(1096), ASSIGN_DIMEN, DIMEN_BASE + boxmaxdepthcode);
+    primitive(S(1097), ASSIGN_DIMEN, DIMEN_BASE + hfuzzcode);
+    primitive(S(1098), ASSIGN_DIMEN, DIMEN_BASE + vfuzzcode);
+    primitive(S(1099), ASSIGN_DIMEN, DIMEN_BASE + delimitershortfallcode);
+    primitive(S(1100), ASSIGN_DIMEN, DIMEN_BASE + nulldelimiterspacecode);
+    primitive(S(1101), ASSIGN_DIMEN, DIMEN_BASE + scriptspacecode);
+    primitive(S(1102), ASSIGN_DIMEN, DIMEN_BASE + predisplaysizecode);
+    primitive(S(1103), ASSIGN_DIMEN, DIMEN_BASE + displaywidthcode);
+    primitive(S(1104), ASSIGN_DIMEN, DIMEN_BASE + displayindentcode);
+    primitive(S(1105), ASSIGN_DIMEN, DIMEN_BASE + overfullrulecode);
+    primitive(S(1106), ASSIGN_DIMEN, DIMEN_BASE + hangindentcode);
+    primitive(S(1107), ASSIGN_DIMEN, DIMEN_BASE + hoffsetcode);
+    primitive(S(1108), ASSIGN_DIMEN, DIMEN_BASE + voffsetcode);
+    primitive(S(1109), ASSIGN_DIMEN, DIMEN_BASE + emergencystretchcode);
     /*:248*/
     /*265:*/
     primitive(' ', EX_SPACE, 0);
@@ -13935,7 +13935,7 @@ Static void init_prim(void) {
     primitive(S(263), END_CS_NAME, 0);
     primitive(S(836), END_GROUP, 0);
     text(frozenendgroup) = S(836);
-    eqtb[frozenendgroup - activebase] = eqtb[cur_val - activebase];
+    eqtb[frozenendgroup - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(1117), EXPAND_AFTER, 0);
     primitive(S(1118), DEF_FONT, 0);
     primitive(S(1119), ASSIGN_FONT_DIMEN, 0);
@@ -13960,7 +13960,7 @@ Static void init_prim(void) {
     primitive(S(656), READ_TO_CS, 0);
     primitive(S(1125), RELAX, 256);
     text(frozenrelax) = S(1125);
-    eqtb[frozenrelax - activebase] = eqtb[cur_val - activebase];
+    eqtb[frozenrelax - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(970), SET_BOX, 0);
     primitive(S(604), THE, 0);
     primitive(S(463), TOKS_REGISTER, 0);
@@ -14027,25 +14027,25 @@ Static void init_prim(void) {
     /*491:*/
     primitive(S(1169), FI_OR_ELSE, ficode);
     text(frozenfi) = S(1169);
-    eqtb[frozenfi - activebase] = eqtb[cur_val - activebase];
+    eqtb[frozenfi - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(664), FI_OR_ELSE, orcode);
     primitive(S(1170), FI_OR_ELSE, elsecode); /*:491*/
     /*553:*/
     primitive(S(1171), SET_FONT, NULL_FONT);
     text(FROZEN_NULL_FONT) = S(1171);
-    eqtb[FROZEN_NULL_FONT - activebase] = eqtb[cur_val - activebase]; /*:553*/
+    eqtb[FROZEN_NULL_FONT - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:553*/
     /*780:*/
     primitive(S(1172), TAB_MARK, spancode);
     primitive(S(737), CAR_RET, crcode);
     text(frozencr) = S(737);
-    eqtb[frozencr - activebase] = eqtb[cur_val - activebase];
+    eqtb[frozencr - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
     primitive(S(1173), CAR_RET, crcrcode);
     text(frozenendtemplate) = S(1174);
     text(frozenendv) = S(1174);
     eq_type(frozenendv) = ENDV;
     equiv(frozenendv) = nulllist;
     eq_level(frozenendv) = LEVEL_ONE;
-    eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
+    eqtb[frozenendtemplate - ACTIVE_BASE] = eqtb[frozenendv - ACTIVE_BASE];
     eq_type(frozenendtemplate) = END_TEMPLATE; /*:780*/
     /*983:*/
     primitive(S(1175), SET_PAGE_DIMEN, 0);
@@ -14136,7 +14136,7 @@ Static void init_prim(void) {
     primitive(S(418), LEFT_RIGHT, leftnoad);
     primitive(S(419), LEFT_RIGHT, rightnoad);
     text(frozenright) = S(419);
-    eqtb[frozenright - activebase] = eqtb[cur_val - activebase]; /*:1188*/
+    eqtb[frozenright - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:1188*/
     /*1208:*/
     primitive(S(959), PREFIX, 1);
     primitive(S(961), PREFIX, 2);
@@ -14271,16 +14271,16 @@ Static void initialize(void) {
         pagemaxdepth = 0; /*:991*/
         /*:215*/
         /*254:*/
-        for (k = intbase; k <= EQTB_SIZE; k++) {
-            xeqlevel[k - intbase] = LEVEL_ONE;
+        for (k = INT_BASE; k <= EQTB_SIZE; k++) {
+            xeqlevel[k - INT_BASE] = LEVEL_ONE;
         }
         /*:254*/
         /*257:*/
 
-        next(hashbase) = 0;
-        text(hashbase) = 0;
-        for (k = hashbase + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) /*:257*/
-            hash[k - hashbase] = hash[0];
+        next(HASH_BASE) = 0;
+        text(HASH_BASE) = 0;
+        for (k = HASH_BASE + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) /*:257*/
+            hash[k - HASH_BASE] = hash[0];
         /*272:*/
         saveptr = 0;
         curlevel = LEVEL_ONE;
@@ -14443,39 +14443,39 @@ Static void initialize(void) {
         eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
         equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
         eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
-        for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
-            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
+        for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++)
+            eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
 
         /// #228
         equiv(GLUE_BASE) = zeroglue;
         eq_level(GLUE_BASE) = LEVEL_ONE;
         eq_type(GLUE_BASE) = GLUE_REF;
-        for (k = GLUE_BASE + 1; k < localbase; k++)
-            eqtb[k - activebase] = eqtb[GLUE_BASE - activebase];
-        gluerefcount(zeroglue) += localbase - GLUE_BASE;
+        for (k = GLUE_BASE + 1; k < LOCAL_BASE; k++)
+            eqtb[k - ACTIVE_BASE] = eqtb[GLUE_BASE - ACTIVE_BASE];
+        gluerefcount(zeroglue) += LOCAL_BASE - GLUE_BASE;
 
         // [#232]
         parshapeptr = 0;
         eq_type(parshapeloc) = SHAPE_REF;
         eq_level(parshapeloc) = LEVEL_ONE;
         for (k = outputroutineloc; k <= toksbase + 255; k++)
-            eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
+            eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
         box(0) = 0;
         eq_type(boxbase) = BOX_REF;
         eq_level(boxbase) = LEVEL_ONE;
         for (k = boxbase + 1; k <= boxbase + 255; k++)
-            eqtb[k - activebase] = eqtb[boxbase - activebase];
+            eqtb[k - ACTIVE_BASE] = eqtb[boxbase - ACTIVE_BASE];
         curfont = NULL_FONT;
         eq_type(curfontloc) = DATA;
         eq_level(curfontloc) = LEVEL_ONE;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
-            eqtb[k - activebase] = eqtb[curfontloc - activebase];
+            eqtb[k - ACTIVE_BASE] = eqtb[curfontloc - ACTIVE_BASE];
         
         equiv(catcodebase) = 0;
         eq_type(catcodebase) = DATA;
         eq_level(catcodebase) = LEVEL_ONE;
-        for (k = catcodebase + 1; k < intbase; k++) {
-            eqtb[k - activebase] = eqtb[catcodebase - activebase];
+        for (k = catcodebase + 1; k < INT_BASE; k++) {
+            eqtb[k - ACTIVE_BASE] = eqtb[catcodebase - ACTIVE_BASE];
         }
 
         // CatCode init
@@ -14518,8 +14518,8 @@ Static void initialize(void) {
         } // for (k = 'A'; k <= 'Z'; k++)
 
         // #240
-        for (k = intbase; k < delcodebase; k++)
-            eqtb[k - activebase].int_ = 0;
+        for (k = INT_BASE; k < delcodebase; k++)
+            eqtb[k - ACTIVE_BASE].int_ = 0;
         mag = 1000;
         tolerance = 10000;
         hangafter = 1;
@@ -14531,8 +14531,8 @@ Static void initialize(void) {
         delcode('.') = 0; // this null delimiter is used in error recovery
 
         // #250
-        for (k = dimenbase; k <= EQTB_SIZE; k++)
-            eqtb[k - activebase].sc = 0;
+        for (k = DIMEN_BASE; k <= EQTB_SIZE; k++)
+            eqtb[k - ACTIVE_BASE].sc = 0;
 
         // #258
         hash_used = frozencontrolsequence; // nothing is used
