@@ -193,6 +193,22 @@ enum ErrorLevel {
 }; // [#76] enum ErrorLevel
 /** @}*/ // end group S72x98_P30x37
 
+/** @addtogroup S110x114_P42x43
+ * @{
+ */
+
+/// [#110]: smallest allowable value in a #QuarterWord.
+#define MIN_QUARTER_WORD    0
+/// [#110]: largest allowable value in a #QuarterWord.
+/// 1/4 word = (8bit)[0, 255]
+#define MAX_QUARTER_WORD    255
+/// [#110]: smallest allowable value in a #HalfWord.
+#define MIN_HALF_WORD       0
+/// [#110]: largest allowable value in a #HalfWord.
+/// 1/2 word = (16bit)[0, 65535]
+/// must > 65535 (2^16-1)
+#define MAX_HALF_WORD       655350000L
+/** @}*/ // end group S110x114_P42x43
 
 /** @addtogroup S133x161_P50x57
  * @{ */ // [ DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]
@@ -252,6 +268,54 @@ enum InfinityOrder {
 #define EJECT_PENALTY   (-INF_PENALTY)
 /** @}*/ // end group S133x161_P50x57
 
+/** @addtogroup S162x172_P58x61
+ * @{
+ */
+
+/// [#162] specification for `0pt plus 0pt minus 0pt`.
+#define zeroglue        MEM_BOT
+/// [#162] `0pt plus 1fil minus 0pt`.
+#define filglue         (zeroglue + gluespecsize)
+/// [#162] `0pt plus 1fill minus 0pt`.
+#define fillglue        (filglue + gluespecsize)
+/// [#162] `0pt plus 1fil minus 1fil`.
+#define ssglue          (fillglue + gluespecsize)
+/// [#162] `0pt plus −1fil minus 0pt`.
+#define filnegglue      (ssglue + gluespecsize)
+/// [#162] largest statically allocated word in the variable-size #mem.
+#define lomemstatmax    (filnegglue + gluespecsize - 1)
+
+/// [#162] list of insertion data for current page.
+#define pageinshead     (MEM_TOP-CHAR_NODE_SIZE+1)
+/// [#162] vlist of items not yet on current page.
+#define contribhead     (pageinshead-CHAR_NODE_SIZE)
+/// [#162] vlist for current page.
+#define pagehead        (contribhead-CHAR_NODE_SIZE)
+/// [#162] head of a temporary list of some kind.
+#define temphead        (pagehead-CHAR_NODE_SIZE)
+/// [#162] head of a temporary list of another kind.
+#define holdhead        (temphead-CHAR_NODE_SIZE)
+/// [#162] head of adjustment list returned by hpack.
+#define adjusthead      (holdhead-CHAR_NODE_SIZE)
+/// [#162] head of active list in line break, needs two words.
+#define active          (adjusthead-CHAR_NODE_SIZE-CHAR_NODE_SIZE)
+/// [#162] head of preamble list for alignments.
+#define alignhead       (active-CHAR_NODE_SIZE)
+/// [#162] tail of spanned-width lists.
+#define endspan         (alignhead-CHAR_NODE_SIZE)
+/// [#162] a constant token list.
+#define omittemplate    (endspan-CHAR_NODE_SIZE)
+/// [#162] permanently empty list.
+#define nulllist        (omittemplate-CHAR_NODE_SIZE)
+/// [#162] a ligature masquerading as a `char_node`.
+#define ligtrick        (nulllist-CHAR_NODE_SIZE)
+/// [#162] used for scrap information.
+#define garbage         (ligtrick)
+/// [#162] head of token list built by `scan_keyword`.
+#define backuphead      (ligtrick-CHAR_NODE_SIZE)
+/// [#162] smallest statically allocated word in the one-word #mem.
+#define himemstatmin    (backuphead)
+/** @}*/ // end group S162x172_P58x61
 
 /** @addtogroup S207x210_P73x76
  * @{
