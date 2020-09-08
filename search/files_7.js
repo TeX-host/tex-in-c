@@ -1,11 +1,4 @@
 var searchData=
 [
-  ['pool_5finit_2ec_2141',['pool_init.c',['../pool__init_8c.html',1,'']]],
-  ['pool_5finit_2eh_2142',['pool_init.h',['../pool__init_8h.html',1,'']]],
-  ['print_2ec_2143',['print.c',['../print_8c.html',1,'']]],
-  ['print_2eh_2144',['print.h',['../print_8h.html',1,'']]],
-  ['printout_2ec_2145',['printout.c',['../printout_8c.html',1,'']]],
-  ['printout_2eh_2146',['printout.h',['../printout_8h.html',1,'']]],
-  ['pure_5ffunc_2ec_2147',['pure_func.c',['../pure__func_8c.html',1,'']]],
-  ['pure_5ffunc_2eh_2148',['pure_func.h',['../pure__func_8h.html',1,'']]]
+  ['macros_2eh_2149',['macros.h',['../macros_8h.html',1,'']]]
 ];

@@ -13,6 +13,8 @@ var files_dup =
     [ "funcs.h", "funcs_8h.html", "funcs_8h" ],
     [ "global.h", "global_8h.html", "global_8h" ],
     [ "global_const.h", "global__const_8h.html", "global__const_8h" ],
+    [ "hash.c", "hash_8c.html", "hash_8c" ],
+    [ "hash.h", "hash_8h.html", "hash_8h" ],
     [ "inputln.c", "inputln_8c.html", "inputln_8c" ],
     [ "inputln.h", "inputln_8h.html", "inputln_8h" ],
     [ "lexer.c", "lexer_8c.html", "lexer_8c" ],

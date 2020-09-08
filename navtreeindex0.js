@@ -174,7 +174,6 @@ var NAVTREEINDEX0 =
 "fonts_8h.html":[2,0,8],
 "fonts_8h.html#a6be9f6f6c83255972bc5b73d50e4e96a":[2,0,8,0],
 "fonts_8h.html#aaef3941dc3cddf697b3713e877af0255":[2,0,8,1],
-"fonts_8h.html#ab0ce25ac881347a5bb988a91d33b886c":[2,0,8,11],
 "fonts_8h_source.html":[2,0,8],
 "funcs_8c.html":[2,0,9],
 "funcs_8c.html#a096d86c167323f81f1e40e1d9c399fcb":[2,0,9,13],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "globals.html":[2,1,0,0],
 "globals_a.html":[2,1,0,1],
 "globals_b.html":[2,1,0,2],
-"globals_c.html":[2,1,0,3]
+"globals_c.html":[2,1,0,3],
+"globals_d.html":[2,1,0,4]
 };

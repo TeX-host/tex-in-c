@@ -88,7 +88,7 @@ var searchData=
   ['fontec_613',['fontec',['../group___s539x582___p196x213.html#ga5d601af9b09ee408f3a2254ea073bbdc',1,'fontec():&#160;fonts.c'],['../group___s539x582___p196x213.html#ga5d601af9b09ee408f3a2254ea073bbdc',1,'fontec():&#160;fonts.c']]],
   ['fontfalsebchar_614',['fontfalsebchar',['../group___s539x582___p196x213.html#gad02e184eff02d2eb4feaec925574a2e7',1,'fontfalsebchar():&#160;fonts.c'],['../group___s539x582___p196x213.html#gad02e184eff02d2eb4feaec925574a2e7',1,'fontfalsebchar():&#160;fonts.c']]],
   ['fontglue_615',['fontglue',['../group___s539x582___p196x213.html#gaefda3a659343cda4818a41c62e40c957',1,'fontglue():&#160;fonts.c'],['../group___s539x582___p196x213.html#gaefda3a659343cda4818a41c62e40c957',1,'fontglue():&#160;fonts.c']]],
-  ['fontidtext_616',['fontidtext',['../fonts_8h.html#ab0ce25ac881347a5bb988a91d33b886c',1,'fontidtext(InternalFontNumber x):&#160;tex.c'],['../tex_8c.html#ab0ce25ac881347a5bb988a91d33b886c',1,'fontidtext(InternalFontNumber x):&#160;tex.c']]],
+  ['fontidtext_616',['fontidtext',['../group___s256x267___p102x108.html#gab0ce25ac881347a5bb988a91d33b886c',1,'fontidtext(InternalFontNumber x):&#160;hash.c'],['../group___s256x267___p102x108.html#gab0ce25ac881347a5bb988a91d33b886c',1,'fontidtext(InternalFontNumber x):&#160;hash.c']]],
   ['fontindex_617',['FontIndex',['../fonts_8h.html#aaef3941dc3cddf697b3713e877af0255',1,'fonts.h']]],
   ['fontinfo_618',['fontinfo',['../group___s539x582___p196x213.html#ga3a55db1e6c469b6ec5d05134353562fc',1,'fontinfo():&#160;fonts.c'],['../group___s539x582___p196x213.html#ga3a55db1e6c469b6ec5d05134353562fc',1,'fontinfo():&#160;fonts.c']]],
   ['fontname_619',['fontname',['../group___s539x582___p196x213.html#gaa570acb386c82cf264a42e65b960ec4e',1,'fonts.c']]],

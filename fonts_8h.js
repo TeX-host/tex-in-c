@@ -11,7 +11,6 @@ var fonts_8h =
     [ "charwarning", "group___s539x582___p196x213.html#gab5b9ee050507b49e2b61be8f6917861a", null ],
     [ "charwidth", "group___s539x582___p196x213.html#gaa661e66d0aa64786c891b930f264a29b", null ],
     [ "findfontdimen", "group___s539x582___p196x213.html#gaaee833ff1142e547d8014054bbb9a9b4", null ],
-    [ "fontidtext", "fonts_8h.html#ab0ce25ac881347a5bb988a91d33b886c", null ],
     [ "fonts_dump", "group___s539x582___p196x213.html#gaf813ccd0d6c345698d414e96f1c3a5bd", null ],
     [ "fonts_init", "group___s539x582___p196x213.html#gabe4d63cf4f492bd65d76245975ed2310", null ],
     [ "fonts_undump", "group___s539x582___p196x213.html#ga6475f91a663c2b2ac67d1781b54c9b09", null ],

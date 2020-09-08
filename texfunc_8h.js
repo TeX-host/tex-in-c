@@ -15,7 +15,6 @@ var texfunc_8h =
     [ "get_lo_mem_max", "texfunc_8h.html#a67f8841db35982c5c5071bc8ef7b7451", null ],
     [ "getnode", "group___s115x132___p44x49.html#ga406a0f9862f68265bd32660498daf675", null ],
     [ "giveerrhelp", "texfunc_8h.html#a78490fe79fcaae6767240cc8e0fe0fbd", null ],
-    [ "idlookup_p", "group___s256x267___p102x108.html#gae8e38245319b4fed757b6242c5bfcd84", null ],
     [ "jumpout", "group___s72x98___p30x37.html#gadeb1545ae01b6cbf0a224dc6a207876e", null ],
     [ "newrule", "group___s133x161___p50x57.html#gace4d687fe4f688a33dbc224062de27f1", null ],
     [ "newspec", "group___s133x161___p50x57.html#gacfaffbf54a0652f156ae976b973dee07", null ],
@@ -24,7 +23,6 @@ var texfunc_8h =
     [ "preparemag", "group___s268x288___p109x114.html#gabf37a40b9d95bc2a1560163dea9ec5c9", null ],
     [ "print", "group___s54x71___p24x29.html#gaad786ee811b86d2784a6a19a294f1de6", null ],
     [ "print_char", "group___s54x71___p24x29.html#ga483fffec16d3e5c6706dba49c69f97a3", null ],
-    [ "print_cs", "texfunc_8h.html#ad3986d52fe89330f4696f9676e25d620", null ],
     [ "print_esc", "group___s54x71___p24x29.html#ga0c018449eb2c8069b74269c37a931394", null ],
     [ "print_file_name", "texfunc_8h.html#a8140d41dff9ee6e0afd127e1a94c450b", null ],
     [ "print_hex", "group___s54x71___p24x29.html#ga1f134ab06d2ce2d719977640811ad6f8", null ],
@@ -35,7 +33,6 @@ var texfunc_8h =
     [ "println", "group___s54x71___p24x29.html#gac52ac3c4e4f907c35038591b801f7191", null ],
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],
     [ "set_help", "texfunc_8h.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
-    [ "sprint_cs", "texfunc_8h.html#a8a1618d38ab18457ab7daad7d45d9dcb", null ],
     [ "startinput", "group___s511x538___p188x195.html#ga36e1e896f8f7b67ca95b8c20295fc18f", null ],
     [ "strtoks", "texfunc_8h.html#a80fe6425d210c2854268e77530a8c9d6", null ],
     [ "thetoks", "texfunc_8h.html#a6b6f36120a008973281d7ea9d596d6ff", null ]
