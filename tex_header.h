@@ -34,6 +34,7 @@
     // overflow, confusion, print_err,
     // [macro] checkinterrupt,
 #include "hash.h"       // [func] sprint_cs
+#include "eqtb.h"
 #include "texfunc.h"    // [export]
 
 
@@ -180,9 +181,9 @@ Static Boolean panicking;
 /// [#173] an internal font number.
 Static Integer font_in_short_display; 
 /// [#181] maximum nesting depth in box displays.
-Static Integer depth_threshold;
+Integer depth_threshold;
 /// [#181] maximum number of items shown at the same list level.
-Static Integer breadth_max;
+Integer breadth_max;
 /** @}*/ // end group S173x198_P62x68
 
 
@@ -197,23 +198,6 @@ Static UChar max_nest_stack;               // maximum of nest_ptr when pushing
 ListStateRecord cur_list;           // the "top" semantic state
 UInt16 shown_mode; // most recent mode shown by \tracingcommands
 /** @}*/ // end group S211x219_P77x80
-
-
-/** @addtogroup S220x255_P81x101
- * @{
- */
-
-/// [ #220~255: THE TABLE OF EQUIVALENTS ]
-Static UChar diag_oldsetting; // [0, MAX_SELECTOR=21]
-static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
-              "diag_oldsetting = [0, MAX_SELECTOR=21]");
-
-/// #253
-MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1]; // equivalents table
-// store the eq level information
-Static QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
-/** @}*/ // end group S220x255_P81x101
-
 
 
 

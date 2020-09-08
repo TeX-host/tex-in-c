@@ -63,4 +63,8 @@ extern void debughelp(void);
 extern void jumpout(void);
 extern void giveerrhelp(void);
 
+// [tex] eqtb
+extern void printspec(long p, StrNumber s);
+extern void shownodelist(long p);
+
 #endif // TEX_FUNC_H

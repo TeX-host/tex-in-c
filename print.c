@@ -5,6 +5,7 @@
     // last, first, buffer[]
 #include "inputln.h" // [func] inputln
 #include "error.h"  // [func] fatalerror
+#include "eqtb.h"
 
 
 /** @addtogroup S54x71_P24x29
