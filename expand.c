@@ -12,6 +12,7 @@
 #include "texmath.h"  // [func] print_scaled
 #include "scan.h"     // [func] scan_eight_bit_int
 #include "error.h"    // [func] error, overflow, confusion, print_err,
+#include "hash.h"     // [func] idlookup_p, sprint_cs, print_cs
 #include "expand.h"
 
 /** @addtogroup S487x510_P181x187

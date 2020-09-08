@@ -1,6 +1,7 @@
 #include "print.h"      // [var] tally, term_input
 #include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
-#include "texfunc.h"    // [func] print_cs
+#include "texfunc.h"    // [func] begindiagnostic, print_mode, enddiagnostic
+// flushlist, delete_token_ref, get_avail, set_help, openlogfile
 #include "printout.h"   // [func] printcmdchr,
 #include "pure_func.h"  // [func] aclose
 #include "macros.h"     // [macro] help4, help3, help2
@@ -10,6 +11,7 @@
 #include "error.h"
     // [func] error, fatalerror, overflow, print_err,
     // [macro] checkinterrupt,
+#include "hash.h" // [func] idlookup_p, sprint_cs
 #include "lexer.h"
 
 

@@ -7,6 +7,7 @@
 #include "texmac.h" 
 #include "expand.h"   // [macro] IF_EOF_CODE
 #include "scan.h"     // [macro] INT_VAL
+#include "print.h"    // [func] print_esc_str
 #include "printout.h" // [export]
 
 /// #247: 

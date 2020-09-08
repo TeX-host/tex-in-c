@@ -27,20 +27,15 @@ extern void printstyle(Integer c);
 // [tex], fonts
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
-extern void sprint_cs(Pointer p);
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
 extern Pointer get_lo_mem_max(void);
 
 
-// [tex], str
-extern HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs);
-
 // [tex]
 extern void set_help(SChar k, ...);
 
 // [tex] lexer
-extern void print_cs(long p);
 extern void begindiagnostic(void);
 extern void enddiagnostic(Boolean blankline);
 extern void print_mode(Integer m);

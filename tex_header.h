@@ -33,6 +33,7 @@
     // [func] normalize_selector, succumb, fatalerror,
     // overflow, confusion, print_err,
     // [macro] checkinterrupt,
+#include "hash.h"       // [func] sprint_cs
 #include "texfunc.h"    // [export]
 
 
@@ -214,16 +215,6 @@ Static QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 /** @}*/ // end group S220x255_P81x101
 
 
-/** @addtogroup S256x267_P102x108
- * @{
- */
-
-/// [#256]
-Static TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - HASH_BASE]; // hash table
-Static Pointer hash_used; // allocation pointer for hash
-// ? no_new_control_sequence // are new identifiers legal?
-Static Integer cs_count; // total number of known identifiers
-/** @}*/ // end group S256x267_P102x108
 
 
 /** @addtogroup S268x288_P109x114

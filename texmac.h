@@ -354,18 +354,6 @@
 #define emergencystretch        dimen_par(emergencystretchcode)
 
 
-/** @addtogroup S256x267_P102x108
- * @{
- */
-/// [p102#256] link for coalesced lists
-#define next(x)         hash[x - HASH_BASE].UU.lh
-/// [p102#256] string number for control sequence name
-#define text(x)         hash[x - HASH_BASE].rh
-/// [p102#256] test if all positions are occupied
-#define hash_is_full    (hash_used == HASH_BASE)
-/** @}*/ // end group S256x267_P102x108
-
-
 /** @addtogroup S268x288_P109x114
  * @{
  */
@@ -547,7 +535,7 @@
 
 
 /// [p258#700]
-#define mathsy(x, y) (fontinfo[(x) + parambase[famfnt(2 + (y))]].sc)
+#define mathsy(x, y) (fontinfo[(x) + parambase[fam_fnt(2 + (y))]].sc)
 #define mathxheight(x) mathsy(5, x) /* height of `\.x'}*/
 #define mathquad(x) mathsy(6, x)    /* \.{18mu}}*/
 #define num1(x)  mathsy(8,x) /* numerator shift-up in display styles}*/
@@ -568,7 +556,7 @@
 #define axisheight(x)  mathsy(22,x) /* height of fraction lines above the baseline}*/
 
 /// [p258#701]
-#define mathex(x) fontinfo[x + parambase[famfnt(3 + cursize)]].sc
+#define mathex(x) fontinfo[x + parambase[fam_fnt(3 + cursize)]].sc
 #define defaultrulethickness  mathex(8) /* thickness of \.{\\over} bars}*/
 #define bigopspacing1  mathex(9) /* minimum clearance above a displayed op}*/
 #define bigopspacing2  mathex(10) /* minimum clearance below a displayed op}*/

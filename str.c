@@ -6,6 +6,7 @@
 #include "macros.h" // [macro] pget, pput
 #include "texfunc.h" // [func] print_char
 #include "error.h"   // [func] overflow,
+#include "hash.h"    // [func] idlookup_p
 #include "str.h"    // [export]
 
 #define str_end(x) (str_start[(x) + 1])
