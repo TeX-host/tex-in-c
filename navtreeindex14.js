@@ -1,5 +1,7 @@
 var NAVTREEINDEX14 =
 {
+"texmac_8h.html#afa187c8cf6b9129c87ea6ce1a69d3b6a":[2,0,37,71],
+"texmac_8h.html#afbc598b7f4dc831c0147ad7ae005eef2":[2,0,37,41],
 "texmac_8h.html#afbfe72124372b70d257ebcba65980b6f":[2,0,37,186],
 "texmac_8h.html#afc065c0f9ddf63563bf82a971703f4fc":[2,0,37,232],
 "texmac_8h.html#afc29d464b8a8b2e609b3d35c46596b1b":[2,0,37,134],

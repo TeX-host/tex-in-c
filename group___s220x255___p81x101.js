@@ -29,8 +29,6 @@ var group___s220x255___p81x101 =
     [ "hashbase", "group___s220x255___p81x101.html#gab73b5124031f357fbf073cb24a2c67dc", null ],
     [ "intbase", "group___s220x255___p81x101.html#ga6dd43e8c81c2fd9e547a68f968f4da79", null ],
     [ "lccodebase", "group___s220x255___p81x101.html#ga4fae8559a177bb57023835f24ad36e24", null ],
-    [ "levelone", "group___s220x255___p81x101.html#ga8b2aeff4ddcfbefad026fc4a25bffcc2", null ],
-    [ "levelzero", "group___s220x255___p81x101.html#ga3aba6b605383520f89f8b1718b455c79", null ],
     [ "localbase", "group___s220x255___p81x101.html#ga4a148c0aa79ee4e00cb5eb8accbb1352", null ],
     [ "mathcodebase", "group___s220x255___p81x101.html#gac87cfb66643013708cb6853ff420fff5", null ],
     [ "mathfontbase", "group___s220x255___p81x101.html#ga40269d03141e6fe1e38271b909ab5890", null ],
@@ -44,6 +42,10 @@ var group___s220x255___p81x101 =
     [ "toksbase", "group___s220x255___p81x101.html#ga012ebb5330e5273676f190189ddf688c", null ],
     [ "uccodebase", "group___s220x255___p81x101.html#ga017c699635c926fb17f73254bff462ca", null ],
     [ "UNDEFINED_CONTROL_SEQUENCE", "group___s220x255___p81x101.html#gab1b8a28cc7ef6a11ddbf882ac355dd47", null ],
+    [ "EqLevel", "group___s220x255___p81x101.html#ga8e7b56b2404c194212587e64f725edb8", [
+      [ "LEVEL_ZERO", "group___s220x255___p81x101.html#gga8e7b56b2404c194212587e64f725edb8a25d073738749c5bdeb2704f53e3c59f6", null ],
+      [ "LEVEL_ONE", "group___s220x255___p81x101.html#gga8e7b56b2404c194212587e64f725edb8a5ee4727120f02e80897a39cbbcd34d16", null ]
+    ] ],
     [ "begindiagnostic", "group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67", null ],
     [ "enddiagnostic", "group___s220x255___p81x101.html#gadfa348a7e69f9ecddafcd88515439a4a", null ],
     [ "showeqtb", "group___s220x255___p81x101.html#ga066d58b03c9ca74e814e9647bd5e248d", null ],

@@ -78,7 +78,7 @@ var texmac_8h =
     [ "emptyflag", "group___s115x132___p44x49.html#ga55fc33cb441246fad20030067832ce4e", null ],
     [ "end_line_char", "texmac_8h.html#a46ffd87fbef901216796bf7e2ba58310", null ],
     [ "end_line_char_inactive", "texmac_8h.html#ae67225b7b25e1a7266a083bafbe15f05", null ],
-    [ "eqlevel", "texmac_8h.html#a44014d0149eda95f8354afaf47f93504", null ],
+    [ "eq_level", "texmac_8h.html#a6b9b6c6d8ed05aad12d3eafc7e20767c", null ],
     [ "eqlevelfield", "texmac_8h.html#a77a2a3402832caef854b3b21bd43bcfa", null ],
     [ "eqtype", "texmac_8h.html#a018b850a8c0a52f30b93b95abeddd5cf", null ],
     [ "eqtypefield", "texmac_8h.html#ae2ac63885808c16b630c0d379fb360af", null ],

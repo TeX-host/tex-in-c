@@ -91,8 +91,6 @@ var tex_8h =
     [ "lastboxcode", "tex_8h.html#a1ced34a251b4f96c7eaaa6f4f99d61c2", null ],
     [ "lccodebase", "group___s220x255___p81x101.html#ga4fae8559a177bb57023835f24ad36e24", null ],
     [ "leaderflag", "tex_8h.html#a1dc05c079bda7d103ca1cd19e36753b3", null ],
-    [ "levelone", "group___s220x255___p81x101.html#ga8b2aeff4ddcfbefad026fc4a25bffcc2", null ],
-    [ "levelzero", "group___s220x255___p81x101.html#ga3aba6b605383520f89f8b1718b455c79", null ],
     [ "localbase", "group___s220x255___p81x101.html#ga4a148c0aa79ee4e00cb5eb8accbb1352", null ],
     [ "loosefit", "tex_8h.html#addc0c3a3dd231ea65e1e98a93dd0dc79", null ],
     [ "M_MODE", "group___s211x219___p77x80.html#ga664e24a3082ff39320faa66cd8e4cf39", null ],
@@ -160,5 +158,9 @@ var tex_8h =
     [ "vtopcode", "tex_8h.html#afcfa812930eb791c865ac881403662fe", null ],
     [ "writenode", "tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf", null ],
     [ "writenodesize", "tex_8h.html#aca3b19a74764fe6aedb09ef920913592", null ],
-    [ "xleaders", "tex_8h.html#a330a0f221539f0824796c93600689af1", null ]
+    [ "xleaders", "tex_8h.html#a330a0f221539f0824796c93600689af1", null ],
+    [ "EqLevel", "group___s220x255___p81x101.html#ga8e7b56b2404c194212587e64f725edb8", [
+      [ "LEVEL_ZERO", "group___s220x255___p81x101.html#gga8e7b56b2404c194212587e64f725edb8a25d073738749c5bdeb2704f53e3c59f6", null ],
+      [ "LEVEL_ONE", "group___s220x255___p81x101.html#gga8e7b56b2404c194212587e64f725edb8a5ee4727120f02e80897a39cbbcd34d16", null ]
+    ] ]
 ];
