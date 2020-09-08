@@ -208,33 +208,33 @@
  */
 #define equiv(x)    equiv_field(eqtb[x - ACTIVE_BASE])
 
-/// [p83#224]
-#define skip(x) equiv(SKIP_BASE + x) /* |mem| location of glue specification}*/
-#define muskip(x) equiv(MU_SKIP_BASE + x) /* |mem| location of math glue spec}*/
+/// [p83#224] |mem| location of glue specification.
+#define skip(x)     equiv(SKIP_BASE + x)
+/// [p83#224] |mem| location of math glue spec.
+#define muskip(x)   equiv(MU_SKIP_BASE + x)
 
 // [p83#224] Glue parameters
 
 /// [p83#224] mem location of glue specification.
-#define glue_par(x)  equiv(GLUE_BASE + x)
-
-#define lineskip  glue_par(LINE_SKIP_CODE)
-#define baselineskip  glue_par(BASELINE_SKIP_CODE)
-#define parskip  glue_par(PAR_SKIP_CODE)
-#define abovedisplayskip  glue_par(ABOVE_DISPLAY_SKIP_CODE)
-#define belowdisplayskip  glue_par(BELOW_DISPLAY_SKIP_CODE)
-#define abovedisplayshortskip  glue_par(ABOVE_DISPLAY_SHORT_SKIP_CODE)
-#define belowdisplayshortskip  glue_par(BELOW_DISPLAY_SHORT_SKIP_CODE)
-#define leftskip  glue_par(LEFT_SKIP_CODE)
-#define rightskip  glue_par(RIGHT_SKIP_CODE)
-#define topskip  glue_par(TOP_SKIP_CODE)
-#define splittopskip  glue_par(SPLIT_TOP_SKIP_CODE)
-#define tabskip  glue_par(TAB_SKIP_CODE)
-#define spaceskip  glue_par(SPACE_SKIP_CODE)
-#define xspaceskip  glue_par(XSPACE_SKIP_CODE)
-#define parfillskip  glue_par(PAR_FILL_SKIP_CODE)
-#define thinmuskip  glue_par(THIN_MU_SKIP_CODE)
-#define medmuskip  glue_par(MED_MU_SKIP_CODE)
-#define thickmuskip  glue_par(THICK_MU_SKIP_CODE)
+#define glue_par(x) equiv(GLUE_BASE + x)
+#define lineskip                glue_par(LINE_SKIP_CODE)
+#define baselineskip            glue_par(BASELINE_SKIP_CODE)
+#define parskip                 glue_par(PAR_SKIP_CODE)
+#define abovedisplayskip        glue_par(ABOVE_DISPLAY_SKIP_CODE)
+#define belowdisplayskip        glue_par(BELOW_DISPLAY_SKIP_CODE)
+#define abovedisplayshortskip   glue_par(ABOVE_DISPLAY_SHORT_SKIP_CODE)
+#define belowdisplayshortskip   glue_par(BELOW_DISPLAY_SHORT_SKIP_CODE)
+#define leftskip                glue_par(LEFT_SKIP_CODE)
+#define rightskip               glue_par(RIGHT_SKIP_CODE)
+#define topskip                 glue_par(TOP_SKIP_CODE)
+#define splittopskip            glue_par(SPLIT_TOP_SKIP_CODE)
+#define tabskip                 glue_par(TAB_SKIP_CODE)
+#define spaceskip               glue_par(SPACE_SKIP_CODE)
+#define xspaceskip              glue_par(XSPACE_SKIP_CODE)
+#define parfillskip             glue_par(PAR_FILL_SKIP_CODE)
+#define thinmuskip              glue_par(THIN_MU_SKIP_CODE)
+#define medmuskip               glue_par(MED_MU_SKIP_CODE)
+#define thickmuskip             glue_par(THICK_MU_SKIP_CODE)
 
 /// [p87#230]
 #define toks(x) equiv(toksbase + x)

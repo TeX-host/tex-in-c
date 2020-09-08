@@ -63,6 +63,7 @@ typedef enum _EqLevel {
 /// [p82#222] equivalent of \\csname\\endcsname
 #define NULL_CS                     (ACTIVE_BASE + 256)
 
+
 /** [p82#222] [region 2] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds
  *  current equivalents of multiletter control sequences.
  */
@@ -93,6 +94,7 @@ typedef enum _FrozenControlSeq {
 /// dummy location.
 #define UNDEFINED_CONTROL_SEQUENCE  (FROZEN_NULL_FONT + 257)
 
+
 /** [p82#222] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
  *  current equivalents of glue parameters like the current baselineskip.
  */
@@ -102,6 +104,7 @@ typedef enum _FrozenControlSeq {
 #define SKIP_BASE       (GLUE_BASE + GLUE_PARS)
 /// [p83#224] table of 256 “muskip” registers.
 #define MU_SKIP_BASE    (SKIP_BASE + 256)
+
 
 /** [p82#222] [region 4] eqtb[GLUE_BASE, (LOCAL_BASE - 1)] holds
  *  current equivalents of local halfword quantities like

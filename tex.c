@@ -944,10 +944,11 @@ void printstyle(Integer c) {
  * 函数会打印参数对应的字符串。
  * 如果没有对应的字符串，则打印 `"[unknown glue parameter!]"`
  */
-void print_skip_param(Integer n) {
-    switch (n) {
-        case LINE_SKIP_CODE: print_esc(S(341)); break; // "lineskip"
-        case BASELINE_SKIP_CODE: print_esc(S(342)); break; // "baselineskip"
+void print_skip_param(Integer code) {
+#ifndef USE_REAL_STR
+    switch (code) {
+        case LINE_SKIP_CODE: print_esc(S(341)); break;
+        case BASELINE_SKIP_CODE: print_esc(S(342)); break;
         case PAR_SKIP_CODE: print_esc(S(343)); break;
         case ABOVE_DISPLAY_SKIP_CODE: print_esc(S(344)); break;
         case BELOW_DISPLAY_SKIP_CODE: print_esc(S(345)); break;
@@ -965,8 +966,32 @@ void print_skip_param(Integer n) {
         case MED_MU_SKIP_CODE: print_esc(S(357)); break;
         case THICK_MU_SKIP_CODE: print_esc(S(358)); break;
 
-        default: print(S(359)); break; // "[unknown glue parameter!]"
-    } // switch (n)
+        default: print(S(359)); break;
+    } /* switch (code) */
+#else // use real string
+    switch (code) {
+        case LINE_SKIP_CODE: print_esc_str("lineskip"); break;
+        case BASELINE_SKIP_CODE: print_esc_str("baselineskip"); break;
+        case PAR_SKIP_CODE: print_esc_str("parskip"); break;
+        case ABOVE_DISPLAY_SKIP_CODE: print_esc_str("abovedisplayskip"); break;
+        case BELOW_DISPLAY_SKIP_CODE: print_esc_str("belowdisplayskip"); break;
+        case ABOVE_DISPLAY_SHORT_SKIP_CODE: print_esc_str("abovedisplayshortskip"); break;
+        case BELOW_DISPLAY_SHORT_SKIP_CODE: print_esc_str("belowdisplayshortskip"); break;
+        case LEFT_SKIP_CODE: print_esc_str("leftskip"); break;
+        case RIGHT_SKIP_CODE: print_esc_str("rightskip"); break;
+        case TOP_SKIP_CODE: print_esc_str("topskip"); break;
+        case SPLIT_TOP_SKIP_CODE: print_esc_str("splittopskip"); break;
+        case TAB_SKIP_CODE: print_esc_str("tabskip"); break;
+        case SPACE_SKIP_CODE: print_esc_str("spaceskip"); break;
+        case XSPACE_SKIP_CODE: print_esc_str("xspaceskip"); break;
+        case PAR_FILL_SKIP_CODE: print_esc_str("parfillskip"); break;
+        case THIN_MU_SKIP_CODE: print_esc_str("thinmuskip"); break;
+        case MED_MU_SKIP_CODE: print_esc_str("medmuskip"); break;
+        case THICK_MU_SKIP_CODE: print_esc_str("thickmuskip"); break;
+
+        default: print_str("[unknown glue parameter!]"); break;
+    } /* switch (code) */ 
+#endif /* USE_REAL_STR */
 } // #225: print_skip_param
 
 
