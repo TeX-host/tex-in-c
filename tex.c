@@ -2108,7 +2108,7 @@ Static void primitive(StrNumber s, QuarterWord c, HalfWord o) {
         flush_string();
         text(cur_val) = s;
     }
-    eqlevel(cur_val) = levelone;
+    eq_level(cur_val) = LEVEL_ONE;
     eqtype(cur_val) = c;
     equiv(cur_val) = o;
 } // #264: primitive
@@ -2170,7 +2170,7 @@ Static void eqsave(HalfWord p, QuarterWord l) {
         // "save size"
         if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
-    if (l == levelzero) {
+    if (l == LEVEL_ZERO) {
         savetype(saveptr) = restorezero;
     } else {
         savestack[saveptr] = eqtb[p - activebase];
@@ -2185,11 +2185,11 @@ Static void eqsave(HalfWord p, QuarterWord l) {
 
 /*277:*/
 void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
-    if (eqlevel(p) == curlevel)
+    if (eq_level(p) == curlevel)
         eqdestroy(eqtb[p - activebase]);
-    else if (curlevel > levelone)
-        eqsave(p, eqlevel(p));
-    eqlevel(p) = curlevel;
+    else if (curlevel > LEVEL_ONE)
+        eqsave(p, eq_level(p));
+    eq_level(p) = curlevel;
     eqtype(p) = t;
     equiv(p) = e;
 }
@@ -2208,7 +2208,7 @@ Static void eqworddefine(HalfWord p, long w) {
 /*279:*/
 Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     eqdestroy(eqtb[p - activebase]);
-    eqlevel(p) = levelone;
+    eq_level(p) = LEVEL_ONE;
     eqtype(p) = t;
     equiv(p) = e;
 }
@@ -2216,20 +2216,20 @@ Static void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
 
 Static void geqworddefine(HalfWord p, long w) {
     eqtb[p - activebase].int_ = w;
-    xeqlevel[p - intbase] = levelone;
+    xeqlevel[p - intbase] = LEVEL_ONE;
 }
 /*:279*/
 
 /*280:*/
 Static void saveforafter(HalfWord t) {
-    if (curlevel <= levelone) return;
+    if (curlevel <= LEVEL_ONE) return;
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
         // "save size"
         if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
     savetype(saveptr) = inserttoken;
-    savelevel(saveptr) = levelzero;
+    savelevel(saveptr) = LEVEL_ZERO;
     saveindex(saveptr) = t;
     saveptr++;
 }
@@ -2254,7 +2254,7 @@ Static void unsave(void) {
     Pointer p;
     QuarterWord l = 0 /* XXXX */;
 
-    if (curlevel <= levelone) {
+    if (curlevel <= LEVEL_ONE) {
         confusion(S(478)); // "curlevel"
         return;
     }
@@ -2277,7 +2277,7 @@ Static void unsave(void) {
             savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         }
         if (p < intbase) {
-            if (eqlevel(p) == levelone) {
+            if (eq_level(p) == LEVEL_ONE) {
                 eqdestroy(savestack[saveptr]);
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restoretrace(p, S(479));
@@ -2291,7 +2291,7 @@ Static void unsave(void) {
             }
             continue;
         }
-        if (xeqlevel[p - intbase] != levelone) {
+        if (xeqlevel[p - intbase] != LEVEL_ONE) {
             eqtb[p - activebase] = savestack[saveptr];
             xeqlevel[p - intbase] = l; 
             #ifdef tt_STAT
@@ -11955,7 +11955,7 @@ Static void storefmtfile(void) { /*1304:*/
         j = k;
         while (j < intbase - 1) {
             if ((equiv(j) == equiv(j + 1)) & (eqtype(j) == eqtype(j + 1)) &
-                (eqlevel(j) == eqlevel(j + 1)))
+                (eq_level(j) == eq_level(j + 1)))
                 goto _Lfound1;
             j++;
         }
@@ -11966,7 +11966,7 @@ _Lfound1:
         l = j;
         while (j < intbase - 1) {
             if ((equiv(j) != equiv(j + 1)) | (eqtype(j) != eqtype(j + 1)) |
-                (eqlevel(j) != eqlevel(j + 1)))
+                (eq_level(j) != eq_level(j + 1)))
                 goto _Ldone1;
             j++;
         }
@@ -13759,7 +13759,7 @@ Static void final_cleanup(void) {
         print(S(1019));
         openparens--;
     }
-    if (curlevel > levelone) {
+    if (curlevel > LEVEL_ONE) {
         printnl('(');
     #ifndef USE_REAL_STR
         print_esc(S(1020)); // "end occurred "
@@ -13768,7 +13768,7 @@ Static void final_cleanup(void) {
         print_esc_str("end occurred ");
         print_str("inside a group at level ");
     #endif // USE_REAL_STR
-        print_int(curlevel - levelone);
+        print_int(curlevel - LEVEL_ONE);
         print_char(')');
     }
     while (condptr != 0) {
@@ -14044,7 +14044,7 @@ Static void init_prim(void) {
     text(frozenendv) = S(1174);
     eqtype(frozenendv) = ENDV;
     equiv(frozenendv) = nulllist;
-    eqlevel(frozenendv) = levelone;
+    eq_level(frozenendv) = LEVEL_ONE;
     eqtb[frozenendtemplate - activebase] = eqtb[frozenendv - activebase];
     eqtype(frozenendtemplate) = END_TEMPLATE; /*:780*/
     /*983:*/
@@ -14272,7 +14272,7 @@ Static void initialize(void) {
         /*:215*/
         /*254:*/
         for (k = intbase; k <= EQTB_SIZE; k++) {
-            xeqlevel[k - intbase] = levelone;
+            xeqlevel[k - intbase] = LEVEL_ONE;
         }
         /*:254*/
         /*257:*/
@@ -14283,7 +14283,7 @@ Static void initialize(void) {
             hash[k - hashbase] = hash[0];
         /*272:*/
         saveptr = 0;
-        curlevel = levelone;
+        curlevel = LEVEL_ONE;
         curgroup = bottomlevel;
         curboundary = 0;
         maxsavestack = 0; /*:272*/
@@ -14442,13 +14442,13 @@ Static void initialize(void) {
         /// p82#222
         eqtype(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
         equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
-        eqlevel(UNDEFINED_CONTROL_SEQUENCE) = levelzero;
+        eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
         for (k = activebase; k < UNDEFINED_CONTROL_SEQUENCE; k++)
             eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
 
         /// #228
         equiv(gluebase) = zeroglue;
-        eqlevel(gluebase) = levelone;
+        eq_level(gluebase) = LEVEL_ONE;
         eqtype(gluebase) = GLUE_REF;
         for (k = gluebase + 1; k < localbase; k++)
             eqtb[k - activebase] = eqtb[gluebase - activebase];
@@ -14457,23 +14457,23 @@ Static void initialize(void) {
         // [#232]
         parshapeptr = 0;
         eqtype(parshapeloc) = SHAPE_REF;
-        eqlevel(parshapeloc) = levelone;
+        eq_level(parshapeloc) = LEVEL_ONE;
         for (k = outputroutineloc; k <= toksbase + 255; k++)
             eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
         box(0) = 0;
         eqtype(boxbase) = BOX_REF;
-        eqlevel(boxbase) = levelone;
+        eq_level(boxbase) = LEVEL_ONE;
         for (k = boxbase + 1; k <= boxbase + 255; k++)
             eqtb[k - activebase] = eqtb[boxbase - activebase];
         curfont = NULL_FONT;
         eqtype(curfontloc) = DATA;
-        eqlevel(curfontloc) = levelone;
+        eq_level(curfontloc) = LEVEL_ONE;
         for (k = mathfontbase; k <= mathfontbase + 47; k++)
             eqtb[k - activebase] = eqtb[curfontloc - activebase];
         
         equiv(catcodebase) = 0;
         eqtype(catcodebase) = DATA;
-        eqlevel(catcodebase) = levelone;
+        eq_level(catcodebase) = LEVEL_ONE;
         for (k = catcodebase + 1; k < intbase; k++) {
             eqtb[k - activebase] = eqtb[catcodebase - activebase];
         }
@@ -14562,7 +14562,7 @@ Static void initialize(void) {
         format_ident = S(259); // " (INITEX)"
         // #1369
         text(endwrite) = S(260);
-        eqlevel(endwrite) = levelone;
+        eq_level(endwrite) = LEVEL_ONE;
         eqtype(endwrite) = OUTER_CALL;
         equiv(endwrite) = 0;
 

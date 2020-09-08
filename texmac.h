@@ -194,8 +194,8 @@
 #define eqlevelfield(x) x.hh.UU.U2.b1
 #define eqtypefield(x) x.hh.UU.U2.b0
 #define equivfield(x) x.hh.rh
-#define eqlevel(x) eqlevelfield(eqtb[x - activebase]) /* level of \
-                                                         definition}*/
+/// ::EqLevel, level of definition
+#define eq_level(x) eqlevelfield(eqtb[x - activebase])
 #define eqtype(x) \
     eqtypefield(eqtb[x - activebase]) /* command code for equivalent}*/
 

@@ -45,8 +45,12 @@
  */
 
 // [#221]
-#define levelzero       MIN_QUARTER_WORD
-#define levelone        (levelzero + 1)
+typedef enum _EqLevel {
+    /// level for undefined quantities.
+    LEVEL_ZERO = MIN_QUARTER_WORD,
+    /// outermost level for defined quantities.
+    LEVEL_ONE,
+} EqLevel;
 
 /// p82#222
 #define activebase                  1
