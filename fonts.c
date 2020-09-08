@@ -905,7 +905,7 @@ void scanfontident(void) {
     skip_spaces(); // [#406]
 
     if (curcmd == DEF_FONT) {
-        f = curfont;
+        f = cur_font;
     } else if (curcmd == SET_FONT) {
         f = curchr;
     } else if (curcmd == DEF_FAMILY) {

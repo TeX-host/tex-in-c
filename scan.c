@@ -199,10 +199,10 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
     switch (curcmd) {
         case DEF_CODE: /*414:*/
             scan_char_num();
-            if (m == mathcodebase) {
-                cur_val = mathcode(cur_val);
+            if (m == MATH_CODE_BASE) {
+                cur_val = math_code(cur_val);
                 cur_val_level = INT_VAL;
-            } else if (m < mathcodebase) {
+            } else if (m < MATH_CODE_BASE) {
                 cur_val = equiv(m + cur_val);
                 cur_val_level = INT_VAL;
             } else {
@@ -231,7 +231,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             } else if (curcmd <= ASSIGN_TOKS) {
                 if (curcmd < ASSIGN_TOKS) {
                     scan_eight_bit_int();
-                    m = toksbase + cur_val;
+                    m = TOKS_BASE + cur_val;
                 }
                 cur_val = equiv(m);
                 cur_val_level = TOK_VAL;
@@ -825,9 +825,9 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
     if (mu) goto _Lnotfound;
     
     if (scankeyword(S(614))) { // "em"
-        v = quad(curfont); /// [#558] The em width for cur_font.
+        v = quad(cur_font); /// [#558] The em width for cur_font.
     } else if (scankeyword(S(615))) { // "ex"
-        v = xheight(curfont); /// [#559] The x-height for cur_font.
+        v = xheight(cur_font); /// [#559] The x-height for cur_font.
     } else {
         goto _Lnotfound;
     }

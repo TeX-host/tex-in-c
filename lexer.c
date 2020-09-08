@@ -507,7 +507,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
         case MARK_TEXT: print_esc(S(402)); break;  // "mark"
         case WRITE_TEXT: print_esc(S(379)); break; // "write"
         default:
-            printcmdchr(ASSIGN_TOKS, t - OUTPUT_TEXT + outputroutineloc);
+            printcmdchr(ASSIGN_TOKS, t - OUTPUT_TEXT + OUTPUT_ROUTINE_LOC);
             break;
     }
     print(S(310)); // "−>"
@@ -896,7 +896,7 @@ _getnext_worker__restart:
 
     // go here to: digest it again
     _getnext_worker__reswitch:
-        cur_cmd = catcode(cur_chr);
+        cur_cmd = cat_code(cur_chr);
 
         // #344 Change state if necessary,
         // and goto switch if the current character should be ignored,
@@ -925,7 +925,7 @@ _getnext_worker__restart:
                 _getnext_worker__startcs_:
                     k = LOC;
                     cur_chr = buffer[k];
-                    cat = catcode(cur_chr);
+                    cat = cat_code(cur_chr);
                     k++;
 
                     if (cat == LETTER) {
@@ -940,7 +940,7 @@ _getnext_worker__restart:
                         // [#356]
                         do {
                             cur_chr = buffer[k];
-                            cat = catcode(cur_chr);
+                            cat = cat_code(cur_chr);
                             k++;
                         } while (cat == LETTER && k <= LIMIT);
 

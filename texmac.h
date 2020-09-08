@@ -236,16 +236,31 @@
 #define medmuskip               glue_par(MED_MU_SKIP_CODE)
 #define thickmuskip             glue_par(THICK_MU_SKIP_CODE)
 
+
+// [p87#230]
+#define parshapeptr     equiv(PAR_SHAPE_LOC)
+#define outputroutine   equiv(OUTPUT_ROUTINE_LOC)
+#define everypar        equiv(EVERY_PAR_LOC)
+#define everymath       equiv(EVERY_MATH_LOC)
+#define everydisplay    equiv(EVERY_DISPLAY_LOC)
+#define everyhbox       equiv(EVERY_HBOX_LOC)
+#define everyvbox       equiv(EVERY_VBOX_LOC)
+#define everyjob        equiv(EVERY_JOB_LOC)
+#define everycr         equiv(EVERY_CR_LOC)
+#define errhelp         equiv(ERR_HELP_LOC)
+
 /// [p87#230]
-#define toks(x) equiv(toksbase + x)
-#define box(x) equiv(boxbase + x)
-#define famfnt(x) equiv(mathfontbase + x)
-#define catcode(x) equiv(catcodebase + x)
-#define lccode(x) equiv(lccodebase + x)
-#define uccode(x) equiv(uccodebase + x)
-#define sfcode(x) equiv(sfcodebase + x)
-#define mathcode(x) equiv(mathcodebase + x)
-/*  Note: |mathcode(c)| is the true math code plus |minhalfword|} */
+#define toks(x)         equiv(TOKS_BASE + x)
+#define box(x)          equiv(BOX_BASE + x)
+#define cur_font        equiv(CUR_FONT_LOC)
+#define fam_fnt(x)      equiv(MATH_FONT_BASE + x)
+#define cat_code(x)     equiv(CAT_CODE_BASE + x)
+#define lc_code(x)      equiv(LC_CODE_BASE + x)
+#define uc_code(x)      equiv(UC_CODE_BASE + x)
+#define sf_code(x)      equiv(SF_CODE_BASE + x)
+/// Note: |mathcode(c)| is the true math code plus |minhalfword|
+#define math_code(x)    equiv(MATH_CODE_BASE + x)
+
 
 /// [p92]
 #define delcode(x) eqtb[delcodebase + x - ACTIVE_BASE].int_
@@ -333,19 +348,6 @@
 #define hoffset  dimenpar(hoffsetcode)
 #define voffset  dimenpar(voffsetcode)
 #define emergencystretch  dimenpar(emergencystretchcode)
-
-// [p87#230]
-#define parshapeptr  equiv(parshapeloc)
-#define outputroutine  equiv(outputroutineloc)
-#define everypar  equiv(everyparloc)
-#define everymath  equiv(everymathloc)
-#define everydisplay  equiv(everydisplayloc)
-#define everyhbox  equiv(everyhboxloc)
-#define everyvbox  equiv(everyvboxloc)
-#define everyjob  equiv(everyjobloc)
-#define everycr  equiv(everycrloc)
-#define errhelp  equiv(errhelploc)
-#define curfont  equiv(curfontloc)
 
 
 /** @addtogroup S256x267_P102x108
@@ -758,7 +760,7 @@
 /// [p386#1034]
 #define adjustspacefactor()              \
     {                                    \
-        mains = sfcode(curchr);          \
+        mains = sf_code(curchr);          \
         if (mains == 1000) {             \
             spacefactor = 1000;          \
         } else if (mains < 1000) {       \

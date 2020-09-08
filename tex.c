@@ -83,7 +83,7 @@ void print_cs(long p) {
                 print_char(' ');
             } else {
                 print_esc(p - ACTIVE_BASE);
-                if (catcode(p - ACTIVE_BASE) == LETTER) 
+                if (cat_code(p - ACTIVE_BASE) == LETTER) 
                     print_char(' ');
             } // if (p == NULL_CS) - else
         } else {
@@ -706,7 +706,7 @@ Static void searchmem(Pointer p) {
             print_char(')');
         }
     }                                               /*255:*/
-    for (q = ACTIVE_BASE; q <= boxbase + 255; q++) { /*:255*/
+    for (q = ACTIVE_BASE; q <= BOX_BASE + 255; q++) { /*:255*/
         if (equiv(q) == p) {
             printnl(S(325));
             print_int(q);
@@ -1938,7 +1938,7 @@ Static void showeqtb(HalfWord n) {
         return;
     }
     if (n < INT_BASE) { /*233:*/
-        if (n == parshapeloc) {
+        if (n == PAR_SHAPE_LOC) {
             print_esc(S(462));
             print_char('=');
             if (parshapeptr == 0)
@@ -1947,22 +1947,22 @@ Static void showeqtb(HalfWord n) {
                 print_int(info(parshapeptr));
             return;
         }
-        if (n < toksbase) {
+        if (n < TOKS_BASE) {
             printcmdchr(ASSIGN_TOKS, n);
             print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
-        if (n < boxbase) {
+        if (n < BOX_BASE) {
             print_esc(S(463));
-            print_int(n - toksbase);
+            print_int(n - TOKS_BASE);
             print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
-        if (n < curfontloc) {
+        if (n < CUR_FONT_LOC) {
             print_esc(S(464));
-            print_int(n - boxbase);
+            print_int(n - BOX_BASE);
             print_char('=');
             if (equiv(n) == 0) {
                 print(S(465));
@@ -1973,44 +1973,44 @@ Static void showeqtb(HalfWord n) {
             shownodelist(equiv(n));
             return;
         }
-        if (n < catcodebase) { /*234:*/
-            if (n == curfontloc)
+        if (n < CAT_CODE_BASE) { /*234:*/
+            if (n == CUR_FONT_LOC)
                 print(S(466));
-            else if (n < mathfontbase + 16) {
+            else if (n < MATH_FONT_BASE + 16) {
                 print_esc(S(266));
-                print_int(n - mathfontbase);
-            } else if (n < mathfontbase + 32) {
+                print_int(n - MATH_FONT_BASE);
+            } else if (n < MATH_FONT_BASE + 32) {
                 print_esc(S(267));
-                print_int(n - mathfontbase - 16);
+                print_int(n - MATH_FONT_BASE - 16);
             } else {
                 print_esc(S(268));
-                print_int(n - mathfontbase - 32);
+                print_int(n - MATH_FONT_BASE - 32);
             }
             print_char('=');
             print_esc(fontidtext(equiv(n)));
             return;
         }
         /*:234*/
-        if (n < mathcodebase) {
-            if (n < lccodebase) {
+        if (n < MATH_CODE_BASE) {
+            if (n < LC_CODE_BASE) {
                 print_esc(S(467));
-                print_int(n - catcodebase);
-            } else if (n < uccodebase) {
+                print_int(n - CAT_CODE_BASE);
+            } else if (n < UC_CODE_BASE) {
                 print_esc(S(468));
-                print_int(n - lccodebase);
-            } else if (n < sfcodebase) {
+                print_int(n - LC_CODE_BASE);
+            } else if (n < SF_CODE_BASE) {
                 print_esc(S(469));
-                print_int(n - uccodebase);
+                print_int(n - UC_CODE_BASE);
             } else {
                 print_esc(S(470));
-                print_int(n - sfcodebase);
+                print_int(n - SF_CODE_BASE);
             }
             print_char('=');
             print_int(equiv(n));
             return;
         }
         print_esc(S(471));
-        print_int(n - mathcodebase);
+        print_int(n - MATH_CODE_BASE);
         print_char('=');
         print_int(equiv(n));
         return;
@@ -4203,7 +4203,7 @@ Static HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
             z += s + 16;
             do {
                 z -= 16;
-                g = famfnt(z);
+                g = fam_fnt(z);
                 if (g != NULL_FONT) { /*708:*/
                     y = x;
                     if (y - MIN_QUARTER_WORD >= fontbc[g] &&
@@ -4446,7 +4446,7 @@ _Lfound:
 /*722:*/
 Static void fetch(HalfWord a) {
     curc = character(a);
-    curf = famfnt(fam(a) + cursize);
+    curf = fam_fnt(fam(a) + cursize);
     if (curf == NULL_FONT) { /*723:*/
         print_err(S(385)); // ""
         print_size(cursize);
@@ -7479,7 +7479,7 @@ Static void newpatterns(void) {
                         if (curchr == '.') {
                             cur_chr = 0;
                         } else {
-                            cur_chr = lccode(curchr);
+                            cur_chr = lc_code(curchr);
                             if (cur_chr == 0) {
                                 print_err(S(770)); // "Nonletter"
                                 help1(S(771));     // "(See Appendix H.)"
@@ -7841,8 +7841,8 @@ Static void linebreak(long finalwidowpenalty) {
                                     goto _Llabcontinue;
                                 } else
                                     goto _Ldone1;
-                                if (lccode(c) != 0) {
-                                    if (lccode(c) == c || uchyph > 0)
+                                if (lc_code(c) != 0) {
+                                    if (lc_code(c) == c || uchyph > 0)
                                         goto _Ldone2;
                                     else
                                         goto _Ldone1;
@@ -7864,12 +7864,12 @@ Static void linebreak(long finalwidowpenalty) {
                                     if (font(s) != hf) goto _Ldone3;
                                     hyfbchar = character(s);
                                     c = hyfbchar - MIN_QUARTER_WORD;
-                                    if (lccode(c) == 0) goto _Ldone3;
+                                    if (lc_code(c) == 0) goto _Ldone3;
                                     if (hn == 63) goto _Ldone3;
                                     hb = s;
                                     hn++;
                                     hu[hn] = c;
-                                    hc[hn] = lccode(c);
+                                    hc[hn] = lc_code(c);
                                     hyfbchar = NON_CHAR;
                                 } else if (type(s) == LIGATURE_NODE) {
                                     if (font_ligchar(s) != hf) {
@@ -7880,11 +7880,11 @@ Static void linebreak(long finalwidowpenalty) {
                                     if (q > 0) hyfbchar = character(q);
                                     while (q > 0) {
                                         c = character(q) - MIN_QUARTER_WORD;
-                                        if (lccode(c) == 0) goto _Ldone3;
+                                        if (lc_code(c) == 0) goto _Ldone3;
                                         if (j == 63) goto _Ldone3;
                                         j++;
                                         hu[j] = c;
-                                        hc[j] = lccode(c);
+                                        hc[j] = lc_code(c);
                                         q = link(q);
                                     }
                                     hb = s;
@@ -8201,7 +8201,7 @@ Static void newhyphexceptions(void) {
                         p = q;
                     }
                 } else {
-                    if (lccode(cur_chr) == 0) {
+                    if (lc_code(cur_chr) == 0) {
                         print_err(S(783)); // "Not a letter"
                         // "Letters in \\hyphenation words must have \\lccode>0."
                         // "Proceed; I'll ignore the character I just read."
@@ -8209,7 +8209,7 @@ Static void newhyphexceptions(void) {
                         error();
                     } else if (n < 63) {
                         n++;
-                        hc[n] = lccode(cur_chr);
+                        hc[n] = lc_code(cur_chr);
                     }
                 } // emd [#937]
                 break;
@@ -9173,22 +9173,22 @@ Static void appspace(void) {
         if (spaceskip != zeroglue) {
             mainp = spaceskip;
         } else { /*1042:*/
-            mainp = fontglue[curfont];
+            mainp = fontglue[cur_font];
             if (mainp == 0) {
                 FontIndex mmaink;
                 mainp = newspec(zeroglue);
-                mmaink = parambase[curfont] + SPACE_CODE;
+                mmaink = parambase[cur_font] + SPACE_CODE;
             #if 1
                 maink = mmaink;
             #endif
                 width(mainp) = fontinfo[maink].sc;
                 stretch(mainp) = fontinfo[mmaink + 1].sc;
                 shrink(mainp) = fontinfo[mmaink + 2].sc;
-                fontglue[curfont] = mainp;
+                fontglue[cur_font] = mainp;
             }
         }
         mainp = newspec(mainp); /*1044:*/
-        if (spacefactor >= 2000) width(mainp) += extraspace(curfont);
+        if (spacefactor >= 2000) width(mainp) += extraspace(cur_font);
         stretch(mainp) = xn_over_d(stretch(mainp), spacefactor, 1000);
         shrink(mainp) = xn_over_d(shrink(mainp), 1000, spacefactor);
         /*:1044*/
@@ -9370,7 +9370,7 @@ Static void normalparagraph(void) {
     if (looseness   != 0) eqworddefine(INT_BASE   + loosenesscode,  0);
     if (hangindent  != 0) eqworddefine(DIMEN_BASE + hangindentcode, 0);
     if (hangafter   != 1) eqworddefine(INT_BASE   + hangaftercode,  1);
-    if (parshapeptr != 0) eqdefine(parshapeloc, SHAPE_REF, 0);
+    if (parshapeptr != 0) eqdefine(PAR_SHAPE_LOC, SHAPE_REF, 0);
 } /*:1070*/
 
 /*1075:*/
@@ -9409,9 +9409,9 @@ Static void boxend(long boxcontext)
   }  /*:1076*/
   if (boxcontext < shipoutflag) {   /*1077:*/
     if (boxcontext < boxflag + 256)
-      eqdefine(boxbase - boxflag + boxcontext, BOX_REF, curbox);
+      eqdefine(BOX_BASE - boxflag + boxcontext, BOX_REF, curbox);
     else   /*:1077*/
-      geqdefine(boxbase - boxflag + boxcontext - 256, BOX_REF, curbox);
+      geqdefine(BOX_BASE - boxflag + boxcontext - 256, BOX_REF, curbox);
     return;
   }
   if (curbox == 0)
@@ -9864,10 +9864,10 @@ Static void appenddiscretionary(void)
 
   tailappend(newdisc());
   if (curchr == 1) {
-    c = get_hyphenchar(curfont);
+    c = get_hyphenchar(cur_font);
     if (c >= 0) {
       if (c < 256)
-	prebreak(tail) = newcharacter(curfont, c);
+	prebreak(tail) = newcharacter(cur_font, c);
     }
     return;
   }
@@ -9977,7 +9977,7 @@ Static void makeaccent(void)
   FourQuarters i;
 
   scan_char_num();
-  f = curfont;
+  f = cur_font;
   p = newcharacter(f, cur_val);
   if (p == 0)
     return;
@@ -9986,7 +9986,7 @@ Static void makeaccent(void)
   a = charwidth(f, charinfo(f, character(p)));
   doassignments();   /*1124:*/
   q = 0;
-  f = curfont;
+  f = cur_font;
   if (curcmd == LETTER || curcmd == OTHER_CHAR || curcmd == CHAR_GIVEN)
     q = newcharacter(f, curchr);
   else if (curcmd == CHAR_NUM) {
@@ -10138,7 +10138,7 @@ Static void initmath(void)
       w = -MAX_DIMEN;
     } else {
       linebreak(displaywidowpenalty);   /*1146:*/
-      v = shiftamount(justbox) + quad(curfont) * 2;
+      v = shiftamount(justbox) + quad(cur_font) * 2;
       w = -MAX_DIMEN;
       p = listptr(justbox);
       while (p != 0) {  /*1147:*/
@@ -10278,7 +10278,7 @@ _LN_scanmath__reswitch:
         case LETTER:
         case OTHER_CHAR:
         case CHAR_GIVEN:
-            c = mathcode(curchr);
+            c = math_code(curchr);
             if (c == 32768L) { /*1152:*/
                 curcs = curchr + ACTIVE_BASE;
                 curcmd = eq_type(curcs);
@@ -10322,7 +10322,7 @@ _LN_scanmath__reswitch:
     }
     mathtype(p) = mathchar;
     character(p) = c & 255;
-    if (c >= varcode && faminrange) {
+    if (c >= VAR_CODE && faminrange) {
         fam(p) = curfam;
     } else {
         fam(p) = (c / 256) & 15;
@@ -10348,7 +10348,7 @@ Static void setmathchar(long c)
   mathtype(nucleus(p)) = mathchar;
   character(nucleus(p)) = c & 255;
   fam(nucleus(p)) = (c / 256) & 15;
-  if (c >= varcode) {
+  if (c >= VAR_CODE) {
     if (faminrange) {
       fam(nucleus(p)) = curfam;
     }
@@ -10455,7 +10455,7 @@ Static void mathac(void) {
     mathtype(accentchr(tail)) = mathchar;
     scan_fifteen_bit_int();
     character(accentchr(tail)) = cur_val & 255;
-    if (cur_val >= varcode && faminrange) {
+    if (cur_val >= VAR_CODE && faminrange) {
         fam(accentchr(tail)) = curfam;
     } else {
         fam(accentchr(tail)) = (cur_val / 256) & 15;
@@ -10663,9 +10663,9 @@ Static void aftermath(void) {
     SmallNumber g1, g2;
 
     danger = false; /*1195:*/
-    if ((fontparams[famfnt(TEXT_SIZE + 2)] < totalmathsyparams) |
-        (fontparams[famfnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
-        (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
+    if ((fontparams[fam_fnt(TEXT_SIZE + 2)] < totalmathsyparams) |
+        (fontparams[fam_fnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
+        (fontparams[fam_fnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
         print_err(S(926)); // "Math formula deleted: Insufficient symbol fonts"
         // "Sorry but I can't typeset math unless \\textfont 2"
         // "and \\scriptfont 2 and \\scriptscriptfont 2 have all"
@@ -10674,9 +10674,9 @@ Static void aftermath(void) {
         error();
         flushmath();
         danger = true;
-    } else if ((fontparams[famfnt(TEXT_SIZE + 3)] < totalmathexparams) |
-               (fontparams[famfnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
-               (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3)] <
+    } else if ((fontparams[fam_fnt(TEXT_SIZE + 3)] < totalmathexparams) |
+               (fontparams[fam_fnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
+               (fontparams[fam_fnt(SCRIPT_SCRIPT_SIZE + 3)] <
                 totalmathexparams)) {
         print_err(S(930)); // "Math formula deleted: Insufficient extension fonts"
         // "Sorry but I can't typeset math unless \\textfont 3"
@@ -10710,9 +10710,9 @@ Static void aftermath(void) {
         if (saved(0) == 1) l = true;
         danger = false; /*1195:*/
 
-        if ((fontparams[famfnt(TEXT_SIZE + 2)] < totalmathsyparams) |
-            (fontparams[famfnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
-            (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
+        if ((fontparams[fam_fnt(TEXT_SIZE + 2)] < totalmathsyparams) |
+            (fontparams[fam_fnt(SCRIPT_SIZE + 2)] < totalmathsyparams) |
+            (fontparams[fam_fnt(SCRIPT_SCRIPT_SIZE + 2)] < totalmathsyparams)) {
             print_err(S(926)); // "Math formula deleted: Insufficient symbol fonts"
             // "Sorry but I can't typeset math unless \\textfont 2"
             // "and \\scriptfont 2 and \\scriptscriptfont 2 have all"
@@ -10721,9 +10721,9 @@ Static void aftermath(void) {
             error();
             flushmath();
             danger = true;
-        } else if ((fontparams[famfnt(TEXT_SIZE + 3)] < totalmathexparams) |
-                   (fontparams[famfnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
-                   (fontparams[famfnt(SCRIPT_SCRIPT_SIZE + 3)] <
+        } else if ((fontparams[fam_fnt(TEXT_SIZE + 3)] < totalmathexparams) |
+                   (fontparams[fam_fnt(SCRIPT_SIZE + 3)] < totalmathexparams) |
+                   (fontparams[fam_fnt(SCRIPT_SCRIPT_SIZE + 3)] <
                     totalmathexparams)) {
             print_err(S(930)); // "Math formula deleted: Insufficient extension fonts"
             // "Sorry but I can't typeset math unless \\textfont 3"
@@ -11324,7 +11324,7 @@ Static void prefixedcommand(void) {
     switch (curcmd) {
         /// [#1217] Assignments.
         case SET_FONT:
-            define(curfontloc, DATA, curchr);
+            define(CUR_FONT_LOC, DATA, curchr);
             break;
 
         /// [#1218]
@@ -11405,7 +11405,7 @@ Static void prefixedcommand(void) {
                             break;
 
                         case toksdefcode:
-                            define(p, ASSIGN_TOKS, toksbase + cur_val);
+                            define(p, ASSIGN_TOKS, TOKS_BASE + cur_val);
                             break;
 
                         /* there are no other cases */
@@ -11437,7 +11437,7 @@ Static void prefixedcommand(void) {
             q = curcs;
             if (curcmd == TOKS_REGISTER) {
                 scan_eight_bit_int();
-                p = toksbase + cur_val;
+                p = TOKS_BASE + cur_val;
             } else {
                 // p = `every_par_loc` or `output_routine_loc` or ...
                 p = curchr; 
@@ -11451,7 +11451,7 @@ Static void prefixedcommand(void) {
                 if (curcmd == TOKS_REGISTER) {
                     scan_eight_bit_int();
                     curcmd = ASSIGN_TOKS;
-                    cur_chr = toksbase + cur_val;
+                    cur_chr = TOKS_BASE + cur_val;
                 }
                 if (curcmd == ASSIGN_TOKS) {
                     q = equiv(cur_chr);
@@ -11472,7 +11472,7 @@ Static void prefixedcommand(void) {
                 define(p, UNDEFINED_CS, 0);
                 FREE_AVAIL(defref);
             } else {
-                if (p == outputroutineloc) {
+                if (p == OUTPUT_ROUTINE_LOC) {
                     // enclose in curlies
                     link(q) = get_avail();
                     q = link(q);
@@ -11518,11 +11518,11 @@ Static void prefixedcommand(void) {
         /// [#1232]
         case DEF_CODE:
             /// [#1233] Let n be the largest legal code value, based on cur_chr.
-            if (curchr == catcodebase) {
+            if (curchr == CAT_CODE_BASE) {
                 n = MAX_CHAR_CODE;
-            } else if (curchr == mathcodebase) {
+            } else if (curchr == MATH_CODE_BASE) {
                 n = 32768L;
-            } else if (curchr == sfcodebase) {
+            } else if (curchr == SF_CODE_BASE) {
                 n = 32767;
             } else if (curchr == delcodebase) {
                 n = 16777215L;
@@ -11549,7 +11549,7 @@ Static void prefixedcommand(void) {
                 error();
                 cur_val = 0;
             }
-            if (p < mathcodebase) {
+            if (p < MATH_CODE_BASE) {
                 define(p, DATA, cur_val);
             } else if (p < delcodebase) {
                 define(p, DATA, cur_val);
@@ -11621,7 +11621,7 @@ Static void prefixedcommand(void) {
                     mem[p + j * 2 - MEM_MIN].sc = cur_val; // width
                 }
             }
-            define(parshapeloc, SHAPE_REF, p);
+            define(PAR_SHAPE_LOC, SHAPE_REF, p);
             break;
 
         /// [#1252]
@@ -12951,13 +12951,13 @@ _LN_main_control__reswitch:
         case M_MODE + LETTER:
         case M_MODE + OTHER_CHAR:
         case M_MODE + CHAR_GIVEN:
-            setmathchar(mathcode(curchr));
+            setmathchar(math_code(curchr));
             break;
 
         case M_MODE + CHAR_NUM:
             scan_char_num();
             curchr = cur_val;
-            setmathchar(mathcode(curchr));
+            setmathchar(math_code(curchr));
             break;
 
         case M_MODE + MATH_CHAR_NUM:
@@ -13207,7 +13207,7 @@ _Lmainloop:
     // goto `_reswitch`
     //      when a non-character has been fetched
     adjustspacefactor();
-    mainf = curfont;
+    mainf = cur_font;
     bchar = fontbchar[mainf];
     falsebchar = fontfalsebchar[mainf];
     if (mode > 0) {
@@ -13393,18 +13393,18 @@ _Lappendnormalspace_:
     // #1041: Append a normal inter-word space to the current list, 
     // then goto big switch
     if (spaceskip == zeroglue) { /*1042:*/
-        mainp = fontglue[curfont];
+        mainp = fontglue[cur_font];
         if (mainp == 0) { /*:1042*/
             FontIndex mmaink;
             mainp = newspec(zeroglue);
-            mmaink = parambase[curfont] + SPACE_CODE;
+            mmaink = parambase[cur_font] + SPACE_CODE;
     #if 1
             maink = mmaink;
     #endif
             width(mainp) = fontinfo[mmaink].sc;
             stretch(mainp) = fontinfo[mmaink + 1].sc;
             shrink(mainp) = fontinfo[mmaink + 2].sc;
-            fontglue[curfont] = mainp;
+            fontglue[cur_font] = mainp;
         }
         temp_ptr = newglue(mainp);
     } else
@@ -13857,15 +13857,15 @@ Static void init_prim(void) {
     primitive(S(358), ASSIGN_MU_GLUE, GLUE_BASE + THICK_MU_SKIP_CODE);
     /*:226*/
     /*230:*/
-    primitive(S(1026), ASSIGN_TOKS, outputroutineloc);
-    primitive(S(1027), ASSIGN_TOKS, everyparloc);
-    primitive(S(1028), ASSIGN_TOKS, everymathloc);
-    primitive(S(1029), ASSIGN_TOKS, everydisplayloc);
-    primitive(S(1030), ASSIGN_TOKS, everyhboxloc);
-    primitive(S(1031), ASSIGN_TOKS, everyvboxloc);
-    primitive(S(1032), ASSIGN_TOKS, everyjobloc);
-    primitive(S(1033), ASSIGN_TOKS, everycrloc);
-    primitive(S(1034), ASSIGN_TOKS, errhelploc); /*:230*/
+    primitive(S(1026), ASSIGN_TOKS, OUTPUT_ROUTINE_LOC);
+    primitive(S(1027), ASSIGN_TOKS, EVERY_PAR_LOC);
+    primitive(S(1028), ASSIGN_TOKS, EVERY_MATH_LOC);
+    primitive(S(1029), ASSIGN_TOKS, EVERY_DISPLAY_LOC);
+    primitive(S(1030), ASSIGN_TOKS, EVERY_HBOX_LOC);
+    primitive(S(1031), ASSIGN_TOKS, EVERY_VBOX_LOC);
+    primitive(S(1032), ASSIGN_TOKS, EVERY_JOB_LOC);
+    primitive(S(1033), ASSIGN_TOKS, EVERY_CR_LOC);
+    primitive(S(1034), ASSIGN_TOKS, ERR_HELP_LOC); /*:230*/
     /*238:*/
     primitive(S(1035), ASSIGN_INT, INT_BASE);
     primitive(S(1036), ASSIGN_INT, INT_BASE + tolerancecode);
@@ -14184,15 +14184,15 @@ Static void init_prim(void) {
     primitive(S(1237), SHORTHAND_DEF, muskipdefcode);
     primitive(S(1238), SHORTHAND_DEF, toksdefcode); /*:1222*/
     /*1230:*/
-    primitive(S(467), DEF_CODE, catcodebase);
-    primitive(S(471), DEF_CODE, mathcodebase);
-    primitive(S(468), DEF_CODE, lccodebase);
-    primitive(S(469), DEF_CODE, uccodebase);
-    primitive(S(470), DEF_CODE, sfcodebase);
+    primitive(S(467), DEF_CODE, CAT_CODE_BASE);
+    primitive(S(471), DEF_CODE, MATH_CODE_BASE);
+    primitive(S(468), DEF_CODE, LC_CODE_BASE);
+    primitive(S(469), DEF_CODE, UC_CODE_BASE);
+    primitive(S(470), DEF_CODE, SF_CODE_BASE);
     primitive(S(473), DEF_CODE, delcodebase);
-    primitive(S(266), DEF_FAMILY, mathfontbase);
-    primitive(S(267), DEF_FAMILY, mathfontbase + SCRIPT_SIZE);
-    primitive(S(268), DEF_FAMILY, mathfontbase + SCRIPT_SCRIPT_SIZE);
+    primitive(S(266), DEF_FAMILY, MATH_FONT_BASE);
+    primitive(S(267), DEF_FAMILY, MATH_FONT_BASE + SCRIPT_SIZE);
+    primitive(S(268), DEF_FAMILY, MATH_FONT_BASE + SCRIPT_SCRIPT_SIZE);
     /*:1230*/
     /*1250:*/
     primitive(S(787), HYPH_DATA, 0);
@@ -14212,8 +14212,8 @@ Static void init_prim(void) {
     primitive(S(1244), MESSAGE, 0);
     primitive(S(1245), MESSAGE, 1); /*:1277*/
     /*1286:*/
-    primitive(S(1246), CASE_SHIFT, lccodebase);
-    primitive(S(1247), CASE_SHIFT, uccodebase); /*:1286*/
+    primitive(S(1246), CASE_SHIFT, LC_CODE_BASE);
+    primitive(S(1247), CASE_SHIFT, UC_CODE_BASE); /*:1286*/
     /*1291:*/
     primitive(S(1248), XRAY, showcode);
     primitive(S(1249), XRAY, showboxcode);
@@ -14485,65 +14485,65 @@ Static void initialize(void) {
 
         // [#232]
         parshapeptr = 0;
-        eq_type(parshapeloc) = SHAPE_REF;
-        eq_level(parshapeloc) = LEVEL_ONE;
-        for (k = outputroutineloc; k <= toksbase + 255; k++)
+        eq_type(PAR_SHAPE_LOC) = SHAPE_REF;
+        eq_level(PAR_SHAPE_LOC) = LEVEL_ONE;
+        for (k = OUTPUT_ROUTINE_LOC; k <= TOKS_BASE + 255; k++)
             eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
         box(0) = 0;
-        eq_type(boxbase) = BOX_REF;
-        eq_level(boxbase) = LEVEL_ONE;
-        for (k = boxbase + 1; k <= boxbase + 255; k++)
-            eqtb[k - ACTIVE_BASE] = eqtb[boxbase - ACTIVE_BASE];
-        curfont = NULL_FONT;
-        eq_type(curfontloc) = DATA;
-        eq_level(curfontloc) = LEVEL_ONE;
-        for (k = mathfontbase; k <= mathfontbase + 47; k++)
-            eqtb[k - ACTIVE_BASE] = eqtb[curfontloc - ACTIVE_BASE];
+        eq_type(BOX_BASE) = BOX_REF;
+        eq_level(BOX_BASE) = LEVEL_ONE;
+        for (k = BOX_BASE + 1; k <= BOX_BASE + 255; k++)
+            eqtb[k - ACTIVE_BASE] = eqtb[BOX_BASE - ACTIVE_BASE];
+        cur_font = NULL_FONT;
+        eq_type(CUR_FONT_LOC) = DATA;
+        eq_level(CUR_FONT_LOC) = LEVEL_ONE;
+        for (k = MATH_FONT_BASE; k <= MATH_FONT_BASE + 47; k++)
+            eqtb[k - ACTIVE_BASE] = eqtb[CUR_FONT_LOC - ACTIVE_BASE];
         
-        equiv(catcodebase) = 0;
-        eq_type(catcodebase) = DATA;
-        eq_level(catcodebase) = LEVEL_ONE;
-        for (k = catcodebase + 1; k < INT_BASE; k++) {
-            eqtb[k - ACTIVE_BASE] = eqtb[catcodebase - ACTIVE_BASE];
+        equiv(CAT_CODE_BASE) = 0;
+        eq_type(CAT_CODE_BASE) = DATA;
+        eq_level(CAT_CODE_BASE) = LEVEL_ONE;
+        for (k = CAT_CODE_BASE + 1; k < INT_BASE; k++) {
+            eqtb[k - ACTIVE_BASE] = eqtb[CAT_CODE_BASE - ACTIVE_BASE];
         }
 
         // CatCode init
         for (k = 0; k <= 255; k++) {
-            catcode(k) = OTHER_CHAR; // 默认值 cat_12
-            mathcode(k) = k;
-            sfcode(k) = 1000;
+            cat_code(k) = OTHER_CHAR; // 默认值 cat_12
+            math_code(k) = k;
+            sf_code(k) = 1000;
         }
-        catcode('\\') = ESCAPE;
+        cat_code('\\') = ESCAPE;
         // TODO: 为什么忽略了一部分 catcode？
         // ? cat_1 LEFT_BRACE
         // ? cat_2 RIGHT_BRACE
         // ? cat_3 MATH_SHIFT
         // ? cat_4 TAB_MARK
-        catcode(CARRIAGE_RETURN) = CAR_RET; // cat_5
+        cat_code(CARRIAGE_RETURN) = CAR_RET; // cat_5
         // ? cat_6 MAC_PARAM
         // ? cat_7 SUP_MARK
         // ? cat_8 SUB_MARK
-        catcode(NULL_CODE) = IGNORE; // cat_9
-        catcode(' ') = SPACER; // cat_10
+        cat_code(NULL_CODE) = IGNORE; // cat_9
+        cat_code(' ') = SPACER; // cat_10
         // cat_11 见下方
         // cat_12 为默认值
         // ? cat_13
-        catcode('%') = COMMENT; // cat_14
-        catcode(INVALID_CODE) = INVALID_CHAR; // cat_15
+        cat_code('%') = COMMENT; // cat_14
+        cat_code(INVALID_CODE) = INVALID_CHAR; // cat_15
         
         for (k = '0'; k <= '9'; k++) {
-            mathcode(k) = k + varcode;
+            math_code(k) = k + VAR_CODE;
         }
         for (k = 'A'; k <= 'Z'; k++) {
-            catcode(k) = LETTER; // cat_11
-            catcode(k + 'a' - 'A') = LETTER;
-            mathcode(k) = k + varcode + 256;
-            mathcode(k + 'a' - 'A') = k + 'a' - 'A' + varcode + 256;
-            lccode(k) = k + 'a' - 'A';
-            lccode(k + 'a' - 'A') = k + 'a' - 'A';
-            uccode(k) = k;
-            uccode(k + 'a' - 'A') = k;
-            sfcode(k) = 999;
+            cat_code(k) = LETTER; // cat_11
+            cat_code(k + 'a' - 'A') = LETTER;
+            math_code(k) = k + VAR_CODE + 256;
+            math_code(k + 'a' - 'A') = k + 'a' - 'A' + VAR_CODE + 256;
+            lc_code(k) = k + 'a' - 'A';
+            lc_code(k + 'a' - 'A') = k + 'a' - 'A';
+            uc_code(k) = k;
+            uc_code(k + 'a' - 'A') = k;
+            sf_code(k) = 999;
         } // for (k = 'A'; k <= 'Z'; k++)
 
         // #240
@@ -14717,7 +14717,7 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     }
 
     /// [#1337]
-    if ((LOC < LIMIT) && (catcode(buffer[LOC]) != ESCAPE)) {
+    if ((LOC < LIMIT) && (cat_code(buffer[LOC]) != ESCAPE)) {
         startinput(); // \input assumed
     }
 

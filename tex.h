@@ -11,10 +11,6 @@
 #define dwa_do_8  ((int)16*1024*1024)
 
 
-/// [#232]
-#define varcode         28672
-#define NULL_FONT       0
-
 #define defaultcode     1073741824L
 #define awfulbad        1073741823L
 #define boxflag         1073741824L
@@ -116,33 +112,54 @@ typedef enum _FrozenControlSeq {
 /// [p83#224] beginning of [region 4].
 #define LOCAL_BASE      (MU_SKIP_BASE + 256)
 // [p87#230]
-#define parshapeloc     LOCAL_BASE
-#define outputroutineloc  (LOCAL_BASE + 1)
-#define everyparloc     (LOCAL_BASE + 2)
-#define everymathloc    (LOCAL_BASE + 3)
-#define everydisplayloc  (LOCAL_BASE + 4)
-#define everyhboxloc    (LOCAL_BASE + 5)
-#define everyvboxloc    (LOCAL_BASE + 6)
-#define everyjobloc     (LOCAL_BASE + 7)
-#define everycrloc      (LOCAL_BASE + 8)
-#define errhelploc      (LOCAL_BASE + 9)
-#define toksbase        (LOCAL_BASE + 10)
+typedef enum _TokenListLoc {
+    /// specifies paragraph shape.
+    PAR_SHAPE_LOC = LOCAL_BASE,
 
-#define boxbase         (toksbase + 256)
-#define curfontloc      (boxbase + 256)
-#define mathfontbase    (curfontloc + 1)
-#define catcodebase     (mathfontbase + 48)
-#define lccodebase      (catcodebase + 256)
-#define uccodebase      (lccodebase + 256)
-#define sfcodebase      (uccodebase + 256)
-#define mathcodebase    (sfcodebase + 256)
+    OUTPUT_ROUTINE_LOC, ///< points to token list for \\output.
+    EVERY_PAR_LOC,      ///< points to token list for \\everypar.
+    EVERY_MATH_LOC,     ///< points to token list for \\everymath.
+    EVERY_DISPLAY_LOC,  ///< points to token list for \\everydisplay.
+    EVERY_HBOX_LOC,     ///< points to token list for \\everyhbox.
+
+    EVERY_VBOX_LOC, ///< points to token list for \\everyvbox.
+    EVERY_JOB_LOC,  ///< points to token list for \\everyjob.
+    EVERY_CR_LOC,   ///< points to token list for \\everycr.
+    ERR_HELP_LOC,   ///< points to token list for \\errhelp.
+
+    /// table of 256 token list registers.
+    TOKS_BASE,
+} TokenListLoc;
+
+/// [p87#230] table of 256 box registers.
+#define BOX_BASE        (TOKS_BASE + 256)
+/// [p87#230] internal font number outside math mode.
+#define CUR_FONT_LOC    (BOX_BASE + 256)
+/// [p87#230] table of 48 math font numbers.
+#define MATH_FONT_BASE  (CUR_FONT_LOC + 1)
+/// [p87#230]  table of 256 command codes (the “catcodes”).
+#define CAT_CODE_BASE   (MATH_FONT_BASE + 48)
+/// [p87#230] table of 256 lowercase mappings.
+#define LC_CODE_BASE    (CAT_CODE_BASE + 256)
+/// [p87#230] table of 256 uppercase mappings.
+#define UC_CODE_BASE    (LC_CODE_BASE + 256)
+/// [p87#230] table of 256 spacefactor mappings.
+#define SF_CODE_BASE    (UC_CODE_BASE + 256)
+/// [p87#230] table of 256 math mode mappings.
+#define MATH_CODE_BASE  (SF_CODE_BASE + 256)
+
+/// [#232]
+#define NULL_FONT       FONT_BASE
+/// [#232] math code meaning “use the current family”
+#define VAR_CODE        28672
+
 
 /** [p87#230] [region 5] eqtb[INT_BASE, (DIMEN_BASE - 1)] holds
  *  current equivalents of fullword integer parameters like
  *  the current hyphenation penalty.
  */
 /// [p87#230] beginning of [region 5].
-#define INT_BASE         (mathcodebase + 256)
+#define INT_BASE         (MATH_CODE_BASE + 256)
 /** @}*/ // end group S220x255_P81x101
 /// [p92#236]
 #define countbase       (INT_BASE + intpars)

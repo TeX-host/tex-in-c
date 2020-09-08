@@ -128,23 +128,42 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
                 print_int(chrcode - MU_SKIP_BASE);
             }
             break;
-            /*231:*/
-        case ASSIGN_TOKS: /*:231*/
-            if (chrcode >= toksbase) {
-                print_esc(S(463));
-                print_int(chrcode - toksbase);
+
+        /// [988#231]
+        case ASSIGN_TOKS:
+            if (chrcode >= TOKS_BASE) {
+                #ifndef USE_REAL_STR
+                    print_esc(S(463));
+                #else
+                    print_esc_str("toks");
+                #endif /* USE_REAL_STR */
+                print_int(chrcode - TOKS_BASE);
             } else {
-                switch (chrcode) {
-                    case outputroutineloc: print_esc(S(1026)); break;
-                    case everyparloc: print_esc(S(1027)); break;
-                    case everymathloc: print_esc(S(1028)); break;
-                    case everydisplayloc: print_esc(S(1029)); break;
-                    case everyhboxloc: print_esc(S(1030)); break;
-                    case everyvboxloc: print_esc(S(1031)); break;
-                    case everyjobloc: print_esc(S(1032)); break;
-                    case everycrloc: print_esc(S(1033)); break;
-                    default: print_esc(S(1034)); break;
-                }
+                #ifndef USE_REAL_STR
+                    switch (chrcode) {
+                        case OUTPUT_ROUTINE_LOC: print_esc(S(1026)); break;
+                        case EVERY_PAR_LOC: print_esc(S(1027)); break;
+                        case EVERY_MATH_LOC: print_esc(S(1028)); break;
+                        case EVERY_DISPLAY_LOC: print_esc(S(1029)); break;
+                        case EVERY_HBOX_LOC: print_esc(S(1030)); break;
+                        case EVERY_VBOX_LOC: print_esc(S(1031)); break;
+                        case EVERY_JOB_LOC: print_esc(S(1032)); break;
+                        case EVERY_CR_LOC: print_esc(S(1033)); break;
+                        default: print_esc(S(1034)); break;
+                    }
+                #else
+                    switch (chrcode) {
+                        case OUTPUT_ROUTINE_LOC: print_esc_str("output"); break;
+                        case EVERY_PAR_LOC: print_esc_str("everypar"); break;
+                        case EVERY_MATH_LOC: print_esc_str("everymath"); break;
+                        case EVERY_DISPLAY_LOC: print_esc_str("everydisplay"); break;
+                        case EVERY_HBOX_LOC: print_esc_str("everyhbox"); break;
+                        case EVERY_VBOX_LOC: print_esc_str("everyvbox"); break;
+                        case EVERY_JOB_LOC: print_esc_str("everyjob"); break;
+                        case EVERY_CR_LOC: print_esc_str("everycr"); break;
+                        default: print_esc_str("errhelp"); break;
+                    }
+                #endif /* USE_REAL_STR */
             }
             break;
             /*239:*/
@@ -543,21 +562,21 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             /*:1223*/
             /*1231:*/
         case DEF_CODE:
-            if (chrcode == catcodebase)
+            if (chrcode == CAT_CODE_BASE)
                 print_esc(S(467));
-            else if (chrcode == mathcodebase)
+            else if (chrcode == MATH_CODE_BASE)
                 print_esc(S(471));
-            else if (chrcode == lccodebase)
+            else if (chrcode == LC_CODE_BASE)
                 print_esc(S(468));
-            else if (chrcode == uccodebase)
+            else if (chrcode == UC_CODE_BASE)
                 print_esc(S(469));
-            else if (chrcode == sfcodebase)
+            else if (chrcode == SF_CODE_BASE)
                 print_esc(S(470));
             else
                 print_esc(S(473));
             break;
         case DEF_FAMILY: /*:1231*/
-            print_size(chrcode - mathfontbase);
+            print_size(chrcode - MATH_FONT_BASE);
             break;
             /*1251:*/
         case HYPH_DATA: /*:1251*/
@@ -609,7 +628,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
             break;
             /*1287:*/
         case CASE_SHIFT: /*:1287*/
-            if (chrcode == lccodebase)
+            if (chrcode == LC_CODE_BASE)
                 print_esc(S(1246));
             else
                 print_esc(S(1247));
