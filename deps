@@ -11,17 +11,17 @@ inputln.o: inputln.c tex.h tex_types.h tex_constant.h global.h str.h \
  global_const.h scan.h lexer.h texfunc.h error.h inputln.h
 texmath.o: texmath.c texmath.h tex_types.h texfunc.h str.h global_const.h
 str.o: str.c global_const.h tex.h tex_types.h tex_constant.h macros.h \
- texfunc.h str.h error.h hash.h
+ texfunc.h str.h error.h hash.h fonts.h
 printout.o: printout.c tex.h tex_types.h tex_constant.h str.h \
  global_const.h fonts.h texfunc.h texmath.h texmac.h expand.h scan.h \
  lexer.h print.h printout.h
 print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
  texmac.h str.h global.h scan.h lexer.h inputln.h error.h
 hash.o: hash.c texmac.h global.h str.h global_const.h tex_types.h scan.h \
- lexer.h tex.h tex_constant.h error.h print.h hash.h
+ lexer.h tex.h tex_constant.h error.h print.h hash.h fonts.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h str.h \
  global_const.h global.h scan.h lexer.h texfunc.h printout.h pure_func.h \
- macros.h inputln.h funcs.h expand.h error.h hash.h
+ macros.h inputln.h funcs.h expand.h error.h hash.h fonts.h
 fonts.o: fonts.c tex.h tex_types.h tex_constant.h macros.h str.h \
  global_const.h funcs.h error.h lexer.h global.h scan.h fonts.h texfunc.h \
  texmath.h hash.h print.h texmac.h

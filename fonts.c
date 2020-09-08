@@ -9,7 +9,7 @@
 #include "error.h"  // [func] error, print_err,
 #include "lexer.h"  // curcmd
 #include "global.h" // eqtb
-#include "fonts.h"  // [export], [func] fontidtext
+#include "fonts.h"  // [export]
 #include "texfunc.h"
     // [func] print_*,
     //  packfilename, error,
@@ -18,7 +18,7 @@
 #include "texmath.h"
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
-#include "hash.h" // [func] sprint_cs
+#include "hash.h" // [func] sprint_cs, fontidtext
 #include "print.h"
 
 

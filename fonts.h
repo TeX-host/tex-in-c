@@ -67,7 +67,5 @@ extern Integer ligkernbase[FONT_MAX + 1]; // texmac
 extern Integer extenbase[FONT_MAX + 1];
 extern Integer parambase[FONT_MAX + 1];
 
-// [tex], fonts
-extern StrNumber fontidtext(InternalFontNumber x);
 
 #endif // #ifndef FONTS_H

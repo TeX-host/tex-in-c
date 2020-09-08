@@ -4,25 +4,19 @@
 #define INC_HASH_H
 #include "tex.h"
 #include "str.h"
-
-
-/** @addtogroup S256x267_P102x108
- * @{
- */
-/// [p102#256] link for coalesced lists
-#define next(x)         hash[x - HASH_BASE].UU.lh
-/// [p102#256] string number for control sequence name
-#define text(x)         hash[x - HASH_BASE].rh
-/// [p102#256] test if all positions are occupied
-#define hash_is_full    (hash_used == HASH_BASE)
-/** @}*/ // end group S256x267_P102x108
+#include "fonts.h" // InternalFontNumber
 
 
 extern TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - HASH_BASE];
 extern Pointer hash_used;
 extern Integer cs_count;
 
-
+extern void hash_var_init();
+extern void hash_init();
+extern StrNumber get_text(size_t x);
+extern void set_text(size_t x, StrNumber s);
+extern StrNumber fontidtext(InternalFontNumber x);
+extern void set_fontidtext(InternalFontNumber x, StrNumber s);
 extern HalfWord idlookup_p(ASCIICode buf_ptr[], Integer len, Boolean no_new_cs);
 extern void print_cs(long p);
 extern void sprint_cs(Pointer p);

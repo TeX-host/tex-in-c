@@ -9,12 +9,50 @@
 /** @addtogroup S256x267_P102x108
  * @{
  */
+/// [p102#256] link for coalesced lists
+#define next(x)         hash[x - HASH_BASE].UU.lh
+/// [p102#256] string number for control sequence name
+#define text(x)         hash[x - HASH_BASE].rh
+/// [p102#256] test if all positions are occupied
+#define hash_is_full    (hash_used == HASH_BASE)
+
+
 /// [#256]
 TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - HASH_BASE]; // hash table
 Pointer hash_used; // allocation pointer for hash
 // ? no_new_control_sequence // are new identifiers legal?
 Integer cs_count; // total number of known identifiers
 
+
+/// [#257]
+void hash_var_init() {
+    next(HASH_BASE) = 0;
+    text(HASH_BASE) = 0;
+    for (size_t k = HASH_BASE + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
+        hash[k - HASH_BASE] = hash[0];
+    }
+}
+
+/// [#258]
+void hash_init() {
+    hash_used = FROZEN_CONTROL_SEQUENCE; // nothing is used
+    cs_count = 0;
+    eq_type(FROZEN_DONT_EXPAND) = DONT_EXPAND;
+    text(FROZEN_DONT_EXPAND) = S(257);
+}
+
+
+StrNumber get_text(size_t x) { return text(x); }
+void set_text(size_t x, StrNumber s) { text(x) = s; }
+
+/// [#256] a frozen font identifier’s name
+StrNumber fontidtext(InternalFontNumber x) {
+    return get_text(FONT_ID_BASE + x);
+}
+
+void set_fontidtext(InternalFontNumber x, StrNumber s) {
+    set_text(FONT_ID_BASE + x, s);
+}
 
 /** [#259] search the hash table.
  *
