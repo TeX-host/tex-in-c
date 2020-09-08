@@ -91,7 +91,7 @@ typedef enum _FrozenControlSeq {
 #define UNDEFINED_CONTROL_SEQUENCE  (FROZEN_NULL_FONT + 257)
 
 
-/** [p82#222] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
+/** [p83#224] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
  *  current equivalents of glue parameters like the current baselineskip.
  */
 /// [p82#222] beginning of region 3
@@ -102,7 +102,7 @@ typedef enum _FrozenControlSeq {
 #define MU_SKIP_BASE    (SKIP_BASE + 256)
 
 
-/** [p82#222] [region 4] eqtb[GLUE_BASE, (LOCAL_BASE - 1)] holds
+/** [p87#230] [region 4] eqtb[GLUE_BASE, (LOCAL_BASE - 1)] holds
  *  current equivalents of local halfword quantities like
  *  + the current box registers,
  *  + the current “catcodes,”
@@ -154,7 +154,7 @@ typedef enum _TokenListLoc {
 #define VAR_CODE        28672
 
 
-/** [p87#230] [region 5] eqtb[INT_BASE, (DIMEN_BASE - 1)] holds
+/** [p91#236] [region 5] eqtb[INT_BASE, (DIMEN_BASE - 1)] holds
  *  current equivalents of fullword integer parameters like
  *  the current hyphenation penalty.
  */
@@ -166,7 +166,7 @@ typedef enum _TokenListLoc {
 #define DEL_CODE_BASE   (COUNT_BASE + 256)
 
 
-/** [p92#236] [region 6] eqtb[DIMEN_BASE, EQTB_SIZE] holds
+/** [p99#247] [region 6] eqtb[DIMEN_BASE, EQTB_SIZE] holds
  *  current equivalents of fullword dimension parameters like
  *  the current hsize or amount of hanging indentation.
  */
