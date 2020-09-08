@@ -357,11 +357,12 @@
 /** @addtogroup S256x267_P102x108
  * @{
  */
-
-/// [p102#256]
-#define next(x)    hash[x-HASH_BASE].UU.lh /* link for coalesced lists}*/
-#define text(x)    hash[x-HASH_BASE].rh /* string number for control sequence name}*/
-#define hashisfull (hash_used == HASH_BASE)
+/// [p102#256] link for coalesced lists
+#define next(x)         hash[x - HASH_BASE].UU.lh
+/// [p102#256] string number for control sequence name
+#define text(x)         hash[x - HASH_BASE].rh
+/// [p102#256] test if all positions are occupied
+#define hash_is_full    (hash_used == HASH_BASE)
 /** @}*/ // end group S256x267_P102x108
 
 
