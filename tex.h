@@ -72,9 +72,9 @@ typedef enum _EqLevel {
 #define FROZEN_NULL_FONT              (frozencontrolsequence + 10)
 #define fontidbase                  (FROZEN_NULL_FONT)
 #define UNDEFINED_CONTROL_SEQUENCE    (FROZEN_NULL_FONT + 257)
-#define gluebase                    (UNDEFINED_CONTROL_SEQUENCE + 1)
+#define GLUE_BASE                   (UNDEFINED_CONTROL_SEQUENCE + 1)
 
-#define skipbase        (gluebase + GLUE_PARS)
+#define skipbase        (GLUE_BASE + GLUE_PARS)
 #define muskipbase      (skipbase + 256)
 #define localbase       (muskipbase + 256)
 

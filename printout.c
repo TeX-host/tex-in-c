@@ -119,7 +119,7 @@ void printcmdchr(QuarterWord cmd, HalfWord chrcode) {
         case ASSIGN_GLUE:
         case ASSIGN_MU_GLUE: /*:227*/
             if (chrcode < skipbase)
-                print_skip_param(chrcode - gluebase);
+                print_skip_param(chrcode - GLUE_BASE);
             else if (chrcode < muskipbase) {
                 print_esc(S(460));
                 print_int(chrcode - skipbase);

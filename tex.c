@@ -503,7 +503,7 @@ Static Pointer newparamglue(SmallNumber n) {
     type(p) = GLUE_NODE;
     subtype(p) = n + 1;
     leaderptr(p) = 0;
-    q = gluepar(n); /*224:*/
+    q = glue_par(n); /*224:*/
     /*:224*/
     glueptr(p) = q;
     (gluerefcount(q))++;
@@ -529,7 +529,7 @@ Static Pointer newglue(Pointer q) {
 Static Pointer newskipparam(SmallNumber n) {
     Pointer p;
 
-    temp_ptr = newspec(gluepar(n)); /*224:*/
+    temp_ptr = newspec(glue_par(n)); /*224:*/
     /*:224*/
     p = newglue(temp_ptr);
     gluerefcount(temp_ptr) = 0;
@@ -1877,7 +1877,7 @@ Static void showeqtb(HalfWord n) {
         print_char('?');
         return;
     }
-    if (n < gluebase) {
+    if (n < GLUE_BASE) {
         /*223:*/
         sprint_cs(n);
         print_char('=');
@@ -1890,9 +1890,9 @@ Static void showeqtb(HalfWord n) {
     }                    /*:223*/
     if (n < localbase) { /*229:*/
         if (n < skipbase) {
-            print_skip_param(n - gluebase);
+            print_skip_param(n - GLUE_BASE);
             print_char('=');
-            if (n < gluebase + THIN_MU_SKIP_CODE)
+            if (n < GLUE_BASE + THIN_MU_SKIP_CODE)
                 printspec(equiv(n), S(459));
             else
                 printspec(equiv(n), S(390));
@@ -5351,7 +5351,7 @@ Static void mlisttohlist(void) {
                     break;
             }
             if (x != 0) {
-                y = mathglue(gluepar(x), curmu);
+                y = mathglue(glue_par(x), curmu);
                 z = newglue(y);
                 gluerefcount(y) = 0;
                 link(p) = z;
@@ -5443,13 +5443,13 @@ _Lrestart:
     }
     // "(interwoven alignment preambles are not allowed)"
     if (curcmd == ENDV) fatalerror(S(509));
-    if (curcmd != ASSIGN_GLUE || curchr != gluebase + TAB_SKIP_CODE) return;
+    if (curcmd != ASSIGN_GLUE || curchr != GLUE_BASE + TAB_SKIP_CODE) return;
     scan_optional_equals();
     scan_glue(GLUE_VAL);
     if (globaldefs > 0)
-        geqdefine(gluebase + TAB_SKIP_CODE, GLUE_REF, cur_val);
+        geqdefine(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
     else
-        eqdefine(gluebase + TAB_SKIP_CODE, GLUE_REF, cur_val);
+        eqdefine(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
     goto _Lrestart;
 }
 /*:782*/
@@ -13811,24 +13811,24 @@ Static void final_cleanup(void) {
 /// p468#1336: initialize all the primitives
 Static void init_prim(void) {
     /*226:*/
-    primitive(S(341), ASSIGN_GLUE, gluebase);
-    primitive(S(342), ASSIGN_GLUE, gluebase + BASELINE_SKIP_CODE);
-    primitive(S(343), ASSIGN_GLUE, gluebase + PAR_SKIP_CODE);
-    primitive(S(344), ASSIGN_GLUE, gluebase + ABOVE_DISPLAY_SKIP_CODE);
-    primitive(S(345), ASSIGN_GLUE, gluebase + BELOW_DISPLAY_SKIP_CODE);
-    primitive(S(346), ASSIGN_GLUE, gluebase + ABOVE_DISPLAY_SHORT_SKIP_CODE);
-    primitive(S(347), ASSIGN_GLUE, gluebase + BELOW_DISPLAY_SHORT_SKIP_CODE);
-    primitive(S(348), ASSIGN_GLUE, gluebase + LEFT_SKIP_CODE);
-    primitive(S(349), ASSIGN_GLUE, gluebase + RIGHT_SKIP_CODE);
-    primitive(S(350), ASSIGN_GLUE, gluebase + TOP_SKIP_CODE);
-    primitive(S(351), ASSIGN_GLUE, gluebase + SPLIT_TOP_SKIP_CODE);
-    primitive(S(352), ASSIGN_GLUE, gluebase + TAB_SKIP_CODE);
-    primitive(S(353), ASSIGN_GLUE, gluebase + SPACE_SKIP_CODE);
-    primitive(S(354), ASSIGN_GLUE, gluebase + XSPACE_SKIP_CODE);
-    primitive(S(355), ASSIGN_GLUE, gluebase + PAR_FILL_SKIP_CODE);
-    primitive(S(356), ASSIGN_MU_GLUE, gluebase + THIN_MU_SKIP_CODE);
-    primitive(S(357), ASSIGN_MU_GLUE, gluebase + MED_MU_SKIP_CODE);
-    primitive(S(358), ASSIGN_MU_GLUE, gluebase + THICK_MU_SKIP_CODE);
+    primitive(S(341), ASSIGN_GLUE, GLUE_BASE);
+    primitive(S(342), ASSIGN_GLUE, GLUE_BASE + BASELINE_SKIP_CODE);
+    primitive(S(343), ASSIGN_GLUE, GLUE_BASE + PAR_SKIP_CODE);
+    primitive(S(344), ASSIGN_GLUE, GLUE_BASE + ABOVE_DISPLAY_SKIP_CODE);
+    primitive(S(345), ASSIGN_GLUE, GLUE_BASE + BELOW_DISPLAY_SKIP_CODE);
+    primitive(S(346), ASSIGN_GLUE, GLUE_BASE + ABOVE_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(347), ASSIGN_GLUE, GLUE_BASE + BELOW_DISPLAY_SHORT_SKIP_CODE);
+    primitive(S(348), ASSIGN_GLUE, GLUE_BASE + LEFT_SKIP_CODE);
+    primitive(S(349), ASSIGN_GLUE, GLUE_BASE + RIGHT_SKIP_CODE);
+    primitive(S(350), ASSIGN_GLUE, GLUE_BASE + TOP_SKIP_CODE);
+    primitive(S(351), ASSIGN_GLUE, GLUE_BASE + SPLIT_TOP_SKIP_CODE);
+    primitive(S(352), ASSIGN_GLUE, GLUE_BASE + TAB_SKIP_CODE);
+    primitive(S(353), ASSIGN_GLUE, GLUE_BASE + SPACE_SKIP_CODE);
+    primitive(S(354), ASSIGN_GLUE, GLUE_BASE + XSPACE_SKIP_CODE);
+    primitive(S(355), ASSIGN_GLUE, GLUE_BASE + PAR_FILL_SKIP_CODE);
+    primitive(S(356), ASSIGN_MU_GLUE, GLUE_BASE + THIN_MU_SKIP_CODE);
+    primitive(S(357), ASSIGN_MU_GLUE, GLUE_BASE + MED_MU_SKIP_CODE);
+    primitive(S(358), ASSIGN_MU_GLUE, GLUE_BASE + THICK_MU_SKIP_CODE);
     /*:226*/
     /*230:*/
     primitive(S(1026), ASSIGN_TOKS, outputroutineloc);
@@ -14447,12 +14447,12 @@ Static void initialize(void) {
             eqtb[k - activebase] = eqtb[UNDEFINED_CONTROL_SEQUENCE - activebase];
 
         /// #228
-        equiv(gluebase) = zeroglue;
-        eq_level(gluebase) = LEVEL_ONE;
-        eq_type(gluebase) = GLUE_REF;
-        for (k = gluebase + 1; k < localbase; k++)
-            eqtb[k - activebase] = eqtb[gluebase - activebase];
-        gluerefcount(zeroglue) += localbase - gluebase;
+        equiv(GLUE_BASE) = zeroglue;
+        eq_level(GLUE_BASE) = LEVEL_ONE;
+        eq_type(GLUE_BASE) = GLUE_REF;
+        for (k = GLUE_BASE + 1; k < localbase; k++)
+            eqtb[k - activebase] = eqtb[GLUE_BASE - activebase];
+        gluerefcount(zeroglue) += localbase - GLUE_BASE;
 
         // [#232]
         parshapeptr = 0;
