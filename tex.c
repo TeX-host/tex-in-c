@@ -716,7 +716,7 @@ Static void searchmem(Pointer p) {
     /*285:*/
     if (saveptr > 0) {                  /*933:*/
         for (q = 0; q < saveptr; q++) { /*:285*/
-            if (equivfield(savestack[q]) == p) {
+            if (equiv_field(savestack[q]) == p) {
                 printnl(S(326));
                 print_int(q);
                 print_char(')');
@@ -2149,16 +2149,16 @@ Static void eqdestroy(MemoryWord w) {
         case CALL:
         case LONG_CALL:
         case OUTER_CALL:
-        case LONG_OUTER_CALL: delete_token_ref(equivfield(w)); break;
+        case LONG_OUTER_CALL: delete_token_ref(equiv_field(w)); break;
 
-        case GLUE_REF: delete_glue_ref(equivfield(w)); break;
+        case GLUE_REF: delete_glue_ref(equiv_field(w)); break;
 
         case SHAPE_REF:
-            q = equivfield(w);
+            q = equiv_field(w);
             if (q != 0) freenode(q, info(q) + info(q) + 1);
             break;
 
-        case BOX_REF: flush_node_list(equivfield(w)); break;
+        case BOX_REF: flush_node_list(equiv_field(w)); break;
     }
 }
 /*:275*/
