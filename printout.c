@@ -11,6 +11,7 @@
 
 /// #247: 
 void printlengthparam(long n) {
+#ifndef USE_REAL_STR
     switch (n) {
         case parindentcode: print_esc(S(1089)); break;
         case mathsurroundcode: print_esc(S(1090)); break;
@@ -36,6 +37,33 @@ void printlengthparam(long n) {
 
         default: print(S(1254)); break;
     } // switch (n)
+#else
+    switch (n) {
+        case parindentcode: print_esc_str("parindent"); break;
+        case mathsurroundcode: print_esc_str("mathsurround"); break;
+        case lineskiplimitcode: print_esc_str("lineskiplimit"); break;
+        case hsizecode: print_esc_str("hsize"); break;
+        case vsizecode: print_esc_str("vsize"); break;
+        case maxdepthcode: print_esc_str("maxdepth"); break;
+        case splitmaxdepthcode: print_esc_str("splitmaxdepth"); break;
+        case boxmaxdepthcode: print_esc_str("boxmaxdepth"); break;
+        case hfuzzcode: print_esc_str("hfuzz"); break;
+        case vfuzzcode: print_esc_str("vfuzz"); break;
+        case delimitershortfallcode: print_esc_str("delimitershortfall"); break;
+        case nulldelimiterspacecode: print_esc_str("nulldelimiterspace"); break;
+        case scriptspacecode: print_esc_str("scriptspace"); break;
+        case predisplaysizecode: print_esc_str("predisplaysize"); break;
+        case displaywidthcode: print_esc_str("displaywidth"); break;
+        case displayindentcode: print_esc_str("displayindent"); break;
+        case overfullrulecode: print_esc_str("overfullrule"); break;
+        case hangindentcode: print_esc_str("hangindent"); break;
+        case hoffsetcode: print_esc_str("hoffset"); break;
+        case voffsetcode: print_esc_str("voffset"); break;
+        case emergencystretchcode: print_esc_str("emergencystretch"); break;
+
+        default: print_str("[unknown dimen parameter!]"); break;
+    } // switch (n)
+#endif /* USE_REAL_STR */
 } // #247: printlengthparam
 
 /// 237
