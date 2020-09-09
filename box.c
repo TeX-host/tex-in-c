@@ -5,78 +5,105 @@
 #include "box.h"
 
 
-/*136:*/
+/** @addtogroup S133x161_P50x57
+ * @{
+ */
+/** [#136]  creates a new box node.
+ *
+ * The #newnullbox function returns a pointer to an hlist_node
+ *  in which all subfields have the values corresponding
+ *  to ‘\hbox{}’.
+ * The subtype field is set to #MIN_QUARTER_WORD,
+ *  since that’s the desired span count value
+ *  if this hlist_node is changed to an unset_node.
+ */
 Pointer newnullbox(void) {
     Pointer p;
 
     p = get_node(boxnodesize);
     type(p) = HLIST_NODE;
     subtype(p) = MIN_QUARTER_WORD;
+
     width(p) = 0;
     depth(p) = 0;
     height(p) = 0;
     shiftamount(p) = 0;
-    listptr(p) = 0;
+    listptr(p) = null;
+
     gluesign(p) = NORMAL;
     glueorder(p) = NORMAL;
     glueset(p) = 0.0;
     return p;
 }
-/*:136*/
 
-/*139:*/
+/// [#139]
 Pointer newrule(void) {
-    Pointer p;
+    Pointer p; // the new node
 
     p = get_node(rulenodesize);
     type(p) = RULE_NODE;
-    subtype(p) = 0;
+    subtype(p) = 0; // the subtype is not used
+
     width(p) = nullflag;
     depth(p) = nullflag;
     height(p) = nullflag;
     return p;
 }
-/*:139*/
 
-/*144:*/
+/** [#144]
+ * creates a ligature node having given contents of the font,
+ *  character, and lig_ptr fields.
+ */
 Pointer newligature(QuarterWord f, QuarterWord c, Pointer q) {
     Pointer p;
 
     p = get_node(smallnodesize);
     type(p) = LIGATURE_NODE;
     font_ligchar(p) = f;
+
     character_ligchar(p) = c;
     ligptr(p) = q;
     subtype(p) = 0;
     return p;
 }
 
-
+/** [#144]
+ * returns a two-word node having a given character field.
+ * Such nodes are used for temporary processing as ligatures 
+ *  are being created.
+ */
 Pointer newligitem(QuarterWord c) {
     Pointer p;
 
     p = get_node(smallnodesize);
     character(p) = c;
-    ligptr(p) = 0;
+    ligptr(p) = null;
     return p;
 }
-/*:144*/
 
-/*145:*/
+/** [#145] creates an empty disc node.
+ *
+ */
 Pointer newdisc(void) {
     Pointer p;
 
     p = get_node(smallnodesize);
     type(p) = DISC_NODE;
     replacecount(p) = 0;
-    prebreak(p) = 0;
-    postbreak(p) = 0;
+    prebreak(p) = null;
+    postbreak(p) = null;
     return p;
 }
-/*:145*/
 
-/*147:*/
-Pointer newmath(long w, SmallNumber s) {
+/** [#147]
+ * A math node, which occurs only in horizontal lists, 
+ *  appears before and after mathematical formulas.
+ * The subtype field is before before the formula and 
+ *  after after it. 
+ * There is a width field, which represents the amount of
+ *  surrounding space inserted by \mathsurround.
+*/
+Pointer newmath(Scaled w, SmallNumber s) {
     Pointer p;
 
     p = get_node(smallnodesize);
@@ -85,23 +112,26 @@ Pointer newmath(long w, SmallNumber s) {
     width(p) = w;
     return p;
 }
-/*:147*/
 
-/*151:*/
+/** [#151] duplicates a glue specification.
+ *
+ */
 Pointer newspec(Pointer p) {
     Pointer q;
 
     q = get_node(gluespecsize);
     mem[q - MEM_MIN] = mem[p - MEM_MIN];
-    gluerefcount(q) = 0;
+    gluerefcount(q) = null;
+
     width(q) = width(p);
     stretch(q) = stretch(p);
     shrink(q) = shrink(p);
     return q;
 }
-/*:151*/
 
-/*152:*/
+
+/// [#152] creates a glue node for a given parameter 
+/// identified by its code number;
 Pointer newparamglue(SmallNumber n) {
     Pointer p, q;
 
@@ -109,42 +139,46 @@ Pointer newparamglue(SmallNumber n) {
     type(p) = GLUE_NODE;
     subtype(p) = n + 1;
     leaderptr(p) = 0;
-    q = glue_par(n); /*224:*/
-    /*:224*/
+    // [#224] Current mem equivalent of glue parameter number n
+    q = glue_par(n);
     glueptr(p) = q;
     (gluerefcount(q))++;
     return p;
 }
-/*:152*/
 
-/*153:*/
+/// [#153] 
+/// argument points to a glue specification.
 Pointer newglue(Pointer q) {
     Pointer p;
 
     p = get_node(smallnodesize);
     type(p) = GLUE_NODE;
     subtype(p) = NORMAL;
-    leaderptr(p) = 0;
+    leaderptr(p) = null;
     glueptr(p) = q;
     (gluerefcount(q))++;
     return p;
 }
-/*:153*/
 
-/*154:*/
+/** [#154] creates a glue node for one of the current 
+ *  glue parameters. 
+ * 
+ * but it makes a fresh copy of the glue specification, 
+ *  since that specification will probably be subject to change,
+ *  while the parameter will stay put.
+ */
 Pointer newskipparam(SmallNumber n) {
     Pointer p;
 
-    temp_ptr = newspec(glue_par(n)); /*224:*/
-    /*:224*/
+    /// [#224] Current mem equivalent of glue parameter number n.
+    temp_ptr = newspec(glue_par(n));
     p = newglue(temp_ptr);
     gluerefcount(temp_ptr) = 0;
     subtype(p) = n + 1;
     return p;
 }
-/*:154*/
 
-/*156:*/
+/// [#156] creates a kern node having a given width.
 Pointer newkern(long w) {
     Pointer p;
 
@@ -154,16 +188,16 @@ Pointer newkern(long w) {
     width(p) = w;
     return p;
 }
-/*:156*/
 
-/*158:*/
+/// [#158]
 Pointer newpenalty(long m) {
     Pointer p;
 
     p = get_node(smallnodesize);
     type(p) = PENALTY_NODE;
-    subtype(p) = 0;
+    subtype(p) = 0; // the subtype is not used
     penalty(p) = m;
     return p;
 }
-/*:158*/
+
+/** @}*/ // end group S133x161_P50x57

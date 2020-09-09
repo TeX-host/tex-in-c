@@ -8,6 +8,7 @@
  * 
  */
 #define INC_TEX_CONSTANT
+#include "box.h" // [enum] NodeType
 
 /** @addtogroup S1x16_P3x9
  * @{
@@ -209,64 +210,6 @@ enum ErrorLevel {
 /// must > 65535 (2^16-1)
 #define MAX_HALF_WORD       655350000L
 /** @}*/ // end group S110x114_P42x43
-
-/** @addtogroup S133x161_P50x57
- * @{ */ // [ DATA STRUCTURES FOR BOXES AND THEIR FRIENDS ]
-
-enum NodeType {
-    HLIST_NODE,  ///< #135: type of hlist nodes
-    VLIST_NODE,  ///< #137: type of vlist nodes
-    RULE_NODE,   ///< #138: type of rule nodes
-    INS_NODE,    ///< #140: type of insertion nodes
-    MARK_NODE,   ///< #141: type of a mark node
-    ADJUST_NODE, ///< #142: type of an adjust node
-
-    LIGATURE_NODE, ///< #143: type of a ligature node
-    DISC_NODE,     ///< #145: type of a discretionary node
-    WHATSIT_NODE,  ///< #146: type of special extension nodes
-    MATH_NODE,     ///< #147: type of a math node
-    GLUE_NODE, ///< #150: number of words to allocate for a glue specification
-
-    KERN_NODE,    ///< #155: type of a kern node
-    PENALTY_NODE, ///< #157: type of a penalty node
-    UNSET_NODE,   ///< #159: type for an unset node
-}; // enum NodeType
-
-/// [#138]: number of words to allocate for a rule node
-#define rulenodesize    4
-/// [#138]: -(2^30)  signifies a missing item
-#define nullflag        (-1073741824L)
-/// [#140]: number of words to allocate for an insertion
-#define insnodesize     5
-/// [#141]: number of words to allocate for most node types
-#define smallnodesize   2
-/// [#147]: subtype for math node that introduces a formula
-#define before          0
-/// [#147]: subtype for math node that winds up a formula
-#define after           1
-/// [#150]: number of words to allocate for a glue specification
-#define gluespecsize    4
-
-/** [#150]: the orders of INFINITY (normal, `fil`, `fill`, or `filll`)
- * corresponding to the stretch and shrink values.
- * 
- */
-enum InfinityOrder {
-    FIL = 1, ///< first-order INFINITY
-    FILL,    ///< second-order INFINITY
-    FILLL    ///< third-order INFINITY
-}; // [#150] enum InfinityOrder
-
-/// [#155]: subtype of kern nodes from `\kern` and `\/`
-#define explicit    1
-/// [#155]: subtype of kern nodes from accents
-#define acckern     2
-
-/// [#157]: "infinite" penalty value
-#define INF_PENALTY     INF_BAD
-/// [#157]: "negatively infinite penalty value
-#define EJECT_PENALTY   (-INF_PENALTY)
-/** @}*/ // end group S133x161_P50x57
 
 
 /** @addtogroup S207x210_P73x76

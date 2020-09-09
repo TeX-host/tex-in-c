@@ -16,13 +16,6 @@
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 
-#define condmathglue    98
-#define muglue          99
-#define aleaders        100
-#define cleaders        101
-#define xleaders        102
-
-
 
 /** @addtogroup S211x219_P77x80
  * @{
