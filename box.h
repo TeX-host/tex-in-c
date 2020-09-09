@@ -145,10 +145,6 @@ extern Pointer newkern(long w);
 extern Pointer newpenalty(long m);
 
 extern void shortdisplay(Pointer p);
-extern void printfontandchar(Pointer p);
-extern void printmark(long p);
-extern void printruledimen(long d);
-extern void printglue(long d, long order, StrNumber s);
 extern void printspec(long p, StrNumber s);
 extern void shownodelist(long p);
 extern void showbox(HalfWord p);
