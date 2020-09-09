@@ -458,6 +458,7 @@ extern QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 
 
 extern void eqtb_init();
+extern void print_skip_param(Integer n);
 extern void begindiagnostic(void);
 extern void enddiagnostic(Boolean blankline);
 extern void showeqtb(HalfWord n);

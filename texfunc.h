@@ -21,7 +21,6 @@ extern void println(void);
 // [tex], printout
 extern void print_hex(Integer n);
 extern void print_size(Integer s);
-extern void print_skip_param(Integer n);
 extern void printstyle(Integer c);
 
 // [tex], fonts
