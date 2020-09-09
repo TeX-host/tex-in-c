@@ -67,8 +67,6 @@ var tex_8c =
     [ "freezepagespecs", "tex_8c.html#a79a5c04bd62b0cfeb7584faded8b416d", null ],
     [ "geqdefine", "group___s268x288___p109x114.html#gae7411a2a5d2f7d08755168c3066248af", null ],
     [ "geqworddefine", "group___s268x288___p109x114.html#gacde298eaf1a939a1e984665a9ba02a82", null ],
-    [ "get_defaulthyphenchar", "tex_8c.html#aeed8206a882fe2aa33ba5581e82da73b", null ],
-    [ "get_defaultskewchar", "tex_8c.html#a0d9ed30d98bbf22f7fe0001e211fe666", null ],
     [ "getpreambletoken", "tex_8c.html#a091d347444946287b3d96f10438b7131", null ],
     [ "getrtoken", "tex_8c.html#a0805aba3ffb7371947278c8fca18e8e8", null ],
     [ "giveerrhelp", "tex_8c.html#a78490fe79fcaae6767240cc8e0fe0fbd", null ],

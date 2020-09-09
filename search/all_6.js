@@ -118,7 +118,7 @@ var searchData=
   ['fractionrule_646',['fractionrule',['../tex_8c.html#a83df2b9011ed47be0bc5b8b91f9d3beb',1,'tex.c']]],
   ['free_5favail_647',['FREE_AVAIL',['../mem_8h.html#ab47b16359226d4d7429011d72cb1a288',1,'mem.h']]],
   ['free_5fcells_648',['free_cells',['../group___s162x172___p58x61.html#ga4cc5959a337df50dc1bd352df68131f2',1,'tex_header.h']]],
-  ['free_5fnode_649',['FREE_NODE',['../dviout_8c.html#aa528c48a3474cb1bdb282816f7826598',1,'FREE_NODE():&#160;dviout.c'],['../group___s115x132___p44x49.html#ga82f3d522a0c0b9a6f72b8b7742c431cf',1,'free_node(Pointer p, HalfWord s):&#160;mem.c'],['../group___s115x132___p44x49.html#ga82f3d522a0c0b9a6f72b8b7742c431cf',1,'free_node(Pointer p, HalfWord s):&#160;mem.c']]],
+  ['free_5fnode_649',['free_node',['../group___s115x132___p44x49.html#ga82f3d522a0c0b9a6f72b8b7742c431cf',1,'free_node(Pointer p, HalfWord s):&#160;mem.c'],['../group___s115x132___p44x49.html#ga82f3d522a0c0b9a6f72b8b7742c431cf',1,'free_node(Pointer p, HalfWord s):&#160;mem.c'],['../dviout_8c.html#aa528c48a3474cb1bdb282816f7826598',1,'FREE_NODE():&#160;dviout.c']]],
   ['freezepagespecs_650',['freezepagespecs',['../tex_8c.html#a79a5c04bd62b0cfeb7584faded8b416d',1,'tex.c']]],
   ['frozen_5fcontrol_5fsequence_651',['FROZEN_CONTROL_SEQUENCE',['../group___s220x255___p81x101.html#gga97560be4c253d536b8db4e889729f578a5b3da243f33ec7f18d07c8b76b75c38f',1,'eqtb.h']]],
   ['frozen_5fcr_652',['FROZEN_CR',['../group___s220x255___p81x101.html#gga97560be4c253d536b8db4e889729f578ade5c9fffa93ca873bc9da49e8f243522',1,'eqtb.h']]],

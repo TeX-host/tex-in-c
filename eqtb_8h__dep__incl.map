@@ -1,15 +1,15 @@
 <map id="eqtb.h" name="eqtb.h">
-<area shape="rect" id="node1" title=" " alt="" coords="407,5,474,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="309,5,375,35"/>
 <area shape="rect" id="node2" href="$eqtb_8c.html" title=" " alt="" coords="5,160,71,189"/>
-<area shape="rect" id="node3" href="$hash_8h.html" title=" " alt="" coords="297,83,368,112"/>
-<area shape="rect" id="node9" href="$tex__header_8h.html" title=" " alt="" coords="559,160,674,189"/>
-<area shape="rect" id="node11" href="$print_8c.html" title=" " alt="" coords="444,83,509,112"/>
-<area shape="rect" id="node12" href="$printout_8c.html" title=" " alt="" coords="533,83,620,112"/>
-<area shape="rect" id="node13" href="$scan_8c.html" title=" " alt="" coords="644,83,712,112"/>
-<area shape="rect" id="node4" href="$expand_8c.html" title=" " alt="" coords="95,160,181,189"/>
-<area shape="rect" id="node5" href="$fonts_8c.html" title=" " alt="" coords="205,160,273,189"/>
-<area shape="rect" id="node6" href="$hash_8c.html" title=" " alt="" coords="298,160,367,189"/>
-<area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="392,160,460,189"/>
-<area shape="rect" id="node8" href="$str_8c.html" title=" " alt="" coords="485,160,535,189"/>
-<area shape="rect" id="node10" href="$tex_8c.html" title=" " alt="" coords="589,237,644,267"/>
+<area shape="rect" id="node3" href="$fonts_8c.html" title=" " alt="" coords="95,160,163,189"/>
+<area shape="rect" id="node4" href="$hash_8h.html" title=" " alt="" coords="233,83,304,112"/>
+<area shape="rect" id="node9" href="$tex__header_8h.html" title=" " alt="" coords="561,160,675,189"/>
+<area shape="rect" id="node11" href="$print_8c.html" title=" " alt="" coords="380,83,445,112"/>
+<area shape="rect" id="node12" href="$printout_8c.html" title=" " alt="" coords="469,83,556,112"/>
+<area shape="rect" id="node13" href="$scan_8c.html" title=" " alt="" coords="580,83,648,112"/>
+<area shape="rect" id="node5" href="$expand_8c.html" title=" " alt="" coords="449,160,536,189"/>
+<area shape="rect" id="node6" href="$hash_8c.html" title=" " alt="" coords="187,160,257,189"/>
+<area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="281,160,349,189"/>
+<area shape="rect" id="node8" href="$str_8c.html" title=" " alt="" coords="374,160,425,189"/>
+<area shape="rect" id="node10" href="$tex_8c.html" title=" " alt="" coords="591,237,645,267"/>
 </map>

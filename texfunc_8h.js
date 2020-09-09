@@ -5,8 +5,6 @@ var texfunc_8h =
     [ "delete_glue_ref", "group___s199x202___p69x70.html#ga8332b563870416db594f68068abc9fc4", null ],
     [ "delete_token_ref", "group___s199x202___p69x70.html#ga4788ad6984820b988d3e6bef21ae79d0", null ],
     [ "eqdefine", "group___s268x288___p109x114.html#ga1f41746b7c8827a48a44c0afc3e31eec", null ],
-    [ "get_defaulthyphenchar", "texfunc_8h.html#aeed8206a882fe2aa33ba5581e82da73b", null ],
-    [ "get_defaultskewchar", "texfunc_8h.html#a0d9ed30d98bbf22f7fe0001e211fe666", null ],
     [ "giveerrhelp", "texfunc_8h.html#a78490fe79fcaae6767240cc8e0fe0fbd", null ],
     [ "jumpout", "group___s72x98___p30x37.html#gadeb1545ae01b6cbf0a224dc6a207876e", null ],
     [ "newrule", "group___s133x161___p50x57.html#gace4d687fe4f688a33dbc224062de27f1", null ],
