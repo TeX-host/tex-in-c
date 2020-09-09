@@ -4,6 +4,7 @@
 #include "eqtb.h"   // [macro] ACTIVE_BASE, BOX_BASE
 #include "texmath.h" // [macro] UNITY
 #include "print.h"   // [func] printnl, print_int, print_char
+#include "box.h"     // type
 #include "mem.h"
 
 

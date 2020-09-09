@@ -36,6 +36,7 @@
 #include "hash.h"       // [func] sprint_cs
 #include "eqtb.h"
 #include "mem.h"
+#include "box.h"
 #include "texfunc.h"    // [export]
 
 

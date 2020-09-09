@@ -14,6 +14,7 @@
 #include "hash.h" // [func] idlookup_p, sprint_cs
 #include "mem.h"  // [var] lo_mem_max, hi_mem_min, mem_end
     // [func] flush_list, get_avail
+#include "box.h" // NORMAL, listoffset, listoffset
 #include "lexer.h"
 
 

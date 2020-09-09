@@ -20,68 +20,70 @@
 #include "mem.h"  // [func] get_lo_mem_max, get_avail
 #include "eqtb.h" // [func] get_defaultskewchar, get_defaulthyphenchar,
 #include "print.h"
+#include "box.h" // font, character
 
 
-/** @addtogroup S539x582_P196x213
- * @{
- */
+    /** @addtogroup S539x582_P196x213
+     * @{
+     */
 
-// p201#549
+    // p201#549
 
-MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
-FontIndex fmemptr; ///< first unused word of font info
-InternalFontNumber fontptr; ///< largest internal font number in use
-Static FourQuarters fontcheck[FONT_MAX + 1]; ///< check sum
-Static Scaled fontsize[FONT_MAX + 1];        ///< "at" size
-Static Scaled fontdsize[FONT_MAX + 1];       ///< "design" size
-FontIndex fontparams[FONT_MAX + 1]; ///< how many font parameters are present
-Static StrNumber fontname[FONT_MAX + 1];     ///< name of the font
-Static StrNumber fontarea[FONT_MAX + 1];     ///< area of the font
-EightBits fontbc[FONT_MAX + 1]; ///< beginning (smallest) character code
-EightBits fontec[FONT_MAX + 1]; ///< ending (largest) character code.
-/// glue specification for interword space, null if not allocated.
-Pointer fontglue[FONT_MAX + 1];
-/// has a character from this font actually appeared in the output?
-Boolean fontused[FONT_MAX + 1];
-Static Integer hyphenchar[FONT_MAX + 1]; ///< current `\hyphenchar` values
-Static Integer skewchar[FONT_MAX + 1];   ///< current `\skewchar` values.
-/// start of lig kern program for left boundary character, 
-/// non address if there is none.
-FontIndex bcharlabel[FONT_MAX + 1];
-/// right boundary character, non char if there is none.
-Integer fontbchar[FONT_MAX + 1];
-/// font bchar if it doesn’t exist in the font, otherwise non char.
-Integer fontfalsebchar[FONT_MAX + 1];
+    MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
+    FontIndex fmemptr;                      ///< first unused word of font info
+    InternalFontNumber fontptr; ///< largest internal font number in use
+    Static FourQuarters fontcheck[FONT_MAX + 1]; ///< check sum
+    Static Scaled fontsize[FONT_MAX + 1];        ///< "at" size
+    Static Scaled fontdsize[FONT_MAX + 1];       ///< "design" size
+    FontIndex
+        fontparams[FONT_MAX + 1]; ///< how many font parameters are present
+    Static StrNumber fontname[FONT_MAX + 1]; ///< name of the font
+    Static StrNumber fontarea[FONT_MAX + 1]; ///< area of the font
+    EightBits fontbc[FONT_MAX + 1]; ///< beginning (smallest) character code
+    EightBits fontec[FONT_MAX + 1]; ///< ending (largest) character code.
+    /// glue specification for interword space, null if not allocated.
+    Pointer fontglue[FONT_MAX + 1];
+    /// has a character from this font actually appeared in the output?
+    Boolean fontused[FONT_MAX + 1];
+    Static Integer hyphenchar[FONT_MAX + 1]; ///< current `\hyphenchar` values
+    Static Integer skewchar[FONT_MAX + 1];   ///< current `\skewchar` values.
+    /// start of lig kern program for left boundary character,
+    /// non address if there is none.
+    FontIndex bcharlabel[FONT_MAX + 1];
+    /// right boundary character, non char if there is none.
+    Integer fontbchar[FONT_MAX + 1];
+    /// font bchar if it doesn’t exist in the font, otherwise non char.
+    Integer fontfalsebchar[FONT_MAX + 1];
 
-// #550
+    // #550
 
-Static Integer charbase[FONT_MAX + 1]; ///< base addresses for char info.
-Static Integer widthbase[FONT_MAX + 1]; ///< base addresses for widths.
-Static Integer heightbase[FONT_MAX + 1]; ///< base addresses for heights.
-Static Integer depthbase[FONT_MAX + 1];  ///< base addresses for depths.
-/// base addresses for italic corrections.
-Static Integer italicbase[FONT_MAX + 1]; 
-/// base addresses for ligature/kerning programs.
-Integer ligkernbase[FONT_MAX + 1];
-/// base addresses for kerns.
-Static Integer kernbase[FONT_MAX + 1];
-/// base addresses for extensible recipes.
-Integer extenbase[FONT_MAX + 1];
-/// base addresses for font parameters.
-Integer parambase[FONT_MAX + 1];
+    Static Integer charbase[FONT_MAX + 1];   ///< base addresses for char info.
+    Static Integer widthbase[FONT_MAX + 1];  ///< base addresses for widths.
+    Static Integer heightbase[FONT_MAX + 1]; ///< base addresses for heights.
+    Static Integer depthbase[FONT_MAX + 1];  ///< base addresses for depths.
+    /// base addresses for italic corrections.
+    Static Integer italicbase[FONT_MAX + 1];
+    /// base addresses for ligature/kerning programs.
+    Integer ligkernbase[FONT_MAX + 1];
+    /// base addresses for kerns.
+    Static Integer kernbase[FONT_MAX + 1];
+    /// base addresses for extensible recipes.
+    Integer extenbase[FONT_MAX + 1];
+    /// base addresses for font parameters.
+    Integer parambase[FONT_MAX + 1];
 
 
-Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
-void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
-Integer get_hyphenchar(InternalFontNumber x) { return hyphenchar[x]; }
-void set_hyphenchar(InternalFontNumber x, Integer c) { hyphenchar[x] = c; }
-Scaled get_fontsize(InternalFontNumber x) { return fontsize[x]; }
-Scaled get_fontdsize(InternalFontNumber x) { return fontdsize[x]; }
-StrNumber get_fontname(InternalFontNumber x) { return fontname[x]; }
-FourQuarters get_fontcheck(InternalFontNumber x) { return fontcheck[x]; }
+    Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
+    void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
+    Integer get_hyphenchar(InternalFontNumber x) { return hyphenchar[x]; }
+    void set_hyphenchar(InternalFontNumber x, Integer c) { hyphenchar[x] = c; }
+    Scaled get_fontsize(InternalFontNumber x) { return fontsize[x]; }
+    Scaled get_fontdsize(InternalFontNumber x) { return fontdsize[x]; }
+    StrNumber get_fontname(InternalFontNumber x) { return fontname[x]; }
+    FourQuarters get_fontcheck(InternalFontNumber x) { return fontcheck[x]; }
 
-FourQuarters charinfo(InternalFontNumber f, EightBits p) {
-    return fontinfo[charbase[f] + (p)].qqqq;
+    FourQuarters charinfo(InternalFontNumber f, EightBits p) {
+        return fontinfo[charbase[f] + (p)].qqqq;
 }
 
 Scaled charwidth(InternalFontNumber x, FourQuarters y) {

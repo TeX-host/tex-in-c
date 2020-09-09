@@ -45,7 +45,6 @@ extern HalfWord thetoks(void);
 // [tex] scan
 extern void delete_glue_ref(HalfWord p);
 extern void preparemag(void);
-extern Pointer newrule(void);
 extern Pointer newspec(Pointer p);
 
 // [tex], error
