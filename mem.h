@@ -155,8 +155,8 @@ extern void free_node(Pointer p, HalfWord s);
 extern void sort_avail(void);
 
 // tex only
-extern void checkmem(Boolean printlocs);
-extern void searchmem(Pointer p);
+extern void check_mem(Boolean printlocs);
+extern void search_mem(Pointer p);
 extern void mem_init();
 extern void mem_var_init();
 

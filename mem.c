@@ -264,70 +264,80 @@ Boolean panicking;
 
 /// p60#167
 #ifdef tt_DEBUG
-void checkmem(Boolean printlocs) {
-    Pointer p, q;
-    Boolean clobbered;
+void check_mem(Boolean printlocs) {
+    Pointer p, q; // current locations of interest in mem
+    Boolean clobbered; // is something amiss?
     HalfWord FORLIM;
 
-    for (p = MEM_MIN; p <= lo_mem_max; p++)
+    for (p = MEM_MIN; p <= lo_mem_max; p++) {
+        // free_cells[p - MEM_MIN] = 0;
         P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
-    for (p = hi_mem_min; p <= mem_end; p++) /*168:*/
+    }
+    for (p = hi_mem_min; p <= mem_end; p++) {
+        // free_cells[p - MEM_MIN] = 0;
         P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
+    }
+
+    /// [#168] Check single-word avail list
     p = avail;
-    q = 0;
+    q = null;
     clobbered = false;
     while (p != 0) {
-        if (p > mem_end || p < hi_mem_min)
+        if (p > mem_end || p < hi_mem_min) {
             clobbered = true;
-        else {
+        } else {
             if (P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) clobbered = true;
         }
         if (clobbered) {
+            // " AVAIL list clobbered at "
             printnl(S(318));
             print_int(q);
-            goto _Ldone1;
+
+            break;
         }
         P_putbits_UB(free_cells, p - MEM_MIN, 1, 0, 3);
         q = p;
         p = link(q);
-    }
+    } // while (p != 0)
 
-_Ldone1: /*:168*/
-    /*169:*/
+    /// [#169] Check variable-size avail list
     p = rover;
     q = 0;
     clobbered = false;
     do {
-        if (p >= lo_mem_max || p < MEM_MIN)
+        if (p >= lo_mem_max || p < MEM_MIN) {
             clobbered = true;
-        else if ((rlink(p) >= lo_mem_max) | (rlink(p) < MEM_MIN))
+        } else if ((rlink(p) >= lo_mem_max) | (rlink(p) < MEM_MIN)) {
             clobbered = true;
-        else if ((!is_empty(p)) | (node_size(p) < 2) |
-                 (p + node_size(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
+        } else if ( (!is_empty(p)) 
+                    || (node_size(p) < 2) 
+                    || ((p + node_size(p)) > lo_mem_max) 
+                    || (llink(rlink(p)) != p)) {
             clobbered = true;
         }
         if (clobbered) {
             printnl(S(319));
             print_int(q);
-            goto _Ldone2;
+            goto _L_checkmem_done;
         }
+        // mark all locations free
         FORLIM = p + node_size(p);
         for (q = p; q < FORLIM; q++) {
             if (P_getbits_UB(free_cells, q - MEM_MIN, 0, 3)) {
                 printnl(S(320));
                 print_int(q);
-                goto _Ldone2;
+                goto _L_checkmem_done;
             }
             P_putbits_UB(free_cells, q - MEM_MIN, 1, 0, 3);
         }
         q = p;
         p = rlink(p);
     } while (p != rover);
+_L_checkmem_done:
 
-_Ldone2: /*:169*/
-    /*170:*/
+    /// [#170] Check flags of unavailable nodes
     p = MEM_MIN;
-    while (p <= lo_mem_max) { /*:170*/
+    while (p <= lo_mem_max) {
         if (is_empty(p)) {
             printnl(S(321));
             print_int(p);
@@ -337,26 +347,31 @@ _Ldone2: /*:169*/
         while ((p <= lo_mem_max) &   P_getbits_UB(free_cells, p - MEM_MIN, 0, 3))
             p++;
     }
-    if (printlocs) { /*171:*/
-        printnl(S(322));
+
+    if (printlocs) {
+        /// [#171] Print newly busy locations
+        printnl(S(322)); // "New busy locs:"
         FORLIM = lo_mem_max;
         for (p = MEM_MIN; p <= lo_mem_max; p++) {
-            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
-                ((p > was_lo_max) | P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
+            if (   (!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) 
+                && ((p > was_lo_max) 
+                    || P_getbits_UB(was_free, p - MEM_MIN, 0, 3))
+                ) {
                 print_char(' ');
                 print_int(p);
             }
         }
         for (p = hi_mem_min; p <= mem_end; p++) {
-            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
-                ((p < was_hi_min || p > was_mem_end) |
-                 P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
+            if (   (!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) 
+                && (p < was_hi_min 
+                    || p > was_mem_end 
+                    || P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
                 print_char(' ');
                 print_int(p);
             }
         }
-    }
-    /*:171*/
+    } // if (printlocs)
+
     for (p = MEM_MIN; p <= lo_mem_max; p++) {
         P_clrbits_B(was_free, p - MEM_MIN, 0, 3);
         P_putbits_UB(was_free,
@@ -367,64 +382,68 @@ _Ldone2: /*:169*/
         P_putbits_UB(was_free, 
             p - MEM_MIN, P_getbits_UB(free_cells, p - MEM_MIN, 0, 3), 0, 3);
     }
+
     was_mem_end = mem_end;
     was_lo_max = lo_mem_max;
     was_hi_min = hi_mem_min;
-} // #164: checkmem
+} // #164: check_mem
 
 /// p61#172
-void searchmem(Pointer p) {
-    long q;
+void search_mem(Pointer p) {
+    Integer q;
 
     for (q = MEM_MIN; q <= lo_mem_max; q++) {
         if (link(q) == p) {
-            printnl(S(323));
+            printnl(S(323)); // "LINK("
             print_int(q);
             print_char(')');
         }
         if (info(q) == p) {
-            printnl(S(324));
+            printnl(S(324)); // "INFO("
             print_int(q);
             print_char(')');
         }
     }
     for (q = hi_mem_min; q <= mem_end; q++) {
         if (link(q) == p) {
-            printnl(S(323));
+            printnl(S(323)); // "LINK("
             print_int(q);
             print_char(')');
         }
         if (info(q) == p) {
-            printnl(S(324));
-            print_int(q);
-            print_char(')');
-        }
-    }                                               /*255:*/
-    for (q = ACTIVE_BASE; q <= BOX_BASE + 255; q++) { /*:255*/
-        if (equiv(q) == p) {
-            printnl(S(325));
+            printnl(S(324)); // "INFO("
             print_int(q);
             print_char(')');
         }
     }
-    /*285:*/
-    if (saveptr > 0) {                  /*933:*/
-        for (q = 0; q < saveptr; q++) { /*:285*/
+
+    /// [#255] Search eqtb for equivalents equal to p
+    for (q = ACTIVE_BASE; q <= (BOX_BASE + 255); q++) {
+        if (equiv(q) == p) {
+            printnl(S(325)); // "EQUIV("
+            print_int(q);
+            print_char(')');
+        }
+    }
+    /// [#285] Search save stack for equivalents that point to p
+    if (saveptr > 0) {
+        for (q = 0; q < saveptr; q++) {
             if (equiv_field(savestack[q]) == p) {
-                printnl(S(326));
+                printnl(S(326)); // "SAVE("
                 print_int(q);
                 print_char(')');
             }
         }
     }
-    for (q = 0; q <= HYPH_SIZE; q++) { /*:933*/
+    /// [#933] Search hyph list for pointers to p
+    for (q = 0; q <= HYPH_SIZE; q++) {
         if (hyphlist[q] == p) {
-            printnl(S(327));
+            printnl(S(327)); // "HYPH("
             print_int(q);
             print_char(')');
         }
     }
-} // #172: searchmem
+} // #172: search_mem
 #endif // #167,172: tt_DEBUG
 
 void mem_init() {

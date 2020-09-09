@@ -11826,9 +11826,9 @@ void debughelp(void) {
             case 9: showtokenlist(n, 0, 1000); break;
             case 10: slow_print(n); break;
             // check wellformedness; print new busy locations if n > 0
-            case 11: checkmem(n > 0); break;
+            case 11: check_mem(n > 0); break;
             // look for pointers to n
-            case 12: searchmem(n); break;
+            case 12: search_mem(n); break;
             case 13: {
                 fscanf(TERM_IN, " %ld", &l);
                 printcmdchr(n, l);
@@ -11892,7 +11892,7 @@ _LN_main_control__reswitch:
         }
     }
     #ifdef tt_DEBUG
-        if (panicking) checkmem(false);
+        if (panicking) check_mem(false);
     #endif // #1031: tt_DEBUG
     if (tracingcommands > 0) /*:1031*/
         showcurcmdchr();
