@@ -1626,7 +1626,9 @@ void preparemag(void) {
 /** @}*/ // end group S268x288_P109x114
 
 
-/*464:*/
+/** @addtogroup S464x486_P174x180
+ * @{
+ */
 
 Pointer tex_global_p;
 
@@ -1950,6 +1952,7 @@ Static void readtoks(long n, HalfWord r) {
     scanner_status = NORMAL;
     align_state = s;
 } /* [#482] readtoks */
+/** @}*/ // end group S464x486_P174x180
 
 
 /** @addtogroup S511x538_P188x195
@@ -2198,8 +2201,10 @@ void startinput(void) {
 /** @}*/ // end group S511x538_P188x195
 
 
-/*619:*/
-/// [ #1340. Extensions. ]
+/** @addtogroup S1340x1379_P472x481
+ * [ #1340. Extensions. ]
+ * @{
+ */
 
 // #1368
 Static void specialout(HalfWord p) {
@@ -2319,6 +2324,12 @@ Static void outwhat(HalfWord p) {
     }
 }
 /*:1373*/
+
+/** @}*/ // end group S1340x1379_P472x481
+
+/** @addtogroup S592x643_P220x238
+ * @{
+ */
 
 // [ p229#619 ]: output an hlist node box
 Static void hlistout(void) {
@@ -2844,11 +2855,13 @@ _L_shipout_done:
     #endif // #639.2: tt_STAT
 } // [ p236#638 ]:shipout
 
+/** @}*/ // end group S592x643_P220x238
 
-/*
- *  [ p239~248#644~679 Packaging. ]
- *  the real work of typesetting
- * 
+
+/** @addtogroup S644x679_P239x248
+ * [ p239~248#644~679 Packaging. ]
+ * the real work of typesetting
+ * @{
  */
 
 // ##645
@@ -3320,6 +3333,12 @@ Static void appendtovlist(HalfWord b) {
     prevdepth = depth(b);
 } // #679: appendtovlist
 
+/** @}*/ // end group S644x679_P239x248
+
+
+/** @addtogroup S680x698_P249x257
+ * @{
+ */
 
 // #686
 Static HalfWord newnoad(void) {
@@ -3372,9 +3391,13 @@ Static HalfWord newchoice(void) {
 /*693:*/
 Static void showinfo(void) { shownodelist(info(temp_ptr)); }
 /*:693*/
+/** @}*/ // end group S680x698_P249x257
 
 
-/// [ #699. Subroutines for math mode.  ]
+/** @addtogroup S699x718_P258x264
+ * [ #699. Subroutines for math mode.  ]
+ * @{
+ */
 
 /*704:*/
 Static HalfWord fractionrule(long t) {
@@ -3645,11 +3668,14 @@ Static void flushmath(void) {
     incompleatnoad = 0;
 }
 /*:718*/
+/** @}*/ // end group S699x718_P258x264
 
-/// [ #719. Typesetting math formulas. ]
 
+/** @addtogroup S719x767_P265x284
+ * [ #719. Typesetting math formulas. ]
+ * @{
+ */
 /*720:*/
-
 Static HalfWord cleanbox(HalfWord p, SmallNumber s) {
     Pointer q, x, r;
     SmallNumber savestyle;
@@ -4681,8 +4707,14 @@ Static void mlisttohlist(void) {
     /*:732*/
 }
 /*:726*/
+/** @}*/ // end group S719x767_P265x284
 
-/// [ #768. Alignment. ]
+
+/** @addtogroup S768x812_P285x301
+ * [ #768. Alignment. ]
+ * @{
+ */
+
 /*772:*/
 Static void pushalignment(void) {
     Pointer p;
@@ -5441,9 +5473,13 @@ _Lrestart:
 }
 /*:785*/
 /*:800*/
+/** @}*/ // end group S768x812_P285x301
 
 
-/// [ #813. Breaking paragraphs into lines. ]
+/** @addtogroup S813x861_P302x318
+ * [ #813. Breaking paragraphs into lines. ]
+ * @{
+ */
 
 /*815:*/
 /*826:*/
@@ -5953,7 +5989,12 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
        /*:859*/
     return;
 } // #829: trybreak
+/** @}*/ // end group S813x861_P302x318
 
+/** @addtogroup S862x890_P319x329
+ * 
+ * @{
+ */
 
 /*877:*/
 Static void postlinebreak(long finalwidowpenalty) { /*878:*/
@@ -6112,6 +6153,13 @@ Static void postlinebreak(long finalwidowpenalty) { /*878:*/
     prevgraf = bestline - 1;
 }
 /*:877*/
+/** @}*/ // end group S862x890_P319x329
+
+
+/** @addtogroup S900x918_P334x343
+ * 
+ * @{
+ */
 
 /*895:*/
 /*906:*/
@@ -6280,6 +6328,13 @@ _Ldone: /*:909*/
     goto _Llabcontinue;
 }
 /*:906*/
+/** @}*/ // end group S900x918_P334x343
+
+
+/** @addtogroup S919x941_P344x349
+ *
+ * @{
+ */
 
 Static void hyphenate(void) /*:929*/
 {                           /*923:*/
@@ -6528,14 +6583,17 @@ _Lcommonending:
 _Lexit:;
 }
 /*:895*/
+/** @}*/ // end group S919x941_P344x349
 
 
-/*
- * [p350#942]: Declare procedures for preprocessing hyphenation patterns
- * 
+/** @addtogroup S942x966_P350x359
+ *
+ * [p350#942]: Declare procedures for preprocessing hyphenation patterns.
+ *
  * xref[8]
- *  944, 948, 949, 953, 957, 
+ *  944, 948, 949, 953, 957,
  *  959, 960, 966.
+ * @{
  */
 
 #ifdef tt_INIT
@@ -7555,6 +7613,12 @@ Static void newhyphexceptions(void) {
 
 _Lexit:;
 } /* [#934] newhyphexceptions */
+/** @}*/ // end group S942x966_P350x359
+
+
+/** @addtogroup S967x979_P360x365
+ * @{
+ */
 
 /*968:*/
 Static HalfWord prunepagetop(HalfWord p) {
@@ -7804,6 +7868,12 @@ _Lexit:
     return Result;
 }
 /*:977*/
+/** @}*/ // end group S967x979_P360x365
+
+
+/** @addtogroup S980x1028_P366x382
+ * @{
+ */
 
 /*985:*/
 Static void printtotals(void)
@@ -8404,9 +8474,14 @@ Static void buildpage(void) {
 _Lexit:;
 }
 /*:994*/
+/** @}*/ // end group S980x1028_P366x382
+
 
 /*1030:*/
 
+/** @addtogroup S1029x1054_P383x394
+ * @{
+ */
 
 /*
  * [#1043]: Declare action procedures for use by `main_control
@@ -8522,6 +8597,11 @@ Static Boolean itsallover(void) {
 
     return false;
 }// #1054: itsallover
+/** @}*/ // end group S1029x1054_P383x394
+
+/** @addtogroup S1055x1135_P395x416
+ * @{
+ */
 
 // #1060
 Static void appendglue(void) {
@@ -9374,7 +9454,12 @@ Static void cserror(void) {
     help1(S(902));     // "I'm ignoring this since I wasn't doing a \\csname."
     error();
 } /*:1135*/
+/** @}*/ // end group S1055x1135_P395x416
 
+
+/** @addtogroup S1136x1207_P417x434
+ * @{
+ */
 
 /*1136:*/
 Static void pushmath(GroupCode c)
@@ -10159,13 +10244,18 @@ Static void resumeafterdisplay(void) {
     if (nest_ptr == 1) buildpage();
 }
 /*:1200*/
+/** @}*/ // end group S1136x1207_P417x434
 
+
+/** @addtogroup S1208x1298_P435x454
+ * @{
+ */
 
 /*
  * [#1215]: Declare subprocedures for prefixed command
- * 
+ *
  * xref[10]
- *  1215, 1229, 1236, 1243, 1244, 
+ *  1215, 1229, 1236, 1243, 1244,
  *  1245, 1246, 1247, 1257, 1265
  *  used in [#1211]
  */
@@ -11129,7 +11219,12 @@ _Lcommonending:
     error();
 }
 /*:1293*/
+/** @}*/ // end group S1208x1298_P435x454
 
+
+/** @addtogroup S1299x1329_P455x464
+ * @{
+ */
 
 #ifdef tt_INIT
 /// 455#1302: Declare action procedures for use by main control
@@ -11394,7 +11489,12 @@ _Ldone2:
     w_close(&fmtfile);
 } // storefmtfile
 #endif // #1302: tt_INIT
+/** @}*/ // end group S1299x1329_P455x464
 
+
+/** @addtogroup S1340x1379_P472x481
+ * @{
+ */
 
 /*1348:*/
 /*1349:*/
@@ -11521,8 +11621,12 @@ Static void fixlanguage(void) {
     whatrhm(tail) = normmin(righthyphenmin);
 }
 /*:1376*/
+/** @}*/ // end group S1340x1379_P472x481
 
 
+/** @addtogroup S1055x1135_P395x416
+ * @{
+ */
 /*1068:*/
 Static void handlerightbrace(void) {
     Pointer p, q;
@@ -11728,6 +11832,11 @@ Static void handlerightbrace(void) {
     /*1027:*/
 } /*:1068*/
 
+/** @}*/ // end group S1055x1135_P395x416
+
+/** @addtogroup S1338x1339_P470x471
+ * @{
+ */
 #ifdef tt_DEBUG
 // 交互式 debug 环境
 /// p470#1338
@@ -11795,6 +11904,7 @@ void debughelp(void) {
     }     // while (true)
 } // #1338: debughelp
 #endif // #1338: tt_DEBUG
+/** @}*/ // end group S1338x1339_P470x471
 
 
 /*
