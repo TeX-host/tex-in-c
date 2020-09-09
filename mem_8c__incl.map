@@ -1,0 +1,19 @@
+<map id="mem.c" name="mem.c">
+<area shape="rect" id="node1" title=" " alt="" coords="312,5,381,35"/>
+<area shape="rect" id="node2" href="$lexer_8h.html" title=" " alt="" coords="344,392,413,421"/>
+<area shape="rect" id="node9" href="$texmac_8h.html" title=" " alt="" coords="185,83,271,112"/>
+<area shape="rect" id="node10" href="$mem_8h.html" title=" " alt="" coords="190,160,261,189"/>
+<area shape="rect" id="node17" href="$error_8h.html" title=" " alt="" coords="417,83,485,112"/>
+<area shape="rect" id="node3" title=" " alt="" coords="200,469,269,499"/>
+<area shape="rect" id="node4" href="$tex_8h.html" title=" " alt="" coords="347,469,403,499"/>
+<area shape="rect" id="node5" href="$tex__types_8h.html" title=" " alt="" coords="166,547,269,576"/>
+<area shape="rect" id="node8" href="$tex__constant_8h.html" title=" " alt="" coords="312,547,437,576"/>
+<area shape="rect" id="node6" title=" " alt="" coords="174,624,261,653"/>
+<area shape="rect" id="node7" title=" " alt="" coords="39,624,113,653"/>
+<area shape="rect" id="node11" href="$global_8h.html" title=" " alt="" coords="184,237,261,267"/>
+<area shape="rect" id="node12" title=" " alt="" coords="88,315,171,344"/>
+<area shape="rect" id="node13" href="$str_8h.html" title=" " alt="" coords="195,315,247,344"/>
+<area shape="rect" id="node16" href="$scan_8h.html" title=" " alt="" coords="272,315,341,344"/>
+<area shape="rect" id="node14" href="$global__const_8h.html" title=" " alt="" coords="94,392,218,421"/>
+<area shape="rect" id="node15" title=" " alt="" coords="97,469,175,499"/>
+</map>

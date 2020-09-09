@@ -116,12 +116,6 @@ tex_inc.h 的引用(Include)关系图:</div>
 <tr class="memitem:a227f2df49b49687729640fd964786229"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__inc_8h.html#a227f2df49b49687729640fd964786229">_INC_TEX_ONLY</a></td></tr>
 <tr class="memdesc:a227f2df49b49687729640fd964786229"><td class="mdescLeft">&#160;</td><td class="mdescRight">存放仅在 <a class="el" href="tex_8c.html">tex.c</a> 中使用的宏  <a href="tex__inc_8h.html#a227f2df49b49687729640fd964786229">更多...</a><br /></td></tr>
 <tr class="separator:a227f2df49b49687729640fd964786229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab47b16359226d4d7429011d72cb1a288"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__inc_8h.html#ab47b16359226d4d7429011d72cb1a288">FREE_AVAIL</a>(x)&#160;&#160;&#160;    (<a class="el" href="group___s115x132___p44x49.html#ga2821b5fde0c1d63167fd0474174c5c27">mem</a>[(x)].hh.rh = <a class="el" href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a>, <a class="el" href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a> = (x), <a class="el" href="group___s115x132___p44x49.html#ga18d4b80a9be42ff4d43577bfff002586">dyn_used</a> -= <a class="el" href="global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a>)</td></tr>
-<tr class="memdesc:ab47b16359226d4d7429011d72cb1a288"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p45#121] single-word node liberation.  <a href="tex__inc_8h.html#ab47b16359226d4d7429011d72cb1a288">更多...</a><br /></td></tr>
-<tr class="separator:ab47b16359226d4d7429011d72cb1a288"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83d7532b1b98ad65516b3388cf6d348f"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__inc_8h.html#a83d7532b1b98ad65516b3388cf6d348f">FAST_GET_AVAIL</a>(x)</td></tr>
-<tr class="memdesc:a83d7532b1b98ad65516b3388cf6d348f"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#122] avoid <a class="el" href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9" title="[p46#120]: single-word node allocation.">get_avail()</a> if possible, to save time.  <a href="tex__inc_8h.html#a83d7532b1b98ad65516b3388cf6d348f">更多...</a><br /></td></tr>
-<tr class="separator:a83d7532b1b98ad65516b3388cf6d348f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a130cf00e6f6bdf658188a11e7d889e87"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tex__inc_8h.html#a130cf00e6f6bdf658188a11e7d889e87">STORE_NEW_TOKEN</a>(p,  x)</td></tr>
 <tr class="memdesc:a130cf00e6f6bdf658188a11e7d889e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p145#371]  <a href="tex__inc_8h.html#a130cf00e6f6bdf658188a11e7d889e87">更多...</a><br /></td></tr>
 <tr class="separator:a130cf00e6f6bdf658188a11e7d889e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,36 +137,6 @@ tex_inc.h 的引用(Include)关系图:</div>
 </div><div class="memdoc">
 
 <p>存放仅在 <a class="el" href="tex_8c.html">tex.c</a> 中使用的宏 </p>
-
-</div>
-</div>
-<a id="a83d7532b1b98ad65516b3388cf6d348f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83d7532b1b98ad65516b3388cf6d348f">&#9670;&nbsp;</a></span>FAST_GET_AVAIL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> FAST_GET_AVAIL</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>值:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span> {                                \</div>
-<div class="line">        if (((x) = <a class="code" href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a>)) {            \</div>
-<div class="line">            type(x) = <a class="code" href="global__const_8h.html#a2a4899201bee368bebee21be9daa02aa">charnodetype</a>;     \</div>
-<div class="line">            avail = <a class="code" href="group___s115x132___p44x49.html#gae54dbe23854a396dd642c99f01bc7a3e">link</a>(x);            \</div>
-<div class="line">            link(x) = 0;                \</div>
-<div class="line">            dyn_used += <a class="code" href="global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a>; \</div>
-<div class="line">        } <span class="keywordflow">else</span> {                        \</div>
-<div class="line">            (x) = <a class="code" href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a>();          \</div>
-<div class="line">        }                               \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
-<p>[#122] avoid <a class="el" href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9" title="[p46#120]: single-word node allocation.">get_avail()</a> if possible, to save time. </p>
 
 </div>
 </div>
@@ -210,27 +174,6 @@ tex_inc.h 的引用(Include)关系图:</div>
 <div class="line">    } <span class="keywordflow">while</span> (0)</div>
 </div><!-- fragment -->
 <p>[p145#371] </p>
-
-</div>
-</div>
-<a id="ab47b16359226d4d7429011d72cb1a288"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab47b16359226d4d7429011d72cb1a288">&#9670;&nbsp;</a></span>FREE_AVAIL</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> FREE_AVAIL</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;    (<a class="el" href="group___s115x132___p44x49.html#ga2821b5fde0c1d63167fd0474174c5c27">mem</a>[(x)].hh.rh = <a class="el" href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a>, <a class="el" href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a> = (x), <a class="el" href="group___s115x132___p44x49.html#ga18d4b80a9be42ff4d43577bfff002586">dyn_used</a> -= <a class="el" href="global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[p45#121] single-word node liberation. </p>
-<p>a one-word node is recycled by calling FREE_AVAIL. </p>
 
 </div>
 </div>
@@ -272,11 +215,7 @@ tex_inc.h 的引用(Include)关系图:</div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aglobal__const_8h_html_a2a4899201bee368bebee21be9daa02aa"><div class="ttname"><a href="global__const_8h.html#a2a4899201bee368bebee21be9daa02aa">charnodetype</a></div><div class="ttdeci">#define charnodetype</div><div class="ttdef"><b>Definition:</b> global_const.h:64</div></div>
-<div class="ttc" id="aglobal__const_8h_html_a2c6ae62bb0758231faf6069de17c711e"><div class="ttname"><a href="global__const_8h.html#a2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a></div><div class="ttdeci">#define CHAR_NODE_SIZE</div><div class="ttdef"><b>Definition:</b> global_const.h:70</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_ga982dbbf13554855c99a361ba283f30b9"><div class="ttname"><a href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a></div><div class="ttdeci">Pointer get_avail(void)</div><div class="ttdoc">[p46#120]: single-word node allocation.</div><div class="ttdef"><b>Definition:</b> tex.c:166</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_gab892ee525e4323e2a40eaca71a61a12d"><div class="ttname"><a href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a></div><div class="ttdeci">Pointer avail</div><div class="ttdoc">[#118] head of the list of available one-word nodes.</div><div class="ttdef"><b>Definition:</b> tex_header.h:152</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_gae54dbe23854a396dd642c99f01bc7a3e"><div class="ttname"><a href="group___s115x132___p44x49.html#gae54dbe23854a396dd642c99f01bc7a3e">link</a></div><div class="ttdeci">#define link(x)</div><div class="ttdoc">[p45#118] the link field of a memory word.</div><div class="ttdef"><b>Definition:</b> texmac.h:41</div></div>
+<div class="ttc" id="agroup___s115x132___p44x49_html_ga982dbbf13554855c99a361ba283f30b9"><div class="ttname"><a href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a></div><div class="ttdeci">Pointer get_avail(void)</div><div class="ttdoc">[p46#120]: single-word node allocation.</div><div class="ttdef"><b>Definition:</b> mem.c:29</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

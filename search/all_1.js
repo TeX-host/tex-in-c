@@ -84,7 +84,7 @@ var searchData=
   ['atopcode_87',['atopcode',['../tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5',1,'tex.h']]],
   ['aux_88',['aux',['../group___s211x219___p77x80.html#gaf64f873e88910c59b686d2c252e5af96',1,'texmac.h']]],
   ['auxfield_89',['auxfield',['../struct_list_state_record.html#acfcaeb83c745064a1a6908a5f44b7bb6',1,'ListStateRecord']]],
-  ['avail_90',['avail',['../group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h'],['../group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;tex_header.h']]],
+  ['avail_90',['avail',['../group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;mem.c'],['../group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d',1,'avail():&#160;mem.c']]],
   ['awfulbad_91',['awfulbad',['../tex_8h.html#afb8d08b641bc03250576f3f8ada33d23',1,'tex.h']]],
   ['axisheight_92',['axisheight',['../texmac_8h.html#a413170ded90a3fa13de732cc07f73b65',1,'texmac.h']]]
 ];
