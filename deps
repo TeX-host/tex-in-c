@@ -25,8 +25,8 @@ box.o: box.c tex_types.h tex_constant.h mem.h global.h str.h \
 box_display.o: box_display.c tex_types.h tex_constant.h mem.h global.h \
  str.h global_const.h scan.h lexer.h tex.h texfunc.h texmath.h print.h \
  texmac.h hash.h fonts.h eqtb.h box.h
-box_copy.o: box_copy.c tex_types.h tex_constant.h mem.h global.h str.h \
- global_const.h scan.h lexer.h tex.h texmac.h error.h box.h
+box_destroy.o: box_destroy.c tex_types.h tex_constant.h mem.h global.h \
+ str.h global_const.h scan.h lexer.h tex.h texmac.h error.h box.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h mem.h \
  global.h str.h global_const.h scan.h lexer.h texfunc.h printout.h \
  pure_func.h macros.h inputln.h funcs.h expand.h error.h hash.h fonts.h \
