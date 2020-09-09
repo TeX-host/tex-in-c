@@ -308,3 +308,7 @@ void showeqtb(HalfWord n) {
 #endif // #252: tt_STAT
 
 /** @}*/ // end group S220x255_P81x101
+
+// fonts
+Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
+Integer get_defaultskewchar(void) { return defaultskewchar; }

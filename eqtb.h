@@ -462,4 +462,8 @@ extern void begindiagnostic(void);
 extern void enddiagnostic(Boolean blankline);
 extern void showeqtb(HalfWord n);
 
+// fonts only
+extern Integer get_defaultskewchar(void);
+extern Integer get_defaulthyphenchar(void);
+
 #endif /* INC_EQTB_H */

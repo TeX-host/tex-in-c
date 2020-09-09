@@ -13,12 +13,12 @@
 #include "texfunc.h"
     // [func] print_*,
     //  packfilename, error,
-    //  get_defaultskewchar, get_defaulthyphenchar,
 #include "texmath.h"
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
 #include "hash.h" // [func] sprint_cs, fontidtext
 #include "mem.h"  // [func] get_lo_mem_max, get_avail
+#include "eqtb.h" // [func] get_defaultskewchar, get_defaulthyphenchar,
 #include "print.h"
 
 

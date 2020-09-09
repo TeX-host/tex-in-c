@@ -36,11 +36,6 @@ Static void normalparagraph(void);
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
-// [tex], fonts
-Integer get_defaulthyphenchar(void) { return defaulthyphenchar; }
-Integer get_defaultskewchar(void) { return defaultskewchar; }
-
-
 void set_help(SChar k, ...) {
     va_list ap;
     va_start(ap, k);
