@@ -430,13 +430,14 @@ void searchmem(Pointer p) {
 void mem_init() {
     size_t k;
 
-    for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
+    for (k = MEM_BOT + 1; k <= lomemstatmax; k++) {
         mem[k - MEM_MIN].sc = 0; // all glue dimensions are zeroed
+    }
 
     k = MEM_BOT;
     while (k <= lomemstatmax) {
         // set first words of glue specifications
-        gluerefcount(k) = 1;
+        gluerefcount(k) = null + 1;
         stretchorder(k) = NORMAL;
         shrinkorder(k) = NORMAL;
         k += gluespecsize;
@@ -473,15 +474,15 @@ void mem_init() {
     // Initialize the special list heads and constant nodes
     {
         /// #790
-        info(omittemplate) = endtemplatetoken; // ink(omit template) = null
+        info(omittemplate) = endtemplatetoken; // link (omit_template) = null
         /// #797
         link(endspan) = MAX_QUARTER_WORD + 1;
-        info(endspan) = 0;
+        info(endspan) = null;
         /// #820
         type(lastactive) = hyphenated;
         linenumber(lastactive) = MAX_HALF_WORD;
-        subtype(lastactive) =
-            0; // the subtype is never examined by the algorithm
+        // the subtype is never examined by the algorithm
+        subtype(lastactive) = 0; 
         /// #981
         subtype(pageinshead) = MIN_QUARTER_WORD + 255;
         type(pageinshead) = splitup;
@@ -492,7 +493,7 @@ void mem_init() {
     }
 
     /// p59#164
-    avail = 0;
+    avail = null;
     mem_end = MEM_TOP;
     hi_mem_min = himemstatmin; // initialize the one-word memory
     var_used = lomemstatmax - MEM_BOT + 1;
@@ -501,6 +502,7 @@ void mem_init() {
 
 /// p#95: 166
 void mem_var_init() {
+    // indicate that everything was previously free
     was_mem_end = MEM_MIN;
     was_lo_max = MEM_MIN;
     was_hi_min = MEM_MAX;
