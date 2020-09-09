@@ -1,7 +1,7 @@
 #include "print.h"      // [var] tally, term_input
 #include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
 #include "texfunc.h"    // [func] begindiagnostic, print_mode, enddiagnostic
-// flushlist, delete_token_ref, get_avail, set_help, openlogfile
+// delete_token_ref, set_help, openlogfile
 #include "printout.h"   // [func] printcmdchr,
 #include "pure_func.h"  // [func] aclose
 #include "macros.h"     // [macro] help4, help3, help2
@@ -13,6 +13,7 @@
     // [macro] checkinterrupt,
 #include "hash.h" // [func] idlookup_p, sprint_cs
 #include "mem.h"  // [var] lo_mem_max, hi_mem_min, mem_end
+    // [func] flush_list, get_avail
 #include "lexer.h"
 
 
@@ -522,13 +523,13 @@ void begintokenlist(HalfWord p, QuarterWord t) {
 void endtokenlist(void) {
     if (token_type >= BACKED_UP) {
         if (token_type <= INSERTED) {
-            flushlist(START);
+            flush_list(START);
         } else {
             delete_token_ref(START);
             if (token_type == MACRO) {
                 while (paramptr > param_start) {
                     paramptr--;
-                    flushlist(paramstack[paramptr]);
+                    flush_list(paramstack[paramptr]);
                 }
             }
         }

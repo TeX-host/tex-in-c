@@ -166,7 +166,7 @@
 // [p69#201]: 使用封装好的函数
 #if 0
 #define karmafastdeleteglueref(x)                            \
-    (gluerefcount(x) == 0 ? (freenode((x), gluespecsize), 0) \
+    (gluerefcount(x) == 0 ? (free_node((x), gluespecsize), 0) \
                           : gluerefcount(x)--)
 #endif
 
@@ -506,7 +506,7 @@
         }                                          \
         p = ligstack;                              \
         ligstack = link(p);                        \
-        freenode(p, smallnodesize);                \
+        free_node(p, smallnodesize);                \
         if (ligstack == null) {                    \
             setcurr();                             \
         } else {                                   \

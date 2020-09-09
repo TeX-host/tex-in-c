@@ -165,7 +165,7 @@ Static void printword(MemoryWord w) {
 Static Pointer newnullbox(void) {
     Pointer p;
 
-    p = getnode(boxnodesize);
+    p = get_node(boxnodesize);
     type(p) = HLIST_NODE;
     subtype(p) = MIN_QUARTER_WORD;
     width(p) = 0;
@@ -184,7 +184,7 @@ Static Pointer newnullbox(void) {
 Pointer newrule(void) {
     Pointer p;
 
-    p = getnode(rulenodesize);
+    p = get_node(rulenodesize);
     type(p) = RULE_NODE;
     subtype(p) = 0;
     width(p) = nullflag;
@@ -198,7 +198,7 @@ Pointer newrule(void) {
 Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = LIGATURE_NODE;
     font_ligchar(p) = f;
     character_ligchar(p) = c;
@@ -211,7 +211,7 @@ Static Pointer newligature(QuarterWord f, QuarterWord c, Pointer q) {
 Static Pointer newligitem(QuarterWord c) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     character(p) = c;
     ligptr(p) = 0;
     return p;
@@ -222,7 +222,7 @@ Static Pointer newligitem(QuarterWord c) {
 Static Pointer newdisc(void) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = DISC_NODE;
     replacecount(p) = 0;
     prebreak(p) = 0;
@@ -235,7 +235,7 @@ Static Pointer newdisc(void) {
 Static Pointer newmath(long w, SmallNumber s) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = MATH_NODE;
     subtype(p) = s;
     width(p) = w;
@@ -247,7 +247,7 @@ Static Pointer newmath(long w, SmallNumber s) {
 Pointer newspec(Pointer p) {
     Pointer q;
 
-    q = getnode(gluespecsize);
+    q = get_node(gluespecsize);
     mem[q - MEM_MIN] = mem[p - MEM_MIN];
     gluerefcount(q) = 0;
     width(q) = width(p);
@@ -261,7 +261,7 @@ Pointer newspec(Pointer p) {
 Static Pointer newparamglue(SmallNumber n) {
     Pointer p, q;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = GLUE_NODE;
     subtype(p) = n + 1;
     leaderptr(p) = 0;
@@ -277,7 +277,7 @@ Static Pointer newparamglue(SmallNumber n) {
 Static Pointer newglue(Pointer q) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = GLUE_NODE;
     subtype(p) = NORMAL;
     leaderptr(p) = 0;
@@ -304,7 +304,7 @@ Static Pointer newskipparam(SmallNumber n) {
 Static Pointer newkern(long w) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = KERN_NODE;
     subtype(p) = NORMAL;
     width(p) = w;
@@ -316,7 +316,7 @@ Static Pointer newkern(long w) {
 Static Pointer newpenalty(long m) {
     Pointer p;
 
-    p = getnode(smallnodesize);
+    p = get_node(smallnodesize);
     type(p) = PENALTY_NODE;
     subtype(p) = 0;
     penalty(p) = m;
@@ -370,8 +370,8 @@ _Ldone1: /*:168*/
             clobbered = true;
         else if ((rlink(p) >= lo_mem_max) | (rlink(p) < MEM_MIN))
             clobbered = true;
-        else if ((!isempty(p)) | (nodesize(p) < 2) |
-                 (p + nodesize(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
+        else if ((!is_empty(p)) | (node_size(p) < 2) |
+                 (p + node_size(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
             clobbered = true;
         }
         if (clobbered) {
@@ -379,7 +379,7 @@ _Ldone1: /*:168*/
             print_int(q);
             goto _Ldone2;
         }
-        FORLIM = p + nodesize(p);
+        FORLIM = p + node_size(p);
         for (q = p; q < FORLIM; q++) {
             if (P_getbits_UB(free_cells, q - MEM_MIN, 0, 3)) {
                 printnl(S(320));
@@ -396,7 +396,7 @@ _Ldone2: /*:169*/
     /*170:*/
     p = MEM_MIN;
     while (p <= lo_mem_max) { /*:170*/
-        if (isempty(p)) {
+        if (is_empty(p)) {
             printnl(S(321));
             print_int(p);
         }
@@ -1175,7 +1175,7 @@ Static void showbox(HalfWord p)
 //  is losing one reference
 void delete_token_ref(HalfWord p) {
     if (tokenrefcount(p) == 0) {
-        flushlist(p);
+        flush_list(p);
     } else {
         tokenrefcount(p)--;
     }
@@ -1184,7 +1184,7 @@ void delete_token_ref(HalfWord p) {
 // [#201] p points to a glue specification
 void delete_glue_ref(HalfWord p) {
     if (gluerefcount(p) == 0) {
-        freenode(p, gluespecsize);
+        free_node(p, gluespecsize);
     } else {
         gluerefcount(p)--;
     }
@@ -1204,19 +1204,19 @@ Static void flush_node_list(HalfWord p) {
                 case VLIST_NODE:
                 case UNSET_NODE:
                     flush_node_list(listptr(p));
-                    freenode(p, boxnodesize);
+                    free_node(p, boxnodesize);
                     goto _Ldone;
                     break;
 
                 case RULE_NODE:
-                    freenode(p, rulenodesize);
+                    free_node(p, rulenodesize);
                     goto _Ldone;
                     break;
 
                 case INS_NODE:
                     flush_node_list(insptr(p));
                     delete_glue_ref(splittopptr(p));
-                    freenode(p, insnodesize);
+                    free_node(p, insnodesize);
                     goto _Ldone;
                     break;
 
@@ -1224,19 +1224,19 @@ Static void flush_node_list(HalfWord p) {
                     // #1358: Wipe out the whatsit node p and goto done
                     switch (subtype(p)) {
                         case opennode: 
-                            freenode(p, opennodesize); 
+                            free_node(p, opennodesize); 
                             break;
 
                         case writenode:
                         case specialnode:
                             delete_token_ref(writetokens(p));
-                            freenode(p, writenodesize);
+                            free_node(p, writenodesize);
                             goto _Ldone;
                             break;
 
                         case closenode:
                         case languagenode: 
-                            freenode(p, smallnodesize); 
+                            free_node(p, smallnodesize); 
                             break;
 
                         default:
@@ -1271,7 +1271,7 @@ Static void flush_node_list(HalfWord p) {
                     break;
 
                 case stylenode:
-                    freenode(p, stylenodesize);
+                    free_node(p, stylenodesize);
                     goto _Ldone;
                     break;
 
@@ -1280,7 +1280,7 @@ Static void flush_node_list(HalfWord p) {
                     flush_node_list(textmlist(p));
                     flush_node_list(scriptmlist(p));
                     flush_node_list(scriptscriptmlist(p));
-                    freenode(p, stylenodesize);
+                    free_node(p, stylenodesize);
                     goto _Ldone;
                     break;
 
@@ -1305,25 +1305,25 @@ Static void flush_node_list(HalfWord p) {
                         flush_node_list(info(subscr(p)));
                     
                     if (type(p) == radicalnoad) {
-                        freenode(p, radicalnoadsize);
+                        free_node(p, radicalnoadsize);
                     } else if (type(p) == accentnoad) {
-                        freenode(p, accentnoadsize);
+                        free_node(p, accentnoadsize);
                     } else {
-                        freenode(p, noadsize);
+                        free_node(p, noadsize);
                     }
                     goto _Ldone;
                     break;
 
                 case leftnoad:
                 case rightnoad:
-                    freenode(p, noadsize);
+                    free_node(p, noadsize);
                     goto _Ldone;
                     break;
 
                 case fractionnoad:
                     flush_node_list(info(numerator(p)));
                     flush_node_list(info(denominator(p)));
-                    freenode(p, fractionnoadsize);
+                    free_node(p, fractionnoadsize);
                     goto _Ldone;
                     break;
 
@@ -1331,7 +1331,7 @@ Static void flush_node_list(HalfWord p) {
                     confusion(S(428)); // "flushing"
                     break;
             }
-            freenode(p, smallnodesize);
+            free_node(p, smallnodesize);
         _Ldone:;
         }
         p = q;
@@ -1364,7 +1364,7 @@ Static HalfWord copynodelist(HalfWord p) {
                 case HLIST_NODE:
                 case VLIST_NODE:
                 case UNSET_NODE:
-                    r = getnode(boxnodesize);
+                    r = get_node(boxnodesize);
                     mem[r - MEM_MIN + 6] = mem[p - MEM_MIN + 6];
                     mem[r - MEM_MIN + 5] = mem[p - MEM_MIN + 5];
                     listptr(r) = copynodelist(listptr(p));
@@ -1372,12 +1372,12 @@ Static HalfWord copynodelist(HalfWord p) {
                     break;
 
                 case RULE_NODE:
-                    r = getnode(rulenodesize);
+                    r = get_node(rulenodesize);
                     words = rulenodesize;
                     break;
 
                 case INS_NODE:
-                    r = getnode(insnodesize);
+                    r = get_node(insnodesize);
                     mem[r - MEM_MIN + 4] = mem[p - MEM_MIN + 4];
                     addglueref(splittopptr(p));
                     insptr(r) = copynodelist(insptr(p));
@@ -1388,20 +1388,20 @@ Static HalfWord copynodelist(HalfWord p) {
                     switch (subtype(p)) { /*:1357*/
 
                         case opennode:
-                            r = getnode(opennodesize);
+                            r = get_node(opennodesize);
                             words = opennodesize;
                             break;
 
                         case writenode:
                         case specialnode:
-                            r = getnode(writenodesize);
+                            r = get_node(writenodesize);
                             addtokenref(writetokens(p));
                             words = writenodesize;
                             break;
 
                         case closenode:
                         case languagenode:
-                            r = getnode(smallnodesize);
+                            r = get_node(smallnodesize);
                             words = smallnodesize;
                             break;
 
@@ -1412,7 +1412,7 @@ Static HalfWord copynodelist(HalfWord p) {
                     break;
 
                 case GLUE_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     addglueref(glueptr(p));
                     glueptr(r) = glueptr(p);
                     leaderptr(r) = copynodelist(leaderptr(p));
@@ -1421,30 +1421,30 @@ Static HalfWord copynodelist(HalfWord p) {
                 case KERN_NODE:
                 case MATH_NODE:
                 case PENALTY_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     words = smallnodesize;
                     break;
 
                 case LIGATURE_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     mem[ligchar(r) - MEM_MIN] = mem[ligchar(p) - MEM_MIN];
                     ligptr(r) = copynodelist(ligptr(p));
                     break;
 
                 case DISC_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     prebreak(r) = copynodelist(prebreak(p));
                     postbreak(r) = copynodelist(postbreak(p));
                     break;
 
                 case MARK_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     addtokenref(markptr(p));
                     words = smallnodesize;
                     break;
 
                 case ADJUST_NODE:
-                    r = getnode(smallnodesize);
+                    r = get_node(smallnodesize);
                     adjustptr(r) = copynodelist(adjustptr(p));
                     break;
 
@@ -1676,7 +1676,7 @@ Static void eqdestroy(MemoryWord w) {
 
         case SHAPE_REF:
             q = equiv_field(w);
-            if (q != 0) freenode(q, info(q) + info(q) + 1);
+            if (q != 0) free_node(q, info(q) + info(q) + 1);
             break;
 
         case BOX_REF: flush_node_list(equiv_field(w)); break;
@@ -2502,7 +2502,7 @@ Static void writeout(HalfWord p) { /*1371:*/
     }
     tokenshow(defref);
     println();
-    flushlist(defref);
+    flush_list(defref);
     selector = old_setting;
 }
 /*:1370*/
@@ -3119,7 +3119,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
     EightBits hd;
 
     lastbadness = 0;
-    r = getnode(boxnodesize);
+    r = get_node(boxnodesize);
     type(r) = HLIST_NODE;
     subtype(r) = MIN_QUARTER_WORD;
     shiftamount(r) = 0;
@@ -3178,7 +3178,7 @@ Static HalfWord hpack(HalfWord p, long w, SmallNumber m) {
                         while (link(adjusttail) != 0)
                             adjusttail = link(adjusttail);
                         p = link(p);
-                        freenode(link(q), smallnodesize);
+                        free_node(link(q), smallnodesize);
                     } else {
                         link(adjusttail) = p;
                         adjusttail = p;
@@ -3354,7 +3354,7 @@ Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l) {
     GlueOrd o;
 
     lastbadness = 0;
-    r = getnode(boxnodesize);
+    r = get_node(boxnodesize);
     type(r) = VLIST_NODE;
     subtype(r) = MIN_QUARTER_WORD;
     shiftamount(r) = 0;
@@ -3557,7 +3557,7 @@ Static void appendtovlist(HalfWord b) {
 Static HalfWord newnoad(void) {
     Pointer p;
     int i = 0;
-    p = getnode(noadsize);
+    p = get_node(noadsize);
     type(p) = ordnoad;
     subtype(p) = NORMAL;
 #ifdef BIG_CHARNODE
@@ -3577,7 +3577,7 @@ Static HalfWord newnoad(void) {
 Static HalfWord newstyle(SmallNumber s) {
     Pointer p;
 
-    p = getnode(stylenodesize);
+    p = get_node(stylenodesize);
     type(p) = stylenode;
     subtype(p) = s;
     width(p) = 0;
@@ -3590,7 +3590,7 @@ Static HalfWord newstyle(SmallNumber s) {
 Static HalfWord newchoice(void) {
     Pointer p;
 
-    p = getnode(stylenodesize);
+    p = get_node(stylenodesize);
     type(p) = choicenode;
     subtype(p) = 0;
     displaymlist(p) = 0;
@@ -3802,7 +3802,7 @@ Static HalfWord rebox(HalfWord b, long w) {
             v = charwidth(f, charinfo(f, character(p)));
             if (v != width(b)) link(p) = newkern(width(b) - v);
         }
-        freenode(b, boxnodesize);
+        free_node(b, boxnodesize);
         b = newglue(ssglue);
         link(b) = p;
         while (link(p) != 0)
@@ -3831,7 +3831,7 @@ Static HalfWord mathglue(HalfWord g, long m) {
         n--;
         f += 65536L;
     }
-    p = getnode(gluespecsize);
+    p = get_node(gluespecsize);
     width(p) = MU_MULT(width(g));
 
     stretchorder(p) = stretchorder(g);
@@ -3931,7 +3931,7 @@ _Lfound:
     if (link(r) != 0) return x;
     if (ischarnode(r)) return x;
     if (type(r) == KERN_NODE) {
-        freenode(r, smallnodesize);
+        free_node(r, smallnodesize);
         link(q) = 0;
     }
     return x;
@@ -4258,7 +4258,7 @@ Static Integer makeop(HalfWord q) {
     height(v) = height(y);
     depth(v) = depth(y); /*751:*/
     if (mathtype(supscr(q)) == EMPTY) {
-        freenode(x, boxnodesize);
+        free_node(x, boxnodesize);
         listptr(v) = y;
     } else {
         shiftup = bigopspacing3 - depth(x);
@@ -4272,7 +4272,7 @@ Static Integer makeop(HalfWord q) {
         height(v) += bigopspacing5 + height(x) + depth(x) + shiftup;
     }
     if (mathtype(subscr(q)) == EMPTY)
-        freenode(z, boxnodesize);
+        free_node(z, boxnodesize);
     else { /*:751*/
         shiftdown = bigopspacing4 - height(z);
         if (shiftdown < bigopspacing2) shiftdown = bigopspacing2;
@@ -4383,7 +4383,7 @@ _Lrestart:
                                                                 MEM_MIN] =
                                                                 mem[supscr(p) -
                                                                     MEM_MIN];
-                                                            freenode(p,
+                                                            free_node(p,
                                                                      noadsize);
                                                             break;
                                                     }
@@ -4431,7 +4431,7 @@ Static void makescripts(HalfWord q, long delta) {
             t = SCRIPT_SCRIPT_SIZE;
         shiftup = height(z) - supdrop(t);
         shiftdown = depth(z) + subdrop(t);
-        freenode(z, boxnodesize);
+        free_node(z, boxnodesize);
     }
     if (mathtype(supscr(q)) == EMPTY) { /*757:*/
         x = cleanbox(subscr(q), substyle(curstyle));
@@ -4742,7 +4742,7 @@ Static void mlisttohlist(void) {
         z = hpack(newhlist(q), 0, additional);
         if (height(z) > maxh) maxh = height(z);
         if (depth(z) > maxd) maxd = depth(z);
-        freenode(z, boxnodesize);
+        free_node(z, boxnodesize);
     _Ldonewithnoad_:
         r = q;
         rtype = type(r);
@@ -4905,7 +4905,7 @@ Static void mlisttohlist(void) {
     _Ldeleteq_:
         r = q;
         q = link(q);
-        freenode(r, s);
+        free_node(r, s);
     _Ldone:;
     }
     /*:760*/
@@ -4919,7 +4919,7 @@ Static void mlisttohlist(void) {
 Static void pushalignment(void) {
     Pointer p;
 
-    p = getnode(alignstacknodesize);
+    p = get_node(alignstacknodesize);
     link(p) = alignptr;
     info(p) = curalign;
     llink(p) = preamble;
@@ -4946,7 +4946,7 @@ Static void popalignment(void) {
     preamble = llink(p);
     curalign = info(p);
     alignptr = link(p);
-    freenode(p, alignstacknodesize);
+    free_node(p, alignstacknodesize);
 }
 /*:772*/
 
@@ -5275,7 +5275,7 @@ Static Boolean fincol(void) {
                 q = info(q);
             }
             if (link(info(q)) > n) {
-                s = getnode(spannodesize);
+                s = get_node(spannodesize);
                 info(s) = info(q);
                 link(s) = n;
                 info(q) = s;
@@ -5387,8 +5387,8 @@ Static void finalign(void) {
     /*801:*/
     q = link(preamble);
     do { /*804:*/
-        flushlist(upart(q));
-        flushlist(vpart(q));
+        flush_list(upart(q));
+        flush_list(vpart(q));
         p = link(link(q));
         if (width(q) == nullflag) { /*802:*/
             width(q) = 0;
@@ -5421,7 +5421,7 @@ Static void finalign(void) {
                     s = r;
                 } else {
                     if (width(r) > width(info(s))) width(info(s)) = width(r);
-                    freenode(r, spannodesize);
+                    free_node(r, spannodesize);
                 }
                 r = u;
             } while (r != endspan);
@@ -5883,7 +5883,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                     storebreakwidth(5);
                     storebreakwidth(6);
                 } else {
-                    q = getnode(deltanodesize);
+                    q = get_node(deltanodesize);
                     link(q) = r;
                     type(q) = deltanode;
                     subtype(q) = 0;
@@ -5907,7 +5907,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                         minimumdemerits) {
                         /// p313#845: Insert a new active node from best
                         /// place[fit class] to cur p
-                        q = getnode(passivenodesize);
+                        q = get_node(passivenodesize);
                         link(q) = passive;
                         passive = q;
                         curbreak(q) = curp;
@@ -5916,7 +5916,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                             serial(q) = passnumber;
                         #endif // #845.1: tt_STAT
                         prevbreak(q) = bestplace[fitclass - veryloosefit];
-                        q = getnode(activenodesize);
+                        q = get_node(activenodesize);
                         breaknode(q) = passive;
                         linenumber(q) = bestplline[fitclass - veryloosefit] + 1;
                         fitness(q) = fitclass;
@@ -5951,7 +5951,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                 }
                 minimumdemerits = awfulbad; /*844:*/
                 if (r != lastactive) {      /*:844*/
-                    q = getnode(deltanodesize);
+                    q = get_node(deltanodesize);
                     link(q) = r;
                     type(q) = deltanode;
                     subtype(q) = 0;
@@ -6116,7 +6116,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
         if (noderstaysactive) goto _Llabcontinue;
     _Ldeactivate_: /*860:*/
         link(prevr) = link(r);
-        freenode(r, activenodesize);
+        free_node(r, activenodesize);
         if (prevr == active) { /*861:*/
             r = link(active);
             if (type(r) != deltanode) continue;
@@ -6133,7 +6133,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             copytocuractive(5);
             copytocuractive(6);
             link(active) = link(r);
-            freenode(r, deltanodesize);
+            free_node(r, deltanodesize);
             continue;
         } /*:861*/
         /*:851*/
@@ -6148,7 +6148,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
             downdatewidth(5);
             downdatewidth(6);
             link(prevprevr) = lastactive;
-            freenode(prevr, deltanodesize);
+            free_node(prevr, deltanodesize);
             prevr = prevprevr;
             continue;
         }
@@ -6166,7 +6166,7 @@ Static void trybreak(long pi, SmallNumber breaktype) { /*831:*/
         combinetwodeltas(5);
         combinetwodeltas(6);
         link(prevr) = link(r);
-        freenode(r, deltanodesize);
+        free_node(r, deltanodesize);
     } // while (true)
 
     _Lexit:
@@ -6628,7 +6628,7 @@ _Lfound1: /*:902*/
                 initlig = false;
             }
         }
-        freenode(ha, smallnodesize);
+        free_node(ha, smallnodesize);
     } else {
         if (!ischarnode(r)) {
             if (type(r) == LIGATURE_NODE) {
@@ -6668,7 +6668,7 @@ _Lcommonending:
         }
         if (hyphenpassed > 0) { /*914:*/
             do {
-                r = getnode(smallnodesize);
+                r = get_node(smallnodesize);
                 link(r) = link(holdhead);
                 type(r) = DISC_NODE;
                 majortail = r;
@@ -6756,7 +6756,7 @@ _Lcommonending:
     } while (j <= hn);
     link(s) = q; /*:913*/
     /*:903*/
-    flushlist(initlist);
+    flush_list(initlist);
 _Lexit:;
 }
 /*:895*/
@@ -7070,7 +7070,7 @@ Static void newpatterns(void) {
     help1(S(776));
     error();
     link(garbage) = scantoks(false, false);
-    flushlist(defref);
+    flush_list(defref);
     /*:962*/
 } // #960: newpatterns
 
@@ -7257,7 +7257,7 @@ Static void linebreak(long finalwidowpenalty) {
         }
         /*:891*/
         /*864:*/
-        q = getnode(activenodesize);
+        q = get_node(activenodesize);
         type(q) = unhyphenated;
         fitness(q) = decentfit;
         link(q) = lastactive;
@@ -7595,15 +7595,15 @@ Static void linebreak(long finalwidowpenalty) {
         while (q != lastactive) {
             curp = link(q);
             if (type(q) == deltanode)
-                freenode(q, deltanodesize);
+                free_node(q, deltanodesize);
             else
-                freenode(q, activenodesize);
+                free_node(q, activenodesize);
             q = curp;
         }
         q = passive;
         while (q != 0) { /*:865*/
             curp = link(q);
-            freenode(q, passivenodesize);
+            free_node(q, passivenodesize);
             q = curp;
         }
         if (secondpass) {
@@ -7637,15 +7637,15 @@ _Ldone:
     while (q != lastactive) {
         curp = link(q);
         if (type(q) == deltanode)
-            freenode(q, deltanodesize);
+            free_node(q, deltanodesize);
         else
-            freenode(q, activenodesize);
+            free_node(q, activenodesize);
         q = curp;
     }
     q = passive;
     while (q != 0) { /*:865*/
         curp = link(q);
-        freenode(q, passivenodesize);
+        free_node(q, passivenodesize);
         q = curp;
     }
     packbeginline = 0;
@@ -8025,7 +8025,7 @@ Static HalfWord vsplit(EightBits n, long h) {
 _Ldone: /*:979*/
     q = prunepagetop(q);
     p = listptr(v);
-    freenode(v, boxnodesize);
+    free_node(v, boxnodesize);
     if (q == 0)
         box(n) = 0;
     else {
@@ -8200,7 +8200,7 @@ Static void fireup(HalfWord c)
 		if (insptr(p) != 0) {
 		  temp_ptr = vpack(insptr(p), 0, additional);
 		  height(p) = height(temp_ptr) + depth(temp_ptr);
-		  freenode(temp_ptr, boxnodesize);
+		  free_node(temp_ptr, boxnodesize);
 		  wait = true;
 		}
 	      }
@@ -8208,7 +8208,7 @@ Static void fireup(HalfWord c)
 	    bestinsptr(r) = 0;
 	    n = subtype(r) - MIN_QUARTER_WORD;
 	    temp_ptr = listptr(box(n));
-	    freenode(box(n), boxnodesize);
+	    free_node(box(n), boxnodesize);
 	    box(n) = vpack(temp_ptr, 0, additional);
 	  }  /*:1021*/
 	  else {
@@ -8225,7 +8225,7 @@ Static void fireup(HalfWord c)
 	  insertpenalties++;
 	} else {
 	  delete_glue_ref(splittopptr(p));
-	  freenode(p, insnodesize);
+	  free_node(p, insnodesize);
 	}
 	p = prevp;   /*:1022*/
       }
@@ -8280,7 +8280,7 @@ Static void fireup(HalfWord c)
   r = link(pageinshead);
   while (r != pageinshead) {
     q = link(r);
-    freenode(r, pageinsnodesize);
+    free_node(r, pageinsnodesize);
     r = q;
   }
   link(pageinshead) = pageinshead;   /*:1019*/
@@ -8415,7 +8415,7 @@ Static void buildpage(void) {
                     r = link(r);
                 n -= MIN_QUARTER_WORD;
                 if (subtype(r) != n) { /*1009:*/
-                    q = getnode(pageinsnodesize);
+                    q = get_node(pageinsnodesize);
                     link(q) = link(r);
                     link(r) = q;
                     r = q;
@@ -9231,7 +9231,7 @@ Static void makemark(void)
   Pointer p;
 
   p = scantoks(false, true);
-  p = getnode(smallnodesize);
+  p = get_node(smallnodesize);
   type(p) = MARK_NODE;
   subtype(p) = 0;
   markptr(p) = defref;
@@ -9317,7 +9317,7 @@ Static void unpackage(void) {
     else {
         link(tail) = listptr(p);
         box(cur_val) = 0;
-        freenode(p, boxnodesize);
+        free_node(p, boxnodesize);
     }
     while (link(tail) != 0)
         tail = link(tail);
@@ -9912,7 +9912,7 @@ Static void scandelimiter(HalfWord p, Boolean r) {
 Static void mathradical(void)
 {
   int i=0;
-  tailappend(getnode(radicalnoadsize));
+  tailappend(get_node(radicalnoadsize));
   type(tail) = radicalnoad;
   subtype(tail) = NORMAL;
 #ifdef BIG_CHARNODE
@@ -9941,7 +9941,7 @@ Static void mathac(void) {
         error();
     } /*:1166*/
 
-    tailappend(getnode(accentnoadsize));
+    tailappend(get_node(accentnoadsize));
     type(tail) = accentnoad;
     subtype(tail) = NORMAL;
     mem[nucleus(tail) - MEM_MIN].hh = emptyfield;
@@ -10080,7 +10080,7 @@ Static void mathfraction(void) {
         return;
     } /*:1183*/
 
-    incompleatnoad = getnode(fractionnoadsize);
+    incompleatnoad = get_node(fractionnoadsize);
     type(incompleatnoad) = fractionnoad;
     subtype(incompleatnoad) = NORMAL;
     mathtype(numerator(incompleatnoad)) = submlist;
@@ -10290,12 +10290,12 @@ Static void aftermath(void) {
             (w - totalshrink[0] + q <= z || totalshrink[FIL - NORMAL] != 0 ||
              totalshrink[FILL - NORMAL] != 0 ||
              totalshrink[FILLL - NORMAL] != 0)) {
-            freenode(b, boxnodesize);
+            free_node(b, boxnodesize);
             b = hpack(p, z - q, exactly);
         } else {
             e = 0;
             if (w > z) {
-                freenode(b, boxnodesize);
+                free_node(b, boxnodesize);
                 b = hpack(p, z, exactly);
             }
         }
@@ -11107,7 +11107,7 @@ Static void prefixedcommand(void) {
             if (n <= 0) {
                 p = 0;
             } else {
-                p = getnode(n * 2 + 1);
+                p = get_node(n * 2 + 1);
                 info(p) = n;
                 for (j = 1; j <= n; j++) {
                     SCAN_NORMAL_DIMEN();
@@ -11234,7 +11234,7 @@ Static void issuemessage(void) {
     selector = NEW_STRING;
     tokenshow(defref);
     selector = old_setting;
-    flushlist(defref);
+    flush_list(defref);
     str_room(1);
     s = makestring();
     if (c == 0) { /*1280:*/
@@ -11327,7 +11327,7 @@ Static void showwhatever(void) {
             (void)thetoks();
             printnl(S(980));
             tokenshow(temphead);
-            flushlist(link(temphead));
+            flush_list(link(temphead));
             goto _Lcommonending; /*:1297*/
             break;
     } /*1298:*/
@@ -11435,7 +11435,7 @@ Static void storefmtfile(void) { /*1304:*/
         }
         x += q - p + 2;
         var_used += q - p;
-        p = q + nodesize(q);
+        p = q + node_size(q);
         q = rlink(q);
     } while (q != rover);
     var_used += lo_mem_max - p;
@@ -11633,7 +11633,7 @@ _Ldone2:
 Static void newwhatsit(SmallNumber s, SmallNumber w) {
     Pointer p;
 
-    p = getnode(w);
+    p = get_node(w);
     type(p) = WHATSIT_NODE;
     subtype(p) = s;
     link(tail) = p;
@@ -11812,7 +11812,7 @@ Static void handlerightbrace(void) {
             p = vpack(link(head), 0, additional);
             popnest();
             if (saved(0) < 255) {
-                tailappend(getnode(insnodesize));
+                tailappend(get_node(insnodesize));
                 type(tail) = INS_NODE;
                 subtype(tail) = saved(0);
                 height(tail) = height(p) + depth(p);
@@ -11821,13 +11821,13 @@ Static void handlerightbrace(void) {
                 depth(tail) = d;
                 floatcost(tail) = f;
             } else {
-                tailappend(getnode(smallnodesize));
+                tailappend(get_node(smallnodesize));
                 type(tail) = ADJUST_NODE;
                 subtype(tail) = 0;
                 adjustptr(tail) = listptr(p);
                 delete_glue_ref(q);
             }
-            freenode(p, boxnodesize);
+            free_node(p, boxnodesize);
             if (nest_ptr == 0) buildpage();
             break;
 
@@ -11931,7 +11931,7 @@ Static void handlerightbrace(void) {
                             if (mathtype(supscr(p)) == EMPTY) {
                                 mem[saved(0) - MEM_MIN].hh =
                                     mem[nucleus(p) - MEM_MIN].hh;
-                                freenode(p, noadsize);
+                                free_node(p, noadsize);
                             }
                         }
                     } else if (type(p) == accentnoad) {
@@ -11941,7 +11941,7 @@ Static void handlerightbrace(void) {
                                 while (link(q) != tail)
                                     q = link(q);
                                 link(q) = p;
-                                freenode(tail, noadsize);
+                                free_node(tail, noadsize);
                                 tail = p;
                             }
                             /*:1187*/
@@ -12872,7 +12872,7 @@ _Lmainloopmovelig:       /*1037:*/
     }
     temp_ptr = ligstack;
     ligstack = link(temp_ptr);
-    freenode(temp_ptr, smallnodesize);
+    free_node(temp_ptr, smallnodesize);
     maini = charinfo(mainf, curl);
     ligaturepresent = true;
     if (ligstack == 0) {
@@ -12956,7 +12956,7 @@ Static Boolean load_fmt_file(void) { /*1308:*/
             pget(pppfmtfile);
             mem[k - MEM_MIN] = pppfmtfile;
         }
-        p = q + nodesize(q);
+        p = q + node_size(q);
         if ((p > lo_mem_max) | ((q >= rlink(q)) & (rlink(q) != rover)))
             goto _Lbadfmt_;
         q = rlink(q);
@@ -12974,8 +12974,8 @@ Static Boolean load_fmt_file(void) { /*1308:*/
         llink(rover) = q;
         rlink(q) = rover;
         llink(q) = p;
-        link(q) = emptyflag;
-        nodesize(q) = MEM_BOT - q;
+        link(q) = empty_flag;
+        node_size(q) = MEM_BOT - q;
     }
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -13306,7 +13306,7 @@ Static void final_cleanup(void) {
         curif = subtype(condptr);
         temp_ptr = condptr;
         condptr = link(condptr);
-        freenode(temp_ptr, ifnodesize);
+        free_node(temp_ptr, ifnodesize);
     }
     if (history != SPOTLESS) {
         if (history == WARNING_ISSUED || interaction < ERROR_STOP_MODE) {
@@ -13916,9 +13916,9 @@ Static void initialize(void) {
 
         // now initialize the dynamic memory
         rover = lomemstatmax + 1;
-        link(rover) = emptyflag;
+        link(rover) = empty_flag;
 
-        nodesize(rover) = 1000; // which is a 1000-word available node
+        node_size(rover) = 1000; // which is a 1000-word available node
         llink(rover) = rover;
         rlink(rover) = rover;
         lo_mem_max = rover + 1000;

@@ -35,19 +35,13 @@ extern Integer get_defaulthyphenchar(void);
 extern void set_help(SChar k, ...);
 
 // [tex] lexer
-extern void begindiagnostic(void);
-extern void enddiagnostic(Boolean blankline);
 extern void print_mode(Integer m);
-extern Pointer get_avail(void);
-extern void flushlist(HalfWord p);
 extern void delete_token_ref(HalfWord p);
 extern void openlogfile(void);
 
 // [tex] expand
 extern void startinput(void);
-extern void freenode(Pointer p, HalfWord s);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
-extern HalfWord getnode(long s);
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 

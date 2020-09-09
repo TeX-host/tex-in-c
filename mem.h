@@ -15,30 +15,28 @@
 #define info(x) (mem[(x)].hh.UU.lh)
 
 /// [p46#124] the `link` of an empty variable-size node.
-#define emptyflag   MAX_HALF_WORD
+#define empty_flag      MAX_HALF_WORD
 /// [p46#124] tests for empty node.
-#define isempty(x) (link(x) == emptyflag)
+#define is_empty(x)    (link(x) == empty_flag)
 /// [p46#124] the size field in empty variable-size nodes.
-#define nodesize    info
+#define node_size       info
 /// [p46#124] left link in doubly-linked list of empty nodes.
-#define llink(x)    info(x+1)
+#define llink(x)        info(x+1)
 /// [p46#124] right link in doubly-linked list of empty nodes.
-#define rlink(x)    link(x+1)
+#define rlink(x)        link(x+1)
 
 #ifdef tt_STAT
 /// [p45#121] single-word node liberation.
 /// a one-word node is recycled by calling FREE_AVAIL.
-#define FREE_AVAIL(x) \
-    (mem[(x)].hh.rh = avail, avail = (x), dyn_used -= CHAR_NODE_SIZE)
-// end #define FREE_AVAIL(x)
+#define FREE_AVAIL(x)   (link(x) = avail, avail = (x), dyn_used -= CHAR_NODE_SIZE)
 
 /// [#122] avoid get_avail() if possible, to save time.
 #define FAST_GET_AVAIL(x)               \
     do {                                \
-        if (((x) = avail)) {            \
+        if (((x) = avail) != null) {    \
             type(x) = charnodetype;     \
             avail = link(x);            \
-            link(x) = 0;                \
+            link(x) = null;             \
             dyn_used += CHAR_NODE_SIZE; \
         } else {                        \
             (x) = get_avail();          \
@@ -48,7 +46,7 @@
 #else
 // not defined(tt_STAT)
 
-#define FREE_AVAIL(x) (mem[(x)].hh.rh = avail, avail = (x))
+#define FREE_AVAIL(x) (link(x) = avail, avail = (x))
 
 #define FAST_GET_AVAIL(x)           \
     do {                            \
@@ -82,9 +80,9 @@ extern MemoryWord mem[MEM_MAX - MEM_MIN + 1];
 
 extern Pointer get_lo_mem_max(void);
 extern Pointer get_avail(void);
-extern void flushlist(HalfWord p);
-extern HalfWord getnode(long s);
-extern void freenode(Pointer p, HalfWord s);
+extern void flush_list(HalfWord p);
+extern HalfWord get_node(Integer s);
+extern void free_node(Pointer p, HalfWord s);
 extern void sort_avail(void);
 
 #endif /* INC_MEM_H */

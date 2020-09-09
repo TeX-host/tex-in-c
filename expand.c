@@ -13,7 +13,8 @@
 #include "scan.h"     // [func] scan_eight_bit_int
 #include "error.h"    // [func] error, overflow, confusion, print_err,
 #include "hash.h"     // [func] idlookup_p, sprint_cs, print_cs
-#include "mem.h"      // [macro] FREE_AVAIL, FAST_GET_AVAIL
+#include "mem.h" // [macro] FREE_AVAIL, FAST_GET_AVAIL,
+    // [func] popligstack, get_node, flush_list, get_avail
 #include "expand.h"
 
 /** @addtogroup S487x510_P181x187
@@ -82,7 +83,7 @@ void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
     pstack[n] = link(temphead);
     align_state -= unbalance;
     for (m = 0; m <= n; m++) {
-        flushlist(pstack[m]);
+        flush_list(pstack[m]);
     }
 } // [#396] report_argument
 
@@ -418,7 +419,7 @@ void expand(void) {
                     curcs = NULL_CS;
                 else
                     curcs = ACTIVE_BASE + buffer[first]; /*:374*/
-                flushlist(r);
+                flush_list(r);
                 if (eq_type(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
                 curtok = curcs + CS_TOKEN_FLAG;
                 backinput();
@@ -455,7 +456,7 @@ void expand(void) {
                     curif = subtype(p);
                     iflimit = type(p);
                     condptr = link(p);
-                    freenode(p, ifnodesize);
+                    free_node(p, ifnodesize);
                 } // [#510, 496] if (curchr <> iflimit)
                 break;
 
@@ -689,7 +690,7 @@ static void conditional(void) { /*495:*/
     Pointer p, q, savecondptr;
     SmallNumber savescannerstatus, thisif;
 
-    p = getnode(ifnodesize);
+    p = get_node(ifnodesize);
     link(p) = condptr;
     type(p) = iflimit;
     subtype(p) = curif;
@@ -854,7 +855,7 @@ static void conditional(void) { /*495:*/
                 curif = subtype(p);
                 iflimit = type(p);
                 condptr = link(p);
-                freenode(p, ifnodesize);
+                free_node(p, ifnodesize);
             }
             changeiflimit(orcode, savecondptr);
             goto _Lexit;
@@ -897,7 +898,7 @@ static void conditional(void) { /*495:*/
         curif = subtype(p);
         iflimit = type(p);
         condptr = link(p);
-        freenode(p, ifnodesize);
+        free_node(p, ifnodesize);
     }
 _Lcommonending:
     if (curchr == ficode) { /*496:*/
@@ -906,7 +907,7 @@ _Lcommonending:
         curif = subtype(p);
         iflimit = type(p);
         condptr = link(p);
-        freenode(p, ifnodesize);
+        free_node(p, ifnodesize);
     } /*:496*/
     else
         iflimit = ficode;

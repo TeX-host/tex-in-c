@@ -15,6 +15,7 @@
 #include "eqtb.h"     // MATH_CODE_BASE, math_code, equiv, eqtb,ACTIVE_BASE
 #include "mem.h"      // [var] mem, hi_mem_min
     // [macro] FREE_AVAIL, FAST_GET_AVAIL
+    // [func] flush_list, get_avail
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173
@@ -173,7 +174,7 @@ Boolean scankeyword(StrNumber s) {
             goto _Lexit;
         }
     } // while (k < k_e)
-    flushlist(link(my_backup_head));
+    flush_list(link(my_backup_head));
     Result = true;
 
 _Lexit :
