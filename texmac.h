@@ -28,8 +28,7 @@
 #define qo(x) (x)
 
 
-/// [p64#180]
-#define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
+
 
 // [p69#201]: 使用封装好的函数
 #if 0

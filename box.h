@@ -124,7 +124,12 @@
 /// [p57#159] indicates the number of spanned columns.
 #define spancount       subtype
 /** @} end group S133x161_P50x57 */
-
+/** @addtogroup S173x198_P62x68
+ * @{
+ */
+/// [p64#180]
+#define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
+/** @}*/ // end group S173x198_P62x68
 
 extern Integer font_in_short_display;
 extern Integer depth_threshold;
