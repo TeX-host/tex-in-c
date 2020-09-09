@@ -8,10 +8,6 @@
 // ?
 #undef labs
 
-/* P2C compatibility */
-#define P_clrbits_B(trie, idx, z, w) trie[(idx) >> 3] &= ~(1 << ((idx)&7))
-#define P_getbits_UB(trie, h, z, w) (trie[(h) >> 3] & (1 << ((h)&7)))
-#define P_putbits_UB(trie, h, y, z, w) trie[(h) >> 3] |= 1 << ((h)&7)
 
 
 #define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
@@ -30,13 +26,6 @@
 /// [p43#112]
 #define qi(x) (x)
 #define qo(x) (x)
-
-
-/** @addtogroup S115x132_P44x49
- * @{ */
-
-
-/** @}*/ // end group S115x132_P44x49
 
 
 /** @addtogroup S133x161_P50x57

@@ -42,4 +42,4 @@ eqtb.o: eqtb.c print.h tex_types.h tex.h tex_constant.h texmac.h mem.h \
  global.h str.h global_const.h scan.h lexer.h hash.h fonts.h eqtb.h \
  printout.h texfunc.h texmath.h
 mem.o: mem.c lexer.h tex.h tex_types.h tex_constant.h texmac.h mem.h \
- global.h str.h global_const.h scan.h error.h
+ global.h str.h global_const.h scan.h error.h eqtb.h texmath.h print.h

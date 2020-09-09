@@ -137,25 +137,6 @@ Boolean OK_to_interrupt;
 /** @}*/ // end group S72x98_P30x37
 
 
-/** @addtogroup S162x172_P58x61
- * @{
- */
-
-// [ #162~172: MEMORY LAYOUT ]
-// [p95#165]
-#ifdef tt_DEBUG
-/// [#165] free: free cells, 以 byte(8) 分配，按位取用.
-Static UChar free_cells[(MEM_MAX - MEM_MIN + 8) / 8];
-/// [#165] previously free cells, 以 byte(8) 分配，按位取用.
-Static UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];
-/// [#165] previous #mem_end, #lo_mem_max, and #hi_mem_min.
-Static Pointer was_mem_end, was_lo_max, was_hi_min;
-/// [#165] do we want to check memory constantly?
-Static Boolean panicking; 
-#endif // #165: tt_DEBUG
-/** @}*/ // end group S162x172_P58x61
-
-
 /** @addtogroup S173x198_P62x68
  * @{
  */
@@ -189,8 +170,8 @@ UInt16 shown_mode; // most recent mode shown by \tracingcommands
 
 /// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
 /// [#271]
-Static MemoryWord savestack[SAVE_SIZE + 1];
-Static UInt16 saveptr; // first unused entry on save stack
+MemoryWord savestack[SAVE_SIZE + 1];
+UInt16 saveptr; // first unused entry on save stack
 Static UInt16 maxsavestack; // maximum usage of save stack
 Static QuarterWord curlevel; // current nesting level for groups
 Static GroupCode curgroup;   // current group type
@@ -408,7 +389,7 @@ Static short opstart[256];
 /*:921*/
 /*926:*/
 Static StrNumber hyphword[HYPH_SIZE + 1];
-Static Pointer hyphlist[HYPH_SIZE + 1];
+Pointer hyphlist[HYPH_SIZE + 1];
 Static HyphPointer hyphcount;
 /*:926*/
 

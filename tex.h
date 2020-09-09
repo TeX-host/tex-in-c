@@ -22,8 +22,6 @@
 #define cleaders        101
 #define xleaders        102
 
-#define himemstatusage  14
-
 
 
 /** @addtogroup S211x219_P77x80

@@ -1,6 +1,9 @@
 #include "lexer.h"  // [func] runaway, showtokenlist
 #include "texmac.h" // [macro] type
 #include "error.h"  // [func] overflow
+#include "eqtb.h"   // [macro] ACTIVE_BASE, BOX_BASE
+#include "texmath.h" // [macro] UNITY
+#include "print.h"   // [func] printnl, print_int, print_char
 #include "mem.h"
 
 
@@ -240,5 +243,267 @@ void sort_avail(void) {
     llink(rover) = p;
 } // sort_avail
 #endif // #131: tt_INIT
-
 /** @}*/ // end group S115x132_P44x49
+
+
+/** @addtogroup S162x172_P58x61
+ * @{
+ */
+// [ #162~172: MEMORY LAYOUT ]
+// [p95#165]
+#ifdef tt_DEBUG
+/// [#165] free: free cells, 以 byte(8) 分配，按位取用.
+UChar free_cells[(MEM_MAX - MEM_MIN + 8) / 8];
+/// [#165] previously free cells, 以 byte(8) 分配，按位取用.
+UChar was_free[(MEM_MAX - MEM_MIN + 8) / 8];
+/// [#165] previous #mem_end, #lo_mem_max, and #hi_mem_min.
+Pointer was_mem_end, was_lo_max, was_hi_min;
+/// [#165] do we want to check memory constantly?
+Boolean panicking;
+#endif   // #165: tt_DEBUG
+
+/// p60#167
+#ifdef tt_DEBUG
+void checkmem(Boolean printlocs) {
+    Pointer p, q;
+    Boolean clobbered;
+    HalfWord FORLIM;
+
+    for (p = MEM_MIN; p <= lo_mem_max; p++)
+        P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
+    for (p = hi_mem_min; p <= mem_end; p++) /*168:*/
+        P_clrbits_B(free_cells, p - MEM_MIN, 0, 3);
+    p = avail;
+    q = 0;
+    clobbered = false;
+    while (p != 0) {
+        if (p > mem_end || p < hi_mem_min)
+            clobbered = true;
+        else {
+            if (P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) clobbered = true;
+        }
+        if (clobbered) {
+            printnl(S(318));
+            print_int(q);
+            goto _Ldone1;
+        }
+        P_putbits_UB(free_cells, p - MEM_MIN, 1, 0, 3);
+        q = p;
+        p = link(q);
+    }
+
+_Ldone1: /*:168*/
+    /*169:*/
+    p = rover;
+    q = 0;
+    clobbered = false;
+    do {
+        if (p >= lo_mem_max || p < MEM_MIN)
+            clobbered = true;
+        else if ((rlink(p) >= lo_mem_max) | (rlink(p) < MEM_MIN))
+            clobbered = true;
+        else if ((!is_empty(p)) | (node_size(p) < 2) |
+                 (p + node_size(p) > lo_mem_max) | (llink(rlink(p)) != p)) {
+            clobbered = true;
+        }
+        if (clobbered) {
+            printnl(S(319));
+            print_int(q);
+            goto _Ldone2;
+        }
+        FORLIM = p + node_size(p);
+        for (q = p; q < FORLIM; q++) {
+            if (P_getbits_UB(free_cells, q - MEM_MIN, 0, 3)) {
+                printnl(S(320));
+                print_int(q);
+                goto _Ldone2;
+            }
+            P_putbits_UB(free_cells, q - MEM_MIN, 1, 0, 3);
+        }
+        q = p;
+        p = rlink(p);
+    } while (p != rover);
+
+_Ldone2: /*:169*/
+    /*170:*/
+    p = MEM_MIN;
+    while (p <= lo_mem_max) { /*:170*/
+        if (is_empty(p)) {
+            printnl(S(321));
+            print_int(p);
+        }
+        while ((p <= lo_mem_max) & (!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)))
+            p++;
+        while ((p <= lo_mem_max) &   P_getbits_UB(free_cells, p - MEM_MIN, 0, 3))
+            p++;
+    }
+    if (printlocs) { /*171:*/
+        printnl(S(322));
+        FORLIM = lo_mem_max;
+        for (p = MEM_MIN; p <= lo_mem_max; p++) {
+            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
+                ((p > was_lo_max) | P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
+                print_char(' ');
+                print_int(p);
+            }
+        }
+        for (p = hi_mem_min; p <= mem_end; p++) {
+            if ((!P_getbits_UB(free_cells, p - MEM_MIN, 0, 3)) &
+                ((p < was_hi_min || p > was_mem_end) |
+                 P_getbits_UB(was_free, p - MEM_MIN, 0, 3))) {
+                print_char(' ');
+                print_int(p);
+            }
+        }
+    }
+    /*:171*/
+    for (p = MEM_MIN; p <= lo_mem_max; p++) {
+        P_clrbits_B(was_free, p - MEM_MIN, 0, 3);
+        P_putbits_UB(was_free,
+            p - MEM_MIN, P_getbits_UB(free_cells, p - MEM_MIN, 0, 3), 0, 3);
+    }
+    for (p = hi_mem_min; p <= mem_end; p++) {
+        P_clrbits_B(was_free, p - MEM_MIN, 0, 3);
+        P_putbits_UB(was_free, 
+            p - MEM_MIN, P_getbits_UB(free_cells, p - MEM_MIN, 0, 3), 0, 3);
+    }
+    was_mem_end = mem_end;
+    was_lo_max = lo_mem_max;
+    was_hi_min = hi_mem_min;
+} // #164: checkmem
+
+/// p61#172
+void searchmem(Pointer p) {
+    long q;
+
+    for (q = MEM_MIN; q <= lo_mem_max; q++) {
+        if (link(q) == p) {
+            printnl(S(323));
+            print_int(q);
+            print_char(')');
+        }
+        if (info(q) == p) {
+            printnl(S(324));
+            print_int(q);
+            print_char(')');
+        }
+    }
+    for (q = hi_mem_min; q <= mem_end; q++) {
+        if (link(q) == p) {
+            printnl(S(323));
+            print_int(q);
+            print_char(')');
+        }
+        if (info(q) == p) {
+            printnl(S(324));
+            print_int(q);
+            print_char(')');
+        }
+    }                                               /*255:*/
+    for (q = ACTIVE_BASE; q <= BOX_BASE + 255; q++) { /*:255*/
+        if (equiv(q) == p) {
+            printnl(S(325));
+            print_int(q);
+            print_char(')');
+        }
+    }
+    /*285:*/
+    if (saveptr > 0) {                  /*933:*/
+        for (q = 0; q < saveptr; q++) { /*:285*/
+            if (equiv_field(savestack[q]) == p) {
+                printnl(S(326));
+                print_int(q);
+                print_char(')');
+            }
+        }
+    }
+    for (q = 0; q <= HYPH_SIZE; q++) { /*:933*/
+        if (hyphlist[q] == p) {
+            printnl(S(327));
+            print_int(q);
+            print_char(')');
+        }
+    }
+} // #172: searchmem
+#endif // #167,172: tt_DEBUG
+
+void mem_init() {
+    size_t k;
+
+    for (k = MEM_BOT + 1; k <= lomemstatmax; k++)
+        mem[k - MEM_MIN].sc = 0; // all glue dimensions are zeroed
+
+    k = MEM_BOT;
+    while (k <= lomemstatmax) {
+        // set first words of glue specifications
+        gluerefcount(k) = 1;
+        stretchorder(k) = NORMAL;
+        shrinkorder(k) = NORMAL;
+        k += gluespecsize;
+    }
+
+    stretch(filglue) = UNITY;
+    stretchorder(filglue) = FIL;
+    stretch(fillglue) = UNITY;
+    stretchorder(fillglue) = FILL;
+    stretch(ssglue) = UNITY;
+    stretchorder(ssglue) = FIL;
+    shrink(ssglue) = UNITY;
+    shrinkorder(ssglue) = FIL;
+    stretch(filnegglue) = -UNITY;
+    stretchorder(filnegglue) = FIL;
+
+    // now initialize the dynamic memory
+    rover = lomemstatmax + 1;
+    link(rover) = empty_flag;
+
+    node_size(rover) = 1000; // which is a 1000-word available node
+    llink(rover) = rover;
+    rlink(rover) = rover;
+    lo_mem_max = rover + 1000;
+    link(lo_mem_max) = 0;
+    info(lo_mem_max) = 0;
+
+    for (k = himemstatmin; k <= MEM_TOP; k++) {
+        // clear list heads
+        mem[k - MEM_MIN].sc = 0;
+        type(k) = charnodetype;
+    }
+
+    // Initialize the special list heads and constant nodes
+    {
+        /// #790
+        info(omittemplate) = endtemplatetoken; // ink(omit template) = null
+        /// #797
+        link(endspan) = MAX_QUARTER_WORD + 1;
+        info(endspan) = 0;
+        /// #820
+        type(lastactive) = hyphenated;
+        linenumber(lastactive) = MAX_HALF_WORD;
+        subtype(lastactive) =
+            0; // the subtype is never examined by the algorithm
+        /// #981
+        subtype(pageinshead) = MIN_QUARTER_WORD + 255;
+        type(pageinshead) = splitup;
+        link(pageinshead) = pageinshead;
+        /// #988
+        type(pagehead) = GLUE_NODE;
+        subtype(pagehead) = NORMAL;
+    }
+
+    /// p59#164
+    avail = 0;
+    mem_end = MEM_TOP;
+    hi_mem_min = himemstatmin; // initialize the one-word memory
+    var_used = lomemstatmax - MEM_BOT + 1;
+    dyn_used = himemstatusage; // initialize statistics
+}
+
+/// p#95: 166
+void mem_var_init() {
+    was_mem_end = MEM_MIN;
+    was_lo_max = MEM_MIN;
+    was_hi_min = MEM_MAX;
+    panicking = false;
+}
+/** @}*/ // end group S162x172_P58x61

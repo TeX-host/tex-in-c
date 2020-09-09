@@ -73,4 +73,9 @@ extern Boolean log_opened;
 extern Integer depth_threshold;
 extern Integer breadth_max;
 
+// [tex], mem
+extern MemoryWord savestack[SAVE_SIZE + 1];
+extern Pointer hyphlist[HYPH_SIZE + 1];
+extern UInt16 saveptr;
+
 #endif // #ifndef GLOBAL_H
