@@ -138,19 +138,6 @@ Boolean OK_to_interrupt;
 /** @}*/ // end group S72x98_P30x37
 
 
-/** @addtogroup S173x198_P62x68
- * @{
- */
-
-/// [#173] an internal font number.
-Static Integer font_in_short_display; 
-/// [#181] maximum nesting depth in box displays.
-Integer depth_threshold;
-/// [#181] maximum number of items shown at the same list level.
-Integer breadth_max;
-/** @}*/ // end group S173x198_P62x68
-
-
 /** @addtogroup S211x219_P77x80
  * @{
  */

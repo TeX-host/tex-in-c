@@ -123,10 +123,12 @@
 #define glueshrink      shiftamount 
 /// [p57#159] indicates the number of spanned columns.
 #define spancount       subtype
-
-
-
 /** @} end group S133x161_P50x57 */
+
+
+extern Integer font_in_short_display;
+extern Integer depth_threshold;
+extern Integer breadth_max;
 
 // tex, scan
 extern Pointer newnullbox(void);
@@ -141,5 +143,14 @@ extern Pointer newglue(Pointer q);
 extern Pointer newskipparam(SmallNumber n);
 extern Pointer newkern(long w);
 extern Pointer newpenalty(long m);
+
+extern void shortdisplay(Pointer p);
+extern void printfontandchar(Pointer p);
+extern void printmark(long p);
+extern void printruledimen(long d);
+extern void printglue(long d, long order, StrNumber s);
+extern void printspec(long p, StrNumber s);
+extern void shownodelist(long p);
+extern void showbox(HalfWord p);
 
 #endif /* INC_BOX_H */

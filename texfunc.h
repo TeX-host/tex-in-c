@@ -52,8 +52,10 @@ extern void debughelp(void);
 extern void jumpout(void);
 extern void giveerrhelp(void);
 
-// [tex] eqtb
-extern void printspec(long p, StrNumber s);
-extern void shownodelist(long p);
+// tex, box
+extern void printsubsidiarydata(HalfWord p, ASCIICode c);
+extern void printdelimiter(HalfWord p);
+extern void print_write_whatsit(StrNumber s, Pointer p);
+extern void printfamandchar(HalfWord p);
 
 #endif // TEX_FUNC_H
