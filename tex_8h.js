@@ -47,7 +47,6 @@ var tex_8h =
     [ "formatextension", "tex_8h.html#afb8599f884cf37b3df4d4d49b554d230", null ],
     [ "formatextlength", "tex_8h.html#a7312dfcf36969ff1f2e3e8f28d307263", null ],
     [ "H_MODE", "group___s211x219___p77x80.html#ga21f9ee16396468f98b8ed4db2311e71b", null ],
-    [ "himemstatusage", "tex_8h.html#a7b3460b7f85f04b117888cc126e8c7e3", null ],
     [ "hyphenated", "tex_8h.html#a51dcd38fd3095739ce1cceac95af1529", null ],
     [ "ignoredepth", "tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a", null ],
     [ "immediatecode", "tex_8h.html#a4c6aaf5b66943d6576781ad398cd47b3", null ],

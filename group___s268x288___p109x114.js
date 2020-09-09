@@ -46,6 +46,6 @@ var group___s268x288___p109x114 =
     [ "curlevel", "group___s268x288___p109x114.html#ga12aa76166752b79c0f45b28ebd2909cf", null ],
     [ "magset", "group___s268x288___p109x114.html#ga26a369f685b4486a4bf0ebb6b9673943", null ],
     [ "maxsavestack", "group___s268x288___p109x114.html#gad8ae9e15f53d4d92ce3420078305c8f5", null ],
-    [ "saveptr", "group___s268x288___p109x114.html#gafcf6b8429f0719ad9c3ebef0c2d54a34", null ],
-    [ "savestack", "group___s268x288___p109x114.html#gaac4e21f0a8846038c2292553319d8aaa", null ]
+    [ "saveptr", "group___s268x288___p109x114.html#ga3d861a882da9c9a12db008cbbb69dc89", null ],
+    [ "savestack", "group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2", null ]
 ];

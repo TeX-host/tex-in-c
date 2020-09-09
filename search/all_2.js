@@ -9,7 +9,7 @@ var searchData=
   ['background_99',['background',['../tex__header_8h.html#aad59a7b79bfeb8c0cee657faa3a66774',1,'tex_header.h']]],
   ['backinput_100',['backinput',['../group___s321x331___p131x133.html#gafd6e40e89c0d293c90a471cef22e934a',1,'backinput(void):&#160;lexer.c'],['../group___s321x331___p131x133.html#gafd6e40e89c0d293c90a471cef22e934a',1,'backinput(void):&#160;lexer.c']]],
   ['backlist_101',['backlist',['../texmac_8h.html#a18a19cdf5f581d28374b1a7e1b3e8214',1,'texmac.h']]],
-  ['backuphead_102',['backuphead',['../group___s162x172___p58x61.html#gae8c3dab73f67111c41552b982bb55abc',1,'tex_constant.h']]],
+  ['backuphead_102',['backuphead',['../group___s162x172___p58x61.html#gae8c3dab73f67111c41552b982bb55abc',1,'mem.h']]],
   ['badfmt_103',['badfmt',['../tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88',1,'tex.h']]],
   ['badness_104',['badness',['../group___s99x109___p38x41.html#gadb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c'],['../group___s99x109___p38x41.html#gadb0743119eba9fc49e4f03b586ae1bf7',1,'badness(Scaled t, Scaled s):&#160;texmath.c']]],
   ['badness_5fcode_105',['BADNESS_CODE',['../group___s402x463___p155x173.html#gab9bfaad38716e16f3da04df382693e72',1,'scan.h']]],

@@ -1,18 +1,28 @@
 var mem_8c =
 [
+    [ "check_mem", "group___s162x172___p58x61.html#gae1e642af4b5aadd27bcf3461a22b293d", null ],
     [ "flush_list", "group___s115x132___p44x49.html#gada6f91b27ed9b396fc3e93b3f054b886", null ],
     [ "free_node", "group___s115x132___p44x49.html#ga82f3d522a0c0b9a6f72b8b7742c431cf", null ],
     [ "get_avail", "group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9", null ],
     [ "get_lo_mem_max", "group___s115x132___p44x49.html#ga67f8841db35982c5c5071bc8ef7b7451", null ],
     [ "get_node", "group___s115x132___p44x49.html#ga097157d50662287022ab14bf554f31c8", null ],
+    [ "mem_init", "group___s162x172___p58x61.html#ga9ce51c33e96ef646614c4c93f271e316", null ],
+    [ "mem_var_init", "group___s162x172___p58x61.html#gabb01582ee2a7a033d2a78f100261764a", null ],
+    [ "search_mem", "group___s162x172___p58x61.html#gadbcd4a906e0decdfef538768a46a5f4a", null ],
     [ "sort_avail", "group___s115x132___p44x49.html#ga29119e4a08a6bb7ae31cf9884a91433c", null ],
     [ "avail", "group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d", null ],
     [ "dyn_used", "group___s115x132___p44x49.html#ga18d4b80a9be42ff4d43577bfff002586", null ],
+    [ "free_cells", "group___s162x172___p58x61.html#gaa05b67efe9624f833dc79b1c4cb0c7bd", null ],
     [ "hi_mem_min", "group___s115x132___p44x49.html#ga9a7e5024b0569ea979a3a889834418a5", null ],
     [ "lo_mem_max", "group___s115x132___p44x49.html#ga26c636252eb4ab1aa9fef93854c06375", null ],
     [ "mem", "group___s115x132___p44x49.html#ga2821b5fde0c1d63167fd0474174c5c27", null ],
     [ "mem_end", "group___s115x132___p44x49.html#gae5ce70ba14bbfa92b3e2d8acceed6e1a", null ],
+    [ "panicking", "group___s162x172___p58x61.html#gaca94f5ef88dd8d1a4e4e5a0f4692d90d", null ],
     [ "rover", "group___s115x132___p44x49.html#ga3bc868bce18aa84f0b62ad82c61499d0", null ],
     [ "temp_ptr", "group___s115x132___p44x49.html#ga8e6eb7c60245ec295d32d686ad217c87", null ],
-    [ "var_used", "group___s115x132___p44x49.html#gaf7c85ec4deac3ddcc9a9136c76c42b1c", null ]
+    [ "var_used", "group___s115x132___p44x49.html#gaf7c85ec4deac3ddcc9a9136c76c42b1c", null ],
+    [ "was_free", "group___s162x172___p58x61.html#ga1028497b90d44a7f7a0d52b7fb06bd3e", null ],
+    [ "was_hi_min", "group___s162x172___p58x61.html#gaab1becb2d0b5ec1ada2fa01e9132a9ac", null ],
+    [ "was_lo_max", "group___s162x172___p58x61.html#gad568bb2647e9b9e6896327d57d46b05c", null ],
+    [ "was_mem_end", "group___s162x172___p58x61.html#gafdcd83bee630bfe0b2def08a92a77657", null ]
 ];

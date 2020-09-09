@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['xheight_3811',['xheight',['../texmac_8h.html#aa0cc29f723ae34630524dbbbf010c977',1,'texmac.h']]],
-  ['xleaders_3812',['xleaders',['../tex_8h.html#a330a0f221539f0824796c93600689af1',1,'tex.h']]]
+  ['xheight_3806',['xheight',['../texmac_8h.html#aa0cc29f723ae34630524dbbbf010c977',1,'texmac.h']]],
+  ['xleaders_3807',['xleaders',['../tex_8h.html#a330a0f221539f0824796c93600689af1',1,'tex.h']]]
 ];

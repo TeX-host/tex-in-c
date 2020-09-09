@@ -1,13 +1,14 @@
 <map id="print.h" name="print.h">
-<area shape="rect" id="node1" title=" " alt="" coords="391,5,458,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="438,5,505,35"/>
 <area shape="rect" id="node2" href="$eqtb_8c.html" title=" " alt="" coords="5,83,71,112"/>
 <area shape="rect" id="node3" href="$error_8c.html" title=" " alt="" coords="95,83,162,112"/>
 <area shape="rect" id="node4" href="$expand_8c.html" title=" " alt="" coords="187,83,273,112"/>
 <area shape="rect" id="node5" href="$fonts_8c.html" title=" " alt="" coords="297,83,365,112"/>
 <area shape="rect" id="node6" href="$hash_8c.html" title=" " alt="" coords="390,83,459,112"/>
 <area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="484,83,552,112"/>
-<area shape="rect" id="node8" href="$print_8c.html" title=" " alt="" coords="576,83,641,112"/>
-<area shape="rect" id="node9" href="$printout_8c.html" title=" " alt="" coords="665,83,752,112"/>
-<area shape="rect" id="node10" href="$tex__header_8h.html" title=" " alt="" coords="777,83,891,112"/>
-<area shape="rect" id="node11" href="$tex_8c.html" title=" " alt="" coords="807,160,861,189"/>
+<area shape="rect" id="node8" href="$mem_8c.html" title=" " alt="" coords="577,83,646,112"/>
+<area shape="rect" id="node9" href="$print_8c.html" title=" " alt="" coords="671,83,736,112"/>
+<area shape="rect" id="node10" href="$printout_8c.html" title=" " alt="" coords="760,83,847,112"/>
+<area shape="rect" id="node11" href="$tex__header_8h.html" title=" " alt="" coords="871,83,986,112"/>
+<area shape="rect" id="node12" href="$tex_8c.html" title=" " alt="" coords="901,160,956,189"/>
 </map>

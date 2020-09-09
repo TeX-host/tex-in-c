@@ -18,10 +18,9 @@ var searchData=
   ['inc_5ftex_5fheader_3633',['INC_TEX_HEADER',['../tex__header_8h.html#af56fcbe0488de1936c6c57094321899f',1,'tex_header.h']]],
   ['inc_5ftex_5ftypes_3634',['INC_TEX_TYPES',['../tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2',1,'tex_types.h']]],
   ['inf_5fbad_3635',['INF_BAD',['../tex__constant_8h.html#a539a2643ee8399d71d80da3fff4e2e70',1,'tex_constant.h']]],
-  ['info_3636',['info',['../mem_8h.html#ac52e3942407e01f9b708a8e6689924af',1,'info():&#160;mem.h'],['../dviout_8c.html#ab7e64333eba48090f444ec9f36fd23ef',1,'INFO():&#160;dviout.c']]],
+  ['info_3636',['INFO',['../dviout_8c.html#ab7e64333eba48090f444ec9f36fd23ef',1,'dviout.c']]],
   ['inserting_3637',['inserting',['../tex_8h.html#a2ed2084e8ebbd99e804c41b715fa3425',1,'tex.h']]],
   ['insertsonly_3638',['insertsonly',['../tex_8h.html#a44be76b2009446ba99020cf655171b4d',1,'tex.h']]],
   ['inslist_3639',['inslist',['../texmac_8h.html#a6313e1bd909d6689b8778413f1c07e96',1,'texmac.h']]],
-  ['is_5fempty_3640',['is_empty',['../mem_8h.html#a67b3180b4c9f133545f4b7ace06c24bd',1,'mem.h']]],
-  ['ishex_3641',['ishex',['../texmac_8h.html#a70173db3d329c64c027f4632700520d2',1,'texmac.h']]]
+  ['ishex_3640',['ishex',['../texmac_8h.html#a70173db3d329c64c027f4632700520d2',1,'texmac.h']]]
 ];

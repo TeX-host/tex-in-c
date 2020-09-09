@@ -1,11 +1,12 @@
 <map id="texmath.h" name="texmath.h">
-<area shape="rect" id="node1" title=" " alt="" coords="295,5,386,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="338,5,429,35"/>
 <area shape="rect" id="node2" href="$eqtb_8c.html" title=" " alt="" coords="5,83,71,112"/>
 <area shape="rect" id="node3" href="$expand_8c.html" title=" " alt="" coords="95,83,181,112"/>
 <area shape="rect" id="node4" href="$fonts_8c.html" title=" " alt="" coords="205,83,273,112"/>
-<area shape="rect" id="node5" href="$printout_8c.html" title=" " alt="" coords="297,83,384,112"/>
-<area shape="rect" id="node6" href="$scan_8c.html" title=" " alt="" coords="408,83,476,112"/>
-<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="501,83,615,112"/>
-<area shape="rect" id="node9" href="$texmath_8c.html" title=" " alt="" coords="639,83,730,112"/>
-<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="531,160,585,189"/>
+<area shape="rect" id="node5" href="$mem_8c.html" title=" " alt="" coords="298,83,367,112"/>
+<area shape="rect" id="node6" href="$printout_8c.html" title=" " alt="" coords="392,83,479,112"/>
+<area shape="rect" id="node7" href="$scan_8c.html" title=" " alt="" coords="503,83,571,112"/>
+<area shape="rect" id="node8" href="$tex__header_8h.html" title=" " alt="" coords="595,83,710,112"/>
+<area shape="rect" id="node10" href="$texmath_8c.html" title=" " alt="" coords="734,83,825,112"/>
+<area shape="rect" id="node9" href="$tex_8c.html" title=" " alt="" coords="625,160,680,189"/>
 </map>
