@@ -25,11 +25,6 @@ extern TextChar xchr[256];
 extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用
-/// [#116]
-extern MemoryWord mem[MEM_MAX - MEM_MIN + 1];
-extern Pointer lo_mem_max;
-extern Pointer hi_mem_min;
-extern Pointer mem_end;
 extern ListStateRecord cur_list;
 extern UInt16 shown_mode;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
@@ -50,8 +45,6 @@ extern Pointer condptr;
 extern char iflimit;
 extern Integer ifline;
 extern Boolean name_in_progress;
-extern Pointer avail;
-extern Integer dyn_used;
 
 extern char readopen[17];
 extern StrNumber job_name;

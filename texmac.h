@@ -2,6 +2,8 @@
 #ifndef TEXMAC_H
 /// tex.c 里使用的宏
 #define TEXMAC_H
+#include "mem.h" // [macro] link
+
 
 // ?
 #undef labs
@@ -33,25 +35,7 @@
 /** @addtogroup S115x132_P44x49
  * @{ */
 
-/// [p44#115] the #null pointer.
-/// null ≡ min_halfword.
-#define null 0
 
-/// [p45#118] the `link` field of a memory word.
-#define link(x) (mem[(x)].hh.rh)
-/// [p45#118] the `info` field of a memory word.
-#define info(x) (mem[(x)].hh.UU.lh)
-
-/// [p46#124] the `link` of an empty variable-size node.
-#define emptyflag   MAX_HALF_WORD
-/// [p46#124] tests for empty node.
-#define isempty(x) (link(x) == emptyflag)
-/// [p46#124] the size field in empty variable-size nodes.
-#define nodesize    info
-/// [p46#124] left link in doubly-linked list of empty nodes.
-#define llink(x)    info(x+1)
-/// [p46#124] right link in doubly-linked list of empty nodes.
-#define rlink(x)    link(x+1)
 /** @}*/ // end group S115x132_P44x49
 
 

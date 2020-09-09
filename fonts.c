@@ -14,11 +14,11 @@
     // [func] print_*,
     //  packfilename, error,
     //  get_defaultskewchar, get_defaulthyphenchar,
-    //  get_lo_mem_max
 #include "texmath.h"
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
 #include "hash.h" // [func] sprint_cs, fontidtext
+#include "mem.h"  // [func] get_lo_mem_max
 #include "print.h"
 
 

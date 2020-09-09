@@ -12,6 +12,7 @@
     // [func] error, fatalerror, overflow, print_err,
     // [macro] checkinterrupt,
 #include "hash.h" // [func] idlookup_p, sprint_cs
+#include "mem.h"  // [var] lo_mem_max, hi_mem_min, mem_end
 #include "lexer.h"
 
 

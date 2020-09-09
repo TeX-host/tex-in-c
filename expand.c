@@ -1,7 +1,7 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
 #include "texmac.h" // [macro] link
-#include "tex_inc.h" // [macro] STORE_NEW_TOKEN, FAST_STORE_NEW_TOKEN, FREE_AVAIL
+#include "tex_inc.h" // [macro] STORE_NEW_TOKEN
 #include "macros.h" // [macro] help1, help2, help3, help4,
 #include "global.h"
 #include "texfunc.h"
@@ -13,6 +13,7 @@
 #include "scan.h"     // [func] scan_eight_bit_int
 #include "error.h"    // [func] error, overflow, confusion, print_err,
 #include "hash.h"     // [func] idlookup_p, sprint_cs, print_cs
+#include "mem.h"      // [macro] FREE_AVAIL, FAST_GET_AVAIL
 #include "expand.h"
 
 /** @addtogroup S487x510_P181x187

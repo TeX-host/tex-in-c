@@ -35,6 +35,7 @@
     // [macro] checkinterrupt,
 #include "hash.h"       // [func] sprint_cs
 #include "eqtb.h"
+#include "mem.h"
 #include "texfunc.h"    // [export]
 
 
@@ -134,25 +135,6 @@ Integer interrupt;
 /// [#96] should interrupts be observed?
 Boolean OK_to_interrupt;
 /** @}*/ // end group S72x98_P30x37
-
-
-/** @addtogroup S115x132_P44x49
- *
- * #null=0 ≤ #MEM_MIN=0 
- * ≤ #MEM_BOT=0 < #lo_mem_max < #hi_mem_min < #MEM_TOP=3_000_000
- * ≤ #mem_end ≤ #MEM_MAX=3_000_000 .
- * @{
- */
-
-Static Pointer temp_ptr;  ///< [#115] for occasional emergency use.
-MemoryWord mem[MEM_MAX - MEM_MIN + 1]; ///< [#116] the big dynamic storage area.
-Pointer lo_mem_max;  ///< [#116] the largest location of variable-size memory.
-Pointer hi_mem_min;  ///< [#116] the smallest location of one-word memory.
-Integer var_used, dyn_used; ///< [#117] how much memory is in use.
-Pointer avail;    ///< [#118] head of the list of available one-word nodes.
-Pointer mem_end;  ///< [#118] the last one-word node used in mem.
-Static Pointer rover; ///< [#124] points to some node in the list of empties.
-/** @}*/ // end group S115x132_P44x49
 
 
 /** @addtogroup S162x172_P58x61

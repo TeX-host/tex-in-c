@@ -29,7 +29,6 @@ extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
-extern Pointer get_lo_mem_max(void);
 
 
 // [tex]

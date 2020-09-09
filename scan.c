@@ -6,13 +6,15 @@
 #include "global.h"
 #include "macros.h" // [macro] help4,
 #include "expand.h"
-#include "texmac.h" // [macro] ischarnode
+#include "texmac.h"
 
 #include "texmath.h"
 #include "fonts.h"
 #include "printout.h" // [func] printcmdchr
 #include "error.h"    // [func] error, int_error, print_err,
 #include "eqtb.h"     // MATH_CODE_BASE, math_code, equiv, eqtb,ACTIVE_BASE
+#include "mem.h"      // [var] mem, hi_mem_min
+    // [macro] FREE_AVAIL, FAST_GET_AVAIL
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173
