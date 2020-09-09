@@ -97,10 +97,6 @@
 /** @}*/ // end group S539x582_P196x213
 
 
-// [#200] reference count preceding a token list
-#define tokenrefcount(x) info(x)
-
-
 /** @addtogroup S203x206_P71x72
  * @{
  */

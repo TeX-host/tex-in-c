@@ -33,7 +33,6 @@ extern void set_help(SChar k, ...);
 
 // [tex] lexer
 extern void print_mode(Integer m);
-extern void delete_token_ref(HalfWord p);
 extern void openlogfile(void);
 
 // [tex] expand
@@ -43,7 +42,6 @@ extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 
 // [tex] scan
-extern void delete_glue_ref(HalfWord p);
 extern void preparemag(void);
 extern Pointer newspec(Pointer p);
 

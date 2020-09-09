@@ -20,6 +20,13 @@ print.o: print.c global_const.h print.h tex_types.h tex.h tex_constant.h \
 hash.o: hash.c texmac.h mem.h tex_types.h global.h str.h global_const.h \
  scan.h lexer.h tex.h tex_constant.h error.h print.h hash.h fonts.h \
  eqtb.h
+box.o: box.c tex_types.h tex_constant.h mem.h global.h str.h \
+ global_const.h scan.h lexer.h tex.h eqtb.h box.h
+box_display.o: box_display.c tex_types.h tex_constant.h mem.h global.h \
+ str.h global_const.h scan.h lexer.h tex.h texfunc.h texmath.h print.h \
+ texmac.h hash.h fonts.h eqtb.h box.h
+box_copy.o: box_copy.c tex_types.h tex_constant.h mem.h global.h str.h \
+ global_const.h scan.h lexer.h tex.h texmac.h error.h box.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h texmac.h mem.h \
  global.h str.h global_const.h scan.h lexer.h texfunc.h printout.h \
  pure_func.h macros.h inputln.h funcs.h expand.h error.h hash.h fonts.h \
@@ -44,8 +51,3 @@ eqtb.o: eqtb.c print.h tex_types.h tex.h tex_constant.h texmac.h mem.h \
 mem.o: mem.c lexer.h tex.h tex_types.h tex_constant.h texmac.h mem.h \
  global.h str.h global_const.h scan.h error.h eqtb.h texmath.h print.h \
  box.h
-box.o: box.c tex_types.h tex_constant.h mem.h global.h str.h \
- global_const.h scan.h lexer.h tex.h eqtb.h box.h
-box_display.o: box_display.c tex_types.h tex_constant.h mem.h global.h \
- str.h global_const.h scan.h lexer.h tex.h texfunc.h texmath.h print.h \
- texmac.h hash.h fonts.h eqtb.h box.h

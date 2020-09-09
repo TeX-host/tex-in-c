@@ -130,6 +130,13 @@
 /// [p64#180]
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 /** @}*/ // end group S173x198_P62x68
+/** @addtogroup S199x202_P69x70
+ * @{
+ */
+// [#200] reference count preceding a token list
+#define tokenrefcount(x) info(x)
+/** @}*/ // end group S199x202_P69x70
+
 
 extern Integer font_in_short_display;
 extern Integer depth_threshold;
@@ -153,5 +160,10 @@ extern void shortdisplay(Pointer p);
 extern void printspec(long p, StrNumber s);
 extern void shownodelist(long p);
 extern void showbox(HalfWord p);
+
+// box_copy
+extern void delete_token_ref(HalfWord p);
+extern void delete_glue_ref(HalfWord p);
+extern void flush_node_list(HalfWord p);
 
 #endif /* INC_BOX_H */

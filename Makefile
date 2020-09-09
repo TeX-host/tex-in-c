@@ -7,7 +7,8 @@ SRCS  = tex
 SRCS += pool_init pure_func
 SRCS += funcs inputln
 SRCS += texmath str printout print hash
-SRCS += lexer fonts dviout expand scan error eqtb mem box box_display
+SRCS += box box_display box_copy
+SRCS += lexer fonts dviout expand scan error eqtb mem 
 CSRCS = $(addsuffix .c,${SRCS})
 OBJS  = $(addsuffix .o,${SRCS})
 
