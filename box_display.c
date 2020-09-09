@@ -22,44 +22,54 @@ Integer depth_threshold;
 Integer breadth_max;
 
 
-/*174:*/
+/// [#174] prints highlights of list p.
 void shortdisplay(Pointer p) {
-    long n;
+    Integer n;
 
     while (p > MEM_MIN) {
         if (ischarnode(p)) {
             if (p <= mem_end) {
                 if (font(p) != font_in_short_display) {
-                    if (/* (font(p) < 0 ) | */ (font(p) > FONT_MAX))
+                    /// TODO: why ?
+                    if (/* (font(p) < 0 ) | */ (font(p) > FONT_MAX)) {
                         print_char('*');
-                    else /*267:*/
-                         /*:267*/
+                    } else {
+                        /// [#267] Print the font identifier for font(p)
                         print_esc(fontidtext(font(p)));
+                    }
                     print_char(' ');
                     font_in_short_display = font(p);
                 }
                 print(character(p) - MIN_QUARTER_WORD);
             }
-        } else {               /*175:*/
-            switch (type(p)) { /*:175*/
-
+        } else {
+            /// [#175] Print a short indication of the contents of node.
+            switch (type(p)) {
                 case HLIST_NODE:
                 case VLIST_NODE:
                 case INS_NODE:
                 case WHATSIT_NODE:
                 case MARK_NODE:
                 case ADJUST_NODE:
-                case UNSET_NODE: print(S(328)); break;
+                case UNSET_NODE:
+                    print(S(328)); // "[]"
+                    break;
 
-                case RULE_NODE: print_char('|'); break;
+                case RULE_NODE: 
+                    print_char('|'); 
+                    break;
 
                 case GLUE_NODE:
                     if (glueptr(p) != zeroglue) print_char(' ');
                     break;
 
-                case MATH_NODE: print_char('$'); break;
+                case MATH_NODE: 
+                    print_char('$'); 
+                    break;
 
-                case LIGATURE_NODE: shortdisplay(ligptr(p)); break;
+                case LIGATURE_NODE: 
+                    shortdisplay(ligptr(p)); 
+                    break;
 
                 case DISC_NODE:
                     shortdisplay(prebreak(p));
@@ -70,84 +80,90 @@ void shortdisplay(Pointer p) {
                         n--;
                     }
                     break;
-            }
-        }
-        p = link(p);
-    }
-}
-/*:174*/
 
-/*176:*/
+                default:
+                    /* do nothing */
+                    break;
+            } // switch (type(p))
+        } // if (ischarnode(p)) - else
+        p = link(p);
+    } // while (p > MEM_MIN)
+} /* shortdisplay */
+
+/// [#176] prints char node data.
 void printfontandchar(Pointer p) {
     if (p > mem_end) {
-        print_esc(S(308));
+        print_esc(S(308)); // "CLOBBERED."
         return;
     }
-    if ((font(p) > FONT_MAX))
+
+    if ((font(p) > FONT_MAX)) {
         print_char('*');
-    else /*267:*/
-         /*:267*/
+    } else {
+        /// [#267] Print the font identifier for font(p)
         print_esc(fontidtext(font(p)));
+    }
     print_char(' ');
     print(character(p) - MIN_QUARTER_WORD);
-}
+} /* printfontandchar */
 
-
-void printmark(long p) {
+/// [#176] prints token list data in braces.
+void printmark(Integer p) {
     print_char('{');
-    if (p < hi_mem_min || p > mem_end)
-        print_esc(S(308));
-    else
+    if (p < hi_mem_min || p > mem_end){
+        print_esc(S(308)); // "CLOBBERED."
+    } else {
         showtokenlist(link(p), 0, MAX_PRINT_LINE - 10);
+    }
     print_char('}');
-}
+} /* printmark */
 
-
-void printruledimen(long d) {
+/// [#176] prints dimension in rule node.
+void printruledimen(Scaled d) {
     if (isrunning(d)) {
         print_char('*');
-    } else
+    } else {
         print_scaled(d);
-}
-/*:176*/
+    }
+} /* printruledimen */
 
-/*177:*/
-void printglue(long d, long order, StrNumber s) {
+/// [#177] prints a glue component.
+void printglue(Scaled d, Integer order, StrNumber s) {
     print_scaled(d);
-    if ((unsigned long)order > FILLL) {
-        print(S(329));
+    if (order > FILLL) {
+        print(S(329)); // "foul"
         return;
     }
     if (order <= NORMAL) {
         if (s != 0) print(s);
         return;
     }
-    print(S(330));
+
+    print(S(330)); // "fil"
     while (order > FIL) {
         print_char('l');
         order--;
     }
-}
-/*:177*/
+} /* printglue */
 
-/*178:*/
+/// [#178] prints a glue specification.
 void printspec(long p, StrNumber s) {
-    if (p >= lo_mem_max) {
+    if (/* p < MEM_MIN || */ p >= lo_mem_max) {
         print_char('*');
         return;
     }
+
     print_scaled(width(p));
     if (s != 0) print(s);
     if (stretch(p) != 0) {
-        print(S(331));
+        print(S(331)); // " plus "
         printglue(stretch(p), stretchorder(p), s);
     }
     if (shrink(p) != 0) {
-        print(S(332));
+        print(S(332)); // " minus "
         printglue(shrink(p), shrinkorder(p), s);
     }
-}
-/*:178*/
+} /* printspec */
 
 /*182:*/
 void shownodelist(long p) {
