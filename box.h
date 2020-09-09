@@ -3,6 +3,7 @@
 /// [133] Data structures for boxes and their friends.
 #define INC_BOX_H
 
+
 /** @addtogroup S133x161_P50x57
  * @{
  */
@@ -124,18 +125,30 @@
 /// [p57#159] indicates the number of spanned columns.
 #define spancount       subtype
 /** @} end group S133x161_P50x57 */
+
 /** @addtogroup S173x198_P62x68
  * @{
  */
 /// [p64#180]
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 /** @}*/ // end group S173x198_P62x68
+
 /** @addtogroup S199x202_P69x70
  * @{
  */
 // [#200] reference count preceding a token list
 #define tokenrefcount(x) info(x)
 /** @}*/ // end group S199x202_P69x70
+
+/** @addtogroup S203x206_P71x72
+ * @{
+ */
+
+/// [#203] new reference to a token list.
+#define addtokenref(x)  (tokenrefcount(x)++)
+/// [#203] new reference to a glue spec.
+#define addglueref(x)   (gluerefcount(x)++)
+/** @}*/ // end group S203x206_P71x72
 
 
 extern Integer font_in_short_display;
@@ -161,9 +174,12 @@ extern void printspec(long p, StrNumber s);
 extern void shownodelist(long p);
 extern void showbox(HalfWord p);
 
-// box_copy
+// box_destroy
 extern void delete_token_ref(HalfWord p);
 extern void delete_glue_ref(HalfWord p);
 extern void flush_node_list(HalfWord p);
+
+// box_copy
+extern HalfWord copynodelist(HalfWord p);
 
 #endif /* INC_BOX_H */

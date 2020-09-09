@@ -97,18 +97,6 @@
 /** @}*/ // end group S539x582_P196x213
 
 
-/** @addtogroup S203x206_P71x72
- * @{
- */
-
-/// [#203] new reference to a token list.
-#define addtokenref(x)  (tokenrefcount(x)++)
-/// [#203] new reference to a glue spec.
-#define addglueref(x)   (gluerefcount(x)++)
-/** @}*/ // end group S203x206_P71x72
-
-
-
 /*
 /// [p203#554]
 #define charexists(x)  ((x).b0>MIN_QUARTER_WORD)
