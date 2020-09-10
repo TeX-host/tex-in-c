@@ -2,7 +2,7 @@ var searchData=
 [
   ['pack_5ftok_2465',['pack_tok',['../lexer_8c.html#a3460d673e502f07a6dac47e0d18dadcd',1,'pack_tok(int cs, int cmd, int chr):&#160;lexer.c'],['../lexer_8h.html#a3460d673e502f07a6dac47e0d18dadcd',1,'pack_tok(int cs, int cmd, int chr):&#160;lexer.c']]],
   ['package_2466',['package',['../group___s1055x1135___p395x416.html#ga27229d10e2d798c8d8cd71545c2c6f32',1,'tex.c']]],
-  ['packfilename_2467',['packfilename',['../group___s511x538___p188x195.html#gad1a5d6180220c7cf34651a9dbd711f5a',1,'packfilename(StrNumber n, StrNumber a, StrNumber e):&#160;tex.c'],['../group___s511x538___p188x195.html#gad1a5d6180220c7cf34651a9dbd711f5a',1,'packfilename(StrNumber n, StrNumber a, StrNumber e):&#160;tex.c']]],
+  ['packfilename_2467',['packfilename',['../group___s511x538___p188x195.html#gaec26a4251e757acb06a49a967374a3dd',1,'packfilename(StrNumber fname, StrNumber prefix, StrNumber ext):&#160;tex.c'],['../group___s511x538___p188x195.html#gaec26a4251e757acb06a49a967374a3dd',1,'packfilename(StrNumber fname, StrNumber prefix, StrNumber ext):&#160;tex.c']]],
   ['packjobname_2468',['packjobname',['../group___s511x538___p188x195.html#ga91d229bceccfd919866c728fd9d84d5e',1,'tex.c']]],
   ['pascal_5fmain_2469',['PASCAL_MAIN',['../funcs_8c.html#a2c62ad6247b0b1e437fc921ba4c7b780',1,'PASCAL_MAIN(int argc, char **argv):&#160;funcs.c'],['../funcs_8h.html#a2c62ad6247b0b1e437fc921ba4c7b780',1,'PASCAL_MAIN(int argc, char **argv):&#160;funcs.c']]],
   ['passtext_2470',['passtext',['../group___s487x510___p181x187.html#ga255dad295fbcbe98a1df8ede77474123',1,'expand.c']]],

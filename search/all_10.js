@@ -8,7 +8,7 @@ var searchData=
   ['package_1334',['package',['../group___s1055x1135___p395x416.html#ga27229d10e2d798c8d8cd71545c2c6f32',1,'tex.c']]],
   ['packbeginline_1335',['packbeginline',['../tex__header_8h.html#a70e1d4770a9cc66f23b74251b9a192e5',1,'tex_header.h']]],
   ['packedasciicode_1336',['PackedASCIICode',['../tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f',1,'tex_types.h']]],
-  ['packfilename_1337',['packfilename',['../group___s511x538___p188x195.html#gad1a5d6180220c7cf34651a9dbd711f5a',1,'packfilename(StrNumber n, StrNumber a, StrNumber e):&#160;tex.c'],['../group___s511x538___p188x195.html#gad1a5d6180220c7cf34651a9dbd711f5a',1,'packfilename(StrNumber n, StrNumber a, StrNumber e):&#160;tex.c']]],
+  ['packfilename_1337',['packfilename',['../group___s511x538___p188x195.html#gaec26a4251e757acb06a49a967374a3dd',1,'packfilename(StrNumber fname, StrNumber prefix, StrNumber ext):&#160;tex.c'],['../group___s511x538___p188x195.html#gaec26a4251e757acb06a49a967374a3dd',1,'packfilename(StrNumber fname, StrNumber prefix, StrNumber ext):&#160;tex.c']]],
   ['packjobname_1338',['packjobname',['../group___s511x538___p188x195.html#ga91d229bceccfd919866c728fd9d84d5e',1,'tex.c']]],
   ['packlig_1339',['packlig',['../texmac_8h.html#ad68eea898ad96dfc90320d60f0ad167f',1,'texmac.h']]],
   ['pagecontents_1340',['pagecontents',['../global_8h.html#aae2a13aa6428277a3bcfb653ffdc4768',1,'pagecontents():&#160;tex_header.h'],['../tex__header_8h.html#aae2a13aa6428277a3bcfb653ffdc4768',1,'pagecontents():&#160;tex_header.h']]],
