@@ -17,23 +17,27 @@ HalfWord copynodelist(HalfWord p) {
 
     h = get_avail();
     q = h;
-    while (p != 0) { /*205:*/
-        words = 1;
+    while (p != 0) {
+        /// [#205] Make a copy of node p in node r.
+        words = 1; // this setting occurs in more branches than any other
         if (ischarnode(p)) {
             r = get_avail();
-#ifdef BIG_CHARNODE
+        #ifdef BIG_CHARNODE
             words = CHAR_NODE_SIZE;
-#endif
-        } else {               /*206:*/
-            switch (type(p)) { /*:206*/
-
+        #endif
+        } else {
+            // Case statement to copy different types and set words to 
+            //  the number of initial words not yet copied
+            switch (type(p)) {
                 case HLIST_NODE:
                 case VLIST_NODE:
                 case UNSET_NODE:
                     r = get_node(boxnodesize);
+                    // copy the last two words
                     mem[r - MEM_MIN + 6] = mem[p - MEM_MIN + 6];
                     mem[r - MEM_MIN + 5] = mem[p - MEM_MIN + 5];
-                    listptr(r) = copynodelist(listptr(p));
+                    // this affects mem[r + 5]
+                    listptr(r) = copynodelist(listptr(p)); 
                     words = 5;
                     break;
 
@@ -46,13 +50,16 @@ HalfWord copynodelist(HalfWord p) {
                     r = get_node(insnodesize);
                     mem[r - MEM_MIN + 4] = mem[p - MEM_MIN + 4];
                     addglueref(splittopptr(p));
+                    // this affects mem[r + 4]
                     insptr(r) = copynodelist(insptr(p));
                     words = insnodesize - 1;
                     break;
 
-                case WHATSIT_NODE:        /*1357:*/
-                    switch (subtype(p)) { /*:1357*/
-
+                case WHATSIT_NODE:
+                    switch (subtype(p)) {
+                        // [#1357] Make a partial copy of the whatsit node p  
+                        //  and make r point to it;  set words to the number of
+                        //  initial words not yet copied.
                         case opennode:
                             r = get_node(opennodesize);
                             words = opennodesize;
@@ -92,6 +99,7 @@ HalfWord copynodelist(HalfWord p) {
                     break;
 
                 case LIGATURE_NODE:
+                    // copy font and character
                     r = get_node(smallnodesize);
                     mem[ligchar(r) - MEM_MIN] = mem[ligchar(p) - MEM_MIN];
                     ligptr(r) = copynodelist(ligptr(p));
@@ -112,15 +120,16 @@ HalfWord copynodelist(HalfWord p) {
                 case ADJUST_NODE:
                     r = get_node(smallnodesize);
                     adjustptr(r) = copynodelist(adjustptr(p));
+                    // words = 1 = smallnodesize − 1
                     break;
 
                 default:
                     confusion(S(430)); // "copying"
                     break;
             } // switch (type(p)
-        }     // if (<=>ischarnode(p))
+        } // if (<=>ischarnode(p))
 
-        while (words > 0) { /*:205*/
+        while (words > 0) {
             words--;
             mem[r + words - MEM_MIN] = mem[p + words - MEM_MIN];
         } // while (words > 0)
@@ -130,10 +139,10 @@ HalfWord copynodelist(HalfWord p) {
         p = link(p);
     } // while (p != 0)
 
-    link(q) = 0;
+    link(q) = null;
     q = link(h);
     FREE_AVAIL(h);
     return q;
 } // copynodelist
-  /*:204*/
+
 /** @}*/ // end group S203x206_P71x72
