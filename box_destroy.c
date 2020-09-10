@@ -6,6 +6,7 @@
 #include "error.h"   // confusion
 #include "box.h"
 
+
 /** @addtogroup S199x202_P69x70
  * @{
  */
@@ -31,7 +32,7 @@ void delete_glue_ref(HalfWord p) {
 
 // [#202] erase list of nodes starting at p
 void flush_node_list(HalfWord p) {
-    Pointer q;
+    Pointer q; // successor to node p
 
     while (p != 0) {
         q = link(p);
@@ -87,7 +88,9 @@ void flush_node_list(HalfWord p) {
 
                 case GLUE_NODE:
                     delete_glue_ref(glueptr(p));
-                    if (leaderptr(p) != 0) flush_node_list(leaderptr(p));
+                    if (leaderptr(p) != 0) {
+                        flush_node_list(leaderptr(p));
+                    }
                     break;
 
                 case KERN_NODE:
@@ -96,8 +99,12 @@ void flush_node_list(HalfWord p) {
                     /* blank case */
                     break;
 
-                case LIGATURE_NODE: flush_node_list(ligptr(p)); break;
-                case MARK_NODE: delete_token_ref(markptr(p)); break;
+                case LIGATURE_NODE: 
+                    flush_node_list(ligptr(p)); 
+                    break;
+                case MARK_NODE: 
+                    delete_token_ref(markptr(p)); 
+                    break;
 
                 case DISC_NODE:
                     flush_node_list(prebreak(p));
@@ -136,12 +143,15 @@ void flush_node_list(HalfWord p) {
                 case undernoad:
                 case vcenternoad:
                 case accentnoad:
-                    if (mathtype(nucleus(p)) >= subbox)
+                    if (mathtype(nucleus(p)) >= subbox) {
                         flush_node_list(info(nucleus(p)));
-                    if (mathtype(supscr(p)) >= subbox)
+                    }
+                    if (mathtype(supscr(p)) >= subbox) {
                         flush_node_list(info(supscr(p)));
-                    if (mathtype(subscr(p)) >= subbox)
+                    }
+                    if (mathtype(subscr(p)) >= subbox) {
                         flush_node_list(info(subscr(p)));
+                    }
                     
                     if (type(p) == radicalnoad) {
                         free_node(p, radicalnoadsize);
@@ -169,11 +179,12 @@ void flush_node_list(HalfWord p) {
                 default: 
                     confusion(S(428)); // "flushing"
                     break;
-            }
+            } // switch (type(p))
             free_node(p, smallnodesize);
         _Ldone:;
-        }
+        } // if (ischarnode(p)) - else
         p = q;
     } // while (p != 0)
 } // [#202] flush_node_list
+
 /** @}*/ // end group S199x202_P69x70
