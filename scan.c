@@ -17,6 +17,7 @@
     // [macro] FREE_AVAIL, FAST_GET_AVAIL
     // [func] flush_list, get_avail
 #include "box.h" // [func] newrule, newspec
+#include "print.h" // [func] print
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173

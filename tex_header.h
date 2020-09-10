@@ -138,24 +138,6 @@ Boolean OK_to_interrupt;
 /** @}*/ // end group S72x98_P30x37
 
 
-/** @addtogroup S268x288_P109x114
- * @{
- */
-
-/// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
-/// [#271]
-MemoryWord savestack[SAVE_SIZE + 1];
-UInt16 saveptr; // first unused entry on save stack
-Static UInt16 maxsavestack; // maximum usage of save stack
-Static QuarterWord curlevel; // current nesting level for groups
-Static GroupCode curgroup;   // current group type
-Static UInt16 curboundary;   // where the current level begins
-// [#286] if nonzero, 
-// this magnification should be used henceforth
-Static Integer magset;
-/** @}*/ // end group S268x288_P109x114
-
-
 /** @addtogroup S332x365_P134x143
  * @{
  */

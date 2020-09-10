@@ -449,12 +449,70 @@ enum DimensionRegisters {
 #define hoffset                 dimen_par(hoffsetcode)
 #define voffset                 dimen_par(voffsetcode)
 #define emergencystretch        dimen_par(emergencystretchcode)
-
 /** @}*/ // end group S220x255_P81x101
 
+/** @addtogroup S268x288_P109x114
+ * @{
+ */
+/// [p109#268] classifies a |savestack| entry
+#define savetype(x)     savestack[x].hh.UU.U2.b0
+/// [p109#268] saved level for regions 5 and 6, or group code
+#define savelevel(x)    savestack[x].hh.UU.U2.b1
+/// [p109#268] |eqtb| location or |savestack| location
+#define saveindex(x)    savestack[x].hh.rh
 
+/// [p111#274]
+#define saved(x)        savestack[saveptr + x].int_
+
+/// [#268]
+enum SaveType {
+    restoreoldvalue, ///< when a value should be restored later
+    restorezero,     ///< when an undefined entry should be restored
+    inserttoken,     ///< when a token is being saved for later use
+    levelboundary,   ///< corresponding to beginning of group
+}; // [#268] SaveType
+
+/** [#269] group codes 
+ * that are used to discriminate between different kinds of groups.
+ * 
+ */
+enum GroupCode {
+    bottomlevel = 0,   ///< the outside world
+    simplegroup,       ///< local structure only
+    hboxgroup,         ///< `\hbox{...}`
+    adjustedhboxgroup, ///< `\hbox{...}` in vertical mode
+    vboxgroup,         ///< `\vbox{...}`
+
+    vtopgroup = 5, ///< `\vtop{...}`
+    aligngroup,    ///< `\halign{...}`, `\valign{...}`
+    noaligngroup,  ///< `\noalign{...}`
+    outputgroup,   ///< output routine
+    mathgroup,     ///< `^{...}`
+
+    discgroup = 10,  ///< `\discretionary{...}{...}{...}`
+    insertgroup,     ///< `\insert{...}`, `\vadjust{...}`
+    vcentergroup,    ///< `\vcenter{...}`
+    mathchoicegroup, ///< `\mathchoice{...}{...}{...}{...}`
+    semisimplegroup, ///< `\begingroup...\endgroup`
+
+    mathshiftgroup = 15, ///< `$...$`
+    mathleftgroup = 16,  ///< `\left...\right`
+    MAX_GROUP_CODE = 16,
+}; // [#269] GroupCode
+/** @}*/ // end group S268x288_P109x114
+
+// eqtb
 extern MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1];
 extern QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
+
+// eqtv_save
+extern MemoryWord savestack[SAVE_SIZE + 1];
+extern UInt16 saveptr;
+extern UInt16 maxsavestack;
+extern QuarterWord curlevel;
+extern GroupCode curgroup;
+extern UInt16 curboundary;
+extern Integer magset;
 
 
 extern void eqtb_init();
@@ -466,5 +524,15 @@ extern void showeqtb(HalfWord n);
 // fonts only
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
+
+
+extern void newsavelevel(GroupCode c);
+extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
+extern void eqworddefine(HalfWord p, long w);
+extern void geqdefine(HalfWord p, QuarterWord t, HalfWord e);
+extern void geqworddefine(HalfWord p, long w);
+extern void saveforafter(HalfWord t);
+extern void unsave(void);
+extern void preparemag(void);
 
 #endif /* INC_EQTB_H */

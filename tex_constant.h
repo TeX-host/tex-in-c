@@ -470,48 +470,6 @@ enum TexCommandCode {
 /** @}*/ // end group S207x210_P73x76
 
 
-/** @addtogroup S268x288_P109x114
- * @{
- */
-
-/// [#268]
-enum SaveType {
-    restoreoldvalue, ///< when a value should be restored later
-    restorezero,     ///< when an undefined entry should be restored
-    inserttoken,     ///< when a token is being saved for later use
-    levelboundary,   ///< corresponding to beginning of group
-}; // [#268] SaveType
-
-/** [#269] group codes 
- * that are used to discriminate between different kinds of groups.
- * 
- */
-enum GroupCode {
-    bottomlevel = 0,   ///< the outside world
-    simplegroup,       ///< local structure only
-    hboxgroup,         ///< `\hbox{...}`
-    adjustedhboxgroup, ///< `\hbox{...}` in vertical mode
-    vboxgroup,         ///< `\vbox{...}`
-
-    vtopgroup = 5, ///< `\vtop{...}`
-    aligngroup,    ///< `\halign{...}`, `\valign{...}`
-    noaligngroup,  ///< `\noalign{...}`
-    outputgroup,   ///< output routine
-    mathgroup,     ///< `^{...}`
-
-    discgroup = 10,  ///< `\discretionary{...}{...}{...}`
-    insertgroup,     ///< `\insert{...}`, `\vadjust{...}`
-    vcentergroup,    ///< `\vcenter{...}`
-    mathchoicegroup, ///< `\mathchoice{...}{...}{...}{...}`
-    semisimplegroup, ///< `\begingroup...\endgroup`
-
-    mathshiftgroup = 15, ///< `$...$`
-    mathleftgroup = 16,  ///< `\left...\right`
-    MAX_GROUP_CODE = 16,
-}; // [#269] GroupCode
-/** @}*/ // end group S268x288_P109x114
-
-
 /// [#468] command code for ...
 enum CmdCode {
     numbercode = 0,   ///< `\number`

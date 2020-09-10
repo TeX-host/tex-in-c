@@ -1,5 +1,6 @@
-#include "texmath.h"
+#include "print.h"   // [func] print_char
 #include "texfunc.h" // [func] print_char, print_int
+#include "texmath.h"
 
 /** @addtogroup S99x109_P38x41
  * @{

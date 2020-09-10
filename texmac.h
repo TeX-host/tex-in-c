@@ -38,22 +38,6 @@
 #endif
 
 
-/** @addtogroup S268x288_P109x114
- * @{
- */
-
-/// [p109#268] classifies a |savestack| entry
-#define savetype(x)     savestack[x].hh.UU.U2.b0
-/// [p109#268] saved level for regions 5 and 6, or group code
-#define savelevel(x)    savestack[x].hh.UU.U2.b1
-/// [p109#268] |eqtb| location or |savestack| location
-#define saveindex(x)    savestack[x].hh.rh
-
-/// [p111#274]
-#define saved(x) savestack[saveptr + x].int_
-/** @}*/ // end group S268x288_P109x114
-
-
 // [p131#322] leave an input level, re-enter the old
 #define popinput() (inputptr--, cur_input = inputstack[inputptr])
 // [p131#323] backs up a simple token list
