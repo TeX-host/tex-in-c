@@ -21,7 +21,7 @@ extern void printstyle(Integer c);
 
 // [tex], fonts
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
-extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
+extern void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext);
 
 
 // [tex]

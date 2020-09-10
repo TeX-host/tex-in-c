@@ -390,7 +390,8 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     /// #563: Open tfm file for input
     fileopened = false;
     if (aire == S(385)) { // ""
-        packfilename(nom, S(1281), S(1282)); 
+        //                "TeXfonts:"
+        packfilename(nom, S(1281), S(1282)); // ".tfm"
     } else {
         packfilename(nom, aire, S(1282)); // ".tfm"
     }

@@ -585,32 +585,40 @@ Static void endname(void) {
     }
 }
 
-long filename_k;
+Integer _tmp_fname_len;
 Static void appendtoname(ASCIICode x) {
-    filename_k++;
-    if (filename_k <= FILE_NAME_SIZE) {
-        name_of_file[filename_k - 1] = xchr[x];
+    _tmp_fname_len++;
+    if (_tmp_fname_len <= FILE_NAME_SIZE) {
+        name_of_file[_tmp_fname_len - 1] = xchr[x];
     }
 }
 /*:517*/
 
-/*519:*/
-void packfilename(StrNumber n, StrNumber a, StrNumber e) {
-    long k;
+/// [#519] 打包文件名.
+/// @param[in] fname    文件名
+/// @param[in] prefix   前缀
+/// @param[in] ext      后缀
+void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
+    Integer k;
 
     k = 0;
-    filename_k = 0;
-    str_map(a, appendtoname);
-    str_map(n, appendtoname);
-    str_map(e, appendtoname);
-    k = filename_k;
-    if (k <= FILE_NAME_SIZE)
+    _tmp_fname_len = 0;
+    /// TODO: 让 str_map 返回打印的字符个数。消除 _tmp_fname_len
+    str_map(prefix, appendtoname);
+    str_map(fname, appendtoname);
+    str_map(ext, appendtoname);
+
+    k = _tmp_fname_len;
+    if (k <= FILE_NAME_SIZE) {
         namelength = k;
-    else
+    } else {
         namelength = FILE_NAME_SIZE;
-    for (k = namelength; k < FILE_NAME_SIZE; k++)
+    }
+
+    for (k = namelength; k < FILE_NAME_SIZE; k++) {
         name_of_file[k] = ' ';
-} /*:519*/
+    }
+} /* [#519] packfilename */
 
 /*525:*/
 Static StrNumber makenamestring(void) {
@@ -646,7 +654,7 @@ Static void scanfilename(void) {
 
 /*529:*/
 Static void packjobname(StrNumber s) {
-    curarea = S(385);
+    curarea = S(385); // ""
     curext = s;
     curname = job_name;
     packfilename(curname, curarea, curext);
@@ -703,26 +711,29 @@ void openlogfile(void) {
     short FORLIM;
 
     old_setting = selector;
-    if (job_name == 0) job_name = S(672);
-    packjobname(S(673));
+    if (job_name == 0) job_name = S(672); // "texput"
+    packjobname(S(673)); // ".log"
     while (!a_open_out(&log_file)) { /*535:*/
         selector = TERM_ONLY;
+        // "transcript file name" ".log"
         promptfilename(S(674), S(673));
     }
     /*:535*/
     logname = amakenamestring();
     selector = LOG_ONLY;
     log_opened = true;
+
     /*536:*/
     fprintf(log_file, "%s", TEX_BANNER);
     slow_print(format_ident);
-    print(S(675));
+    print(S(675)); // "  "
     print_int(day);
     print_char(' ');
     memcpy(months, "JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC", 36);
     FORLIM = month * 3;
-    for (k = month * 3 - 3; k < FORLIM; k++)
+    for (k = month * 3 - 3; k < FORLIM; k++) {
         fwrite(&months[k], 1, 1, log_file);
+    }
     print_char(' ');
     print_int(year);
     print_char(' ');
@@ -730,12 +741,15 @@ void openlogfile(void) {
     print_char(':');
     print_two(tex_time % 60); /*:536*/
     inputstack[inputptr] = cur_input;
-    printnl(S(676));
+
+    printnl(S(676)); // "**"
     l = inputstack[0].limitfield;
     if (buffer[l] == end_line_char) l--;
-    for (k = 1; k <= l; k++)
+    for (k = 1; k <= l; k++) {
         print(buffer[k]);
+    }
     println();
+
     selector = old_setting + 2;
 }
 /*:534*/
