@@ -26,7 +26,6 @@ extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用
 extern ListStateRecord cur_list;
-extern UInt16 shown_mode;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 extern Boolean OK_to_interrupt;
 extern Integer interrupt;
@@ -51,7 +50,6 @@ extern StrNumber job_name;
 
 // [tex] scan
 extern ListStateRecord nest[NEST_SIZE + 1];
-extern UChar nest_ptr;
 extern Integer deadcycles;
 extern char pagecontents;
 extern Scaled pagesofar[8];
@@ -77,5 +75,8 @@ extern Integer breadth_max;
 extern MemoryWord savestack[SAVE_SIZE + 1];
 extern Pointer hyphlist[HYPH_SIZE + 1];
 extern UInt16 saveptr;
+
+// [tex] lexer
+extern Pointer pagetail;
 
 #endif // #ifndef GLOBAL_H

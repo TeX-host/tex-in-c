@@ -11,9 +11,6 @@ Static void vlistout(void);
 // printsubsidiarydata, 
 Static void showinfo(void);
 
-// showactivities
-Static void printtotals(void);
-
 // finalign, makeaccent
 Static void doassignments(void);
 // finalign, aftermath
@@ -220,170 +217,6 @@ void printstyle(Integer c) {
     }
 } // [#694] printstyle
 /** @}*/ // end group S680x698_P249x257
-
-
-/** @addtogroup S211x219_P77x80
- * @{
- */
-
-// #211: prints the mode represented by m
-void print_mode(Integer m) {
-    if (m > 0) {
-        switch (m / (MAX_COMMAND + 1)) {
-            case 0: print(S(431)); break; // "vertical"
-            case 1: print(S(432)); break; // "horizontal"
-            case 2: print(S(433)); break; // "display math"
-        }
-    } else if (m == 0) {
-        print(S(434)); // "no"
-    } else { // m < 0
-        switch ((-1 * m) / (MAX_COMMAND + 1)) {
-            case 0: print(S(435)); break; // "internal vertical"
-            case 1: print(S(436)); break; // "restricted horizontal"
-            case 2: print(S(394)); break; // "math"
-        }
-    } // if (m <> 0)
-    print(S(437)); // " mode"
-} // #211: print_mode
-
-
-/*216:*/
-Static void pushnest(void)
-{
-  if (nest_ptr > max_nest_stack) {
-    max_nest_stack = nest_ptr;
-    // "semantic nest size"
-    if (nest_ptr == NEST_SIZE) overflow(S(438), NEST_SIZE);
-  }
-  nest[nest_ptr] = cur_list;
-  nest_ptr++;
-  head = get_avail();
-  tail = head;
-  prevgraf = 0;
-  modeline = line;
-}
-/*:216*/
-
-/*217:*/
-Static void popnest(void)
-{
-  FREE_AVAIL(head);
-  nest_ptr--;
-  cur_list = nest[nest_ptr];
-}
-/*:217*/
-
-/*218:*/
-
-Static void showactivities(void)
-{
-  Pointer q, r;
-  long t;
-  short TEMP;
-
-  nest[nest_ptr] = cur_list;
-  printnl(S(385));
-  println();
-  for (TEMP = nest_ptr; TEMP >= 0; TEMP--) {
-    int p = TEMP;
-    short m = nest[p].modefield;
-    MemoryWord a = nest[p].auxfield;
-    printnl(S(439));
-    print_mode(m);
-    print(S(440));
-    print_int(labs(nest[p].mlfield));
-    if (m == H_MODE) {
-      if (nest[p].pgfield != 8585216L) {
-	print(S(441));
-	print_int(nest[p].pgfield % 65536L);
-	print(S(442));
-	print_int(nest[p].pgfield / 4194304L);
-	print_char(',');
-	print_int((nest[p].pgfield / 65536L) & 63);
-	print_char(')');
-      }
-    }
-    if (nest[p].mlfield < 0)
-      print(S(443));
-    if (p == 0) {  /*986:*/
-      if (pagehead != pagetail) {   /*:986*/
-	printnl(S(444));
-	if (outputactive)
-	  print(S(445));
-	showbox(link(pagehead));
-	if (pagecontents > EMPTY) {
-	  printnl(S(446));
-	  printtotals();
-	  printnl(S(447));
-	  print_scaled(pagegoal);
-	  r = link(pageinshead);
-	  while (r != pageinshead) {
-	    println();
-	    print_esc(S(374));
-	    t = subtype(r) - MIN_QUARTER_WORD;
-	    print_int(t);
-	    print(S(448));
-	    t = x_over_n(height(r), 1000) * count(t);
-	    print_scaled(t);
-	    if (type(r) == splitup) {
-	      q = pagehead;
-	      t = 0;
-	      do {
-		q = link(q);
-		if ((type(q) == INS_NODE) & (subtype(q) == subtype(r)))
-		  t++;
-	      } while (q != brokenins(r));
-	      print(S(449));
-	      print_int(t);
-	      print(S(450));
-	    }
-	    r = link(r);
-	  }
-	}
-      }
-      if (link(contribhead) != 0)
-	printnl(S(451));
-    }
-    showbox(link(nest[p].headfield));   /*219:*/
-    switch (abs(m) / (MAX_COMMAND + 1)) {   /*:219*/
-
-    case 0:
-      printnl(S(452));
-      if (a.sc <= ignoredepth)
-	print(S(453));
-      else
-	print_scaled(a.sc);
-      if (nest[p].pgfield != 0) {
-	print(S(454));
-	print_int(nest[p].pgfield);
-	print(S(455));
-	if (nest[p].pgfield != 1)
-	  print_char('s');
-      }
-      break;
-
-    case 1:
-      printnl(S(456));
-      print_int(a.hh.UU.lh);
-      if (m > 0) {
-	if (a.hh.rh > 0) {
-	  print(S(457));
-	  print_int(a.hh.rh);
-	}
-      }
-      break;
-
-    case 2:
-      if (a.int_ != 0) {
-	print(S(458));
-	showbox(a.int_);
-      }
-      break;
-    }
-  }
-}
-/*:218*/
-/** @}*/ // end group S211x219_P77x80
 
 
 /** @addtogroup S268x288_P109x114
@@ -6857,7 +6690,7 @@ _Lexit:
  */
 
 /*985:*/
-Static void printtotals(void)
+void printtotals(void)
 {
   print_scaled(pagetotal);
   if (pagesofar[2] != 0) {
@@ -12628,16 +12461,10 @@ Static void initialize(void) {
             mem_var_init();
         #endif // #166: tt_DEBUG
 
-        /*215:*/
-        nest_ptr = 0;
-        max_nest_stack = 0;
-        mode = V_MODE;
-        head = contribhead;
-        tail = contribhead;
-        prevdepth = ignoredepth;
-        modeline = 0;
-        prevgraf = 0;
-        shown_mode = 0; /*991:*/
+        /// [#215]
+        lexer_semantic_init();
+        
+        /*991:*/
         pagecontents = EMPTY;
         pagetail = pagehead;
         link(pagehead) = 0;

@@ -17,17 +17,6 @@
 #define ignoredepth     (-65536000L)
 
 
-/** @addtogroup S211x219_P77x80
- * @{
- */
-
-// [#211]
-#define V_MODE           1 // vertical mode
-#define H_MODE           (V_MODE + MAX_COMMAND + 1) // horizontal mode
-#define M_MODE           (H_MODE + MAX_COMMAND + 1) // math mode
-/** @}*/ // end group S211x219_P77x80
-
-
 // [p136#341]
 #define switch_         25
 #define startcs         26

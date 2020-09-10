@@ -191,29 +191,6 @@ typedef union {
 /// only need: `[normal, filll] = [0, 3]`
 typedef UChar GlueOrd;
 
-/** @addtogroup S211x219_P77x80
- * @{
- */
-
-/** [#212]: ListStateRecord(366) .
- *
- *  field:
- *  + `modefield :: Int16(16)`
- *  + `headfield :: Pointer(64)`
- *  + `tailfield :: Pointer(64)`
- *  + `pgfield   :: Integer(64)`
- *  + `mlfield   :: Integer(64)`
- *  + `auxfield  :: MemoryWord(64)`
- */
-typedef struct {
-    Int16 modefield; ///< (16) only need `[-203, 203]`
-    Pointer headfield, tailfield; ///< (64)*2= 128
-    Integer pgfield, mlfield; ///< (64)*2= 128
-    MemoryWord auxfield; ///< (64)
-} ListStateRecord; // (16+128+128+64) = (336)
-/** @}*/ // end group S211x219_P77x80
-
-
 /// #269: `GroupCode(8)`
 /// save level for a level boundary.
 /// 

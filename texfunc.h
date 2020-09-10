@@ -32,7 +32,6 @@ extern void packfilename(StrNumber n, StrNumber a, StrNumber e);
 extern void set_help(SChar k, ...);
 
 // [tex] lexer
-extern void print_mode(Integer m);
 extern void openlogfile(void);
 
 // [tex] expand
@@ -55,5 +54,8 @@ extern void printsubsidiarydata(HalfWord p, ASCIICode c);
 extern void printdelimiter(HalfWord p);
 extern void print_write_whatsit(StrNumber s, Pointer p);
 extern void printfamandchar(HalfWord p);
+
+// lexer
+extern void printtotals(void);
 
 #endif // TEX_FUNC_H

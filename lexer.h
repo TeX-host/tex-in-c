@@ -21,6 +21,45 @@
 #define LOC     cur_input.locfield
 /** @}*/ // end group S25x37_P13x18
 
+/** @addtogroup S211x219_P77x80
+ * @{
+ */
+// [#211]
+#define V_MODE          1                          // vertical mode
+#define H_MODE          (V_MODE + MAX_COMMAND + 1) // horizontal mode
+#define M_MODE          (H_MODE + MAX_COMMAND + 1) // math mode
+
+/** [#212]: ListStateRecord(366) .
+ *
+ *  field:
+ *  + `modefield :: Int16(16)`
+ *  + `headfield :: Pointer(64)`
+ *  + `tailfield :: Pointer(64)`
+ *  + `pgfield   :: Integer(64)`
+ *  + `mlfield   :: Integer(64)`
+ *  + `auxfield  :: MemoryWord(64)`
+ */
+typedef struct {
+    Int16 modefield;              ///< (16) only need `[-203, 203]`
+    Pointer headfield, tailfield; ///< (64)*2= 128
+    Integer pgfield, mlfield;     ///< (64)*2= 128
+    MemoryWord auxfield;          ///< (64)
+} ListStateRecord; // (16+128+128+64) = (336)
+
+#define mode  cur_list.modefield /* current mode}*/
+#define head  cur_list.headfield /* header node of current list}*/
+#define tail  cur_list.tailfield /* final node on current list}*/
+#define prevgraf  cur_list.pgfield /* number of paragraph lines accumulated}*/
+#define aux  cur_list.auxfield /* auxiliary data about the current list}*/
+#define prevdepth  aux.sc /* the name of |aux| in vertical mode}*/
+#define spacefactor  aux.hh.UU.lh /* part of |aux| in horizontal mode}*/
+#define clang  aux.hh.rh /* the other part of |aux| in horizontal mode}*/
+#define incompleatnoad  aux.int_ /* the name of |aux| in math mode}*/
+#define modeline  cur_list.mlfield /* source file line number at beginning of list}*/
+
+/// [p78#214]
+#define tailappend(x)   (link(tail) = (x), tail = link(tail))
+/** @}*/ // end group S211x219_P77x80
 
 /** @addtogroup S289x296_P115x118
  *  @{
@@ -46,7 +85,6 @@
 #define matchtoken      (dwa_do_8 * MATCH)
 #define endmatchtoken   (dwa_do_8 * END_MATCH)
 /** @}*/ // end group S289x296_P115x118
-
 
 /** @addtogroup S300x320_P121x130
  *  @{
@@ -141,6 +179,13 @@ enum TokenType {
 /** @}*/ // end group S300x320_P121x130
 
 
+// [#271]
+extern ListStateRecord nest[NEST_SIZE + 1];
+extern UChar nest_ptr;
+extern UChar max_nest_stack;
+extern ListStateRecord cur_list;
+
+
 extern EightBits curcmd;
 extern HalfWord curchr;
 extern Pointer curcs;
@@ -186,5 +231,13 @@ extern void gettoken(void);
 
 extern int pack_tok(int cs, int cmd, int chr);
 extern UChar get_maxinstack();
+
+
+// [#211] semantic
+extern void lexer_semantic_init();
+extern void print_mode(Integer m);
+extern void pushnest(void);
+extern void popnest(void);
+extern void showactivities(void); 
 
 #endif // INC_LEXER_H

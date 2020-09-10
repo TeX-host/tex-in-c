@@ -37,9 +37,6 @@
                           : gluerefcount(x)--)
 #endif
 
-/// [p78#214]
-#define tailappend(x) (link(tail) = (x), tail = link(tail))
-
 
 /** @addtogroup S268x288_P109x114
  * @{
@@ -123,23 +120,6 @@
 #define quad(x)  param(QUAD_CODE,x) /* one em}*/
 #define extraspace(x)  param(EXTRA_SPACE_CODE,x) /* additional space at end of sentence}*/
 
-
-
-/** @addtogroup S211x219_P77x80
- * @{
- */
-
-#define mode  cur_list.modefield /* current mode}*/
-#define head  cur_list.headfield /* header node of current list}*/
-#define tail  cur_list.tailfield /* final node on current list}*/
-#define prevgraf  cur_list.pgfield /* number of paragraph lines accumulated}*/
-#define aux  cur_list.auxfield /* auxiliary data about the current list}*/
-#define prevdepth  aux.sc /* the name of |aux| in vertical mode}*/
-#define spacefactor  aux.hh.UU.lh /* part of |aux| in horizontal mode}*/
-#define clang  aux.hh.rh /* the other part of |aux| in horizontal mode}*/
-#define incompleatnoad  aux.int_ /* the name of |aux| in math mode}*/
-#define modeline  cur_list.mlfield /* source file line number at beginning of list}*/
-/** @}*/ // end group S211x219_P77x80
 
 /// [p223#605]
 // #define location(x)  mem[x+2].int_ /* \.{DVI} byte number for a movement command}*/
