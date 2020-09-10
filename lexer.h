@@ -46,16 +46,26 @@ typedef struct {
     MemoryWord auxfield;          ///< (64)
 } ListStateRecord; // (16+128+128+64) = (336)
 
-#define mode  cur_list.modefield /* current mode}*/
-#define head  cur_list.headfield /* header node of current list}*/
-#define tail  cur_list.tailfield /* final node on current list}*/
-#define prevgraf  cur_list.pgfield /* number of paragraph lines accumulated}*/
-#define aux  cur_list.auxfield /* auxiliary data about the current list}*/
-#define prevdepth  aux.sc /* the name of |aux| in vertical mode}*/
-#define spacefactor  aux.hh.UU.lh /* part of |aux| in horizontal mode}*/
-#define clang  aux.hh.rh /* the other part of |aux| in horizontal mode}*/
-#define incompleatnoad  aux.int_ /* the name of |aux| in math mode}*/
-#define modeline  cur_list.mlfield /* source file line number at beginning of list}*/
+/// [#213] current mode
+#define mode            cur_list.modefield
+/// [#213] header node of current list
+#define head            cur_list.headfield
+/// [#213] final node on current list
+#define tail            cur_list.tailfield
+/// [#213] number of paragraph lines accumulated
+#define prevgraf        cur_list.pgfield
+/// [#213] auxiliary data about the current list
+#define aux             cur_list.auxfield
+/// [#213] the name of |aux| in vertical mode
+#define prevdepth       aux.sc
+/// [#213] part of |aux| in horizontal mode
+#define spacefactor     aux.hh.UU.lh
+/// [#213] the other part of |aux| in horizontal mode
+#define clang           aux.hh.rh
+/// [#213] the name of |aux| in math mode
+#define incompleatnoad  aux.int_
+/// [#213] source file line number at beginning of list
+#define modeline        cur_list.mlfield
 
 /// [p78#214]
 #define tailappend(x)   (link(tail) = (x), tail = link(tail))
@@ -179,7 +189,7 @@ enum TokenType {
 /** @}*/ // end group S300x320_P121x130
 
 
-// [#271]
+// [#213] semantic
 extern ListStateRecord nest[NEST_SIZE + 1];
 extern UChar nest_ptr;
 extern UChar max_nest_stack;

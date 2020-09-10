@@ -177,142 +177,148 @@ void print_mode(Integer m) {
 } // #211: print_mode
 
 
-/*216:*/
-void pushnest(void)
-{
-  if (nest_ptr > max_nest_stack) {
-    max_nest_stack = nest_ptr;
-    // "semantic nest size"
-    if (nest_ptr == NEST_SIZE) overflow(S(438), NEST_SIZE);
-  }
-  nest[nest_ptr] = cur_list;
-  nest_ptr++;
-  head = get_avail();
-  tail = head;
-  prevgraf = 0;
-  modeline = line;
-}
-/*:216*/
-
-/*217:*/
-void popnest(void)
-{
-  FREE_AVAIL(head);
-  nest_ptr--;
-  cur_list = nest[nest_ptr];
-}
-/*:217*/
-
-/*218:*/
-
-void showactivities(void)
-{
-  Pointer q, r;
-  long t;
-  short TEMP;
-
-  nest[nest_ptr] = cur_list;
-  printnl(S(385));
-  println();
-  for (TEMP = nest_ptr; TEMP >= 0; TEMP--) {
-    int p = TEMP;
-    short m = nest[p].modefield;
-    MemoryWord a = nest[p].auxfield;
-    printnl(S(439));
-    print_mode(m);
-    print(S(440));
-    print_int(labs(nest[p].mlfield));
-    if (m == H_MODE) {
-      if (nest[p].pgfield != 8585216L) {
-	print(S(441));
-	print_int(nest[p].pgfield % 65536L);
-	print(S(442));
-	print_int(nest[p].pgfield / 4194304L);
-	print_char(',');
-	print_int((nest[p].pgfield / 65536L) & 63);
-	print_char(')');
-      }
+/// [#216] enter a new semantic level, save the old.
+void pushnest(void) {
+    if (nest_ptr > max_nest_stack) {
+        max_nest_stack = nest_ptr;
+        // "semantic nest size"
+        if (nest_ptr == NEST_SIZE) overflow(S(438), NEST_SIZE);
     }
-    if (nest[p].mlfield < 0)
-      print(S(443));
-    if (p == 0) {  /*986:*/
-      if (pagehead != pagetail) {   /*:986*/
-	printnl(S(444));
-	if (outputactive)
-	  print(S(445));
-	showbox(link(pagehead));
-	if (pagecontents > EMPTY) {
-	  printnl(S(446));
-	  printtotals();
-	  printnl(S(447));
-	  print_scaled(pagegoal);
-	  r = link(pageinshead);
-	  while (r != pageinshead) {
-	    println();
-	    print_esc(S(374));
-	    t = subtype(r) - MIN_QUARTER_WORD;
-	    print_int(t);
-	    print(S(448));
-	    t = x_over_n(height(r), 1000) * count(t);
-	    print_scaled(t);
-	    if (type(r) == splitup) {
-	      q = pagehead;
-	      t = 0;
-	      do {
-		q = link(q);
-		if ((type(q) == INS_NODE) & (subtype(q) == subtype(r)))
-		  t++;
-	      } while (q != brokenins(r));
-	      print(S(449));
-	      print_int(t);
-	      print(S(450));
-	    }
-	    r = link(r);
-	  }
-	}
-      }
-      if (link(contribhead) != 0)
-	printnl(S(451));
-    }
-    showbox(link(nest[p].headfield));   /*219:*/
-    switch (abs(m) / (MAX_COMMAND + 1)) {   /*:219*/
+    nest[nest_ptr] = cur_list;
+    nest_ptr++;
+    head = get_avail();
+    tail = head;
+    prevgraf = 0;
+    modeline = line;
+} /* pushnest */
 
-    case 0:
-      printnl(S(452));
-      if (a.sc <= ignoredepth)
-	print(S(453));
-      else
-	print_scaled(a.sc);
-      if (nest[p].pgfield != 0) {
-	print(S(454));
-	print_int(nest[p].pgfield);
-	print(S(455));
-	if (nest[p].pgfield != 1)
-	  print_char('s');
-      }
-      break;
+/// [#217] leave a semantic level, re-enter the old.
+void popnest(void) {
+    FREE_AVAIL(head);
+    nest_ptr--;
+    cur_list = nest[nest_ptr];
+} /* popnest */
 
-    case 1:
-      printnl(S(456));
-      print_int(a.hh.UU.lh);
-      if (m > 0) {
-	if (a.hh.rh > 0) {
-	  print(S(457));
-	  print_int(a.hh.rh);
-	}
-      }
-      break;
+/// [#218] displays what TEX is working on, at all levels.
+void showactivities(void) {
+    Int16 m;      // mode
+    MemoryWord a; // auxiliary
+    Pointer q, r; // for showing the current page
+    Integer t;
 
-    case 2:
-      if (a.int_ != 0) {
-	print(S(458));
-	showbox(a.int_);
-      }
-      break;
-    }
-  }
-}
-/*:218*/
+    // put the top level into the array
+    nest[nest_ptr] = cur_list;
+    printnl(S(385)); // ""
+    println();
+
+    for (Pointer p = nest_ptr; p >= 0; p--) {
+        m = nest[p].modefield;
+        a = nest[p].auxfield;
+
+        printnl(S(439)); // "### "
+        print_mode(m);
+        print(S(440)); // " entered at line "
+        print_int(labs(nest[p].mlfield));
+
+        if (m == H_MODE) {
+            if (nest[p].pgfield != 8585216L) {
+                print(S(441)); // " (language"
+                print_int(nest[p].pgfield % 65536L);
+                print(S(442)); // ":hyphenmin"
+                print_int(nest[p].pgfield / 4194304L);
+                print_char(',');
+                print_int((nest[p].pgfield / 65536L) & 63);
+                print_char(')');
+            }
+        } // if (m == H_MODE)
+
+        if (nest[p].mlfield < 0) print(S(443)); // " (\output routine)"
+        if (p == 0) {
+            /// [#986] Show the status of the current page.
+            if (pagehead != pagetail) {
+                printnl(S(444)); // "### current page:"
+                if (outputactive) {
+                    print(S(445)); // " (held over for next output)"
+                }
+                showbox(link(pagehead));
+                if (pagecontents > EMPTY) {
+                    printnl(S(446)); // "total height "
+                    printtotals();
+                    printnl(S(447)); // " goal height "
+                    print_scaled(pagegoal);
+                    r = link(pageinshead);
+                    while (r != pageinshead) {
+                        println();
+                        print_esc(S(374)); // "insert"
+                        t = subtype(r) - MIN_QUARTER_WORD;
+                        print_int(t);
+                        print(S(448)); // " adds "
+                        t = x_over_n(height(r), 1000) * count(t);
+                        print_scaled(t);
+                        if (type(r) == splitup) {
+                            q = pagehead;
+                            t = 0;
+                            do {
+                                q = link(q);
+                                if ((type(q) == INS_NODE) &
+                                    (subtype(q) == subtype(r)))
+                                    t++;
+                            } while (q != brokenins(r));
+                            print(S(449)); // ", #"
+                            print_int(t);
+                            print(S(450)); // " might split"
+                        } // if (type(r) == splitup)
+                        r = link(r);
+                    } // while (r != pageinshead)
+                } // if (pagecontents > EMPTY)
+            } // if (pagehead != pagetail)
+
+            // "### recent contributions:"
+            if (link(contribhead) != 0) printnl(S(451));
+        } // if (p == 0)
+
+        showbox(link(nest[p].headfield));
+        /// [#219]  Show the auxiliary field, a.
+        switch (abs(m) / (MAX_COMMAND + 1)) {
+            case 0:
+                printnl(S(452)); // "prevdepth "
+                if (a.sc <= ignoredepth) {
+                    print(S(453)); // "ignored"
+                } else {
+                    print_scaled(a.sc);
+                }
+                if (nest[p].pgfield != 0) {
+                    print(S(454)); // ", prevgraf "
+                    print_int(nest[p].pgfield);
+                    print(S(455)); // " line"
+                    if (nest[p].pgfield != 1) print_char('s');
+                }
+                break;
+
+            case 1:
+                printnl(S(456)); // "spacefactor "
+                print_int(a.hh.UU.lh);
+                if (m > 0) {
+                    if (a.hh.rh > 0) {
+                        print(S(457)); // ", current language "
+                        print_int(a.hh.rh);
+                    }
+                }
+                break;
+
+            case 2:
+                if (a.int_ != 0) {
+                    print(S(458)); // "this will be denominator of:"
+                    showbox(a.int_);
+                }
+                break;
+
+            default:
+                /* do nothing */
+                break;
+        } // switch (abs(m) / (MAX_COMMAND + 1))
+    } // for (Pointer p = nest_ptr; p >= 0; p--)
+} /* [#218] showactivities */
 /** @}*/ // end group S211x219_P77x80
 
 
