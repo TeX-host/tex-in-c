@@ -25,6 +25,17 @@ UInt16 curboundary;   // where the current level begins
 Integer magset;
 
 
+void eqtb_save_init() {
+    /// [#272]
+    saveptr = 0;
+    curlevel = LEVEL_ONE;
+    curgroup = bottomlevel;
+    curboundary = 0;
+    maxsavestack = 0;
+    /// [#287]
+    magset = 0;
+}
+
 /*274:*/
 void newsavelevel(GroupCode c) {
     if (saveptr > maxsavestack) {

@@ -511,8 +511,6 @@ extern UInt16 saveptr;
 extern UInt16 maxsavestack;
 extern QuarterWord curlevel;
 extern GroupCode curgroup;
-extern UInt16 curboundary;
-extern Integer magset;
 
 
 extern void eqtb_init();
@@ -526,6 +524,7 @@ extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
 
 
+extern void eqtb_save_init();
 extern void newsavelevel(GroupCode c);
 extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
 extern void eqworddefine(HalfWord p, long w);

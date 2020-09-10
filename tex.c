@@ -12262,14 +12262,9 @@ Static void initialize(void) {
         // [#257]
         hash_var_init();
     
-        /*272:*/
-        saveptr = 0;
-        curlevel = LEVEL_ONE;
-        curgroup = bottomlevel;
-        curboundary = 0;
-        maxsavestack = 0; /*:272*/
-        /*287:*/
-        magset = 0; /*:287*/
+        // [#272, #287]
+        eqtb_save_init();
+
         /*383:*/
         topmark = 0;
         firstmark = 0;
