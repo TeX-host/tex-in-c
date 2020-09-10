@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.19"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: PART 17: The table of equivalents</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.19 -->
+<!-- 制作者 Doxygen 1.8.20 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -625,6 +625,9 @@ $(document).ready(function(){initNavTree('group___s220x255___p81x101.html',''); 
 <tr class="memitem:ga8217d7e97e8d3d865dfcb7b00c49d30d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s220x255___p81x101.html#ga8217d7e97e8d3d865dfcb7b00c49d30d">eqtb_init</a> ()</td></tr>
 <tr class="memdesc:ga8217d7e97e8d3d865dfcb7b00c49d30d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#222, #228, #232, #240, #250]  <a href="group___s220x255___p81x101.html#ga8217d7e97e8d3d865dfcb7b00c49d30d">更多...</a><br /></td></tr>
 <tr class="separator:ga8217d7e97e8d3d865dfcb7b00c49d30d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga785a2f0b2e26d0dfdf9fe170261adfda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s220x255___p81x101.html#ga785a2f0b2e26d0dfdf9fe170261adfda">print_skip_param</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> code)</td></tr>
+<tr class="memdesc:ga785a2f0b2e26d0dfdf9fe170261adfda"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#225]: 打印 <code>glue</code> 参数的名称  <a href="group___s220x255___p81x101.html#ga785a2f0b2e26d0dfdf9fe170261adfda">更多...</a><br /></td></tr>
+<tr class="separator:ga785a2f0b2e26d0dfdf9fe170261adfda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae7f34298980b60c63ccdee9eb0225d67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67">begindiagnostic</a> (void)</td></tr>
 <tr class="memdesc:gae7f34298980b60c63ccdee9eb0225d67"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#245] prepare to do some tracing.  <a href="group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67">更多...</a><br /></td></tr>
 <tr class="separator:gae7f34298980b60c63ccdee9eb0225d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -3380,6 +3383,34 @@ $(document).ready(function(){initNavTree('group___s220x255___p81x101.html',''); 
 
 </div>
 </div>
+<a id="ga785a2f0b2e26d0dfdf9fe170261adfda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga785a2f0b2e26d0dfdf9fe170261adfda">&#9670;&nbsp;</a></span>print_skip_param()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_skip_param </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
+          <td class="paramname"><em>code</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#225]: 打印 <code>glue</code> 参数的名称 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>void 无返回值</dd></dl>
+<p>函数会打印参数对应的字符串。 如果没有对应的字符串，则打印 <code>"[unknown glue parameter!]"</code> </p>
+
+</div>
+</div>
 <a id="gaa2c0bf3bd170109df767ab2aef99b4de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaa2c0bf3bd170109df767ab2aef99b4de">&#9670;&nbsp;</a></span>showeqtb()</h2>
 
@@ -3453,7 +3484,7 @@ $(document).ready(function(){initNavTree('group___s220x255___p81x101.html',''); 
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

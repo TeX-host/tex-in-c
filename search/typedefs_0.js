@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['asciicode_2980',['ASCIICode',['../group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7',1,'tex_types.h']]]
+  ['asciicode_2993',['ASCIICode',['../group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7',1,'tex_types.h']]]
 ];

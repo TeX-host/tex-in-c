@@ -56,8 +56,12 @@ var group___s680x698___p249x257 =
       [ "scriptstyle", "group___s680x698___p249x257.html#gga5338380f915a15dd39900b967e4d9229a27da5104ce10c677bd29cfaf4bc5eada", null ],
       [ "scriptscriptstyle", "group___s680x698___p249x257.html#gga5338380f915a15dd39900b967e4d9229a649e6718c82de5d14d908670d43fea8c", null ]
     ] ],
-    [ "printdelimiter", "group___s680x698___p249x257.html#ga21690511c2d60c404440f48a8a6955ea", null ],
-    [ "printfamandchar", "group___s680x698___p249x257.html#gae7c08e5af7baf76ec0ba97fb6db0f0a9", null ],
+    [ "newchoice", "group___s680x698___p249x257.html#gacb96c8504a920fa3beb3701726b66a00", null ],
+    [ "newnoad", "group___s680x698___p249x257.html#ga9f3cc24569ad60f4ab46a40dbe9b4e26", null ],
+    [ "newstyle", "group___s680x698___p249x257.html#ga445c92cb079bf936ded2496d834b1681", null ],
+    [ "printdelimiter", "group___s680x698___p249x257.html#gaf199c2675a50d8b5c91143d0de0c3260", null ],
+    [ "printfamandchar", "group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472", null ],
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],
-    [ "printsubsidiarydata", "group___s680x698___p249x257.html#ga3eac32272ef2ee2cfee5c1a319e8b525", null ]
+    [ "printsubsidiarydata", "group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a", null ],
+    [ "showinfo", "group___s680x698___p249x257.html#ga9780172569f06f6a6f9404d8f49b33a6", null ]
 ];

@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['pool_5finit_2ec_2161',['pool_init.c',['../pool__init_8c.html',1,'']]],
-  ['pool_5finit_2eh_2162',['pool_init.h',['../pool__init_8h.html',1,'']]],
-  ['print_2ec_2163',['print.c',['../print_8c.html',1,'']]],
-  ['print_2eh_2164',['print.h',['../print_8h.html',1,'']]],
-  ['printout_2ec_2165',['printout.c',['../printout_8c.html',1,'']]],
-  ['printout_2eh_2166',['printout.h',['../printout_8h.html',1,'']]],
-  ['pure_5ffunc_2ec_2167',['pure_func.c',['../pure__func_8c.html',1,'']]],
-  ['pure_5ffunc_2eh_2168',['pure_func.h',['../pure__func_8h.html',1,'']]]
+  ['macros_2eh_2170',['macros.h',['../macros_8h.html',1,'']]],
+  ['mem_2ec_2171',['mem.c',['../mem_8c.html',1,'']]],
+  ['mem_2eh_2172',['mem.h',['../mem_8h.html',1,'']]]
 ];

@@ -1,25 +1,26 @@
 <map id="printout.c" name="printout.c">
-<area shape="rect" id="node1" title=" " alt="" coords="472,5,559,35"/>
-<area shape="rect" id="node2" href="$tex_8h.html" title=" " alt="" coords="663,547,719,576"/>
-<area shape="rect" id="node7" href="$str_8h.html" title=" " alt="" coords="217,392,269,421"/>
-<area shape="rect" id="node11" href="$fonts_8h.html" title=" " alt="" coords="53,392,122,421"/>
-<area shape="rect" id="node12" href="$texfunc_8h.html" title=" " alt="" coords="125,160,212,189"/>
-<area shape="rect" id="node13" href="$texmath_8h.html" title=" " alt="" coords="274,237,365,267"/>
-<area shape="rect" id="node14" href="$texmac_8h.html" title=" " alt="" coords="440,160,527,189"/>
-<area shape="rect" id="node18" href="$scan_8h.html" title=" " alt="" coords="455,392,525,421"/>
-<area shape="rect" id="node20" href="$expand_8h.html" title=" " alt="" coords="623,83,711,112"/>
-<area shape="rect" id="node21" href="$print_8h.html" title=" " alt="" coords="482,83,549,112"/>
-<area shape="rect" id="node22" href="$eqtb_8h.html" title=" " alt="" coords="743,547,810,576"/>
-<area shape="rect" id="node23" href="$printout_8h.html" title=" " alt="" coords="837,83,925,112"/>
-<area shape="rect" id="node3" href="$tex__types_8h.html" title=" " alt="" coords="511,624,613,653"/>
-<area shape="rect" id="node6" href="$tex__constant_8h.html" title=" " alt="" coords="641,624,766,653"/>
-<area shape="rect" id="node4" title=" " alt="" coords="519,701,605,731"/>
-<area shape="rect" id="node5" title=" " alt="" coords="340,701,413,731"/>
-<area shape="rect" id="node8" title=" " alt="" coords="147,547,217,576"/>
-<area shape="rect" id="node9" href="$global__const_8h.html" title=" " alt="" coords="5,469,129,499"/>
-<area shape="rect" id="node10" title=" " alt="" coords="28,547,107,576"/>
-<area shape="rect" id="node15" href="$mem_8h.html" title=" " alt="" coords="448,237,519,267"/>
-<area shape="rect" id="node16" href="$global_8h.html" title=" " alt="" coords="399,315,477,344"/>
-<area shape="rect" id="node17" title=" " alt="" coords="349,392,431,421"/>
-<area shape="rect" id="node19" href="$lexer_8h.html" title=" " alt="" coords="455,469,525,499"/>
+<area shape="rect" id="node1" title=" " alt="" coords="615,5,702,35"/>
+<area shape="rect" id="node2" href="$tex_8h.html" title=" " alt="" coords="307,547,363,576"/>
+<area shape="rect" id="node7" href="$box_8h.html" title=" " alt="" coords="352,701,413,731"/>
+<area shape="rect" id="node8" href="$str_8h.html" title=" " alt="" coords="626,779,678,808"/>
+<area shape="rect" id="node12" href="$fonts_8h.html" title=" " alt="" coords="840,779,909,808"/>
+<area shape="rect" id="node13" href="$texfunc_8h.html" title=" " alt="" coords="779,160,866,189"/>
+<area shape="rect" id="node14" href="$texmath_8h.html" title=" " alt="" coords="5,237,96,267"/>
+<area shape="rect" id="node15" href="$texmac_8h.html" title=" " alt="" coords="543,160,630,189"/>
+<area shape="rect" id="node19" href="$scan_8h.html" title=" " alt="" coords="696,392,765,421"/>
+<area shape="rect" id="node21" href="$expand_8h.html" title=" " alt="" coords="941,83,1029,112"/>
+<area shape="rect" id="node22" href="$print_8h.html" title=" " alt="" coords="468,83,535,112"/>
+<area shape="rect" id="node23" href="$eqtb_8h.html" title=" " alt="" coords="89,547,156,576"/>
+<area shape="rect" id="node24" href="$printout_8h.html" title=" " alt="" coords="1053,83,1141,112"/>
+<area shape="rect" id="node3" href="$tex__types_8h.html" title=" " alt="" coords="263,856,366,885"/>
+<area shape="rect" id="node6" href="$tex__constant_8h.html" title=" " alt="" coords="187,624,312,653"/>
+<area shape="rect" id="node4" title=" " alt="" coords="271,933,358,963"/>
+<area shape="rect" id="node5" title=" " alt="" coords="449,933,522,963"/>
+<area shape="rect" id="node9" title=" " alt="" coords="743,933,812,963"/>
+<area shape="rect" id="node10" href="$global__const_8h.html" title=" " alt="" coords="590,856,714,885"/>
+<area shape="rect" id="node11" title=" " alt="" coords="613,933,691,963"/>
+<area shape="rect" id="node16" href="$mem_8h.html" title=" " alt="" coords="551,237,622,267"/>
+<area shape="rect" id="node17" href="$global_8h.html" title=" " alt="" coords="553,315,631,344"/>
+<area shape="rect" id="node18" title=" " alt="" coords="539,392,621,421"/>
+<area shape="rect" id="node20" href="$lexer_8h.html" title=" " alt="" coords="696,469,765,499"/>
 </map>

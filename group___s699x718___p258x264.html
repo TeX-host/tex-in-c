@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.19"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: PART 35: Subroutines for math mode</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,7 +41,7 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.19 -->
+<!-- 制作者 Doxygen 1.8.20 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'搜索');
@@ -89,16 +89,327 @@ $(document).ready(function(){initNavTree('group___s699x718___p258x264.html','');
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a>  </div>
   <div class="headertitle">
 <div class="title">PART 35: Subroutines for math mode</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>[ #699.  
+<a href="#details">更多...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga83df2b9011ed47be0bc5b8b91f9d3beb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga83df2b9011ed47be0bc5b8b91f9d3beb">fractionrule</a> (long t)</td></tr>
+<tr class="separator:ga83df2b9011ed47be0bc5b8b91f9d3beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1d61a094479d17cfe111196017db18ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga1d61a094479d17cfe111196017db18ec">overbar</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, long k, long t)</td></tr>
+<tr class="separator:ga1d61a094479d17cfe111196017db18ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadf72a0346ba44546ad9c90de97df1d33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gadf72a0346ba44546ad9c90de97df1d33">charbox</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:gadf72a0346ba44546ad9c90de97df1d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea2e0a747eea01746a26ff30ee11be4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gaea2e0a747eea01746a26ff30ee11be4c">stackintobox</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, <a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:gaea2e0a747eea01746a26ff30ee11be4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13637af60502f569a06db34b60518019"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga13637af60502f569a06db34b60518019">heightplusdepth</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:ga13637af60502f569a06db34b60518019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e4bdb7d214d1240584ae82a28ff582e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga4e4bdb7d214d1240584ae82a28ff582e">vardelimiter</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> d, <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s, long v)</td></tr>
+<tr class="separator:ga4e4bdb7d214d1240584ae82a28ff582e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga044efdbceb85693643683873ef62253a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga044efdbceb85693643683873ef62253a">rebox</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, long w)</td></tr>
+<tr class="separator:ga044efdbceb85693643683873ef62253a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad0ae569cc5ecec7da7a713b596f56189"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gad0ae569cc5ecec7da7a713b596f56189">mathglue</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> g, long m)</td></tr>
+<tr class="separator:gad0ae569cc5ecec7da7a713b596f56189"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad739925b8fbd444eed9d5d47e120ceb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gaad739925b8fbd444eed9d5d47e120ceb">mathkern</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, long m)</td></tr>
+<tr class="separator:gaad739925b8fbd444eed9d5d47e120ceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga143a554c2194555a0c207e7505fbf80a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga143a554c2194555a0c207e7505fbf80a">flushmath</a> (void)</td></tr>
+<tr class="separator:ga143a554c2194555a0c207e7505fbf80a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<p>[ #699. </p>
+<p>Subroutines for math mode. ] </p>
+<h2 class="groupheader">函数说明</h2>
+<a id="gadf72a0346ba44546ad9c90de97df1d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadf72a0346ba44546ad9c90de97df1d33">&#9670;&nbsp;</a></span>charbox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> charbox </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga143a554c2194555a0c207e7505fbf80a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga143a554c2194555a0c207e7505fbf80a">&#9670;&nbsp;</a></span>flushmath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void flushmath </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga83df2b9011ed47be0bc5b8b91f9d3beb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga83df2b9011ed47be0bc5b8b91f9d3beb">&#9670;&nbsp;</a></span>fractionrule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> fractionrule </td>
+          <td>(</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga13637af60502f569a06db34b60518019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga13637af60502f569a06db34b60518019">&#9670;&nbsp;</a></span>heightplusdepth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> heightplusdepth </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gad0ae569cc5ecec7da7a713b596f56189"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad0ae569cc5ecec7da7a713b596f56189">&#9670;&nbsp;</a></span>mathglue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> mathglue </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaad739925b8fbd444eed9d5d47e120ceb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaad739925b8fbd444eed9d5d47e120ceb">&#9670;&nbsp;</a></span>mathkern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void mathkern </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>m</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga1d61a094479d17cfe111196017db18ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1d61a094479d17cfe111196017db18ec">&#9670;&nbsp;</a></span>overbar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> overbar </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga044efdbceb85693643683873ef62253a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga044efdbceb85693643683873ef62253a">&#9670;&nbsp;</a></span>rebox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> rebox </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>w</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaea2e0a747eea01746a26ff30ee11be4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaea2e0a747eea01746a26ff30ee11be4c">&#9670;&nbsp;</a></span>stackintobox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void stackintobox </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga4e4bdb7d214d1240584ae82a28ff582e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4e4bdb7d214d1240584ae82a28ff582e">&#9670;&nbsp;</a></span>vardelimiter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> vardelimiter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td>
+          <td class="paramname"><em>d</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>v</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.19 </li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

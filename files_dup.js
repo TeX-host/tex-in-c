@@ -1,5 +1,10 @@
 var files_dup =
 [
+    [ "box.c", "box_8c.html", "box_8c" ],
+    [ "box.h", "box_8h.html", "box_8h" ],
+    [ "box_copy.c", "box__copy_8c.html", "box__copy_8c" ],
+    [ "box_destroy.c", "box__destroy_8c.html", "box__destroy_8c" ],
+    [ "box_display.c", "box__display_8c.html", "box__display_8c" ],
     [ "dvicmd.h", "dvicmd_8h.html", "dvicmd_8h" ],
     [ "dviout.c", "dviout_8c.html", "dviout_8c" ],
     [ "dviout.h", "dviout_8h.html", "dviout_8h" ],
