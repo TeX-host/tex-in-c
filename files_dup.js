@@ -10,6 +10,7 @@ var files_dup =
     [ "dviout.h", "dviout_8h.html", "dviout_8h" ],
     [ "eqtb.c", "eqtb_8c.html", "eqtb_8c" ],
     [ "eqtb.h", "eqtb_8h.html", "eqtb_8h" ],
+    [ "eqtb_save.c", "eqtb__save_8c.html", "eqtb__save_8c" ],
     [ "error.c", "error_8c.html", "error_8c" ],
     [ "error.h", "error_8h.html", "error_8h" ],
     [ "expand.c", "expand_8c.html", "expand_8c" ],

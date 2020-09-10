@@ -44,8 +44,6 @@ var global_8h =
     [ "parloc", "group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886", null ],
     [ "partoken", "group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4", null ],
     [ "readopen", "group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076", null ],
-    [ "saveptr", "group___s268x288___p109x114.html#ga3d861a882da9c9a12db008cbbb69dc89", null ],
-    [ "savestack", "group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2", null ],
     [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ],
     [ "use_err_help", "group___s72x98___p30x37.html#ga6716beda6d4fef986541deed8a6d56bb", null ],
     [ "write_file", "global_8h.html#aa725d4f86d3ba53fc5a77fda0d138edc", null ],

@@ -59,7 +59,7 @@ var searchData=
   ['dimenpars_360',['dimenpars',['../group___s220x255___p81x101.html#gga8ff17b6afac8a3f24b743e19f1c576eeae4010ffc1d143a7d63ca843cf2a47d5d',1,'eqtb.h']]],
   ['dimensionregisters_361',['DimensionRegisters',['../group___s220x255___p81x101.html#ga8ff17b6afac8a3f24b743e19f1c576ee',1,'eqtb.h']]],
   ['disc_5fnode_362',['DISC_NODE',['../group___s133x161___p50x57.html#ggacac9cbaeea226ed297804c012dc12b16ae21c0103b42c2b9b3f9865ed9d696991',1,'box.h']]],
-  ['discgroup_363',['discgroup',['../group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285ad0e1416ce772fe5aca1d78df67091602',1,'tex_constant.h']]],
+  ['discgroup_363',['discgroup',['../group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285ad0e1416ce772fe5aca1d78df67091602',1,'eqtb.h']]],
   ['discretionary_364',['DISCRETIONARY',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a4c85658462b42790f876107824da457b',1,'tex_constant.h']]],
   ['discwidth_365',['discwidth',['../tex__header_8h.html#ab59ccfa1be550909d657e2888dd443cc',1,'tex_header.h']]],
   ['displayindent_366',['displayindent',['../group___s220x255___p81x101.html#gacc0f9365882832e5a80a7c5ec40e60e3',1,'eqtb.h']]],

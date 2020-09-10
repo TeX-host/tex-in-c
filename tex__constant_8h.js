@@ -84,26 +84,6 @@ var tex__constant_8h =
       [ "ERROR_MESSAGE_ISSUED", "group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1aca88c31c10493f1ae99e821bc6d83164", null ],
       [ "FATAL_ERROR_STOP", "group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a8ee7bd6f21612e266557c50617ef7cc3", null ]
     ] ],
-    [ "GroupCode", "group___s268x288___p109x114.html#gaf479e28d591782caf87471ba46820285", [
-      [ "bottomlevel", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a9a2af579fd8c4396f5d4a7d79017cb7a", null ],
-      [ "simplegroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285af72255a0107a8b7201eec234faeda1d9", null ],
-      [ "hboxgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285abfaf0d0488047be6040343d800a2b70d", null ],
-      [ "adjustedhboxgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285ae6dfb6bc2bad8b857a92df52d55e8ed2", null ],
-      [ "vboxgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a0fb9bbe9d8653dd74711aee99a59e210", null ],
-      [ "vtopgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285aa5b28ba0ae9918527ca284631a745540", null ],
-      [ "aligngroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a81197521533334ec1f08d513c7b1ed31", null ],
-      [ "noaligngroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a1d4c52ad7048dfb9550ad3fb4da28a8b", null ],
-      [ "outputgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a862b40d6bfe8f0d5ce86d32ca7e5c56b", null ],
-      [ "mathgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a70f64f897ebbc27280fc71b1247def44", null ],
-      [ "discgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285ad0e1416ce772fe5aca1d78df67091602", null ],
-      [ "insertgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a1cbf10907a487124111add091316ba49", null ],
-      [ "vcentergroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a3c2c3dd7d3134566878ef3692d867eaa", null ],
-      [ "mathchoicegroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a626a6a6452e9b9967407d24a3c6911bc", null ],
-      [ "semisimplegroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a93fb94abcecc5b445e1c44c738d5cf59", null ],
-      [ "mathshiftgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a84d62964a0506aa73001cd87c40b1b90", null ],
-      [ "mathleftgroup", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285a56ea87294c5c8c4aaaf7ba9777e311f7", null ],
-      [ "MAX_GROUP_CODE", "group___s268x288___p109x114.html#ggaf479e28d591782caf87471ba46820285ac93dae556a9e9deaab4532588ee5bc4d", null ]
-    ] ],
     [ "hvSkipDiff", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823", [
       [ "FIL_CODE", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823ad3ac6e826b765b99f33cadd8cc75f18c", null ],
       [ "FILL_CODE", "tex__constant_8h.html#ad9f012c8619fee561d43c08679119823a435890d1a728781ba82496e4ffc3ec84", null ],
@@ -129,12 +109,6 @@ var tex__constant_8h =
       [ "vcenternoad", "group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3ad54b79324b20ece052e2e8b336311b9a", null ],
       [ "leftnoad", "group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3a9fc24add2cb945cd2cfd3beb5d4b1099", null ],
       [ "rightnoad", "group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3a7434d1951dca00f9763ef5307a242ba2", null ]
-    ] ],
-    [ "SaveType", "group___s268x288___p109x114.html#ga09f34f578c5d3e58cccaab2cb469eec4", [
-      [ "restoreoldvalue", "group___s268x288___p109x114.html#gga09f34f578c5d3e58cccaab2cb469eec4a1567efa813aafb31aee3166044fec526", null ],
-      [ "restorezero", "group___s268x288___p109x114.html#gga09f34f578c5d3e58cccaab2cb469eec4a428d4616fceff5a9e93bc8ad9c88e4af", null ],
-      [ "inserttoken", "group___s268x288___p109x114.html#gga09f34f578c5d3e58cccaab2cb469eec4a7a873cd4cb7e2ae33f27fecc6971a939", null ],
-      [ "levelboundary", "group___s268x288___p109x114.html#gga09f34f578c5d3e58cccaab2cb469eec4ae11c3914ad8015c891e4a6dd334f38dc", null ]
     ] ],
     [ "StyleNodeSubtype", "group___s680x698___p249x257.html#ga5338380f915a15dd39900b967e4d9229", [
       [ "displaystyle", "group___s680x698___p249x257.html#gga5338380f915a15dd39900b967e4d9229a6c5103e89b0a5366fd3ef36eea6a4ac0", null ],

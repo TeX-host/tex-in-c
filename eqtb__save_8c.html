@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: eqtb_save.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.20 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('eqtb__save_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">eqtb_save.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="lexer_8h_source.html">lexer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8h_source.html">error.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mem_8h_source.html">mem.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print_8h_source.html">print.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="macros_8h_source.html">macros.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texfunc_8h_source.html">texfunc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="eqtb_8h_source.html">eqtb.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+eqtb_save.c 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="eqtb__save_8c__incl.svg" width="836" height="968"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga35606e27c29cbd33ad46ba57c5a01d03"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga35606e27c29cbd33ad46ba57c5a01d03">eqtb_save_init</a> ()</td></tr>
+<tr class="separator:ga35606e27c29cbd33ad46ba57c5a01d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c89b7035be1f905df30877c9161a9e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga1c89b7035be1f905df30877c9161a9e4">newsavelevel</a> (<a class="el" href="group___s268x288___p109x114.html#gaf479e28d591782caf87471ba46820285">GroupCode</a> c)</td></tr>
+<tr class="separator:ga1c89b7035be1f905df30877c9161a9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b80eff46ab510fefd9c64bea7a8ce1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga8b80eff46ab510fefd9c64bea7a8ce1b">eqdestroy</a> (<a class="el" href="union_memory_word.html">MemoryWord</a> w)</td></tr>
+<tr class="separator:ga8b80eff46ab510fefd9c64bea7a8ce1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3c1362493b6c8ca09e51fd812b50a8c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga3c1362493b6c8ca09e51fd812b50a8c4">eqsave</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> l)</td></tr>
+<tr class="separator:ga3c1362493b6c8ca09e51fd812b50a8c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1f41746b7c8827a48a44c0afc3e31eec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga1f41746b7c8827a48a44c0afc3e31eec">eqdefine</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> t, <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> e)</td></tr>
+<tr class="separator:ga1f41746b7c8827a48a44c0afc3e31eec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad12dc8504a41d5aa91cebc88bff66a95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#gad12dc8504a41d5aa91cebc88bff66a95">eqworddefine</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, long w)</td></tr>
+<tr class="separator:gad12dc8504a41d5aa91cebc88bff66a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac0f4d36350feb842df4c5ee702c9bdbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#gac0f4d36350feb842df4c5ee702c9bdbe">geqdefine</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> t, <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> e)</td></tr>
+<tr class="separator:gac0f4d36350feb842df4c5ee702c9bdbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3c725c40883e9f35c71346f7728d8530"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga3c725c40883e9f35c71346f7728d8530">geqworddefine</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, long w)</td></tr>
+<tr class="separator:ga3c725c40883e9f35c71346f7728d8530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf1bdcb5182e11d7563b4d913f33bdaa9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#gaf1bdcb5182e11d7563b4d913f33bdaa9">saveforafter</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> t)</td></tr>
+<tr class="separator:gaf1bdcb5182e11d7563b4d913f33bdaa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga275bb5a09e6d25e26f4d0a984dc9883e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga275bb5a09e6d25e26f4d0a984dc9883e">restoretrace</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="memdesc:ga275bb5a09e6d25e26f4d0a984dc9883e"><td class="mdescLeft">&#160;</td><td class="mdescRight">#284  <a href="group___s268x288___p109x114.html#ga275bb5a09e6d25e26f4d0a984dc9883e">更多...</a><br /></td></tr>
+<tr class="separator:ga275bb5a09e6d25e26f4d0a984dc9883e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga107d881e47e06a5ebd5fd6332f972bcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga107d881e47e06a5ebd5fd6332f972bcc">unsave</a> (void)</td></tr>
+<tr class="separator:ga107d881e47e06a5ebd5fd6332f972bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabf37a40b9d95bc2a1560163dea9ec5c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#gabf37a40b9d95bc2a1560163dea9ec5c9">preparemag</a> (void)</td></tr>
+<tr class="separator:gabf37a40b9d95bc2a1560163dea9ec5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga6f1dd8875dcc2486aa325024e2147cb2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="union_memory_word.html">MemoryWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2">savestack</a> [<a class="el" href="group___s1x16___p3x9.html#ga3ef531cbe1242a15cd087b7542356808">SAVE_SIZE</a>+1]</td></tr>
+<tr class="memdesc:ga6f1dd8875dcc2486aa325024e2147cb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">[ #268~288: SAVING AND RESTORING EQUIVALENTS ] [#271]  <a href="group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2">更多...</a><br /></td></tr>
+<tr class="separator:ga6f1dd8875dcc2486aa325024e2147cb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3d861a882da9c9a12db008cbbb69dc89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga3d861a882da9c9a12db008cbbb69dc89">saveptr</a></td></tr>
+<tr class="separator:ga3d861a882da9c9a12db008cbbb69dc89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4123f67a7f03729fa8ef092f1a1cb34e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga4123f67a7f03729fa8ef092f1a1cb34e">maxsavestack</a></td></tr>
+<tr class="separator:ga4123f67a7f03729fa8ef092f1a1cb34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7318db403c0da9a7312c5818709a40e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga7318db403c0da9a7312c5818709a40e8">curlevel</a></td></tr>
+<tr class="separator:ga7318db403c0da9a7312c5818709a40e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7e227409c6c7e63888474c70c8a2495"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s268x288___p109x114.html#gaf479e28d591782caf87471ba46820285">GroupCode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#gaa7e227409c6c7e63888474c70c8a2495">curgroup</a></td></tr>
+<tr class="separator:gaa7e227409c6c7e63888474c70c8a2495"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6989a9aea586446959db24eeb211d936"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga6989a9aea586446959db24eeb211d936">curboundary</a></td></tr>
+<tr class="separator:ga6989a9aea586446959db24eeb211d936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1eb5927d5b4992fd6f711d2ca30a4d2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s268x288___p109x114.html#ga1eb5927d5b4992fd6f711d2ca30a4d2d">magset</a></td></tr>
+<tr class="separator:ga1eb5927d5b4992fd6f711d2ca30a4d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="eqtb__save_8c.html">eqtb_save.c</a></li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+  </ul>
+</div>
+</body>
+</html>
