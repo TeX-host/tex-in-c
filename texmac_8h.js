@@ -147,7 +147,6 @@ var texmac_8h =
     [ "whatlang", "texmac_8h.html#ad9269e34f41010c68a631365bd5f11e0", null ],
     [ "whatlhm", "texmac_8h.html#a90e9643230887de6718de30142839398", null ],
     [ "whatrhm", "texmac_8h.html#ac9e67befd17a11165c9532ff811b4a9a", null ],
-    [ "wopenout", "group___s25x37___p13x18.html#ga4736780b3641ccec01c0262c859d6345", null ],
     [ "worddefine", "texmac_8h.html#a91fad6fa007f046d167fdedfa30f08be", null ],
     [ "wraplig", "texmac_8h.html#afcd1f831a7a72edcbdf38a3ef4644db9", null ],
     [ "wrapup", "texmac_8h.html#ac1046c2e6bce25d3a3ed5428a3a0f6a1", null ],

@@ -1,12 +1,12 @@
-<map id="inputln.c" name="inputln.c">
-<area shape="rect" id="node1" title=" " alt="" coords="335,5,416,35"/>
+<map id="io.c" name="io.c">
+<area shape="rect" id="node1" title=" " alt="" coords="352,5,399,35"/>
 <area shape="rect" id="node2" title=" " alt="" coords="343,701,413,731"/>
 <area shape="rect" id="node3" href="$tex_8h.html" title=" " alt="" coords="159,315,215,344"/>
 <area shape="rect" id="node12" href="$global_8h.html" title=" " alt="" coords="337,83,414,112"/>
 <area shape="rect" id="node15" href="$lexer_8h.html" title=" " alt="" coords="215,237,285,267"/>
 <area shape="rect" id="node16" href="$texfunc_8h.html" title=" " alt="" coords="28,237,115,267"/>
 <area shape="rect" id="node17" href="$error_8h.html" title=" " alt="" coords="543,83,611,112"/>
-<area shape="rect" id="node18" href="$inputln_8h.html" title=" " alt="" coords="635,83,718,112"/>
+<area shape="rect" id="node18" href="$io_8h.html" title=" " alt="" coords="635,83,683,112"/>
 <area shape="rect" id="node4" href="$tex__types_8h.html" title=" " alt="" coords="12,624,115,653"/>
 <area shape="rect" id="node7" href="$tex__constant_8h.html" title=" " alt="" coords="159,392,285,421"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,701,92,731"/>

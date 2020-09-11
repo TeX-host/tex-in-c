@@ -34,7 +34,6 @@ var global_8h =
     [ "log_opened", "group___s511x538___p188x195.html#gab24200a18c2851605e53bfeab44eace1", null ],
     [ "max_buf_stack", "group___s25x37___p13x18.html#gaab55bc66c2a5a8767010d4f76940c980", null ],
     [ "name_in_progress", "group___s511x538___p188x195.html#ga20d28e7039b8ce5fb1b280c6cbc495fe", null ],
-    [ "name_of_file", "group___s25x37___p13x18.html#gade8e0216e3b9903faa5818658b02b2a1", null ],
     [ "nest", "group___s211x219___p77x80.html#gadf56d9101070f0e67d6aee9e3932dcb3", null ],
     [ "OK_to_interrupt", "group___s72x98___p30x37.html#ga6e6c4fb441211ad0ef5e9ffc763ad053", null ],
     [ "outputactive", "global_8h.html#a59204745fd16ad6499a5a6808e43d31c", null ],
@@ -46,6 +45,7 @@ var global_8h =
     [ "readopen", "group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076", null ],
     [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ],
     [ "use_err_help", "group___s72x98___p30x37.html#ga6716beda6d4fef986541deed8a6d56bb", null ],
+    [ "use_independence_date", "group___s220x255___p81x101.html#gaded2829a9552aa2804634cb3a9a2b673", null ],
     [ "write_file", "global_8h.html#aa725d4f86d3ba53fc5a77fda0d138edc", null ],
     [ "xchr", "group___s17x24___p10x12.html#ga5f0ded4ff06bc8d2e1e2097c5225885d", null ],
     [ "xord", "group___s17x24___p10x12.html#gaea31bab5f79624105d57ef4ad3b56eb5", null ]

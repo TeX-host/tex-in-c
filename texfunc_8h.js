@@ -5,10 +5,8 @@ var texfunc_8h =
     [ "giveerrhelp", "texfunc_8h.html#a78490fe79fcaae6767240cc8e0fe0fbd", null ],
     [ "jumpout", "group___s72x98___p30x37.html#gadeb1545ae01b6cbf0a224dc6a207876e", null ],
     [ "newspec", "group___s133x161___p50x57.html#gacfaffbf54a0652f156ae976b973dee07", null ],
-    [ "openlogfile", "group___s511x538___p188x195.html#gaa093bac5d614a1706a24856de98e0c7d", null ],
-    [ "packfilename", "group___s511x538___p188x195.html#gaec26a4251e757acb06a49a967374a3dd", null ],
     [ "print_esc", "group___s54x71___p24x29.html#ga0c018449eb2c8069b74269c37a931394", null ],
-    [ "print_file_name", "texfunc_8h.html#a8140d41dff9ee6e0afd127e1a94c450b", null ],
+    [ "print_file_name", "group___s511x538___p188x195.html#ga8140d41dff9ee6e0afd127e1a94c450b", null ],
     [ "print_hex", "group___s54x71___p24x29.html#ga1f134ab06d2ce2d719977640811ad6f8", null ],
     [ "print_int", "group___s54x71___p24x29.html#ga10d4c74ca848a0557d46565d64282ef6", null ],
     [ "print_size", "texfunc_8h.html#a814c760ed61b461c0a5a2f02c44b9e00", null ],
@@ -20,7 +18,6 @@ var texfunc_8h =
     [ "printsubsidiarydata", "group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a", null ],
     [ "printtotals", "group___s980x1028___p366x382.html#gaf17f95f6680985b35a21c14e7e83fb93", null ],
     [ "set_help", "texfunc_8h.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
-    [ "startinput", "group___s511x538___p188x195.html#ga36e1e896f8f7b67ca95b8c20295fc18f", null ],
     [ "strtoks", "group___s464x486___p174x180.html#ga80fe6425d210c2854268e77530a8c9d6", null ],
     [ "thetoks", "group___s464x486___p174x180.html#ga6b6f36120a008973281d7ea9d596d6ff", null ]
 ];
