@@ -11982,13 +11982,8 @@ Static void initialize(void) {
         eqtb_init();
         hash_var_init();
         eqtb_save_init();
+        expand_init();
 
-        /*383:*/
-        topmark = 0;
-        firstmark = 0;
-        botmark = 0;
-        splitfirstmark = 0;
-        splitbotmark = 0; /*:383*/
         /*439:*/
         cur_val = 0;
         cur_val_level = INT_VAL;

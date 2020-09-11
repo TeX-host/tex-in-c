@@ -62,6 +62,15 @@ static void insthetoks(void);
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
 
+void expand_init() {
+    /*383:*/
+    topmark = 0;
+    firstmark = 0;
+    botmark = 0;
+    splitfirstmark = 0;
+    splitbotmark = 0;
+} /* expand_init */
+
 /// [#396] If `longstate == outer_call`, 
 /// a runaway argument has already been reported.
 void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
