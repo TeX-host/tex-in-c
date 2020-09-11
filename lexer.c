@@ -6,9 +6,9 @@
 #include "texfunc.h"    // [func] begindiagnostic, print_mode, enddiagnostic
 // delete_token_ref, set_help, openlogfile
 #include "printout.h"   // [func] printcmdchr,
-#include "pure_func.h"  // [func] aclose
+#include "pure_func.h"  // [func] hex_to_i
 #include "macros.h"     // [macro] help4, help3, help2
-#include "io.h"         // [func] inputln, initterminal
+#include "io.h"         // [func] inputln, initterminal, aclose
 #include "expand.h"     // [var] longstate
 #include "error.h"
     // [func] error, fatalerror, overflow, print_err,

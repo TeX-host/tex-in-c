@@ -7,15 +7,3 @@ int hex_to_i(int c, int cc) {
     res += (cc <= '9') ? (cc - '0') : (cc - 'a' + 10);
     return res;
 }
-
-/*28:*/
-void aclose(FILE** f) {
-    if (*f != NULL) fclose(*f);
-    *f = NULL;
-}
-
-void w_close(FILE** f) {
-    if (*f != NULL) fclose(*f);
-    *f = NULL;
-}
-/*:28*/

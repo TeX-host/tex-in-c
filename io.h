@@ -67,6 +67,10 @@ extern Boolean a_open_in(FILE** f);
 // [funcs], dviout, tex, texmac.h
 extern Boolean a_open_out(FILE** f);
 
+extern void aclose(FILE** f);
+extern void w_close(FILE** f);
+
+
 // io_fname
 extern StrNumber curname, curarea, curext;
 extern StrNumber extdelimiter;

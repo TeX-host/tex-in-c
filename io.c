@@ -33,6 +33,18 @@ UInt16 last;
 UInt16 max_buf_stack;
 
 
+/*28:*/
+void aclose(FILE** f) {
+    if (*f != NULL) fclose(*f);
+    *f = NULL;
+}
+
+void w_close(FILE** f) {
+    if (*f != NULL) fclose(*f);
+    *f = NULL;
+}
+/*:28*/
+
 /// [#31] inputs the next line or returns false.
 /// 30, [31], 37, 58, 71, 362, 485, 486, 538
 Boolean inputln(FILE* f, Boolean bypass_eoln) {
