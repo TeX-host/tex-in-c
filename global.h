@@ -48,7 +48,6 @@ extern char pagecontents;
 extern Scaled pagesofar[8];
 extern Integer lastpenalty, insertpenalties;
 extern Boolean outputactive;
-extern Integer lastbadness;
 extern Scaled lastkern;
 extern Pointer lastglue;
 

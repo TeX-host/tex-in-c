@@ -45,14 +45,7 @@
 #define movepast        13
 #define finrule         14
 #define nextp           15
-// [p239#644]
-#define exactly         0
-#define additional      1
-// [p250#681]
-#define mathchar        1
-#define subbox          2
-#define submlist        3
-#define mathtextchar    4
+
 
 
 /// p258#699: Subroutines for math mode

@@ -33,6 +33,7 @@
 #include "mem.h"
 #include "box.h"
 #include "io.h" // [func] inputln
+#include "pack.h"
 #include "texfunc.h"    // [export]
 
 
@@ -98,19 +99,6 @@ Static FILE* readfile[16];
 char readopen[17];
 /*:480*/
 /** @}*/ // end group S464x486_P174x180
-
-
-
-/*646:*/
-Static Scaled totalstretch[FILLL - NORMAL + 1], totalshrink[FILLL - NORMAL + 1];
-Integer lastbadness;
-/*:646*/
-/*647:*/
-Static Pointer adjusttail;
-/*:647*/
-/*661:*/
-Static Integer packbeginline;
-/*:661*/
 
 
 /*684:*/

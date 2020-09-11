@@ -4,6 +4,7 @@
 #include "texmac.h" // [macro] writetokens, displaymlist, textmlist, 
     // scriptmlist, scriptscriptmlist, mathtype, supscr, subscr
 #include "error.h"   // confusion
+#include "pack.h"    // [macro] subbox
 #include "box.h"
 
 
