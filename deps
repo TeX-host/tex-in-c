@@ -2,8 +2,6 @@ tex.o: tex.c tex_header.h global_const.h texmath.h tex_types.h tex.h \
  tex_constant.h box.h str.h texmac.h mem.h global.h scan.h lexer.h \
  macros.h printout.h fonts.h dviout.h print.h expand.h error.h hash.h \
  eqtb.h io.h texfunc.h
-pool_init.o: pool_init.c tex.h tex_types.h tex_constant.h box.h str.h \
- global_const.h io.h pool_init.h
 io.o: io.c tex.h tex_types.h tex_constant.h box.h str.h global_const.h \
  global.h scan.h lexer.h texfunc.h error.h io.h
 io_unix.o: io_unix.c tex.h tex_types.h tex_constant.h box.h str.h \
@@ -16,7 +14,7 @@ texmath.o: texmath.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
  texmath.h
 str.o: str.c global_const.h tex.h tex_types.h tex_constant.h box.h str.h \
  macros.h texfunc.h error.h hash.h fonts.h eqtb.h print.h texmac.h mem.h \
- global.h scan.h lexer.h io.h
+ global.h scan.h lexer.h io.h pool_init.h
 printout.o: printout.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h fonts.h texfunc.h texmath.h texmac.h mem.h global.h \
  scan.h lexer.h expand.h print.h eqtb.h error.h printout.h
