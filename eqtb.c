@@ -28,7 +28,7 @@ Boolean use_independence_date = false;
 
 
 /// [#222, #228, #232, #240, #250]
-void eqtb_init() {
+void eqtb_init_once() {
     size_t k;
 
     /** [p82#222] */
@@ -139,7 +139,15 @@ void eqtb_init() {
     for (k = DIMEN_BASE; k <= EQTB_SIZE; k++) {
         eqtb[k - ACTIVE_BASE].sc = 0;
     }
-}
+} /* eqtb_init_once */
+
+/// [#254]
+void eqtb_init() {
+    /*254:*/
+    for (size_t k = INT_BASE; k <= EQTB_SIZE; k++) {
+        xeqlevel[k - INT_BASE] = LEVEL_ONE;
+    }
+} /* eqtb_init */
 
 /** [#225]: 打印 `glue` 参数的名称
  * 

@@ -514,6 +514,7 @@ extern GroupCode curgroup;
 
 
 extern void eqtb_init();
+extern void eqtb_init_once();
 extern void print_skip_param(Integer n);
 extern void begindiagnostic(void);
 extern void enddiagnostic(Boolean blankline);
@@ -522,7 +523,6 @@ extern void showeqtb(HalfWord n);
 // fonts only
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
-
 
 extern void eqtb_save_init();
 extern void newsavelevel(GroupCode c);

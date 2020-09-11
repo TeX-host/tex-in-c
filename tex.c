@@ -11979,11 +11979,7 @@ Static void initialize(void) {
         pagedepth = 0;
         pagemaxdepth = 0; /*:991*/
         /*:215*/
-        /*254:*/
-        for (k = INT_BASE; k <= EQTB_SIZE; k++) {
-            xeqlevel[k - INT_BASE] = LEVEL_ONE;
-        }
-        /*:254*/
+        eqtb_init();
 
         // [#257]
         hash_var_init();
@@ -12076,8 +12072,7 @@ Static void initialize(void) {
         /// [#164]
         mem_init();
 
-        /// [#222, #228, #232, #240, #250]
-        eqtb_init();
+        eqtb_init_once();
 
         // #258
         hash_init();
