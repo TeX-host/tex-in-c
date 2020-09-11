@@ -97,7 +97,7 @@ var box_8h =
     [ "newkern", "group___s133x161___p50x57.html#ga1f413e5c0a0f9562d80aa28e6b84f5bd", null ],
     [ "newligature", "group___s133x161___p50x57.html#ga46b2a2e41c9934e2bd20be9428553ab5", null ],
     [ "newligitem", "group___s133x161___p50x57.html#ga268fca8e20523b7c09f0c57ec1a5d2c1", null ],
-    [ "newmath", "box_8h.html#abce94a374dec80b7e258539fc3d329ef", null ],
+    [ "newmath", "group___s133x161___p50x57.html#ga968f50a19af905d483283df4a8d164fe", null ],
     [ "newnullbox", "group___s133x161___p50x57.html#gacbaa2ea4359492a20269f71315222372", null ],
     [ "newparamglue", "group___s133x161___p50x57.html#gab18d14163038121c1b9eac665ea68bf0", null ],
     [ "newpenalty", "group___s133x161___p50x57.html#gab2b725de976f9fdfe6ad918f4a0c66d3", null ],
@@ -107,7 +107,7 @@ var box_8h =
     [ "printspec", "group___s173x198___p62x68.html#ga0d6199228e47c6685f4aaa1637287d6d", null ],
     [ "shortdisplay", "group___s173x198___p62x68.html#gaf454c271e970571a10036b79e8b2819a", null ],
     [ "showbox", "group___s173x198___p62x68.html#ga04f61371be3d9d487f8fe99248a68d65", null ],
-    [ "shownodelist", "box_8h.html#a5d81c1bc625de9a8e98c38781c1d9808", null ],
+    [ "shownodelist", "group___s173x198___p62x68.html#gadbdb78792fd420f03f561aa28c06f9fd", null ],
     [ "breadth_max", "group___s173x198___p62x68.html#gae9df3e1cec09392328c71515605d696a", null ],
     [ "depth_threshold", "group___s173x198___p62x68.html#gaa36c8a149ee4cdc297811d222ddf0420", null ],
     [ "font_in_short_display", "group___s173x198___p62x68.html#ga23204f67510c62d0002e93432864a39a", null ]

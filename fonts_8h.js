@@ -1,8 +1,32 @@
 var fonts_8h =
 [
+    [ "extbot", "group___s539x582___p196x213.html#ga4d561dacbb1528f30c1d7bc0c8ffa751", null ],
+    [ "extmid", "group___s539x582___p196x213.html#ga5f1c0014b966ebb548a37b0559bb8a95", null ],
+    [ "extrep", "group___s539x582___p196x213.html#ga8dd795bc71dd90db4d87e4657db0115d", null ],
+    [ "exttop", "group___s539x582___p196x213.html#ga3f9ef793ff58e080370460167e8f1695", null ],
     [ "FONTS_H", "fonts_8h.html#a6be9f6f6c83255972bc5b73d50e4e96a", null ],
+    [ "kernflag", "group___s539x582___p196x213.html#gaa4ca7ec0097e3d8c2fc660a611689703", null ],
+    [ "nextchar", "group___s539x582___p196x213.html#ga53c2543dcf2587c567330e73d7e594ea", null ],
+    [ "skipbyte", "group___s539x582___p196x213.html#ga9503083778dcca40fc2426fa62a3f9c2", null ],
+    [ "stopflag", "group___s539x582___p196x213.html#ga198c8350284cec5c91868eecd5a34e2f", null ],
     [ "FontIndex", "fonts_8h.html#aaef3941dc3cddf697b3713e877af0255", null ],
     [ "InternalFontNumber", "group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf", null ],
+    [ "CharTag", "group___s539x582___p196x213.html#gad917104abdfd25fb170d2a560c85c454", [
+      [ "NO_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a33ca3be4d5e7ce4b0ef99a4819746d6c", null ],
+      [ "LIG_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a80d2cf51d2bb5aebe6787ef6a9737f0f", null ],
+      [ "LIST_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a2b9d04645ec2c32c63358fa3ee798795", null ],
+      [ "EXT_TAG", "group___s539x582___p196x213.html#ggad917104abdfd25fb170d2a560c85c454a7b615559e900ca3890ec91ff07cef280", null ]
+    ] ],
+    [ "TFMParamVal", "group___s539x582___p196x213.html#ga30c4242c16131fe77688070a9108d63b", [
+      [ "TFM_PARAM_MISSING", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba682ced507ffb5a1159ab7d20a71c28b6", null ],
+      [ "SLANT_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63baa8067ed42159a530bc0ddf67ad779479", null ],
+      [ "SPACE_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba7208635d41b51cb12bee1c9794e82090", null ],
+      [ "SPACE_STRETCH_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba38cbd65adc0e37c9567d68fd38c61317", null ],
+      [ "SPACE_SHRINK_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba14664ac4d452c405f651f577d79010b5", null ],
+      [ "X_HEIGHT_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba7134eb32cff80666580282d0c1a7b2bd", null ],
+      [ "QUAD_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63ba466f17626c1a560afb1c2b5c6950f635", null ],
+      [ "EXTRA_SPACE_CODE", "group___s539x582___p196x213.html#gga30c4242c16131fe77688070a9108d63baf7ccc3e409a97a372a519bfe165f07e9", null ]
+    ] ],
     [ "chardepth", "group___s539x582___p196x213.html#ga9b3df6faa6755b0238386dfd0a7992ae", null ],
     [ "charheight", "group___s539x582___p196x213.html#ga891cb1b3930460ae764d4027cad1f430", null ],
     [ "charinfo", "group___s539x582___p196x213.html#ga0521217b0b6bf0eb541e39f3871c7ed9", null ],

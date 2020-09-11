@@ -146,7 +146,6 @@ var tex_8c =
     [ "scanmath", "group___s1136x1207___p417x434.html#ga1b1e679af9a898a80866ef136ac58942", null ],
     [ "scanspec", "group___s644x679___p239x248.html#gabd5f3cff4611d697feaef6923a813ad1", null ],
     [ "scantoks", "group___s464x486___p174x180.html#ga33c3d6a1c4b206e23c5c1b80f5aba001", null ],
-    [ "set_help", "tex_8c.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
     [ "setmathchar", "group___s1136x1207___p417x434.html#ga0b9fb0c254ed5b0377041547e3ae3a51", null ],
     [ "shiftcase", "group___s1208x1298___p435x454.html#gac9cd25f1dd22a6c4aaa17cc28dfdc853", null ],
     [ "shipout", "group___s592x643___p220x238.html#ga9217c20531c58a834e6dee5aaa16c2c3", null ],

@@ -17,7 +17,7 @@ var texfunc_8h =
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],
     [ "printsubsidiarydata", "group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a", null ],
     [ "printtotals", "group___s980x1028___p366x382.html#gaf17f95f6680985b35a21c14e7e83fb93", null ],
-    [ "set_help", "texfunc_8h.html#a92ba8fdc59f3507fef5e106449973f5d", null ],
+    [ "set_help", "group___s72x98___p30x37.html#ga92ba8fdc59f3507fef5e106449973f5d", null ],
     [ "strtoks", "group___s464x486___p174x180.html#ga80fe6425d210c2854268e77530a8c9d6", null ],
     [ "thetoks", "group___s464x486___p174x180.html#ga6b6f36120a008973281d7ea9d596d6ff", null ]
 ];

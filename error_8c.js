@@ -2,6 +2,8 @@ var error_8c =
 [
     [ "confusion", "group___s72x98___p30x37.html#gad648827d6f28ef0ba71b95015432d4b6", null ],
     [ "error", "group___s72x98___p30x37.html#ga518288848eb2471573b6581060452931", null ],
+    [ "error_init", "group___s72x98___p30x37.html#ga344c68273636b72c77da957d1086a5ee", null ],
+    [ "error_selector_init", "group___s72x98___p30x37.html#ga62048abcfa60636df3d9a1d40665e940", null ],
     [ "fatalerror", "group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b", null ],
     [ "int_error", "group___s72x98___p30x37.html#ga6d3be891296620e37d4a6a3478e1ef98", null ],
     [ "normalize_selector", "group___s72x98___p30x37.html#ga457981fda1f35db9e657fba74e772a57", null ],
@@ -9,5 +11,16 @@ var error_8c =
     [ "pause_for_instructions", "group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0", null ],
     [ "print_err", "group___s72x98___p30x37.html#gaa6d19f08c55cdc1e1dcf9e5f46de29ad", null ],
     [ "print_err_str", "group___s72x98___p30x37.html#gace455dd681029a71f650e1dcdf05399a", null ],
-    [ "succumb", "group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df", null ]
+    [ "set_help", "group___s72x98___p30x37.html#ga92ba8fdc59f3507fef5e106449973f5d", null ],
+    [ "succumb", "group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df", null ],
+    [ "deletions_allowed", "group___s72x98___p30x37.html#ga111f306f8f66ea55ea260b9c94a9cfbb", null ],
+    [ "errorcount", "group___s72x98___p30x37.html#ga1ec7a4e6077987d1cba9ba70dafc2158", null ],
+    [ "help_line", "group___s72x98___p30x37.html#gab5224c8f4600bd8c760e693801cb63c5", null ],
+    [ "help_ptr", "group___s72x98___p30x37.html#gae82f8faa2e5348e2d4c21ff0505072a4", null ],
+    [ "history", "group___s72x98___p30x37.html#ga5621136d5f677bc7fcaadfb913b52cf4", null ],
+    [ "interaction", "group___s72x98___p30x37.html#ga1bddff3b1f3787b9bace2be694fc6f70", null ],
+    [ "interrupt", "group___s72x98___p30x37.html#ga73282994beeccd037c396304562e624f", null ],
+    [ "OK_to_interrupt", "group___s72x98___p30x37.html#ga6e6c4fb441211ad0ef5e9ffc763ad053", null ],
+    [ "set_box_allowed", "group___s72x98___p30x37.html#ga2e659c3c8210e044b8d864c482710b4c", null ],
+    [ "use_err_help", "group___s72x98___p30x37.html#ga6716beda6d4fef986541deed8a6d56bb", null ]
 ];
