@@ -17,9 +17,6 @@ extern jmp_buf _JMP_global__final_end;
 extern StrNumber format_ident;
 extern ASCIICode xord[256];
 
-// funcs, [tex]
-extern Char name_of_file[FILE_NAME_SIZE + 1];
-
 // [tex], 仅在 print 中使用
 extern TextChar xchr[256];
 extern FILE* write_file[16];

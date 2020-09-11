@@ -8,9 +8,6 @@
 #include "io.h"           // [macro] TERM_ERR
 
 
-// 临时储存文件名。去除空格
-static char _fname[FILE_NAME_SIZE + 1];
-
 static int pos = 0; 
 static Boolean in_c_flag = false;
 Boolean need_to_load_format = false;
@@ -162,15 +159,6 @@ Boolean open_fmt(FILE** fmt) {
     }
 }
 
-// 去除多余的空格
-static void trimspaces(void) {
-    char* pp;
-
-    memcpy(_fname, name_of_file, FILE_NAME_SIZE);
-    _fname[FILE_NAME_SIZE] = 0;
-    // _fname[(pp = strchr(_fname, ' ')) ? pp - _fname : FILE_NAME_SIZE] = 0;
-    _fname[namelength] = 0;
-}
 
 static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {
     /* XXXX Fixed buffer size */
@@ -198,29 +186,33 @@ static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {
 Boolean a_open_in(FILE** f) {
     char** path_lst;
     char* name;
-    trimspaces();
-    if (!strncmp(_fname, "TeXfonts:", strlen("TeXfonts:"))) {
-        name = _fname + strlen("TeXfonts:");
+    char* fname = (char*)name_of_file;
+
+    if (!strncmp(fname, "TeXfonts:", strlen("TeXfonts:"))) {
+        name = fname + strlen("TeXfonts:");
         path_lst = font_path;
-    } else if (!strncmp(_fname, "TeXinputs:", strlen("TeXinputs:"))) {
-        name = _fname + strlen("TeXinputs:");
+    } else if (!strncmp(fname, "TeXinputs:", strlen("TeXinputs:"))) {
+        name = fname + strlen("TeXinputs:");
         path_lst = input_path;
-    } else if (!strncmp(_fname, "TeXformats:", strlen("TeXformats:"))) {
-        name = _fname + strlen("TeXformats:");
+    } else if (!strncmp(fname, "TeXformats:", strlen("TeXformats:"))) {
+        name = fname + strlen("TeXformats:");
         path_lst = format_path;
     } else {
-        name = _fname;
+        name = fname;
         path_lst = p_path;
     }
+
     return a_open_in1(name, path_lst, f);
 }
 
 Boolean a_open_out(FILE** f) {
-    trimspaces();
-    if (!*f) {
-        *f = fopen(_fname, "wb");
+    char* fname = (char*)name_of_file;
+
+    if ((*f) == NULL) {
+        *f = fopen(fname, "wb");
     } else {
-        *f = freopen(_fname, "wb", *f);
+        *f = freopen(fname, "wb", *f);
     }
-    return *f != 0;
+
+    return (*f) != NULL;
 }

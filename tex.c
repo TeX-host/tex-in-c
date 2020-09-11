@@ -615,9 +615,11 @@ void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
         namelength = FILE_NAME_SIZE;
     }
 
-    for (k = namelength; k < FILE_NAME_SIZE; k++) {
-        name_of_file[k] = ' ';
-    }
+    /// MOD: 直接中止字符串
+    name_of_file[k] = '\0';
+    // for (k = namelength; k < FILE_NAME_SIZE; k++) {
+    //     name_of_file[k] = ' ';
+    // }
 } /* [#519] packfilename */
 
 /*525:*/
