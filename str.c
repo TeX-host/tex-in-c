@@ -9,7 +9,7 @@
 #include "hash.h"    // [func] idlookup_p
 #include "print.h"   // [func] print, print_char
 #include "io.h"      // [macro] TERM_ERR
-#include "pool_init.h" // [var] pool_strs
+#include "str_pool_init.h" // [var] pool_strs
 #include "str.h"    // [export]
 
 #define str_end(x) (str_start[(x) + 1])
