@@ -71,6 +71,10 @@ Integer extenbase[FONT_MAX + 1];
 /// base addresses for font parameters.
 Integer parambase[FONT_MAX + 1];
 
+/*555:*/
+FourQuarters nullcharacter;
+/*:555*/
+
 
 Integer get_skewchar(InternalFontNumber x) { return skewchar[x]; }
 void set_skewchar(InternalFontNumber x, Integer c) { skewchar[x] = c; }
@@ -104,6 +108,20 @@ Scaled chardepth(InternalFontNumber x, Integer y) {
 Scaled charkern(InternalFontNumber x, FourQuarters y) {
     return (fontinfo[kernbase[x] + 256 * opbyte(y) + rembyte(y)].sc);
 }
+
+/// [#551, #556]
+void font_init() {
+    /*551:*/
+    for (int k = 0; k <= FONT_MAX; k++) {
+        fontused[k] = false;
+    }
+    /*556:*/
+    nullcharacter.b0 = MIN_QUARTER_WORD;
+    nullcharacter.b1 = MIN_QUARTER_WORD;
+    nullcharacter.b2 = MIN_QUARTER_WORD;
+    nullcharacter.b3 = MIN_QUARTER_WORD;
+}
+
 
 /// [#552]
 /// TeX always knows at least one font, namely the null font. 

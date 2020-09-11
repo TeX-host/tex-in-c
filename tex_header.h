@@ -101,11 +101,6 @@ char readopen[17];
 /** @}*/ // end group S464x486_P174x180
 
 
-/*555:*/
-Static FourQuarters nullcharacter;
-/*:555*/
-
-
 // [#592]
 Static Scaled maxh, maxv;
 Integer totalpages, maxpush, deadcycles;

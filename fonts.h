@@ -103,5 +103,8 @@ extern Integer ligkernbase[FONT_MAX + 1]; // texmac
 extern Integer extenbase[FONT_MAX + 1];
 extern Integer parambase[FONT_MAX + 1];
 
+extern FourQuarters nullcharacter;
+
+extern void font_init();
 
 #endif // #ifndef FONTS_H

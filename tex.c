@@ -12013,16 +12013,9 @@ Static void initialize(void) {
         /*521:*/
         memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
         /*:521*/
-        /*551:*/
-        for (int k = 0; k <= FONT_MAX; k++) {
-            fontused[k] = false;
-        }
-        /*:551*/
-        /*556:*/
-        nullcharacter.b0 = MIN_QUARTER_WORD;
-        nullcharacter.b1 = MIN_QUARTER_WORD;
-        nullcharacter.b2 = MIN_QUARTER_WORD;
-        nullcharacter.b3 = MIN_QUARTER_WORD; /*:556*/
+
+        font_init();
+
         /*593:*/
         totalpages = 0;
         maxv = 0;
