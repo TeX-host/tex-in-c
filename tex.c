@@ -10850,13 +10850,7 @@ Static void initialize(void) {
 
         /*662:*/
         packbeginline = 0; /*:662*/
-        /*685:*/
-        emptyfield.rh = EMPTY;
-        emptyfield.UU.lh = 0;
-        nulldelimiter.b0 = 0;
-        nulldelimiter.b1 = MIN_QUARTER_WORD;
-        nulldelimiter.b2 = 0;
-        nulldelimiter.b3 = MIN_QUARTER_WORD; /*:685*/
+        mmode_init();
         /*771:*/
         alignptr = 0;
         curalign = 0;

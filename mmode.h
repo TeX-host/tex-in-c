@@ -122,6 +122,7 @@ enum StyleNodeSubtype {
 extern TwoHalves emptyfield;
 extern FourQuarters nulldelimiter;
 
+extern void mmode_init();
 extern HalfWord newnoad(void);
 extern HalfWord newstyle(SmallNumber s);
 extern HalfWord newchoice(void);

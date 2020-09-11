@@ -14,6 +14,16 @@ FourQuarters nulldelimiter;
 /*:684*/
 
 
+/// [#685]
+void mmode_init() {
+    emptyfield.rh = EMPTY;
+    emptyfield.UU.lh = 0;
+    nulldelimiter.b0 = 0;
+    nulldelimiter.b1 = MIN_QUARTER_WORD;
+    nulldelimiter.b2 = 0;
+    nulldelimiter.b3 = MIN_QUARTER_WORD;
+}
+
 // #686
 HalfWord newnoad(void) {
     Pointer p;
