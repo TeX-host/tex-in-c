@@ -1,10 +1,13 @@
 var expand_8c =
 [
     [ "getxtokenoractivechar", "group___s487x510___p181x187.html#ga3e5bc148feefe0ef4986d7ba86561912", null ],
+    [ "build_token_init", "group___s464x486___p174x180.html#gaf143c3af76972a1de324a6f99ec9a083", null ],
     [ "changeiflimit", "group___s487x510___p181x187.html#ga5b0661ec2a5afe4fed219229ac9a393d", null ],
+    [ "cond_process_init", "group___s487x510___p181x187.html#gab906f96889dd8e4d1e49ab66468428cd", null ],
     [ "conditional", "group___s487x510___p181x187.html#ga91662e9c7c4d2a2a26400d234c4f4f79", null ],
     [ "convtoks", "group___s464x486___p174x180.html#gadb0765dfd784b93097c4a85e56f6fd7c", null ],
     [ "expand", "group___s366x401___p144x154.html#gabf4ef81214404f9ab64830d5820ea301", null ],
+    [ "expand_init", "group___s366x401___p144x154.html#ga735ba151a7b99babd2084130ee6e6817", null ],
     [ "get_x_token", "group___s366x401___p144x154.html#gac13b988ee242ed4bb79156abb2bb7536", null ],
     [ "insertrelax", "group___s366x401___p144x154.html#ga3c1d60d7781e5b1b3733906b0cb43129", null ],
     [ "insthetoks", "group___s464x486___p174x180.html#ga9282cdd7774771a5c89c3e7766fba959", null ],

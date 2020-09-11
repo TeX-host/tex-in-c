@@ -28,6 +28,7 @@ var group___s487x510___p181x187 =
       [ "orcode", "group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa55fdafa77bf1b1c8d2557745221a4a3e", null ]
     ] ],
     [ "changeiflimit", "group___s487x510___p181x187.html#ga5b0661ec2a5afe4fed219229ac9a393d", null ],
+    [ "cond_process_init", "group___s487x510___p181x187.html#gab906f96889dd8e4d1e49ab66468428cd", null ],
     [ "conditional", "group___s487x510___p181x187.html#ga91662e9c7c4d2a2a26400d234c4f4f79", null ],
     [ "passtext", "group___s487x510___p181x187.html#ga255dad295fbcbe98a1df8ede77474123", null ],
     [ "condptr", "group___s487x510___p181x187.html#ga5ede6a005c4e923dabd35b8a41710157", null ],

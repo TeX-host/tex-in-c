@@ -16,6 +16,7 @@ var scan_8c =
     [ "scan_fifteen_bit_int", "group___s402x463___p155x173.html#ga3b5a262a3455da1edc87a23ef1bb1ee4", null ],
     [ "scan_four_bit_int", "group___s402x463___p155x173.html#ga588f7d98e5194f96d41bf5ffeb22ac83", null ],
     [ "scan_glue", "group___s402x463___p155x173.html#ga35b9f9437e777616b7df9858c72a5266", null ],
+    [ "scan_init", "group___s402x463___p155x173.html#ga95b78e3e11d788606aa9490b8b453dc6", null ],
     [ "scan_int", "group___s402x463___p155x173.html#gaabbffa60f1008d6f0fdb815d017e700c", null ],
     [ "scan_left_brace", "group___s402x463___p155x173.html#gaf0b227b2375d21453c89dc5e5b0f70b5", null ],
     [ "scan_optional_equals", "group___s402x463___p155x173.html#gace229d2e025de140fb2d791038f39da3", null ],

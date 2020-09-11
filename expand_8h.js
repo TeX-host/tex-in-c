@@ -29,7 +29,10 @@ var expand_8h =
       [ "elsecode", "group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa2d77ef8fa259e959b4aee217119a33ab", null ],
       [ "orcode", "group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa55fdafa77bf1b1c8d2557745221a4a3e", null ]
     ] ],
+    [ "build_token_init", "group___s464x486___p174x180.html#gaf143c3af76972a1de324a6f99ec9a083", null ],
+    [ "cond_process_init", "group___s487x510___p181x187.html#gab906f96889dd8e4d1e49ab66468428cd", null ],
     [ "expand", "group___s366x401___p144x154.html#gabf4ef81214404f9ab64830d5820ea301", null ],
+    [ "expand_init", "group___s366x401___p144x154.html#ga735ba151a7b99babd2084130ee6e6817", null ],
     [ "get_x_token", "group___s366x401___p144x154.html#gac13b988ee242ed4bb79156abb2bb7536", null ],
     [ "xtoken", "group___s366x401___p144x154.html#ga2e46936a66be3da34c1306e4ec999ffb", null ],
     [ "condptr", "group___s487x510___p181x187.html#ga5ede6a005c4e923dabd35b8a41710157", null ],

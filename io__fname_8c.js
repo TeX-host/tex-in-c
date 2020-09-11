@@ -5,6 +5,7 @@ var io__fname_8c =
     [ "beginname", "group___s511x538___p188x195.html#ga2b6351e3b3fd066643f3468b43b7cab9", null ],
     [ "bmakenamestring", "group___s511x538___p188x195.html#ga0e3b340a6b32efbd5cffcb88f460af48", null ],
     [ "endname", "group___s511x538___p188x195.html#ga8bfa43632fafb65b173294678686a1e5", null ],
+    [ "fname_init", "group___s511x538___p188x195.html#gad3a60f3655b7e3b87e11e9e5ddb6ee43", null ],
     [ "makenamestring", "group___s511x538___p188x195.html#gab22a5b3c7508d8440ab836e44b450ac7", null ],
     [ "morename", "group___s511x538___p188x195.html#gab47dbe5f4d67a4fb8b14d4d6709e88e3", null ],
     [ "openlogfile", "group___s511x538___p188x195.html#gaa093bac5d614a1706a24856de98e0c7d", null ],
