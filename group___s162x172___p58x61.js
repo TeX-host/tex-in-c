@@ -23,7 +23,7 @@ var group___s162x172___p58x61 =
     [ "temphead", "group___s162x172___p58x61.html#ga2139fd0e659e15fb54659042bb4cc64d", null ],
     [ "zeroglue", "group___s162x172___p58x61.html#ga47e4c31379cd6cc8822fc9642e073bb5", null ],
     [ "check_mem", "group___s162x172___p58x61.html#gae1e642af4b5aadd27bcf3461a22b293d", null ],
-    [ "mem_init", "group___s162x172___p58x61.html#ga9ce51c33e96ef646614c4c93f271e316", null ],
+    [ "mem_init_once", "group___s162x172___p58x61.html#ga74f0d136a44863032a126af1b60245da", null ],
     [ "mem_var_init", "group___s162x172___p58x61.html#gabb01582ee2a7a033d2a78f100261764a", null ],
     [ "search_mem", "group___s162x172___p58x61.html#gadbcd4a906e0decdfef538768a46a5f4a", null ],
     [ "free_cells", "group___s162x172___p58x61.html#gaa05b67efe9624f833dc79b1c4cb0c7bd", null ],

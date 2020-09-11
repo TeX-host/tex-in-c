@@ -5,7 +5,7 @@ var group___s256x267___p102x108 =
     [ "text", "group___s256x267___p102x108.html#ga0a3a192c169459da852a1ad96c694a20", null ],
     [ "fontidtext", "group___s256x267___p102x108.html#gab0ce25ac881347a5bb988a91d33b886c", null ],
     [ "get_text", "group___s256x267___p102x108.html#gac058d9bd3184f0474423b1866ba6e915", null ],
-    [ "hash_init", "group___s256x267___p102x108.html#ga683e547b89f26dd62e5445cd1f044079", null ],
+    [ "hash_init_once", "group___s256x267___p102x108.html#ga71674204a688b70e08a603007a03cd55", null ],
     [ "hash_var_init", "group___s256x267___p102x108.html#ga52a7fbe207526a81fff8162890073e80", null ],
     [ "idlookup_p", "group___s256x267___p102x108.html#gae8e38245319b4fed757b6242c5bfcd84", null ],
     [ "primitive", "group___s256x267___p102x108.html#ga52312b074789d78bc2087d897927ca76", null ],

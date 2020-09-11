@@ -111,7 +111,6 @@ var tex__header_8h =
     [ "minimumdemerits", "tex__header_8h.html#a39e7fe09accd2c0381830c9f908c1e8f", null ],
     [ "mlistpenalties", "tex__header_8h.html#a73844e089a17f8077f2efededdce830d", null ],
     [ "noshrinkerroryet", "tex__header_8h.html#aed1af8cfb069446fe2622939a63f7773", null ],
-    [ "nullcharacter", "tex__header_8h.html#adbcad0228b3c7350d186977e6f31047d", null ],
     [ "nulldelimiter", "tex__header_8h.html#a84cc26a32c309ef1d01891949b4f4f8c", null ],
     [ "opstart", "tex__header_8h.html#af292583df801b460f307535e47a272ae", null ],
     [ "outputactive", "tex__header_8h.html#a59204745fd16ad6499a5a6808e43d31c", null ],

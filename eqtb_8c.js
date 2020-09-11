@@ -3,6 +3,7 @@ var eqtb_8c =
     [ "begindiagnostic", "group___s220x255___p81x101.html#gae7f34298980b60c63ccdee9eb0225d67", null ],
     [ "enddiagnostic", "group___s220x255___p81x101.html#gadfa348a7e69f9ecddafcd88515439a4a", null ],
     [ "eqtb_init", "group___s220x255___p81x101.html#ga8217d7e97e8d3d865dfcb7b00c49d30d", null ],
+    [ "eqtb_init_once", "group___s220x255___p81x101.html#ga35cce771bc104d719efc4dd83b6c2787", null ],
     [ "fix_date_and_time", "group___s220x255___p81x101.html#ga0615a7b731bf1e98831e5317be7440e1", null ],
     [ "get_defaulthyphenchar", "eqtb_8c.html#aeed8206a882fe2aa33ba5581e82da73b", null ],
     [ "get_defaultskewchar", "eqtb_8c.html#a0d9ed30d98bbf22f7fe0001e211fe666", null ],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['qi_3708',['qi',['../texmac_8h.html#abae400e50b69b17da6d81dad32458ca6',1,'texmac.h']]],
-  ['qo_3709',['qo',['../texmac_8h.html#ae74924237cddaf371a74a3c4cbaf0a3b',1,'texmac.h']]],
-  ['quad_3710',['quad',['../texmac_8h.html#a2d051a71dee04ccbf9ed94590d5f1bb3',1,'texmac.h']]]
+  ['qi_3712',['qi',['../texmac_8h.html#abae400e50b69b17da6d81dad32458ca6',1,'texmac.h']]],
+  ['qo_3713',['qo',['../texmac_8h.html#ae74924237cddaf371a74a3c4cbaf0a3b',1,'texmac.h']]],
+  ['quad_3714',['quad',['../texmac_8h.html#a2d051a71dee04ccbf9ed94590d5f1bb3',1,'texmac.h']]]
 ];

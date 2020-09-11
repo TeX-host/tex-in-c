@@ -33,8 +33,9 @@ var group___s539x582___p196x213 =
     [ "charwarning", "group___s539x582___p196x213.html#gab5b9ee050507b49e2b61be8f6917861a", null ],
     [ "charwidth", "group___s539x582___p196x213.html#gaa661e66d0aa64786c891b930f264a29b", null ],
     [ "findfontdimen", "group___s539x582___p196x213.html#gaaee833ff1142e547d8014054bbb9a9b4", null ],
+    [ "font_init", "group___s539x582___p196x213.html#ga6b0459241994d549ae90776cdacede2d", null ],
     [ "fonts_dump", "group___s539x582___p196x213.html#gaf813ccd0d6c345698d414e96f1c3a5bd", null ],
-    [ "fonts_init", "group___s539x582___p196x213.html#gabe4d63cf4f492bd65d76245975ed2310", null ],
+    [ "fonts_init_once", "group___s539x582___p196x213.html#ga7600b60f34776616de935db98f3321e3", null ],
     [ "fonts_undump", "group___s539x582___p196x213.html#ga6475f91a663c2b2ac67d1781b54c9b09", null ],
     [ "get_fontcheck", "group___s539x582___p196x213.html#ga65662bafd910de56b1382827a8eaabfc", null ],
     [ "get_fontdsize", "group___s539x582___p196x213.html#gae766e23032d25bd77500fcaeb255d791", null ],
@@ -71,6 +72,7 @@ var group___s539x582___p196x213 =
     [ "italicbase", "group___s539x582___p196x213.html#gac2ddfd559328d78c1f1a139d5914a253", null ],
     [ "kernbase", "group___s539x582___p196x213.html#gabba483a72cebd78d4575c1fdbd2d3ad9", null ],
     [ "ligkernbase", "group___s539x582___p196x213.html#ga38679ef8c62853b8c4e1ff03e25977ec", null ],
+    [ "nullcharacter", "group___s539x582___p196x213.html#ga5ecef8ff30d1c4436ecce4663b1fe042", null ],
     [ "parambase", "group___s539x582___p196x213.html#ga78072e43fc01484d070b9384002a76ba", null ],
     [ "skewchar", "group___s539x582___p196x213.html#ga5cb2d6d4a93dedd231f0bcb2255ba93c", null ],
     [ "widthbase", "group___s539x582___p196x213.html#ga3ebfaadef569e7ef35d6d3c34fe266c1", null ]

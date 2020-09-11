@@ -6,7 +6,7 @@ var mem_8c =
     [ "get_avail", "group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9", null ],
     [ "get_lo_mem_max", "group___s115x132___p44x49.html#ga67f8841db35982c5c5071bc8ef7b7451", null ],
     [ "get_node", "group___s115x132___p44x49.html#ga097157d50662287022ab14bf554f31c8", null ],
-    [ "mem_init", "group___s162x172___p58x61.html#ga9ce51c33e96ef646614c4c93f271e316", null ],
+    [ "mem_init_once", "group___s162x172___p58x61.html#ga74f0d136a44863032a126af1b60245da", null ],
     [ "mem_var_init", "group___s162x172___p58x61.html#gabb01582ee2a7a033d2a78f100261764a", null ],
     [ "search_mem", "group___s162x172___p58x61.html#gadbcd4a906e0decdfef538768a46a5f4a", null ],
     [ "sort_avail", "group___s115x132___p44x49.html#ga29119e4a08a6bb7ae31cf9884a91433c", null ],

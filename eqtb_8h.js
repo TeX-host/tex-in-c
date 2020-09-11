@@ -322,6 +322,7 @@ var eqtb_8h =
     [ "enddiagnostic", "group___s220x255___p81x101.html#gadfa348a7e69f9ecddafcd88515439a4a", null ],
     [ "eqdefine", "group___s268x288___p109x114.html#ga1f41746b7c8827a48a44c0afc3e31eec", null ],
     [ "eqtb_init", "group___s220x255___p81x101.html#ga8217d7e97e8d3d865dfcb7b00c49d30d", null ],
+    [ "eqtb_init_once", "group___s220x255___p81x101.html#ga35cce771bc104d719efc4dd83b6c2787", null ],
     [ "eqtb_save_init", "group___s268x288___p109x114.html#ga35606e27c29cbd33ad46ba57c5a01d03", null ],
     [ "eqworddefine", "group___s268x288___p109x114.html#gad12dc8504a41d5aa91cebc88bff66a95", null ],
     [ "geqdefine", "group___s268x288___p109x114.html#gac0f4d36350feb842df4c5ee702c9bdbe", null ],
