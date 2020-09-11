@@ -10979,10 +10979,8 @@ Static void initialize(void) {
         fname_init();
         font_init();
         dviout_init();
-    
-        /*648:*/
-        adjusttail = 0;
-        lastbadness = 0; /*:648*/
+        pack_init();
+
         /*662:*/
         packbeginline = 0; /*:662*/
         /*685:*/

@@ -21,6 +21,7 @@ extern Integer lastbadness;
 extern Pointer adjusttail;
 extern Integer packbeginline;
 
+extern void pack_init();
 extern void scanspec(GroupCode c, Boolean threecodes);
 extern HalfWord hpack(HalfWord p, long w, SmallNumber m);
 extern HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l);

@@ -28,6 +28,13 @@ Pointer adjusttail;
 Integer packbeginline;
 /*:661*/
 
+
+/// [#648]
+void pack_init() {
+    adjusttail = 0;
+    lastbadness = 0;
+}
+
 // ##645
 void scanspec(GroupCode c, Boolean threecodes) {
     long s = 0 /* XXXX */;
