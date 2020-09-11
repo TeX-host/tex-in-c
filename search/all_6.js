@@ -10,7 +10,7 @@ var searchData=
   ['fast_5fstore_5fnew_5ftoken_551',['FAST_STORE_NEW_TOKEN',['../group___s366x401___p144x154.html#gaaaeb0aae883995b2f24c20b28b2854af',1,'expand.h']]],
   ['fatal_5ferror_5fstop_552',['FATAL_ERROR_STOP',['../group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a8ee7bd6f21612e266557c50617ef7cc3',1,'error.h']]],
   ['fatalerror_553',['fatalerror',['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;error.c'],['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;error.c']]],
-  ['fetch_554',['fetch',['../group___s719x767___p265x284.html#ga81f2cab173e43d5955267c0fa43c2dbc',1,'tex.c']]],
+  ['fetch_554',['fetch',['../group___s719x767___p265x284.html#ga3f4160655289128626c81f61884bb18e',1,'math_formula.c']]],
   ['fewestdemerits_555',['fewestdemerits',['../tex__header_8h.html#a61632510784c6ee1390f5e1b99bafb7a',1,'tex_header.h']]],
   ['fi_5for_5felse_556',['FI_OR_ELSE',['../group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a30f720dfdad4b931947a3f8bf6860975',1,'tex_constant.h']]],
   ['ficode_557',['ficode',['../group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa4f57b2acb920356f442460c927f03da6',1,'expand.h']]],

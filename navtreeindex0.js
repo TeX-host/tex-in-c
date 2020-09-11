@@ -111,7 +111,7 @@ var NAVTREEINDEX0 =
 "fonts_8c.html#af2962decec1cc3c2683f2c5d877cd0ba":[2,0,15,0],
 "fonts_8h.html":[2,0,16],
 "fonts_8h.html#a6be9f6f6c83255972bc5b73d50e4e96a":[2,0,16,7],
-"fonts_8h.html#aaef3941dc3cddf697b3713e877af0255":[2,0,16,22],
+"fonts_8h.html#aaef3941dc3cddf697b3713e877af0255":[2,0,16,24],
 "fonts_8h_source.html":[2,0,16],
 "functions.html":[1,2,0],
 "functions_vars.html":[1,2,1],

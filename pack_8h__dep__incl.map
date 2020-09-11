@@ -1,9 +1,10 @@
 <map id="pack.h" name="pack.h">
-<area shape="rect" id="node1" title=" " alt="" coords="261,5,330,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="366,5,435,35"/>
 <area shape="rect" id="node2" href="$box__destroy_8c.html" title=" " alt="" coords="5,83,127,112"/>
-<area shape="rect" id="node3" href="$mmode_8c.html" title=" " alt="" coords="151,83,237,112"/>
-<area shape="rect" id="node4" href="$pack_8c.html" title=" " alt="" coords="261,83,329,112"/>
-<area shape="rect" id="node5" href="$scan_8c.html" title=" " alt="" coords="353,83,421,112"/>
-<area shape="rect" id="node6" href="$tex__header_8h.html" title=" " alt="" coords="446,83,561,112"/>
-<area shape="rect" id="node7" href="$tex_8c.html" title=" " alt="" coords="476,160,531,189"/>
+<area shape="rect" id="node3" href="$math__formula_8c.html" title=" " alt="" coords="151,83,282,112"/>
+<area shape="rect" id="node4" href="$mmode_8c.html" title=" " alt="" coords="307,83,393,112"/>
+<area shape="rect" id="node5" href="$pack_8c.html" title=" " alt="" coords="417,83,485,112"/>
+<area shape="rect" id="node6" href="$scan_8c.html" title=" " alt="" coords="509,83,577,112"/>
+<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="602,83,717,112"/>
+<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="632,160,687,189"/>
 </map>

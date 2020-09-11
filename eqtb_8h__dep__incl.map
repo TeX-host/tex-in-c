@@ -1,5 +1,5 @@
 <map id="eqtb.h" name="eqtb.h">
-<area shape="rect" id="node1" title=" " alt="" coords="525,5,591,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="589,5,655,35"/>
 <area shape="rect" id="node2" href="$box_8c.html" title=" " alt="" coords="5,83,65,112"/>
 <area shape="rect" id="node3" href="$dviout_8c.html" title=" " alt="" coords="90,83,167,112"/>
 <area shape="rect" id="node4" href="$eqtb_8c.html" title=" " alt="" coords="12,160,77,189"/>
@@ -8,12 +8,13 @@
 <area shape="rect" id="node7" href="$hash_8h.html" title=" " alt="" coords="293,83,364,112"/>
 <area shape="rect" id="node13" href="$tex__header_8h.html" title=" " alt="" coords="710,160,825,189"/>
 <area shape="rect" id="node15" href="$io__fname_8c.html" title=" " alt="" coords="572,83,672,112"/>
-<area shape="rect" id="node16" href="$mem_8c.html" title=" " alt="" coords="697,83,766,112"/>
-<area shape="rect" id="node17" href="$mmode_8c.html" title=" " alt="" coords="791,83,877,112"/>
-<area shape="rect" id="node18" href="$pack_8c.html" title=" " alt="" coords="901,83,969,112"/>
-<area shape="rect" id="node19" href="$print_8c.html" title=" " alt="" coords="993,83,1059,112"/>
-<area shape="rect" id="node20" href="$printout_8c.html" title=" " alt="" coords="1083,83,1169,112"/>
-<area shape="rect" id="node21" href="$scan_8c.html" title=" " alt="" coords="1193,83,1261,112"/>
+<area shape="rect" id="node16" href="$math__formula_8c.html" title=" " alt="" coords="695,83,826,112"/>
+<area shape="rect" id="node17" href="$mem_8c.html" title=" " alt="" coords="850,83,919,112"/>
+<area shape="rect" id="node18" href="$mmode_8c.html" title=" " alt="" coords="944,83,1031,112"/>
+<area shape="rect" id="node19" href="$pack_8c.html" title=" " alt="" coords="1055,83,1123,112"/>
+<area shape="rect" id="node20" href="$print_8c.html" title=" " alt="" coords="1147,83,1212,112"/>
+<area shape="rect" id="node21" href="$printout_8c.html" title=" " alt="" coords="1236,83,1323,112"/>
+<area shape="rect" id="node22" href="$scan_8c.html" title=" " alt="" coords="1347,83,1415,112"/>
 <area shape="rect" id="node8" href="$box__display_8c.html" title=" " alt="" coords="269,160,388,189"/>
 <area shape="rect" id="node9" href="$expand_8c.html" title=" " alt="" coords="412,160,499,189"/>
 <area shape="rect" id="node10" href="$hash_8c.html" title=" " alt="" coords="523,160,593,189"/>

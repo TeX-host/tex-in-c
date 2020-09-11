@@ -28,6 +28,7 @@ var files_dup =
     [ "lexer.c", "lexer_8c.html", "lexer_8c" ],
     [ "lexer.h", "lexer_8h.html", "lexer_8h" ],
     [ "macros.h", "macros_8h.html", "macros_8h" ],
+    [ "math_formula.c", "math__formula_8c.html", "math__formula_8c" ],
     [ "mem.c", "mem_8c.html", "mem_8c" ],
     [ "mem.h", "mem_8h.html", "mem_8h" ],
     [ "mmode.c", "mmode_8c.html", "mmode_8c" ],

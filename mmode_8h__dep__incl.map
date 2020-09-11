@@ -1,9 +1,10 @@
 <map id="mmode.h" name="mmode.h">
-<area shape="rect" id="node1" title=" " alt="" coords="293,5,381,35"/>
+<area shape="rect" id="node1" title=" " alt="" coords="381,5,469,35"/>
 <area shape="rect" id="node2" href="$box__destroy_8c.html" title=" " alt="" coords="5,83,127,112"/>
 <area shape="rect" id="node3" href="$box__display_8c.html" title=" " alt="" coords="151,83,269,112"/>
-<area shape="rect" id="node4" href="$mmode_8c.html" title=" " alt="" coords="293,83,380,112"/>
-<area shape="rect" id="node5" href="$printout_8c.html" title=" " alt="" coords="404,83,491,112"/>
-<area shape="rect" id="node6" href="$tex__header_8h.html" title=" " alt="" coords="515,83,630,112"/>
-<area shape="rect" id="node7" href="$tex_8c.html" title=" " alt="" coords="545,160,600,189"/>
+<area shape="rect" id="node4" href="$math__formula_8c.html" title=" " alt="" coords="293,83,423,112"/>
+<area shape="rect" id="node5" href="$mmode_8c.html" title=" " alt="" coords="448,83,535,112"/>
+<area shape="rect" id="node6" href="$printout_8c.html" title=" " alt="" coords="559,83,645,112"/>
+<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="670,83,785,112"/>
+<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="700,160,755,189"/>
 </map>

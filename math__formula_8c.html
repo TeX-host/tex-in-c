@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: math_formula.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.20 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('math__formula_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">math_formula.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="tex_8h_source.html">tex.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="pack_8h_source.html">pack.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mem_8h_source.html">mem.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="dviout_8h_source.html">dviout.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="eqtb_8h_source.html">eqtb.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texmath_8h_source.html">texmath.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print_8h_source.html">print.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texmac_8h_source.html">texmac.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8h_source.html">error.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="fonts_8h_source.html">fonts.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texfunc_8h_source.html">texfunc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mmode_8h_source.html">mmode.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+math_formula.c 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="math__formula_8c__incl.svg" width="1142" height="968"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ga15a125fdd47c5fe123d5c34e179e0c17"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga15a125fdd47c5fe123d5c34e179e0c17">cleanbox</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s)</td></tr>
+<tr class="separator:ga15a125fdd47c5fe123d5c34e179e0c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3f4160655289128626c81f61884bb18e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga3f4160655289128626c81f61884bb18e">fetch</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> a)</td></tr>
+<tr class="separator:ga3f4160655289128626c81f61884bb18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ddb75da8cb4384eca65bbfed4966e22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga9ddb75da8cb4384eca65bbfed4966e22">makeover</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga9ddb75da8cb4384eca65bbfed4966e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga68442dcf495780f13f80728f484b7641"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga68442dcf495780f13f80728f484b7641">makeunder</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga68442dcf495780f13f80728f484b7641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf99b3c139223aa820c6efe2c6e0597dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gaf99b3c139223aa820c6efe2c6e0597dc">makevcenter</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:gaf99b3c139223aa820c6efe2c6e0597dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e2b1ff904cea35b93cea2b9ed5699a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga1e2b1ff904cea35b93cea2b9ed5699a8">makeradical</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga1e2b1ff904cea35b93cea2b9ed5699a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61ba199c374f16bc75413260c873b91b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga61ba199c374f16bc75413260c873b91b">makemathaccent</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga61ba199c374f16bc75413260c873b91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4b6ee45db67ba1a9712758297fb8a509"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga4b6ee45db67ba1a9712758297fb8a509">makefraction</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga4b6ee45db67ba1a9712758297fb8a509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe183da27a2bcc94c02cdc78a7ca8d00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gafe183da27a2bcc94c02cdc78a7ca8d00">makeop</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:gafe183da27a2bcc94c02cdc78a7ca8d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74af20caed2111e0ddb64abbf1d3de7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga74af20caed2111e0ddb64abbf1d3de7c">makeord</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q)</td></tr>
+<tr class="separator:ga74af20caed2111e0ddb64abbf1d3de7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02c09a33a3179ec79da168b6be549876"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga02c09a33a3179ec79da168b6be549876">makescripts</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q, long delta)</td></tr>
+<tr class="separator:ga02c09a33a3179ec79da168b6be549876"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf89cf18b0c6fa283d4d6ba2565dd691d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gaf89cf18b0c6fa283d4d6ba2565dd691d">makeleftright</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> q, <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> style, long maxd, long <a class="el" href="group___s592x643___p220x238.html#ga8ac815b809b0305b0377562147878783">maxh</a>)</td></tr>
+<tr class="separator:gaf89cf18b0c6fa283d4d6ba2565dd691d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabcf0210b35693d639cd8862f6270e38f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gabcf0210b35693d639cd8862f6270e38f">mlisttohlist</a> (void)</td></tr>
+<tr class="separator:gabcf0210b35693d639cd8862f6270e38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga18f28a420122e6227f4ee1e059df298a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga18f28a420122e6227f4ee1e059df298a">curmlist</a></td></tr>
+<tr class="separator:ga18f28a420122e6227f4ee1e059df298a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64b6a26937b50f715307eaa8b43ad526"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga64b6a26937b50f715307eaa8b43ad526">curstyle</a></td></tr>
+<tr class="separator:ga64b6a26937b50f715307eaa8b43ad526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad0ba8f536ee740c19f034c281dde02f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gad0ba8f536ee740c19f034c281dde02f3">cursize</a></td></tr>
+<tr class="separator:gad0ba8f536ee740c19f034c281dde02f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b5b480c483b630c4a7d7bd45e8869bb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga5b5b480c483b630c4a7d7bd45e8869bb">mlistpenalties</a></td></tr>
+<tr class="separator:ga5b5b480c483b630c4a7d7bd45e8869bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b476544f87a197eec1cb2723f7f8830"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga5b476544f87a197eec1cb2723f7f8830">curf</a></td></tr>
+<tr class="separator:ga5b476544f87a197eec1cb2723f7f8830"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5c39fd6eff37569b4d07e79b3c268ba0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#ga5c39fd6eff37569b4d07e79b3c268ba0">curc</a></td></tr>
+<tr class="separator:ga5c39fd6eff37569b4d07e79b3c268ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad74b20b0a0182c479835ea4045fc948e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_four_quarters.html">FourQuarters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s719x767___p265x284.html#gad74b20b0a0182c479835ea4045fc948e">curi</a></td></tr>
+<tr class="separator:gad74b20b0a0182c479835ea4045fc948e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="math__formula_8c.html">math_formula.c</a></li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+  </ul>
+</div>
+</body>
+</html>

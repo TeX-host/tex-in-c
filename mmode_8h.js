@@ -98,6 +98,7 @@ var mmode_8h =
     [ "heightplusdepth", "group___s699x718___p258x264.html#ga44f7a019230f48d8f6c7ea44740c0272", null ],
     [ "mathglue", "group___s699x718___p258x264.html#gac28f51fdf2080a77703c848b939d27de", null ],
     [ "mathkern", "group___s699x718___p258x264.html#ga7371b9153710e7d80541eab2b28d66ef", null ],
+    [ "mlisttohlist", "group___s719x767___p265x284.html#gabcf0210b35693d639cd8862f6270e38f", null ],
     [ "mmode_init", "group___s680x698___p249x257.html#gab180dfbcb77d46e944fec1edcd4a96c6", null ],
     [ "newchoice", "group___s680x698___p249x257.html#gabf1bd8f7285c90aa6bf33d6a4d78ae81", null ],
     [ "newnoad", "group___s680x698___p249x257.html#ga1ba30aeca9ae96d5051024fb3225ee85", null ],
@@ -111,6 +112,13 @@ var mmode_8h =
     [ "showinfo", "group___s680x698___p249x257.html#ga7a96b738fe42ca12c27ab45665093a35", null ],
     [ "stackintobox", "group___s699x718___p258x264.html#ga1867076a4a6438990c6c0dd58402f4d8", null ],
     [ "vardelimiter", "group___s699x718___p258x264.html#gadfe7605c4c1fd916349223522b2e70a1", null ],
+    [ "curc", "group___s719x767___p265x284.html#ga5c39fd6eff37569b4d07e79b3c268ba0", null ],
+    [ "curf", "group___s719x767___p265x284.html#ga5b476544f87a197eec1cb2723f7f8830", null ],
+    [ "curi", "group___s719x767___p265x284.html#gad74b20b0a0182c479835ea4045fc948e", null ],
+    [ "curmlist", "group___s719x767___p265x284.html#ga18f28a420122e6227f4ee1e059df298a", null ],
+    [ "cursize", "mmode_8h.html#ad0ba8f536ee740c19f034c281dde02f3", null ],
+    [ "curstyle", "group___s719x767___p265x284.html#ga64b6a26937b50f715307eaa8b43ad526", null ],
     [ "emptyfield", "group___s680x698___p249x257.html#ga72bf5ea7cf448ecf8d5d49cacb219b94", null ],
+    [ "mlistpenalties", "group___s719x767___p265x284.html#ga5b5b480c483b630c4a7d7bd45e8869bb", null ],
     [ "nulldelimiter", "group___s680x698___p249x257.html#gaccab201a5aa9ee43d5a5e83759d83e29", null ]
 ];
