@@ -157,7 +157,7 @@ extern void sort_avail(void);
 // tex only
 extern void check_mem(Boolean printlocs);
 extern void search_mem(Pointer p);
-extern void mem_init();
+extern void mem_init_once();
 extern void mem_var_init();
 
 #endif /* INC_MEM_H */

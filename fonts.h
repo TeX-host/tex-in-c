@@ -74,7 +74,7 @@ extern Scaled charheight(InternalFontNumber x, Integer y);
 extern Scaled chardepth(InternalFontNumber x, Integer y);
 extern Scaled charkern(InternalFontNumber x, FourQuarters y);
 extern FourQuarters get_fontcheck(InternalFontNumber x);
-extern void fonts_init(void);
+extern void fonts_init_once(void);
 
 extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);

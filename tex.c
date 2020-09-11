@@ -11966,9 +11966,8 @@ Static void initialize(void) {
             mem_var_init();
         #endif // #166: tt_DEBUG
 
-        /// [#215]
         lexer_semantic_init();
-        
+
         /*991:*/
         pagecontents = EMPTY;
         pagetail = pagehead;
@@ -11979,12 +11978,9 @@ Static void initialize(void) {
         pagedepth = 0;
         pagemaxdepth = 0; /*:991*/
         /*:215*/
-        eqtb_init();
 
-        // [#257]
+        eqtb_init();
         hash_var_init();
-    
-        // [#272, #287]
         eqtb_save_init();
 
         /*383:*/
@@ -12069,16 +12065,10 @@ Static void initialize(void) {
     #ifdef tt_INIT
         /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
 
-        /// [#164]
-        mem_init();
-
+        mem_init_once();
         eqtb_init_once();
-
-        // #258
-        hash_init();
-
-        // #552
-        fonts_init();
+        hash_init_once();
+        fonts_init_once();
 
         // #946
         for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++)
@@ -12086,7 +12076,6 @@ Static void initialize(void) {
         for (k = 0; k <= 255; k++)
             trieused[k] = MIN_QUARTER_WORD;
         trieopptr = 0;
-
         // #951
         trie_not_ready = true;
         trieroot = 0;
@@ -12095,14 +12084,15 @@ Static void initialize(void) {
 
         // #1216
         set_text(FROZEN_PROTECTION, S(258));
+
         // #1301
         format_ident = S(259); // " (INITEX)"
+
         // #1369
         set_text(END_WRITE, S(260));
         eq_level(END_WRITE) = LEVEL_ONE;
         eq_type(END_WRITE) = OUTER_CALL;
         equiv(END_WRITE) = 0;
-
 
     #endif // #164: tt_INIT
 } // #4: initialize

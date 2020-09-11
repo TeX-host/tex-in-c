@@ -447,7 +447,8 @@ void search_mem(Pointer p) {
 } // #172: search_mem
 #endif // #167,172: tt_DEBUG
 
-void mem_init() {
+/// [#164]
+void mem_init_once() {
     size_t k;
 
     for (k = MEM_BOT + 1; k <= lomemstatmax; k++) {
@@ -520,7 +521,7 @@ void mem_init() {
     dyn_used = himemstatusage; // initialize statistics
 }
 
-/// p#95: 166
+/// [p#95: 166]
 void mem_var_init() {
     // indicate that everything was previously free
     was_mem_end = MEM_MIN;

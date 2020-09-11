@@ -12,7 +12,7 @@ extern Pointer hash_used;
 extern Integer cs_count;
 
 extern void hash_var_init();
-extern void hash_init();
+extern void hash_init_once();
 extern StrNumber get_text(size_t x);
 extern void set_text(size_t x, StrNumber s);
 extern StrNumber fontidtext(InternalFontNumber x);

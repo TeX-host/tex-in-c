@@ -34,7 +34,7 @@ void hash_var_init() {
 }
 
 /// [#258]
-void hash_init() {
+void hash_init_once() {
     hash_used = FROZEN_CONTROL_SEQUENCE; // nothing is used
     cs_count = 0;
     eq_type(FROZEN_DONT_EXPAND) = DONT_EXPAND;

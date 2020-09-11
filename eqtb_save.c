@@ -24,7 +24,7 @@ UInt16 curboundary;   // where the current level begins
 // this magnification should be used henceforth
 Integer magset;
 
-
+/// [#272, #287]
 void eqtb_save_init() {
     /// [#272]
     saveptr = 0;

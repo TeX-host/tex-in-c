@@ -127,7 +127,7 @@ void font_init() {
 /// TeX always knows at least one font, namely the null font. 
 /// 
 /// It has no characters, and its seven parameters are all equal to zero.
-void fonts_init(void) {
+void fonts_init_once(void) {
     fontptr = NULL_FONT;
     fmemptr = 7;
 
@@ -160,7 +160,7 @@ void fonts_init(void) {
     for (int k = 0; k <= 6; k++) {
         fontinfo[k].sc = 0;
     }
-} // #552: fonts_init
+} // #552: fonts_init_once
 
 void fonts_dump(FILE* fmtfile) {
     MemoryWord pppfmtfile;
