@@ -6,6 +6,7 @@
 #include "texfunc.h"  // [func] printspec, shownodelist
 #include "texmath.h"  // [func] print_scaled
 #include "box.h"      // gluerefcount
+#include "error.h"    // [func] history
 #include "eqtb.h"
 
 /** @addtogroup S220x255_P81x101

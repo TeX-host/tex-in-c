@@ -26,14 +26,11 @@ extern ListStateRecord cur_list;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 extern Boolean OK_to_interrupt;
 extern Integer interrupt;
-extern Boolean deletions_allowed;
 extern Pointer parloc;
 extern HalfWord partoken;
 extern Boolean force_eof;
 extern SmallNumber curif;
 extern Integer skipline;
-extern StrNumber help_line[6];
-extern UChar interaction;
 extern Pointer curalign;
 
 // [tex], expand
@@ -58,10 +55,6 @@ extern Pointer lastglue;
 
 
 // [tex], error
-extern enum ErrorLevel history;
-extern SChar errorcount;
-extern UChar help_ptr;
-extern Boolean use_err_help;
 extern Boolean log_opened;
 
 // [tex], eqtb

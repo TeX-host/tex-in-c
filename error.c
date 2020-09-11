@@ -1,3 +1,4 @@
+#include <stdarg.h>    // va_start, va_arg, va_end,
 #include "tex_types.h" // [types] StrNumber, Integer
 #include "global.h"
 #include "texfunc.h"
@@ -10,6 +11,60 @@
 /** @addtogroup S72x98_P30x37
  * @{
  */
+/// [p30#73] current level of #interaction.
+/// #interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
+///
+/// [REPORTING ERRORS]
+UChar interaction;
+
+/// [#76] is it safe for #error to call #gettoken?
+Boolean deletions_allowed;
+/// [#76] is it safe to do a `\setbox` assignment?
+Boolean set_box_allowed;
+/// [#76] has the source input been clean so far?
+/// [SPOTLESS, FATAL_ERROR_STOP]
+enum ErrorLevel history;
+/// [#76] the number of scrolled errors since the last paragraph ended.
+/// errorcount = [-1, 100]
+SChar errorcount;
+
+/// [#79] helps for the next #error.
+StrNumber help_line[6];
+/// [#79] the number of help lines present.
+UChar help_ptr;
+/// [#79] should the #errhelp list be shown?
+Boolean use_err_help;
+
+/// [#96] should TeX pause for instructions?
+Integer interrupt;
+/// [#96] should interrupts be observed?
+Boolean OK_to_interrupt;
+
+
+/// [#74, 77, 80, 97] Set initial values of key variables.
+void error_init() {
+    /*74:*/
+    interaction = ERROR_STOP_MODE;
+    /*77:*/
+    deletions_allowed = true;
+    set_box_allowed = true;
+    errorcount = 0;
+    /*80:*/
+    help_ptr = 0;
+    use_err_help = false;
+    /*97:*/
+    interrupt = 0;
+    OK_to_interrupt = true;
+} /* error_init */
+
+/// [p30#75]: Initialize the print #selector based on #interaction.
+void error_selector_init() {
+    if (interaction == BATCH_MODE) {
+        selector = NO_PRINT;
+    } else {
+        selector = TERM_ONLY;
+    }
+} /* error_selector_init */
 
 // [#73] 打印错误信息，以 `! ` 开头.
 inline void print_err(StrNumber s) {
@@ -22,6 +77,19 @@ inline void print_err_str(Str s) {
     printnl_str("! ");
     print_str(s);
 } // [#73]
+
+// [#79]
+void set_help(SChar k, ...) {
+    va_list ap;
+    va_start(ap, k);
+    help_ptr = k;
+    k--;
+    while (k >= 0) {
+        help_line[k] = va_arg(ap, uint_fast32_t);
+        k--;
+    }
+    va_end(ap);
+}
 
 /*
  * Error handling procedures

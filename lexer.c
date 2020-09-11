@@ -13,6 +13,7 @@
 #include "error.h"
     // [func] error, fatalerror, overflow, print_err,
     // [macro] checkinterrupt,
+    // [var] interaction, set_box_allowed
 #include "hash.h" // [func] idlookup_p, sprint_cs
 #include "mem.h"  // [var] lo_mem_max, hi_mem_min, mem_end
     // [func] flush_list, get_avail

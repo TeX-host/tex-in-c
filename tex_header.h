@@ -5,7 +5,6 @@
 #define INC_TEX_HEADER
 
 #include <stdio.h>  // FILE
-#include <stdarg.h> // va_start, va_arg, va_end,
 #include <stdlib.h> // labs, abs, exit, EXIT_SUCCESS
 #include <string.h> // memcpy
 #include <math.h>   // fabs
@@ -75,42 +74,6 @@ ASCIICode xord[256];
 /// [#20] specifies conversion of output characters.
 TextChar  xchr[256];
 /** @}*/ // end group S17x24_P10x12
-
-/** @addtogroup S72x98_P30x37
- * @{
- */
-
-// [ #72~98: REPORTING ERRORS ]
-
-/// [p30#73] current level of #interaction.
-/// #interaction = [BATCH_MODE=0, ERROR_STOP_MODE=3]
-/// 
-/// [REPORTING ERRORS]
-UChar interaction;
-
-/// [#76] is it safe for #error to call #gettoken?
-Boolean deletions_allowed;
-/// [#76] is it safe to do a `\setbox` assignment?
-Static Boolean set_box_allowed;
-/// [#76] has the source input been clean so far?
-/// [SPOTLESS, FATAL_ERROR_STOP]
-enum ErrorLevel history;
-/// [#76] the number of scrolled errors since the last paragraph ended.
-/// errorcount = [-1, 100]
-SChar errorcount;
-
-/// [#79] helps for the next #error.
-StrNumber help_line[6];
-/// [#79] the number of help lines present.
-UChar help_ptr;
-/// [#79] should the #errhelp list be shown?
-Boolean use_err_help;
-
-/// [#96] should TeX pause for instructions?
-Integer interrupt;
-/// [#96] should interrupts be observed?
-Boolean OK_to_interrupt;
-/** @}*/ // end group S72x98_P30x37
 
 
 /** @addtogroup S332x365_P134x143

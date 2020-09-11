@@ -33,17 +33,7 @@ Static void normalparagraph(void);
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
-void set_help(SChar k, ...) {
-    va_list ap;
-    va_start(ap, k);
-    help_ptr = k;
-    k--;
-    while (k >= 0) {
-        help_line[k] = va_arg(ap, uint_fast32_t);
-        k--;
-    }
-    va_end(ap);
-}
+
 
 
 
@@ -11969,18 +11959,7 @@ Static void initialize(void) {
             xord[xchr[i]] = i;
         }
         
-        /*74:*/
-        interaction = ERROR_STOP_MODE; /*:74*/
-        /*77:*/
-        deletions_allowed = true;
-        set_box_allowed = true;
-        errorcount = 0; /*:77*/
-        /*80:*/
-        help_ptr = 0;
-        use_err_help = false; /*:80*/
-        /*97:*/
-        interrupt = 0;
-        OK_to_interrupt = true; /*:97*/
+        error_init();
 
         /// p#95: 166
         #ifdef tt_DEBUG
@@ -12250,12 +12229,7 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
     // _NOT_USE_
     // ??? magic offset ← str start[math spacing] − 9 ∗ ord noad
 
-    /// [#75]: Initialize the print selector based on interaction
-    if (interaction == BATCH_MODE) {
-        selector = NO_PRINT;
-    } else {
-        selector = TERM_ONLY;
-    }
+    error_selector_init();
 
     /// [#1337]
     if ((LOC < LIMIT) && (cat_code(buffer[LOC]) != ESCAPE)) {

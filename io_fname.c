@@ -5,7 +5,7 @@
 #include "print.h"  // [type] Selector [var] selector
 #include "eqtb.h"   // [var] day, month, year, tex_time
 #include "expand.h" // [func] get_x_token
-#include "error.h"  // [func] print_err
+#include "error.h"  // [func] print_err [var] interaction
 #include "io.h"
 
 
