@@ -6,7 +6,6 @@
 #include "texfunc.h"    // [func] begindiagnostic, print_mode, enddiagnostic
 // delete_token_ref, set_help, openlogfile
 #include "printout.h"   // [func] printcmdchr,
-#include "pure_func.h"  // [func] hex_to_i
 #include "macros.h"     // [macro] help4, help3, help2
 #include "io.h"         // [func] inputln, initterminal, aclose
 #include "expand.h"     // [var] longstate
@@ -964,6 +963,14 @@ static int check_outer_validity(int local_curcs) {
         process_cmd               \
     }
 
+
+static int hex_to_cur_chr(int c, int cc) {
+    int res = (c <= '9') ? (c - '0') : (c - 'a' + 10);
+    res *= 16;
+    res += (cc <= '9') ? (cc - '0') : (cc - 'a' + 10);
+    return res;
+}
+
 /// [#341]: getnext_worker
 static void getnext_worker(Boolean no_new_control_sequence) {
     UInt16 k;            // an index into buffer; [0, BUF_SIZE=5000]
@@ -1133,7 +1140,7 @@ _getnext_worker__restart:
                                 if (ishex(cc)) d++;
                             }
                             if (d > 2) {
-                                buffer[k - 1] = cur_chr = hex_to_i(c, cc);
+                                buffer[k - 1] = cur_chr = hex_to_cur_chr(c, cc);
                             } else if (c < 64) {
                                 buffer[k - 1] = c + 64;
                             } else {
@@ -1172,7 +1179,7 @@ _getnext_worker__restart:
                                 d++;
                             }
                             if (d > 2) {
-                                buffer[k - 1] = cur_chr = hex_to_i(c, cc);
+                                buffer[k - 1] = cur_chr = hex_to_cur_chr(c, cc);
                             } else if (c < 64) {
                                 buffer[k - 1] = c + 64;
                             } else {
@@ -1219,7 +1226,7 @@ _getnext_worker__restart:
                     cc = buffer[LOC];
                     if (ishex(c) && LOC <= LIMIT && ishex(cc)) {
                         LOC++;
-                        cur_chr = hex_to_i(c, cc);
+                        cur_chr = hex_to_cur_chr(c, cc);
                         goto _getnext_worker__reswitch;
                     } // if - set
                     if (c < 64) {

@@ -19,7 +19,6 @@
 #include "printout.h"
 #include "fonts.h"
 #include "dviout.h"
-#include "pure_func.h"  // [func] 导入纯函数
 #include "print.h"      // 打印函数 term_input
 // 模块导入
 #include "lexer.h"      // lexer
