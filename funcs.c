@@ -22,25 +22,30 @@ static char mybuff[MY_BUFSIZE];
 static Boolean use_independence_date = false;
 
 
-void fix_date_and_time(long* tex_time_p,
-                    long* day_p,
-                    long* month_p,
-                    long* year_p) {
+/** [p97#241] establishes the initial values of the date and time.
+ *
+ *  @param[out] p_time  minutes since midnight
+ *  @param[out] p_day   fourth day of the month
+ *  @param[out] p_month seventh month of the year
+ *  @param[out] p_year  Anno Domini
+ */
+void fix_date_and_time(Integer* p_time, Integer* p_day, Integer* p_month,
+                       Integer* p_year) {
     if (use_independence_date) {
-        *year_p = 1776;
-        *month_p = 7;
-        *day_p = 4;
-        *tex_time_p = 12 * 60;
+        *p_year = 1776;
+        *p_month = 7;
+        *p_day = 4;
+        *p_time = 12 * 60;
     } else {
-        time_t pt = time(0);
+        time_t pt = time(NULL);
         struct tm* tm_struct = localtime(&pt);
         /* Correct effect of the brain-demaged defintion */
-        *year_p = tm_struct->tm_year + 1900;
-        *month_p = tm_struct->tm_mon + 1;
-        *day_p = tm_struct->tm_mday;
-        *tex_time_p = 60 * tm_struct->tm_hour + tm_struct->tm_min;
+        *p_year = tm_struct->tm_year + 1900;
+        *p_month = tm_struct->tm_mon + 1;
+        *p_day = tm_struct->tm_mday;
+        *p_time = 60 * tm_struct->tm_hour + tm_struct->tm_min;
     }
-}
+} /* fix_date_and_time */
 
 // _not_use_
 // void beginname(void) {
