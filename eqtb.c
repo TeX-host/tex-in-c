@@ -21,6 +21,8 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
 MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1]; // equivalents table
 // store the eq level information
 QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
+
+//  全局变量：是否使用固定的时间与日期。
 Boolean use_independence_date = false;
 
 
