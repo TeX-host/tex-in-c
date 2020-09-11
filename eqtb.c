@@ -1,3 +1,4 @@
+#include <time.h> // tm_struct, time, localtime
 #include "print.h" // MAX_SELECTOR
 #include "global.h" // mem, depth_threshold, breadth_max
 #include "hash.h"   // [func] sprint_cs, fontidtext
@@ -20,6 +21,7 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
 MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1]; // equivalents table
 // store the eq level information
 QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
+Boolean use_independence_date = false;
 
 
 /// [#222, #228, #232, #240, #250]
@@ -193,6 +195,31 @@ void print_skip_param(Integer code) {
     } /* switch (code) */ 
 #endif /* USE_REAL_STR */
 } // #225: print_skip_param
+
+/** [p97#241] establishes the initial values of the date and time.
+ *
+ *  @param[out] p_time  minutes since midnight
+ *  @param[out] p_day   fourth day of the month
+ *  @param[out] p_month seventh month of the year
+ *  @param[out] p_year  Anno Domini
+ */
+void fix_date_and_time(Integer* p_time, Integer* p_day, Integer* p_month,
+                       Integer* p_year) {
+    if (use_independence_date) {
+        *p_year = 1776;
+        *p_month = 7;
+        *p_day = 4;
+        *p_time = 12 * 60;
+    } else {
+        time_t pt = time(NULL);
+        struct tm* tm_struct = localtime(&pt);
+        /* Correct effect of the brain-demaged defintion */
+        *p_year = tm_struct->tm_year + 1900;
+        *p_month = tm_struct->tm_mon + 1;
+        *p_day = tm_struct->tm_mday;
+        *p_time = 60 * tm_struct->tm_hour + tm_struct->tm_min;
+    }
+} /* fix_date_and_time */
 
 /// [#245] prepare to do some tracing.
 void begindiagnostic(void) {

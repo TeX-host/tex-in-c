@@ -1,7 +1,6 @@
 #include <stdio.h>  // FILE
 #include <string.h> // memcpy, strlen, strcpy, strchr, strcmp, strcat, strncmp 
 #include <stdlib.h> // malloc, exit, getenv,
-#include <time.h>   // tm_struct, time, localtime
 #include "tex.h"    // [macro] BUF_SIZE, FILE_NAME_SIZE
 #include "str.h"    // [type] StrNumber
 #include "funcs.h"  // [export]
@@ -19,33 +18,7 @@ static char mybuff[MY_BUFSIZE];
 
 // static char name_buf[MY_BUFSIZE]; // _not_use_
 // static int nlen; // _not_use_
-static Boolean use_independence_date = false;
 
-
-/** [p97#241] establishes the initial values of the date and time.
- *
- *  @param[out] p_time  minutes since midnight
- *  @param[out] p_day   fourth day of the month
- *  @param[out] p_month seventh month of the year
- *  @param[out] p_year  Anno Domini
- */
-void fix_date_and_time(Integer* p_time, Integer* p_day, Integer* p_month,
-                       Integer* p_year) {
-    if (use_independence_date) {
-        *p_year = 1776;
-        *p_month = 7;
-        *p_day = 4;
-        *p_time = 12 * 60;
-    } else {
-        time_t pt = time(NULL);
-        struct tm* tm_struct = localtime(&pt);
-        /* Correct effect of the brain-demaged defintion */
-        *p_year = tm_struct->tm_year + 1900;
-        *p_month = tm_struct->tm_mon + 1;
-        *p_day = tm_struct->tm_mday;
-        *p_time = 60 * tm_struct->tm_hour + tm_struct->tm_min;
-    }
-} /* fix_date_and_time */
 
 // _not_use_
 // void beginname(void) {

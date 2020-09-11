@@ -77,4 +77,7 @@ extern Pointer hyphlist[HYPH_SIZE + 1];
 // [tex] lexer
 extern Pointer pagetail;
 
+// eqtb
+extern Boolean use_independence_date;
+
 #endif // #ifndef GLOBAL_H
