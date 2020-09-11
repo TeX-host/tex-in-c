@@ -7,7 +7,9 @@
 #include "global_const.h" // [macro] update_terminal
 #include "io.h"           // [macro] TERM_ERR
 
-static char my_buff[256];
+
+// 临时储存文件名。去除空格
+static char _fname[FILE_NAME_SIZE + 1];
 
 static int pos = 0; 
 static Boolean in_c_flag = false;
@@ -15,28 +17,6 @@ Boolean need_to_load_format = false;
 
 #define MY_BUFSIZE 512
 static char mybuff[MY_BUFSIZE];
-
-// static char name_buf[MY_BUFSIZE]; // _not_use_
-// static int nlen; // _not_use_
-
-
-// _not_use_
-// void beginname(void) {
-//     nlen = 0;
-//     name_buf[0] = 0;
-// }
-
-// _not_use_
-// Boolean morename(int c) {
-//     if (c == ' ') return 0;
-//     if (nlen + 1 < MY_BUFSIZE) {
-//         name_buf[nlen] = c;
-//         name_buf[nlen + 1] = 0;
-//     }
-//     return 1;
-// }
-
-// void endname(void) {} // _not_use_
 
 static char* format_name;
 
@@ -64,6 +44,7 @@ static char* font_path_default[] = {
     0};
 
 char* p_path[] = {"", 0};
+
 
 Boolean initinc(int _not_use_) {
     if (in_c_flag) {
@@ -181,11 +162,14 @@ Boolean open_fmt(FILE** fmt) {
     }
 }
 
+// 去除多余的空格
 static void trimspaces(void) {
     char* pp;
-    memcpy(my_buff, name_of_file, FILE_NAME_SIZE);
-    my_buff[FILE_NAME_SIZE] = 0;
-    my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : FILE_NAME_SIZE] = 0;
+
+    memcpy(_fname, name_of_file, FILE_NAME_SIZE);
+    _fname[FILE_NAME_SIZE] = 0;
+    // _fname[(pp = strchr(_fname, ' ')) ? pp - _fname : FILE_NAME_SIZE] = 0;
+    _fname[namelength] = 0;
 }
 
 static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {
@@ -215,17 +199,17 @@ Boolean a_open_in(FILE** f) {
     char** path_lst;
     char* name;
     trimspaces();
-    if (!strncmp(my_buff, "TeXfonts:", strlen("TeXfonts:"))) {
-        name = my_buff + strlen("TeXfonts:");
+    if (!strncmp(_fname, "TeXfonts:", strlen("TeXfonts:"))) {
+        name = _fname + strlen("TeXfonts:");
         path_lst = font_path;
-    } else if (!strncmp(my_buff, "TeXinputs:", strlen("TeXinputs:"))) {
-        name = my_buff + strlen("TeXinputs:");
+    } else if (!strncmp(_fname, "TeXinputs:", strlen("TeXinputs:"))) {
+        name = _fname + strlen("TeXinputs:");
         path_lst = input_path;
-    } else if (!strncmp(my_buff, "TeXformats:", strlen("TeXformats:"))) {
-        name = my_buff + strlen("TeXformats:");
+    } else if (!strncmp(_fname, "TeXformats:", strlen("TeXformats:"))) {
+        name = _fname + strlen("TeXformats:");
         path_lst = format_path;
     } else {
-        name = my_buff;
+        name = _fname;
         path_lst = p_path;
     }
     return a_open_in1(name, path_lst, f);
@@ -234,9 +218,9 @@ Boolean a_open_in(FILE** f) {
 Boolean a_open_out(FILE** f) {
     trimspaces();
     if (!*f) {
-        *f = fopen(my_buff, "wb");
+        *f = fopen(_fname, "wb");
     } else {
-        *f = freopen(my_buff, "wb", *f);
+        *f = freopen(_fname, "wb", *f);
     }
     return *f != 0;
 }
