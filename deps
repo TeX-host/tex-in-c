@@ -30,7 +30,7 @@ box_display.o: box_display.c tex_types.h tex_constant.h box.h str.h \
  print.h texmac.h hash.h fonts.h eqtb.h mmode.h
 box_destroy.o: box_destroy.c tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h tex.h texmac.h error.h \
- pack.h mmode.h
+ pack.h mmode.h fonts.h
 box_copy.o: box_copy.c tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h tex.h texmac.h error.h
 eqtb.o: eqtb.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
@@ -41,7 +41,7 @@ eqtb_save.o: eqtb_save.c lexer.h tex.h tex_types.h tex_constant.h box.h \
  macros.h texfunc.h eqtb.h
 mmode.o: mmode.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h pack.h print.h texmac.h \
- mmode.h
+ texmath.h eqtb.h macros.h mmode.h fonts.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h lexer.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h fonts.h eqtb.h \

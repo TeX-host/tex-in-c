@@ -16,8 +16,4 @@
 #define opbyte(x) (x.b2)
 #define rembyte(x) (x.b3)
 
-/// [p203#554]
-#define chartag(x) (((x).b2) % 4)
-#define charexists(x) ((x).b0 > MIN_QUARTER_WORD)
-
 #endif // #ifndef MACROS_H

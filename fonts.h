@@ -41,11 +41,9 @@ enum TFMParamVal {
 #define skipbyte(x)     x.b0
 #define nextchar(x)     x.b1
 
-/*
 /// [p203#554]
 #define charexists(x)  ((x).b0>MIN_QUARTER_WORD)
 #define chartag(x)  ((qo((x).b2)) % 4)
-*/
 
 /// [p203#554]
 #define heightdepth(x)      qo(x.b1)

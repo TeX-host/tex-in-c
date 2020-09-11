@@ -48,19 +48,6 @@
 
 
 
-/// p258#699: Subroutines for math mode
-// enum FontSizeCode {};
-// size code for the largest size in a family
-#define TEXT_SIZE           0
-// size code for the medium size in a family
-#define SCRIPT_SIZE         16
-// size code for the smallest size in a family
-#define SCRIPT_SCRIPT_SIZE  32
-
-// [p258#700]
-#define totalmathsyparams  22
-// [p258#701]
-#define totalmathexparams  13
 // [p267#725]
 #define donewithnoad        80
 #define donewithnode        81

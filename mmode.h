@@ -2,6 +2,7 @@
 #ifndef INC_MMODE_H
 /// tex.c 里使用的宏
 #define INC_MMODE_H
+#include "fonts.h"
 
 /** @addtogroup S680x698_P249x257
  * @{
@@ -118,6 +119,61 @@ enum StyleNodeSubtype {
 
 /** @}*/ // end group S680x698_P249x257
 
+/** @addtogroup S699x718_P258x264
+ * @{
+ */
+/// p258#699: Subroutines for math mode
+// enum FontSizeCode {};
+// size code for the largest size in a family
+#define TEXT_SIZE           0
+// size code for the medium size in a family
+#define SCRIPT_SIZE         16
+// size code for the smallest size in a family
+#define SCRIPT_SCRIPT_SIZE  32
+
+// [p258#700]
+#define totalmathsyparams  22
+// [p258#701]
+#define totalmathexparams  13
+
+/// [p258#700]
+#define mathsy(x, y) (fontinfo[(x) + parambase[fam_fnt(2 + (y))]].sc)
+#define mathxheight(x) mathsy(5, x) /* height of `\.x'}*/
+#define mathquad(x) mathsy(6, x)    /* \.{18mu}}*/
+#define num1(x)  mathsy(8,x) /* numerator shift-up in display styles}*/
+#define num2(x)  mathsy(9,x) /* numerator shift-up in non-display, non-\.{\\atop}}*/
+#define num3(x)  mathsy(10,x) /* numerator shift-up in non-display \.{\\atop}}*/
+#define denom1(x)  mathsy(11,x) /* denominator shift-down in display styles}*/
+#define denom2(x)  mathsy(12,x) /* denominator shift-down in non-display styles}*/
+#define sup1(x)  mathsy(13,x) /* superscript shift-up in uncramped display style}*/
+#define sup2(x)  mathsy(14,x) /* superscript shift-up in uncramped non-display}*/
+#define sup3(x)  mathsy(15,x) /* superscript shift-up in cramped styles}*/
+#define sub1(x)  mathsy(16,x) /* subscript shift-down if superscript is absent}*/
+#define sub2(x)  mathsy(17,x) /* subscript shift-down if superscript is present}*/
+#define supdrop(x)  mathsy(18,x) /* superscript baseline below top of large box}*/
+#define subdrop(x)  mathsy(19,x) /* subscript baseline below bottom of large box}*/
+#define delim1(x)  mathsy(20,x) /* size of \.{\\atopwithdelims} delimiters*/
+/* in display styles}*/
+#define delim2(x)  mathsy(21,x) /* size of \.{\\atopwithdelims} delimiters in non-displays}*/
+#define axisheight(x)  mathsy(22,x) /* height of fraction lines above the baseline}*/
+
+/// [p258#701]
+#define mathex(x) fontinfo[x + parambase[fam_fnt(3 + cursize)]].sc
+#define defaultrulethickness  mathex(8) /* thickness of \.{\\over} bars}*/
+#define bigopspacing1  mathex(9) /* minimum clearance above a displayed op}*/
+#define bigopspacing2  mathex(10) /* minimum clearance below a displayed op}*/
+#define bigopspacing3  mathex(11) /* minimum baselineskip above displayed op}*/
+#define bigopspacing4  mathex(12) /* minimum baselineskip below displayed op}*/
+#define bigopspacing5  mathex(13) /* padding above and below displayed limits}*/
+
+/// [p259#702]
+#define crampedstyle(x)  2*(x / 2)+cramped /* cramp the style}*/
+#define substyle(x)  2*(x / 4)+scriptstyle+cramped /* smaller and cramped}*/
+#define supstyle(x)  2*(x / 4)+scriptstyle+(x % 2) /* smaller}*/
+#define numstyle(x)  x+2-2*(x / 6) /* smaller unless already script-script}*/
+#define denomstyle(x)  2*(x / 2)+cramped+2-2*(x / 6) /* smaller, cramped}*/
+/** @}*/ // end group S699x718_P258x264
+
 
 extern TwoHalves emptyfield;
 extern FourQuarters nulldelimiter;
@@ -131,5 +187,16 @@ extern void printdelimiter(HalfWord p);
 extern void printsubsidiarydata(HalfWord p, ASCIICode c);
 extern void showinfo(void);
 extern void printstyle(Integer c);
+
+extern HalfWord fractionrule(long t);
+extern HalfWord overbar(HalfWord b, long k, long t);
+extern HalfWord charbox(InternalFontNumber f, QuarterWord c);
+extern void stackintobox(HalfWord b, InternalFontNumber f, QuarterWord c);
+extern Integer heightplusdepth(InternalFontNumber f, QuarterWord c);
+extern HalfWord vardelimiter(HalfWord d, SmallNumber s, long v);
+extern HalfWord rebox(HalfWord b, long w);
+extern HalfWord mathglue(HalfWord g, long m);
+extern void mathkern(HalfWord p, long m);
+extern void flushmath(void);
 
 #endif /* INC_MMODE_H */
