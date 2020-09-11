@@ -21,17 +21,14 @@ extern void printstyle(Integer c);
 
 // [tex], fonts
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
-extern void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext);
+
 
 
 // [tex]
 extern void set_help(SChar k, ...);
 
-// [tex] lexer
-extern void openlogfile(void);
 
 // [tex] expand
-extern void startinput(void);
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 

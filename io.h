@@ -28,6 +28,16 @@
 #define clear_terminal()
 /** @}*/ // end group S25x37_P13x18
 
+/** @addtogroup S511x538_P188x195
+ * @{
+ */
+/// [p190#520] `.fmt`, the extension, as a constant.
+#define FORMAT_DEFAULT_LENGTH   20
+#define formatarealength        11
+#define formatextlength         4
+#define formatextension         S(256)
+/** @}*/ // end group S511x538_P188x195
+
 
 extern Char name_of_file[FILE_NAME_SIZE + 1];
 extern UInt16 namelength;
@@ -56,5 +66,25 @@ extern Boolean a_open_in(FILE** f);
 
 // [funcs], dviout, tex, texmac.h
 extern Boolean a_open_out(FILE** f);
+
+// io_fname
+extern StrNumber curname, curarea, curext;
+extern StrNumber extdelimiter;
+extern Char TEXformatdefault[FORMAT_DEFAULT_LENGTH];
+extern Boolean name_in_progress;
+extern StrNumber job_name;
+extern Boolean log_opened;
+extern StrNumber output_file_name, logname;
+
+extern StrNumber makenamestring(void);
+extern StrNumber bmakenamestring(void);
+extern StrNumber wmakenamestring(void);
+extern void scanfilename(void);
+extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
+extern void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext);
+extern void packjobname(StrNumber s);
+extern void promptfilename(StrNumber s, StrNumber e);
+extern void openlogfile(void);
+extern void startinput(void);
 
 #endif /* INC_IO_H */

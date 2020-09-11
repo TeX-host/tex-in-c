@@ -16,6 +16,7 @@
 #include "mem.h" // [macro] FREE_AVAIL, FAST_GET_AVAIL,
     // [func] popligstack, get_node, flush_list, get_avail
 #include "box.h" // NORMAL, subtype
+#include "io.h"  // [func] startinput, openlogfile
 #include "expand.h"
 
 /** @addtogroup S487x510_P181x187
