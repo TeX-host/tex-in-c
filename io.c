@@ -6,7 +6,6 @@
 #include "texfunc.h" // [func] overflow
 #include "lexer.h"   // [var] cur_input
 #include "error.h"   // [func] overflow,
-#include "funcs.h"   // [func] initinc
 #include "io.h"     // [macro] TERM_ERR
 
 

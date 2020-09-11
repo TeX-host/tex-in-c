@@ -3,7 +3,6 @@
 #include <stdlib.h> // malloc, exit, getenv,
 #include "tex.h"    // [macro] BUF_SIZE, FILE_NAME_SIZE
 #include "str.h"    // [type] StrNumber
-#include "funcs.h"  // [export]
 #include "global.h" // [var] buffer, last, first, name_of_file
 #include "global_const.h" // [macro] update_terminal
 #include "io.h"           // [macro] TERM_ERR

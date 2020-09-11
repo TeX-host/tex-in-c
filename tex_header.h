@@ -17,7 +17,6 @@
 #include "str.h"
 #include "texmac.h"
 #include "macros.h"
-#include "funcs.h"
 #include "global.h"
 #include "printout.h"
 #include "fonts.h"

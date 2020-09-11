@@ -5,7 +5,6 @@
     // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
 #include "macros.h" // [macro] NON_CHAR, help4,
 #include "str.h"    // [type] StrNumber
-#include "funcs.h"  // [func] a_open_in
 #include "error.h"  // [func] error, print_err,
 #include "lexer.h"  // curcmd
 #include "global.h" // eqtb
@@ -20,7 +19,7 @@
 #include "mem.h"  // [func] get_lo_mem_max, get_avail
 #include "eqtb.h" // [func] get_defaultskewchar, get_defaulthyphenchar,
 #include "print.h"
-#include "io.h"
+#include "io.h"  // a_open_in
 #include "box.h" // font, character
 
 
