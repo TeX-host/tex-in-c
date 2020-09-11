@@ -80,6 +80,7 @@ extern StrNumber job_name;
 extern Boolean log_opened;
 extern StrNumber output_file_name, logname;
 
+extern void fname_init();
 extern StrNumber makenamestring(void);
 extern StrNumber bmakenamestring(void);
 extern StrNumber wmakenamestring(void);

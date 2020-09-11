@@ -11983,24 +11983,10 @@ Static void initialize(void) {
         hash_var_init();
         eqtb_save_init();
         expand_init();
-
-        /*439:*/
-        cur_val = 0;
-        cur_val_level = INT_VAL;
-        radix = 0;
-        cur_order = 0; /*:439*/
-        /*481:*/
-        for (k = 0; k <= 16; k++) /*:481*/
-            readopen[k] = closed;
-        /*490:*/
-        condptr = 0;
-        iflimit = NORMAL;
-        curif = 0;
-        ifline = 0; /*:490*/
-        /*521:*/
-        memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
-        /*:521*/
-
+        scan_init();
+        build_token_init();
+        cond_process_init();
+        fname_init();
         font_init();
 
         /*593:*/

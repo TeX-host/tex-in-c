@@ -39,6 +39,11 @@ StrNumber output_file_name, logname;
 
 /// [ #511. File names. ] 
 
+/// [#521]
+void fname_init() {
+    memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
+}
+
 /*515:*/
 void beginname(void) { extdelimiter = 0; }
 /*:515*/

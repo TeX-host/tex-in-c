@@ -60,6 +60,15 @@ SmallNumber radix;
 GlueOrd cur_order;
 
 
+/// [#439]
+void scan_init() {
+    /*439:*/
+    cur_val = 0;
+    cur_val_level = INT_VAL;
+    radix = 0;
+    cur_order = 0;
+} /* scan_init */
+
 /// [#406] Get the next non-blank non-call token.
 /// used in sections 405, 441, 455, 503, 526, 577, 785, 791, and 1045.
 void skip_spaces(void) {

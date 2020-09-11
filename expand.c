@@ -61,9 +61,8 @@ static void insthetoks(void);
 // [#382] token lists for marks
 Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
-
+/// [#383]
 void expand_init() {
-    /*383:*/
     topmark = 0;
     firstmark = 0;
     botmark = 0;
@@ -564,6 +563,12 @@ void xtoken(void) {
 /** @addtogroup S464x486_P174x180
  * @{
  */
+/// [#481]
+void build_token_init() {
+    for (size_t k = 0; k <= 16; k++) {
+        readopen[k] = closed;
+    }
+}
 
 /// [#467] Here’s part of the expand subroutine 
 //// that we are now ready to complete.
@@ -647,6 +652,13 @@ static void convtoks(void) {
  *
  * @{
  */
+/// [#490]
+void cond_process_init() {
+    condptr = 0;
+    iflimit = NORMAL;
+    curif = 0;
+    ifline = 0;
+} /* cond_process_init */
 
 /// [#494] ignores text until coming to an 
 /// `\or`, `\else`, or `\fi` at level zero of `\if...\fi` nesting.

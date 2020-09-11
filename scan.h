@@ -66,5 +66,6 @@ extern void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut);
 extern void scan_glue(SmallNumber level);
 extern HalfWord scan_rule_spec(void);
 
+extern void scan_init();
 
 #endif // INC_SCAN_H

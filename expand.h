@@ -86,6 +86,8 @@ extern char longstate;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
 extern void expand_init();
+extern void build_token_init();
+extern void cond_process_init();
 extern void expand(void);
 extern void get_x_token(void);
 extern void xtoken(void);
