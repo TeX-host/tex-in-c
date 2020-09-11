@@ -68,49 +68,6 @@
  * @{
  */
 
-#if 1
-/// [p250#681]
-#define nucleus(x)  ((x)+CHAR_NODE_SIZE) /* the |nucleus| field of a noad}*/
-#define supscr(x)  (nucleus(x)+CHAR_NODE_SIZE) /* the |supscr| field of a noad}*/
-#define subscr(x)  (supscr(x)+CHAR_NODE_SIZE) /* the |subscr| field of a noad}*/
-/// [p252#683]
-#define leftdelimiter(x)  (subscr(x)+CHAR_NODE_SIZE) /* first delimiter field of a noad}*/
-#define rightdelimiter(x)  (leftdelimiter(x)+CHAR_NODE_SIZE) /* second delimiter field of a fraction noad}*/
-/// [p253#687]
-#define accentchr(x)  (subscr(x)+CHAR_NODE_SIZE) /* the |accentchr| field of an accent noad}*/
-#else
-#define nucleus(x)  ((x)+1) /* the |nucleus| field of a noad}*/
-#define supscr(x)  ((x)+2) /* the |supscr| field of a noad}*/
-#define subscr(x)  ((x)+7) /* the |subscr| field of a noad}*/
-#define leftdelimiter(x)  ((x)+4) /* first delimiter field of a noad}*/
-#define rightdelimiter(x)  ((x)+5) /* second delimiter field of a fraction noad}*/
-#define accentchr(x)  ((x)+4) /* the |accentchr| field of an accent noad}*/
-#endif
-
-/// [p250#681] a |halfword| in |mem|.
-#define mathtype  link
-#define fam(x)  type(x)
-/// [p252#683]
-#define smallfam(x)  mem[x].qqqq.b0 /* |fam| for ``small'' delimiter}*/
-#define smallchar(x)  mem[x].qqqq.b1 /* |character| for ``small'' delimiter}*/
-#define largefam(x)  mem[x].qqqq.b2 /* |fam| for ``large'' delimiter}*/
-#define largechar(x) mem[x].qqqq.b3 /* |character| for ``large'' delimiter}*/
-#define thickness(x) (mem[nucleus(x)-MEM_MIN].sc) /* |thickness| field in a fraction noad}*/
-#define numerator  supscr /* |numerator| field in a fraction noad}*/
-#define denominator  subscr /* |denominator| field in a fraction noad}*/
-/// [p253#687]
-#define delimiter  nucleus /* |delimiter| field in left and right noads}*/
-/// [p253#687]
-#define scriptsallowed(x)  ((type(x)>=ordnoad)&&(type(x)<leftnoad))
-/// [p245#668]
-#define vpack(x, y, z)                                                  \
-    vpackage((x), (y), (z), MAX_DIMEN) /* special case of unconstrained \
-                                          depth}*/
-/// [p254#689]
-#define displaymlist(x)  info(x+1) /* mlist to be used in display style}*/
-#define textmlist(x)  link(x+1) /* mlist to be used in text style}*/
-#define scriptmlist(x)  info(x+2) /* mlist to be used in script style}*/
-#define scriptscriptmlist(x)  link(x+2) /* mlist to be used in scriptscript style}*/
 /** @}*/ // end group S680x698_P249x257
 
 

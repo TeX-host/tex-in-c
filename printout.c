@@ -11,6 +11,7 @@
 #include "eqtb.h"     // [func] print_skip_param
 #include "box.h"      // widthoffset, heightoffset, NORMAL
 #include "error.h"
+#include "mmode.h"
 #include "printout.h" // [export]
 
 /// #247: 

@@ -5,6 +5,7 @@
     // scriptmlist, scriptscriptmlist, mathtype, supscr, subscr
 #include "error.h"   // confusion
 #include "pack.h"    // [macro] subbox
+#include "mmode.h"
 #include "box.h"
 
 

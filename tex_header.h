@@ -34,6 +34,7 @@
 #include "box.h"
 #include "io.h" // [func] inputln
 #include "pack.h"
+#include "mmode.h"
 #include "texfunc.h"    // [export]
 
 
@@ -99,12 +100,6 @@ Static FILE* readfile[16];
 char readopen[17];
 /*:480*/
 /** @}*/ // end group S464x486_P174x180
-
-
-/*684:*/
-Static TwoHalves emptyfield;
-Static FourQuarters nulldelimiter;
-/*:684*/
 
 
 /*719:*/

@@ -7,6 +7,7 @@
 #include "texmath.h"  // [func] print_scaled
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext
+#include "mmode.h"
 #include "box.h"
 
 

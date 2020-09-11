@@ -17,7 +17,6 @@ extern void println(void);
 // [tex], printout
 extern void print_hex(Integer n);
 extern void print_size(Integer s);
-extern void printstyle(Integer c);
 
 // [tex], fonts
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
@@ -41,10 +40,7 @@ extern void jumpout(void);
 extern void giveerrhelp(void);
 
 // tex, box
-extern void printsubsidiarydata(HalfWord p, ASCIICode c);
-extern void printdelimiter(HalfWord p);
 extern void print_write_whatsit(StrNumber s, Pointer p);
-extern void printfamandchar(HalfWord p);
 
 // lexer
 extern void printtotals(void);

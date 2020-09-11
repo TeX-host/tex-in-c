@@ -8,6 +8,7 @@ SRCS += io io_unix io_fname
 SRCS += texmath str printout print hash
 SRCS += box box_display box_destroy box_copy
 SRCS += eqtb eqtb_save
+SRCS += mmode
 SRCS += lexer fonts dviout expand scan error mem pack
 CSRCS = $(addsuffix .c,${SRCS})
 OBJS  = $(addsuffix .o,${SRCS})
