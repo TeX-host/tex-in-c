@@ -23,7 +23,7 @@ Boolean deletions_allowed;
 Boolean set_box_allowed;
 /// [#76] has the source input been clean so far?
 /// [SPOTLESS, FATAL_ERROR_STOP]
-enum ErrorLevel history;
+ErrorLevel history;
 /// [#76] the number of scrolled errors since the last paragraph ended.
 /// errorcount = [-1, 100]
 SChar errorcount;

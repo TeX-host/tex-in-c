@@ -13,24 +13,24 @@
  * 
  * [REPORTING ERRORS]
  */
-enum UserInteractionMode {
+typedef enum _UserInteractionMode {
     BATCH_MODE,      ///< omits all stops and omits terminal output.
     NON_STOP_MODE,   ///< omits all stops.
     SCROLL_MODE,     ///< omits error stops.
     ERROR_STOP_MODE, ///< stops at every opportunity to interact.
-}; // [#73] enum UserInteractionMode
+} UserInteractionMode; // [#73] enum UserInteractionMode
 
 /** [p31#76]: four possible values for
  *  the worst level of error that has been detected.
  * 
  * [REPORTING ERRORS]
  */
-enum ErrorLevel {
+typedef enum _ErrorLevel {
     SPOTLESS = 0,         ///< nothing has been amiss yet.
     WARNING_ISSUED,       ///< begin_diagnostic has been called.
     ERROR_MESSAGE_ISSUED, ///< error has been called.
     FATAL_ERROR_STOP,     ///< termination was premature.
-}; // [#76] enum ErrorLevel
+} ErrorLevel; // [#76] enum ErrorLevel
 
 /// [#79]
 // tex only
@@ -52,7 +52,7 @@ enum ErrorLevel {
 extern UChar interaction;
 extern Boolean deletions_allowed;
 extern Boolean set_box_allowed;
-extern enum ErrorLevel history;
+extern ErrorLevel history;
 extern SChar errorcount;
 extern StrNumber help_line[6];
 extern UChar help_ptr;
