@@ -10,7 +10,6 @@
 #include <math.h>   // fabs
 
 #include "global_const.h"
-#include "tex_inc.h"
 #include "texmath.h"
 #include "tex.h" // [export]
 #include "str.h"
@@ -24,7 +23,7 @@
 #include "print.h"      // 打印函数 term_input
 // 模块导入
 #include "lexer.h"      // lexer
-#include "expand.h"     // expand
+#include "expand.h"     // [macro] STORE_NEW_TOKEN
 #include "scan.h"       // scan mod;
 #include "error.h"
     // [func] normalize_selector, succumb, fatalerror,
@@ -88,16 +87,6 @@ HalfWord partoken;
 // [#361] should the next \input be aborted early?
 Boolean force_eof;
 /** @}*/ // end group S332x365_P134x143
-
-
-/** @addtogroup S366x401_P144x154
- * @{
- */
-
-/// [ #366~401: PART 25: EXPANDING THE NEXT TOKEN ]
-// [#382] token lists for marks
-Pointer curmark[splitbotmarkcode - topmarkcode + 1];
-/** @}*/ // end group S366x401_P144x154
 
 
 /** @addtogroup S464x486_P174x180

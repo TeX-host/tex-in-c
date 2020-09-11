@@ -9,6 +9,32 @@
 #define INC_EXPAND_H
 
 
+/** @addtogroup S366x401_P144x154
+ * @{
+ */
+/// [p145#371]
+#define STORE_NEW_TOKEN(p, x) \
+    do {                      \
+        int q = get_avail();  \
+        link(p) = q;          \
+        info(q) = (x);        \
+        p = q;                \
+    } while (0)
+// end #define STORE_NEW_TOKEN(p, x)
+
+/// [p145#371]
+#define FAST_STORE_NEW_TOKEN(p, x) \
+    do {                           \
+        int q;                     \
+        FAST_GET_AVAIL(q);         \
+        link(p) = q;               \
+        info(q) = (x);             \
+        p = q;                     \
+    } while (0)
+// end #define FAST_STORE_NEW_TOKEN(p, x)
+/** @} end group S366x401_P144x154 */
+
+
 /** @addtogroup S487x510_P181x187
  * @{
  */
@@ -57,6 +83,7 @@ extern Integer ifline;
 // lexer
 extern Integer skipline;
 extern char longstate;
+extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
 extern void expand(void);
 extern void get_x_token(void);

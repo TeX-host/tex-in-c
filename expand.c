@@ -1,7 +1,6 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
 #include "texmac.h" // [macro] link
-#include "tex_inc.h" // [macro] STORE_NEW_TOKEN
 #include "macros.h" // [macro] help1, help2, help3, help4,
 #include "global.h"
 #include "texfunc.h"
@@ -18,6 +17,7 @@
 #include "box.h" // NORMAL, subtype
 #include "io.h"  // [func] startinput, openlogfile
 #include "expand.h"
+
 
 /** @addtogroup S487x510_P181x187
  * @{
@@ -58,6 +58,9 @@ static void insthetoks(void);
  *
  * @{
  */
+// [#382] token lists for marks
+Pointer curmark[splitbotmarkcode - topmarkcode + 1];
+
 
 /// [#396] If `longstate == outer_call`, 
 /// a runaway argument has already been reported.

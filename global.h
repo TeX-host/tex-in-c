@@ -23,7 +23,6 @@ extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用
 extern ListStateRecord cur_list;
-extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 extern Boolean OK_to_interrupt;
 extern Integer interrupt;
 extern Pointer parloc;

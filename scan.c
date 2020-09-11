@@ -2,10 +2,9 @@
 #include "texmac.h" // [macro] link, 
 #include "texfunc.h"
 #include "tex.h"
-#include "tex_inc.h"
 #include "global.h"
 #include "macros.h" // [macro] help4,
-#include "expand.h"
+#include "expand.h" // [macro] STORE_NEW_TOKEN
 #include "texmac.h"
 
 #include "texmath.h"
