@@ -232,7 +232,7 @@ extern Pointer newrule(void);
 extern Pointer newligature(QuarterWord f, QuarterWord c, Pointer q);
 extern Pointer newligitem(QuarterWord c);
 extern Pointer newdisc(void);
-extern Pointer newmath(long w, SmallNumber s);
+extern Pointer newmath(Scaled w, SmallNumber s);
 extern Pointer newspec(Pointer p);
 extern Pointer newparamglue(SmallNumber n);
 extern Pointer newglue(Pointer q);
@@ -243,7 +243,7 @@ extern Pointer newpenalty(long m);
 // box_display
 extern void shortdisplay(Pointer p);
 extern void printspec(long p, StrNumber s);
-extern void shownodelist(long p);
+extern void shownodelist(Integer p);
 extern void showbox(HalfWord p);
 
 // box_destroy
