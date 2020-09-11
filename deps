@@ -41,7 +41,10 @@ eqtb_save.o: eqtb_save.c lexer.h tex.h tex_types.h tex_constant.h box.h \
  macros.h texfunc.h eqtb.h
 mmode.o: mmode.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h pack.h print.h texmac.h \
- texmath.h eqtb.h macros.h mmode.h fonts.h
+ texmath.h eqtb.h fonts.h mmode.h
+math_formula.o: math_formula.c tex.h tex_types.h tex_constant.h box.h \
+ str.h global_const.h pack.h mem.h global.h scan.h lexer.h dviout.h \
+ fonts.h eqtb.h texmath.h print.h texmac.h error.h texfunc.h mmode.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h lexer.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h fonts.h eqtb.h \

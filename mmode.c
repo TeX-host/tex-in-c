@@ -4,7 +4,7 @@
 #include "print.h"
 #include "texmath.h"
 #include "eqtb.h"
-#include "macros.h"
+#include "fonts.h"
 #include "mmode.h"
 
 

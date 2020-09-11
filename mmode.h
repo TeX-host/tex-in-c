@@ -178,6 +178,13 @@ enum StyleNodeSubtype {
 extern TwoHalves emptyfield;
 extern FourQuarters nulldelimiter;
 
+extern Pointer curmlist;
+extern SmallNumber curstyle, cursize;
+extern Boolean mlistpenalties;
+extern InternalFontNumber curf;
+extern QuarterWord curc;
+extern FourQuarters curi;
+
 extern void mmode_init();
 extern HalfWord newnoad(void);
 extern HalfWord newstyle(SmallNumber s);
@@ -198,5 +205,8 @@ extern HalfWord rebox(HalfWord b, long w);
 extern HalfWord mathglue(HalfWord g, long m);
 extern void mathkern(HalfWord p, long m);
 extern void flushmath(void);
+
+// math formula
+extern void mlisttohlist(void);
 
 #endif /* INC_MMODE_H */

@@ -102,19 +102,6 @@ char readopen[17];
 /** @}*/ // end group S464x486_P174x180
 
 
-/*719:*/
-Static Pointer curmlist;
-Static SmallNumber curstyle, cursize;
-Static Boolean mlistpenalties;
-/*:719*/
-/*724:*/
-Static InternalFontNumber curf;
-Static QuarterWord curc;
-Static FourQuarters curi;
-/*:724*/
-
-
-
 /*770:*/
 Pointer curalign;
 Static Pointer curspan, curloop, alignptr, curhead, curtail;

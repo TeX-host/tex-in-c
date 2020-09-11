@@ -12,8 +12,4 @@
 /// a |halfword| code that can't match a real character}
 #define NON_CHAR 256
 
-/// [p199#545]
-#define opbyte(x) (x.b2)
-#define rembyte(x) (x.b3)
-
 #endif // #ifndef MACROS_H

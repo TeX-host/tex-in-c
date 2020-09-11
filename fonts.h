@@ -34,6 +34,10 @@ enum TFMParamVal {
     EXTRA_SPACE_CODE
 };
 
+/// [p199#545]
+#define opbyte(x)       (x.b2)
+#define rembyte(x)      (x.b3)
+
 /// [p199#545] value indicating `\.{STOP}' in a lig/kern program.
 #define stopflag        qi(128)
 /// [p199#545] op code for a kern step.
