@@ -1,3 +1,4 @@
+#include <math.h> // floor
 #include <stdio.h>  // FILE
 #include <stdlib.h> // malloc, exit, labs, free
 #include "tex.h"
@@ -13,8 +14,17 @@
 #include "dvicmd.h" // [enum] DVICommands
 #include "global_const.h" // [macro] assert, UMAXOF
 #include "io.h"           // [macro] TERM_ERR [func] a_open_out
+#include "eqtb.h"
+#include "mem.h"    // [var] temp_ptr
+#include "print.h"
+#include "texfunc.h" // [func] outwhat
+#include "error.h"   // [func] print_err
 #include "dviout.h" // [export]
 
+
+/** @addtogroup S592x643_P220x238
+ * @{
+ */
 /// [#587]: identifies the kind of DVI files described here
 #define ID_BYTE 2
 /// [#605]: number of words per entry in the down and right stacks
@@ -76,15 +86,37 @@ static Integer last_bop;
 static MovePtr down_ptr, right_ptr;
 
 
+// [#592]
+Scaled maxh, maxv;
+Integer totalpages, maxpush, deadcycles;
+Boolean doingleaders;
+Static Integer lq, lr;
+Static Scaled ruleht, ruledp, rulewd;
+
+// #616
+Scaled dvih = 0, dviv = 0, // a DVI reader program thinks we are here
+    curh, curv;            // TeX thinks we are here
+Scaled curmu;
+Static InternalFontNumber dvif = NULL_FONT; // the current font
+Integer curs; // current depth of output box nesting, initially −1
+
+
 /*
  * 函数定义
  * 
  */
 
-/// 初始化 dviout 内部变量
+/// [#593, 596, 606] 初始化 dviout 内部变量
 void dviout_init(void) {
     // #593
+    totalpages = 0;
+    maxv = 0;
+    maxh = 0;
+    maxpush = 0;
     last_bop = -1;
+    doingleaders = false;
+    deadcycles = 0;
+    curs = -1;
     // #596
     half_buf = DVI_BUF_SIZE / 2;
     dvi_limit = DVI_BUF_SIZE;
@@ -378,6 +410,530 @@ Scaled synch_v(Scaled cur_v, Scaled dvi_v) {
 }
 
 
+// [ p229#619 ]: output an hlist node box
+void hlistout(void) {
+    Scaled baseline, leftedge, saveh, savev, leaderwd, lx, edge;
+    Pointer thisbox, p, leaderbox;
+    GlueOrd gorder;
+    char gsign;
+    long saveloc;
+    Boolean outerdoingleaders;
+    double gluetemp;
+
+    thisbox = temp_ptr;
+    gorder = glueorder(thisbox);
+    gsign = gluesign(thisbox);
+    p = listptr(thisbox);
+    curs++;
+
+    if (curs > 0) dviout_PUSH();
+    if (curs > maxpush) maxpush = curs;
+    saveloc = get_dvi_mark();
+    baseline = curv;
+    leftedge = curh;
+
+    while (p != 0) {
+        // #620 
+        // Output node p for hlist out and move to the next node, 
+        // maintaining the condition cur v = base line
+    _LN_hlistout__reswitch:
+        if (ischarnode(p)) {
+            synchh();
+            synchv();
+            do {
+                QuarterWord f = font(p);
+                QuarterWord c = character(p);
+                if (f != dvif) { /*621:*/
+                    dvi_set_font(f);
+                    dvif = f;
+                }
+                /*:621*/
+                dvi_set_char(c);
+                curh += charwidth(f, charinfo(f, c));
+                p = link(p);
+            } while (ischarnode(p));
+            dvih = curh;
+            continue; // ???
+        }
+
+        // #622:
+        // Output the non-char node p for hlist out and move to the next node
+        switch (type(p)) {
+            case HLIST_NODE:
+            case VLIST_NODE:
+                // #623: Output a box in an hlist
+                if (listptr(p) == 0)
+                    curh += width(p);
+                else { /*:623*/
+                    saveh = dvih;
+                    savev = dviv;
+                    curv = baseline + shiftamount(p);
+                    temp_ptr = p;
+                    edge = curh;
+                    if (type(p) == VLIST_NODE)
+                        vlistout();
+                    else
+                        hlistout();
+                    dvih = saveh;
+                    dviv = savev;
+                    curh = edge + width(p);
+                    curv = baseline;
+                }
+                break;
+
+            case RULE_NODE:
+                ruleht = height(p);
+                ruledp = depth(p);
+                rulewd = width(p);
+                goto _Lfinrule_;
+                break;
+
+            case WHATSIT_NODE:
+                // #1367: Output the whatsit node p in an hlist
+                outwhat(p);
+                break;
+
+            case GLUE_NODE: {
+                // #625: Move right or output leaders
+                Pointer g = glueptr(p);
+                rulewd = width(g);
+                if (gsign != NORMAL) {
+                    if (gsign == stretching) {
+                        if (stretchorder(g) == gorder) {
+                            vetglue(glueset(thisbox) * stretch(g));
+                            rulewd += (long)floor(gluetemp + 0.5);
+                        }
+                    } else if (shrinkorder(g) == gorder) {
+                        vetglue(glueset(thisbox) * shrink(g));
+                        rulewd -= (long)floor(gluetemp + 0.5);
+                    }
+                }
+            }
+                if (subtype(p) >= aleaders) { /*626:*/
+                    leaderbox = leaderptr(p);
+                    if (type(leaderbox) == RULE_NODE) {
+                        ruleht = height(leaderbox);
+                        ruledp = depth(leaderbox);
+                        goto _Lfinrule_;
+                    }
+                    leaderwd = width(leaderbox);
+                    if (leaderwd > 0 && rulewd > 0) {
+                        rulewd += 10;
+                        edge = curh + rulewd;
+                        lx = 0; /*627:*/
+                        if (subtype(p) == aleaders) {
+                            saveh = curh;
+                            curh = leftedge +
+                                   leaderwd * ((curh - leftedge) / leaderwd);
+                            if (curh < saveh) curh += leaderwd;
+                        } else { /*:627*/
+                            lq = rulewd / leaderwd;
+                            lr = rulewd % leaderwd;
+                            if (subtype(p) == cleaders)
+                                curh += lr / 2;
+                            else {
+                                lx = (lr * 2 + lq + 1) / (lq * 2 + 2);
+                                curh += (lr - (lq - 1) * lx) / 2;
+                            }
+                        }
+                        while (curh + leaderwd <= edge) { /*628:*/
+                            curv = baseline + shiftamount(leaderbox);
+                            synchv();
+                            savev = dviv;
+                            synchh();
+                            saveh = dvih;
+                            temp_ptr = leaderbox;
+                            outerdoingleaders = doingleaders;
+                            doingleaders = true;
+                            if (type(leaderbox) == VLIST_NODE)
+                                vlistout();
+                            else
+                                hlistout();
+                            doingleaders = outerdoingleaders;
+                            dviv = savev;
+                            dvih = saveh;
+                            curv = baseline;
+                            curh = saveh + leaderwd + lx;
+                        }
+                        /*:628*/
+                        curh = edge - 10;
+                        goto _Lnextp_;
+                    }
+                } /*:626*/
+                goto _Lmovepast_;
+                break;
+
+            case KERN_NODE:
+            case MATH_NODE: curh += width(p); break;
+
+            case LIGATURE_NODE:
+                // #652: Make node p look like a char node and goto reswitch
+                type(ligtrick) = charnodetype;
+                font(ligtrick) = font_ligchar(p);
+                character(ligtrick) = character_ligchar(p);
+                link(ligtrick) = link(p);
+                p = ligtrick;
+                goto _LN_hlistout__reswitch;
+                break;
+
+        } // switch (type(p))
+        goto _Lnextp_;
+
+    _Lfinrule_:
+        // #624: Output a rule in an hlist
+        if (isrunning(ruleht)) ruleht = height(thisbox);
+        if (isrunning(ruledp)) ruledp = depth(thisbox);
+        ruleht += ruledp; // this is the rule thickness
+
+        // we don’t output empty rules
+        if (ruleht > 0 && rulewd > 0) {
+            synchh();
+            curv = baseline + ruledp;
+            synchv();
+            dviout_SET_RULE();
+            dvi_four(ruleht);
+            dvi_four(rulewd);
+            curv = baseline;
+            dvih += rulewd;
+        }
+
+    _Lmovepast_:
+        curh += rulewd;
+
+    _Lnextp_:
+        p = link(p);
+    } // while (p != 0)
+
+    prune_movements(saveloc);
+    if (curs > 0) dvi_pop(saveloc);
+    curs--;
+} // p229#619: hlistout
+
+
+// [ p233#629 ]: output a vlist node box
+void vlistout(void) {
+    Scaled leftedge, topedge, saveh, savev, leaderht, lx, edge;
+    Pointer thisbox, p, leaderbox, g;
+    GlueOrd gorder;
+    char gsign;
+    long saveloc;
+    Boolean outerdoingleaders;
+    double gluetemp;
+
+    thisbox = temp_ptr;
+    gorder = glueorder(thisbox);
+    gsign = gluesign(thisbox);
+    p = listptr(thisbox);
+    curs++;
+
+    if (curs > 0) dviout_PUSH();
+    if (curs > maxpush) maxpush = curs;
+    saveloc = get_dvi_mark();
+    leftedge = curh;
+    curv -= height(thisbox);
+    topedge = curv;
+
+    while (p != 0) {
+        // 630: 
+        // Output node p for vlist out and move to the next node, 
+        // maintaining the condition cur h = left edge
+        if (ischarnode(p)) {
+            confusion(S(685)); // "vlistout"
+        } else {
+            // #631: Output the non-char node p for vlist out
+            switch (type(p)) {
+                case HLIST_NODE:
+                case VLIST_NODE:
+                    // #632: Output a box in a vlist
+                    if (listptr(p) == 0) {
+                        curv += height(p) + depth(p);
+                    } else { /*:632*/
+                        curv += height(p);
+                        synchv();
+                        saveh = dvih;
+                        savev = dviv;
+                        curh = leftedge + shiftamount(p);
+                        temp_ptr = p;
+                        if (type(p) == VLIST_NODE) {
+                            vlistout();
+                        } else {
+                            hlistout();
+                        }
+                        dvih = saveh;
+                        dviv = savev;
+                        curv = savev + depth(p);
+                        curh = leftedge;
+                    }
+                    break;
+
+                case RULE_NODE:
+                    ruleht = height(p);
+                    ruledp = depth(p);
+                    rulewd = width(p);
+                    goto _Lfinrule_;
+                    break;
+
+                case WHATSIT_NODE:
+                    // #1366: Output the whatsit node p in a vlist
+                    outwhat(p);
+                    break;
+
+                case GLUE_NODE:
+                    // #634: Move down or output leaders
+                    g = glueptr(p);
+                    ruleht = width(g); // ??? - curg
+                    if (gsign != NORMAL) {
+                        if (gsign == stretching) {
+                            if (stretchorder(g) == gorder) {
+                                vetglue(glueset(thisbox) * stretch(g));
+                                ruleht += (long)floor(gluetemp + 0.5);
+                            }
+                        } else if (shrinkorder(g) == gorder) {
+                            vetglue(glueset(thisbox) * shrink(g));
+                            ruleht -= (long)floor(gluetemp + 0.5);
+                        }
+                    } // if (gsign != NORMAL)
+                    if (subtype(p) >= aleaders) { /*635:*/
+                        leaderbox = leaderptr(p);
+                        if (type(leaderbox) == RULE_NODE) {
+                            rulewd = width(leaderbox);
+                            ruledp = 0;
+                            goto _Lfinrule_;
+                        }
+                        leaderht = height(leaderbox) + depth(leaderbox);
+                        if (leaderht > 0 && ruleht > 0) {
+                            ruleht += 10;
+                            edge = curv + ruleht;
+                            lx = 0; /*636:*/
+                            if (subtype(p) == aleaders) {
+                                savev = curv;
+                                curv = topedge +
+                                       leaderht * ((curv - topedge) / leaderht);
+                                if (curv < savev) curv += leaderht;
+                            } else { /*:636*/
+                                lq = ruleht / leaderht;
+                                lr = ruleht % leaderht;
+                                if (subtype(p) == cleaders)
+                                    curv += lr / 2;
+                                else {
+                                    lx = (lr * 2 + lq + 1) / (lq * 2 + 2);
+                                    curv += (lr - (lq - 1) * lx) / 2;
+                                }
+                            }
+                            while (curv + leaderht <= edge) { /*637:*/
+                                curh = leftedge + shiftamount(leaderbox);
+                                synchh();
+                                saveh = dvih;
+                                curv += height(leaderbox);
+                                synchv();
+                                savev = dviv;
+                                temp_ptr = leaderbox;
+                                outerdoingleaders = doingleaders;
+                                doingleaders = true;
+                                if (type(leaderbox) == VLIST_NODE)
+                                    vlistout();
+                                else
+                                    hlistout();
+                                doingleaders = outerdoingleaders;
+                                dviv = savev;
+                                dvih = saveh;
+                                curh = leftedge;
+                                curv =
+                                    savev - height(leaderbox) + leaderht + lx;
+                            }
+                            /*:637*/
+                            curv = edge - 10;
+                            goto _Lnextp_;
+                        }
+                    } // if (subtype(p) >= aleaders)
+                    /*:635*/
+                    goto _Lmovepast_;
+                    break;
+                    /*:634*/
+
+                case KERN_NODE: curv += width(p); break;
+            } // switch (type(p))
+            goto _Lnextp_;
+        
+        _Lfinrule_:
+            // #633: Output a rule in a vlist, goto next p
+            if (isrunning(rulewd)) {
+                rulewd = width(thisbox);
+            }
+            ruleht += ruledp;
+            curv += ruleht;
+            if (ruleht > 0 && rulewd > 0) {
+                synchh();
+                synchv();
+                dviout_PUT_RULE();
+                dvi_four(ruleht);
+                dvi_four(rulewd);
+            }
+            goto _Lnextp_;
+
+        _Lmovepast_:
+            curv += ruleht;
+        } // if (ischarnode(p)) - else
+    _Lnextp_:
+        p = link(p);
+    } // while (p != 0)
+
+    prune_movements(saveloc);
+    if (curs > 0) dvi_pop(saveloc);
+    curs--;
+} // #629: vlistout
+
+
+// [ p236#638 ]: output the box `p`
+void shipout(Pointer p) {
+    int j, k; // [0, 9]: indices to first ten count registers
+    Selector old_setting; // saved selector setting
+
+    if (tracingoutput > 0) {
+        printnl(S(385)); // ""
+        println();
+        print(S(686)); // "Completed box being shipped out"
+    }
+
+    newline_or_space(7);
+
+    print_char('[');
+    j = 9;
+    while (count(j) == 0 && j > 0)
+        j--;
+    for (k = 0; k <= j; k++) {
+        print_int(count(k));
+        if (k < j) print_char('.');
+    }
+    update_terminal();
+
+    if (tracingoutput > 0) {
+        print_char(']');
+        begindiagnostic();
+        showbox(p);
+        enddiagnostic(true);
+    }
+
+    /// [ #640 ]: Ship box p out
+    // [#641]: Update the values of max h and max v; 
+    // but if the page is too large, goto done
+    if (   (height(p) > MAX_DIMEN) 
+        || (depth(p) > MAX_DIMEN) 
+        || ((height(p) + depth(p) + voffset) > MAX_DIMEN) 
+        || ((width(p) + hoffset) > MAX_DIMEN) ) {
+        print_err(S(687)); // "Huge page cannot be shipped out"
+        // "The page just created is more than 18 feet tall or"
+        // "more than 18 feet wide so I suspect something went wrong."
+        help2(S(688), S(689));
+        error();
+        if (tracingoutput <= 0) {
+            begindiagnostic();
+            printnl(S(690)); // "The following box has been deleted:"
+            showbox(p);
+            enddiagnostic(true);
+        }
+        goto _L_shipout_done;
+    }
+    if ((height(p) + depth(p) + voffset) > maxv)
+        maxv = height(p) + depth(p) + voffset;
+    if ((width(p) + hoffset) > maxh)
+        maxh = width(p) + hoffset;
+
+    // [ #617 ]: Initialize variables as ship out begins
+    dvih = 0;
+    dviv = 0;
+    curh = hoffset;
+    dvif = NULL_FONT;
+    // ensure dvi open
+    if (output_file_name == 0) {
+        if (job_name == 0) openlogfile();
+        packjobname(S(691)); // ".dvi"
+        while (!dvi_openout()) {
+            // "file name for output"
+            // " TeX output "
+            promptfilename(S(692), S(691));
+        }
+        output_file_name = bmakenamestring();
+    }
+
+    if (totalpages == 0) {
+        // output the preamble
+        dviout_PRE();
+        dviout_ID_BYTE();
+        // conversion ratio for sp
+        dvi_four(25400000L);
+        dvi_four(473628672L);
+        // magnification factor is frozen
+        preparemag();
+        dvi_four(mag);
+        
+        old_setting = selector;
+        selector = NEW_STRING;
+        print(S(693)); // " TeX output "
+        print_int(year);
+        print_char('.');
+        print_two(month);
+        print_char('.');
+        print_two(day);
+        print_char(':');
+        print_two(tex_time / 60);
+        print_two(tex_time % 60);
+        selector = old_setting;
+        dviout(cur_length());
+        // flush the current string
+        str_cur_map(dviout_helper);
+    }
+    {
+        long cp[10];
+        for (k = 0; k <= 9; k++) {
+            cp[k] = count(k);
+        }
+        _dvibop(cp); // BOP 相关变量处理
+    }
+    curv = height(p) + voffset;
+    temp_ptr = p;
+    if (type(p) == VLIST_NODE) {
+        vlistout();
+    } else {
+        hlistout();
+    }
+    dviout_EOP();
+    totalpages++;
+    curs = -1;
+
+// [p236#638]
+_L_shipout_done:
+    if (tracingoutput <= 0) print_char(']');
+    deadcycles = 0;
+    update_terminal(); // progress report
+
+    /// [p236#639]
+    /// Flush the box from memory, showing statistics if requested
+    #ifdef tt_STAT
+        if (tracingstats > 1) {
+            printnl(S(694)); // "Memory usage before: "
+            print_int(var_used);
+            print_char('&');
+            print_int(dyn_used);
+            print_char(';');
+        }
+    #endif // #639.1: tt_STAT
+
+    flush_node_list(p);
+
+    #ifdef tt_STAT
+        if (tracingstats > 1) {
+            print(S(695)); // " after: "
+            print_int(var_used);
+            print_char('&');
+            print_int(dyn_used);
+            print(S(696)); // "; still untouched: "
+            print_int(hi_mem_min - lo_mem_max - 1);
+            println();
+        }
+    #endif // #639.2: tt_STAT
+} // [ p236#638 ]:shipout
+
 // 辅助函数
 // 帮助访问/修改 dviout 的内部变量
 
@@ -456,3 +1012,5 @@ long dviflush(void) {
     fclose(dvifile);
     return dvi_offset + dvi_ptr;
 }
+
+/** @}*/ // end group S592x643_P220x238

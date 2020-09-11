@@ -46,7 +46,8 @@ fonts.o: fonts.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h macros.h error.h lexer.h global.h scan.h fonts.h \
  texfunc.h texmath.h hash.h eqtb.h mem.h print.h texmac.h io.h
 dviout.o: dviout.c tex.h tex_types.h tex_constant.h box.h str.h \
- global_const.h fonts.h dvicmd.h io.h dviout.h
+ global_const.h fonts.h dvicmd.h io.h eqtb.h mem.h global.h scan.h \
+ lexer.h print.h texmac.h texfunc.h error.h dviout.h
 expand.o: expand.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h lexer.h macros.h texfunc.h \
  printout.h print.h fonts.h texmath.h error.h hash.h eqtb.h io.h expand.h

@@ -7,6 +7,23 @@
 /// [#11]: size of the output buffer; must be a multiple of 8
 #define DVI_BUF_SIZE 800
 
+extern Scaled maxh, maxv;
+extern Integer totalpages, maxpush, deadcycles;
+extern Boolean doingleaders;
+extern Scaled dvih, dviv, curh, curv;
+extern Scaled curmu;
+extern Integer curs;
+
+#define synchh()                    \
+    do {                            \
+        dvih = synch_h(curh, dvih); \
+    } while (0)
+#define synchv()                    \
+    do {                            \
+        dviv = synch_v(curv, dviv); \
+    } while (0)
+
+
 // [dviout], tex
 extern void dviout(int x);
 extern void dvi_four(Integer x);
@@ -37,5 +54,9 @@ extern void dvi_set_font(int f);
 extern void dvi_set_char(long c);
 extern void dviout_init(void);
 extern long dviflush(void);
+
+extern void hlistout(void);
+extern void vlistout(void);
+extern void shipout(Pointer p);
 
 #endif // #ifndef DIV_OUT_H

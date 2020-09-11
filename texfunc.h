@@ -49,4 +49,7 @@ extern void printfamandchar(HalfWord p);
 // lexer
 extern void printtotals(void);
 
+// dviout
+extern void outwhat(HalfWord p);
+
 #endif // TEX_FUNC_H

@@ -100,28 +100,6 @@ char readopen[17];
 /** @}*/ // end group S464x486_P174x180
 
 
-// [#592]
-Static Scaled maxh, maxv;
-Integer totalpages, maxpush, deadcycles;
-Static Boolean doingleaders;
-Static Integer lq, lr;
-Static Scaled ruleht, ruledp, rulewd;
-
-// #616
-Static Scaled dvih = 0, dviv = 0, // a DVI reader program thinks we are here
-    curh, curv,                   // TeX thinks we are here
-    curmu;
-#define synchh()                                                               \
-    do {                                                                       \
-        dvih = synch_h(curh, dvih);                                            \
-    } while (0)
-#define synchv()                                                               \
-    do {                                                                       \
-        dviv = synch_v(curv, dviv);                                            \
-    } while (0)
-Static InternalFontNumber dvif = NULL_FONT; // the current font
-Static Integer curs; // current depth of output box nesting, initially −1
-
 
 /*646:*/
 Static Scaled totalstretch[FILLL - NORMAL + 1], totalshrink[FILLL - NORMAL + 1];
