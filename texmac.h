@@ -50,24 +50,6 @@
 #define iflinefield(x) mem[x + 1].int_
 
 
-/** @addtogroup S539x582_P196x213
- * @{
- */
-
-/// [p199#545]
-#define stopflag  qi(128) /* value indicating `\.{STOP}' in a lig/kern program}*/
-#define kernflag  qi(128) /* op code for a kern step}*/
-#define skipbyte(x) x.b0
-#define nextchar(x) x.b1
-
-/// [p199#564]
-#define exttop(x) x.b0 /* |top| piece in a recipe}*/
-#define extmid(x) x.b1 /* |mid| piece in a recipe}*/
-#define extbot(x) x.b2 /* |bot| piece in a recipe}*/
-#define extrep(x) x.b3 /* |rep| piece in a recipe}*/
-/** @}*/ // end group S539x582_P196x213
-
-
 /*
 /// [p203#554]
 #define charexists(x)  ((x).b0>MIN_QUARTER_WORD)

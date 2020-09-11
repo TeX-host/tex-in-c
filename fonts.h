@@ -11,6 +11,42 @@
  * @{
  */
 
+/** [p198#544]: tag field in a char_info_word
+ * that explain how to interpret the remainder field.
+ */ 
+enum CharTag {
+    NO_TAG,   ///< vanilla character
+    LIG_TAG,  ///< character has a ligature/kerning program
+    LIST_TAG, ///< character has a successor in a charlist
+    EXT_TAG   ///< character is extensible
+};
+
+/// [p200#547]
+enum TFMParamVal {
+    TFM_PARAM_MISSING, ///< TeX sets the missing parameters to zero
+
+    SLANT_CODE,
+    SPACE_CODE,
+    SPACE_STRETCH_CODE,
+    SPACE_SHRINK_CODE,
+    X_HEIGHT_CODE,
+    QUAD_CODE,
+    EXTRA_SPACE_CODE
+};
+
+/// [p199#545] value indicating `\.{STOP}' in a lig/kern program.
+#define stopflag        qi(128)
+/// [p199#545] op code for a kern step.
+#define kernflag        qi(128)
+#define skipbyte(x)     x.b0
+#define nextchar(x)     x.b1
+
+/// [p199#564]
+#define exttop(x)   x.b0 /* |top| piece in a recipe */
+#define extmid(x)   x.b1 /* |mid| piece in a recipe */
+#define extbot(x)   x.b2 /* |bot| piece in a recipe */
+#define extrep(x)   x.b3 /* |rep| piece in a recipe */
+
 /// [#548]: [FONT_BASE, FONT_MAX] = [0, 75]
 typedef UChar InternalFontNumber;
 static_assert(FONT_BASE == 0, "FONT_BASE == 0");

@@ -453,37 +453,6 @@ enum CmdCode {
 }; // [#468] enum CmdCode
 
 
-/** @addtogroup S539x582_P196x213
- * @{
- */
-
-// [ #539~582: FONT METRIC DATA ]
-
-/** [p198#544]: tag field in a char_info_word
- * that explain how to interpret the remainder field.
- */ 
-enum CharTag {
-    NO_TAG,   ///< vanilla character
-    LIG_TAG,  ///< character has a ligature/kerning program
-    LIST_TAG, ///< character has a successor in a charlist
-    EXT_TAG   ///< character is extensible
-};
-
-/// [p200#547]
-enum TFMParamVal {
-    TFM_PARAM_MISSING, ///< TeX sets the missing parameters to zero
-
-    SLANT_CODE,
-    SPACE_CODE,
-    SPACE_STRETCH_CODE,
-    SPACE_SHRINK_CODE,
-    X_HEIGHT_CODE,
-    QUAD_CODE,
-    EXTRA_SPACE_CODE
-};
-/** @}*/ // end group S539x582_P196x213
-
-
 /** @addtogroup S680x698_P249x257
  * @{
  */

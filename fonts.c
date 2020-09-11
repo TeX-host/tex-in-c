@@ -26,7 +26,6 @@
 /** @addtogroup S539x582_P196x213
  * @{
  */
-
 // p201#549
 
 MemoryWord fontinfo[FONT_MEM_SIZE + 1]; ///< the big collection of font data
