@@ -8,8 +8,7 @@
 #include "printout.h"   // [func] printcmdchr,
 #include "pure_func.h"  // [func] aclose
 #include "macros.h"     // [macro] help4, help3, help2
-#include "inputln.h"    // [func] inputln
-#include "funcs.h"      // [func] initinc
+#include "io.h"         // [func] inputln, initterminal
 #include "expand.h"     // [var] longstate
 #include "error.h"
     // [func] error, fatalerror, overflow, print_err,
@@ -109,34 +108,6 @@ UChar baseptr;
 
 // 辅助函数
 UChar get_maxinstack() { return maxinstack; }
-
-/** @addtogroup S25x37_P13x18
- * @{
- */
-/// [#37] gets the terminal input started.
-static Boolean initterminal(void) {
-    if (initinc(1)) { // initinc@func.c
-        LOC = first;
-        return true;
-    }
-    while (true) {
-        fprintf(TERM_OUT, "**");
-        update_terminal();
-        if (!inputln(TERM_IN, true)) {
-            putc('\n', TERM_OUT);
-            fprintf(TERM_OUT, "! End of file on the terminal... why?");
-            return false;
-        }
-        LOC = first;
-        while ((LOC < last) && (buffer[LOC] == ' '))
-            LOC++;
-        if (LOC < last) {
-            return true;
-        }
-        fprintf(TERM_OUT, "Please type the name of your input file.\n");
-    } // while (true) {
-} // [#37] initterminal
-/** @}*/ // end group S25x37_P13x18
 
 
 /** @addtogroup S211x219_P77x80

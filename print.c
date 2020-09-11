@@ -3,7 +3,7 @@
 #include "print.h"
 #include "global.h" // [func] xchr, eqtb, write_file, 
     // last, first, buffer[]
-#include "inputln.h" // [func] inputln
+#include "io.h" // [func] inputln
 #include "error.h"  // [func] fatalerror
 #include "eqtb.h"
 

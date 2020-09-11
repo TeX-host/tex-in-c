@@ -4,6 +4,7 @@
 #include "str.h" // [export] str_pool_init
     // [macro] STRING_VACANCIES,
     // [func] str_adjust_to_room, makestring
+#include "io.h"        // [macro] TERM_ERR
 #include "pool_init.h" // [var] pool_strs
 
 

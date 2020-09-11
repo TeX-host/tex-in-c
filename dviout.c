@@ -13,6 +13,7 @@
 #include "funcs.h"  // [func] a_open_out
 #include "dvicmd.h" // [enum] DVICommands
 #include "global_const.h" // [macro] assert, UMAXOF
+#include "io.h"           // [macro] TERM_ERR
 #include "dviout.h" // [export]
 
 /// [#587]: identifies the kind of DVI files described here

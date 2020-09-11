@@ -20,6 +20,7 @@
 #include "mem.h"  // [func] get_lo_mem_max, get_avail
 #include "eqtb.h" // [func] get_defaultskewchar, get_defaulthyphenchar,
 #include "print.h"
+#include "io.h"
 #include "box.h" // font, character
 
 

@@ -5,7 +5,7 @@ LDFLAGS = -lm
 
 SRCS  = tex
 SRCS += pool_init pure_func
-SRCS += funcs inputln
+SRCS += funcs io
 SRCS += texmath str printout print hash
 SRCS += box box_display box_destroy box_copy
 SRCS += eqtb eqtb_save

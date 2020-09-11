@@ -8,6 +8,7 @@
 #include "error.h"   // [func] overflow,
 #include "hash.h"    // [func] idlookup_p
 #include "print.h"   // [func] print, print_char
+#include "io.h"      // [macro] TERM_ERR
 #include "str.h"    // [export]
 
 #define str_end(x) (str_start[(x) + 1])

@@ -41,26 +41,6 @@
 #endif
 
 
-/** @addtogroup S25x37_P13x18
- * @{
- */
-
-/// [#32] the terminal as an input file.
-#define TERM_IN     stdin
-/// [#32] the terminal as an output file.
-#define TERM_OUT    stdout
-/// 错误输出到 stderr
-#define TERM_ERR    stderr
-
-/// [#34] empty the terminal output buffer.
-#define update_terminal() fflush(TERM_OUT)
-/// [#34] clear the terminal input buffer.
-/// xref: 330(#clearforerrorprompt), 530(#promptfilename).
-#define clear_terminal()
-
-/** @}*/ // end group S25x37_P13x18
-
-
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
 #define BIG_CHARNODE

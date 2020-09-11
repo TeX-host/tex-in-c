@@ -6,6 +6,7 @@
 #include "funcs.h"  // [export]
 #include "global.h" // [var] buffer, last, first, name_of_file
 #include "global_const.h" // [macro] update_terminal
+#include "io.h"           // [macro] TERM_ERR
 
 static char my_buff[256];
 
