@@ -1,6 +1,5 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
-#include "texmac.h"
 #include "texmath.h"
 #include "global.h"
 #include "scan.h"
@@ -9,6 +8,7 @@
 #include "fonts.h"
 #include "print.h"
 #include "error.h"
+#include "fonts.h"
 #include "pack.h"
 
 

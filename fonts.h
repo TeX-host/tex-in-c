@@ -41,6 +41,32 @@ enum TFMParamVal {
 #define skipbyte(x)     x.b0
 #define nextchar(x)     x.b1
 
+/*
+/// [p203#554]
+#define charexists(x)  ((x).b0>MIN_QUARTER_WORD)
+#define chartag(x)  ((qo((x).b2)) % 4)
+*/
+
+/// [p203#554]
+#define heightdepth(x)      qo(x.b1)
+
+/// [p204#557] beginning of lig/kern program
+#define ligkernstart(x, y) (ligkernbase[(x)] + rembyte(y))
+/// [p204#557]
+#define ligkernrestart(x, y) \
+    (ligkernbase[(x)] + opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
+// #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte)
+
+/// [p204#558]
+#define param(x, y)    (fontinfo[(x) + parambase[y]].sc)
+#define slant(x)        param(SLANT_CODE,x) /* slant to the right, per unit distance upward}*/
+#define space(x)        param(SPACE_CODE,x) /* NORMAL space between words}*/
+#define spacestretch(x) param(SPACE_STRETCH_CODE,x) /* stretch between words}*/
+#define spaceshrink(x)  param(SPACE_SHRINK_CODE,x) /* shrink between words}*/
+#define xheight(x)      param(X_HEIGHT_CODE,x) /* one ex}*/
+#define quad(x)         param(QUAD_CODE,x) /* one em}*/
+#define extraspace(x)   param(EXTRA_SPACE_CODE,x) /* additional space at end of sentence}*/
+
 /// [p199#564]
 #define exttop(x)   x.b0 /* |top| piece in a recipe */
 #define extmid(x)   x.b1 /* |mid| piece in a recipe */

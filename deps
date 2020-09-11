@@ -62,5 +62,5 @@ mem.o: mem.c lexer.h tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h error.h eqtb.h texmath.h \
  print.h
 pack.o: pack.c tex.h tex_types.h tex_constant.h box.h str.h \
- global_const.h texmac.h mem.h global.h scan.h lexer.h texmath.h eqtb.h \
- fonts.h print.h error.h pack.h
+ global_const.h texmath.h global.h scan.h lexer.h eqtb.h mem.h fonts.h \
+ print.h texmac.h error.h pack.h
