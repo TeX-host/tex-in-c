@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: mmode.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.20 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('mmode_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">mmode.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="tex_8h_source.html">tex.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mem_8h_source.html">mem.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="pack_8h_source.html">pack.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print_8h_source.html">print.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texmath_8h_source.html">texmath.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="eqtb_8h_source.html">eqtb.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="macros_8h_source.html">macros.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mmode_8h_source.html">mmode.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+mmode.c 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="mmode_8c__incl.svg" width="888" height="968"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:a0b057506a50af58d1ba1c08a4b19a5d8"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mmode_8c.html#a0b057506a50af58d1ba1c08a4b19a5d8">MU_MULT</a>(yyy)&#160;&#160;&#160;<a class="el" href="group___s99x109___p38x41.html#ga660acb7aecae0e7a286c8387d46eac02">nx_plus_y</a>(n, yyy, <a class="el" href="group___s99x109___p38x41.html#ga96d9687c9a4fddb08d146e72b22df1c9">xn_over_d</a>(yyy, f, 65536L))</td></tr>
+<tr class="separator:a0b057506a50af58d1ba1c08a4b19a5d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gab180dfbcb77d46e944fec1edcd4a96c6">mmode_init</a> ()</td></tr>
+<tr class="memdesc:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#685]  <a href="group___s680x698___p249x257.html#gab180dfbcb77d46e944fec1edcd4a96c6">更多...</a><br /></td></tr>
+<tr class="separator:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ba30aeca9ae96d5051024fb3225ee85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga1ba30aeca9ae96d5051024fb3225ee85">newnoad</a> (void)</td></tr>
+<tr class="separator:ga1ba30aeca9ae96d5051024fb3225ee85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae03be604bae3bfa05e6386821ce4395e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gae03be604bae3bfa05e6386821ce4395e">newstyle</a> (<a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s)</td></tr>
+<tr class="separator:gae03be604bae3bfa05e6386821ce4395e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabf1bd8f7285c90aa6bf33d6a4d78ae81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gabf1bd8f7285c90aa6bf33d6a4d78ae81">newchoice</a> (void)</td></tr>
+<tr class="separator:gabf1bd8f7285c90aa6bf33d6a4d78ae81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d5a1c193b63728de3fe783df594e472"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472">printfamandchar</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p)</td></tr>
+<tr class="memdesc:ga6d5a1c193b63728de3fe783df594e472"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#691] prints family and character.  <a href="group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472">更多...</a><br /></td></tr>
+<tr class="separator:ga6d5a1c193b63728de3fe783df594e472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf199c2675a50d8b5c91143d0de0c3260"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gaf199c2675a50d8b5c91143d0de0c3260">printdelimiter</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p)</td></tr>
+<tr class="memdesc:gaf199c2675a50d8b5c91143d0de0c3260"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#691] prints a delimiter as 24-bit hex value.  <a href="group___s680x698___p249x257.html#gaf199c2675a50d8b5c91143d0de0c3260">更多...</a><br /></td></tr>
+<tr class="separator:gaf199c2675a50d8b5c91143d0de0c3260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b3a467ad546caa2877127fee5d1194a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a">printsubsidiarydata</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> c)</td></tr>
+<tr class="memdesc:ga8b3a467ad546caa2877127fee5d1194a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#692] display a noad field.  <a href="group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a">更多...</a><br /></td></tr>
+<tr class="separator:ga8b3a467ad546caa2877127fee5d1194a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a96b738fe42ca12c27ab45665093a35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga7a96b738fe42ca12c27ab45665093a35">showinfo</a> (void)</td></tr>
+<tr class="separator:ga7a96b738fe42ca12c27ab45665093a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630">printstyle</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> c)</td></tr>
+<tr class="memdesc:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#694]  <a href="group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630">更多...</a><br /></td></tr>
+<tr class="separator:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6524890525fff5a8d5fdcb97d3416173"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga6524890525fff5a8d5fdcb97d3416173">fractionrule</a> (long t)</td></tr>
+<tr class="separator:ga6524890525fff5a8d5fdcb97d3416173"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga887a02316ae03ab0e5ac2ebd2b79d51b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga887a02316ae03ab0e5ac2ebd2b79d51b">overbar</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, long k, long t)</td></tr>
+<tr class="separator:ga887a02316ae03ab0e5ac2ebd2b79d51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91ad65eefa42891bb088c4d63539e2fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga91ad65eefa42891bb088c4d63539e2fc">charbox</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:ga91ad65eefa42891bb088c4d63539e2fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1867076a4a6438990c6c0dd58402f4d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga1867076a4a6438990c6c0dd58402f4d8">stackintobox</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, <a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:ga1867076a4a6438990c6c0dd58402f4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44f7a019230f48d8f6c7ea44740c0272"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga44f7a019230f48d8f6c7ea44740c0272">heightplusdepth</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> c)</td></tr>
+<tr class="separator:ga44f7a019230f48d8f6c7ea44740c0272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadfe7605c4c1fd916349223522b2e70a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gadfe7605c4c1fd916349223522b2e70a1">vardelimiter</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> d, <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s, long v)</td></tr>
+<tr class="separator:gadfe7605c4c1fd916349223522b2e70a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61d722de4f1715bc4057edac95470437"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga61d722de4f1715bc4057edac95470437">rebox</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> b, long w)</td></tr>
+<tr class="separator:ga61d722de4f1715bc4057edac95470437"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac28f51fdf2080a77703c848b939d27de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#gac28f51fdf2080a77703c848b939d27de">mathglue</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> g, long m)</td></tr>
+<tr class="separator:gac28f51fdf2080a77703c848b939d27de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7371b9153710e7d80541eab2b28d66ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga7371b9153710e7d80541eab2b28d66ef">mathkern</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, long m)</td></tr>
+<tr class="separator:ga7371b9153710e7d80541eab2b28d66ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1772b477ad136aede8aa56b92b4d67ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s699x718___p258x264.html#ga1772b477ad136aede8aa56b92b4d67ef">flushmath</a> (void)</td></tr>
+<tr class="separator:ga1772b477ad136aede8aa56b92b4d67ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga72bf5ea7cf448ecf8d5d49cacb219b94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_two_halves.html">TwoHalves</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga72bf5ea7cf448ecf8d5d49cacb219b94">emptyfield</a></td></tr>
+<tr class="separator:ga72bf5ea7cf448ecf8d5d49cacb219b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaccab201a5aa9ee43d5a5e83759d83e29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_four_quarters.html">FourQuarters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gaccab201a5aa9ee43d5a5e83759d83e29">nulldelimiter</a></td></tr>
+<tr class="separator:gaccab201a5aa9ee43d5a5e83759d83e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="a0b057506a50af58d1ba1c08a4b19a5d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b057506a50af58d1ba1c08a4b19a5d8">&#9670;&nbsp;</a></span>MU_MULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MU_MULT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">yyy</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group___s99x109___p38x41.html#ga660acb7aecae0e7a286c8387d46eac02">nx_plus_y</a>(n, yyy, <a class="el" href="group___s99x109___p38x41.html#ga96d9687c9a4fddb08d146e72b22df1c9">xn_over_d</a>(yyy, f, 65536L))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="mmode_8c.html">mmode.c</a></li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['glueord_3013',['GlueOrd',['../tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa',1,'tex_types.h']]],
-  ['glueratio_3014',['GlueRatio',['../tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90',1,'tex_types.h']]],
-  ['groupcode_3015',['GroupCode',['../tex__types_8h.html#a19c97a39fcf6353b6b420c55366d13d9',1,'tex_types.h']]]
+  ['glueord_3020',['GlueOrd',['../tex__types_8h.html#ad5222c678ee04a51b87796fb24c64afa',1,'tex_types.h']]],
+  ['glueratio_3021',['GlueRatio',['../tex__types_8h.html#a20144c1a3dcaab6ffdf6ad15a15c8f90',1,'tex_types.h']]],
+  ['groupcode_3022',['GroupCode',['../tex__types_8h.html#a19c97a39fcf6353b6b420c55366d13d9',1,'tex_types.h']]]
 ];

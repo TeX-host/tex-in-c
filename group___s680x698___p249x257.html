@@ -92,7 +92,8 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
   <div class="summary">
 <a href="#define-members">宏定义</a> &#124;
 <a href="#enum-members">枚举</a> &#124;
-<a href="#func-members">函数</a>  </div>
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
   <div class="headertitle">
 <div class="title">PART 34: Data structures for math mode</div>  </div>
 </div><!--header-->
@@ -171,8 +172,8 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 <tr class="memitem:ga2ebe27db6e43873d676b6490fc578834"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga2ebe27db6e43873d676b6490fc578834">scriptsallowed</a>(x)&#160;&#160;&#160;((<a class="el" href="group___s133x161___p50x57.html#gab02f51a717c36f9ad88cacd5b39efee4">type</a>(x)&gt;=<a class="el" href="group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3a47f4b899eb911df158301339db580e55">ordnoad</a>)&amp;&amp;(<a class="el" href="group___s133x161___p50x57.html#gab02f51a717c36f9ad88cacd5b39efee4">type</a>(x)&lt;<a class="el" href="group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3a9fc24add2cb945cd2cfd3beb5d4b1099">leftnoad</a>))</td></tr>
 <tr class="memdesc:ga2ebe27db6e43873d676b6490fc578834"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p253#687]  <a href="group___s680x698___p249x257.html#ga2ebe27db6e43873d676b6490fc578834">更多...</a><br /></td></tr>
 <tr class="separator:ga2ebe27db6e43873d676b6490fc578834"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga519cfe64ff566b194ec320e23b05a057"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga519cfe64ff566b194ec320e23b05a057">vpack</a>(x,  y,  z)</td></tr>
-<tr class="memdesc:ga519cfe64ff566b194ec320e23b05a057"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p245#668]  <a href="group___s680x698___p249x257.html#ga519cfe64ff566b194ec320e23b05a057">更多...</a><br /></td></tr>
+<tr class="memitem:ga519cfe64ff566b194ec320e23b05a057"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga519cfe64ff566b194ec320e23b05a057">vpack</a>(x,  y,  z)&#160;&#160;&#160;<a class="el" href="group___s644x679___p239x248.html#ga545b044cb364bef8cc5f90c368edd0f0">vpackage</a>((x), (y), (z), <a class="el" href="group___s402x463___p155x173.html#gad0f1d9074a78d84419a57b2f9f728c25">MAX_DIMEN</a>)</td></tr>
+<tr class="memdesc:ga519cfe64ff566b194ec320e23b05a057"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p245#668] special case of unconstrained depth  <a href="group___s680x698___p249x257.html#ga519cfe64ff566b194ec320e23b05a057">更多...</a><br /></td></tr>
 <tr class="separator:ga519cfe64ff566b194ec320e23b05a057"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5ce6b0cac6782279afb1763cf29a6859"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga5ce6b0cac6782279afb1763cf29a6859">displaymlist</a>(x)&#160;&#160;&#160;<a class="el" href="group___s115x132___p44x49.html#gac52e3942407e01f9b708a8e6689924af">info</a>(x+1) /* mlist to be used in display style}*/</td></tr>
 <tr class="memdesc:ga5ce6b0cac6782279afb1763cf29a6859"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p254#689]  <a href="group___s680x698___p249x257.html#ga5ce6b0cac6782279afb1763cf29a6859">更多...</a><br /></td></tr>
@@ -220,6 +221,15 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 函数</h2></td></tr>
+<tr class="memitem:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gab180dfbcb77d46e944fec1edcd4a96c6">mmode_init</a> ()</td></tr>
+<tr class="memdesc:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#685]  <a href="group___s680x698___p249x257.html#gab180dfbcb77d46e944fec1edcd4a96c6">更多...</a><br /></td></tr>
+<tr class="separator:gab180dfbcb77d46e944fec1edcd4a96c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ba30aeca9ae96d5051024fb3225ee85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga1ba30aeca9ae96d5051024fb3225ee85">newnoad</a> (void)</td></tr>
+<tr class="separator:ga1ba30aeca9ae96d5051024fb3225ee85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae03be604bae3bfa05e6386821ce4395e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gae03be604bae3bfa05e6386821ce4395e">newstyle</a> (<a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s)</td></tr>
+<tr class="separator:gae03be604bae3bfa05e6386821ce4395e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabf1bd8f7285c90aa6bf33d6a4d78ae81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gabf1bd8f7285c90aa6bf33d6a4d78ae81">newchoice</a> (void)</td></tr>
+<tr class="separator:gabf1bd8f7285c90aa6bf33d6a4d78ae81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6d5a1c193b63728de3fe783df594e472"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472">printfamandchar</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p)</td></tr>
 <tr class="memdesc:ga6d5a1c193b63728de3fe783df594e472"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#691] prints family and character.  <a href="group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472">更多...</a><br /></td></tr>
 <tr class="separator:ga6d5a1c193b63728de3fe783df594e472"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,17 +239,18 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 <tr class="memitem:ga8b3a467ad546caa2877127fee5d1194a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a">printsubsidiarydata</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> c)</td></tr>
 <tr class="memdesc:ga8b3a467ad546caa2877127fee5d1194a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#692] display a noad field.  <a href="group___s680x698___p249x257.html#ga8b3a467ad546caa2877127fee5d1194a">更多...</a><br /></td></tr>
 <tr class="separator:ga8b3a467ad546caa2877127fee5d1194a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a96b738fe42ca12c27ab45665093a35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga7a96b738fe42ca12c27ab45665093a35">showinfo</a> (void)</td></tr>
+<tr class="separator:ga7a96b738fe42ca12c27ab45665093a35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630">printstyle</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> c)</td></tr>
 <tr class="memdesc:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#694]  <a href="group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630">更多...</a><br /></td></tr>
 <tr class="separator:ga8dfa3f92795d4be570c3e7a3c20a3630"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9f3cc24569ad60f4ab46a40dbe9b4e26"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga9f3cc24569ad60f4ab46a40dbe9b4e26">newnoad</a> (void)</td></tr>
-<tr class="separator:ga9f3cc24569ad60f4ab46a40dbe9b4e26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga445c92cb079bf936ded2496d834b1681"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga445c92cb079bf936ded2496d834b1681">newstyle</a> (<a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> s)</td></tr>
-<tr class="separator:ga445c92cb079bf936ded2496d834b1681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacb96c8504a920fa3beb3701726b66a00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gacb96c8504a920fa3beb3701726b66a00">newchoice</a> (void)</td></tr>
-<tr class="separator:gacb96c8504a920fa3beb3701726b66a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9780172569f06f6a6f9404d8f49b33a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga9780172569f06f6a6f9404d8f49b33a6">showinfo</a> (void)</td></tr>
-<tr class="separator:ga9780172569f06f6a6f9404d8f49b33a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:ga72bf5ea7cf448ecf8d5d49cacb219b94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_two_halves.html">TwoHalves</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#ga72bf5ea7cf448ecf8d5d49cacb219b94">emptyfield</a></td></tr>
+<tr class="separator:ga72bf5ea7cf448ecf8d5d49cacb219b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaccab201a5aa9ee43d5a5e83759d83e29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_four_quarters.html">FourQuarters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s680x698___p249x257.html#gaccab201a5aa9ee43d5a5e83759d83e29">nulldelimiter</a></td></tr>
+<tr class="separator:gaccab201a5aa9ee43d5a5e83759d83e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <h2 class="groupheader">宏定义说明</h2>
@@ -808,14 +819,12 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="group___s644x679___p239x248.html#ga545b044cb364bef8cc5f90c368edd0f0">vpackage</a>((x), (y), (z), <a class="el" href="group___s402x463___p155x173.html#gad0f1d9074a78d84419a57b2f9f728c25">MAX_DIMEN</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>值:</b><div class="fragment"><div class="line">    <a class="code" href="group___s644x679___p239x248.html#gad0312e46a4d99056965a8012a24387e3">vpackage</a>((x), (y), (z), <a class="code" href="group___s402x463___p155x173.html#gad0f1d9074a78d84419a57b2f9f728c25">MAX_DIMEN</a>) <span class="comment">/* special case of unconstrained \</span></div>
-<div class="line"><span class="comment">                                          depth}*/</span></div>
-</div><!-- fragment -->
-<p>[p245#668] </p>
+
+<p>[p245#668] special case of unconstrained depth </p>
 
 </div>
 </div>
@@ -898,14 +907,33 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 </div>
 </div>
 <h2 class="groupheader">函数说明</h2>
-<a id="gacb96c8504a920fa3beb3701726b66a00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacb96c8504a920fa3beb3701726b66a00">&#9670;&nbsp;</a></span>newchoice()</h2>
+<a id="gab180dfbcb77d46e944fec1edcd4a96c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab180dfbcb77d46e944fec1edcd4a96c6">&#9670;&nbsp;</a></span>mmode_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newchoice </td>
+          <td class="memname">void mmode_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[#685] </p>
+
+</div>
+</div>
+<a id="gabf1bd8f7285c90aa6bf33d6a4d78ae81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabf1bd8f7285c90aa6bf33d6a4d78ae81">&#9670;&nbsp;</a></span>newchoice()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newchoice </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -916,14 +944,14 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 
 </div>
 </div>
-<a id="ga9f3cc24569ad60f4ab46a40dbe9b4e26"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9f3cc24569ad60f4ab46a40dbe9b4e26">&#9670;&nbsp;</a></span>newnoad()</h2>
+<a id="ga1ba30aeca9ae96d5051024fb3225ee85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ba30aeca9ae96d5051024fb3225ee85">&#9670;&nbsp;</a></span>newnoad()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newnoad </td>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newnoad </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -934,14 +962,14 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 
 </div>
 </div>
-<a id="ga445c92cb079bf936ded2496d834b1681"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga445c92cb079bf936ded2496d834b1681">&#9670;&nbsp;</a></span>newstyle()</h2>
+<a id="gae03be604bae3bfa05e6386821ce4395e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae03be604bae3bfa05e6386821ce4395e">&#9670;&nbsp;</a></span>newstyle()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newstyle </td>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> newstyle </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a>&#160;</td>
           <td class="paramname"><em>s</em></td><td>)</td>
@@ -1042,14 +1070,14 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 
 </div>
 </div>
-<a id="ga9780172569f06f6a6f9404d8f49b33a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9780172569f06f6a6f9404d8f49b33a6">&#9670;&nbsp;</a></span>showinfo()</h2>
+<a id="ga7a96b738fe42ca12c27ab45665093a35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7a96b738fe42ca12c27ab45665093a35">&#9670;&nbsp;</a></span>showinfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> void showinfo </td>
+          <td class="memname">void showinfo </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1060,10 +1088,37 @@ $(document).ready(function(){initNavTree('group___s680x698___p249x257.html','');
 
 </div>
 </div>
+<h2 class="groupheader">变量说明</h2>
+<a id="ga72bf5ea7cf448ecf8d5d49cacb219b94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga72bf5ea7cf448ecf8d5d49cacb219b94">&#9670;&nbsp;</a></span>emptyfield</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_two_halves.html">TwoHalves</a> emptyfield</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaccab201a5aa9ee43d5a5e83759d83e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaccab201a5aa9ee43d5a5e83759d83e29">&#9670;&nbsp;</a></span>nulldelimiter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_four_quarters.html">FourQuarters</a> nulldelimiter</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="agroup___s402x463___p155x173_html_gad0f1d9074a78d84419a57b2f9f728c25"><div class="ttname"><a href="group___s402x463___p155x173.html#gad0f1d9074a78d84419a57b2f9f728c25">MAX_DIMEN</a></div><div class="ttdeci">#define MAX_DIMEN</div><div class="ttdoc">[#421]</div><div class="ttdef"><b>Definition:</b> scan.h:30</div></div>
-<div class="ttc" id="agroup___s644x679___p239x248_html_gad0312e46a4d99056965a8012a24387e3"><div class="ttname"><a href="group___s644x679___p239x248.html#gad0312e46a4d99056965a8012a24387e3">vpackage</a></div><div class="ttdeci">Static HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l)</div><div class="ttdef"><b>Definition:</b> tex.c:1462</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

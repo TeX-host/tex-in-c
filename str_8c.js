@@ -1,6 +1,7 @@
 var str_8c =
 [
     [ "str_end", "str_8c.html#a076ca789d28c275673095668fa4b2924", null ],
+    [ "app_lc_hex", "group___s38x53___p19x23.html#gaa8eea219ebd3aab316362c8eae52aded", null ],
     [ "append_char", "group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855", null ],
     [ "cur_length", "group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a", null ],
     [ "f_pool", "str_8c.html#aa7e58a9bf00c0ed3182f0bece08825ec", null ],
@@ -25,6 +26,7 @@ var str_8c =
     [ "str_map", "str_8c.html#a9a94c3e464bd8f7359fb77899e62e7c6", null ],
     [ "str_map_from_mark", "str_8c.html#a926d70d28b0e665e6ee69da92d90fb9e", null ],
     [ "str_mark", "str_8c.html#a358f9645bda7e23c32106052a2dd27bd", null ],
+    [ "str_pool_init", "group___s38x53___p19x23.html#gac945bcea037ecf2b7b01bfe65a98a9df", null ],
     [ "str_print", "str_8c.html#a72f0f470fafde698340558f9e2401450", null ],
     [ "str_print_stats", "str_8c.html#a37d01718ce3c3b67e52b35d42a8a1614", null ],
     [ "str_room", "group___s38x53___p19x23.html#ga7a2999ae21371a5ddba7edfd27383027", null ],

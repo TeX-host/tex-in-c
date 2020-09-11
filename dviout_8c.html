@@ -100,7 +100,8 @@ $(document).ready(function(){initNavTree('dviout_8c.html',''); initResizable(); 
 <div class="title">dviout.c 文件参考</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;math.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="tex_8h_source.html">tex.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="str_8h_source.html">str.h</a>&quot;</code><br />
@@ -108,11 +109,16 @@ $(document).ready(function(){initNavTree('dviout_8c.html',''); initResizable(); 
 <code>#include &quot;<a class="el" href="dvicmd_8h_source.html">dvicmd.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="global__const_8h_source.html">global_const.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="io_8h_source.html">io.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="eqtb_8h_source.html">eqtb.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mem_8h_source.html">mem.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print_8h_source.html">print.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texfunc_8h_source.html">texfunc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8h_source.html">error.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="dviout_8h_source.html">dviout.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 dviout.c 的引用(Include)关系图:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="dviout_8c__incl.svg" width="759" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="dviout_8c__incl.svg" width="1220" height="968"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -123,1322 +129,197 @@ dviout.c 的引用(Include)关系图:</div>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 宏定义</h2></td></tr>
-<tr class="memitem:afb3730cc4d3cb24974fc9d2b2274679c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#afb3730cc4d3cb24974fc9d2b2274679c">ID_BYTE</a>&#160;&#160;&#160;2</td></tr>
-<tr class="memdesc:afb3730cc4d3cb24974fc9d2b2274679c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#587]: identifies the kind of DVI files described here  <a href="dviout_8c.html#afb3730cc4d3cb24974fc9d2b2274679c">更多...</a><br /></td></tr>
-<tr class="separator:afb3730cc4d3cb24974fc9d2b2274679c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a0e1f1ae65ac0bdd5c5dd775c3f273efa">MOVEMENT_NODE_SIZE</a>&#160;&#160;&#160;3</td></tr>
-<tr class="memdesc:a0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#605]: number of words per entry in the down and right stacks  <a href="dviout_8c.html#a0e1f1ae65ac0bdd5c5dd775c3f273efa">更多...</a><br /></td></tr>
-<tr class="separator:a0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd7e15569ff668c0be3846a24aced1f7"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#afd7e15569ff668c0be3846a24aced1f7">LOCATION</a>(x)&#160;&#160;&#160;((x)-&gt;locationf)</td></tr>
-<tr class="memdesc:afd7e15569ff668c0be3846a24aced1f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">DVI byte number for a movement command  <a href="dviout_8c.html#afd7e15569ff668c0be3846a24aced1f7">更多...</a><br /></td></tr>
-<tr class="separator:afd7e15569ff668c0be3846a24aced1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9978c9be0f4161638ec49b4eda697d42"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a9978c9be0f4161638ec49b4eda697d42">WIDTH</a>(x)&#160;&#160;&#160;((x)-&gt;widthf)</td></tr>
-<tr class="separator:a9978c9be0f4161638ec49b4eda697d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00aa9190ed7fe4d4d6d922875e45414a"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a00aa9190ed7fe4d4d6d922875e45414a">LINK</a>(x)&#160;&#160;&#160;((x)-&gt;linkf)</td></tr>
-<tr class="separator:a00aa9190ed7fe4d4d6d922875e45414a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7e64333eba48090f444ec9f36fd23ef"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ab7e64333eba48090f444ec9f36fd23ef">INFO</a>(x)&#160;&#160;&#160;((x)-&gt;infof)</td></tr>
-<tr class="separator:ab7e64333eba48090f444ec9f36fd23ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa528c48a3474cb1bdb282816f7826598"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aa528c48a3474cb1bdb282816f7826598">FREE_NODE</a>(x,  y)&#160;&#160;&#160;free(x)</td></tr>
-<tr class="separator:aa528c48a3474cb1bdb282816f7826598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafb3730cc4d3cb24974fc9d2b2274679c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gafb3730cc4d3cb24974fc9d2b2274679c">ID_BYTE</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:gafb3730cc4d3cb24974fc9d2b2274679c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#587]: identifies the kind of DVI files described here  <a href="group___s592x643___p220x238.html#gafb3730cc4d3cb24974fc9d2b2274679c">更多...</a><br /></td></tr>
+<tr class="separator:gafb3730cc4d3cb24974fc9d2b2274679c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0e1f1ae65ac0bdd5c5dd775c3f273efa">MOVEMENT_NODE_SIZE</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memdesc:ga0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#605]: number of words per entry in the down and right stacks  <a href="group___s592x643___p220x238.html#ga0e1f1ae65ac0bdd5c5dd775c3f273efa">更多...</a><br /></td></tr>
+<tr class="separator:ga0e1f1ae65ac0bdd5c5dd775c3f273efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafd7e15569ff668c0be3846a24aced1f7"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gafd7e15569ff668c0be3846a24aced1f7">LOCATION</a>(x)&#160;&#160;&#160;((x)-&gt;locationf)</td></tr>
+<tr class="memdesc:gafd7e15569ff668c0be3846a24aced1f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">DVI byte number for a movement command  <a href="group___s592x643___p220x238.html#gafd7e15569ff668c0be3846a24aced1f7">更多...</a><br /></td></tr>
+<tr class="separator:gafd7e15569ff668c0be3846a24aced1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9978c9be0f4161638ec49b4eda697d42"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga9978c9be0f4161638ec49b4eda697d42">WIDTH</a>(x)&#160;&#160;&#160;((x)-&gt;widthf)</td></tr>
+<tr class="separator:ga9978c9be0f4161638ec49b4eda697d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga00aa9190ed7fe4d4d6d922875e45414a"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga00aa9190ed7fe4d4d6d922875e45414a">LINK</a>(x)&#160;&#160;&#160;((x)-&gt;linkf)</td></tr>
+<tr class="separator:ga00aa9190ed7fe4d4d6d922875e45414a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7e64333eba48090f444ec9f36fd23ef"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gab7e64333eba48090f444ec9f36fd23ef">INFO</a>(x)&#160;&#160;&#160;((x)-&gt;infof)</td></tr>
+<tr class="separator:gab7e64333eba48090f444ec9f36fd23ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa528c48a3474cb1bdb282816f7826598"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaa528c48a3474cb1bdb282816f7826598">FREE_NODE</a>(x,  y)&#160;&#160;&#160;free(x)</td></tr>
+<tr class="separator:gaa528c48a3474cb1bdb282816f7826598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 类型定义</h2></td></tr>
-<tr class="memitem:a0f35cbc1f4c81ec461383c8d549c0b16"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a></td></tr>
-<tr class="memdesc:a0f35cbc1f4c81ec461383c8d549c0b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#594]: an index into the output buffer.  <a href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">更多...</a><br /></td></tr>
-<tr class="separator:a0f35cbc1f4c81ec461383c8d549c0b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f35cbc1f4c81ec461383c8d549c0b16"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a></td></tr>
+<tr class="memdesc:ga0f35cbc1f4c81ec461383c8d549c0b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#594]: an index into the output buffer.  <a href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">更多...</a><br /></td></tr>
+<tr class="separator:ga0f35cbc1f4c81ec461383c8d549c0b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 枚举</h2></td></tr>
-<tr class="memitem:a81579d54c33287da8dfbbc424316db9c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9c">DVISetting</a> { <br />
-&#160;&#160;<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9ca4c9de1c1d6074f604d6690a5cef568cf">Y_HERE</a> = 1, 
-<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9ca4fdcc8d6aa9e9172d6d72efa083f3814">Z_HERE</a>, 
-<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9ca675d8288053a406dee73d000d6c47016">YZ_OK</a>, 
-<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9ca08faba1eb1dabf6cc9f51e855a528695">Y_OK</a>, 
+<tr class="memitem:ga81579d54c33287da8dfbbc424316db9c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga81579d54c33287da8dfbbc424316db9c">DVISetting</a> { <br />
+&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4c9de1c1d6074f604d6690a5cef568cf">Y_HERE</a> = 1, 
+<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4fdcc8d6aa9e9172d6d72efa083f3814">Z_HERE</a>, 
+<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca675d8288053a406dee73d000d6c47016">YZ_OK</a>, 
+<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca08faba1eb1dabf6cc9f51e855a528695">Y_OK</a>, 
 <br />
-&#160;&#160;<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9cac205528b8f025b1232f7c3fb6ddaf354">Z_OK</a>, 
-<a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9ca91f33a3c062ca048301c7251e6a57d4e">D_FIXED</a>
+&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9cac205528b8f025b1232f7c3fb6ddaf354">Z_OK</a>, 
+<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca91f33a3c062ca048301c7251e6a57d4e">D_FIXED</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a81579d54c33287da8dfbbc424316db9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">p224#608  <a href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9c">更多...</a><br /></td></tr>
-<tr class="separator:a81579d54c33287da8dfbbc424316db9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2f66c8832d815fe00002d74e568a4e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4">StackState</a> { <a class="el" href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4ae898a538a934415fd240487f18c38932">NONE_SEEN</a> = 0, 
-<a class="el" href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4ab0aa39c09b2f3521b296d88ccc4ebb94">Y_SEEN</a> = 6, 
-<a class="el" href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb">Z_SEEN</a> = 12
+<tr class="memdesc:ga81579d54c33287da8dfbbc424316db9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">p224#608  <a href="group___s592x643___p220x238.html#ga81579d54c33287da8dfbbc424316db9c">更多...</a><br /></td></tr>
+<tr class="separator:ga81579d54c33287da8dfbbc424316db9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad2f66c8832d815fe00002d74e568a4e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gad2f66c8832d815fe00002d74e568a4e4">StackState</a> { <a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ae898a538a934415fd240487f18c38932">NONE_SEEN</a> = 0, 
+<a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ab0aa39c09b2f3521b296d88ccc4ebb94">Y_SEEN</a> = 6, 
+<a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb">Z_SEEN</a> = 12
  }</td></tr>
-<tr class="memdesc:ad2f66c8832d815fe00002d74e568a4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">P226#611  <a href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4">更多...</a><br /></td></tr>
-<tr class="separator:ad2f66c8832d815fe00002d74e568a4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:gad2f66c8832d815fe00002d74e568a4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">P226#611  <a href="group___s592x643___p220x238.html#gad2f66c8832d815fe00002d74e568a4e4">更多...</a><br /></td></tr>
+<tr class="separator:gad2f66c8832d815fe00002d74e568a4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 函数</h2></td></tr>
-<tr class="memitem:a230144ba4c2a56318721e4e298bd3987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a230144ba4c2a56318721e4e298bd3987">dviout_init</a> (void)</td></tr>
-<tr class="memdesc:a230144ba4c2a56318721e4e298bd3987"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化 dviout 内部变量  <a href="dviout_8c.html#a230144ba4c2a56318721e4e298bd3987">更多...</a><br /></td></tr>
-<tr class="separator:a230144ba4c2a56318721e4e298bd3987"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef941cb996b7d4f99f717f79584bd287"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aef941cb996b7d4f99f717f79584bd287">write_dvi</a> (<a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> a, <a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> b)</td></tr>
-<tr class="memdesc:aef941cb996b7d4f99f717f79584bd287"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#597]: The actual output of dvi_buf[a，b] to dvi file.  <a href="dviout_8c.html#aef941cb996b7d4f99f717f79584bd287">更多...</a><br /></td></tr>
-<tr class="separator:aef941cb996b7d4f99f717f79584bd287"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa208d9c18cca23f0dc8816a0eee6479f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aa208d9c18cca23f0dc8816a0eee6479f">dvi_swap</a> (void)</td></tr>
-<tr class="memdesc:aa208d9c18cca23f0dc8816a0eee6479f"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#598]: outputs half of the buffer.  <a href="dviout_8c.html#aa208d9c18cca23f0dc8816a0eee6479f">更多...</a><br /></td></tr>
-<tr class="separator:aa208d9c18cca23f0dc8816a0eee6479f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6a11ea7715b0bb1552548f8a0fa615e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#af6a11ea7715b0bb1552548f8a0fa615e">dviout</a> (int x)</td></tr>
-<tr class="memdesc:af6a11ea7715b0bb1552548f8a0fa615e"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#598]  <a href="dviout_8c.html#af6a11ea7715b0bb1552548f8a0fa615e">更多...</a><br /></td></tr>
-<tr class="separator:af6a11ea7715b0bb1552548f8a0fa615e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85e142366e0344dab160b89a36ed2c8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a85e142366e0344dab160b89a36ed2c8c">dvi_four</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> x)</td></tr>
-<tr class="memdesc:a85e142366e0344dab160b89a36ed2c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#600]: outputs four bytes in two’s complement notation, without risking arithmetic overflow.  <a href="dviout_8c.html#a85e142366e0344dab160b89a36ed2c8c">更多...</a><br /></td></tr>
-<tr class="separator:a85e142366e0344dab160b89a36ed2c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39d5b9a39d8201a5692576d16c2674ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a39d5b9a39d8201a5692576d16c2674ba">dvi_pop</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
-<tr class="memdesc:a39d5b9a39d8201a5692576d16c2674ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#601]  <a href="dviout_8c.html#a39d5b9a39d8201a5692576d16c2674ba">更多...</a><br /></td></tr>
-<tr class="separator:a39d5b9a39d8201a5692576d16c2674ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0384bdc3a11b7b427fd8f00d386abb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ae0384bdc3a11b7b427fd8f00d386abb5">dviout_helper</a> (<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> c)</td></tr>
-<tr class="separator:ae0384bdc3a11b7b427fd8f00d386abb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d4c09eed90e56fd4cce1caf0252aadd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a7d4c09eed90e56fd4cce1caf0252aadd">dvi_font_def</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f)</td></tr>
-<tr class="memdesc:a7d4c09eed90e56fd4cce1caf0252aadd"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#602]  <a href="dviout_8c.html#a7d4c09eed90e56fd4cce1caf0252aadd">更多...</a><br /></td></tr>
-<tr class="separator:a7d4c09eed90e56fd4cce1caf0252aadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44a62d0ed1b6e2ea68fd61833d42e032"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a44a62d0ed1b6e2ea68fd61833d42e032">get_move_node</a> (void)</td></tr>
-<tr class="separator:a44a62d0ed1b6e2ea68fd61833d42e032"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67d037a2a6bda672bfc005c10ec136b1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a67d037a2a6bda672bfc005c10ec136b1">movement</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> w, enum <a class="el" href="dvicmd_8h.html#adb2ac0a75ecceef923d0d0ae794f93e6">DVICommands</a> dvicmd)</td></tr>
-<tr class="memdesc:a67d037a2a6bda672bfc005c10ec136b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p224#607] produces a DVI command for some specified downward or rightward motion.  <a href="dviout_8c.html#a67d037a2a6bda672bfc005c10ec136b1">更多...</a><br /></td></tr>
-<tr class="separator:a67d037a2a6bda672bfc005c10ec136b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a222f9ed360dd5146bf03999793218519"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a222f9ed360dd5146bf03999793218519">prune_movements</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
-<tr class="memdesc:a222f9ed360dd5146bf03999793218519"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p227#615]: delete movement nodes with LOCATION ≥ l.  <a href="dviout_8c.html#a222f9ed360dd5146bf03999793218519">更多...</a><br /></td></tr>
-<tr class="separator:a222f9ed360dd5146bf03999793218519"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a572f0c49a8e91a2d400d74f52e5c0ef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a572f0c49a8e91a2d400d74f52e5c0ef3">synch_h</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_h, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_h)</td></tr>
-<tr class="memdesc:a572f0c49a8e91a2d400d74f52e5c0ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#616] 返回 cur_h 在 <a class="el" href="tex_8c.html">tex.c</a> 中通过赋值更新 dvi_h.  <a href="dviout_8c.html#a572f0c49a8e91a2d400d74f52e5c0ef3">更多...</a><br /></td></tr>
-<tr class="separator:a572f0c49a8e91a2d400d74f52e5c0ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1f8e357a378f50f78272fbd967824a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ae1f8e357a378f50f78272fbd967824a6">synch_v</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_v, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_v)</td></tr>
-<tr class="separator:ae1f8e357a378f50f78272fbd967824a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62fd7619dde4e0823e7d6fbb0a2742b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a62fd7619dde4e0823e7d6fbb0a2742b3">dviout_ID_BYTE</a> (void)</td></tr>
-<tr class="separator:a62fd7619dde4e0823e7d6fbb0a2742b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8cac9a46577e2188fb0e31a01ea52a7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a8cac9a46577e2188fb0e31a01ea52a7b">dviout_SET_RULE</a> (void)</td></tr>
-<tr class="separator:a8cac9a46577e2188fb0e31a01ea52a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8529555b9b56ba27c60a310061e8b700"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a8529555b9b56ba27c60a310061e8b700">dviout_PUT_RULE</a> (void)</td></tr>
-<tr class="separator:a8529555b9b56ba27c60a310061e8b700"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a505f6d5555baeecbe63b239b32d6b458"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a505f6d5555baeecbe63b239b32d6b458">dviout_EOP</a> (void)</td></tr>
-<tr class="separator:a505f6d5555baeecbe63b239b32d6b458"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa51394b85f1cd6969deb6167dd48e493"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aa51394b85f1cd6969deb6167dd48e493">dviout_PUSH</a> (void)</td></tr>
-<tr class="separator:aa51394b85f1cd6969deb6167dd48e493"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac63d30d53eed743ff75080e426ee185f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ac63d30d53eed743ff75080e426ee185f">dviout_POP</a> (void)</td></tr>
-<tr class="separator:ac63d30d53eed743ff75080e426ee185f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a995c6055b53512676f743a6b1ccb0ef6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a995c6055b53512676f743a6b1ccb0ef6">dviout_PRE</a> (void)</td></tr>
-<tr class="separator:a995c6055b53512676f743a6b1ccb0ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c98c20bfe37c6f7e9ddecc73a0fd993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a0c98c20bfe37c6f7e9ddecc73a0fd993">dviout_POST</a> (void)</td></tr>
-<tr class="separator:a0c98c20bfe37c6f7e9ddecc73a0fd993"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76649a0a78a9f52e1348c336a51fc9f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a76649a0a78a9f52e1348c336a51fc9f1">dviout_XXX1</a> (void)</td></tr>
-<tr class="separator:a76649a0a78a9f52e1348c336a51fc9f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac57748975ed2a1f89d94b1f677374f0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ac57748975ed2a1f89d94b1f677374f0c">dviout_XXX4</a> (void)</td></tr>
-<tr class="separator:ac57748975ed2a1f89d94b1f677374f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0eb279c5e583f9455ae8faf51422fb8"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#af0eb279c5e583f9455ae8faf51422fb8">get_dvi_mark</a> (void)</td></tr>
-<tr class="separator:af0eb279c5e583f9455ae8faf51422fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a165559d2a5c3f9cf509f53bfafe6e917"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a165559d2a5c3f9cf509f53bfafe6e917">dvi_openout</a> (void)</td></tr>
-<tr class="separator:a165559d2a5c3f9cf509f53bfafe6e917"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab043719c412e39d11e805cc720fd45ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ab043719c412e39d11e805cc720fd45ad">_dvibop</a> (long counts[])</td></tr>
-<tr class="memdesc:ab043719c412e39d11e805cc720fd45ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">used in [p236#638]: shipout  <a href="dviout_8c.html#ab043719c412e39d11e805cc720fd45ad">更多...</a><br /></td></tr>
-<tr class="separator:ab043719c412e39d11e805cc720fd45ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9296e21fea6252b2d1c9c392e227ad3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ad9296e21fea6252b2d1c9c392e227ad3">_dvi_lastbop</a> (void)</td></tr>
-<tr class="separator:ad9296e21fea6252b2d1c9c392e227ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcaf486c888c27458cc367a8291cab94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#adcaf486c888c27458cc367a8291cab94">dvi_set_font</a> (int f)</td></tr>
-<tr class="separator:adcaf486c888c27458cc367a8291cab94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee9c823da531a1f5120c5ec253840f52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aee9c823da531a1f5120c5ec253840f52">dvi_set_char</a> (long c)</td></tr>
-<tr class="separator:aee9c823da531a1f5120c5ec253840f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a787d42f7be761d2818506ccd51c85395"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a787d42f7be761d2818506ccd51c85395">dviflush</a> (void)</td></tr>
-<tr class="separator:a787d42f7be761d2818506ccd51c85395"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga230144ba4c2a56318721e4e298bd3987"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga230144ba4c2a56318721e4e298bd3987">dviout_init</a> (void)</td></tr>
+<tr class="memdesc:ga230144ba4c2a56318721e4e298bd3987"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#593, 596, 606] 初始化 dviout 内部变量  <a href="group___s592x643___p220x238.html#ga230144ba4c2a56318721e4e298bd3987">更多...</a><br /></td></tr>
+<tr class="separator:ga230144ba4c2a56318721e4e298bd3987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef941cb996b7d4f99f717f79584bd287"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaef941cb996b7d4f99f717f79584bd287">write_dvi</a> (<a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> a, <a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> b)</td></tr>
+<tr class="memdesc:gaef941cb996b7d4f99f717f79584bd287"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#597]: The actual output of dvi_buf[a，b] to dvi file.  <a href="group___s592x643___p220x238.html#gaef941cb996b7d4f99f717f79584bd287">更多...</a><br /></td></tr>
+<tr class="separator:gaef941cb996b7d4f99f717f79584bd287"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa208d9c18cca23f0dc8816a0eee6479f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaa208d9c18cca23f0dc8816a0eee6479f">dvi_swap</a> (void)</td></tr>
+<tr class="memdesc:gaa208d9c18cca23f0dc8816a0eee6479f"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#598]: outputs half of the buffer.  <a href="group___s592x643___p220x238.html#gaa208d9c18cca23f0dc8816a0eee6479f">更多...</a><br /></td></tr>
+<tr class="separator:gaa208d9c18cca23f0dc8816a0eee6479f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6a11ea7715b0bb1552548f8a0fa615e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaf6a11ea7715b0bb1552548f8a0fa615e">dviout</a> (int x)</td></tr>
+<tr class="memdesc:gaf6a11ea7715b0bb1552548f8a0fa615e"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#598]  <a href="group___s592x643___p220x238.html#gaf6a11ea7715b0bb1552548f8a0fa615e">更多...</a><br /></td></tr>
+<tr class="separator:gaf6a11ea7715b0bb1552548f8a0fa615e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85e142366e0344dab160b89a36ed2c8c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga85e142366e0344dab160b89a36ed2c8c">dvi_four</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> x)</td></tr>
+<tr class="memdesc:ga85e142366e0344dab160b89a36ed2c8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#600]: outputs four bytes in two’s complement notation, without risking arithmetic overflow.  <a href="group___s592x643___p220x238.html#ga85e142366e0344dab160b89a36ed2c8c">更多...</a><br /></td></tr>
+<tr class="separator:ga85e142366e0344dab160b89a36ed2c8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga39d5b9a39d8201a5692576d16c2674ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga39d5b9a39d8201a5692576d16c2674ba">dvi_pop</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
+<tr class="memdesc:ga39d5b9a39d8201a5692576d16c2674ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#601]  <a href="group___s592x643___p220x238.html#ga39d5b9a39d8201a5692576d16c2674ba">更多...</a><br /></td></tr>
+<tr class="separator:ga39d5b9a39d8201a5692576d16c2674ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae0384bdc3a11b7b427fd8f00d386abb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gae0384bdc3a11b7b427fd8f00d386abb5">dviout_helper</a> (<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> c)</td></tr>
+<tr class="separator:gae0384bdc3a11b7b427fd8f00d386abb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d4c09eed90e56fd4cce1caf0252aadd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga7d4c09eed90e56fd4cce1caf0252aadd">dvi_font_def</a> (<a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a> f)</td></tr>
+<tr class="memdesc:ga7d4c09eed90e56fd4cce1caf0252aadd"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#602]  <a href="group___s592x643___p220x238.html#ga7d4c09eed90e56fd4cce1caf0252aadd">更多...</a><br /></td></tr>
+<tr class="separator:ga7d4c09eed90e56fd4cce1caf0252aadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44a62d0ed1b6e2ea68fd61833d42e032"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga44a62d0ed1b6e2ea68fd61833d42e032">get_move_node</a> (void)</td></tr>
+<tr class="separator:ga44a62d0ed1b6e2ea68fd61833d42e032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga67d037a2a6bda672bfc005c10ec136b1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga67d037a2a6bda672bfc005c10ec136b1">movement</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> w, enum <a class="el" href="dvicmd_8h.html#adb2ac0a75ecceef923d0d0ae794f93e6">DVICommands</a> dvicmd)</td></tr>
+<tr class="memdesc:ga67d037a2a6bda672bfc005c10ec136b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p224#607] produces a DVI command for some specified downward or rightward motion.  <a href="group___s592x643___p220x238.html#ga67d037a2a6bda672bfc005c10ec136b1">更多...</a><br /></td></tr>
+<tr class="separator:ga67d037a2a6bda672bfc005c10ec136b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga222f9ed360dd5146bf03999793218519"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga222f9ed360dd5146bf03999793218519">prune_movements</a> (<a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
+<tr class="memdesc:ga222f9ed360dd5146bf03999793218519"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p227#615]: delete movement nodes with LOCATION ≥ l.  <a href="group___s592x643___p220x238.html#ga222f9ed360dd5146bf03999793218519">更多...</a><br /></td></tr>
+<tr class="separator:ga222f9ed360dd5146bf03999793218519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga572f0c49a8e91a2d400d74f52e5c0ef3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga572f0c49a8e91a2d400d74f52e5c0ef3">synch_h</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_h, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_h)</td></tr>
+<tr class="memdesc:ga572f0c49a8e91a2d400d74f52e5c0ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#616] 返回 cur_h 在 <a class="el" href="tex_8c.html">tex.c</a> 中通过赋值更新 dvi_h.  <a href="group___s592x643___p220x238.html#ga572f0c49a8e91a2d400d74f52e5c0ef3">更多...</a><br /></td></tr>
+<tr class="separator:ga572f0c49a8e91a2d400d74f52e5c0ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1f8e357a378f50f78272fbd967824a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gae1f8e357a378f50f78272fbd967824a6">synch_v</a> (<a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> cur_v, <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> dvi_v)</td></tr>
+<tr class="separator:gae1f8e357a378f50f78272fbd967824a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ace644ac544d9b67d962f83c7e5ad15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga7ace644ac544d9b67d962f83c7e5ad15">hlistout</a> (void)</td></tr>
+<tr class="separator:ga7ace644ac544d9b67d962f83c7e5ad15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3b7f5977b02df14e04c260d562556897"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga3b7f5977b02df14e04c260d562556897">vlistout</a> (void)</td></tr>
+<tr class="separator:ga3b7f5977b02df14e04c260d562556897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ab0b7eee81be0ecea11163fd82e942c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga4ab0b7eee81be0ecea11163fd82e942c">shipout</a> (<a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> p)</td></tr>
+<tr class="separator:ga4ab0b7eee81be0ecea11163fd82e942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62fd7619dde4e0823e7d6fbb0a2742b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga62fd7619dde4e0823e7d6fbb0a2742b3">dviout_ID_BYTE</a> (void)</td></tr>
+<tr class="separator:ga62fd7619dde4e0823e7d6fbb0a2742b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8cac9a46577e2188fb0e31a01ea52a7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga8cac9a46577e2188fb0e31a01ea52a7b">dviout_SET_RULE</a> (void)</td></tr>
+<tr class="separator:ga8cac9a46577e2188fb0e31a01ea52a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8529555b9b56ba27c60a310061e8b700"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga8529555b9b56ba27c60a310061e8b700">dviout_PUT_RULE</a> (void)</td></tr>
+<tr class="separator:ga8529555b9b56ba27c60a310061e8b700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga505f6d5555baeecbe63b239b32d6b458"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga505f6d5555baeecbe63b239b32d6b458">dviout_EOP</a> (void)</td></tr>
+<tr class="separator:ga505f6d5555baeecbe63b239b32d6b458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa51394b85f1cd6969deb6167dd48e493"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaa51394b85f1cd6969deb6167dd48e493">dviout_PUSH</a> (void)</td></tr>
+<tr class="separator:gaa51394b85f1cd6969deb6167dd48e493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac63d30d53eed743ff75080e426ee185f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gac63d30d53eed743ff75080e426ee185f">dviout_POP</a> (void)</td></tr>
+<tr class="separator:gac63d30d53eed743ff75080e426ee185f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga995c6055b53512676f743a6b1ccb0ef6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga995c6055b53512676f743a6b1ccb0ef6">dviout_PRE</a> (void)</td></tr>
+<tr class="separator:ga995c6055b53512676f743a6b1ccb0ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0c98c20bfe37c6f7e9ddecc73a0fd993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0c98c20bfe37c6f7e9ddecc73a0fd993">dviout_POST</a> (void)</td></tr>
+<tr class="separator:ga0c98c20bfe37c6f7e9ddecc73a0fd993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga76649a0a78a9f52e1348c336a51fc9f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga76649a0a78a9f52e1348c336a51fc9f1">dviout_XXX1</a> (void)</td></tr>
+<tr class="separator:ga76649a0a78a9f52e1348c336a51fc9f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac57748975ed2a1f89d94b1f677374f0c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gac57748975ed2a1f89d94b1f677374f0c">dviout_XXX4</a> (void)</td></tr>
+<tr class="separator:gac57748975ed2a1f89d94b1f677374f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0eb279c5e583f9455ae8faf51422fb8"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaf0eb279c5e583f9455ae8faf51422fb8">get_dvi_mark</a> (void)</td></tr>
+<tr class="separator:gaf0eb279c5e583f9455ae8faf51422fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga165559d2a5c3f9cf509f53bfafe6e917"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga165559d2a5c3f9cf509f53bfafe6e917">dvi_openout</a> (void)</td></tr>
+<tr class="separator:ga165559d2a5c3f9cf509f53bfafe6e917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab043719c412e39d11e805cc720fd45ad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gab043719c412e39d11e805cc720fd45ad">_dvibop</a> (long counts[])</td></tr>
+<tr class="memdesc:gab043719c412e39d11e805cc720fd45ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">used in [p236#638]: shipout  <a href="group___s592x643___p220x238.html#gab043719c412e39d11e805cc720fd45ad">更多...</a><br /></td></tr>
+<tr class="separator:gab043719c412e39d11e805cc720fd45ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad9296e21fea6252b2d1c9c392e227ad3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gad9296e21fea6252b2d1c9c392e227ad3">_dvi_lastbop</a> (void)</td></tr>
+<tr class="separator:gad9296e21fea6252b2d1c9c392e227ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcaf486c888c27458cc367a8291cab94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gadcaf486c888c27458cc367a8291cab94">dvi_set_font</a> (int f)</td></tr>
+<tr class="separator:gadcaf486c888c27458cc367a8291cab94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee9c823da531a1f5120c5ec253840f52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaee9c823da531a1f5120c5ec253840f52">dvi_set_char</a> (long c)</td></tr>
+<tr class="separator:gaee9c823da531a1f5120c5ec253840f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga787d42f7be761d2818506ccd51c85395"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga787d42f7be761d2818506ccd51c85395">dviflush</a> (void)</td></tr>
+<tr class="separator:ga787d42f7be761d2818506ccd51c85395"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 变量</h2></td></tr>
-<tr class="memitem:a2116fad9079bb7cfb6bf85007c29ef2a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a2116fad9079bb7cfb6bf85007c29ef2a">dvibuf</a> [<a class="el" href="dviout_8h.html#a80347c5d0aa8958463808f2f1aa717b1">DVI_BUF_SIZE</a>+1]</td></tr>
-<tr class="memdesc:a2116fad9079bb7cfb6bf85007c29ef2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">buffer for DVI output  <a href="dviout_8c.html#a2116fad9079bb7cfb6bf85007c29ef2a">更多...</a><br /></td></tr>
-<tr class="separator:a2116fad9079bb7cfb6bf85007c29ef2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91b2df9d66b431b58e738cc8345f647b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a91b2df9d66b431b58e738cc8345f647b">half_buf</a></td></tr>
-<tr class="memdesc:a91b2df9d66b431b58e738cc8345f647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">half of dvi buf size  <a href="dviout_8c.html#a91b2df9d66b431b58e738cc8345f647b">更多...</a><br /></td></tr>
-<tr class="separator:a91b2df9d66b431b58e738cc8345f647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc447c89149eb6b5049260d752d90610"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#abc447c89149eb6b5049260d752d90610">dvi_limit</a></td></tr>
-<tr class="memdesc:abc447c89149eb6b5049260d752d90610"><td class="mdescLeft">&#160;</td><td class="mdescRight">end of the current half buffer  <a href="dviout_8c.html#abc447c89149eb6b5049260d752d90610">更多...</a><br /></td></tr>
-<tr class="separator:abc447c89149eb6b5049260d752d90610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a724be1133281fc248d7419a5829f10ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a724be1133281fc248d7419a5829f10ce">dvi_ptr</a></td></tr>
-<tr class="memdesc:a724be1133281fc248d7419a5829f10ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">the next available buffer address.  <a href="dviout_8c.html#a724be1133281fc248d7419a5829f10ce">更多...</a><br /></td></tr>
-<tr class="separator:a724be1133281fc248d7419a5829f10ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5317115e62ea038217447a7390e4e9ea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a5317115e62ea038217447a7390e4e9ea">dvi_offset</a></td></tr>
-<tr class="memdesc:a5317115e62ea038217447a7390e4e9ea"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>DVI_BUF_SIZE</code> times the number of times the output buffer has been fully emptied.  <a href="dviout_8c.html#a5317115e62ea038217447a7390e4e9ea">更多...</a><br /></td></tr>
-<tr class="separator:a5317115e62ea038217447a7390e4e9ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fcf30bf4496514256961b0b189ecdd4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a2fcf30bf4496514256961b0b189ecdd4">dvigone</a></td></tr>
-<tr class="memdesc:a2fcf30bf4496514256961b0b189ecdd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">the number of bytes already output to dvi file  <a href="dviout_8c.html#a2fcf30bf4496514256961b0b189ecdd4">更多...</a><br /></td></tr>
-<tr class="separator:a2fcf30bf4496514256961b0b189ecdd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f5cd26761c32db69012bf96aebf2266"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a0f5cd26761c32db69012bf96aebf2266">dvifile</a></td></tr>
-<tr class="separator:a0f5cd26761c32db69012bf96aebf2266"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed3754a04c7ff56df239d3ccb154586d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#aed3754a04c7ff56df239d3ccb154586d">last_bop</a></td></tr>
-<tr class="memdesc:aed3754a04c7ff56df239d3ccb154586d"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOCATION of previous bop in the DVI output.  <a href="dviout_8c.html#aed3754a04c7ff56df239d3ccb154586d">更多...</a><br /></td></tr>
-<tr class="separator:aed3754a04c7ff56df239d3ccb154586d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91d564ae11b4743d15602ceaf38b5881"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#a91d564ae11b4743d15602ceaf38b5881">down_ptr</a></td></tr>
-<tr class="separator:a91d564ae11b4743d15602ceaf38b5881"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7dc2429be21632173af39715dbc4868"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dviout_8c.html#ab7dc2429be21632173af39715dbc4868">right_ptr</a></td></tr>
-<tr class="separator:ab7dc2429be21632173af39715dbc4868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2116fad9079bb7cfb6bf85007c29ef2a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga2116fad9079bb7cfb6bf85007c29ef2a">dvibuf</a> [<a class="el" href="dviout_8h.html#a80347c5d0aa8958463808f2f1aa717b1">DVI_BUF_SIZE</a>+1]</td></tr>
+<tr class="memdesc:ga2116fad9079bb7cfb6bf85007c29ef2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">buffer for DVI output  <a href="group___s592x643___p220x238.html#ga2116fad9079bb7cfb6bf85007c29ef2a">更多...</a><br /></td></tr>
+<tr class="separator:ga2116fad9079bb7cfb6bf85007c29ef2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91b2df9d66b431b58e738cc8345f647b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga91b2df9d66b431b58e738cc8345f647b">half_buf</a></td></tr>
+<tr class="memdesc:ga91b2df9d66b431b58e738cc8345f647b"><td class="mdescLeft">&#160;</td><td class="mdescRight">half of dvi buf size  <a href="group___s592x643___p220x238.html#ga91b2df9d66b431b58e738cc8345f647b">更多...</a><br /></td></tr>
+<tr class="separator:ga91b2df9d66b431b58e738cc8345f647b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabc447c89149eb6b5049260d752d90610"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gabc447c89149eb6b5049260d752d90610">dvi_limit</a></td></tr>
+<tr class="memdesc:gabc447c89149eb6b5049260d752d90610"><td class="mdescLeft">&#160;</td><td class="mdescRight">end of the current half buffer  <a href="group___s592x643___p220x238.html#gabc447c89149eb6b5049260d752d90610">更多...</a><br /></td></tr>
+<tr class="separator:gabc447c89149eb6b5049260d752d90610"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga724be1133281fc248d7419a5829f10ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga724be1133281fc248d7419a5829f10ce">dvi_ptr</a></td></tr>
+<tr class="memdesc:ga724be1133281fc248d7419a5829f10ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">the next available buffer address.  <a href="group___s592x643___p220x238.html#ga724be1133281fc248d7419a5829f10ce">更多...</a><br /></td></tr>
+<tr class="separator:ga724be1133281fc248d7419a5829f10ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5317115e62ea038217447a7390e4e9ea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga5317115e62ea038217447a7390e4e9ea">dvi_offset</a></td></tr>
+<tr class="memdesc:ga5317115e62ea038217447a7390e4e9ea"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>DVI_BUF_SIZE</code> times the number of times the output buffer has been fully emptied.  <a href="group___s592x643___p220x238.html#ga5317115e62ea038217447a7390e4e9ea">更多...</a><br /></td></tr>
+<tr class="separator:ga5317115e62ea038217447a7390e4e9ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2fcf30bf4496514256961b0b189ecdd4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga2fcf30bf4496514256961b0b189ecdd4">dvigone</a></td></tr>
+<tr class="memdesc:ga2fcf30bf4496514256961b0b189ecdd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">the number of bytes already output to dvi file  <a href="group___s592x643___p220x238.html#ga2fcf30bf4496514256961b0b189ecdd4">更多...</a><br /></td></tr>
+<tr class="separator:ga2fcf30bf4496514256961b0b189ecdd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f5cd26761c32db69012bf96aebf2266"><td class="memItemLeft" align="right" valign="top">static FILE *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0f5cd26761c32db69012bf96aebf2266">dvifile</a></td></tr>
+<tr class="separator:ga0f5cd26761c32db69012bf96aebf2266"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaed3754a04c7ff56df239d3ccb154586d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaed3754a04c7ff56df239d3ccb154586d">last_bop</a></td></tr>
+<tr class="memdesc:gaed3754a04c7ff56df239d3ccb154586d"><td class="mdescLeft">&#160;</td><td class="mdescRight">LOCATION of previous bop in the DVI output.  <a href="group___s592x643___p220x238.html#gaed3754a04c7ff56df239d3ccb154586d">更多...</a><br /></td></tr>
+<tr class="separator:gaed3754a04c7ff56df239d3ccb154586d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91d564ae11b4743d15602ceaf38b5881"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga91d564ae11b4743d15602ceaf38b5881">down_ptr</a></td></tr>
+<tr class="separator:ga91d564ae11b4743d15602ceaf38b5881"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab7dc2429be21632173af39715dbc4868"><td class="memItemLeft" align="right" valign="top">static MovePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gab7dc2429be21632173af39715dbc4868">right_ptr</a></td></tr>
+<tr class="separator:gab7dc2429be21632173af39715dbc4868"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ac815b809b0305b0377562147878783"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga8ac815b809b0305b0377562147878783">maxh</a></td></tr>
+<tr class="separator:ga8ac815b809b0305b0377562147878783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa3d21f378565502a70233d906527ef64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaa3d21f378565502a70233d906527ef64">maxv</a></td></tr>
+<tr class="separator:gaa3d21f378565502a70233d906527ef64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf1f3609dfa29483ee18a53b185d67ece"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaf1f3609dfa29483ee18a53b185d67ece">totalpages</a></td></tr>
+<tr class="separator:gaf1f3609dfa29483ee18a53b185d67ece"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga46ca36564bb5d3655e139bd2ba67eed4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga46ca36564bb5d3655e139bd2ba67eed4">maxpush</a></td></tr>
+<tr class="separator:ga46ca36564bb5d3655e139bd2ba67eed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0e8eacd3d8ba7a37789ec9a8cbe13c0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0e8eacd3d8ba7a37789ec9a8cbe13c0d">deadcycles</a></td></tr>
+<tr class="separator:ga0e8eacd3d8ba7a37789ec9a8cbe13c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c6d9565e31a243653ecb4b3c6a9bcf6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga7c6d9565e31a243653ecb4b3c6a9bcf6">doingleaders</a></td></tr>
+<tr class="separator:ga7c6d9565e31a243653ecb4b3c6a9bcf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafb93ca3e4d4b4376789117c5ab072818"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gafb93ca3e4d4b4376789117c5ab072818">lq</a></td></tr>
+<tr class="separator:gafb93ca3e4d4b4376789117c5ab072818"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e41b09bb23ec67541604728dba70415"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga4e41b09bb23ec67541604728dba70415">lr</a></td></tr>
+<tr class="separator:ga4e41b09bb23ec67541604728dba70415"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadab301511745c436f4791802d5650d2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gadab301511745c436f4791802d5650d2c">ruleht</a></td></tr>
+<tr class="separator:gadab301511745c436f4791802d5650d2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6a9b65dd7beb0f3599e2b21828b7c48"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gab6a9b65dd7beb0f3599e2b21828b7c48">ruledp</a></td></tr>
+<tr class="separator:gab6a9b65dd7beb0f3599e2b21828b7c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ac23cbb27dc54e37a893e30e757ab1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga9ac23cbb27dc54e37a893e30e757ab1b">rulewd</a></td></tr>
+<tr class="separator:ga9ac23cbb27dc54e37a893e30e757ab1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d87510bbb29f0b956e9e346a237c941"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga0d87510bbb29f0b956e9e346a237c941">dvih</a> = 0</td></tr>
+<tr class="separator:ga0d87510bbb29f0b956e9e346a237c941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4f98bb686ac175c467f07bc12d77be0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gaf4f98bb686ac175c467f07bc12d77be0">dviv</a> = 0</td></tr>
+<tr class="separator:gaf4f98bb686ac175c467f07bc12d77be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabe44c72cb5174b334f3e3c5c52c10aa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gabe44c72cb5174b334f3e3c5c52c10aa3">curh</a></td></tr>
+<tr class="separator:gabe44c72cb5174b334f3e3c5c52c10aa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d7a14ed325cfa18ac4e015d9c466753"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga6d7a14ed325cfa18ac4e015d9c466753">curv</a></td></tr>
+<tr class="separator:ga6d7a14ed325cfa18ac4e015d9c466753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8acfbd1a5015044e2f8dca4b945393be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga8acfbd1a5015044e2f8dca4b945393be">curmu</a></td></tr>
+<tr class="separator:ga8acfbd1a5015044e2f8dca4b945393be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade03dbeb0e3a67155543b9c35edd6105"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> <a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gade03dbeb0e3a67155543b9c35edd6105">dvif</a> = <a class="el" href="group___s220x255___p81x101.html#ga09478f26f92a0a027af8401e1248ac90">NULL_FONT</a></td></tr>
+<tr class="separator:gade03dbeb0e3a67155543b9c35edd6105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacf405373f252ae72014d5a4f40b743e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gacf405373f252ae72014d5a4f40b743e9">curs</a></td></tr>
+<tr class="separator:gacf405373f252ae72014d5a4f40b743e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">宏定义说明</h2>
-<a id="aa528c48a3474cb1bdb282816f7826598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa528c48a3474cb1bdb282816f7826598">&#9670;&nbsp;</a></span>FREE_NODE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> FREE_NODE</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">y&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td>&#160;&#160;&#160;free(x)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afb3730cc4d3cb24974fc9d2b2274679c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb3730cc4d3cb24974fc9d2b2274679c">&#9670;&nbsp;</a></span>ID_BYTE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> ID_BYTE&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#587]: identifies the kind of DVI files described here </p>
-
-</div>
-</div>
-<a id="ab7e64333eba48090f444ec9f36fd23ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7e64333eba48090f444ec9f36fd23ef">&#9670;&nbsp;</a></span>INFO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> INFO</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((x)-&gt;infof)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a00aa9190ed7fe4d4d6d922875e45414a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00aa9190ed7fe4d4d6d922875e45414a">&#9670;&nbsp;</a></span>LINK</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> LINK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((x)-&gt;linkf)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afd7e15569ff668c0be3846a24aced1f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd7e15569ff668c0be3846a24aced1f7">&#9670;&nbsp;</a></span>LOCATION</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> LOCATION</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((x)-&gt;locationf)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>DVI byte number for a movement command </p>
-
-</div>
-</div>
-<a id="a0e1f1ae65ac0bdd5c5dd775c3f273efa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e1f1ae65ac0bdd5c5dd775c3f273efa">&#9670;&nbsp;</a></span>MOVEMENT_NODE_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> MOVEMENT_NODE_SIZE&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#605]: number of words per entry in the down and right stacks </p>
-
-</div>
-</div>
-<a id="a9978c9be0f4161638ec49b4eda697d42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9978c9be0f4161638ec49b4eda697d42">&#9670;&nbsp;</a></span>WIDTH</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> WIDTH</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((x)-&gt;widthf)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">类型定义说明</h2>
-<a id="a0f35cbc1f4c81ec461383c8d549c0b16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f35cbc1f4c81ec461383c8d549c0b16">&#9670;&nbsp;</a></span>DVI_Index</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef <a class="el" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#594]: an index into the output buffer. </p>
-<p>[0, DVI_BUF_SIZE=800] </p>
-
-</div>
-</div>
-<h2 class="groupheader">枚举类型说明</h2>
-<a id="a81579d54c33287da8dfbbc424316db9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81579d54c33287da8dfbbc424316db9c">&#9670;&nbsp;</a></span>DVISetting</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="dviout_8c.html#a81579d54c33287da8dfbbc424316db9c">DVISetting</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>p224#608 </p>
-<table class="fieldtable">
-<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9ca4c9de1c1d6074f604d6690a5cef568cf"></a>Y_HERE&#160;</td><td class="fielddoc"><p>info when the movement entry points to a y command </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9ca4fdcc8d6aa9e9172d6d72efa083f3814"></a>Z_HERE&#160;</td><td class="fielddoc"><p>info when the movement entry points to a z command </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9ca675d8288053a406dee73d000d6c47016"></a>YZ_OK&#160;</td><td class="fielddoc"><p>info corresponding to an unconstrained down command </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9ca08faba1eb1dabf6cc9f51e855a528695"></a>Y_OK&#160;</td><td class="fielddoc"><p>info corresponding to a down that can’t become a z </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9cac205528b8f025b1232f7c3fb6ddaf354"></a>Z_OK&#160;</td><td class="fielddoc"><p>info corresponding to a down that can’t become a y </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a81579d54c33287da8dfbbc424316db9ca91f33a3c062ca048301c7251e6a57d4e"></a>D_FIXED&#160;</td><td class="fielddoc"><p>info corresponding to a down that can’t change. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="ad2f66c8832d815fe00002d74e568a4e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2f66c8832d815fe00002d74e568a4e4">&#9670;&nbsp;</a></span>StackState</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="dviout_8c.html#ad2f66c8832d815fe00002d74e568a4e4">StackState</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>P226#611 </p>
-<table class="fieldtable">
-<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="ad2f66c8832d815fe00002d74e568a4e4ae898a538a934415fd240487f18c38932"></a>NONE_SEEN&#160;</td><td class="fielddoc"><p>no y here or z here nodes have been encountered yet </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ad2f66c8832d815fe00002d74e568a4e4ab0aa39c09b2f3521b296d88ccc4ebb94"></a>Y_SEEN&#160;</td><td class="fielddoc"><p>we have seen y here but not z here </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb"></a>Z_SEEN&#160;</td><td class="fielddoc"><p>we have seen z here but not y here </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">函数说明</h2>
-<a id="ad9296e21fea6252b2d1c9c392e227ad3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9296e21fea6252b2d1c9c392e227ad3">&#9670;&nbsp;</a></span>_dvi_lastbop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void _dvi_lastbop </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab043719c412e39d11e805cc720fd45ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab043719c412e39d11e805cc720fd45ad">&#9670;&nbsp;</a></span>_dvibop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void _dvibop </td>
-          <td>(</td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>counts</em>[]</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>used in [p236#638]: shipout </p>
-
-</div>
-</div>
-<a id="a7d4c09eed90e56fd4cce1caf0252aadd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d4c09eed90e56fd4cce1caf0252aadd">&#9670;&nbsp;</a></span>dvi_font_def()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dvi_font_def </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group___s539x582___p196x213.html#gaaef1f9b0b74b433ed58a80276b7befbf">InternalFontNumber</a>&#160;</td>
-          <td class="paramname"><em>f</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#602] </p>
-
-</div>
-</div>
-<a id="a85e142366e0344dab160b89a36ed2c8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85e142366e0344dab160b89a36ed2c8c">&#9670;&nbsp;</a></span>dvi_four()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dvi_four </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#600]: outputs four bytes in two’s complement notation, without risking arithmetic overflow. </p>
-<p>TODO: check </p>
-
-</div>
-</div>
-<a id="a165559d2a5c3f9cf509f53bfafe6e917"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a165559d2a5c3f9cf509f53bfafe6e917">&#9670;&nbsp;</a></span>dvi_openout()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> dvi_openout </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a39d5b9a39d8201a5692576d16c2674ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39d5b9a39d8201a5692576d16c2674ba">&#9670;&nbsp;</a></span>dvi_pop()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dvi_pop </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
-          <td class="paramname"><em>l</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#601] </p>
-
-</div>
-</div>
-<a id="aee9c823da531a1f5120c5ec253840f52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee9c823da531a1f5120c5ec253840f52">&#9670;&nbsp;</a></span>dvi_set_char()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dvi_set_char </td>
-          <td>(</td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="adcaf486c888c27458cc367a8291cab94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcaf486c888c27458cc367a8291cab94">&#9670;&nbsp;</a></span>dvi_set_font()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dvi_set_font </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>f</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa208d9c18cca23f0dc8816a0eee6479f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa208d9c18cca23f0dc8816a0eee6479f">&#9670;&nbsp;</a></span>dvi_swap()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void dvi_swap </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>[#598]: outputs half of the buffer. </p>
-
-</div>
-</div>
-<a id="a787d42f7be761d2818506ccd51c85395"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a787d42f7be761d2818506ccd51c85395">&#9670;&nbsp;</a></span>dviflush()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long dviflush </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af6a11ea7715b0bb1552548f8a0fa615e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6a11ea7715b0bb1552548f8a0fa615e">&#9670;&nbsp;</a></span>dviout()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#598] </p>
-
-</div>
-</div>
-<a id="a505f6d5555baeecbe63b239b32d6b458"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a505f6d5555baeecbe63b239b32d6b458">&#9670;&nbsp;</a></span>dviout_EOP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_EOP </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae0384bdc3a11b7b427fd8f00d386abb5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0384bdc3a11b7b427fd8f00d386abb5">&#9670;&nbsp;</a></span>dviout_helper()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_helper </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a62fd7619dde4e0823e7d6fbb0a2742b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62fd7619dde4e0823e7d6fbb0a2742b3">&#9670;&nbsp;</a></span>dviout_ID_BYTE()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_ID_BYTE </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a230144ba4c2a56318721e4e298bd3987"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a230144ba4c2a56318721e4e298bd3987">&#9670;&nbsp;</a></span>dviout_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>初始化 dviout 内部变量 </p>
-
-</div>
-</div>
-<a id="ac63d30d53eed743ff75080e426ee185f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac63d30d53eed743ff75080e426ee185f">&#9670;&nbsp;</a></span>dviout_POP()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_POP </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0c98c20bfe37c6f7e9ddecc73a0fd993"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c98c20bfe37c6f7e9ddecc73a0fd993">&#9670;&nbsp;</a></span>dviout_POST()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_POST </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a995c6055b53512676f743a6b1ccb0ef6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a995c6055b53512676f743a6b1ccb0ef6">&#9670;&nbsp;</a></span>dviout_PRE()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_PRE </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa51394b85f1cd6969deb6167dd48e493"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa51394b85f1cd6969deb6167dd48e493">&#9670;&nbsp;</a></span>dviout_PUSH()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_PUSH </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8529555b9b56ba27c60a310061e8b700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8529555b9b56ba27c60a310061e8b700">&#9670;&nbsp;</a></span>dviout_PUT_RULE()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_PUT_RULE </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8cac9a46577e2188fb0e31a01ea52a7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cac9a46577e2188fb0e31a01ea52a7b">&#9670;&nbsp;</a></span>dviout_SET_RULE()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_SET_RULE </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a76649a0a78a9f52e1348c336a51fc9f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76649a0a78a9f52e1348c336a51fc9f1">&#9670;&nbsp;</a></span>dviout_XXX1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_XXX1 </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac57748975ed2a1f89d94b1f677374f0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac57748975ed2a1f89d94b1f677374f0c">&#9670;&nbsp;</a></span>dviout_XXX4()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void dviout_XXX4 </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af0eb279c5e583f9455ae8faf51422fb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0eb279c5e583f9455ae8faf51422fb8">&#9670;&nbsp;</a></span>get_dvi_mark()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">long get_dvi_mark </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a44a62d0ed1b6e2ea68fd61833d42e032"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44a62d0ed1b6e2ea68fd61833d42e032">&#9670;&nbsp;</a></span>get_move_node()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static MovePtr get_move_node </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a67d037a2a6bda672bfc005c10ec136b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67d037a2a6bda672bfc005c10ec136b1">&#9670;&nbsp;</a></span>movement()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void movement </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
-          <td class="paramname"><em>w</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">enum <a class="el" href="dvicmd_8h.html#adb2ac0a75ecceef923d0d0ae794f93e6">DVICommands</a>&#160;</td>
-          <td class="paramname"><em>dvicmd</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>[p224#607] produces a DVI command for some specified downward or rightward motion. </p>
-<p>parameters:</p><ul>
-<li>w: the amount of motion</li>
-<li>dvicmd: DOWN1 or RIGHT1 </li>
-</ul>
-<p>have we seen a y or z?</p>
-<p>current and top nodes on the stack</p>
-<p>index into dvi buf , modulo dvi buf size</p>
-
-</div>
-</div>
-<a id="a222f9ed360dd5146bf03999793218519"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a222f9ed360dd5146bf03999793218519">&#9670;&nbsp;</a></span>prune_movements()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void prune_movements </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a>&#160;</td>
-          <td class="paramname"><em>l</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[p227#615]: delete movement nodes with LOCATION ≥ l. </p>
-
-</div>
-</div>
-<a id="a572f0c49a8e91a2d400d74f52e5c0ef3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a572f0c49a8e91a2d400d74f52e5c0ef3">&#9670;&nbsp;</a></span>synch_h()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> synch_h </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
-          <td class="paramname"><em>cur_h</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
-          <td class="paramname"><em>dvi_h</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>[#616] 返回 cur_h 在 <a class="el" href="tex_8c.html">tex.c</a> 中通过赋值更新 dvi_h. </p>
-
-</div>
-</div>
-<a id="ae1f8e357a378f50f78272fbd967824a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1f8e357a378f50f78272fbd967824a6">&#9670;&nbsp;</a></span>synch_v()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a> synch_v </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
-          <td class="paramname"><em>cur_v</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8">Scaled</a>&#160;</td>
-          <td class="paramname"><em>dvi_v</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aef941cb996b7d4f99f717f79584bd287"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef941cb996b7d4f99f717f79584bd287">&#9670;&nbsp;</a></span>write_dvi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void write_dvi </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td>
-          <td class="paramname"><em>a</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a>&#160;</td>
-          <td class="paramname"><em>b</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>[#597]: The actual output of dvi_buf[a，b] to dvi file. </p>
-
-</div>
-</div>
-<h2 class="groupheader">变量说明</h2>
-<a id="a91d564ae11b4743d15602ceaf38b5881"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91d564ae11b4743d15602ceaf38b5881">&#9670;&nbsp;</a></span>down_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">MovePtr down_ptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abc447c89149eb6b5049260d752d90610"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc447c89149eb6b5049260d752d90610">&#9670;&nbsp;</a></span>dvi_limit</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> dvi_limit</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>end of the current half buffer </p>
-
-</div>
-</div>
-<a id="a5317115e62ea038217447a7390e4e9ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5317115e62ea038217447a7390e4e9ea">&#9670;&nbsp;</a></span>dvi_offset</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> dvi_offset</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><code>DVI_BUF_SIZE</code> times the number of times the output buffer has been fully emptied. </p>
-
-</div>
-</div>
-<a id="a724be1133281fc248d7419a5829f10ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a724be1133281fc248d7419a5829f10ce">&#9670;&nbsp;</a></span>dvi_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> dvi_ptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>the next available buffer address. </p>
-
-</div>
-</div>
-<a id="a2116fad9079bb7cfb6bf85007c29ef2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2116fad9079bb7cfb6bf85007c29ef2a">&#9670;&nbsp;</a></span>dvibuf</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4">EightBits</a> dvibuf[<a class="el" href="dviout_8h.html#a80347c5d0aa8958463808f2f1aa717b1">DVI_BUF_SIZE</a>+1]</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>buffer for DVI output </p>
-
-</div>
-</div>
-<a id="a0f5cd26761c32db69012bf96aebf2266"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f5cd26761c32db69012bf96aebf2266">&#9670;&nbsp;</a></span>dvifile</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">FILE* dvifile</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2fcf30bf4496514256961b0b189ecdd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fcf30bf4496514256961b0b189ecdd4">&#9670;&nbsp;</a></span>dvigone</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> dvigone</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>the number of bytes already output to dvi file </p>
-
-</div>
-</div>
-<a id="a91b2df9d66b431b58e738cc8345f647b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91b2df9d66b431b58e738cc8345f647b">&#9670;&nbsp;</a></span>half_buf</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="dviout_8c.html#a0f35cbc1f4c81ec461383c8d549c0b16">DVI_Index</a> half_buf</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>half of dvi buf size </p>
-
-</div>
-</div>
-<a id="aed3754a04c7ff56df239d3ccb154586d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed3754a04c7ff56df239d3ccb154586d">&#9670;&nbsp;</a></span>last_bop</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> last_bop</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>LOCATION of previous bop in the DVI output. </p>
-<p>last_bop: [592], 593, 640, 642 </p>
-
-</div>
-</div>
-<a id="ab7dc2429be21632173af39715dbc4868"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7dc2429be21632173af39715dbc4868">&#9670;&nbsp;</a></span>right_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">MovePtr right_ptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

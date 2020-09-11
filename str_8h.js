@@ -32,7 +32,7 @@ var str_8h =
     [ "str_map", "str_8h.html#a2f56258cfcf815dade9d19c0231764c8", null ],
     [ "str_map_from_mark", "str_8h.html#a926d70d28b0e665e6ee69da92d90fb9e", null ],
     [ "str_mark", "str_8h.html#a358f9645bda7e23c32106052a2dd27bd", null ],
-    [ "str_pool_init", "str_8h.html#ac945bcea037ecf2b7b01bfe65a98a9df", null ],
+    [ "str_pool_init", "group___s38x53___p19x23.html#gac945bcea037ecf2b7b01bfe65a98a9df", null ],
     [ "str_print", "str_8h.html#a72f0f470fafde698340558f9e2401450", null ],
     [ "str_print_stats", "str_8h.html#a37d01718ce3c3b67e52b35d42a8a1614", null ],
     [ "str_room", "group___s38x53___p19x23.html#ga7a2999ae21371a5ddba7edfd27383027", null ],
