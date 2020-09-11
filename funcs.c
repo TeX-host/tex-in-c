@@ -208,7 +208,6 @@ static void trimspaces(void) {
     memcpy(my_buff, name_of_file, FILE_NAME_SIZE);
     my_buff[FILE_NAME_SIZE] = 0;
     my_buff[(pp = strchr(my_buff, ' ')) ? pp - my_buff : FILE_NAME_SIZE] = 0;
-    fprintf(TERM_ERR, "%s", my_buff);
 }
 
 static Boolean a_open_in1(char* name, char** path_lst, FILE** f) {
