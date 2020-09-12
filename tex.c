@@ -8745,13 +8745,7 @@ Static void initialize(void) {
         /*662:*/
         packbeginline = 0; /*:662*/
         mmode_init();
-        /*771:*/
-        alignptr = 0;
-        curalign = 0;
-        curspan = 0;
-        curloop = 0;
-        curhead = 0;
-        curtail = 0; /*:771*/
+        align_init();
         /*928:*/
         for (z = 0; z <= HYPH_SIZE; z++) {
             hyphword[z] = 0;

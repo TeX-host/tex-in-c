@@ -27,6 +27,16 @@ Pointer alignptr;
 Pointer curhead, curtail;
 
 
+/// [#771]
+void align_init() {
+    alignptr = 0;
+    curalign = 0;
+    curspan = 0;
+    curloop = 0;
+    curhead = 0;
+    curtail = 0;
+}
+
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 
 /*772:*/

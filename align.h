@@ -33,6 +33,7 @@
 extern Pointer curalign;
 extern Pointer curspan, curloop, alignptr, curhead, curtail;
 
+extern void align_init();
 extern void initalign(void);
 extern Boolean fincol(void);
 extern void finrow(void);
