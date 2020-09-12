@@ -48,4 +48,9 @@ extern void printtotals(void);
 // dviout
 extern void outwhat(HalfWord p);
 
+extern void normalparagraph(void);
+extern void doassignments(void);
+extern void resumeafterdisplay(void);
+extern void buildpage(void);
+
 #endif // TEX_FUNC_H

@@ -30,7 +30,6 @@ extern HalfWord partoken;
 extern Boolean force_eof;
 extern SmallNumber curif;
 extern Integer skipline;
-extern Pointer curalign;
 
 // [tex], expand
 extern Pointer condptr;

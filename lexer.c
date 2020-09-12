@@ -18,6 +18,7 @@
     // [func] flush_list, get_avail
 #include "box.h" // NORMAL, listoffset, listoffset
 #include "texmath.h" // print_scaled, x_over_n
+#include "align.h"
 #include "lexer.h"
 
 

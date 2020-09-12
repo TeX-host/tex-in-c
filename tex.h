@@ -53,15 +53,7 @@
 #define donewithnode        81
 #define checkdimensions     82
 #define deleteq             83
-// [p287#770]
-#define alignstacknodesize  5
-// [p289#780]
-#define spancode            256
-#define crcode              257
-#define crcrcode            (crcode + 1)
-#define endtemplatetoken    (CS_TOKEN_FLAG + FROZEN_END_TEMPLATE)
-// [p294#797]
-#define spannodesize    2
+
 // [p303#817]
 #define tightfit        3
 #define loosefit        1

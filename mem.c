@@ -5,6 +5,7 @@
 #include "texmath.h" // [macro] UNITY
 #include "print.h"   // [func] printnl, print_int, print_char
 #include "box.h"     // type
+#include "align.h"
 #include "mem.h"
 
 

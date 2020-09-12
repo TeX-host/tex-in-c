@@ -12,6 +12,7 @@
 #include "box.h"      // widthoffset, heightoffset, NORMAL
 #include "error.h"
 #include "mmode.h"
+#include "align.h"
 #include "printout.h" // [export]
 
 /// #247: 

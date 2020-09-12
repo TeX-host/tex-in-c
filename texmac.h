@@ -68,14 +68,6 @@
 #define newhlist(x) mem[nucleus(x)].int_ /* the translation of an mlist}*/
 
 
-/// [p286#769]
-#define upart(x)  mem[x+heightoffset].int_ /* pointer to \<uj> token list}*/
-#define vpart(x)  mem[x+depthoffset].int_ /* pointer to \<vj> token list}*/
-#define extrainfo(x)  info(x+listoffset) /* info to remember during template}*/
-
-/// [p287#770]
-#define preamble link(alignhead) /* the current preamble list}*/
-
 /// [p304#819]
 #define fitness  subtype /* |veryloosefit..tightfit| on final line for this break}*/
 #define breaknode  rlink /* pointer to the corresponding passive node}*/
