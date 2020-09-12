@@ -557,184 +557,6 @@ void outwhat(HalfWord p) {
 /** @}*/ // end group S1340x1379_P472x481
 
 
-
-
-
-/** @addtogroup S900x918_P334x343
- * 
- * @{
- */
-
-/*895:*/
-/*906:*/
-SmallNumber reconstitute(/* SmallNumber */ int j,
-                                SmallNumber n,
-                                HalfWord bchar,
-                                HalfWord hchar) {
-    Pointer p, t;
-    FourQuarters q;
-    HalfWord currh, testchar;
-    Scaled w;
-    FontIndex k;
-
-    hyphenpassed = 0;
-    t = holdhead;
-    w = 0;
-    link(holdhead) = 0; /*908:*/
-    curl = hu[j];
-    curq = t;
-    if (j == 0) {
-        ligaturepresent = initlig;
-        p = initlist;
-        if (ligaturepresent) lfthit = initlft;
-        while (p > 0) {
-            appendcharnodetot(character(p));
-            p = link(p);
-        }
-    } else if (curl < NON_CHAR) {
-        appendcharnodetot(curl);
-    }
-    ligstack = 0; /*:908*/
-    setcurr();
-_Llabcontinue: /*909:*/
-    if (curl == NON_CHAR) {
-        k = bcharlabel[hf];
-        if (k == nonaddress) goto _Ldone;
-        q = fontinfo[k].qqqq;
-    } else {
-        q = charinfo(hf, curl);
-        if (chartag(q) != LIG_TAG) {
-            goto _Ldone;
-        }
-        k = ligkernstart(hf, q);
-        q = fontinfo[k].qqqq;
-        if (skipbyte(q) > stopflag) {
-            k = ligkernrestart(hf, q);
-            q = fontinfo[k].qqqq;
-        }
-    }
-    if (currh < NON_CHAR)
-        testchar = currh;
-    else
-        testchar = curr;
-    while (true) {
-        if (nextchar(q) == testchar) {
-            if (skipbyte(q) <= stopflag) {
-                if (currh < NON_CHAR) {
-                    hyphenpassed = j;
-                    hchar = NON_CHAR;
-                    currh = NON_CHAR;
-                    goto _Llabcontinue;
-                } else {
-                    if (hchar < NON_CHAR) {
-                        if (hyf[j] & 1) {
-                            hyphenpassed = j;
-                            hchar = NON_CHAR;
-                        }
-                    }
-                    if (opbyte(q) < kernflag) { /*911:*/
-                        if (curl == NON_CHAR) lfthit = true;
-                        if (j == n) {
-                            if (ligstack == 0) rthit = true;
-                        }
-                        checkinterrupt();
-                        switch (opbyte(q)) {
-
-                            case MIN_QUARTER_WORD + 1:
-                            case MIN_QUARTER_WORD + 5:
-                                curl = rembyte(q);
-                                ligaturepresent = true;
-                                break;
-
-                            case MIN_QUARTER_WORD + 2:
-                            case MIN_QUARTER_WORD + 6:
-                                curr = rembyte(q);
-                                if (ligstack > 0)
-                                    character(ligstack) = curr;
-                                else {
-                                    ligstack = newligitem(curr);
-                                    if (j == n)
-                                        bchar = NON_CHAR;
-                                    else {
-                                        p = get_avail();
-                                        ligptr(ligstack) = p;
-                                        character(p) = hu[j + 1];
-                                        font(p) = hf;
-                                    }
-                                }
-                                break;
-
-                            case MIN_QUARTER_WORD + 3:
-                                curr = rembyte(q);
-                                p = ligstack;
-                                ligstack = newligitem(curr);
-                                link(ligstack) = p;
-                                break;
-
-                            case MIN_QUARTER_WORD + 7:
-                            case MIN_QUARTER_WORD + 11:
-                                wraplig(false);
-                                curq = t;
-                                curl = rembyte(q);
-                                ligaturepresent = true;
-                                break;
-
-                            default:
-                                curl = rembyte(q);
-                                ligaturepresent = true;
-                                if (ligstack > 0) {
-                                    popligstack();
-                                } else if (j == n)
-                                    goto _Ldone;
-                                else {
-                                    appendcharnodetot(curr);
-                                    j++;
-                                    setcurr();
-                                }
-                                break;
-                        }
-                        if (opbyte(q) > MIN_QUARTER_WORD + 4) {
-                            if (opbyte(q) != MIN_QUARTER_WORD + 7) goto _Ldone;
-                        }
-                        goto _Llabcontinue;
-                    }
-                    /*:911*/
-                    w = charkern(hf, q);
-                    goto _Ldone;
-                }
-            }
-        }
-        if (skipbyte(q) >= stopflag) {
-            if (currh == NON_CHAR)
-                goto _Ldone;
-            else {
-                currh = NON_CHAR;
-                goto _Llabcontinue;
-            }
-        }
-        k += skipbyte(q) - MIN_QUARTER_WORD + 1;
-        q = fontinfo[k].qqqq;
-    }
-_Ldone: /*:909*/
-    /*910:*/
-    wraplig(rthit);
-    if (w != 0) {
-        link(t) = newkern(w);
-        t = link(t);
-        w = 0;
-    }
-    if (ligstack <= 0) /*:910*/
-        return j;
-    curq = t;
-    curl = character(ligstack);
-    ligaturepresent = true;
-    popligstack();
-    goto _Llabcontinue;
-}
-/*:906*/
-/** @}*/ // end group S900x918_P334x343
-
-
 /** @addtogroup S967x979_P360x365
  * @{
  */
@@ -6727,7 +6549,6 @@ Static void initialize(void) {
     // Local variables for initialization
     Integer i;
     Integer k; // index into mem, eqtb, etc.
-    HyphPointer z; // runs through the exception dictionary
 
     /// p5#8: Initialize whatever TEX might access
 
@@ -6784,12 +6605,8 @@ Static void initialize(void) {
         packbeginline = 0; /*:662*/
         mmode_init();
         align_init();
-        /*928:*/
-        for (z = 0; z <= HYPH_SIZE; z++) {
-            hyphword[z] = 0;
-            hyphlist[z] = 0;
-        }
-        hyphcount = 0; /*:928*/
+        hyphen_init();
+
         /*990:*/
         outputactive = false;
         insertpenalties = 0; /*:990*/
@@ -6817,18 +6634,7 @@ Static void initialize(void) {
         eqtb_init_once();
         hash_init_once();
         fonts_init_once();
-
-        // #946
-        for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++)
-            trieophash[k + TRIE_OP_SIZE] = 0;
-        for (k = 0; k <= 255; k++)
-            trieused[k] = MIN_QUARTER_WORD;
-        trieopptr = 0;
-        // #951
-        trie_not_ready = true;
-        trieroot = 0;
-        triec[0] = 0;
-        trieptr = 0;
+        hyphen_init_once();
 
         // #1216
         set_text(FROZEN_PROTECTION, S(258));

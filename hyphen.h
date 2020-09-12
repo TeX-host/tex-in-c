@@ -148,6 +148,7 @@ extern StrNumber hyphword[HYPH_SIZE + 1];
 extern Pointer hyphlist[HYPH_SIZE + 1];
 extern HyphPointer hyphcount;
 
+extern void hyphen_init();
 extern void newhyphexceptions(void);
 
 
@@ -171,6 +172,7 @@ extern TriePointer triemin[256];
 extern TriePointer triemax;
 extern Boolean trie_not_ready;
 
+extern void hyphen_init_once();
 extern QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v);
 extern TriePointer trienode(TriePointer p);
 extern TriePointer compresstrie(TriePointer p);
