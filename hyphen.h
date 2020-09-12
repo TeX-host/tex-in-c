@@ -136,6 +136,8 @@ extern HalfWord curl, curr;
 extern Boolean ligaturepresent, lfthit, rthit;
 
 extern void hyphenate(void);
+extern SmallNumber reconstitute(int j, SmallNumber n,
+                                HalfWord bchar, HalfWord hchar);
 
 // hyphen
 extern TwoHalves trie[TRIE_SIZE + 1];
@@ -153,34 +155,14 @@ extern void newhyphexceptions(void);
 
 
 // hyphen-init
-extern short trieophash[TRIE_OP_SIZE + TRIE_OP_SIZE + 1];
 extern QuarterWord trieused[256];
-extern ASCIICode trieoplang[TRIE_OP_SIZE];
-extern QuarterWord trieopval[TRIE_OP_SIZE];
 extern UInt16 trieopptr;
 
-extern PackedASCIICode triec[TRIE_SIZE + 1];
-extern QuarterWord trieo[TRIE_SIZE + 1];
-extern TriePointer triel[TRIE_SIZE + 1];
-extern TriePointer trier[TRIE_SIZE + 1];
-extern TriePointer trieptr;
-
-extern TriePointer triehash[TRIE_SIZE + 1];
-
-extern UChar trietaken[(TRIE_SIZE + 7) / 8];
-extern TriePointer triemin[256];
 extern TriePointer triemax;
 extern Boolean trie_not_ready;
 
 extern void hyphen_init_once();
-extern QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v);
-extern TriePointer trienode(TriePointer p);
-extern TriePointer compresstrie(TriePointer p);
-extern void firstfit(TriePointer p);
-extern void triepack(TriePointer p);
-extern void triefix(TriePointer p);
 extern void newpatterns(void);
 extern void inittrie(void);
-
 
 #endif /* INC_HYPHEN_H */
