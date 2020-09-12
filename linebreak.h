@@ -108,6 +108,7 @@ extern Pointer bestplace[tightfit - veryloosefit + 1];
 extern Scaled discwidth, firstwidth, secondwidth, firstindent, secondindent;
 extern HalfWord easyline, lastspecialline;
 
+extern void linebreak(long finalwidowpenalty);
 extern HalfWord finiteshrink(HalfWord p);
 extern void trybreak(long pi, SmallNumber breaktype);
 

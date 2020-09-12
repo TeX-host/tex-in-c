@@ -87,4 +87,7 @@ extern QuarterWord hyfnext[TRIE_OP_SIZE];
 extern short opstart[256];
 extern HalfWord hyfbchar;
 
+extern Boolean trie_not_ready;
+
+
 #endif // #ifndef GLOBAL_H

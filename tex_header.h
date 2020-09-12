@@ -180,7 +180,7 @@ Static TriePointer triemin[256];
 Static TriePointer triemax;
 // is the trie still in linked form?
 // xref: 891, [950], 951, 960, 966, 1324, 1325
-Static Boolean trie_not_ready;
+Boolean trie_not_ready;
 #endif // #943,947,950: tt_INIT
 
 

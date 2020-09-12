@@ -57,4 +57,5 @@ extern void buildpage(void);
 extern SmallNumber reconstitute(int j, SmallNumber n,
                                 HalfWord bchar, HalfWord hchar);
 
+extern void inittrie(void);
 #endif // TEX_FUNC_H
