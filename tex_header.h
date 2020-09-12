@@ -40,6 +40,7 @@
 #include "hyphen.h"
 #include "page.h"
 #include "dump.h"
+#include "extension.h"
 #include "texfunc.h"    // [export]
 
 
@@ -128,21 +129,6 @@ Static HalfWord aftertoken;
 /*1281:*/
 Static Boolean longhelpseen;
 /*:1281*/
-
-
-/// [#1342] Hold 16 possible `\write` streams.
-/// Selector [0~15]
-FILE* write_file[16];
-/// [#1342] Set to true if that file is open.
-/// + j=0..16: j-th file is open if and only if write open[j] = true.
-/// + write_open[16]: stream number greater than 15
-/// + write_open[17]: negative stream number
-Static Boolean write_open[18];
-
-/*1345:*/
-Pointer writeloc; 
-/*:1345*/
-
 
 jmp_buf _JMP_global__final_end;
 

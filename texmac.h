@@ -126,27 +126,6 @@
     ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
 
 
-/// [p471#1362]
-#define advpast(x)                        \
-    {                                     \
-        if (subtype(x) == languagenode) { \
-            curlang = whatlang(x);        \
-            lhyf = whatlhm(x);            \
-            rhyf = whatrhm(x);            \
-        }                                 \
-    }
-
-/// [p472#1341]
-#define whatlang(x)  link(x+1) /* language number, in the range |0..255|}*/
-#define whatlhm(x)  type(x+1) /* minimum left fragment, in the range |1..63|}*/
-#define whatrhm(x)  subtype(x+1) /* minimum right fragment, in the range |1..63|}*/
-#define writetokens(x)    link(x+1) /* reference count of token list to write}*/
-#define writestream(x)    info(x+1) /* stream number (0 to 17)}*/
-#define openname(x)    link(x+1) /* string number of file name to open}*/
-#define openarea(x)    info(x+2) /* string number of file area for |openname|}*/
-#define openext(x)    link(x+2) /* string number of file extension for |openname|}*/
-
-
 // #866
 #define actwidth activewidth[0] // length from first active node to current node
 

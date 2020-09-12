@@ -13,6 +13,7 @@
 #include "error.h"
 #include "mmode.h"
 #include "align.h"
+#include "extension.h"
 #include "printout.h" // [export]
 
 /// #247: 

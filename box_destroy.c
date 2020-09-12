@@ -6,6 +6,7 @@
 #include "error.h"   // confusion
 #include "pack.h"    // [macro] subbox
 #include "mmode.h"
+#include "extension.h" // [const] opennode, [macro] 
 #include "box.h"
 
 

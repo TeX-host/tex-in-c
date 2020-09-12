@@ -5,6 +5,7 @@
     // last, first, buffer[]
 #include "io.h" // [func] inputln
 #include "error.h"  // [func] fatalerror
+#include "extension.h" // [var] write_file
 #include "eqtb.h"
 
 

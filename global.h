@@ -20,7 +20,6 @@ extern ASCIICode xord[256];
 
 // [tex], 仅在 print 中使用
 extern TextChar xchr[256];
-extern FILE* write_file[16];
 
 // [tex] 仅在 lexer 中使用
 extern ListStateRecord cur_list;
@@ -58,8 +57,6 @@ extern Pointer hyphlist[HYPH_SIZE + 1];
 // eqtb
 extern Boolean use_independence_date;
 
-// dump
-extern Pointer writeloc;
 
 
 #endif // #ifndef GLOBAL_H

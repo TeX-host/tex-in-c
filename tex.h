@@ -90,22 +90,6 @@
 
 #define badfmt          6666
 #define breakpoint      888
-#define writenodesize   2
-#define opennodesize    3
-
-// [p472#1341]
-// enum WhatsitsSubtype {};
-#define opennode        0
-#define writenode       1
-#define closenode       2
-#define specialnode     3
-#define languagenode    4
-// [p473#1344]
-#define immediatecode   4
-#define setlanguagecode  5
-
-/// [p478#1371]
-#define endwritetoken   (CS_TOKEN_FLAG + END_WRITE)
 
 
 #endif // #ifndef TEX_H

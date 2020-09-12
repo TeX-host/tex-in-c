@@ -19,6 +19,7 @@
 #include "print.h"
 #include "texfunc.h" // [func] outwhat
 #include "error.h"   // [func] print_err
+#include "extension.h"
 #include "dviout.h" // [export]
 
 

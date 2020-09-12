@@ -3,6 +3,7 @@
 #include "mem.h"
 #include "texmac.h" // [macro] writetokens
 #include "error.h" // confusion
+#include "extension.h" // [const] opennode, [macro]
 #include "box.h"
 
 

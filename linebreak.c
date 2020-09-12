@@ -10,6 +10,7 @@
 #include "error.h"
 #include "texmath.h"
 #include "hyphen.h"
+#include "extension.h" // [macor] advpast
 #include "linebreak.h"
 
 

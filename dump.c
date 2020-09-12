@@ -11,6 +11,7 @@
 #include "print.h"
 #include "str.h"
 #include "macros.h"
+#include "extension.h"
 #include "dump.h"
 
 

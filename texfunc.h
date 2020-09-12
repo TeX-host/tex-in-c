@@ -18,9 +18,6 @@ extern void giveerrhelp(void);
 // tex, box
 extern void print_write_whatsit(StrNumber s, Pointer p);
 
-// dviout
-extern void outwhat(HalfWord p);
-
 extern void normalparagraph(void);
 extern void doassignments(void);
 extern void resumeafterdisplay(void);
@@ -30,5 +27,9 @@ extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 
 // debug
 extern void printword(MemoryWord w);
+
+// extension
+extern SmallNumber normmin(long h);
+extern void reportillegalcase(void);
 
 #endif // TEX_FUNC_H
