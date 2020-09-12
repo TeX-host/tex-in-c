@@ -36,6 +36,7 @@
 #include "pack.h"
 #include "mmode.h"
 #include "align.h"
+#include "linebreak.h"
 #include "texfunc.h"    // [export]
 
 
@@ -103,66 +104,24 @@ char readopen[17];
 /** @}*/ // end group S464x486_P174x180
 
 
-/*814:*/
-Static Pointer justbox;
-/*:814*/
-/*821:*/
-Static Pointer passive, printednode;
-Static HalfWord passnumber;
-/*:821*/
-/*823:*/
-Static Scaled activewidth[6];
-Static Scaled curactivewidth[6];
-Static Scaled background[6];
-Static Scaled breakwidth[6];
-/*:823*/
-/*825:*/
-Static Boolean noshrinkerroryet, secondpass, finalpass;
-/*:825*/
-/*828:*/
-Static Pointer curp;
-Static Integer threshold;
-/*:828*/
-/*833:*/
-Static Integer minimaldemerits[tightfit - veryloosefit + 1];
-Static Integer minimumdemerits;
-Static Pointer bestplace[tightfit - veryloosefit + 1];
-Static HalfWord bestplline[tightfit - veryloosefit + 1];
-/*:833*/
-/*839:*/
-Static Scaled discwidth, firstwidth, secondwidth, firstindent, secondindent;
-/*:839*/
-/*847:*/
-Static HalfWord easyline, lastspecialline;
-/*:847*/
-
-
-/*872:*/
-Static Pointer bestbet, ha, hb, initlist, curq, ligstack;
-Static Integer fewestdemerits;
-Static HalfWord bestline;
-Static Integer actuallooseness, linediff;
-/*:872*/
-
-
 /*892:*/
-Static short hc[66];
-Static /* SmallNumber */ int hn;
-Static InternalFontNumber hf;
-Static short hu[64];
-Static Integer hyfchar;
-Static ASCIICode curlang, initcurlang;
-Static Integer lhyf, rhyf, initlhyf, initrhyf;
-Static HalfWord hyfbchar;
+short hc[66];
+/* SmallNumber */ int hn;
+InternalFontNumber hf;
+short hu[64];
+Integer hyfchar;
+ASCIICode curlang, initcurlang;
+Integer lhyf, rhyf, initlhyf, initrhyf;
+HalfWord hyfbchar;
 /*:892*/
 
 
 /*900:*/
-Static char hyf[65];
-Static Boolean initlig, initlft;
+char hyf[65];
+Boolean initlig, initlft;
 /*:900*/
 /*905:*/
-Static SmallNumber hyphenpassed;
+SmallNumber hyphenpassed;
 /*:905*/
 /*907:*/
 Static HalfWord curl, curr;
@@ -171,14 +130,14 @@ Static Boolean ligaturepresent, lfthit, rthit;
 
 
 /*921:*/
-Static TwoHalves trie[TRIE_SIZE + 1];
-Static SmallNumber hyfdistance[TRIE_OP_SIZE];
-Static SmallNumber hyfnum[TRIE_OP_SIZE];
-Static QuarterWord hyfnext[TRIE_OP_SIZE];
-Static short opstart[256];
+TwoHalves trie[TRIE_SIZE + 1];
+SmallNumber hyfdistance[TRIE_OP_SIZE];
+SmallNumber hyfnum[TRIE_OP_SIZE];
+QuarterWord hyfnext[TRIE_OP_SIZE];
+short opstart[256];
 /*:921*/
 /*926:*/
-Static StrNumber hyphword[HYPH_SIZE + 1];
+StrNumber hyphword[HYPH_SIZE + 1];
 Pointer hyphlist[HYPH_SIZE + 1];
 Static HyphPointer hyphcount;
 /*:926*/

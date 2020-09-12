@@ -54,8 +54,6 @@
 // #define location(x)  mem[x+2].int_ /* \.{DVI} byte number for a movement command}*/
 
 
-/// [p230#829]
-#define copytocuractive(x) (curactivewidth[(x)-1] = activewidth[(x)-1])
 /// [p231#625]
 #define vetglue(x)                    \
     (gluetemp = (x),                  \
@@ -67,56 +65,6 @@
 /// [p267#725]
 #define newhlist(x) mem[nucleus(x)].int_ /* the translation of an mlist}*/
 
-
-/// [p304#819]
-#define fitness  subtype /* |veryloosefit..tightfit| on final line for this break}*/
-#define breaknode  rlink /* pointer to the corresponding passive node}*/
-#define linenumber  llink /* line that begins at this breakpoint}*/
-#define totaldemerits(x)  mem[x+2].int_ /* the quantity that \TeX\ minimizes}*/
-/// [p304#821]
-#define curbreak  rlink /* in passive node, points to position of this breakpoint}*/
-#define prevbreak  llink /* points to passive node that should precede this one}*/
-#define serial  info /* serial number for symbolic identification}*/
-
-/// [p306#825]
-#define checkshrinkage(x) \
-    ((shrinkorder(x) != NORMAL) && (shrink(x) != 0) ? (x) = finiteshrink(x) : 0)
-
-
-/// [p309#832]
-#define updatewidth(x) (curactivewidth[(x)-1] += mem[r + (x)].sc)
-/// [p310#837]
-#define setbreakwidthtobackground(x) (breakwidth[(x)-1] = background[(x)-1])
-/// [p312#943]
-#define converttobreakwidth(x) \
-    (mem[prevr + (x)].sc += -curactivewidth[(x)-1] + breakwidth[(x)-1])
-#define storebreakwidth(x) (activewidth[(x)-1] = breakwidth[(x)-1])
-#define newdeltatobreakwidth(x) \
-    (mem[q + (x)].sc = breakwidth[(x)-1] - curactivewidth[(x)-1])
-/// [p312#944]
-#define newdeltafrombreakwidth(x) \
-    (mem[q + (x)].sc = curactivewidth[(x)-1] - breakwidth[(x)-1])
-
-/// [p318#860]
-#define combinetwodeltas(x) \
-    (mem[prevr + (x)].sc = mem[prevr + (x)].sc + mem[r + (x)].sc)
-#define downdatewidth(x) (curactivewidth[(x)-1] -= mem[prevr + (x)].sc)
-/// [p318#861]
-#define updateactive(x) (activewidth[(x)-1] += mem[r + (x)].sc)
-/// [p320#864]
-#define storebackground(x) (activewidth[(x)-1] = background[(x)-1])
-
-/// [p321#866]
-#define kernbreak()                                                       \
-    {                                                                     \
-        if (!ischarnode(link(curp)) && (autobreaking)) {                  \
-            if (type(link(curp)) == GLUE_NODE) trybreak(0, unhyphenated); \
-        }                                                                 \
-        actwidth += width(curp);                                          \
-    }
-
-/// [p325#877]
-#define nextbreak  prevbreak /* new name for |prevbreak| after links are reversed}*/
 
 
 /// [p337#908]

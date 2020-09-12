@@ -12,7 +12,7 @@
 
 
 #define defaultcode     1073741824L
-#define awfulbad        1073741823L
+
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 
@@ -54,23 +54,6 @@
 #define checkdimensions     82
 #define deleteq             83
 
-// [p303#817]
-#define tightfit        3
-#define loosefit        1
-#define veryloosefit    0
-#define decentfit       2
-// [p304#819]
-#define activenodesize  3
-#define unhyphenated    0
-#define hyphenated      1
-#define lastactive      active
-// [p304#821]
-#define passivenodesize  2
-// [p304#822]
-#define deltanodesize   7
-#define deltanode       2
-// [p308#829]
-#define deactivate      60
 // [p361#970]
 #define updateheights   90
 // [p363#974]

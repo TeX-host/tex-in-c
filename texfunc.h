@@ -53,4 +53,8 @@ extern void doassignments(void);
 extern void resumeafterdisplay(void);
 extern void buildpage(void);
 
+
+extern SmallNumber reconstitute(int j, SmallNumber n,
+                                HalfWord bchar, HalfWord hchar);
+
 #endif // TEX_FUNC_H
