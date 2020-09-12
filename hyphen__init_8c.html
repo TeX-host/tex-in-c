@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TeX in C: hyphen_init.c 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">TeX in C
+   </div>
+   <div id="projectbrief">Explore TeX with modern c compiler.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.20 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('hyphen__init_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">函数</a> &#124;
+<a href="#var-members">变量</a>  </div>
+  <div class="headertitle">
+<div class="title">hyphen_init.c 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="global__const_8h_source.html">global_const.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="lexer_8h_source.html">lexer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mem_8h_source.html">mem.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="print_8h_source.html">print.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="error_8h_source.html">error.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="texfunc_8h_source.html">texfunc.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="expand_8h_source.html">expand.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="hyphen_8h_source.html">hyphen.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+hyphen_init.c 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="hyphen__init_8c__incl.svg" width="991" height="968"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:gab5131263f21a3651f1d743c2bc09bf9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#gab5131263f21a3651f1d743c2bc09bf9d">hyphen_init_once</a> ()</td></tr>
+<tr class="memdesc:gab5131263f21a3651f1d743c2bc09bf9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#946, #951]  <a href="group___s942x966___p350x359.html#gab5131263f21a3651f1d743c2bc09bf9d">更多...</a><br /></td></tr>
+<tr class="separator:gab5131263f21a3651f1d743c2bc09bf9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaead56d759299e6fd34869fa6dfbe1c2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#gaead56d759299e6fd34869fa6dfbe1c2a">newtrieop</a> (<a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> d, <a class="el" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> n, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> v)</td></tr>
+<tr class="memdesc:gaead56d759299e6fd34869fa6dfbe1c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">p351#944  <a href="group___s942x966___p350x359.html#gaead56d759299e6fd34869fa6dfbe1c2a">更多...</a><br /></td></tr>
+<tr class="separator:gaead56d759299e6fd34869fa6dfbe1c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabdce31f52e9b54811d279238de36e531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#gabdce31f52e9b54811d279238de36e531">trienode</a> (<a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> p)</td></tr>
+<tr class="memdesc:gabdce31f52e9b54811d279238de36e531"><td class="mdescLeft">&#160;</td><td class="mdescRight">#948  <a href="group___s942x966___p350x359.html#gabdce31f52e9b54811d279238de36e531">更多...</a><br /></td></tr>
+<tr class="separator:gabdce31f52e9b54811d279238de36e531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga03aa437a7edd164bf9979085f9092f0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#ga03aa437a7edd164bf9979085f9092f0c">compresstrie</a> (<a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> p)</td></tr>
+<tr class="memdesc:ga03aa437a7edd164bf9979085f9092f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">#949  <a href="group___s942x966___p350x359.html#ga03aa437a7edd164bf9979085f9092f0c">更多...</a><br /></td></tr>
+<tr class="separator:ga03aa437a7edd164bf9979085f9092f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa5fad05838cc754191304831fdee7dd4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#gaa5fad05838cc754191304831fdee7dd4">firstfit</a> (<a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> p)</td></tr>
+<tr class="memdesc:gaa5fad05838cc754191304831fdee7dd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">#953  <a href="group___s942x966___p350x359.html#gaa5fad05838cc754191304831fdee7dd4">更多...</a><br /></td></tr>
+<tr class="separator:gaa5fad05838cc754191304831fdee7dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga70ae8451172c49d2b1151294b3ae8dc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#ga70ae8451172c49d2b1151294b3ae8dc6">triepack</a> (<a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> p)</td></tr>
+<tr class="memdesc:ga70ae8451172c49d2b1151294b3ae8dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">#957  <a href="group___s942x966___p350x359.html#ga70ae8451172c49d2b1151294b3ae8dc6">更多...</a><br /></td></tr>
+<tr class="separator:ga70ae8451172c49d2b1151294b3ae8dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1347f26a726c1ec02f4030d805f0b02c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#ga1347f26a726c1ec02f4030d805f0b02c">triefix</a> (<a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> p)</td></tr>
+<tr class="memdesc:ga1347f26a726c1ec02f4030d805f0b02c"><td class="mdescLeft">&#160;</td><td class="mdescRight">#959  <a href="group___s942x966___p350x359.html#ga1347f26a726c1ec02f4030d805f0b02c">更多...</a><br /></td></tr>
+<tr class="separator:ga1347f26a726c1ec02f4030d805f0b02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1356e8c74d8485cbd0e20c09f2c25886"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#ga1356e8c74d8485cbd0e20c09f2c25886">newpatterns</a> (void)</td></tr>
+<tr class="memdesc:ga1356e8c74d8485cbd0e20c09f2c25886"><td class="mdescLeft">&#160;</td><td class="mdescRight">#960  <a href="group___s942x966___p350x359.html#ga1356e8c74d8485cbd0e20c09f2c25886">更多...</a><br /></td></tr>
+<tr class="separator:ga1356e8c74d8485cbd0e20c09f2c25886"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4953f312f016c82145ae48b0d39341bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s942x966___p350x359.html#ga4953f312f016c82145ae48b0d39341bd">inittrie</a> (void)</td></tr>
+<tr class="memdesc:ga4953f312f016c82145ae48b0d39341bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">#966  <a href="group___s942x966___p350x359.html#ga4953f312f016c82145ae48b0d39341bd">更多...</a><br /></td></tr>
+<tr class="separator:ga4953f312f016c82145ae48b0d39341bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+变量</h2></td></tr>
+<tr class="memitem:a67042e0cca15c495ed68ec1e0a81cdd0"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a67042e0cca15c495ed68ec1e0a81cdd0">trieophash</a> [<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>+<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>+1]</td></tr>
+<tr class="memdesc:a67042e0cca15c495ed68ec1e0a81cdd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">[ #942~966: PART 43: INITIALIZING THE HYPHENATION TABLES ] #943, 947, 950  <a href="hyphen__init_8c.html#a67042e0cca15c495ed68ec1e0a81cdd0">更多...</a><br /></td></tr>
+<tr class="separator:a67042e0cca15c495ed68ec1e0a81cdd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1425ec2e15a685fa5e74800e7b26fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a4c1425ec2e15a685fa5e74800e7b26fc">trieused</a> [256]</td></tr>
+<tr class="separator:a4c1425ec2e15a685fa5e74800e7b26fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc45f64680f5f279db8c8fae0185bd3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#afc45f64680f5f279db8c8fae0185bd3f">trieoplang</a> [<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>]</td></tr>
+<tr class="separator:afc45f64680f5f279db8c8fae0185bd3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0b03434c4d0dcc6a27494be2d3c548f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#ad0b03434c4d0dcc6a27494be2d3c548f">trieopval</a> [<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>]</td></tr>
+<tr class="separator:ad0b03434c4d0dcc6a27494be2d3c548f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e076a69741119421782af2c481759bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a6e076a69741119421782af2c481759bc">trieopptr</a></td></tr>
+<tr class="separator:a6e076a69741119421782af2c481759bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368c1642d4332ec3db64f604159bf6ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f">PackedASCIICode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a368c1642d4332ec3db64f604159bf6ad">triec</a> [<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td></tr>
+<tr class="memdesc:a368c1642d4332ec3db64f604159bf6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">#947  <a href="hyphen__init_8c.html#a368c1642d4332ec3db64f604159bf6ad">更多...</a><br /></td></tr>
+<tr class="separator:a368c1642d4332ec3db64f604159bf6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04f83bf29a224676d6580b503d8af7eb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a04f83bf29a224676d6580b503d8af7eb">trieo</a> [<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td></tr>
+<tr class="separator:a04f83bf29a224676d6580b503d8af7eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7742e28f645e9f963fddb192e2aaefdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a7742e28f645e9f963fddb192e2aaefdb">triel</a> [<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td></tr>
+<tr class="separator:a7742e28f645e9f963fddb192e2aaefdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2c01e8aab45898b1740454181052e57"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#ab2c01e8aab45898b1740454181052e57">trier</a> [<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td></tr>
+<tr class="separator:ab2c01e8aab45898b1740454181052e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a728f5ec71394e8e9828c171c80d8baaf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a728f5ec71394e8e9828c171c80d8baaf">trieptr</a></td></tr>
+<tr class="separator:a728f5ec71394e8e9828c171c80d8baaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42d7d704314c727ab18e9bc16b647385"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a42d7d704314c727ab18e9bc16b647385">triehash</a> [<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td></tr>
+<tr class="separator:a42d7d704314c727ab18e9bc16b647385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62de088fcf54290e2a2faa2950f4323f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a62de088fcf54290e2a2faa2950f4323f">trietaken</a> [(<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+7)/8]</td></tr>
+<tr class="memdesc:a62de088fcf54290e2a2faa2950f4323f"><td class="mdescLeft">&#160;</td><td class="mdescRight">#950  <a href="hyphen__init_8c.html#a62de088fcf54290e2a2faa2950f4323f">更多...</a><br /></td></tr>
+<tr class="separator:a62de088fcf54290e2a2faa2950f4323f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bcbef4eda5db329c34f576f29175746"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#a8bcbef4eda5db329c34f576f29175746">triemin</a> [256]</td></tr>
+<tr class="separator:a8bcbef4eda5db329c34f576f29175746"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa882b43a4689a9656465a05b81afe98a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#aa882b43a4689a9656465a05b81afe98a">triemax</a></td></tr>
+<tr class="separator:aa882b43a4689a9656465a05b81afe98a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae12fd775719ef2052059c76221284eba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hyphen__init_8c.html#ae12fd775719ef2052059c76221284eba">trie_not_ready</a></td></tr>
+<tr class="separator:ae12fd775719ef2052059c76221284eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">变量说明</h2>
+<a id="ae12fd775719ef2052059c76221284eba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae12fd775719ef2052059c76221284eba">&#9670;&nbsp;</a></span>trie_not_ready</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> trie_not_ready</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a368c1642d4332ec3db64f604159bf6ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a368c1642d4332ec3db64f604159bf6ad">&#9670;&nbsp;</a></span>triec</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a469f07b872d5b153540e04edac4bc84f">PackedASCIICode</a> triec[<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#947 </p>
+
+</div>
+</div>
+<a id="a42d7d704314c727ab18e9bc16b647385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42d7d704314c727ab18e9bc16b647385">&#9670;&nbsp;</a></span>triehash</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> triehash[<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7742e28f645e9f963fddb192e2aaefdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7742e28f645e9f963fddb192e2aaefdb">&#9670;&nbsp;</a></span>triel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> triel[<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa882b43a4689a9656465a05b81afe98a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa882b43a4689a9656465a05b81afe98a">&#9670;&nbsp;</a></span>triemax</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> triemax</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8bcbef4eda5db329c34f576f29175746"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bcbef4eda5db329c34f576f29175746">&#9670;&nbsp;</a></span>triemin</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> triemin[256]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a04f83bf29a224676d6580b503d8af7eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04f83bf29a224676d6580b503d8af7eb">&#9670;&nbsp;</a></span>trieo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> trieo[<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a67042e0cca15c495ed68ec1e0a81cdd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67042e0cca15c495ed68ec1e0a81cdd0">&#9670;&nbsp;</a></span>trieophash</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short trieophash[<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>+<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>[ #942~966: PART 43: INITIALIZING THE HYPHENATION TABLES ] #943, 947, 950 </p>
+<p>#943 </p>
+
+</div>
+</div>
+<a id="afc45f64680f5f279db8c8fae0185bd3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc45f64680f5f279db8c8fae0185bd3f">&#9670;&nbsp;</a></span>trieoplang</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> trieoplang[<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6e076a69741119421782af2c481759bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e076a69741119421782af2c481759bc">&#9670;&nbsp;</a></span>trieopptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd">UInt16</a> trieopptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad0b03434c4d0dcc6a27494be2d3c548f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0b03434c4d0dcc6a27494be2d3c548f">&#9670;&nbsp;</a></span>trieopval</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> trieopval[<a class="el" href="group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698">TRIE_OP_SIZE</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a728f5ec71394e8e9828c171c80d8baaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a728f5ec71394e8e9828c171c80d8baaf">&#9670;&nbsp;</a></span>trieptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> trieptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2c01e8aab45898b1740454181052e57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2c01e8aab45898b1740454181052e57">&#9670;&nbsp;</a></span>trier</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2">TriePointer</a> trier[<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+1]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a62de088fcf54290e2a2faa2950f4323f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62de088fcf54290e2a2faa2950f4323f">&#9670;&nbsp;</a></span>trietaken</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886">UChar</a> trietaken[(<a class="el" href="group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794">TRIE_SIZE</a>+7)/8]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>#950 </p>
+
+</div>
+</div>
+<a id="a4c1425ec2e15a685fa5e74800e7b26fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1425ec2e15a685fa5e74800e7b26fc">&#9670;&nbsp;</a></span>trieused</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> trieused[256]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="hyphen__init_8c.html">hyphen_init.c</a></li>
+    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+  </ul>
+</div>
+</body>
+</html>

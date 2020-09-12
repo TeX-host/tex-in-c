@@ -1,0 +1,27 @@
+var hyphen__init_8c =
+[
+    [ "compresstrie", "group___s942x966___p350x359.html#ga03aa437a7edd164bf9979085f9092f0c", null ],
+    [ "firstfit", "group___s942x966___p350x359.html#gaa5fad05838cc754191304831fdee7dd4", null ],
+    [ "hyphen_init_once", "group___s942x966___p350x359.html#gab5131263f21a3651f1d743c2bc09bf9d", null ],
+    [ "inittrie", "group___s942x966___p350x359.html#ga4953f312f016c82145ae48b0d39341bd", null ],
+    [ "newpatterns", "group___s942x966___p350x359.html#ga1356e8c74d8485cbd0e20c09f2c25886", null ],
+    [ "newtrieop", "group___s942x966___p350x359.html#gaead56d759299e6fd34869fa6dfbe1c2a", null ],
+    [ "triefix", "group___s942x966___p350x359.html#ga1347f26a726c1ec02f4030d805f0b02c", null ],
+    [ "trienode", "group___s942x966___p350x359.html#gabdce31f52e9b54811d279238de36e531", null ],
+    [ "triepack", "group___s942x966___p350x359.html#ga70ae8451172c49d2b1151294b3ae8dc6", null ],
+    [ "trie_not_ready", "hyphen__init_8c.html#ae12fd775719ef2052059c76221284eba", null ],
+    [ "triec", "hyphen__init_8c.html#a368c1642d4332ec3db64f604159bf6ad", null ],
+    [ "triehash", "hyphen__init_8c.html#a42d7d704314c727ab18e9bc16b647385", null ],
+    [ "triel", "hyphen__init_8c.html#a7742e28f645e9f963fddb192e2aaefdb", null ],
+    [ "triemax", "hyphen__init_8c.html#aa882b43a4689a9656465a05b81afe98a", null ],
+    [ "triemin", "hyphen__init_8c.html#a8bcbef4eda5db329c34f576f29175746", null ],
+    [ "trieo", "hyphen__init_8c.html#a04f83bf29a224676d6580b503d8af7eb", null ],
+    [ "trieophash", "hyphen__init_8c.html#a67042e0cca15c495ed68ec1e0a81cdd0", null ],
+    [ "trieoplang", "hyphen__init_8c.html#afc45f64680f5f279db8c8fae0185bd3f", null ],
+    [ "trieopptr", "hyphen__init_8c.html#a6e076a69741119421782af2c481759bc", null ],
+    [ "trieopval", "hyphen__init_8c.html#ad0b03434c4d0dcc6a27494be2d3c548f", null ],
+    [ "trieptr", "hyphen__init_8c.html#a728f5ec71394e8e9828c171c80d8baaf", null ],
+    [ "trier", "hyphen__init_8c.html#ab2c01e8aab45898b1740454181052e57", null ],
+    [ "trietaken", "hyphen__init_8c.html#a62de088fcf54290e2a2faa2950f4323f", null ],
+    [ "trieused", "hyphen__init_8c.html#a4c1425ec2e15a685fa5e74800e7b26fc", null ]
+];

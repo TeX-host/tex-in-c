@@ -1,13 +1,14 @@
 var group___s942x966___p350x359 =
 [
-    [ "compresstrie", "group___s942x966___p350x359.html#gad929512db2f12a106b99437852e7460e", null ],
-    [ "firstfit", "group___s942x966___p350x359.html#ga7267010e98ff816d6702bfcb020bdbcb", null ],
-    [ "inittrie", "group___s942x966___p350x359.html#gac423621fe5a08c8f4707862a1ce43866", null ],
-    [ "linebreak", "group___s942x966___p350x359.html#gad9baeb7876ae4a6987788224f926d741", null ],
-    [ "newhyphexceptions", "group___s942x966___p350x359.html#gad7091e363a894dd8709d4ffc52701cd6", null ],
-    [ "newpatterns", "group___s942x966___p350x359.html#gad7dbe0d54039145250254d8b4dfe2bb4", null ],
-    [ "newtrieop", "group___s942x966___p350x359.html#ga23fda2d44ee16cd511d40423a1c1934b", null ],
-    [ "triefix", "group___s942x966___p350x359.html#gaffa8b04a0cb555d2033947c73b16669d", null ],
-    [ "trienode", "group___s942x966___p350x359.html#gaf34dfb1d2c9ca450c7fd0545193d5c97", null ],
-    [ "triepack", "group___s942x966___p350x359.html#gac3fd4463a5ff67804779f019071a95a1", null ]
+    [ "trieback", "group___s942x966___p350x359.html#gab603cca79c5795f580ebe988c56d82d9", null ],
+    [ "trieroot", "group___s942x966___p350x359.html#ga015390f60b8fbebcf85638a3d6954ac7", null ],
+    [ "compresstrie", "group___s942x966___p350x359.html#ga03aa437a7edd164bf9979085f9092f0c", null ],
+    [ "firstfit", "group___s942x966___p350x359.html#gaa5fad05838cc754191304831fdee7dd4", null ],
+    [ "hyphen_init_once", "group___s942x966___p350x359.html#gab5131263f21a3651f1d743c2bc09bf9d", null ],
+    [ "inittrie", "group___s942x966___p350x359.html#ga4953f312f016c82145ae48b0d39341bd", null ],
+    [ "newpatterns", "group___s942x966___p350x359.html#ga1356e8c74d8485cbd0e20c09f2c25886", null ],
+    [ "newtrieop", "group___s942x966___p350x359.html#gaead56d759299e6fd34869fa6dfbe1c2a", null ],
+    [ "triefix", "group___s942x966___p350x359.html#ga1347f26a726c1ec02f4030d805f0b02c", null ],
+    [ "trienode", "group___s942x966___p350x359.html#gabdce31f52e9b54811d279238de36e531", null ],
+    [ "triepack", "group___s942x966___p350x359.html#ga70ae8451172c49d2b1151294b3ae8dc6", null ]
 ];

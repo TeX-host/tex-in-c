@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['macros_5fh_3657',['MACROS_H',['../macros_8h.html#a3b0d58df33d14577c0022f631774a5e3',1,'macros.h']]],
-  ['mathchardefcode_3658',['mathchardefcode',['../tex_8h.html#a1cff5e3ffc5c840495ee95f90acfdf83',1,'tex.h']]],
-  ['movepast_3659',['movepast',['../tex_8h.html#a51211aff1f011195025553a9cb9e1f18',1,'tex.h']]],
-  ['mu_5fmult_3660',['MU_MULT',['../mmode_8c.html#a0b057506a50af58d1ba1c08a4b19a5d8',1,'mmode.c']]],
-  ['muskipdefcode_3661',['muskipdefcode',['../tex_8h.html#ad53893a78144c4722d8f094858740ef5',1,'tex.h']]],
-  ['my_5fbufsize_3662',['MY_BUFSIZE',['../io__unix_8c.html#a6079b3b36c54787d2dca2de2fb2c96df',1,'io_unix.c']]]
+  ['newhlist_3667',['newhlist',['../texmac_8h.html#a705e76711d81aeeda5dca8ed220577b0',1,'texmac.h']]],
+  ['nextp_3668',['nextp',['../tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad',1,'tex.h']]],
+  ['noexpandflag_3669',['noexpandflag',['../tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852',1,'tex.h']]],
+  ['non_5fchar_3670',['NON_CHAR',['../macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112',1,'macros.h']]],
+  ['nonaddress_3671',['nonaddress',['../tex_8h.html#a5b17f11a2394cca74fc404b0103004fe',1,'tex.h']]]
 ];

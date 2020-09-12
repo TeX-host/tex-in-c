@@ -1,8 +1,12 @@
 var searchData=
 [
-  ['veryloosefit_3752',['veryloosefit',['../tex_8h.html#a1466101fb5d43d72fafe1ba5ae32298c',1,'tex.h']]],
-  ['vetglue_3753',['vetglue',['../texmac_8h.html#a0aa17574af63a7035506c8c75b71b761',1,'texmac.h']]],
-  ['vpart_3754',['vpart',['../texmac_8h.html#aa0f37c54cd69cdd1d263f8842a28edaf',1,'texmac.h']]],
-  ['vsplitcode_3755',['vsplitcode',['../tex_8h.html#a9ace444c4ad95253e5d9b6f03c201531',1,'tex.h']]],
-  ['vtopcode_3756',['vtopcode',['../tex_8h.html#afcfa812930eb791c865ac881403662fe',1,'tex.h']]]
+  ['whatlang_3733',['whatlang',['../texmac_8h.html#ad9269e34f41010c68a631365bd5f11e0',1,'texmac.h']]],
+  ['whatlhm_3734',['whatlhm',['../texmac_8h.html#a90e9643230887de6718de30142839398',1,'texmac.h']]],
+  ['whatrhm_3735',['whatrhm',['../texmac_8h.html#ac9e67befd17a11165c9532ff811b4a9a',1,'texmac.h']]],
+  ['worddefine_3736',['worddefine',['../texmac_8h.html#a91fad6fa007f046d167fdedfa30f08be',1,'texmac.h']]],
+  ['wrapup_3737',['wrapup',['../texmac_8h.html#ac1046c2e6bce25d3a3ed5428a3a0f6a1',1,'texmac.h']]],
+  ['writenode_3738',['writenode',['../tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf',1,'tex.h']]],
+  ['writenodesize_3739',['writenodesize',['../tex_8h.html#aca3b19a74764fe6aedb09ef920913592',1,'tex.h']]],
+  ['writestream_3740',['writestream',['../texmac_8h.html#a09e7e6ae6793e13375a3faf02d1a8db4',1,'texmac.h']]],
+  ['writetokens_3741',['writetokens',['../texmac_8h.html#ac41879a7954d295be3e94c80eea84f55',1,'texmac.h']]]
 ];

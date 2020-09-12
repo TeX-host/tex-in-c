@@ -11,7 +11,7 @@ var group___s1136x1207___p417x434 =
     [ "mathlimitswitch", "group___s1136x1207___p417x434.html#ga0bbdf6b99963899adf89a6f5442d5cca", null ],
     [ "mathradical", "group___s1136x1207___p417x434.html#gacf8a78a71ef15e327cbfce097c00d1f1", null ],
     [ "pushmath", "group___s1136x1207___p417x434.html#ga42e65a4b8a8c0d6f592ef2c0d3744213", null ],
-    [ "resumeafterdisplay", "group___s1136x1207___p417x434.html#ga7405b001de7ab74fcf0d4d4ef878e826", null ],
+    [ "resumeafterdisplay", "group___s1136x1207___p417x434.html#ga5e20dcff03a0b655888f77fb621b21d4", null ],
     [ "scandelimiter", "group___s1136x1207___p417x434.html#gaefb193ed185aec94dcaae495fad366a5", null ],
     [ "scanmath", "group___s1136x1207___p417x434.html#ga1b1e679af9a898a80866ef136ac58942", null ],
     [ "setmathchar", "group___s1136x1207___p417x434.html#ga0b9fb0c254ed5b0377041547e3ae3a51", null ],

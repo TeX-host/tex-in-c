@@ -1,10 +1,13 @@
 <map id="pack.h" name="pack.h">
-<area shape="rect" id="node1" title=" " alt="" coords="366,5,435,35"/>
-<area shape="rect" id="node2" href="$box__destroy_8c.html" title=" " alt="" coords="5,83,127,112"/>
-<area shape="rect" id="node3" href="$math__formula_8c.html" title=" " alt="" coords="151,83,282,112"/>
-<area shape="rect" id="node4" href="$mmode_8c.html" title=" " alt="" coords="307,83,393,112"/>
-<area shape="rect" id="node5" href="$pack_8c.html" title=" " alt="" coords="417,83,485,112"/>
-<area shape="rect" id="node6" href="$scan_8c.html" title=" " alt="" coords="509,83,577,112"/>
-<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="602,83,717,112"/>
-<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="632,160,687,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="539,5,609,35"/>
+<area shape="rect" id="node2" href="$align_8c.html" title=" " alt="" coords="5,83,73,112"/>
+<area shape="rect" id="node3" href="$box__destroy_8c.html" title=" " alt="" coords="97,83,219,112"/>
+<area shape="rect" id="node4" href="$hyphen__pre_8c.html" title=" " alt="" coords="243,83,361,112"/>
+<area shape="rect" id="node5" href="$linebreak_8c.html" title=" " alt="" coords="386,83,485,112"/>
+<area shape="rect" id="node6" href="$math__formula_8c.html" title=" " alt="" coords="509,83,639,112"/>
+<area shape="rect" id="node7" href="$mmode_8c.html" title=" " alt="" coords="664,83,751,112"/>
+<area shape="rect" id="node8" href="$pack_8c.html" title=" " alt="" coords="775,83,843,112"/>
+<area shape="rect" id="node9" href="$scan_8c.html" title=" " alt="" coords="867,83,935,112"/>
+<area shape="rect" id="node10" href="$tex__header_8h.html" title=" " alt="" coords="959,83,1074,112"/>
+<area shape="rect" id="node11" href="$tex_8c.html" title=" " alt="" coords="989,160,1044,189"/>
 </map>

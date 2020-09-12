@@ -1,10 +1,13 @@
 <map id="expand.h" name="expand.h">
-<area shape="rect" id="node1" title=" " alt="" coords="281,5,369,35"/>
-<area shape="rect" id="node2" href="$expand_8c.html" title=" " alt="" coords="5,83,92,112"/>
-<area shape="rect" id="node3" href="$io__fname_8c.html" title=" " alt="" coords="116,83,216,112"/>
-<area shape="rect" id="node4" href="$lexer_8c.html" title=" " alt="" coords="240,83,308,112"/>
-<area shape="rect" id="node5" href="$printout_8c.html" title=" " alt="" coords="332,83,419,112"/>
-<area shape="rect" id="node6" href="$scan_8c.html" title=" " alt="" coords="443,83,511,112"/>
-<area shape="rect" id="node7" href="$tex__header_8h.html" title=" " alt="" coords="535,83,650,112"/>
-<area shape="rect" id="node8" href="$tex_8c.html" title=" " alt="" coords="565,160,620,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="466,5,554,35"/>
+<area shape="rect" id="node2" href="$align_8c.html" title=" " alt="" coords="5,83,73,112"/>
+<area shape="rect" id="node3" href="$expand_8c.html" title=" " alt="" coords="97,83,184,112"/>
+<area shape="rect" id="node4" href="$hyphen_8c.html" title=" " alt="" coords="208,83,295,112"/>
+<area shape="rect" id="node5" href="$hyphen__init_8c.html" title=" " alt="" coords="319,83,437,112"/>
+<area shape="rect" id="node6" href="$io__fname_8c.html" title=" " alt="" coords="460,83,560,112"/>
+<area shape="rect" id="node7" href="$lexer_8c.html" title=" " alt="" coords="584,83,652,112"/>
+<area shape="rect" id="node8" href="$printout_8c.html" title=" " alt="" coords="676,83,763,112"/>
+<area shape="rect" id="node9" href="$scan_8c.html" title=" " alt="" coords="787,83,855,112"/>
+<area shape="rect" id="node10" href="$tex__header_8h.html" title=" " alt="" coords="879,83,994,112"/>
+<area shape="rect" id="node11" href="$tex_8c.html" title=" " alt="" coords="909,160,964,189"/>
 </map>

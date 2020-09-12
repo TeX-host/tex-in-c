@@ -31,6 +31,7 @@ var error_8h =
     [ "pause_for_instructions", "group___s72x98___p30x37.html#gaa3d0efc3b8663c4087e1440bd3bf46c0", null ],
     [ "print_err", "group___s72x98___p30x37.html#gaa6d19f08c55cdc1e1dcf9e5f46de29ad", null ],
     [ "print_err_str", "group___s72x98___p30x37.html#gace455dd681029a71f650e1dcdf05399a", null ],
+    [ "set_help", "group___s72x98___p30x37.html#ga92ba8fdc59f3507fef5e106449973f5d", null ],
     [ "succumb", "group___s72x98___p30x37.html#ga52c316ff3196c6beb77ea46843f677df", null ],
     [ "deletions_allowed", "group___s72x98___p30x37.html#ga111f306f8f66ea55ea260b9c94a9cfbb", null ],
     [ "errorcount", "group___s72x98___p30x37.html#ga1ec7a4e6077987d1cba9ba70dafc2158", null ],

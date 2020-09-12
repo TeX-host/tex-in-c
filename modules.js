@@ -39,7 +39,7 @@ var modules =
     [ "PART 37: Alignment", "group___s768x812___p285x301.html", "group___s768x812___p285x301" ],
     [ "PART 38: Breaking paragraphs into lines", "group___s813x861___p302x318.html", "group___s813x861___p302x318" ],
     [ "PART 39: Breaking paragraphs into lines, continued", "group___s862x890___p319x329.html", "group___s862x890___p319x329" ],
-    [ "PART 40: Pre-hyphenation", "group___s891x899___p330x333.html", null ],
+    [ "PART 40: Pre-hyphenation", "group___s891x899___p330x333.html", "group___s891x899___p330x333" ],
     [ "PART 41: Post-hyphenation", "group___s900x918___p334x343.html", "group___s900x918___p334x343" ],
     [ "PART 42: Hyphenation", "group___s919x941___p344x349.html", "group___s919x941___p344x349" ],
     [ "PART 43: Initializing the hyphenation tables", "group___s942x966___p350x359.html", "group___s942x966___p350x359" ],

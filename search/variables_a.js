@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['job_5fname_2845',['job_name',['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c'],['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c'],['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c']]],
-  ['justbox_2846',['justbox',['../tex__header_8h.html#af39f300eeaa5f44f02296e481c59a099',1,'tex_header.h']]]
+  ['job_5fname_2872',['job_name',['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c'],['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c'],['../group___s511x538___p188x195.html#ga5e6f30c4855458708f892a3b2b98c77c',1,'job_name():&#160;io_fname.c']]],
+  ['justbox_2873',['justbox',['../group___s813x861___p302x318.html#ga64c41c383baecaa3bd08144418b14098',1,'justbox():&#160;linebreak.c'],['../group___s813x861___p302x318.html#ga64c41c383baecaa3bd08144418b14098',1,'justbox():&#160;linebreak.c']]]
 ];

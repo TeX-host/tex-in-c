@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['tex_2ec_2199',['tex.c',['../tex_8c.html',1,'']]],
-  ['tex_2eh_2200',['tex.h',['../tex_8h.html',1,'']]],
-  ['tex_5fconstant_2eh_2201',['tex_constant.h',['../tex__constant_8h.html',1,'']]],
-  ['tex_5fheader_2eh_2202',['tex_header.h',['../tex__header_8h.html',1,'']]],
-  ['tex_5ftypes_2eh_2203',['tex_types.h',['../tex__types_8h.html',1,'']]],
-  ['texfunc_2eh_2204',['texfunc.h',['../texfunc_8h.html',1,'']]],
-  ['texmac_2eh_2205',['texmac.h',['../texmac_8h.html',1,'']]],
-  ['texmath_2ec_2206',['texmath.c',['../texmath_8c.html',1,'']]],
-  ['texmath_2eh_2207',['texmath.h',['../texmath_8h.html',1,'']]]
+  ['scan_2ec_2218',['scan.c',['../scan_8c.html',1,'']]],
+  ['scan_2eh_2219',['scan.h',['../scan_8h.html',1,'']]],
+  ['str_2ec_2220',['str.c',['../str_8c.html',1,'']]],
+  ['str_2eh_2221',['str.h',['../str_8h.html',1,'']]],
+  ['str_5fpool_5finit_2eh_2222',['str_pool_init.h',['../str__pool__init_8h.html',1,'']]]
 ];

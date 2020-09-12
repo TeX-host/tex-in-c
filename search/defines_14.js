@@ -1,19 +1,7 @@
 var searchData=
 [
-  ['tex_5ffunc_5fh_3728',['TEX_FUNC_H',['../texfunc_8h.html#a2c669e576308a8a2c3e775525832c576',1,'texfunc.h']]],
-  ['tex_5fh_3729',['TEX_H',['../tex_8h.html#a9d0325ff9498f81e9f5679b856f4f6dc',1,'tex.h']]],
-  ['texmac_5fh_3730',['TEXMAC_H',['../texmac_8h.html#ae17c3a30f0411ca6c671185763456035',1,'texmac.h']]],
-  ['tightfit_3731',['tightfit',['../tex_8h.html#a4041a0306844a25705eb896aceb99844',1,'tex.h']]],
-  ['toksdefcode_3732',['toksdefcode',['../tex_8h.html#a5ff4bdb0bd136785d27dadfc7acf0ce4',1,'tex.h']]],
-  ['topmark_3733',['topmark',['../texmac_8h.html#aee77b5b570c5ca3dcc4134ff7f7534c3',1,'texmac.h']]],
-  ['topmarkcode_3734',['topmarkcode',['../tex_8h.html#a3ed37caad9012173d6435e90982ad16c',1,'tex.h']]],
-  ['totaldemerits_3735',['totaldemerits',['../texmac_8h.html#a37516cd024577064fcda1dfbda9ce831',1,'texmac.h']]],
-  ['trieback_3736',['trieback',['../texmac_8h.html#ab603cca79c5795f580ebe988c56d82d9',1,'texmac.h']]],
-  ['triechar_3737',['triechar',['../texmac_8h.html#a331cceb030df255307b3656300a023bd',1,'texmac.h']]],
-  ['trielink_3738',['trielink',['../texmac_8h.html#a2cc61a2469c158039967cb1828047baa',1,'texmac.h']]],
-  ['trieop_3739',['trieop',['../texmac_8h.html#ae4c844cac3884be28358c0cb1aefd138',1,'texmac.h']]],
-  ['trieroot_3740',['trieroot',['../texmac_8h.html#a015390f60b8fbebcf85638a3d6954ac7',1,'texmac.h']]],
-  ['tt_5fdebug_3741',['tt_DEBUG',['../global__const_8h.html#af267a06209fb39e2c6edc9837b0a6760',1,'global_const.h']]],
-  ['tt_5finit_3742',['tt_INIT',['../global__const_8h.html#ab739cb2136f673c40eff3fa85fc2d5ab',1,'global_const.h']]],
-  ['tt_5fstat_3743',['tt_STAT',['../global__const_8h.html#a8cb61329ea249b9bfeb7c702119b0aa8',1,'global_const.h']]]
+  ['umaxof_3726',['UMAXOF',['../global__const_8h.html#a0b214f24d057045ee6b4f4b664f4fc1e',1,'global_const.h']]],
+  ['updateheights_3727',['updateheights',['../tex_8h.html#a20d3e3b177c8326e0941cf2a7b293cd9',1,'tex.h']]],
+  ['use_5freal_5fstr_3728',['USE_REAL_STR',['../global__const_8h.html#a0c2a3337a49ec0cb25d10239facd2b7b',1,'global_const.h']]],
+  ['use_5fsplit_5fmod_3729',['USE_SPLIT_MOD',['../global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30',1,'global_const.h']]]
 ];
