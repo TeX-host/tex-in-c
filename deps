@@ -1,8 +1,8 @@
 tex.o: tex.c tex_header.h global_const.h texmath.h tex_types.h tex.h \
  tex_constant.h box.h str.h texmac.h mem.h global.h scan.h lexer.h \
  fonts.h macros.h printout.h dviout.h print.h expand.h error.h hash.h \
- eqtb.h io.h pack.h mmode.h align.h linebreak.h hyphen.h page.h dump.h \
- extension.h texfunc.h
+ eqtb.h io.h pack.h mmode.h align.h linebreak.h hyphen.h page.h \
+ main_ctrl.h texfunc.h dump.h extension.h
 io.o: io.c tex.h global_const.h tex_types.h tex_constant.h box.h str.h \
  global.h scan.h lexer.h fonts.h texfunc.h error.h io.h
 io_unix.o: io_unix.c tex.h global_const.h tex_types.h tex_constant.h \
@@ -52,7 +52,8 @@ math_formula.o: math_formula.c tex.h global_const.h tex_types.h \
  dviout.h eqtb.h texmath.h print.h texmac.h error.h texfunc.h mmode.h
 align.o: align.c mem.h tex_types.h global.h str.h global_const.h scan.h \
  lexer.h tex.h tex_constant.h box.h fonts.h dviout.h print.h texmac.h \
- pack.h mmode.h error.h expand.h texfunc.h align.h eqtb.h
+ pack.h mmode.h error.h expand.h texfunc.h main_ctrl.h io.h texmath.h \
+ eqtb.h page.h hyphen.h macros.h linebreak.h align.h
 linebreak.o: linebreak.c tex.h global_const.h tex_types.h tex_constant.h \
  box.h str.h global.h scan.h lexer.h fonts.h mem.h macros.h texfunc.h \
  print.h texmac.h eqtb.h pack.h error.h texmath.h hyphen.h extension.h \
@@ -76,7 +77,12 @@ pagebreak.o: pagebreak.c tex_types.h mem.h global.h str.h global_const.h \
 page_builder.o: page_builder.c global_const.h tex_types.h eqtb.h \
  tex_constant.h box.h str.h mem.h global.h scan.h lexer.h tex.h fonts.h \
  linebreak.h pack.h print.h texmac.h error.h expand.h texfunc.h texmath.h \
- mmode.h dviout.h page.h
+ mmode.h dviout.h main_ctrl.h io.h page.h hyphen.h macros.h
+main_ctrl.o: main_ctrl.c main_ctrl.h tex_types.h tex_constant.h box.h \
+ str.h global_const.h texfunc.h fonts.h io.h mem.h global.h scan.h \
+ lexer.h tex.h texmath.h eqtb.h page.h error.h hyphen.h macros.h expand.h \
+ linebreak.h mmode.h pack.h print.h texmac.h build_box.c build_math.c \
+ indep_process.c
 dump.o: dump.c global_const.h tex_types.h global.h str.h scan.h lexer.h \
  tex.h tex_constant.h box.h fonts.h mem.h eqtb.h io.h hash.h hyphen.h \
  error.h print.h texmac.h macros.h extension.h dump.h
@@ -85,7 +91,8 @@ debug.o: debug.c global_const.h tex_types.h io.h tex_constant.h box.h \
  texmac.h texfunc.h printout.h debug.h
 extension.o: extension.c io.h tex_constant.h box.h str.h global_const.h \
  tex_types.h mem.h global.h scan.h lexer.h tex.h fonts.h error.h print.h \
- texmac.h dviout.h expand.h texfunc.h extension.h eqtb.h hyphen.h
+ texmac.h dviout.h expand.h texfunc.h main_ctrl.h texmath.h eqtb.h page.h \
+ hyphen.h macros.h linebreak.h mmode.h pack.h extension.h
 lexer.o: lexer.c print.h tex_types.h tex.h global_const.h tex_constant.h \
  box.h str.h texmac.h mem.h global.h scan.h lexer.h fonts.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h eqtb.h texmath.h \

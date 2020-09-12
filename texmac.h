@@ -64,67 +64,6 @@
 // [#360]: \endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
 
-/// [p386#1034]
-#define adjustspacefactor()              \
-    {                                    \
-        mains = sf_code(curchr);          \
-        if (mains == 1000) {             \
-            spacefactor = 1000;          \
-        } else if (mains < 1000) {       \
-            if (mains > 0) {             \
-                spacefactor = mains;     \
-            }                            \
-        } else if (spacefactor < 1000) { \
-            spacefactor = 1000;          \
-        } else                           \
-            spacefactor = mains;         \
-    }
-
-/// [p387#1035] the PARAMETER is either |rthit| or |false|
-#define packlig(x)                                    \
-    {                                                 \
-        mainp = newligature(mainf, curl, link(curq)); \
-        if (lfthit) {                                 \
-            subtype(mainp) = 2;                       \
-            lfthit = false;                           \
-        }                                             \
-        if ((x) && (ligstack == null)) {              \
-            subtype(mainp)++;                         \
-            rthit = false;                            \
-        }                                             \
-        link(curq) = mainp;                           \
-        tail = mainp;                                 \
-        ligaturepresent = false;                      \
-    }
-
-/// [p387#1035]
-#define wrapup(x)                                       \
-    if (curl < NON_CHAR) {                              \
-        if (character(tail) == get_hyphenchar(mainf)) { \
-            if (link(curq) > 0) insdisc = true;         \
-        }                                               \
-        if (ligaturepresent) {                          \
-            packlig(x);                                 \
-        }                                               \
-        if (insdisc) {                                  \
-            insdisc = false;                            \
-            if (mode > 0) {                             \
-                tailappend(newdisc());                  \
-            }                                           \
-        }                                               \
-    }
-
-
-/// [p420#1151]
-#define faminrange ((curfam >= 0) && (curfam < 16))
-
-/// [p437#1214]
-/// 1218, 1241
-#define define(x, y, z) \
-    ((a >= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))
-#define worddefine(x, y) \
-    ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
-
 
 // #866
 #define actwidth activewidth[0] // length from first active node to current node

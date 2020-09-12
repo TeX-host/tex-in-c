@@ -6,6 +6,7 @@
 #include "dviout.h"
 #include "expand.h"
 #include "texfunc.h"
+#include "main_ctrl.h"
 #include "extension.h"
 
 /** @addtogroup S1340x1379_P472x481

@@ -12,6 +12,7 @@
 #include "texmac.h"
 #include "mmode.h"
 #include "dviout.h"
+#include "main_ctrl.h"
 #include "page.h"
 
 /** @addtogroup S980x1028_P366x382

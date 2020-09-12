@@ -8,6 +8,7 @@
 #include "error.h"
 #include "expand.h"
 #include "texfunc.h"
+#include "main_ctrl.h"
 #include "align.h"
 
 

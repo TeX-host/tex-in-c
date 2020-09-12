@@ -39,6 +39,7 @@
 #include "linebreak.h"
 #include "hyphen.h"
 #include "page.h"
+#include "main_ctrl.h"
 #include "dump.h"
 #include "extension.h"
 #include "texfunc.h"    // [export]
@@ -102,33 +103,12 @@ Boolean force_eof;
 
 /// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
 /*480:*/
-Static FILE* readfile[16];
+FILE* readfile[16];
 char readopen[17];
 /*:480*/
 /** @}*/ // end group S464x486_P174x180
 
-/*1032:*/
-Static InternalFontNumber mainf;
-Static FourQuarters maini, mainj;
-Static FontIndex maink;
-Pointer mainp;
-Static Integer mains;
-Static HalfWord bchar, falsebchar;
-Static Boolean cancelboundary, insdisc;
-/*:1032*/
 
-
-/*1074:*/
-Static Pointer curbox;
-/*:1074*/
-
-
-/*1266:*/
-Static HalfWord aftertoken;
-/*:1266*/
-/*1281:*/
-Static Boolean longhelpseen;
-/*:1281*/
 
 jmp_buf _JMP_global__final_end;
 

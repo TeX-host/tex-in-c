@@ -57,6 +57,8 @@ extern Pointer hyphlist[HYPH_SIZE + 1];
 // eqtb
 extern Boolean use_independence_date;
 
+// main-ctrl
+extern FILE* readfile[16];
 
 
 #endif // #ifndef GLOBAL_H
