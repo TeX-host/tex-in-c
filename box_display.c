@@ -8,6 +8,7 @@
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext
 #include "mmode.h"
+#include "io.h" // print_file_name
 #include "box.h"
 
 

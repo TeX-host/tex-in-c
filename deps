@@ -29,7 +29,7 @@ box.o: box.c tex_types.h tex_constant.h box.h str.h global_const.h mem.h \
  global.h scan.h lexer.h tex.h fonts.h eqtb.h
 box_display.o: box_display.c tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h tex.h fonts.h texfunc.h \
- texmath.h print.h texmac.h hash.h eqtb.h mmode.h
+ texmath.h print.h texmac.h hash.h eqtb.h mmode.h io.h
 box_destroy.o: box_destroy.c tex_types.h tex_constant.h box.h str.h \
  global_const.h mem.h global.h scan.h lexer.h tex.h fonts.h texmac.h \
  error.h pack.h mmode.h

@@ -2,32 +2,14 @@
 #ifndef TEX_FUNC_H
 // tex.c 导出的函数
 #define TEX_FUNC_H
-#include "str.h" // StrNumber
 
-
-// [tex], fonts, printout, str
-extern void print_int(Integer n);
-
-// [tex], fonts, printout
-extern void print_esc(StrNumber s);
-
-// [tex], fonts, str
-extern void println(void);
 
 // [tex], printout
-extern void print_hex(Integer n);
 extern void print_size(Integer s);
-
-// [tex], fonts
-extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
-
 
 // [tex] expand
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
-
-// [tex] scan
-extern Pointer newspec(Pointer p);
 
 // [tex], error
 extern void debughelp(void);
@@ -49,4 +31,5 @@ extern void resumeafterdisplay(void);
 extern void buildpage(void);
 
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
+
 #endif // TEX_FUNC_H
