@@ -12,7 +12,6 @@ extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 
 // [tex], error
-extern void debughelp(void);
 extern void jumpout(void);
 extern void giveerrhelp(void);
 
@@ -28,5 +27,8 @@ extern void resumeafterdisplay(void);
 extern void buildpage(void);
 
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
+
+// debug
+extern void printword(MemoryWord w);
 
 #endif // TEX_FUNC_H

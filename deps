@@ -77,6 +77,9 @@ page_builder.o: page_builder.c global_const.h tex_types.h eqtb.h \
 dump.o: dump.c global_const.h tex_types.h global.h str.h scan.h lexer.h \
  tex.h tex_constant.h box.h fonts.h mem.h eqtb.h io.h hash.h hyphen.h \
  error.h print.h texmac.h macros.h dump.h
+debug.o: debug.c global_const.h tex_types.h io.h tex_constant.h box.h \
+ str.h mem.h global.h scan.h lexer.h tex.h fonts.h eqtb.h print.h \
+ texmac.h texfunc.h printout.h debug.h
 lexer.o: lexer.c print.h tex_types.h tex.h global_const.h tex_constant.h \
  box.h str.h texmac.h mem.h global.h scan.h lexer.h fonts.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h eqtb.h texmath.h \
@@ -95,7 +98,7 @@ scan.o: scan.c texmac.h mem.h tex_types.h global.h str.h global_const.h \
  expand.h texmath.h printout.h error.h eqtb.h print.h pack.h page.h
 error.o: error.c tex_types.h global.h str.h global_const.h scan.h lexer.h \
  tex.h tex_constant.h box.h fonts.h texfunc.h macros.h print.h texmac.h \
- mem.h io.h error.h
+ mem.h io.h debug.h error.h
 mem.o: mem.c lexer.h tex.h global_const.h tex_types.h tex_constant.h \
  box.h str.h texmac.h mem.h global.h scan.h fonts.h error.h eqtb.h \
  texmath.h print.h align.h linebreak.h page.h

@@ -5,6 +5,7 @@
 #include "macros.h" // [macro] help4,
 #include "print.h"  // term_input
 #include "io.h"     // [func] update_terminal
+#include "debug.h"
 #include "error.h"
 
 

@@ -4,6 +4,8 @@
  *
  */
 #define INC_IO_H
+#include "tex_constant.h"
+#include "str.h"
 
 /** @addtogroup S25x37_P13x18
  * @{
