@@ -1,7 +1,7 @@
 tex.o: tex.c tex_header.h global_const.h texmath.h tex_types.h tex.h \
  tex_constant.h box.h str.h texmac.h mem.h global.h scan.h lexer.h \
  fonts.h macros.h printout.h dviout.h print.h expand.h error.h hash.h \
- eqtb.h io.h pack.h mmode.h align.h linebreak.h hyphen.h texfunc.h
+ eqtb.h io.h pack.h mmode.h align.h linebreak.h hyphen.h page.h texfunc.h
 io.o: io.c tex.h tex_types.h tex_constant.h box.h str.h global_const.h \
  global.h scan.h lexer.h fonts.h texfunc.h error.h io.h
 io_unix.o: io_unix.c tex.h tex_types.h tex_constant.h box.h str.h \
@@ -66,10 +66,17 @@ hyphen.o: hyphen.c str.h global_const.h tex_types.h mem.h global.h scan.h \
 hyphen_init.o: hyphen_init.c global_const.h lexer.h tex.h tex_types.h \
  tex_constant.h box.h str.h mem.h global.h scan.h fonts.h print.h \
  texmac.h error.h texfunc.h expand.h hyphen.h eqtb.h
+pagebreak.o: pagebreak.c tex_types.h mem.h global.h str.h global_const.h \
+ scan.h lexer.h tex.h tex_constant.h box.h fonts.h eqtb.h linebreak.h \
+ pack.h print.h texmac.h error.h expand.h texmath.h mmode.h page.h
+page_builder.o: page_builder.c global_const.h tex_types.h eqtb.h \
+ tex_constant.h box.h str.h mem.h global.h scan.h lexer.h tex.h fonts.h \
+ linebreak.h pack.h print.h texmac.h error.h expand.h texfunc.h texmath.h \
+ mmode.h dviout.h page.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h lexer.h fonts.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h eqtb.h texmath.h \
- align.h
+ align.h page.h
 fonts.o: fonts.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h macros.h error.h lexer.h global.h scan.h fonts.h \
  texfunc.h texmath.h hash.h eqtb.h mem.h print.h texmac.h io.h
@@ -82,13 +89,13 @@ expand.o: expand.c tex.h tex_types.h tex_constant.h box.h str.h \
  expand.h
 scan.o: scan.c texmac.h mem.h tex_types.h global.h str.h global_const.h \
  scan.h lexer.h tex.h tex_constant.h box.h fonts.h texfunc.h macros.h \
- expand.h texmath.h printout.h error.h eqtb.h print.h pack.h
+ expand.h texmath.h printout.h error.h eqtb.h print.h pack.h page.h
 error.o: error.c tex_types.h global.h str.h global_const.h scan.h lexer.h \
  tex.h tex_constant.h box.h fonts.h texfunc.h macros.h print.h texmac.h \
  mem.h io.h error.h
 mem.o: mem.c lexer.h tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h fonts.h error.h eqtb.h \
- texmath.h print.h align.h linebreak.h
+ texmath.h print.h align.h linebreak.h page.h
 pack.o: pack.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h texmath.h global.h scan.h lexer.h fonts.h eqtb.h mem.h \
- print.h texmac.h error.h pack.h
+ print.h texmac.h error.h page.h pack.h

@@ -18,6 +18,7 @@
 #include "box.h" // [func] newrule, newspec
 #include "print.h" // [func] print
 #include "pack.h"  // lastbadness
+#include "page.h"
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173

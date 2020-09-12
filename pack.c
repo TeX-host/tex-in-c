@@ -9,6 +9,7 @@
 #include "print.h"
 #include "error.h"
 #include "fonts.h"
+#include "page.h"
 #include "pack.h"
 
 

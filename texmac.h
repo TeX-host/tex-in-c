@@ -64,33 +64,6 @@
 // [#360]: \endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
 
-/// [p361#970] initialize the height to zero.
-#define setheightzero(x) (activeheight[(x)-1] = 0)
-/// [p361#970]
-#define activeheight activewidth    /*new name for the six distance variables*/
-#define curheight (activeheight[0]) /*the natural height*/
-
-
-/// [p367#981] an insertion for this class will break here if anywhere
-#define brokenptr(x)    link(x+1)
-#define brokenins(x)    info(x+1) /* this insertion might break at |brokenptr|}*/
-#define lastinsptr(x)   link(x+2) /* the most recent insertion for this |subtype|}*/
-#define bestinsptr(x)   info(x+2) /* the optimum most recent insertion}*/
-
-/// [p369#987]
-#define setpagesofarzero(x) (pagesofar[(x)] = 0)
-
-/// [p368#982]
-#define pagegoal \
-    (pagesofar[0]) /*desired height of information on page being built*/
-#define pagetotal (pagesofar[1])  /*height of the current page*/
-#define pageshrink (pagesofar[6]) /*shrinkability of the current page*/
-#define pagedepth (pagesofar[7])  /*depth of the current page*/
-
-/// [p371#995]
-#define contribtail (nest[0].tailfield) /*tail of the contribution list*/
-
-
 /// [p386#1034]
 #define adjustspacefactor()              \
     {                                    \

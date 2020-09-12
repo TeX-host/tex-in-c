@@ -19,9 +19,6 @@ extern void giveerrhelp(void);
 // tex, box
 extern void print_write_whatsit(StrNumber s, Pointer p);
 
-// lexer
-extern void printtotals(void);
-
 // dviout
 extern void outwhat(HalfWord p);
 

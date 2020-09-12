@@ -44,13 +44,6 @@ extern StrNumber job_name;
 // [tex] scan
 extern ListStateRecord nest[NEST_SIZE + 1];
 extern Integer deadcycles;
-extern char pagecontents;
-extern Scaled pagesofar[8];
-extern Integer lastpenalty, insertpenalties;
-extern Boolean outputactive;
-extern Scaled lastkern;
-extern Pointer lastglue;
-
 
 // [tex], error
 extern Boolean log_opened;
@@ -61,9 +54,6 @@ extern Integer breadth_max;
 
 // [tex], mem
 extern Pointer hyphlist[HYPH_SIZE + 1];
-
-// [tex] lexer
-extern Pointer pagetail;
 
 // eqtb
 extern Boolean use_independence_date;

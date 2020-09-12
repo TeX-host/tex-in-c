@@ -54,19 +54,6 @@
 #define checkdimensions     82
 #define deleteq             83
 
-// [p361#970]
-#define updateheights   90
-// [p363#974]
-#define deplorable      100000L
-// [p366#980]
-#define insertsonly     1
-#define boxthere        2
-// [p367#981]
-#define pageinsnodesize  4
-#define inserting        0
-#define splitup          1
-// [p371#994]
-#define contribute      80
 
 // [p384#1030] jmp label
 // #define bigswitch            60

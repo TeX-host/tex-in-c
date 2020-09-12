@@ -7,6 +7,7 @@
 #include "box.h"     // type
 #include "align.h"
 #include "linebreak.h"
+#include "page.h"
 #include "mem.h"
 
 
@@ -505,14 +506,9 @@ void mem_init_once() {
         type(lastactive) = hyphenated;
         linenumber(lastactive) = MAX_HALF_WORD;
         // the subtype is never examined by the algorithm
-        subtype(lastactive) = 0; 
-        /// #981
-        subtype(pageinshead) = MIN_QUARTER_WORD + 255;
-        type(pageinshead) = splitup;
-        link(pageinshead) = pageinshead;
-        /// #988
-        type(pagehead) = GLUE_NODE;
-        subtype(pagehead) = NORMAL;
+        subtype(lastactive) = 0;
+
+        page_builder_init_once();
     }
 
     /// p59#164

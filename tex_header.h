@@ -38,6 +38,7 @@
 #include "align.h"
 #include "linebreak.h"
 #include "hyphen.h"
+#include "page.h"
 #include "texfunc.h"    // [export]
 
 
@@ -104,30 +105,11 @@ char readopen[17];
 /*:480*/
 /** @}*/ // end group S464x486_P174x180
 
-
-/*971:*/
-Scaled bestheightplusdepth, pagemaxdepth, bestsize, lastkern;
-/*:971*/
-
-
-/*980:*/
-Pointer pagetail, bestpagebreak, lastglue, mainp;
-char pagecontents;
-Static Integer leastpagecost;
-/*:980*/
-/*982:*/
-Scaled pagesofar[8];
-Integer lastpenalty, insertpenalties;
-/*:982*/
-/*989:*/
-Boolean outputactive;
-/*:989*/
-
-
 /*1032:*/
 Static InternalFontNumber mainf;
 Static FourQuarters maini, mainj;
 Static FontIndex maink;
+Pointer mainp;
 Static Integer mains;
 Static HalfWord bchar, falsebchar;
 Static Boolean cancelboundary, insdisc;
