@@ -6,6 +6,8 @@
 #include "print.h"  // term_input
 #include "io.h"     // [func] update_terminal
 #include "debug.h"
+#include "lexer.h" // [func] showcontext, clearforerrorprompt, beginfilereading
+    // [var] curtok
 #include "error.h"
 
 

@@ -1,4 +1,3 @@
-#include "texmac.h"
 #include "global.h" // [var] eqtb
 #include "scan.h"   // [var] cur_val
 #include "error.h"  // [func] overflow

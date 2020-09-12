@@ -1,5 +1,4 @@
 #include "lexer.h"  // [func] runaway, showtokenlist
-#include "texmac.h" // [macro] type
 #include "error.h"  // [func] overflow
 #include "eqtb.h"   // [macro] ACTIVE_BASE, BOX_BASE
 #include "texmath.h" // [macro] UNITY
@@ -8,6 +7,7 @@
 #include "align.h"
 #include "linebreak.h"
 #include "page.h"
+#include "hyphen.h" // [var] hyphlist
 #include "mem.h"
 
 

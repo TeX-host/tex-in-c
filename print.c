@@ -7,6 +7,7 @@
 #include "io.h" // [func] inputln
 #include "error.h"  // [func] fatalerror
 #include "extension.h" // [var] write_file
+#include "dump.h"      // [var] format_ident
 #include "eqtb.h"
 
 

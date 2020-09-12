@@ -6,7 +6,6 @@
 #include "eqtb.h"
 #include "texmath.h"
 #include "print.h"
-#include "texmac.h"
 #include "error.h"
 #include "fonts.h"
 #include "texfunc.h"

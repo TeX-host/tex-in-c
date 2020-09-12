@@ -20,6 +20,7 @@
 #include "texfunc.h" // [func] outwhat
 #include "error.h"   // [func] print_err
 #include "extension.h"
+#include "scan.h"   // MAX_DIMEN
 #include "dviout.h" // [export]
 
 
@@ -30,6 +31,15 @@
 #define ID_BYTE 2
 /// [#605]: number of words per entry in the down and right stacks
 #define MOVEMENT_NODE_SIZE 3
+/// [p223#605] DVI byte number for a movement command
+// #define location(x)     mem[x+2].int_
+/// [p231#625]
+#define vetglue(x)                    \
+    (gluetemp = (x),                  \
+     ((gluetemp > (1000000000.0))     \
+          ? (gluetemp = 1000000000.0) \
+          : ((gluetemp < -1000000000.0) ? (gluetemp = -1000000000.0) : 0)))
+
 
 /// p224#608
 enum DVISetting {

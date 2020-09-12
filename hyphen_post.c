@@ -2,7 +2,6 @@
 #include "linebreak.h"
 #include "mem.h"
 #include "macros.h"
-#include "texmac.h"
 #include "error.h"
 #include "hyphen.h"
 

@@ -187,6 +187,26 @@ enum TokenType {
 /// [p125#307] base of macro parameters in paramstack.
 #define param_start LIMIT
 /** @}*/ // end group S300x320_P121x130
+/** @addtogroup S321x331_P131x133
+ *  @{
+ */
+// [p131#322] leave an input level, re-enter the old
+#define popinput() (inputptr--, cur_input = inputstack[inputptr])
+// [p131#323] backs up a simple token list
+#define backlist(x) begintokenlist((x), BACKED_UP)
+// [p131#323] inserts a simple token list
+#define inslist(x)  begintokenlist((x), INSERTED)
+/** @}*/ // end group S321x331_P131x133
+/** @addtogroup S332x365_P134x143
+ *  @{
+ */
+/// [p138#352]
+#define ishex(x) \
+    ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
+
+/// [#360]: \endlinechar 行终止符无效，不添加换行符
+#define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
+/** @}*/ // end group S332x365_P134x143
 
 
 // [#213] semantic

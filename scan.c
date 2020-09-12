@@ -1,11 +1,10 @@
 #include <stdlib.h> // [func] labs
-#include "texmac.h" // [macro] link, 
-#include "texfunc.h"
 #include "tex.h"
+#include "texfunc.h"
 #include "global.h"
 #include "macros.h" // [macro] help4,
 #include "expand.h" // [macro] STORE_NEW_TOKEN
-#include "texmac.h"
+#include "lexer.h" // [macro] backlist
 
 #include "texmath.h"
 #include "fonts.h"
@@ -19,6 +18,7 @@
 #include "print.h" // [func] print
 #include "pack.h"  // lastbadness
 #include "page.h"
+#include "dviout.h"
 #include "scan.h"
 
 /** @addtogroup S402x463_P155x173

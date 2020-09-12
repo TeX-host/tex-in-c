@@ -9,6 +9,8 @@
 
 /** @}*/ // end group S1299x1329_P455x464
 
+
+extern StrNumber format_ident;
 extern FILE* fmtfile;
 
 extern void dump_init();

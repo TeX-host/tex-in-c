@@ -1,12 +1,11 @@
 #include "tex_types.h"
 #include "tex_constant.h"
 #include "mem.h" // [var] mem
-#include "texmac.h" // [macro] writetokens, displaymlist, textmlist, 
-    // scriptmlist, scriptscriptmlist, mathtype, supscr, subscr
 #include "error.h"   // confusion
 #include "pack.h"    // [macro] subbox
-#include "mmode.h"
-#include "extension.h" // [const] opennode, [macro] 
+#include "mmode.h"   // [macro] displaymlist, textmlist, scriptmlist
+    // scriptscriptmlist, mathtype, supscr, subscr
+#include "extension.h" // [const] opennode, [macro] writetokens
 #include "box.h"
 
 
@@ -24,13 +23,15 @@ void delete_token_ref(HalfWord p) {
     }
 } // [#200] delete_token_ref
 
+/// [p69#201]: 使用封装好的函数
+/// xref: #201, #202
+#define fast_delete_glue_ref(x)                                  \
+    (gluerefcount(x) == null ? (free_node((x), gluespecsize), 0) \
+                             : gluerefcount(x)--)
+
 // [#201] p points to a glue specification
 void delete_glue_ref(HalfWord p) {
-    if (gluerefcount(p) == 0) {
-        free_node(p, gluespecsize);
-    } else {
-        gluerefcount(p)--;
-    }
+    fast_delete_glue_ref(p);
 } // [#201] delete_glue_ref
 
 // [#202] erase list of nodes starting at p
@@ -90,7 +91,7 @@ void flush_node_list(HalfWord p) {
                     break;
 
                 case GLUE_NODE:
-                    delete_glue_ref(glueptr(p));
+                    fast_delete_glue_ref(glueptr(p));
                     if (leaderptr(p) != 0) {
                         flush_node_list(leaderptr(p));
                     }

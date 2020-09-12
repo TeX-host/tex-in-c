@@ -7,6 +7,7 @@
  */
 #define INC_BOX_H
 #include "str.h" // [type] StrNumber
+#include "texmath.h" // [macro] INF_BAD
 
 /** @addtogroup S133x161_P50x57
  * @{

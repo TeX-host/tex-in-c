@@ -142,16 +142,6 @@
 #define EMPTY           0
 /** @}*/ // end group S1x16_P3x9
 
-
-
-
-
-// [ ARITHMETIC WITH SCALED DIMENSIONS ]
-
-/// [#108]: infinitely bad value
-#define INF_BAD 10000
-
-
 /** @addtogroup S110x114_P42x43
  * @{
  */

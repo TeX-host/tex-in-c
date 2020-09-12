@@ -10,7 +10,7 @@
 #include "error.h"
 #include "print.h"
 #include "str.h"
-#include "macros.h"
+#include "macros.h" // [macor] pput. pget
 #include "extension.h"
 #include "dump.h"
 

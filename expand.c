@@ -1,16 +1,15 @@
 #include <stdlib.h> // [func] labs
 #include "charset.h" // [type] ASCIICode
 #include "tex.h"
-#include "texmac.h" // [macro] link
 #include "macros.h" // [macro] help1, help2, help3, help4,
 #include "global.h"
 #include "texfunc.h"
-#include "lexer.h" // [var] warning_index,
+#include "lexer.h"    // [var] warning_index, [macro] inslist
 #include "printout.h" // [func] printcmdchr
 #include "print.h"    // [var] selector
 #include "fonts.h"    // [func] get_fontname, get_fontsize
 #include "texmath.h"  // [func] print_scaled
-#include "scan.h"     // [func] scan_eight_bit_int
+#include "scan.h"     // [func] scan_eight_bit_int, skip_spaces
 #include "error.h"    // [func] error, overflow, confusion, print_err,
 #include "hash.h"     // [func] idlookup_p, sprint_cs, print_cs
 #include "mem.h" // [macro] FREE_AVAIL, FAST_GET_AVAIL,

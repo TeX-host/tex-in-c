@@ -21,8 +21,10 @@
 #include "tex_types.h"
 
 
-#define UNITY 65536L    ///< [#101] 2^16, rep 1.00000
-#define TWO 131072L     ///< [#101] 2^17, rep 2.00000
+#define UNITY   65536L      ///< [#101] 2^16, rep 1.00000
+#define TWO     131072L     ///< [#101] 2^17, rep 2.00000
+/// [#108]: infinitely bad value
+#define INF_BAD 10000
 
 /// [105] 455, 716, 1240. 
 /// Note:  `07777777777L == 1073741823L`

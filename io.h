@@ -67,7 +67,7 @@ extern Boolean need_to_load_format;
 // [funcs], fonts, tex
 extern Boolean a_open_in(FILE** f);
 
-// [funcs], dviout, tex, texmac.h
+// [funcs], dviout, tex
 extern Boolean a_open_out(FILE** f);
 
 extern void aclose(FILE** f);

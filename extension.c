@@ -3,6 +3,7 @@
 #include "mem.h"
 #include "error.h"
 #include "print.h"
+#include "lexer.h" // [macro] inslist
 #include "dviout.h"
 #include "expand.h"
 #include "texfunc.h"

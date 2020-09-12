@@ -3,6 +3,8 @@
 #include "expand.h"
 #include "print.h"
 #include "error.h"
+#include "scan.h" // scan_left_brace, scan_char_num
+#include "lexer.h" // curchr, curcmd
 #include "hyphen.h"
 
 

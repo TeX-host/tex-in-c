@@ -6,14 +6,14 @@
 #include "tex_types.h"
 #include "tex_constant.h"
 #include "texfunc.h"
-#include "fonts.h"
+#include "fonts.h" // [macro] NON_CHAR
 #include "io.h"
 #include "str.h"
 #include "mem.h"
 #include "texmath.h"
 #include "eqtb.h"
 #include "page.h"
-#include "lexer.h"
+#include "lexer.h" // [macro] inslist
 #include "error.h"
 #include "global.h"
 #include "hyphen.h"
@@ -27,6 +27,7 @@
 #include "pack.h"
 #include "print.h"
 #include "hash.h"
+#include "scan.h" // [func] skip_spaces, MAX_DIMEN
 #include "extension.h"
 
 

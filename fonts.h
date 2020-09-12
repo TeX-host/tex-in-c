@@ -4,6 +4,9 @@
 #define FONTS_H
 #include <stdio.h> // FILE
 #include "global_const.h"
+#include "tex_constant.h"
+#include "str.h"
+#include "macros.h" // qo
 // [fonts], dviout, tex
 
 
@@ -59,6 +62,13 @@ enum TFMParamVal {
     (ligkernbase[(x)] + opbyte(y) * 256 + rembyte(y) - kernbaseoffset + 32768L)
 // #define lig_kern_start(x)  (lig_kern_base[x]+rem_byte)
 
+/// [#549] a |halfword| code that can't match a real character}
+#define NON_CHAR        256
+/// [p201#549] a spurious bchar label
+#define nonaddress      0
+/// [p204#557]
+#define kernbaseoffset  32768
+
 /// [p204#558]
 #define param(x, y)    (fontinfo[(x) + parambase[y]].sc)
 #define slant(x)        param(SLANT_CODE,x) /* slant to the right, per unit distance upward}*/
@@ -68,6 +78,9 @@ enum TFMParamVal {
 #define xheight(x)      param(X_HEIGHT_CODE,x) /* one ex}*/
 #define quad(x)         param(QUAD_CODE,x) /* one em}*/
 #define extraspace(x)   param(EXTRA_SPACE_CODE,x) /* additional space at end of sentence}*/
+
+/// [p205#560]
+#define badtfm      11
 
 /// [p199#564]
 #define exttop(x)   x.b0 /* |top| piece in a recipe */
@@ -106,7 +119,7 @@ extern void fonts_init_once(void);
 
 extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
 extern void fonts_dump(FILE* fmtfile);
-extern Integer get_hyphenchar(InternalFontNumber x); // texmac.h
+extern Integer get_hyphenchar(InternalFontNumber x);
 extern void set_hyphenchar(InternalFontNumber x, Integer c);
 extern Integer get_skewchar(InternalFontNumber x);
 extern void set_skewchar(InternalFontNumber x, Integer c);

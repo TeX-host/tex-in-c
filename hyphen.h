@@ -5,7 +5,7 @@
 #include "global_const.h"
 #include "charset.h" // [type] ASCIICode
 #include "tex.h"
-#include "fonts.h" // [type] InternalFontNumber
+#include "fonts.h" // [type] InternalFontNumber, [macro] NON_CHAR
 #include "eqtb.h" // [macro] language
 
 /** @addtogroup S891x899_P330x333

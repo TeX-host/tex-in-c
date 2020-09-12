@@ -7,7 +7,7 @@
  * + @ref S487x510_P181x187 "PART 28: CONDITIONAL PROCESSING"
  */
 #define INC_EXPAND_H
-
+#include "tex.h" // splitbotmarkcode
 
 /** @addtogroup S366x401_P144x154
  * @{
@@ -32,8 +32,13 @@
         p = q;                     \
     } while (0)
 // end #define FAST_STORE_NEW_TOKEN(p, x)
+/// [p148#382]
+#define topmark         curmark[topmarkcode - topmarkcode]
+#define firstmark       curmark[firstmarkcode - topmarkcode]
+#define botmark         curmark[botmarkcode - topmarkcode]
+#define splitfirstmark  curmark[splitfirstmarkcode - topmarkcode]
+#define splitbotmark    curmark[splitbotmarkcode - topmarkcode]
 /** @} end group S366x401_P144x154 */
-
 
 /** @addtogroup S487x510_P181x187
  * @{
@@ -71,6 +76,8 @@ enum IfCode {
     orcode,     ///< code for `\or`
 }; // [#489] enum IfCode
 
+/// [p182#489]
+#define iflinefield(x)  mem[x + 1].int_
 /** @} */ // end group S487x510_P181x187
 
 

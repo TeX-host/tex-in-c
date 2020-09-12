@@ -5,6 +5,7 @@
 #include "texmath.h"
 #include "eqtb.h"
 #include "fonts.h"
+#include "macros.h" // qo
 #include "mmode.h"
 
 
@@ -282,9 +283,8 @@ _Lfound:
         if (chartag(q) == EXT_TAG) { /*713:*/
             b = newnullbox();
             type(b) = VLIST_NODE;
-            r = exteninfo(f,
-                          q); /* fontinfo[extenbase[f ] + rembyte(q)].qqqq; */
-                              /*714:*/
+            r = fontinfo[extenbase[(f)] + rembyte(q)].qqqq;
+            /*714:*/
             c = extrep(r);
             u = heightplusdepth(f, c);
             w = 0;

@@ -7,9 +7,8 @@
 #define pget(x) fread(&x, 8, 1, fmtfile)
 #define pput(x) fwrite(&x, 8, 1, fmtfile)
 
-// fonts, tex
-
-/// a |halfword| code that can't match a real character}
-#define NON_CHAR 256
+/// [p43#112]
+#define qi(x) (x)
+#define qo(x) (x)
 
 #endif // #ifndef MACROS_H

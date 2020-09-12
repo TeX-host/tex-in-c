@@ -1,7 +1,7 @@
 #include <math.h> // floor
 #include "mem.h"
 #include "dviout.h"
-#include "scan.h"
+#include "scan.h" // [func] skip_spaces
 #include "print.h"
 #include "pack.h"
 #include "mmode.h"

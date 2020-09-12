@@ -6,6 +6,9 @@
 #include "eqtb.h"   // [var] day, month, year, tex_time
 #include "expand.h" // [func] get_x_token
 #include "error.h"  // [func] print_err [var] interaction
+#include "lexer.h"  // [macro] end_line_char_inactive
+#include "dump.h"   // [var] format_ident
+#include "scan.h"   // [func] skip_spaces
 #include "io.h"
 
 

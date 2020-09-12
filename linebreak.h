@@ -78,6 +78,8 @@
 /// [p320#864]
 #define storebackground(x) (activewidth[(x)-1] = background[(x)-1])
 
+/// [p321#866] length from first active node to current node
+#define actwidth    activewidth[0]
 /// [p321#866]
 #define kernbreak()                                                       \
     {                                                                     \

@@ -31,12 +31,7 @@
 #define closed          2
 #define justopen        1
 
-// [p201#549]
-#define nonaddress      0
-// [p204#557]
-#define kernbaseoffset  32768
-// [p205#560]
-#define badtfm          11
+
 // [p229#619]
 #define movepast        13
 #define finrule         14

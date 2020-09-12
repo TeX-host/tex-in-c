@@ -8,6 +8,8 @@
 #include "texmath.h"  // [func] print_scaled
 #include "box.h"      // gluerefcount
 #include "error.h"    // [func] history
+#include "mem.h"
+#include "lexer.h" // showtokenlist
 #include "eqtb.h"
 
 /** @addtogroup S220x255_P81x101

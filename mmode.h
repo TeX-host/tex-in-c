@@ -4,6 +4,7 @@
 #define INC_MMODE_H
 #include "charset.h" // [type] ASCIICode
 #include "fonts.h"
+#include "scan.h" // MAX_DIMEN
 
 /** @addtogroup S680x698_P249x257
  * @{
@@ -117,9 +118,7 @@ enum StyleNodeSubtype {
 #define textmlist(x)        link(x+1) /* mlist to be used in text style}*/
 #define scriptmlist(x)      info(x+2) /* mlist to be used in script style}*/
 #define scriptscriptmlist(x)    link(x+2) /* mlist to be used in scriptscript style}*/
-
 /** @}*/ // end group S680x698_P249x257
-
 /** @addtogroup S699x718_P258x264
  * @{
  */
@@ -174,7 +173,12 @@ enum StyleNodeSubtype {
 #define numstyle(x)  x+2-2*(x / 6) /* smaller unless already script-script}*/
 #define denomstyle(x)  2*(x / 2)+cramped+2-2*(x / 6) /* smaller, cramped}*/
 /** @}*/ // end group S699x718_P258x264
-
+/** @addtogroup S719x767_P265x284
+ * @{
+ */
+/// [p267#725]the translation of an mlist
+#define newhlist(x)     mem[nucleus(x)].int_
+/** @}*/ // end group S719x767_P265x284
 
 extern TwoHalves emptyfield;
 extern FourQuarters nulldelimiter;

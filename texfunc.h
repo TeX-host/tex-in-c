@@ -2,7 +2,8 @@
 #ifndef TEX_FUNC_H
 // tex.c 导出的函数
 #define TEX_FUNC_H
-
+#include "tex_types.h"
+#include "str.h"
 
 // [tex], printout
 extern void print_size(Integer s);

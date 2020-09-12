@@ -6,13 +6,13 @@
 #include "pack.h"
 #include "print.h"
 #include "error.h"
-#include "expand.h"
+#include "expand.h" // [macro] botmark, firstmark, topmark
 #include "texfunc.h"
-#include "texmath.h"
-#include "texmac.h"
+#include "texmath.h" // [macro] INF_BAD
 #include "mmode.h"
 #include "dviout.h"
 #include "main_ctrl.h"
+#include "scan.h" // MAX_DIMEN
 #include "page.h"
 
 /** @addtogroup S980x1028_P366x382

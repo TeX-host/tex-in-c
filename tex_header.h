@@ -7,6 +7,7 @@
 #include <stdio.h>  // FILE
 #include <stdlib.h> // labs, abs, exit, EXIT_SUCCESS
 #include <string.h> // memcpy
+#include <setjmp.h> // jmp_buf
 #include <math.h>   // fabs
 
 #include "global_const.h"
@@ -14,7 +15,6 @@
 #include "texmath.h"
 #include "tex.h" // [export]
 #include "str.h"
-#include "texmac.h"
 #include "macros.h"
 #include "global.h"
 #include "printout.h"
@@ -70,17 +70,11 @@
  *  404 not found: 39-str*, 50-poolfile,
  */
 
-Static jmp_buf _JMP_global__end_of_TEX;
-
-
-
-
 
 /** @addtogroup S332x365_P134x143
+ * [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
  * @{
  */
-
-/// [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
 // [#333] location of ‘\par’ in eqtb
 Pointer parloc;
 // [#333] token representing ‘\par’
@@ -91,18 +85,15 @@ Boolean force_eof;
 
 
 /** @addtogroup S464x486_P174x180
+ * [ #464~486: PART 27: BUILDING TOKEN LISTS ]
  * @{
  */
-
-/// [ #464~486: PART 27: BUILDING TOKEN LISTS ]
-/*480:*/
+/// [#480]
 FILE* readfile[16];
 char readopen[17];
-/*:480*/
 /** @}*/ // end group S464x486_P174x180
 
-
-
+Static jmp_buf _JMP_global__end_of_TEX;
 jmp_buf _JMP_global__final_end;
 
 #endif // INC_TEX_HEADER

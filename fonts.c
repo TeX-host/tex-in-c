@@ -3,7 +3,7 @@
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
     // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
-#include "macros.h" // [macro] NON_CHAR, help4,
+#include "macros.h" // [macro] NON_CHAR, help4, pput. pget
 #include "str.h"    // [type] StrNumber
 #include "error.h"  // [func] error, print_err,
 #include "lexer.h"  // curcmd
@@ -20,6 +20,8 @@
 #include "eqtb.h" // [func] get_defaultskewchar, get_defaulthyphenchar,
 #include "print.h"
 #include "io.h"  // a_open_in
+#include "scan.h" // [func] skip_spaces
+#include "macros.h" // qo
 #include "box.h" // font, character
 
 
