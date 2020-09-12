@@ -2,6 +2,7 @@
 #ifndef INC_MMODE_H
 /// tex.c 里使用的宏
 #define INC_MMODE_H
+#include "charset.h" // [type] ASCIICode
 #include "fonts.h"
 
 /** @addtogroup S680x698_P249x257

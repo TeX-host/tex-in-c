@@ -1,4 +1,5 @@
 #include <stdlib.h> // [func] labs
+#include "charset.h" // [type] ASCIICode
 #include "tex.h"
 #include "texmac.h" // [macro] link
 #include "macros.h" // [macro] help1, help2, help3, help4,

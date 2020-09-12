@@ -10,6 +10,7 @@
 #include <math.h>   // fabs
 
 #include "global_const.h"
+#include "charset.h"
 #include "texmath.h"
 #include "tex.h" // [export]
 #include "str.h"
@@ -72,15 +73,7 @@
 Static jmp_buf _JMP_global__end_of_TEX;
 
 
-/** @addtogroup S17x24_P10x12
- * @{
- */
 
-/// [#20] specifies conversion of input characters.
-ASCIICode xord[256];
-/// [#20] specifies conversion of output characters.
-TextChar  xchr[256];
-/** @}*/ // end group S17x24_P10x12
 
 
 /** @addtogroup S332x365_P134x143

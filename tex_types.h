@@ -91,20 +91,6 @@ All types:
 
 */
 
-/** @addtogroup S1x16_P3x9
- * @{
- */
-/// [#18]: `ASCIICode::UChar(8)` = [0, 255]
-typedef UChar ASCIICode;
-/** @}*/ // end group S1x16_P3x9
-
-/** @addtogroup S17x24_P10x12
- * @{
- */
-/// [#19]: `TextChar::UChar(8)` = [0, 255]
-typedef UChar TextChar;
-/** @}*/ // end group S17x24_P10x12
-
 /** @addtogroup S25x37_P13x18
  * @{
  */

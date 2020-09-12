@@ -3,6 +3,7 @@
 ///
 #define INC_HYPHEN_H
 #include "global_const.h"
+#include "charset.h" // [type] ASCIICode
 #include "tex.h"
 #include "fonts.h" // [type] InternalFontNumber
 #include "eqtb.h" // [macro] language

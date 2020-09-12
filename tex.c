@@ -1024,28 +1024,11 @@ Static void init_prim(void) {
 
 // #4: this procedure gets things started properly
 Static void initialize(void) {
-    // Local variables for initialization
-    Integer i;
-
     /// p5#8: Initialize whatever TEX might access
 
     /// p11#21 Set initial values of key variables
     {
-        /// [#21, 23]
-        for (i = 0; i <= 255; i++) {
-            xchr[i] = (TextChar)i;
-        }
-        /// [#24]
-        for (i = FIRST_TEXT_CHAR; i <= LAST_TEXT_CHAR; i++) {
-            xord[i] = INVALID_CODE;
-        }
-        for (i = 128; i <= 255; i++) {
-            xord[xchr[i]] = i;
-        }
-        for (i = 0; i <= 126; i++) {
-            xord[xchr[i]] = i;
-        }
-        
+        charset_init();
         error_init();
 
         /// p#95: 166

@@ -143,21 +143,7 @@
 /** @}*/ // end group S1x16_P3x9
 
 
-/** @addtogroup S17x24_P10x12
- * @{
- */
 
-/// [#19] ordinal number of the smallest element of #TextChar.
-#define FIRST_TEXT_CHAR 0
-/// [#19] ordinal number of the largest element of #TextChar.
-#define LAST_TEXT_CHAR  255
-/// [#22] ASCII code that might disappear.
-#define NULL_CODE       0
-/// [#22] ASCII code used at end of line.
-#define CARRIAGE_RETURN '\r'
-/// [#22] ASCII code that many systems prohibit in text files.
-#define INVALID_CODE    127
-/** @}*/ // end group S17x24_P10x12
 
 
 // [ ARITHMETIC WITH SCALED DIMENSIONS ]

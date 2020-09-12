@@ -1,4 +1,5 @@
 #include <stdio.h> // FILE, EOF, stderr
+#include "charset.h"
 #include "tex.h"   // [type] Boolean, [macro] true, false, BUF_SIZE
 #include "global.h"
     // [var] buffer, last, first, max_buf_stack

@@ -3,6 +3,7 @@
 // 全局变量
 #define GLOBAL_H
 #include <setjmp.h> // setjmp
+#include "charset.h" // [type] ASCIICode
 #include "str.h"    // StrNumber
 #include "scan.h"   // [macro] EQTB_SIZE
 #include "fonts.h"  // InternalFontNumber
@@ -16,10 +17,6 @@ extern UInt16 first;
 extern UInt16 max_buf_stack;
 extern jmp_buf _JMP_global__final_end;
 extern StrNumber format_ident;
-extern ASCIICode xord[256];
-
-// [tex], 仅在 print 中使用
-extern TextChar xchr[256];
 
 // [tex] 仅在 lexer 中使用
 extern ListStateRecord cur_list;

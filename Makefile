@@ -4,6 +4,7 @@ CFLAGS += -pedantic -Wall -Wno-unused-result
 LDFLAGS = -lm
 
 SRCS  = tex
+SRCS += charset
 SRCS += io io_unix io_fname
 SRCS += texmath str printout print hash
 SRCS += box box_display box_destroy box_copy

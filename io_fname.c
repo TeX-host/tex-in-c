@@ -1,5 +1,5 @@
 #include <string.h> // [func] memcpy
-#include "tex_types.h"
+#include "charset.h"
 #include "str.h"
 #include "global.h" // [var] xchr
 #include "print.h"  // [type] Selector [var] selector

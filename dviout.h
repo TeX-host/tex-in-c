@@ -2,6 +2,7 @@
 #ifndef DIV_OUT_H
 /// DVI 格式输出
 #define DIV_OUT_H
+#include "charset.h" // [type] ASCIICode
 #include "fonts.h"  // [type] InternalFontNumber
 
 /// [#11]: size of the output buffer; must be a multiple of 8

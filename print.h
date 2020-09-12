@@ -4,7 +4,8 @@
  *
  */
 #define INC_PRINT
-#include "tex_types.h" // Integer, UChar, ASCIICode
+#include "charset.h"   // [type] ASCIICode
+#include "tex_types.h" // Integer, UChar
 #include "tex.h"       // MAX_PRINT_LINE
 #include "texmac.h"    // newlinechar
 #include "str.h"       // StrNumber, str_adjust_to_room

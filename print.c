@@ -1,5 +1,6 @@
 #include <stdlib.h> // [func] labs, 
 #include "global_const.h"
+#include "charset.h"
 #include "print.h"
 #include "global.h" // [func] xchr, eqtb, write_file, 
     // last, first, buffer[]
