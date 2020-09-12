@@ -118,8 +118,4 @@ extern Integer fewestdemerits;
 extern HalfWord bestline;
 extern Integer actuallooseness, linediff;
 
-extern void postlinebreak(long finalwidowpenalty);
-extern void hyphenate(void);
-
-
 #endif /* INC_LINEBREAK_H */

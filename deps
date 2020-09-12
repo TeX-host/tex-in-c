@@ -1,7 +1,7 @@
 tex.o: tex.c tex_header.h global_const.h texmath.h tex_types.h tex.h \
  tex_constant.h box.h str.h texmac.h mem.h global.h scan.h lexer.h \
  fonts.h macros.h printout.h dviout.h print.h expand.h error.h hash.h \
- eqtb.h io.h pack.h mmode.h align.h linebreak.h texfunc.h
+ eqtb.h io.h pack.h mmode.h align.h linebreak.h hyphen.h texfunc.h
 io.o: io.c tex.h tex_types.h tex_constant.h box.h str.h global_const.h \
  global.h scan.h lexer.h fonts.h texfunc.h error.h io.h
 io_unix.o: io_unix.c tex.h tex_types.h tex_constant.h box.h str.h \
@@ -53,7 +53,18 @@ align.o: align.c mem.h tex_types.h global.h str.h global_const.h scan.h \
  pack.h mmode.h error.h expand.h texfunc.h align.h eqtb.h
 linebreak.o: linebreak.c tex.h tex_types.h tex_constant.h box.h str.h \
  global_const.h global.h scan.h lexer.h fonts.h mem.h macros.h texfunc.h \
- print.h texmac.h eqtb.h pack.h error.h texmath.h linebreak.h
+ print.h texmac.h eqtb.h pack.h error.h texmath.h hyphen.h linebreak.h
+hyphen_pre.o: hyphen_pre.c tex.h tex_types.h tex_constant.h box.h str.h \
+ global_const.h global.h scan.h lexer.h fonts.h mem.h macros.h texfunc.h \
+ print.h texmac.h eqtb.h pack.h error.h texmath.h linebreak.h hyphen.h
+hyphen_post.o: hyphen_post.c hyphen.h global_const.h tex.h tex_types.h \
+ tex_constant.h box.h str.h fonts.h eqtb.h
+hyphen.o: hyphen.c str.h global_const.h tex_types.h mem.h global.h scan.h \
+ lexer.h tex.h tex_constant.h box.h fonts.h expand.h print.h texmac.h \
+ error.h hyphen.h eqtb.h
+hyphen_init.o: hyphen_init.c global_const.h lexer.h tex.h tex_types.h \
+ tex_constant.h box.h str.h mem.h global.h scan.h fonts.h print.h \
+ texmac.h error.h texfunc.h expand.h hyphen.h eqtb.h
 lexer.o: lexer.c print.h tex_types.h tex.h tex_constant.h box.h str.h \
  global_const.h texmac.h mem.h global.h scan.h lexer.h fonts.h texfunc.h \
  printout.h macros.h io.h expand.h error.h hash.h eqtb.h texmath.h \

@@ -10,6 +10,7 @@ SRCS += box box_display box_destroy box_copy
 SRCS += eqtb eqtb_save
 SRCS += mmode math_formula
 SRCS += align linebreak
+SRCS += hyphen_pre hyphen_post hyphen hyphen_init
 SRCS += lexer fonts dviout expand scan error mem pack
 CSRCS = $(addsuffix .c,${SRCS})
 OBJS  = $(addsuffix .o,${SRCS})

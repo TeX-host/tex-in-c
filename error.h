@@ -60,6 +60,7 @@ extern Boolean use_err_help;
 extern Integer interrupt;
 extern Boolean OK_to_interrupt;
 
+extern void set_help(SChar k, ...);
 extern void error_init();
 extern void error_selector_init();
 extern void print_err(StrNumber s);

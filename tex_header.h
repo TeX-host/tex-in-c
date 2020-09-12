@@ -37,6 +37,7 @@
 #include "mmode.h"
 #include "align.h"
 #include "linebreak.h"
+#include "hyphen.h"
 #include "texfunc.h"    // [export]
 
 
@@ -102,86 +103,6 @@ Static FILE* readfile[16];
 char readopen[17];
 /*:480*/
 /** @}*/ // end group S464x486_P174x180
-
-
-/*892:*/
-short hc[66];
-/* SmallNumber */ int hn;
-InternalFontNumber hf;
-short hu[64];
-Integer hyfchar;
-ASCIICode curlang, initcurlang;
-Integer lhyf, rhyf, initlhyf, initrhyf;
-HalfWord hyfbchar;
-/*:892*/
-
-
-/*900:*/
-char hyf[65];
-Boolean initlig, initlft;
-/*:900*/
-/*905:*/
-SmallNumber hyphenpassed;
-/*:905*/
-/*907:*/
-Static HalfWord curl, curr;
-Static Boolean ligaturepresent, lfthit, rthit;
-/*:907*/
-
-
-/*921:*/
-TwoHalves trie[TRIE_SIZE + 1];
-SmallNumber hyfdistance[TRIE_OP_SIZE];
-SmallNumber hyfnum[TRIE_OP_SIZE];
-QuarterWord hyfnext[TRIE_OP_SIZE];
-short opstart[256];
-/*:921*/
-/*926:*/
-StrNumber hyphword[HYPH_SIZE + 1];
-Pointer hyphlist[HYPH_SIZE + 1];
-Static HyphPointer hyphcount;
-/*:926*/
-
-/// [ #942~966: PART 43: INITIALIZING THE HYPHENATION TABLES ]
-/// #943, 947, 950
-#ifdef tt_INIT
-/// #943
-// trie op codes for quadruples
-Static short trieophash[TRIE_OP_SIZE + TRIE_OP_SIZE + 1];
-// largest opcode used so far for this language
-Static QuarterWord trieused[256];
-// language part of a hashed quadruple
-Static ASCIICode trieoplang[TRIE_OP_SIZE];
-// opcode corresponding to a hashed quadruple
-Static QuarterWord trieopval[TRIE_OP_SIZE];
-// number of stored ops so far
-Static UInt16 trieopptr;
-
-/// #947
-// characters to match
-Static PackedASCIICode triec[TRIE_SIZE + 1];
-// operations to perform
-Static QuarterWord trieo[TRIE_SIZE + 1];
-// left subtrie links
-Static TriePointer triel[TRIE_SIZE + 1];
-// right subtrie links
-Static TriePointer trier[TRIE_SIZE + 1];
-// the number of nodes in the trie
-Static TriePointer trieptr;
-// used to identify equivalent subtries
-Static TriePointer triehash[TRIE_SIZE + 1];
-
-/// #950
-// does a family START here?
-Static UChar trietaken[(TRIE_SIZE + 7) / 8];
-// the first possible slot for each character
-Static TriePointer triemin[256];
-// largest location used in trie
-Static TriePointer triemax;
-// is the trie still in linked form?
-// xref: 891, [950], 951, 960, 966, 1324, 1325
-Boolean trie_not_ready;
-#endif // #943,947,950: tt_INIT
 
 
 /*971:*/

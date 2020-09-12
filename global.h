@@ -68,26 +68,4 @@ extern Pointer pagetail;
 // eqtb
 extern Boolean use_independence_date;
 
-// linebreak
-extern TwoHalves trie[TRIE_SIZE + 1];
-extern char hyf[65];
-extern Boolean initlig, initlft;
-extern SmallNumber hyphenpassed;
-extern short hc[66];
-extern int hn;
-extern InternalFontNumber hf;
-extern short hu[64];
-extern Integer hyfchar;
-extern ASCIICode curlang, initcurlang;
-extern StrNumber hyphword[HYPH_SIZE + 1];
-extern Integer lhyf, rhyf, initlhyf, initrhyf;
-extern SmallNumber hyfdistance[TRIE_OP_SIZE];
-extern SmallNumber hyfnum[TRIE_OP_SIZE];
-extern QuarterWord hyfnext[TRIE_OP_SIZE];
-extern short opstart[256];
-extern HalfWord hyfbchar;
-
-extern Boolean trie_not_ready;
-
-
 #endif // #ifndef GLOBAL_H

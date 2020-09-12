@@ -5,11 +5,6 @@
 #include "mem.h" // [macro] link
 
 
-// ?
-#undef labs
-
-
-
 #define exteninfo(f, q) (fontinfo[extenbase[(f)] + rembyte(q)].qqqq)
 
 
@@ -65,94 +60,6 @@
 /// [p267#725]
 #define newhlist(x) mem[nucleus(x)].int_ /* the translation of an mlist}*/
 
-
-
-/// [p337#908]
-#define appendcharnodetot(x)   \
-    {                          \
-        link(t) = get_avail(); \
-        t = link(t);           \
-        font(t) = hf;          \
-        character(t) = x;      \
-    }
-
-/// [p337#908]
-#define setcurr()                 \
-    {                             \
-        if (j < n) {              \
-            curr = qi(hu[j + 1]); \
-        } else {                  \
-            curr = bchar;         \
-        }                         \
-        if (hyf[j] & 1) {         \
-            currh = hchar;        \
-        } else {                  \
-            currh = NON_CHAR;     \
-        }                         \
-    }
-
-/// [p339#910]
-#define wraplig(x)                             \
-    if (ligaturepresent) {                     \
-        p = newligature(hf, curl, link(curq)); \
-        if (lfthit) {                          \
-            subtype(p) = 2;                    \
-            lfthit = false;                    \
-        }                                      \
-        if (x)                                 \
-            if (ligstack == 0) {               \
-                (subtype(p))++;                \
-                rthit = false;                 \
-            }                                  \
-        link(curq) = p;                        \
-        t = p;                                 \
-        ligaturepresent = false;               \
-    }
-
-/// [p339#910] if |ligstack| isn't |null| we have |currh=NON_CHAR|
-#define popligstack()                              \
-    {                                              \
-        if (ligptr(ligstack) > null) {             \
-            /* this is a charnode for |hu[j+1]| */ \
-            link(t) = ligptr(ligstack);            \
-            t = link(t);                           \
-            j++;                                   \
-        }                                          \
-        p = ligstack;                              \
-        ligstack = link(p);                        \
-        free_node(p, smallnodesize);                \
-        if (ligstack == null) {                    \
-            setcurr();                             \
-        } else {                                   \
-            curr = character(ligstack);            \
-        }                                          \
-    }
-
-/// [p341#914]
-#define advancemajortail()           \
-    {                                \
-        majortail = link(majortail); \
-        rcount++;                    \
-    }
-
-/// [p344#921] `downward` link in a trie
-#define trielink(x)     trie[x].rh
-/// [p344#921] character matched at this trie location
-#define triechar(x)     trie[x].UU.U2.b1
-/// [p344#921] program for hyphenation at this trie location
-#define trieop(x)       trie[x].UU.U2.b0
-
-/// [p347#934]
-#define setcurlang()     \
-    ((language <= 0)     \
-         ? (curlang = 0) \
-         : ((language > 255) ? (curlang = 0) : (curlang = language)))
-
-/// [p352#947]
-#define trieroot (triel[0]) // root of the linked trie
-
-/// [p353#950] backward links in |trie| holes
-#define trieback(x)     trie[x].UU.lh
 
 // [#360]: \endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))

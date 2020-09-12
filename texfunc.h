@@ -22,11 +22,6 @@ extern void print_size(Integer s);
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
 
 
-
-// [tex]
-extern void set_help(SChar k, ...);
-
-
 // [tex] expand
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
@@ -57,5 +52,6 @@ extern void buildpage(void);
 extern SmallNumber reconstitute(int j, SmallNumber n,
                                 HalfWord bchar, HalfWord hchar);
 
-extern void inittrie(void);
+
+extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 #endif // TEX_FUNC_H
