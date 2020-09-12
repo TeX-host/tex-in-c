@@ -58,4 +58,8 @@ extern Pointer hyphlist[HYPH_SIZE + 1];
 // eqtb
 extern Boolean use_independence_date;
 
+// dump
+extern Pointer writeloc;
+
+
 #endif // #ifndef GLOBAL_H

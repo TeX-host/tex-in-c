@@ -40,6 +40,8 @@
 #define NDEBUG // no assertsion
 #endif
 
+#define Static static
+
 
 #define charnodetype 0xfff
 #undef BIG_CHARNODE
@@ -55,6 +57,10 @@
 #define font_ligchar(x) font(ligchar(x))
 #define character_ligchar(x) character(ligchar(x))
 #endif // #ifdef BIG_CHARNODE
+
+// 标记字符串序号
+#define S(x)        (x)
+#define dwa_do_8    ((int)16 * 1024 * 1024)
 
 
 /// 辅助宏定义, 用于拆分模块是使用.

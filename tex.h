@@ -2,13 +2,9 @@
 #ifndef TEX_H
 // 待整理的常量。应合并到 tex_constant.h
 #define TEX_H
+#include "global_const.h"
 #include "tex_types.h"
 #include "tex_constant.h"
-
-// 标记字符串序号
-#define S(x) (x)
-#define Static static
-#define dwa_do_8  ((int)16*1024*1024)
 
 
 #define defaultcode     1073741824L

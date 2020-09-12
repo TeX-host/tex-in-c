@@ -39,6 +39,7 @@
 #include "linebreak.h"
 #include "hyphen.h"
 #include "page.h"
+#include "dump.h"
 #include "texfunc.h"    // [export]
 
 
@@ -127,13 +128,6 @@ Static HalfWord aftertoken;
 /*1281:*/
 Static Boolean longhelpseen;
 /*:1281*/
-// #1299: a string that is printed right after the banner
-// format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
-StrNumber format_ident;
-
-/*1305:*/
-Static FILE* fmtfile = NULL;
-/*:1305*/
 
 
 /// [#1342] Hold 16 possible `\write` streams.
@@ -146,7 +140,7 @@ FILE* write_file[16];
 Static Boolean write_open[18];
 
 /*1345:*/
-Static Pointer writeloc; 
+Pointer writeloc; 
 /*:1345*/
 
 
