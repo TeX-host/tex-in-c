@@ -1,5 +1,6 @@
 var group___s719x767___p265x284 =
 [
+    [ "newhlist", "group___s719x767___p265x284.html#ga705e76711d81aeeda5dca8ed220577b0", null ],
     [ "cleanbox", "group___s719x767___p265x284.html#ga15a125fdd47c5fe123d5c34e179e0c17", null ],
     [ "fetch", "group___s719x767___p265x284.html#ga3f4160655289128626c81f61884bb18e", null ],
     [ "makefraction", "group___s719x767___p265x284.html#ga4b6ee45db67ba1a9712758297fb8a509", null ],

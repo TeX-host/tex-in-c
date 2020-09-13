@@ -90,12 +90,22 @@ $(document).ready(function(){initNavTree('group___s321x331___p131x133.html','');
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">宏定义</a> &#124;
 <a href="#func-members">函数</a>  </div>
   <div class="headertitle">
 <div class="title">PART 23: Maintaining the input stacks</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+宏定义</h2></td></tr>
+<tr class="memitem:gacd7c3738c11fe82611cec7aaaab45b5f"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s321x331___p131x133.html#gacd7c3738c11fe82611cec7aaaab45b5f">popinput</a>()&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">inputptr</a>--, <a class="el" href="group___s300x320___p121x130.html#gab2bdc2189c63a4f0ea6cd7da902062e6">cur_input</a> = <a class="el" href="group___s300x320___p121x130.html#ga8707e627be2e42416c466913ee604859">inputstack</a>[<a class="el" href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">inputptr</a>])</td></tr>
+<tr class="separator:gacd7c3738c11fe82611cec7aaaab45b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18a19cdf5f581d28374b1a7e1b3e8214"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s321x331___p131x133.html#ga18a19cdf5f581d28374b1a7e1b3e8214">backlist</a>(x)&#160;&#160;&#160;<a class="el" href="group___s321x331___p131x133.html#ga551735d303916f6c7ce9f2a902a5eeeb">begintokenlist</a>((x), <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7">BACKED_UP</a>)</td></tr>
+<tr class="separator:ga18a19cdf5f581d28374b1a7e1b3e8214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6313e1bd909d6689b8778413f1c07e96"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s321x331___p131x133.html#ga6313e1bd909d6689b8778413f1c07e96">inslist</a>(x)&#160;&#160;&#160;<a class="el" href="group___s321x331___p131x133.html#ga551735d303916f6c7ce9f2a902a5eeeb">begintokenlist</a>((x), <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202">INSERTED</a>)</td></tr>
+<tr class="separator:ga6313e1bd909d6689b8778413f1c07e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 函数</h2></td></tr>
 <tr class="memitem:ga551735d303916f6c7ce9f2a902a5eeeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s321x331___p131x133.html#ga551735d303916f6c7ce9f2a902a5eeeb">begintokenlist</a> (<a class="el" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> p, <a class="el" href="group___s110x114___p42x43.html#ga822fdaa4ebe79f27c8d991278c23b1fe">QuarterWord</a> t)</td></tr>
@@ -136,6 +146,60 @@ $(document).ready(function(){initNavTree('group___s321x331___p131x133.html','');
 <li><a class="el" href="group___s321x331___p131x133.html#ga305fe4c17f929987d609b10d7bbd4d96" title="[#329] variables must be downdated when such a level of input is finished">endfilereading</a></li>
 <li><a class="el" href="group___s321x331___p131x133.html#ga282ee6bcdd54bf75b357628da499c970" title="[#330] removes completed error-inserted lines from memory">clearforerrorprompt</a> </li>
 </ul>
+<h2 class="groupheader">宏定义说明</h2>
+<a id="ga18a19cdf5f581d28374b1a7e1b3e8214"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga18a19cdf5f581d28374b1a7e1b3e8214">&#9670;&nbsp;</a></span>backlist</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a> backlist</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group___s321x331___p131x133.html#ga551735d303916f6c7ce9f2a902a5eeeb">begintokenlist</a>((x), <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7">BACKED_UP</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga6313e1bd909d6689b8778413f1c07e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6313e1bd909d6689b8778413f1c07e96">&#9670;&nbsp;</a></span>inslist</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a> inslist</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group___s321x331___p131x133.html#ga551735d303916f6c7ce9f2a902a5eeeb">begintokenlist</a>((x), <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202">INSERTED</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gacd7c3738c11fe82611cec7aaaab45b5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacd7c3738c11fe82611cec7aaaab45b5f">&#9670;&nbsp;</a></span>popinput</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a> popinput</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>&#160;&#160;&#160;(<a class="el" href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">inputptr</a>--, <a class="el" href="group___s300x320___p121x130.html#gab2bdc2189c63a4f0ea6cd7da902062e6">cur_input</a> = <a class="el" href="group___s300x320___p121x130.html#ga8707e627be2e42416c466913ee604859">inputstack</a>[<a class="el" href="group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce">inputptr</a>])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">函数说明</h2>
 <a id="ga65b8b2c3bf6ac32ae0eec0468e9d265e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga65b8b2c3bf6ac32ae0eec0468e9d265e">&#9670;&nbsp;</a></span>backerror()</h2>

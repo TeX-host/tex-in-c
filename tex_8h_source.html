@@ -97,132 +97,96 @@ $(document).ready(function(){initNavTree('tex_8h_source.html',''); initResizable
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef TEX_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// 待整理的常量。应合并到 tex_constant.h</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="tex_8h.html#a9d0325ff9498f81e9f5679b856f4f6dc">    4</a></span>&#160;<span class="preprocessor">#define TEX_H</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__types_8h.html">tex_types.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__constant_8h.html">tex_constant.h</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// 标记字符串序号</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="tex_8h.html#ac4a3ed3432929804c708f7760fb79e28">    9</a></span>&#160;<span class="preprocessor">#define S(x) (x)</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a">   10</a></span>&#160;<span class="preprocessor">#define Static static</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="tex_8h.html#a5106ac2b3de7b15e93d9962bbd0d9d23">   11</a></span>&#160;<span class="preprocessor">#define dwa_do_8  ((int)16*1024*1024)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="tex_8h.html#af0133c456ba07df11b57dfb0ace59e4a">   14</a></span>&#160;<span class="preprocessor">#define defaultcode     1073741824L</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global__const_8h.html">global_const.h</a>&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__types_8h.html">tex_types.h</a>&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__constant_8h.html">tex_constant.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="tex_8h.html#af0133c456ba07df11b57dfb0ace59e4a">   10</a></span>&#160;<span class="preprocessor">#define defaultcode     1073741824L</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="tex_8h.html#a77ea41d34ccb6d9fca4f33cfe6b7c303">   12</a></span>&#160;<span class="preprocessor">#define boxflag         1073741824L</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a">   13</a></span>&#160;<span class="preprocessor">#define ignoredepth     (-65536000L)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="tex_8h.html#a77ea41d34ccb6d9fca4f33cfe6b7c303">   16</a></span>&#160;<span class="preprocessor">#define boxflag         1073741824L</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a">   17</a></span>&#160;<span class="preprocessor">#define ignoredepth     (-65536000L)</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// [p136#341]</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="tex_8h.html#a09b0cb1cf5ce76e7e99cbfd1c8e3fba5">   17</a></span>&#160;<span class="preprocessor">#define switch_         25</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="tex_8h.html#a0aa9da87af13afc841a7ad7ee4cf6580">   18</a></span>&#160;<span class="preprocessor">#define startcs         26</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// [p136#341]</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="tex_8h.html#a09b0cb1cf5ce76e7e99cbfd1c8e3fba5">   21</a></span>&#160;<span class="preprocessor">#define switch_         25</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="tex_8h.html#a0aa9da87af13afc841a7ad7ee4cf6580">   22</a></span>&#160;<span class="preprocessor">#define startcs         26</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// [p141#358]</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852">   25</a></span>&#160;<span class="preprocessor">#define noexpandflag    257</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// [p148#382]</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="tex_8h.html#a3ed37caad9012173d6435e90982ad16c">   28</a></span>&#160;<span class="preprocessor">#define topmarkcode         0</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="tex_8h.html#a63bbf69ce0b4767b16a7fc0c5448427a">   29</a></span>&#160;<span class="preprocessor">#define firstmarkcode       1</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="tex_8h.html#afb337b92dde146ae5c4a9cc84693628b">   30</a></span>&#160;<span class="preprocessor">#define botmarkcode         2</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="tex_8h.html#ad29385fea6041c522ac27534e4f3ae03">   31</a></span>&#160;<span class="preprocessor">#define splitfirstmarkcode  3</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="tex_8h.html#af79d3b9fcef12ef630bb300c2835b2ed">   32</a></span>&#160;<span class="preprocessor">#define splitbotmarkcode    4</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// [p141#358]</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852">   21</a></span>&#160;<span class="preprocessor">#define noexpandflag    257</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// [p148#382]</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="tex_8h.html#a3ed37caad9012173d6435e90982ad16c">   24</a></span>&#160;<span class="preprocessor">#define topmarkcode         0</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="tex_8h.html#a63bbf69ce0b4767b16a7fc0c5448427a">   25</a></span>&#160;<span class="preprocessor">#define firstmarkcode       1</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="tex_8h.html#afb337b92dde146ae5c4a9cc84693628b">   26</a></span>&#160;<span class="preprocessor">#define botmarkcode         2</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="tex_8h.html#ad29385fea6041c522ac27534e4f3ae03">   27</a></span>&#160;<span class="preprocessor">#define splitfirstmarkcode  3</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="tex_8h.html#af79d3b9fcef12ef630bb300c2835b2ed">   28</a></span>&#160;<span class="preprocessor">#define splitbotmarkcode    4</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// [p179#480]</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="tex_8h.html#a8ba70cf67f46523d1c764c9e61e83ca7">   31</a></span>&#160;<span class="preprocessor">#define closed          2</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="tex_8h.html#af71c657c952a505abaf4fb815d607449">   32</a></span>&#160;<span class="preprocessor">#define justopen        1</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// [p179#480]</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="tex_8h.html#a8ba70cf67f46523d1c764c9e61e83ca7">   35</a></span>&#160;<span class="preprocessor">#define closed          2</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="tex_8h.html#af71c657c952a505abaf4fb815d607449">   36</a></span>&#160;<span class="preprocessor">#define justopen        1</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// [p201#549]</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="tex_8h.html#a5b17f11a2394cca74fc404b0103004fe">   39</a></span>&#160;<span class="preprocessor">#define nonaddress      0</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">// [p204#557]</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="tex_8h.html#a09acf2986201cf0db897d5a9e9af484b">   41</a></span>&#160;<span class="preprocessor">#define kernbaseoffset  32768</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// [p205#560]</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ac58e8c07a729246fa8b487c167fb99">   43</a></span>&#160;<span class="preprocessor">#define badtfm          11</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">// [p229#619]</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="tex_8h.html#a51211aff1f011195025553a9cb9e1f18">   45</a></span>&#160;<span class="preprocessor">#define movepast        13</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="tex_8h.html#aff570c0a81ec0b8661bdb79278836fe8">   46</a></span>&#160;<span class="preprocessor">#define finrule         14</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad">   47</a></span>&#160;<span class="preprocessor">#define nextp           15</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// [p229#619]</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="tex_8h.html#a51211aff1f011195025553a9cb9e1f18">   36</a></span>&#160;<span class="preprocessor">#define movepast        13</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="tex_8h.html#aff570c0a81ec0b8661bdb79278836fe8">   37</a></span>&#160;<span class="preprocessor">#define finrule         14</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad">   38</a></span>&#160;<span class="preprocessor">#define nextp           15</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// [p267#725]</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="tex_8h.html#aeab7b5f4d5031aaef0ec66f543c607b3">   43</a></span>&#160;<span class="preprocessor">#define donewithnoad        80</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="tex_8h.html#a7da73e00a6c95c13cca3d26319aff416">   44</a></span>&#160;<span class="preprocessor">#define donewithnode        81</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="tex_8h.html#a098170517705a7b2fca6df7a77832a7d">   45</a></span>&#160;<span class="preprocessor">#define checkdimensions     82</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="tex_8h.html#a5e94fb81fff4bf1abafd1c25444d2ef3">   46</a></span>&#160;<span class="preprocessor">#define deleteq             83</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">// [p267#725]</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="tex_8h.html#aeab7b5f4d5031aaef0ec66f543c607b3">   52</a></span>&#160;<span class="preprocessor">#define donewithnoad        80</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="tex_8h.html#a7da73e00a6c95c13cca3d26319aff416">   53</a></span>&#160;<span class="preprocessor">#define donewithnode        81</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="tex_8h.html#a098170517705a7b2fca6df7a77832a7d">   54</a></span>&#160;<span class="preprocessor">#define checkdimensions     82</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="tex_8h.html#a5e94fb81fff4bf1abafd1c25444d2ef3">   55</a></span>&#160;<span class="preprocessor">#define deleteq             83</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// [p384#1030] jmp label</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">// #define bigswitch            60</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">// #define appendnormalspace    120</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="tex_8h.html#a8cb0a1c482b904093521f34322054084">   54</a></span>&#160;<span class="preprocessor">#define shipoutflag     (boxflag + 512)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="tex_8h.html#a1dc05c079bda7d103ca1cd19e36753b3">   55</a></span>&#160;<span class="preprocessor">#define leaderflag      (boxflag + 513)</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">// [p361#970]</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="tex_8h.html#a20d3e3b177c8326e0941cf2a7b293cd9">   58</a></span>&#160;<span class="preprocessor">#define updateheights   90</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">// [p363#974]</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="tex_8h.html#ab9a087ee2d95528f40db658007da1d30">   60</a></span>&#160;<span class="preprocessor">#define deplorable      100000L</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">// [p366#980]</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="tex_8h.html#a44be76b2009446ba99020cf655171b4d">   62</a></span>&#160;<span class="preprocessor">#define insertsonly     1</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="tex_8h.html#a82527439839b6b050e110cec068169b8">   63</a></span>&#160;<span class="preprocessor">#define boxthere        2</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">// [p367#981]</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="tex_8h.html#a846e1352c2119489eec85fad98ae7697">   65</a></span>&#160;<span class="preprocessor">#define pageinsnodesize  4</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="tex_8h.html#a2ed2084e8ebbd99e804c41b715fa3425">   66</a></span>&#160;<span class="preprocessor">#define inserting        0</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="tex_8h.html#afb06a5bc21b2f70238b3136e65ca080c">   67</a></span>&#160;<span class="preprocessor">#define splitup          1</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">// [p371#994]</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="tex_8h.html#ad5b4b3f6705f08c0d1826b10e16eb232">   69</a></span>&#160;<span class="preprocessor">#define contribute      80</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">// [p384#1030] jmp label</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">// #define bigswitch            60</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">// #define appendnormalspace    120</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="tex_8h.html#a8cb0a1c482b904093521f34322054084">   76</a></span>&#160;<span class="preprocessor">#define shipoutflag     (boxflag + 512)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="tex_8h.html#a1dc05c079bda7d103ca1cd19e36753b3">   77</a></span>&#160;<span class="preprocessor">#define leaderflag      (boxflag + 513)</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// #1291</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">// enum ChrCode {};</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="tex_8h.html#a911e098bc55f7edda76d922de522b5ac">   81</a></span>&#160;<span class="preprocessor">#define boxcode         0</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="tex_8h.html#a9c631be846c1d9bdf04d21ca97051c45">   82</a></span>&#160;<span class="preprocessor">#define copycode        1</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ced34a251b4f96c7eaaa6f4f99d61c2">   83</a></span>&#160;<span class="preprocessor">#define lastboxcode     2</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="tex_8h.html#a9ace444c4ad95253e5d9b6f03c201531">   84</a></span>&#160;<span class="preprocessor">#define vsplitcode      3</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="tex_8h.html#afcfa812930eb791c865ac881403662fe">   85</a></span>&#160;<span class="preprocessor">#define vtopcode        4</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">// #1178</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="tex_8h.html#afb3ca659053c767e9a62e65383d262f0">   87</a></span>&#160;<span class="preprocessor">#define abovecode       0</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="tex_8h.html#ad992180e8440d788ce5e609d93ad2996">   88</a></span>&#160;<span class="preprocessor">#define overcode        1</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5">   89</a></span>&#160;<span class="preprocessor">#define atopcode        2</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="tex_8h.html#ab77b118692aecf31d6d9524a5760c7c0">   90</a></span>&#160;<span class="preprocessor">#define delimitedcode   3</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">// #1222</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">// enum ShortHandDef {};</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="tex_8h.html#a9af7372a244192b222da2127f0ea1adc">   94</a></span>&#160;<span class="preprocessor">#define chardefcode     0</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="tex_8h.html#a1cff5e3ffc5c840495ee95f90acfdf83">   95</a></span>&#160;<span class="preprocessor">#define mathchardefcode  1</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="tex_8h.html#a98676995ca3625915c3ee179a9833854">   96</a></span>&#160;<span class="preprocessor">#define countdefcode    2</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="tex_8h.html#aeaf0fcaa04bce8684e986757703a2661">   97</a></span>&#160;<span class="preprocessor">#define dimendefcode    3</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="tex_8h.html#a2a37a0ffa357db10b980f475d657ea0e">   98</a></span>&#160;<span class="preprocessor">#define skipdefcode     4</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="tex_8h.html#ad53893a78144c4722d8f094858740ef5">   99</a></span>&#160;<span class="preprocessor">#define muskipdefcode   5</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="tex_8h.html#a5ff4bdb0bd136785d27dadfc7acf0ce4">  100</a></span>&#160;<span class="preprocessor">#define toksdefcode     6</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">// #1291</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="tex_8h.html#ac475f8ff98106c5a624e7f228ccff5bc">  103</a></span>&#160;<span class="preprocessor">#define showcode        0</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="tex_8h.html#abb6a62c80b87c548ecc09741dc37b81f">  104</a></span>&#160;<span class="preprocessor">#define showboxcode     1</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="tex_8h.html#a8a115ed0d34fae99afc35e4ad6ab37c5">  105</a></span>&#160;<span class="preprocessor">#define showthecode     2</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="tex_8h.html#aff129dedb002da3ee6d8b1c70610dfdf">  106</a></span>&#160;<span class="preprocessor">#define showlists       3</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88">  108</a></span>&#160;<span class="preprocessor">#define badfmt          6666</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="tex_8h.html#a7e3982f712c42ac0cd098881dd2bcc03">  109</a></span>&#160;<span class="preprocessor">#define breakpoint      888</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="tex_8h.html#aca3b19a74764fe6aedb09ef920913592">  110</a></span>&#160;<span class="preprocessor">#define writenodesize   2</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="tex_8h.html#a863e23466a59899ef1b61367380683f2">  111</a></span>&#160;<span class="preprocessor">#define opennodesize    3</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">// [p472#1341]</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">// enum WhatsitsSubtype {};</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="tex_8h.html#a9e6492ff2c12e085987d6a2a0fe7a237">  115</a></span>&#160;<span class="preprocessor">#define opennode        0</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="tex_8h.html#ae8698bc29deba0e48a7d028741d7fecf">  116</a></span>&#160;<span class="preprocessor">#define writenode       1</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="tex_8h.html#a1a1b509b5a3dd5d699ec76bf4448b11d">  117</a></span>&#160;<span class="preprocessor">#define closenode       2</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="tex_8h.html#ae9b347460a6acee8f071e7e4f9948f68">  118</a></span>&#160;<span class="preprocessor">#define specialnode     3</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="tex_8h.html#a713d7d5da8b92af850929edf14074408">  119</a></span>&#160;<span class="preprocessor">#define languagenode    4</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">// [p473#1344]</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="tex_8h.html#a4c6aaf5b66943d6576781ad398cd47b3">  121</a></span>&#160;<span class="preprocessor">#define immediatecode   4</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="tex_8h.html#afcaa610d8f10d4c5acfdd5996ce27f24">  122</a></span>&#160;<span class="preprocessor">#define setlanguagecode  5</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="tex_8h.html#ad69ea76d6db83f32d529d54fa5cfa34f">  125</a></span>&#160;<span class="preprocessor">#define endwritetoken   (CS_TOKEN_FLAG + END_WRITE)</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor">#endif // #ifndef TEX_H</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">// #1291</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">// enum ChrCode {};</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="tex_8h.html#a911e098bc55f7edda76d922de522b5ac">   59</a></span>&#160;<span class="preprocessor">#define boxcode         0</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="tex_8h.html#a9c631be846c1d9bdf04d21ca97051c45">   60</a></span>&#160;<span class="preprocessor">#define copycode        1</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="tex_8h.html#a1ced34a251b4f96c7eaaa6f4f99d61c2">   61</a></span>&#160;<span class="preprocessor">#define lastboxcode     2</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="tex_8h.html#a9ace444c4ad95253e5d9b6f03c201531">   62</a></span>&#160;<span class="preprocessor">#define vsplitcode      3</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="tex_8h.html#afcfa812930eb791c865ac881403662fe">   63</a></span>&#160;<span class="preprocessor">#define vtopcode        4</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">// #1178</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="tex_8h.html#afb3ca659053c767e9a62e65383d262f0">   65</a></span>&#160;<span class="preprocessor">#define abovecode       0</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="tex_8h.html#ad992180e8440d788ce5e609d93ad2996">   66</a></span>&#160;<span class="preprocessor">#define overcode        1</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5">   67</a></span>&#160;<span class="preprocessor">#define atopcode        2</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="tex_8h.html#ab77b118692aecf31d6d9524a5760c7c0">   68</a></span>&#160;<span class="preprocessor">#define delimitedcode   3</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">// #1222</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">// enum ShortHandDef {};</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="tex_8h.html#a9af7372a244192b222da2127f0ea1adc">   72</a></span>&#160;<span class="preprocessor">#define chardefcode     0</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="tex_8h.html#a1cff5e3ffc5c840495ee95f90acfdf83">   73</a></span>&#160;<span class="preprocessor">#define mathchardefcode  1</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="tex_8h.html#a98676995ca3625915c3ee179a9833854">   74</a></span>&#160;<span class="preprocessor">#define countdefcode    2</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="tex_8h.html#aeaf0fcaa04bce8684e986757703a2661">   75</a></span>&#160;<span class="preprocessor">#define dimendefcode    3</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="tex_8h.html#a2a37a0ffa357db10b980f475d657ea0e">   76</a></span>&#160;<span class="preprocessor">#define skipdefcode     4</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="tex_8h.html#ad53893a78144c4722d8f094858740ef5">   77</a></span>&#160;<span class="preprocessor">#define muskipdefcode   5</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="tex_8h.html#a5ff4bdb0bd136785d27dadfc7acf0ce4">   78</a></span>&#160;<span class="preprocessor">#define toksdefcode     6</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">// #1291</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="tex_8h.html#ac475f8ff98106c5a624e7f228ccff5bc">   81</a></span>&#160;<span class="preprocessor">#define showcode        0</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="tex_8h.html#abb6a62c80b87c548ecc09741dc37b81f">   82</a></span>&#160;<span class="preprocessor">#define showboxcode     1</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="tex_8h.html#a8a115ed0d34fae99afc35e4ad6ab37c5">   83</a></span>&#160;<span class="preprocessor">#define showthecode     2</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="tex_8h.html#aff129dedb002da3ee6d8b1c70610dfdf">   84</a></span>&#160;<span class="preprocessor">#define showlists       3</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="tex_8h.html#a82fb8fbeb94c750185a20a71e8dd7b88">   86</a></span>&#160;<span class="preprocessor">#define badfmt          6666</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="tex_8h.html#a7e3982f712c42ac0cd098881dd2bcc03">   87</a></span>&#160;<span class="preprocessor">#define breakpoint      888</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor">#endif // #ifndef TEX_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="atex__types_8h_html"><div class="ttname"><a href="tex__types_8h.html">tex_types.h</a></div></div>
 <div class="ttc" id="atex__constant_8h_html"><div class="ttname"><a href="tex__constant_8h.html">tex_constant.h</a></div></div>
+<div class="ttc" id="aglobal__const_8h_html"><div class="ttname"><a href="global__const_8h.html">global_const.h</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

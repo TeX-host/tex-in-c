@@ -8,12 +8,16 @@ var group___s1208x1298___p435x454 =
     [ "doassignments", "group___s1208x1298___p435x454.html#ga600d75e92c3a991d8672e091303a8b40", null ],
     [ "doregistercommand", "group___s1208x1298___p435x454.html#gafe29b1beaf52cb8b12fcd5cd9906bb21", null ],
     [ "getrtoken", "group___s1208x1298___p435x454.html#ga0805aba3ffb7371947278c8fca18e8e8", null ],
-    [ "issuemessage", "group___s1208x1298___p435x454.html#gacd6c3afbe60397538ed3ba2358ffdc43", null ],
+    [ "issuemessage", "group___s1208x1298___p435x454.html#gadaee46b89a83ea6193bbda500242f65c", null ],
+    [ "mode_indep_init", "group___s1208x1298___p435x454.html#ga8241b7ec460e40a14cd681e9edd848d3", null ],
+    [ "mode_indep_init_once", "group___s1208x1298___p435x454.html#gab2243ad25819466755bf6f413e43be45", null ],
     [ "newfont", "group___s1208x1298___p435x454.html#ga8030055a634cdba99044f010fc5a469c", null ],
     [ "newinteraction", "group___s1208x1298___p435x454.html#ga2dd8a901c5d1a460e524314e9286fbb4", null ],
-    [ "openorclosein", "group___s1208x1298___p435x454.html#gaecc93f34b7e9d43e7df56a0821ee5667", null ],
-    [ "prefixedcommand", "group___s1208x1298___p435x454.html#ga5dce13eaa629c3eabece72b93c29b6f1", null ],
-    [ "shiftcase", "group___s1208x1298___p435x454.html#gac9cd25f1dd22a6c4aaa17cc28dfdc853", null ],
-    [ "showwhatever", "group___s1208x1298___p435x454.html#ga681bcf5d7b699ca2b9f1f394bfb3e4a8", null ],
-    [ "trapzeroglue", "group___s1208x1298___p435x454.html#ga1e690375d513ec23d2c3375f4c6c2cff", null ]
+    [ "openorclosein", "group___s1208x1298___p435x454.html#gac7ac73ba34708b8181d49f57d6a90a08", null ],
+    [ "prefixedcommand", "group___s1208x1298___p435x454.html#ga8b006cca408266a2cf903d2c30b03844", null ],
+    [ "shiftcase", "group___s1208x1298___p435x454.html#ga466876aa5b16eb9d7556fd65d3479f6e", null ],
+    [ "showwhatever", "group___s1208x1298___p435x454.html#ga99b4dadf3c1abee06e9da950c3c704a5", null ],
+    [ "trapzeroglue", "group___s1208x1298___p435x454.html#ga1e690375d513ec23d2c3375f4c6c2cff", null ],
+    [ "aftertoken", "group___s1208x1298___p435x454.html#gacae8d973c778749008184a84ac73c9f6", null ],
+    [ "longhelpseen", "group___s1208x1298___p435x454.html#ga3e6745fc8c3e6f7e322ff6f931d1bd1b", null ]
 ];

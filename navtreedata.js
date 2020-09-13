@@ -52,24 +52,24 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "align_8c.html",
-"globals_t.html",
-"group___s1208x1298___p435x454.html#gae54e99f0834df2cc7f6de778fc7f0e9e",
-"group___s162x172___p58x61.html#ga796af48ef5a2065dffec67aef97343bf",
-"group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0a3e4cedb02b208181727b1ef1ca0f1d4c",
-"group___s211x219___p77x80.html#gadf56d9101070f0e67d6aee9e3932dcb3",
-"group___s220x255___p81x101.html#gaa2c0bf3bd170109df767ab2aef99b4de",
-"group___s220x255___p81x101.html#gga852dd81f66f39df1acf86bba9146d56dad5493d3f0747e01554d1a0f2f3a0182b",
-"group___s268x288___p109x114.html#ga7318db403c0da9a7312c5818709a40e8",
-"group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2",
-"group___s402x463___p155x173.html#ggacdf722e52e0a319141e934c8f9649619add022a4c8c40b2ffb591bc0c0e38dbc4",
-"group___s539x582___p196x213.html#ga5f1c0014b966ebb548a37b0559bb8a95",
-"group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16",
-"group___s680x698___p249x257.html#ga519cfe64ff566b194ec320e23b05a057",
-"group___s719x767___p265x284.html#ga9ddb75da8cb4384eca65bbfed4966e22",
-"group___s813x861___p302x318.html#ga645dfe2fd61a36d86beb0db519fb8a5d",
-"group___s967x979___p360x365.html#ga9bec72f665b73c91e4d5e6265dab369f",
-"str_8h.html#a7bb239d357f1aa59a8f47eab64540a61",
-"texmac_8h.html#ac8149f7232eda3c9875977d689454622"
+"globals_j.html",
+"group___s115x132___p44x49.html#ga9a7e5024b0569ea979a3a889834418a5",
+"group___s133x161___p50x57.html#gafac4093b2b273b547d6ad8b408970c8e",
+"group___s1x16___p3x9.html#ga1dc6200b7756ec764f3ac70ba7ab49cf",
+"group___s207x210___p73x76.html#gga14d6dafe4901a37bbad3004c5f9506c0ac232ca9c3274255486e1e4aa203f7a99",
+"group___s220x255___p81x101.html#ga48a5039859fc5b1b04281fd36ffebd5c",
+"group___s220x255___p81x101.html#gga40867a53ba2c10647df26967fc8dc573a2cfac84740805972a5be256eaec74dd6",
+"group___s256x267___p102x108.html#ga52312b074789d78bc2087d897927ca76",
+"group___s300x320___p121x130.html#ga154a33e00654c6b349daeca66bbae8f5",
+"group___s38x53___p19x23.html#ga6afc727fdb60b7423e0f9bddd59e25d5",
+"group___s487x510___p181x187.html#ggaf595cb28c3306dd722e1b51c108a4fffa4f57b2acb920356f442460c927f03da6",
+"group___s539x582___p196x213.html#gacef640173511cdd4d51cc78e5062b353",
+"group___s592x643___p220x238.html#gaa528c48a3474cb1bdb282816f7826598",
+"group___s680x698___p249x257.html#gga9a869da8ec6acdaeeb6f332f6deb47f3a7296c8650c2fdef9058d52ed5ce47deb",
+"group___s72x98___p30x37.html#gadeb1545ae01b6cbf0a224dc6a207876e",
+"group___s862x890___p319x329.html#ga9d9195c2290f78ff31e9cefd3f4e5a71",
+"group___s980x1028___p366x382.html#gaf17f95f6680985b35a21c14e7e83fb93",
+"str_8h.html#a24f861d1283938060a9958db41bbb054"
 ];
 
 var SYNCONMSG = '点击 关闭 面板同步';

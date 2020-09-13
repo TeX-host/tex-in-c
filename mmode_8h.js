@@ -32,6 +32,7 @@ var mmode_8h =
     [ "mathsy", "group___s699x718___p258x264.html#ga3de2d8438fc1aeb0e4c538e4b2d1e5d9", null ],
     [ "mathtype", "group___s680x698___p249x257.html#gac90e215985878fea163e0b1e8de96e2b", null ],
     [ "mathxheight", "group___s699x718___p258x264.html#ga5ac824ba27b7c2a60ae146808644bb53", null ],
+    [ "newhlist", "group___s719x767___p265x284.html#ga705e76711d81aeeda5dca8ed220577b0", null ],
     [ "noadsize", "group___s680x698___p249x257.html#gabf359e9092a65fc6d67ef25f7a4ea56f", null ],
     [ "nolimits", "group___s680x698___p249x257.html#ga1fe2201851f64cc18207a83c1f8b633c", null ],
     [ "nucleus", "group___s680x698___p249x257.html#gae9c319d34d8e08c5ceab38a0dee6f1a0", null ],

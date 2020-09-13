@@ -1,5 +1,6 @@
 var group___s539x582___p196x213 =
 [
+    [ "badtfm", "group___s539x582___p196x213.html#ga1ac58e8c07a729246fa8b487c167fb99", null ],
     [ "charexists", "group___s539x582___p196x213.html#ga0eb0898a6cae8ba19bf74324d1ccf61f", null ],
     [ "chartag", "group___s539x582___p196x213.html#gaaa08111c2d3dfbdad2e7207ecd4e9b5c", null ],
     [ "extbot", "group___s539x582___p196x213.html#ga4d561dacbb1528f30c1d7bc0c8ffa751", null ],
@@ -8,10 +9,13 @@ var group___s539x582___p196x213 =
     [ "extrep", "group___s539x582___p196x213.html#ga8dd795bc71dd90db4d87e4657db0115d", null ],
     [ "exttop", "group___s539x582___p196x213.html#ga3f9ef793ff58e080370460167e8f1695", null ],
     [ "heightdepth", "group___s539x582___p196x213.html#ga7e2cedc6111b4070bff10d25b7f0af78", null ],
+    [ "kernbaseoffset", "group___s539x582___p196x213.html#ga09acf2986201cf0db897d5a9e9af484b", null ],
     [ "kernflag", "group___s539x582___p196x213.html#gaa4ca7ec0097e3d8c2fc660a611689703", null ],
     [ "ligkernrestart", "group___s539x582___p196x213.html#gadddbf45795fbdad9cb79d749d1d893bf", null ],
     [ "ligkernstart", "group___s539x582___p196x213.html#gae5a0671acde4fe9a9f76dc73f6c2655c", null ],
     [ "nextchar", "group___s539x582___p196x213.html#ga53c2543dcf2587c567330e73d7e594ea", null ],
+    [ "NON_CHAR", "group___s539x582___p196x213.html#ga7fe16b4c1955adc687d9a1be1fe8f112", null ],
+    [ "nonaddress", "group___s539x582___p196x213.html#ga5b17f11a2394cca74fc404b0103004fe", null ],
     [ "opbyte", "group___s539x582___p196x213.html#gaf5864224e50350a4279278a916685959", null ],
     [ "param", "group___s539x582___p196x213.html#ga0febc4f60a839592bc6d403947302e79", null ],
     [ "quad", "group___s539x582___p196x213.html#ga2d051a71dee04ccbf9ed94590d5f1bb3", null ],

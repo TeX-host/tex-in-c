@@ -1,13 +1,15 @@
 <map id="lexer.h" name="lexer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="45,5,115,35"/>
-<area shape="rect" id="node2" title=" " alt="" coords="21,469,91,499"/>
-<area shape="rect" id="node3" href="$tex_8h.html" title=" " alt="" coords="151,83,207,112"/>
-<area shape="rect" id="node4" href="$tex__types_8h.html" title=" " alt="" coords="294,392,397,421"/>
-<area shape="rect" id="node7" href="$tex__constant_8h.html" title=" " alt="" coords="116,160,241,189"/>
-<area shape="rect" id="node5" title=" " alt="" coords="317,469,403,499"/>
-<area shape="rect" id="node6" title=" " alt="" coords="219,469,293,499"/>
-<area shape="rect" id="node8" href="$box_8h.html" title=" " alt="" coords="148,237,209,267"/>
-<area shape="rect" id="node9" href="$str_8h.html" title=" " alt="" coords="153,315,205,344"/>
-<area shape="rect" id="node10" href="$global__const_8h.html" title=" " alt="" coords="94,392,218,421"/>
-<area shape="rect" id="node11" title=" " alt="" coords="117,469,195,499"/>
+<area shape="rect" id="node1" title=" " alt="" coords="46,5,115,35"/>
+<area shape="rect" id="node2" title=" " alt="" coords="111,469,180,499"/>
+<area shape="rect" id="node3" href="$tex_8h.html" title=" " alt="" coords="140,83,196,112"/>
+<area shape="rect" id="node4" href="$global__const_8h.html" title=" " alt="" coords="44,392,168,421"/>
+<area shape="rect" id="node6" href="$tex__types_8h.html" title=" " alt="" coords="337,469,440,499"/>
+<area shape="rect" id="node9" href="$tex__constant_8h.html" title=" " alt="" coords="182,160,307,189"/>
+<area shape="rect" id="node5" title=" " alt="" coords="8,469,86,499"/>
+<area shape="rect" id="node7" title=" " alt="" coords="345,547,432,576"/>
+<area shape="rect" id="node8" title=" " alt="" coords="234,547,308,576"/>
+<area shape="rect" id="node10" href="$box_8h.html" title=" " alt="" coords="226,237,287,267"/>
+<area shape="rect" id="node11" href="$str_8h.html" title=" " alt="" coords="230,315,282,344"/>
+<area shape="rect" id="node13" href="$texmath_8h.html" title=" " alt="" coords="350,315,440,344"/>
+<area shape="rect" id="node12" href="$charset_8h.html" title=" " alt="" coords="345,392,432,421"/>
 </map>

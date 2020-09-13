@@ -1,5 +1,6 @@
 var group___s862x890___p319x329 =
 [
+    [ "actwidth", "group___s862x890___p319x329.html#gad0d1f7922f361ed20e752cc42b5ac7ef", null ],
     [ "kernbreak", "group___s862x890___p319x329.html#ga9d9195c2290f78ff31e9cefd3f4e5a71", null ],
     [ "nextbreak", "group___s862x890___p319x329.html#ga1ea4691343d7b58cb15a48b12469d031", null ],
     [ "storebackground", "group___s862x890___p319x329.html#gabc08d5b4ea948acba498dc114ca1e841", null ],

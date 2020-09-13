@@ -1,9 +1,15 @@
 var expand_8h =
 [
+    [ "botmark", "group___s366x401___p144x154.html#gaa7fcff3e8068cc87b18345537502f8a6", null ],
     [ "FAST_STORE_NEW_TOKEN", "group___s366x401___p144x154.html#gaaaeb0aae883995b2f24c20b28b2854af", null ],
+    [ "firstmark", "group___s366x401___p144x154.html#gaf462a18e778513582bdde4a4319c884d", null ],
+    [ "iflinefield", "group___s487x510___p181x187.html#gafc29d464b8a8b2e609b3d35c46596b1b", null ],
     [ "ifnodesize", "group___s487x510___p181x187.html#gad8a7335e64893bdaaf5bbda1ac29b89a", null ],
     [ "INC_EXPAND_H", "expand_8h.html#aacc74ac4de15bf8e8bdbb4ef1ef1a612", null ],
+    [ "splitbotmark", "group___s366x401___p144x154.html#ga17735f096c1af0249726fdf9ef50bfbd", null ],
+    [ "splitfirstmark", "group___s366x401___p144x154.html#ga176c2e200736a385304d732887c37bd6", null ],
     [ "STORE_NEW_TOKEN", "group___s366x401___p144x154.html#ga130cf00e6f6bdf658188a11e7d889e87", null ],
+    [ "topmark", "group___s366x401___p144x154.html#gaee77b5b570c5ca3dcc4134ff7f7534c3", null ],
     [ "ConditionPrimitives", "group___s487x510___p181x187.html#ga3dbefe2dcd01e7607e10d1b9219543a7", [
       [ "IF_CHAR_CODE", "group___s487x510___p181x187.html#gga3dbefe2dcd01e7607e10d1b9219543a7aef7d4afba70c04f7374bf715bc7a7ead", null ],
       [ "IF_CAT_CODE", "group___s487x510___p181x187.html#gga3dbefe2dcd01e7607e10d1b9219543a7ab3ae3b0711d849e17bad7448372b945e", null ],

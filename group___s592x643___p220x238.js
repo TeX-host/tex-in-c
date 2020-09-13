@@ -12,6 +12,9 @@ var group___s592x643___p220x238 =
     [ "LINK", "group___s592x643___p220x238.html#ga00aa9190ed7fe4d4d6d922875e45414a", null ],
     [ "LOCATION", "group___s592x643___p220x238.html#gafd7e15569ff668c0be3846a24aced1f7", null ],
     [ "MOVEMENT_NODE_SIZE", "group___s592x643___p220x238.html#ga0e1f1ae65ac0bdd5c5dd775c3f273efa", null ],
+    [ "synchh", "group___s592x643___p220x238.html#ga3a506d8dfa3d99fae73fda84b990d205", null ],
+    [ "synchv", "group___s592x643___p220x238.html#ga89a7c07277382d49aa8814ecc1290836", null ],
+    [ "vetglue", "group___s592x643___p220x238.html#ga0aa17574af63a7035506c8c75b71b761", null ],
     [ "WIDTH", "group___s592x643___p220x238.html#ga9978c9be0f4161638ec49b4eda697d42", null ],
     [ "DVI_Index", "group___s592x643___p220x238.html#ga0f35cbc1f4c81ec461383c8d549c0b16", null ],
     [ "DVISetting", "group___s592x643___p220x238.html#ga81579d54c33287da8dfbbc424316db9c", [

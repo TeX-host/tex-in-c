@@ -2,13 +2,13 @@ var indexSectionsWithContent =
 {
   0: "_abcdefghijklmnopqrstuvwxyz",
   1: "filmst",
-  2: "abdefghilmpst",
+  2: "abcdefghilmpst",
   3: "_abcdefghijlmnoprstuvwxy",
   4: "_abcdefghijklmnopqrstuvwx",
   5: "abcdefghinpqrstu",
   6: "cdefghinstu",
   7: "abcdefghijklmnopqrstuvwxyz",
-  8: "_abcdefgijklmnopqrstuvw",
+  8: "_abcdfgijlmnopqrstuvw",
   9: "p"
 };
 

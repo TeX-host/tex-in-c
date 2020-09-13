@@ -1,6 +1,7 @@
 var linebreak_8h =
 [
     [ "activenodesize", "group___s813x861___p302x318.html#ga129916390d34a6bf6b2ce5f2225b4166", null ],
+    [ "actwidth", "group___s862x890___p319x329.html#gad0d1f7922f361ed20e752cc42b5ac7ef", null ],
     [ "awfulbad", "group___s813x861___p302x318.html#gafb8d08b641bc03250576f3f8ada33d23", null ],
     [ "breaknode", "group___s813x861___p302x318.html#gaba960b5b4bdeec1c5cad9e2935a80dc7", null ],
     [ "checkshrinkage", "group___s813x861___p302x318.html#ga0ef1a47284bf2a7d3440896f21dd54e2", null ],

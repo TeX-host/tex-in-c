@@ -1,7 +1,6 @@
 var tex__types_8h =
 [
     [ "INC_TEX_TYPES", "tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2", null ],
-    [ "ASCIICode", "group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7", null ],
     [ "Boolean", "tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2", null ],
     [ "Char", "tex__types_8h.html#ae4a8a3aa6ed721f4b27ed73a5563c0fb", null ],
     [ "EightBits", "group___s25x37___p13x18.html#gae754f98edb4d28aea7fd715d2d0d16a4", null ],
@@ -20,7 +19,6 @@ var tex__types_8h =
     [ "Scaled", "tex__types_8h.html#a2706245419f72401a8d6b15c5d0248a8", null ],
     [ "SChar", "tex__types_8h.html#a7845d348421009f965132d7f4d10095f", null ],
     [ "SmallNumber", "tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288", null ],
-    [ "TextChar", "group___s17x24___p10x12.html#gaada1486c0ec67388ccd604e433b7b2c7", null ],
     [ "TriePointer", "tex__types_8h.html#aab80f07985d5fc40ccd04b953bed15a2", null ],
     [ "UChar", "tex__types_8h.html#a521f7b9ccda5094078d29f82f06de886", null ],
     [ "UInt16", "tex__types_8h.html#a8c7e64bfcbd67be1699ac1e4d2a8d6cd", null ],

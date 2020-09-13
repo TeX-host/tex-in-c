@@ -27,6 +27,5 @@ var group___s1x16___p3x9 =
     [ "STRING_VACANCIES", "group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30", null ],
     [ "TEX_BANNER", "group___s1x16___p3x9.html#gacbe67c8d530c8b4d1464aecf3c231a81", null ],
     [ "TRIE_OP_SIZE", "group___s1x16___p3x9.html#gae640027d7cc4c3750b4386f639d1b698", null ],
-    [ "TRIE_SIZE", "group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794", null ],
-    [ "ASCIICode", "group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7", null ]
+    [ "TRIE_SIZE", "group___s1x16___p3x9.html#gaa622738bf63994f7d742b0774a6ea794", null ]
 ];

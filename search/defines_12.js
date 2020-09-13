@@ -1,27 +1,6 @@
 var searchData=
 [
-  ['s_3693',['S',['../tex_8h.html#ac4a3ed3432929804c708f7760fb79e28',1,'tex.h']]],
-  ['setheightzero_3694',['setheightzero',['../texmac_8h.html#afef98c545341cc8a94c14a52e695b3a0',1,'texmac.h']]],
-  ['setlanguagecode_3695',['setlanguagecode',['../tex_8h.html#afcaa610d8f10d4c5acfdd5996ce27f24',1,'tex.h']]],
-  ['setpagesofarzero_3696',['setpagesofarzero',['../texmac_8h.html#a8e5d9ebad54823ae0bcdcec8c547c21e',1,'texmac.h']]],
-  ['shipoutflag_3697',['shipoutflag',['../tex_8h.html#a8cb0a1c482b904093521f34322054084',1,'tex.h']]],
-  ['showboxcode_3698',['showboxcode',['../tex_8h.html#abb6a62c80b87c548ecc09741dc37b81f',1,'tex.h']]],
-  ['showcode_3699',['showcode',['../tex_8h.html#ac475f8ff98106c5a624e7f228ccff5bc',1,'tex.h']]],
-  ['showlists_3700',['showlists',['../tex_8h.html#aff129dedb002da3ee6d8b1c70610dfdf',1,'tex.h']]],
-  ['showthecode_3701',['showthecode',['../tex_8h.html#a8a115ed0d34fae99afc35e4ad6ab37c5',1,'tex.h']]],
-  ['skipdefcode_3702',['skipdefcode',['../tex_8h.html#a2a37a0ffa357db10b980f475d657ea0e',1,'tex.h']]],
-  ['specialnode_3703',['specialnode',['../tex_8h.html#ae9b347460a6acee8f071e7e4f9948f68',1,'tex.h']]],
-  ['splitbotmark_3704',['splitbotmark',['../texmac_8h.html#a17735f096c1af0249726fdf9ef50bfbd',1,'texmac.h']]],
-  ['splitbotmarkcode_3705',['splitbotmarkcode',['../tex_8h.html#af79d3b9fcef12ef630bb300c2835b2ed',1,'tex.h']]],
-  ['splitfirstmark_3706',['splitfirstmark',['../texmac_8h.html#a176c2e200736a385304d732887c37bd6',1,'texmac.h']]],
-  ['splitfirstmarkcode_3707',['splitfirstmarkcode',['../tex_8h.html#ad29385fea6041c522ac27534e4f3ae03',1,'tex.h']]],
-  ['splitup_3708',['splitup',['../tex_8h.html#afb06a5bc21b2f70238b3136e65ca080c',1,'tex.h']]],
-  ['startcs_3709',['startcs',['../tex_8h.html#a0aa9da87af13afc841a7ad7ee4cf6580',1,'tex.h']]],
-  ['static_3710',['Static',['../tex_8h.html#ae61eb61d35d2c2babb793b5b0544977a',1,'tex.h']]],
-  ['store_5ffour_5fquarters_3711',['STORE_FOUR_QUARTERS',['../fonts_8c.html#a7fcce1bd499ab660c37190aeb1d0d483',1,'fonts.c']]],
-  ['str_5fend_3712',['str_end',['../str_8c.html#a076ca789d28c275673095668fa4b2924',1,'str.c']]],
-  ['str_5fh_3713',['STR_H',['../str_8h.html#a8652fec210d1ca270182e37e4c2f67da',1,'str.h']]],
-  ['switch_5f_3714',['switch_',['../tex_8h.html#a09b0cb1cf5ce76e7e99cbfd1c8e3fba5',1,'tex.h']]],
-  ['synchh_3715',['synchh',['../dviout_8h.html#a3a506d8dfa3d99fae73fda84b990d205',1,'dviout.h']]],
-  ['synchv_3716',['synchv',['../dviout_8h.html#a89a7c07277382d49aa8814ecc1290836',1,'dviout.h']]]
+  ['umaxof_3725',['UMAXOF',['../global__const_8h.html#a0b214f24d057045ee6b4f4b664f4fc1e',1,'global_const.h']]],
+  ['use_5freal_5fstr_3726',['USE_REAL_STR',['../global__const_8h.html#a0c2a3337a49ec0cb25d10239facd2b7b',1,'global_const.h']]],
+  ['use_5fsplit_5fmod_3727',['USE_SPLIT_MOD',['../global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30',1,'global_const.h']]]
 ];

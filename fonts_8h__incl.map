@@ -1,6 +1,15 @@
 <map id="fonts.h" name="fonts.h">
-<area shape="rect" id="node1" title=" " alt="" coords="53,5,123,35"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,160,75,189"/>
-<area shape="rect" id="node3" href="$global__const_8h.html" title=" " alt="" coords="77,83,201,112"/>
-<area shape="rect" id="node4" title=" " alt="" coords="99,160,178,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="183,5,253,35"/>
+<area shape="rect" id="node2" title=" " alt="" coords="133,392,202,421"/>
+<area shape="rect" id="node3" href="$global__const_8h.html" title=" " alt="" coords="5,315,129,344"/>
+<area shape="rect" id="node5" href="$tex__constant_8h.html" title=" " alt="" coords="255,83,381,112"/>
+<area shape="rect" id="node7" href="$str_8h.html" title=" " alt="" coords="243,237,295,267"/>
+<area shape="rect" id="node13" href="$macros_8h.html" title=" " alt="" coords="405,83,492,112"/>
+<area shape="rect" id="node4" title=" " alt="" coords="28,392,107,421"/>
+<area shape="rect" id="node6" href="$box_8h.html" title=" " alt="" coords="287,160,349,189"/>
+<area shape="rect" id="node12" href="$texmath_8h.html" title=" " alt="" coords="378,237,469,267"/>
+<area shape="rect" id="node8" title=" " alt="" coords="245,469,319,499"/>
+<area shape="rect" id="node9" href="$charset_8h.html" title=" " alt="" coords="357,315,444,344"/>
+<area shape="rect" id="node10" href="$tex__types_8h.html" title=" " alt="" coords="341,392,444,421"/>
+<area shape="rect" id="node11" title=" " alt="" coords="349,469,436,499"/>
 </map>

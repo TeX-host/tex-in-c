@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['newhlist_3667',['newhlist',['../texmac_8h.html#a705e76711d81aeeda5dca8ed220577b0',1,'texmac.h']]],
-  ['nextp_3668',['nextp',['../tex_8h.html#a7cf37a5a18c4aa982ed541db323f8fad',1,'tex.h']]],
-  ['noexpandflag_3669',['noexpandflag',['../tex_8h.html#a26e7b2d5e5ec16442a9bb689fdd92852',1,'tex.h']]],
-  ['non_5fchar_3670',['NON_CHAR',['../macros_8h.html#a7fe16b4c1955adc687d9a1be1fe8f112',1,'macros.h']]],
-  ['nonaddress_3671',['nonaddress',['../tex_8h.html#a5b17f11a2394cca74fc404b0103004fe',1,'tex.h']]]
+  ['p_5fclrbits_5fb_3695',['P_clrbits_B',['../mem_8h.html#a68181d3fe901f7aafc5fbda791f1a23a',1,'mem.h']]],
+  ['p_5fgetbits_5fub_3696',['P_getbits_UB',['../mem_8h.html#a9f5c1a9cea61b9827f34376862bdb40b',1,'mem.h']]],
+  ['p_5fputbits_5fub_3697',['P_putbits_UB',['../mem_8h.html#a7d0e78555fbdc203da62e204de5c4dfd',1,'mem.h']]],
+  ['pget_3698',['pget',['../macros_8h.html#aeab5df1e30bdc8ca08e6b9b3450db0a4',1,'macros.h']]],
+  ['pput_3699',['pput',['../macros_8h.html#aedd65168720a93139164bccf7ab1ad9e',1,'macros.h']]]
 ];

@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['end_5fline_5fchar_5finactive_3619',['end_line_char_inactive',['../texmac_8h.html#ae67225b7b25e1a7266a083bafbe15f05',1,'texmac.h']]],
-  ['endwritetoken_3620',['endwritetoken',['../tex_8h.html#ad69ea76d6db83f32d529d54fa5cfa34f',1,'tex.h']]],
-  ['exteninfo_3621',['exteninfo',['../texmac_8h.html#afd096ffa0ff3cf50215b60e8b3fcd8fd',1,'texmac.h']]]
+  ['faminrange_3653',['faminrange',['../main__ctrl_8h.html#a3843280b3dac31ae97b195413e58ef56',1,'main_ctrl.h']]],
+  ['finrule_3654',['finrule',['../tex_8h.html#aff570c0a81ec0b8661bdb79278836fe8',1,'tex.h']]],
+  ['firstmarkcode_3655',['firstmarkcode',['../tex_8h.html#a63bbf69ce0b4767b16a7fc0c5448427a',1,'tex.h']]],
+  ['font_5fligchar_3656',['font_ligchar',['../global__const_8h.html#a92313b680d1634f4c6d9bd78153b9b0f',1,'global_const.h']]],
+  ['fonts_5fh_3657',['FONTS_H',['../fonts_8h.html#a6be9f6f6c83255972bc5b73d50e4e96a',1,'fonts.h']]]
 ];

@@ -101,17 +101,18 @@ $(document).ready(function(){initNavTree('str_8h.html',''); initResizable(); });
 <div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="global__const_8h_source.html">global_const.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="charset_8h_source.html">charset.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tex__types_8h_source.html">tex_types.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 str.h 的引用(Include)关系图:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__incl.svg" width="392" height="195"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__incl.svg" width="420" height="272"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 此图展示该文件直接或间接的被哪些文件引用了:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__dep__incl.svg" width="5627" height="891"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="str_8h__dep__incl.svg" width="4290" height="582"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -124,27 +125,27 @@ str.h 的引用(Include)关系图:</div>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 宏定义</h2></td></tr>
-<tr class="memitem:a8652fec210d1ca270182e37e4c2f67da"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a8652fec210d1ca270182e37e4c2f67da">STR_H</a></td></tr>
+<tr class="memitem:a8652fec210d1ca270182e37e4c2f67da"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a8652fec210d1ca270182e37e4c2f67da">STR_H</a></td></tr>
 <tr class="separator:a8652fec210d1ca270182e37e4c2f67da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga56616411e56f79c8ef71d13a76713622"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#ga56616411e56f79c8ef71d13a76713622">MAX_STRINGS</a>&#160;&#160;&#160;300000</td></tr>
+<tr class="memitem:ga56616411e56f79c8ef71d13a76713622"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#ga56616411e56f79c8ef71d13a76713622">MAX_STRINGS</a>&#160;&#160;&#160;300000</td></tr>
 <tr class="memdesc:ga56616411e56f79c8ef71d13a76713622"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#11] maximum number of strings; must not exceed <a class="el" href="group___s110x114___p42x43.html#ga6f26beaf9aba8aa94d967e3b06ef7983" title="[#110]: largest allowable value in a HalfWord.">MAX_HALF_WORD</a>.  <a href="group___s1x16___p3x9.html#ga56616411e56f79c8ef71d13a76713622">更多...</a><br /></td></tr>
 <tr class="separator:ga56616411e56f79c8ef71d13a76713622"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga68c4128ce58b9b87220d89080327aa30"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30">STRING_VACANCIES</a>&#160;&#160;&#160;8000</td></tr>
+<tr class="memitem:ga68c4128ce58b9b87220d89080327aa30"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30">STRING_VACANCIES</a>&#160;&#160;&#160;8000</td></tr>
 <tr class="memdesc:ga68c4128ce58b9b87220d89080327aa30"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#11] the minimum number of characters that should be available for the user’s control sequences and font names, after TEX’s own error messages are stored.  <a href="group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30">更多...</a><br /></td></tr>
 <tr class="separator:ga68c4128ce58b9b87220d89080327aa30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa2ac54564b3514084afd2c5dafe9d232"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>&#160;&#160;&#160;(1024 * 1024 * 4 - 1)</td></tr>
+<tr class="memitem:gaa2ac54564b3514084afd2c5dafe9d232"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>&#160;&#160;&#160;(1024 * 1024 * 4 - 1)</td></tr>
 <tr class="memdesc:gaa2ac54564b3514084afd2c5dafe9d232"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#11] maximum number of characters in strings.  <a href="group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232">更多...</a><br /></td></tr>
 <tr class="separator:gaa2ac54564b3514084afd2c5dafe9d232"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3a3e1a47d94c456e975fbae727075c4c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga3a3e1a47d94c456e975fbae727075c4c">POOLPOINTER_IS_POINTER</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ga3a3e1a47d94c456e975fbae727075c4c"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga3a3e1a47d94c456e975fbae727075c4c">POOLPOINTER_IS_POINTER</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ga3a3e1a47d94c456e975fbae727075c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga158e9203fe11b0854dfeaaa384dca8a1"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga158e9203fe11b0854dfeaaa384dca8a1">POOL_TOP</a>&#160;&#160;&#160;(<a class="el" href="group___s38x53___p19x23.html#ga123161ed756585e87af6fa7e9de80ec3">str_pool</a> + <a class="el" href="group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>)</td></tr>
+<tr class="memitem:ga158e9203fe11b0854dfeaaa384dca8a1"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga158e9203fe11b0854dfeaaa384dca8a1">POOL_TOP</a>&#160;&#160;&#160;(<a class="el" href="group___s38x53___p19x23.html#ga123161ed756585e87af6fa7e9de80ec3">str_pool</a> + <a class="el" href="group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232">POOL_SIZE</a>)</td></tr>
 <tr class="separator:ga158e9203fe11b0854dfeaaa384dca8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab1aba8653b36c542591a985295534e96"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gab1aba8653b36c542591a985295534e96">POOL_ELEM</a>(x,  y)&#160;&#160;&#160;((x)[(y)])</td></tr>
+<tr class="memitem:gab1aba8653b36c542591a985295534e96"><td class="memItemLeft" align="right" valign="top">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gab1aba8653b36c542591a985295534e96">POOL_ELEM</a>(x,  y)&#160;&#160;&#160;((x)[(y)])</td></tr>
 <tr class="separator:gab1aba8653b36c542591a985295534e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 类型定义</h2></td></tr>
-<tr class="memitem:gaa1a7d9c05ade2f46952e99c061943621"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621">PoolPtr</a></td></tr>
+<tr class="memitem:gaa1a7d9c05ade2f46952e99c061943621"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621">PoolPtr</a></td></tr>
 <tr class="memdesc:gaa1a7d9c05ade2f46952e99c061943621"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#38] for variables that point into <a class="el" href="group___s38x53___p19x23.html#ga123161ed756585e87af6fa7e9de80ec3" title="[#39] the characters.">str_pool</a>.  <a href="group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621">更多...</a><br /></td></tr>
 <tr class="separator:gaa1a7d9c05ade2f46952e99c061943621"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga07525edfa2983cba57700272d6a51827"><td class="memItemLeft" align="right" valign="top">typedef uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a></td></tr>
@@ -158,7 +159,7 @@ str.h 的引用(Include)关系图:</div>
 <tr class="memitem:ga6afc727fdb60b7423e0f9bddd59e25d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga6afc727fdb60b7423e0f9bddd59e25d5">get_strings_started</a> (void)</td></tr>
 <tr class="memdesc:ga6afc727fdb60b7423e0f9bddd59e25d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#47]: initializes the string pool, but returns false if something goes wrong.  <a href="group___s38x53___p19x23.html#ga6afc727fdb60b7423e0f9bddd59e25d5">更多...</a><br /></td></tr>
 <tr class="separator:ga6afc727fdb60b7423e0f9bddd59e25d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f56258cfcf815dade9d19c0231764c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a2f56258cfcf815dade9d19c0231764c8">str_map</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> k, void(*f)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="memitem:a2f56258cfcf815dade9d19c0231764c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a2f56258cfcf815dade9d19c0231764c8">str_map</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> k, void(*f)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
 <tr class="separator:a2f56258cfcf815dade9d19c0231764c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga53e0697d238d7ed3ce16ded9bc66b644"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga53e0697d238d7ed3ce16ded9bc66b644">str_length</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
 <tr class="memdesc:ga53e0697d238d7ed3ce16ded9bc66b644"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#40]: the number of characters in string number x.  <a href="group___s38x53___p19x23.html#ga53e0697d238d7ed3ce16ded9bc66b644">更多...</a><br /></td></tr>
@@ -178,7 +179,7 @@ str.h 的引用(Include)关系图:</div>
 <tr class="separator:gac0b5ed41251f3598633000ea519c47a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90ad04d9eb9a1ca9435e147a003636e1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a90ad04d9eb9a1ca9435e147a003636e1">str_getc</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s, int k)</td></tr>
 <tr class="separator:a90ad04d9eb9a1ca9435e147a003636e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a926d70d28b0e665e6ee69da92d90fb9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a926d70d28b0e665e6ee69da92d90fb9e">str_map_from_mark</a> (<a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a> b, void(*f)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="memitem:a926d70d28b0e665e6ee69da92d90fb9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a926d70d28b0e665e6ee69da92d90fb9e">str_map_from_mark</a> (<a class="el" href="struct_str_pool_ptr.html">StrPoolPtr</a> b, void(*f)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
 <tr class="separator:a926d70d28b0e665e6ee69da92d90fb9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7a2999ae21371a5ddba7edfd27383027"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#ga7a2999ae21371a5ddba7edfd27383027">str_room</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> l)</td></tr>
 <tr class="memdesc:ga7a2999ae21371a5ddba7edfd27383027"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#42]: make sure that the pool hasn’t overflowed.  <a href="group___s38x53___p19x23.html#ga7a2999ae21371a5ddba7edfd27383027">更多...</a><br /></td></tr>
@@ -187,11 +188,11 @@ str.h 的引用(Include)关系图:</div>
 <tr class="separator:a1ca7453a64987bbd517da1f89e2a74d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37d01718ce3c3b67e52b35d42a8a1614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a37d01718ce3c3b67e52b35d42a8a1614">str_print_stats</a> (FILE *f_log_file)</td></tr>
 <tr class="separator:a37d01718ce3c3b67e52b35d42a8a1614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5ebefdd3a20760c675a2e98cb2451b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ad5ebefdd3a20760c675a2e98cb2451b1">str_dump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>)</td></tr>
+<tr class="memitem:ad5ebefdd3a20760c675a2e98cb2451b1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#ad5ebefdd3a20760c675a2e98cb2451b1">str_dump</a> (FILE *<a class="el" href="group___s1299x1329___p455x464.html#ga4ba45dc66906c2a8d0cb16e16d1a1ff6">fmtfile</a>)</td></tr>
 <tr class="separator:ad5ebefdd3a20760c675a2e98cb2451b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bb239d357f1aa59a8f47eab64540a61"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a7bb239d357f1aa59a8f47eab64540a61">str_undump</a> (FILE *<a class="el" href="tex__header_8h.html#a3e83f2a1745dd15200c37d60764a1729">fmtfile</a>, FILE *_not_use_)</td></tr>
+<tr class="memitem:a7bb239d357f1aa59a8f47eab64540a61"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a7bb239d357f1aa59a8f47eab64540a61">str_undump</a> (FILE *<a class="el" href="group___s1299x1329___p455x464.html#ga4ba45dc66906c2a8d0cb16e16d1a1ff6">fmtfile</a>, FILE *_not_use_)</td></tr>
 <tr class="separator:a7bb239d357f1aa59a8f47eab64540a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88121bc5ee5bfd7ba03e73e04a9cb9ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a88121bc5ee5bfd7ba03e73e04a9cb9ca">str_cur_map</a> (void(*f)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
+<tr class="memitem:a88121bc5ee5bfd7ba03e73e04a9cb9ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a88121bc5ee5bfd7ba03e73e04a9cb9ca">str_cur_map</a> (void(*f)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>))</td></tr>
 <tr class="separator:a88121bc5ee5bfd7ba03e73e04a9cb9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaceeffa82bcc961461f4fb75bb850f40a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a">cur_length</a> (void)</td></tr>
 <tr class="memdesc:gaceeffa82bcc961461f4fb75bb850f40a"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#41]: The length of the current string.  <a href="group___s38x53___p19x23.html#gaceeffa82bcc961461f4fb75bb850f40a">更多...</a><br /></td></tr>
@@ -210,18 +211,18 @@ str.h 的引用(Include)关系图:</div>
 <tr class="memitem:gaf5154128050b273866e3f18cb3ce7848"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gaf5154128050b273866e3f18cb3ce7848">str_eq_str</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s, <a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> t)</td></tr>
 <tr class="memdesc:gaf5154128050b273866e3f18cb3ce7848"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p21#46]: test equality of strings。  <a href="group___s38x53___p19x23.html#gaf5154128050b273866e3f18cb3ce7848">更多...</a><br /></td></tr>
 <tr class="separator:gaf5154128050b273866e3f18cb3ce7848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafd0a0b8cbdc9c2682890bb1af9225855"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855">append_char</a> (<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> s)</td></tr>
+<tr class="memitem:gafd0a0b8cbdc9c2682890bb1af9225855"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855">append_char</a> (<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> s)</td></tr>
 <tr class="memdesc:gafd0a0b8cbdc9c2682890bb1af9225855"><td class="mdescLeft">&#160;</td><td class="mdescRight">[#42]: put ASCII code s at the end of <a class="el" href="group___s38x53___p19x23.html#ga123161ed756585e87af6fa7e9de80ec3" title="[#39] the characters.">str_pool</a>.  <a href="group___s38x53___p19x23.html#gafd0a0b8cbdc9c2682890bb1af9225855">更多...</a><br /></td></tr>
 <tr class="separator:gafd0a0b8cbdc9c2682890bb1af9225855"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72f0f470fafde698340558f9e2401450"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a72f0f470fafde698340558f9e2401450">str_print</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
 <tr class="separator:a72f0f470fafde698340558f9e2401450"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a014c3cfdf95e47010534c518b6efe13c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a014c3cfdf95e47010534c518b6efe13c">str_valid</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
 <tr class="separator:a014c3cfdf95e47010534c518b6efe13c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24f861d1283938060a9958db41bbb054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a24f861d1283938060a9958db41bbb054">str_bcmp</a> (<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], long l, <a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
+<tr class="memitem:a24f861d1283938060a9958db41bbb054"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#a24f861d1283938060a9958db41bbb054">str_bcmp</a> (<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], long l, <a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s)</td></tr>
 <tr class="separator:a24f861d1283938060a9958db41bbb054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4538e3fed329b86bcf530340d84433d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#af4538e3fed329b86bcf530340d84433d">str_scmp</a> (<a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> s, short *buffp)</td></tr>
 <tr class="separator:af4538e3fed329b86bcf530340d84433d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed595ee9c4c9ef0a7179709403cfbcc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aed595ee9c4c9ef0a7179709403cfbcc2">str_insert</a> (<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
+<tr class="memitem:aed595ee9c4c9ef0a7179709403cfbcc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#aed595ee9c4c9ef0a7179709403cfbcc2">str_insert</a> (<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a> buffp[], <a class="el" href="tex__types_8h.html#a23abc5a95167751b01dabc5eb2396241">Integer</a> l)</td></tr>
 <tr class="separator:aed595ee9c4c9ef0a7179709403cfbcc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa6d70d071490bedeaa35a7b75fe51c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="str_8h.html#afa6d70d071490bedeaa35a7b75fe51c0">str_ins</a> (short *buffp, long l)</td></tr>
 <tr class="separator:afa6d70d071490bedeaa35a7b75fe51c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,7 +238,7 @@ str.h 的引用(Include)关系图:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#<a class="el" href="texmac_8h.html#a1c414abf07f45084075d77d37d485654">define</a> STR_H</td>
+          <td class="memname">#<a class="el" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">define</a> STR_H</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -340,7 +341,7 @@ str.h 的引用(Include)关系图:</div>
         <tr>
           <td class="memname"><a class="el" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> str_bcmp </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
           <td class="paramname"><em>buffp</em>[], </td>
         </tr>
         <tr>
@@ -374,7 +375,7 @@ str.h 的引用(Include)关系图:</div>
         <tr>
           <td class="memname">void str_cur_map </td>
           <td>(</td>
-          <td class="paramtype">void(*)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramtype">void(*)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
           <td class="paramname"><em>f</em></td><td>)</td>
           <td></td>
         </tr>
@@ -466,7 +467,7 @@ str.h 的引用(Include)关系图:</div>
         <tr>
           <td class="memname"><a class="el" href="group___s38x53___p19x23.html#ga07525edfa2983cba57700272d6a51827">StrNumber</a> str_insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>&#160;</td>
           <td class="paramname"><em>buffp</em>[], </td>
         </tr>
         <tr>
@@ -500,7 +501,7 @@ str.h 的引用(Include)关系图:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void(*)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramtype">void(*)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
           <td class="paramname"><em>f</em>&#160;</td>
         </tr>
         <tr>
@@ -528,7 +529,7 @@ str.h 的引用(Include)关系图:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">void(*)(<a class="el" href="group___s1x16___p3x9.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
+          <td class="paramtype">void(*)(<a class="el" href="group___s17x24___p10x12.html#ga0cbca5ee07f5cfd4cbdea1039388f9d7">ASCIICode</a>)&#160;</td>
           <td class="paramname"><em>f</em>&#160;</td>
         </tr>
         <tr>
