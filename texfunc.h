@@ -11,7 +11,6 @@ extern HalfWord thetoks(void);
 
 // [tex], error
 extern void jumpout(void);
-extern void giveerrhelp(void);
 
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 

@@ -1,3 +1,4 @@
+#include <math.h>
 #include "global_const.h"
 #include "tex_types.h"
 #include "io.h"

@@ -6,24 +6,6 @@
  * 
  */
 
-/*
-# Basic printing procedures[13]:
-    [57], [58], [59],   60,   [62],
-    [63], [64], [65], [262], [263],
-    [518], [699], [1355].
-    println,  printchar,      print,               printnl,
-    printesc, print_the_digs, print_int,
-    print_file_name, print_size, print_write_whatsit
-*/
-
-// #262: prints a purported control sequence
-// [Basic printing procedures]
-
-
-// #1284
-void giveerrhelp(void) { tokenshow(errhelp); }
-
-
 /** @addtogroup S72x98_P30x37
  * @{
  */

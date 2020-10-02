@@ -11,6 +11,14 @@
 #include "error.h"
 
 
+/** @addtogroup S1208x1298_P435x454
+ * @{
+ */
+/// [#1284]
+void giveerrhelp(void) { tokenshow(errhelp); }
+/** @}*/ // end group S1208x1298_P435x454
+
+
 /** @addtogroup S72x98_P30x37
  * @{
  */
