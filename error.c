@@ -44,18 +44,18 @@ Integer interrupt;
 Boolean OK_to_interrupt;
 
 
-/// [#74, 77, 80, 97] Set initial values of key variables.
+/// [#74, #77, #80, #97] Set initial values of key variables.
 void error_init() {
-    /*74:*/
+    /// [p30#74]
     interaction = ERROR_STOP_MODE;
-    /*77:*/
+    /// [p31#77]
     deletions_allowed = true;
     set_box_allowed = true;
-    errorcount = 0;
-    /*80:*/
+    errorcount = 0; ///< #history is initialized elsewhere .
+    /// [p32#80]
     help_ptr = 0;
     use_err_help = false;
-    /*97:*/
+    /// [p37#97]
     interrupt = 0;
     OK_to_interrupt = true;
 } /* error_init */
