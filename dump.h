@@ -14,6 +14,7 @@ extern StrNumber format_ident;
 extern FILE* fmtfile;
 
 extern void dump_init();
+extern void dump_init_once();
 extern void storefmtfile(void);
 extern Boolean load_fmt_file(void);
 

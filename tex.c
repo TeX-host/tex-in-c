@@ -1072,9 +1072,7 @@ Static void initialize(void) {
         fonts_init_once();
         hyphen_init_once();
         mode_indep_init_once();
-
-        // #1301
-        format_ident = S(259); // " (INITEX)"
+        dump_init_once();
 
         // #1369
         set_text(END_WRITE, S(260));
