@@ -35,11 +35,11 @@ void extension_init() {
 
 /// [#1369]
 void extension_init_once() {
-    set_text(END_WRITE, S(260));
+    set_text(END_WRITE, S(260)); // "endwrite"
     eq_level(END_WRITE) = LEVEL_ONE;
     eq_type(END_WRITE) = OUTER_CALL;
-    equiv(END_WRITE) = 0;
-}
+    equiv(END_WRITE) = null;
+} /* extension_init_once */
 
 /*1348:*/
 /*1349:*/

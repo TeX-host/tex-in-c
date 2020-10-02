@@ -486,8 +486,8 @@ void mem_init_once() {
     llink(rover) = rover;
     rlink(rover) = rover;
     lo_mem_max = rover + 1000;
-    link(lo_mem_max) = 0;
-    info(lo_mem_max) = 0;
+    link(lo_mem_max) = null;
+    info(lo_mem_max) = null;
 
     for (k = himemstatmin; k <= MEM_TOP; k++) {
         // clear list heads
@@ -517,7 +517,7 @@ void mem_init_once() {
     hi_mem_min = himemstatmin; // initialize the one-word memory
     var_used = lomemstatmax - MEM_BOT + 1;
     dyn_used = himemstatusage; // initialize statistics
-}
+} /* mem_init_once */
 
 /// [p59#166]
 void mem_var_init() {

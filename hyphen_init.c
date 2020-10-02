@@ -67,18 +67,22 @@ Boolean trie_not_ready;
 /// [#946, #951]
 void hyphen_init_once() {
     size_t k;
-    // #946
-    for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++)
+
+    /// [#946]
+    for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++) {
         trieophash[k + TRIE_OP_SIZE] = 0;
-    for (k = 0; k <= 255; k++)
+    }
+    for (k = 0; k <= 255; k++){ 
         trieused[k] = MIN_QUARTER_WORD;
+    }
     trieopptr = 0;
-    // #951
+
+    /// [#951]
     trie_not_ready = true;
     trieroot = 0;
     triec[0] = 0;
     trieptr = 0;
-}
+} /* hyphen_init_once */
 
 /// p351#944
 QuarterWord newtrieop(SmallNumber d, SmallNumber n, QuarterWord v) {

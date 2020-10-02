@@ -163,7 +163,7 @@ void fonts_init_once(void) {
     for (int k = 0; k <= 6; k++) {
         fontinfo[k].sc = 0;
     }
-} // #552: fonts_init_once
+} /* #552: fonts_init_once */
 
 void fonts_dump(FILE* fmtfile) {
     MemoryWord pppfmtfile;

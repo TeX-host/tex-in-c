@@ -22,8 +22,8 @@ void mode_indep_init() {
 
 /// [#1216]
 void mode_indep_init_once() {
-    set_text(FROZEN_PROTECTION, S(258));
-}
+    set_text(FROZEN_PROTECTION, S(258)); // "inaccessible"
+} /* mode_indep_init_once */
 
 /*
  * [#1215]: Declare subprocedures for prefixed command

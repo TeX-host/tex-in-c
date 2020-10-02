@@ -37,8 +37,8 @@ void hash_init_once() {
     hash_used = FROZEN_CONTROL_SEQUENCE; // nothing is used
     cs_count = 0;
     eq_type(FROZEN_DONT_EXPAND) = DONT_EXPAND;
-    text(FROZEN_DONT_EXPAND) = S(257);
-}
+    text(FROZEN_DONT_EXPAND) = S(257); // "notexpanded:"
+} /* hash_init_once */
 
 
 StrNumber get_text(size_t x) { return text(x); }

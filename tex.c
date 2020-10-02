@@ -1062,13 +1062,18 @@ Static void initialize(void) {
     extension_init();
     /** end block [p11#21] */
 
-/// [p59#164]: Initialize table entries (done by INITEX only)
-/// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
+/** [p59#164]: Initialize table entries (done by INITEX only).
+ *
+ * ## xref
+ *  [164], [222, 228, 232, 240, 250], [258], [552], 
+ *  [946, 951], [1216], [1301], [1369].
+ */
 #ifdef tt_INIT
     mem_init_once();
     eqtb_init_once();
     hash_init_once();
     fonts_init_once();
+
     hyphen_init_once();
     mode_indep_init_once();
     dump_init_once();

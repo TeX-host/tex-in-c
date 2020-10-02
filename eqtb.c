@@ -36,7 +36,7 @@ void eqtb_init_once() {
 
     /** [p82#222] */
     eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
-    equiv(UNDEFINED_CONTROL_SEQUENCE) = 0;
+    equiv(UNDEFINED_CONTROL_SEQUENCE) = null;
     eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
     for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
         /// TODO: need check
@@ -54,7 +54,7 @@ void eqtb_init_once() {
     gluerefcount(zeroglue) += LOCAL_BASE - GLUE_BASE;
 
     /** [p88#232] */
-    parshapeptr = 0;
+    parshapeptr = null;
     eq_type(PAR_SHAPE_LOC) = SHAPE_REF;
     eq_level(PAR_SHAPE_LOC) = LEVEL_ONE;
     for (k = OUTPUT_ROUTINE_LOC; k <= TOKS_BASE + 255; k++) {
@@ -89,7 +89,7 @@ void eqtb_init_once() {
         sf_code(k) = 1000;
     }
     cat_code('\\') = ESCAPE;
-    // TODO: 为什么忽略了一部分 catcode？
+    /// TODO: 为什么忽略了一部分 catcode？
     // ? cat_1 LEFT_BRACE
     // ? cat_2 RIGHT_BRACE
     // ? cat_3 MATH_SHIFT

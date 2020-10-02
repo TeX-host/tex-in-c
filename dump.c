@@ -32,7 +32,7 @@ void dump_init() { format_ident = 0; } /* dump_init */
 /// [#1301]
 void dump_init_once() {
     format_ident = S(259); // " (INITEX)"
-}
+} /* dump_init_once */
 
 
 #ifdef tt_INIT
