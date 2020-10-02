@@ -33,6 +33,14 @@ void extension_init() {
     }
 }
 
+/// [#1369]
+void extension_init_once() {
+    set_text(END_WRITE, S(260));
+    eq_level(END_WRITE) = LEVEL_ONE;
+    eq_type(END_WRITE) = OUTER_CALL;
+    equiv(END_WRITE) = 0;
+}
+
 /*1348:*/
 /*1349:*/
 void newwhatsit(SmallNumber s, SmallNumber w) {

@@ -54,6 +54,7 @@ extern Boolean write_open[18];
 extern Pointer writeloc;
 
 extern void extension_init();
+extern void extension_init_once();
 extern void doextension(void);
 extern void fixlanguage(void);
 extern void outwhat(HalfWord p);

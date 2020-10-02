@@ -1073,14 +1073,8 @@ Static void initialize(void) {
         hyphen_init_once();
         mode_indep_init_once();
         dump_init_once();
-
-        // #1369
-        set_text(END_WRITE, S(260));
-        eq_level(END_WRITE) = LEVEL_ONE;
-        eq_type(END_WRITE) = OUTER_CALL;
-        equiv(END_WRITE) = 0;
-
-    #endif // #164: tt_INIT
+        extension_init_once();
+#endif // #164: tt_INIT
 } // #4: initialize
 
 
