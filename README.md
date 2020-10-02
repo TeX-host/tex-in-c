@@ -8,4 +8,4 @@
 - TeX in C from http://www.math.uni.wroc.pl/~hebisch/tex/
 - [tex-other/tex-in-c](https://github.com/tex-other/tex-in-c)
 
-> tex.c: 14867 Line; Global var: 322; Macros: 845.
+> tex.c: 837 Line; Global var: 320; Macros: 715.
