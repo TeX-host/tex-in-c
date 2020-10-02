@@ -1022,60 +1022,51 @@ Static void init_prim(void) {
 } // #1336: init_prim
 #endif // #1336: tt_INIT
 
-// #4: this procedure gets things started properly
+/// [#4]: this procedure gets things started properly.
 Static void initialize(void) {
-    /// p5#8: Initialize whatever TEX might access
+    /** [p11#21] Set initial values of key variables*/
+    charset_init();
+    error_init();
+/// [p#95]: 166
+#ifdef tt_DEBUG
+    mem_var_init();
+#endif // #166: tt_DEBUG
+    lexer_semantic_init();
+    page_builder_init();
+    eqtb_init();
+    hash_var_init();
+    eqtb_save_init();
+    expand_init();
+    scan_init();
+    build_token_init();
+    cond_process_init();
+    fname_init();
+    font_init();
+    dviout_init();
+    pack_init();
+    mmode_init();
+    align_init();
+    hyphen_init();
+    /* [#990] see upper `page_builder_init` */
+    main_ctrl_init();
+    mode_indep_init();
+    dump_init();
+    extension_init();
+    /** end block [p11#21] */
 
-    /// p11#21 Set initial values of key variables
-    {
-        charset_init();
-        error_init();
-
-        /// p#95: 166
-        #ifdef tt_DEBUG
-            mem_var_init();
-        #endif // #166: tt_DEBUG
-
-        lexer_semantic_init();
-        page_builder_init();
-
-        eqtb_init();
-        hash_var_init();
-        eqtb_save_init();
-        expand_init();
-        scan_init();
-        build_token_init();
-        cond_process_init();
-        fname_init();
-        font_init();
-        dviout_init();
-        pack_init();
-        mmode_init();
-        align_init();
-        hyphen_init();
-
-        // [#990] see upper `page_builder_init`
-
-        main_ctrl_init();
-        mode_indep_init();
-        dump_init();
-        extension_init();
-    } // end block p11#21
-
-    /// p59#164: Initialize table entries (done by INITEX only)
-    #ifdef tt_INIT
-        /// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
-
-        mem_init_once();
-        eqtb_init_once();
-        hash_init_once();
-        fonts_init_once();
-        hyphen_init_once();
-        mode_indep_init_once();
-        dump_init_once();
-        extension_init_once();
+/// [p59#164]: Initialize table entries (done by INITEX only)
+/// 164, 222, 228, 232, 240, 250, 258, 552, 946, 951, 1216, 1301, and 1369.
+#ifdef tt_INIT
+    mem_init_once();
+    eqtb_init_once();
+    hash_init_once();
+    fonts_init_once();
+    hyphen_init_once();
+    mode_indep_init_once();
+    dump_init_once();
+    extension_init_once();
 #endif // #164: tt_INIT
-} // #4: initialize
+} /* [#4]: initialize */
 
 
 /* ----------------------------------------------------------------------------
