@@ -7,6 +7,7 @@
 #include "tex_types.h"
 
 // inputln, [tex]
+extern jmp_buf _JMP_global__end_of_TEX;
 extern jmp_buf _JMP_global__final_end;
 
 // [tex] 仅在 lexer 中使用

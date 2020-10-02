@@ -93,7 +93,7 @@ FILE* readfile[16];
 char readopen[17];
 /** @}*/ // end group S464x486_P174x180
 
-Static jmp_buf _JMP_global__end_of_TEX;
+jmp_buf _JMP_global__end_of_TEX;
 jmp_buf _JMP_global__final_end;
 
 #endif // INC_TEX_HEADER

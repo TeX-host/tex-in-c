@@ -9,9 +9,6 @@
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);
 
-// [tex], error
-extern void jumpout(void);
-
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 
 // indep

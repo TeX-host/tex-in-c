@@ -16,9 +16,7 @@
  * xref[4]: 81, 93, 94, 95, 1304
  */
 
-/// [#81]: goto end of TEX.
-/// jump out: [81], 82, 84, 93
-void jumpout(void) { longjmp(_JMP_global__end_of_TEX, 1); }
+
 
 /** @}*/ // end group S72x98_P30x37
 
