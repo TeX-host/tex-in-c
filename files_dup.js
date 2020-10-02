@@ -74,7 +74,6 @@ var files_dup =
     [ "tex_constant.h", "tex__constant_8h.html", "tex__constant_8h" ],
     [ "tex_header.h", "tex__header_8h.html", "tex__header_8h" ],
     [ "tex_types.h", "tex__types_8h.html", "tex__types_8h" ],
-    [ "texfunc.h", "texfunc_8h.html", "texfunc_8h" ],
     [ "texmath.c", "texmath_8c.html", "texmath_8c" ],
     [ "texmath.h", "texmath_8h.html", "texmath_8h" ]
 ];

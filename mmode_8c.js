@@ -12,6 +12,7 @@ var mmode_8c =
     [ "newnoad", "group___s680x698___p249x257.html#ga1ba30aeca9ae96d5051024fb3225ee85", null ],
     [ "newstyle", "group___s680x698___p249x257.html#gae03be604bae3bfa05e6386821ce4395e", null ],
     [ "overbar", "group___s699x718___p258x264.html#ga887a02316ae03ab0e5ac2ebd2b79d51b", null ],
+    [ "print_size", "group___s699x718___p258x264.html#ga814c760ed61b461c0a5a2f02c44b9e00", null ],
     [ "printdelimiter", "group___s680x698___p249x257.html#gaf199c2675a50d8b5c91143d0de0c3260", null ],
     [ "printfamandchar", "group___s680x698___p249x257.html#ga6d5a1c193b63728de3fe783df594e472", null ],
     [ "printstyle", "group___s680x698___p249x257.html#ga8dfa3f92795d4be570c3e7a3c20a3630", null ],

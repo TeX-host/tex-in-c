@@ -138,69 +138,68 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="main__ctrl_8h.html">main_ctrl.h</a>&quot;</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dump_8h.html">dump.h</a>&quot;</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="extension_8h.html">extension.h</a>&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="texfunc_8h.html">texfunc.h</a>&quot;</span>    <span class="comment">// [export]</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * [ #13: Global variables ]</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * 真正的 global 放在 global.h 中。</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * 以下变量一般为 tex.h 中的全局变量。</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * 已更改为函数内局部变量的用 [00] 标出。</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * 共 97 个</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> *  [13],  20,  26,  30,  32, [39], [50],  54,  73,  76,</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *   79,  96, 104, 115, 116, 117, 118, 124, 165, 173,</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *  181, 213, 246, 253, 256, 271, 286, 297, 301, 304,</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *  305, 308, 309, 310, 333, 361, 382, 387, 388, 410,</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *  438, 447, 480, 489, 493, 512, 513, 520, 527, 532,</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *  539, 549, 550, 555, 592, 595, 605, 616, 646, 647,</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *  661, 684, 719, 724, 764, 770, 814, 821, 823, 825,</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *  828, 833, 839, 847, 872, 892, 900, 905, 907, 921,</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *  926, 943, 947, 950, 971, 980, 982, 989, 1032, 1074,</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *  1266, 1281, 1299, 1305, 1331, 1342, 1345</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * Notes:</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *  locals: 13-bad,</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> *  404 not found: 39-str*, 50-poolfile,</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * [ #13: Global variables ]</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * 真正的 global 放在 global.h 中。</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * 以下变量一般为 tex.h 中的全局变量。</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * 已更改为函数内局部变量的用 [00] 标出。</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * 共 97 个</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> *  [13],  20,  26,  30,  32, [39], [50],  54,  73,  76,</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> *   79,  96, 104, 115, 116, 117, 118, 124, 165, 173,</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *  181, 213, 246, 253, 256, 271, 286, 297, 301, 304,</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *  305, 308, 309, 310, 333, 361, 382, 387, 388, 410,</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *  438, 447, 480, 489, 493, 512, 513, 520, 527, 532,</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *  539, 549, 550, 555, 592, 595, 605, 616, 646, 647,</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *  661, 684, 719, 724, 764, 770, 814, 821, 823, 825,</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *  828, 833, 839, 847, 872, 892, 900, 905, 907, 921,</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *  926, 943, 947, 950, 971, 980, 982, 989, 1032, 1074,</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *  1266, 1281, 1299, 1305, 1331, 1342, 1345</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * Notes:</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *  locals: 13-bad,</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *  404 not found: 39-str*, 50-poolfile,</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">// [#333] location of ‘\par’ in eqtb</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">   79</a></span>&#160;<a class="code" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="code" href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">parloc</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">// [#333] token representing ‘\par’</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">   81</a></span>&#160;<a class="code" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> <a class="code" href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">partoken</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">// [#361] should the next \input be aborted early?</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">   83</a></span>&#160;<a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> <a class="code" href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">force_eof</a>; <span class="comment">// end group S332x365_P134x143</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">// [#333] location of ‘\par’ in eqtb</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">   78</a></span>&#160;<a class="code" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="code" href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">parloc</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// [#333] token representing ‘\par’</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">   80</a></span>&#160;<a class="code" href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a> <a class="code" href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">partoken</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">// [#361] should the next \input be aborted early?</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">   82</a></span>&#160;<a class="code" href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a> <a class="code" href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">force_eof</a>; <span class="comment">// end group S332x365_P134x143</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;FILE* <a class="code" href="group___s464x486___p174x180.html#ga127bf7f825febf86dc92a7d3b45619a6">readfile</a>[16];</div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">   93</a></span>&#160;<span class="keywordtype">char</span> <a class="code" href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">readopen</a>[17]; <span class="comment">// end group S464x486_P174x180</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a6380393b998453ca1c05deaa6e147514">   96</a></span>&#160;<a class="code" href="global__const_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a> jmp_buf <a class="code" href="tex__header_8h.html#a6380393b998453ca1c05deaa6e147514">_JMP_global__end_of_TEX</a>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a1418d3425674966942988251611e7822">   97</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif // INC_TEX_HEADER</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;FILE* <a class="code" href="group___s464x486___p174x180.html#ga127bf7f825febf86dc92a7d3b45619a6">readfile</a>[16];</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">   92</a></span>&#160;<span class="keywordtype">char</span> <a class="code" href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">readopen</a>[17]; <span class="comment">// end group S464x486_P174x180</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">   95</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a1418d3425674966942988251611e7822">   96</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif // INC_TEX_HEADER</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="agroup___s332x365___p134x143_html_ga658446384b1c25fc427879b271f270c4"><div class="ttname"><a href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">partoken</a></div><div class="ttdeci">HalfWord partoken</div><div class="ttdef"><b>Definition:</b> tex_header.h:81</div></div>
+<div class="ttc" id="agroup___s332x365___p134x143_html_ga658446384b1c25fc427879b271f270c4"><div class="ttname"><a href="group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4">partoken</a></div><div class="ttdeci">HalfWord partoken</div><div class="ttdef"><b>Definition:</b> tex_header.h:80</div></div>
 <div class="ttc" id="aglobal_8h_html"><div class="ttname"><a href="global_8h.html">global.h</a></div></div>
 <div class="ttc" id="astr_8h_html"><div class="ttname"><a href="str_8h.html">str.h</a></div></div>
 <div class="ttc" id="ascan_8h_html"><div class="ttname"><a href="scan_8h.html">scan.h</a></div></div>
 <div class="ttc" id="aalign_8h_html"><div class="ttname"><a href="align_8h.html">align.h</a></div></div>
 <div class="ttc" id="apack_8h_html"><div class="ttname"><a href="pack_8h.html">pack.h</a></div></div>
 <div class="ttc" id="adump_8h_html"><div class="ttname"><a href="dump_8h.html">dump.h</a></div></div>
-<div class="ttc" id="agroup___s332x365___p134x143_html_gae5f4201507b96a830de3a62544f0c886"><div class="ttname"><a href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">parloc</a></div><div class="ttdeci">Pointer parloc</div><div class="ttdef"><b>Definition:</b> tex_header.h:79</div></div>
+<div class="ttc" id="agroup___s332x365___p134x143_html_gae5f4201507b96a830de3a62544f0c886"><div class="ttname"><a href="group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886">parloc</a></div><div class="ttdeci">Pointer parloc</div><div class="ttdef"><b>Definition:</b> tex_header.h:78</div></div>
 <div class="ttc" id="amacros_8h_html"><div class="ttname"><a href="macros_8h.html">macros.h</a></div></div>
-<div class="ttc" id="atexfunc_8h_html"><div class="ttname"><a href="texfunc_8h.html">texfunc.h</a></div></div>
 <div class="ttc" id="atex__types_8h_html_a3597948313fb049b8a41160f601b7c78"><div class="ttname"><a href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></div><div class="ttdeci">size_t Pointer</div><div class="ttdoc">Pointer::size_t(64), a flag or a location in mem or eqtb.</div><div class="ttdef"><b>Definition:</b> tex_types.h:45</div></div>
-<div class="ttc" id="atex__header_8h_html_a1418d3425674966942988251611e7822"><div class="ttname"><a href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a></div><div class="ttdeci">jmp_buf _JMP_global__final_end</div><div class="ttdef"><b>Definition:</b> tex_header.h:97</div></div>
+<div class="ttc" id="atex__header_8h_html_a1418d3425674966942988251611e7822"><div class="ttname"><a href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a></div><div class="ttdeci">jmp_buf _JMP_global__final_end</div><div class="ttdef"><b>Definition:</b> tex_header.h:96</div></div>
 <div class="ttc" id="abox_8h_html"><div class="ttname"><a href="box_8h.html">box.h</a></div></div>
 <div class="ttc" id="agroup___s110x114___p42x43_html_gaa8a834ed7aca6d10c5906b333ecd4a2a"><div class="ttname"><a href="group___s110x114___p42x43.html#gaa8a834ed7aca6d10c5906b333ecd4a2a">HalfWord</a></div><div class="ttdeci">uint32_t HalfWord</div><div class="ttdoc">[p43#113]: HalfWord(16=&gt;32) .</div><div class="ttdef"><b>Definition:</b> tex_types.h:127</div></div>
 <div class="ttc" id="adviout_8h_html"><div class="ttname"><a href="dviout_8h.html">dviout.h</a></div></div>
 <div class="ttc" id="aextension_8h_html"><div class="ttname"><a href="extension_8h.html">extension.h</a></div></div>
-<div class="ttc" id="agroup___s332x365___p134x143_html_ga7ec32e0b35241b4ccb25572afb5a56c4"><div class="ttname"><a href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">force_eof</a></div><div class="ttdeci">Boolean force_eof</div><div class="ttdef"><b>Definition:</b> tex_header.h:83</div></div>
+<div class="ttc" id="agroup___s332x365___p134x143_html_ga7ec32e0b35241b4ccb25572afb5a56c4"><div class="ttname"><a href="group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4">force_eof</a></div><div class="ttdeci">Boolean force_eof</div><div class="ttdef"><b>Definition:</b> tex_header.h:82</div></div>
 <div class="ttc" id="aerror_8h_html"><div class="ttname"><a href="error_8h.html">error.h</a></div></div>
+<div class="ttc" id="atex__header_8h_html_a7c20a1017be9fbd5980ab188a3c2e615"><div class="ttname"><a href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a></div><div class="ttdeci">jmp_buf _JMP_global__end_of_TEX</div><div class="ttdef"><b>Definition:</b> tex_header.h:95</div></div>
 <div class="ttc" id="aprint_8h_html"><div class="ttname"><a href="print_8h.html">print.h</a></div></div>
 <div class="ttc" id="ammode_8h_html"><div class="ttname"><a href="mmode_8h.html">mmode.h</a></div></div>
 <div class="ttc" id="aexpand_8h_html"><div class="ttname"><a href="expand_8h.html">expand.h</a></div></div>
@@ -211,17 +210,15 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="ttc" id="atex_8h_html"><div class="ttname"><a href="tex_8h.html">tex.h</a></div></div>
 <div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
 <div class="ttc" id="ahyphen_8h_html"><div class="ttname"><a href="hyphen_8h.html">hyphen.h</a></div></div>
-<div class="ttc" id="aglobal__const_8h_html_ae61eb61d35d2c2babb793b5b0544977a"><div class="ttname"><a href="global__const_8h.html#ae61eb61d35d2c2babb793b5b0544977a">Static</a></div><div class="ttdeci">#define Static</div><div class="ttdef"><b>Definition:</b> global_const.h:46</div></div>
-<div class="ttc" id="atex__header_8h_html_a6380393b998453ca1c05deaa6e147514"><div class="ttname"><a href="tex__header_8h.html#a6380393b998453ca1c05deaa6e147514">_JMP_global__end_of_TEX</a></div><div class="ttdeci">Static jmp_buf _JMP_global__end_of_TEX</div><div class="ttdef"><b>Definition:</b> tex_header.h:96</div></div>
 <div class="ttc" id="atexmath_8h_html"><div class="ttname"><a href="texmath_8h.html">texmath.h</a></div></div>
 <div class="ttc" id="aio_8h_html"><div class="ttname"><a href="io_8h.html">io.h</a></div></div>
 <div class="ttc" id="aeqtb_8h_html"><div class="ttname"><a href="eqtb_8h.html">eqtb.h</a></div></div>
-<div class="ttc" id="agroup___s464x486___p174x180_html_gab349d96eb29fa53025fb70f959229076"><div class="ttname"><a href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">readopen</a></div><div class="ttdeci">char readopen[17]</div><div class="ttdef"><b>Definition:</b> tex_header.h:93</div></div>
+<div class="ttc" id="agroup___s464x486___p174x180_html_gab349d96eb29fa53025fb70f959229076"><div class="ttname"><a href="group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076">readopen</a></div><div class="ttdeci">char readopen[17]</div><div class="ttdef"><b>Definition:</b> tex_header.h:92</div></div>
 <div class="ttc" id="aprintout_8h_html"><div class="ttname"><a href="printout_8h.html">printout.h</a></div></div>
 <div class="ttc" id="ahash_8h_html"><div class="ttname"><a href="hash_8h.html">hash.h</a></div></div>
 <div class="ttc" id="afonts_8h_html"><div class="ttname"><a href="fonts_8h.html">fonts.h</a></div></div>
 <div class="ttc" id="amem_8h_html"><div class="ttname"><a href="mem_8h.html">mem.h</a></div></div>
-<div class="ttc" id="agroup___s464x486___p174x180_html_ga127bf7f825febf86dc92a7d3b45619a6"><div class="ttname"><a href="group___s464x486___p174x180.html#ga127bf7f825febf86dc92a7d3b45619a6">readfile</a></div><div class="ttdeci">FILE * readfile[16]</div><div class="ttdoc">[#480]</div><div class="ttdef"><b>Definition:</b> tex_header.h:92</div></div>
+<div class="ttc" id="agroup___s464x486___p174x180_html_ga127bf7f825febf86dc92a7d3b45619a6"><div class="ttname"><a href="group___s464x486___p174x180.html#ga127bf7f825febf86dc92a7d3b45619a6">readfile</a></div><div class="ttdeci">FILE * readfile[16]</div><div class="ttdoc">[#480]</div><div class="ttdef"><b>Definition:</b> tex_header.h:91</div></div>
 <div class="ttc" id="alinebreak_8h_html"><div class="ttname"><a href="linebreak_8h.html">linebreak.h</a></div></div>
 <div class="ttc" id="aglobal__const_8h_html"><div class="ttname"><a href="global__const_8h.html">global_const.h</a></div></div>
 <!-- start footer part -->

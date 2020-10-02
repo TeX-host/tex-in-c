@@ -25,6 +25,7 @@ var extension_8h =
     [ "extension_init_once", "group___s1340x1379___p472x481.html#ga6823b187b1249b08b4fd2d72997daeb2", null ],
     [ "fixlanguage", "group___s1340x1379___p472x481.html#ga39e37bbc1f7b39834d32379428bd0614", null ],
     [ "outwhat", "group___s1340x1379___p472x481.html#ga1f2bf25ed1d0462141110eb408560aef", null ],
+    [ "print_write_whatsit", "group___s1340x1379___p472x481.html#ga32d1d177fcc42a5c2dfc9ad78b1cd5b4", null ],
     [ "write_file", "group___s1340x1379___p472x481.html#gaa725d4f86d3ba53fc5a77fda0d138edc", null ],
     [ "write_open", "group___s1340x1379___p472x481.html#ga47e19ace136f59abb15fff897445cc8b", null ],
     [ "writeloc", "group___s1340x1379___p472x481.html#gad62a17f9d84d8ca7f174dec547e26dd1", null ]

@@ -26,6 +26,7 @@ var group___s1340x1379___p472x481 =
     [ "newwhatsit", "group___s1340x1379___p472x481.html#ga7d5cf697819ee7d5a92baeb17690c88d", null ],
     [ "newwritewhatsit", "group___s1340x1379___p472x481.html#ga803f6f95fa4f1dd32e7c63388a771f2c", null ],
     [ "outwhat", "group___s1340x1379___p472x481.html#ga1f2bf25ed1d0462141110eb408560aef", null ],
+    [ "print_write_whatsit", "group___s1340x1379___p472x481.html#ga32d1d177fcc42a5c2dfc9ad78b1cd5b4", null ],
     [ "specialout", "group___s1340x1379___p472x481.html#gad36d30bb3aac1a4fd0907ebdff834085", null ],
     [ "writeout", "group___s1340x1379___p472x481.html#gad4e9540b89da9291a4035511fff0df24", null ],
     [ "write_file", "group___s1340x1379___p472x481.html#gaa725d4f86d3ba53fc5a77fda0d138edc", null ],

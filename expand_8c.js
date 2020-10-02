@@ -13,7 +13,12 @@ var expand_8c =
     [ "insthetoks", "group___s464x486___p174x180.html#ga9282cdd7774771a5c89c3e7766fba959", null ],
     [ "macrocall", "group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc", null ],
     [ "passtext", "group___s487x510___p181x187.html#ga255dad295fbcbe98a1df8ede77474123", null ],
+    [ "readtoks", "group___s464x486___p174x180.html#ga5a1013cc4b7ff8cc6981094c293478f4", null ],
     [ "report_argument", "group___s366x401___p144x154.html#ga327025d5492e789fde2897c656aa3222", null ],
+    [ "scantoks", "group___s464x486___p174x180.html#gaff86f802410fecabdc2d21382a40ac88", null ],
+    [ "strtoks", "group___s464x486___p174x180.html#gae62b54411455bf9dd31516d4d988dfad", null ],
+    [ "strtoks_helper", "group___s464x486___p174x180.html#gae3337b37a6edfca9c32143c76ee9fe41", null ],
+    [ "thetoks", "group___s464x486___p174x180.html#ga6b6f36120a008973281d7ea9d596d6ff", null ],
     [ "xtoken", "group___s366x401___p144x154.html#ga2e46936a66be3da34c1306e4ec999ffb", null ],
     [ "condptr", "group___s487x510___p181x187.html#ga5ede6a005c4e923dabd35b8a41710157", null ],
     [ "curif", "group___s487x510___p181x187.html#ga80f723c712356d36d3638ddf51960cea", null ],
@@ -21,5 +26,6 @@ var expand_8c =
     [ "iflimit", "group___s487x510___p181x187.html#ga06008faaaa193d7d30359ac50fbb7967", null ],
     [ "ifline", "group___s487x510___p181x187.html#ga62ad5ce7f58d90ba3fc7f9820ff88439", null ],
     [ "longstate", "expand_8c.html#aecf5ff41ebe4704021f9f90aa5ac8dae", null ],
-    [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ]
+    [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ],
+    [ "tex_global_p", "group___s464x486___p174x180.html#gaa04ff6523404e6f9623f91ecc2add658", null ]
 ];

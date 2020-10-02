@@ -1,6 +1,7 @@
 var global_8h =
 [
     [ "GLOBAL_H", "global_8h.html#a33388a32774c49292f6da0e896701042", null ],
+    [ "_JMP_global__end_of_TEX", "global_8h.html#a7c20a1017be9fbd5980ab188a3c2e615", null ],
     [ "_JMP_global__final_end", "global_8h.html#a1418d3425674966942988251611e7822", null ],
     [ "force_eof", "group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4", null ],
     [ "parloc", "group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886", null ],

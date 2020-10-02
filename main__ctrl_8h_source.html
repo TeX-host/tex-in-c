@@ -100,67 +100,66 @@ $(document).ready(function(){initNavTree('main__ctrl_8h_source.html',''); initRe
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__types_8h.html">tex_types.h</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__constant_8h.html">tex_constant.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="texfunc_8h.html">texfunc.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span> <span class="comment">// [macro] NON_CHAR</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="io_8h.html">io.h</a>&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="str_8h.html">str.h</a>&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="texmath_8h.html">texmath.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="page_8h.html">page.h</a>&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span> <span class="comment">// [macro] inslist</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="error_8h.html">error.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hyphen_8h.html">hyphen.h</a>&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="macros_8h.html">macros.h</a>&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="expand_8h.html">expand.h</a>&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="linebreak_8h.html">linebreak.h</a>&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="printout_8h.html">printout.h</a>&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="align_8h.html">align.h</a>&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dviout_8h.html">dviout.h</a>&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mmode_8h.html">mmode.h</a>&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pack_8h.html">pack.h</a>&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="print_8h.html">print.h</a>&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hash_8h.html">hash.h</a>&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scan_8h.html">scan.h</a>&quot;</span> <span class="comment">// [func] skip_spaces, MAX_DIMEN</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="extension_8h.html">extension.h</a>&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; <span class="comment">// end group S1029x1054_P383x394</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a3843280b3dac31ae97b195413e58ef56">   42</a></span>&#160;<span class="preprocessor">#define faminrange ((curfam &gt;= 0) &amp;&amp; (curfam &lt; 16))</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">   46</a></span>&#160;<span class="preprocessor">#define define(x, y, z) \</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a91fad6fa007f046d167fdedfa30f08be">   48</a></span>&#160;<span class="preprocessor">#define worddefine(x, y) \</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span> <span class="comment">// [macro] NON_CHAR</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="io_8h.html">io.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="str_8h.html">str.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="texmath_8h.html">texmath.h</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="page_8h.html">page.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span> <span class="comment">// [macro] inslist</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="error_8h.html">error.h</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hyphen_8h.html">hyphen.h</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="macros_8h.html">macros.h</a>&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="expand_8h.html">expand.h</a>&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="linebreak_8h.html">linebreak.h</a>&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="printout_8h.html">printout.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="align_8h.html">align.h</a>&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dviout_8h.html">dviout.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mmode_8h.html">mmode.h</a>&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pack_8h.html">pack.h</a>&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="print_8h.html">print.h</a>&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hash_8h.html">hash.h</a>&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scan_8h.html">scan.h</a>&quot;</span> <span class="comment">// [func] skip_spaces, MAX_DIMEN</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="extension_8h.html">extension.h</a>&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; <span class="comment">// end group S1029x1054_P383x394</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a3843280b3dac31ae97b195413e58ef56">   41</a></span>&#160;<span class="preprocessor">#define faminrange ((curfam &gt;= 0) &amp;&amp; (curfam &lt; 16))</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a1c414abf07f45084075d77d37d485654">   45</a></span>&#160;<span class="preprocessor">#define define(x, y, z) \</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="main__ctrl_8h.html#a91fad6fa007f046d167fdedfa30f08be">   47</a></span>&#160;<span class="preprocessor">#define worddefine(x, y) \</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">    ((a &gt;= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">extern</span> <a class="code" href="fonts_8h.html#aaef3941dc3cddf697b3713e877af0255">FontIndex</a> <a class="code" href="group___s1029x1054___p383x394.html#ga052c526e16982aa197a1a9cf366f5058">maink</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="code" href="group___s1029x1054___p383x394.html#gaca17954932fcd6dd25631e813f56fdf6">mainp</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga4175cec7a50c6ea38eb59a2c7b37fc37">main_ctrl_init</a>();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#gaee3802a0122ca4b4463626de589fe9af">main_control</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga1dd4d1dfb7c61463e09bd88c8b8f4207">youcant</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga74a9219c03db22d322bbaeda3bb72225">reportillegalcase</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">// mode-indep-process</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#ga8241b7ec460e40a14cd681e9edd848d3">mode_indep_init</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#gab2243ad25819466755bf6f413e43be45">mode_indep_init_once</a>();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">// build box and list</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">// build box, align, page builder</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1055x1135___p395x416.html#gab732d4db0ce00747da0bdb0fff3c7af9">normalparagraph</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// build box, build math, ext</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> <a class="code" href="group___s1055x1135___p395x416.html#gaee8ac7a4bcdcaddc12c362b09a4fec62">normmin</a>(<span class="keywordtype">long</span> h);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">/* build math */</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1136x1207___p417x434.html#ga5e20dcff03a0b655888f77fb621b21d4">resumeafterdisplay</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">/* indep porcess */</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">// align, build-box</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#ga600d75e92c3a991d8672e091303a8b40">doassignments</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">extern</span> <a class="code" href="fonts_8h.html#aaef3941dc3cddf697b3713e877af0255">FontIndex</a> <a class="code" href="group___s1029x1054___p383x394.html#ga052c526e16982aa197a1a9cf366f5058">maink</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="code" href="group___s1029x1054___p383x394.html#gaca17954932fcd6dd25631e813f56fdf6">mainp</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga4175cec7a50c6ea38eb59a2c7b37fc37">main_ctrl_init</a>();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#gaee3802a0122ca4b4463626de589fe9af">main_control</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga1dd4d1dfb7c61463e09bd88c8b8f4207">youcant</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1029x1054___p383x394.html#ga74a9219c03db22d322bbaeda3bb72225">reportillegalcase</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">// mode-indep-process</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#ga8241b7ec460e40a14cd681e9edd848d3">mode_indep_init</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#gab2243ad25819466755bf6f413e43be45">mode_indep_init_once</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">// build box and list</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">// build box, align, page builder</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1055x1135___p395x416.html#gab732d4db0ce00747da0bdb0fff3c7af9">normalparagraph</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// build box, build math, ext</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a> <a class="code" href="group___s1055x1135___p395x416.html#gaee8ac7a4bcdcaddc12c362b09a4fec62">normmin</a>(<span class="keywordtype">long</span> h);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">/* build math */</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1136x1207___p417x434.html#ga5e20dcff03a0b655888f77fb621b21d4">resumeafterdisplay</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">/* indep porcess */</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">// align, build-box</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s1208x1298___p435x454.html#ga600d75e92c3a991d8672e091303a8b40">doassignments</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* INC_MAIN_CTRL_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* INC_MAIN_CTRL_H */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aglobal_8h_html"><div class="ttname"><a href="global_8h.html">global.h</a></div></div>
@@ -174,7 +173,6 @@ $(document).ready(function(){initNavTree('main__ctrl_8h_source.html',''); initRe
 <div class="ttc" id="amacros_8h_html"><div class="ttname"><a href="macros_8h.html">macros.h</a></div></div>
 <div class="ttc" id="atex__types_8h_html_a8e4f531097beff3efa03761e6ee8d288"><div class="ttname"><a href="tex__types_8h.html#a8e4f531097beff3efa03761e6ee8d288">SmallNumber</a></div><div class="ttdeci">UChar SmallNumber</div><div class="ttdoc">[p38#101]: SmallNumber::UChar(8) = [0, 255] only need: (6bit)[0, 63] .</div><div class="ttdef"><b>Definition:</b> tex_types.h:112</div></div>
 <div class="ttc" id="agroup___s1029x1054___p383x394_html_ga052c526e16982aa197a1a9cf366f5058"><div class="ttname"><a href="group___s1029x1054___p383x394.html#ga052c526e16982aa197a1a9cf366f5058">maink</a></div><div class="ttdeci">FontIndex maink</div><div class="ttdef"><b>Definition:</b> main_ctrl.c:45</div></div>
-<div class="ttc" id="atexfunc_8h_html"><div class="ttname"><a href="texfunc_8h.html">texfunc.h</a></div></div>
 <div class="ttc" id="atex__types_8h_html_a3597948313fb049b8a41160f601b7c78"><div class="ttname"><a href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></div><div class="ttdeci">size_t Pointer</div><div class="ttdoc">Pointer::size_t(64), a flag or a location in mem or eqtb.</div><div class="ttdef"><b>Definition:</b> tex_types.h:45</div></div>
 <div class="ttc" id="agroup___s1208x1298___p435x454_html_ga600d75e92c3a991d8672e091303a8b40"><div class="ttname"><a href="group___s1208x1298___p435x454.html#ga600d75e92c3a991d8672e091303a8b40">doassignments</a></div><div class="ttdeci">void doassignments(void)</div><div class="ttdef"><b>Definition:</b> indep_process.c:825</div></div>
 <div class="ttc" id="atex__types_8h_html"><div class="ttname"><a href="tex__types_8h.html">tex_types.h</a></div></div>

@@ -42,6 +42,7 @@ var group___s699x718___p258x264 =
     [ "mathglue", "group___s699x718___p258x264.html#gac28f51fdf2080a77703c848b939d27de", null ],
     [ "mathkern", "group___s699x718___p258x264.html#ga7371b9153710e7d80541eab2b28d66ef", null ],
     [ "overbar", "group___s699x718___p258x264.html#ga887a02316ae03ab0e5ac2ebd2b79d51b", null ],
+    [ "print_size", "group___s699x718___p258x264.html#ga814c760ed61b461c0a5a2f02c44b9e00", null ],
     [ "rebox", "group___s699x718___p258x264.html#ga61d722de4f1715bc4057edac95470437", null ],
     [ "stackintobox", "group___s699x718___p258x264.html#ga1867076a4a6438990c6c0dd58402f4d8", null ],
     [ "vardelimiter", "group___s699x718___p258x264.html#gadfe7605c4c1fd916349223522b2e70a1", null ]

@@ -8,6 +8,7 @@ var group___s1208x1298___p435x454 =
     [ "doassignments", "group___s1208x1298___p435x454.html#ga600d75e92c3a991d8672e091303a8b40", null ],
     [ "doregistercommand", "group___s1208x1298___p435x454.html#gafe29b1beaf52cb8b12fcd5cd9906bb21", null ],
     [ "getrtoken", "group___s1208x1298___p435x454.html#ga0805aba3ffb7371947278c8fca18e8e8", null ],
+    [ "giveerrhelp", "group___s1208x1298___p435x454.html#ga78490fe79fcaae6767240cc8e0fe0fbd", null ],
     [ "issuemessage", "group___s1208x1298___p435x454.html#gadaee46b89a83ea6193bbda500242f65c", null ],
     [ "mode_indep_init", "group___s1208x1298___p435x454.html#ga8241b7ec460e40a14cd681e9edd848d3", null ],
     [ "mode_indep_init_once", "group___s1208x1298___p435x454.html#gab2243ad25819466755bf6f413e43be45", null ],
