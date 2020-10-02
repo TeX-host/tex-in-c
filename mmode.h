@@ -191,6 +191,7 @@ extern QuarterWord curc;
 extern FourQuarters curi;
 
 extern void mmode_init();
+extern void print_size(Integer s);
 extern HalfWord newnoad(void);
 extern HalfWord newstyle(SmallNumber s);
 extern HalfWord newchoice(void);

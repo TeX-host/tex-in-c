@@ -5,9 +5,6 @@
 #include "tex_types.h"
 #include "str.h"
 
-// [tex], printout
-extern void print_size(Integer s);
-
 // [tex] expand
 extern HalfWord strtoks(StrPoolPtr b);
 extern HalfWord thetoks(void);

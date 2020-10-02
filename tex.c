@@ -20,19 +20,6 @@
 // [Basic printing procedures]
 
 
-/// #699
-void print_size(Integer s) {
-    if (s == TEXT_SIZE) {
-        print_esc(S(266)); // "textfont"
-    } else {
-        if (s == SCRIPT_SIZE) {
-            print_esc(S(267)); // "scriptfont"
-        } else {
-            print_esc(S(268)); // "scriptscriptfont"
-        }
-    }
-} // #699: print_size
-
 /// #1355
 void print_write_whatsit(StrNumber s, Pointer p) {
     print_esc(s);

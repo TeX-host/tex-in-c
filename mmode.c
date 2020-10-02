@@ -151,6 +151,18 @@ void printstyle(Integer c) {
  * [ #699. Subroutines for math mode.  ]
  * @{
  */
+/// [#699]
+void print_size(Integer s) {
+    if (s == TEXT_SIZE) {
+        print_esc(S(266)); // "textfont"
+    } else {
+        if (s == SCRIPT_SIZE) {
+            print_esc(S(267)); // "scriptfont"
+        } else {
+            print_esc(S(268)); // "scriptscriptfont"
+        }
+    }
+} // #699: print_size
 
 /*704:*/
 HalfWord fractionrule(long t) {
