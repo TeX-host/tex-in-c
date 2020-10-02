@@ -115,8 +115,7 @@ Scaled charkern(InternalFontNumber x, FourQuarters y) {
 void font_init() {
     /// [#551]
     for (int k = FONT_BASE; k <= FONT_MAX; k++) {
-        k -= FONT_BASE;
-        fontused[k] = false;
+        fontused[k - FONT_BASE] = false;
     }
 
     /// [#556]
