@@ -1,6 +1,4 @@
-#include "tex_types.h"
 #include "tex_constant.h"
-#include "mem.h" // [var] mem
 #include "error.h"   // confusion
 #include "pack.h"    // [macro] subbox
 #include "mmode.h"   // [macro] displaymlist, textmlist, scriptmlist

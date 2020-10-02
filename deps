@@ -4,8 +4,8 @@ tex.o: tex.c tex_header.h tex.h global_const.h tex_types.h tex_constant.h \
  hyphen.h page.h main_ctrl.h linebreak.h printout.h print.h extension.h \
  dump.h
 charset.o: charset.c charset.h tex_types.h
-io.o: io.c charset.h tex_types.h tex.h global_const.h tex_constant.h \
- lexer.h error.h str.h dump.h io.h
+io.o: io.c tex.h global_const.h tex_types.h tex_constant.h lexer.h \
+ error.h str.h charset.h dump.h io.h
 io_unix.o: io_unix.c tex.h global_const.h tex_types.h tex_constant.h \
  str.h charset.h eqtb.h io.h
 io_fname.o: io_fname.c charset.h tex_types.h str.h global_const.h print.h \
@@ -27,15 +27,15 @@ hash.o: hash.c scan.h lexer.h tex.h global_const.h tex_types.h \
  macros.h
 box.o: box.c tex_constant.h eqtb.h tex_types.h box.h mem.h texmath.h \
  str.h global_const.h charset.h
-box_display.o: box_display.c tex_types.h tex_constant.h mem.h texmath.h \
- print.h charset.h tex.h global_const.h eqtb.h str.h hash.h fonts.h \
- macros.h mmode.h scan.h lexer.h box.h io.h extension.h hyphen.h
-box_destroy.o: box_destroy.c tex_types.h tex_constant.h mem.h error.h \
- str.h global_const.h charset.h pack.h box.h texmath.h mmode.h fonts.h \
+box_display.o: box_display.c tex_constant.h print.h charset.h tex_types.h \
+ tex.h global_const.h eqtb.h str.h hash.h fonts.h macros.h mmode.h scan.h \
+ lexer.h box.h mem.h texmath.h io.h extension.h hyphen.h
+box_destroy.o: box_destroy.c tex_constant.h error.h str.h global_const.h \
+ charset.h tex_types.h pack.h box.h mem.h texmath.h mmode.h fonts.h \
  macros.h scan.h lexer.h tex.h extension.h eqtb.h hyphen.h
-box_copy.o: box_copy.c tex_types.h tex_constant.h mem.h error.h str.h \
- global_const.h charset.h extension.h lexer.h tex.h eqtb.h hyphen.h \
- fonts.h macros.h box.h texmath.h
+box_copy.o: box_copy.c tex_constant.h error.h str.h global_const.h \
+ charset.h tex_types.h extension.h lexer.h tex.h eqtb.h hyphen.h fonts.h \
+ macros.h box.h mem.h texmath.h
 eqtb.o: eqtb.c charset.h tex_types.h print.h tex.h global_const.h \
  tex_constant.h eqtb.h str.h hash.h fonts.h macros.h printout.h texmath.h \
  box.h mem.h error.h lexer.h
@@ -87,11 +87,11 @@ dump.o: dump.c global_const.h tex_types.h str.h charset.h mem.h \
 debug.o: debug.c global_const.h tex_types.h texmath.h io.h tex_constant.h \
  charset.h str.h mem.h eqtb.h print.h tex.h printout.h fonts.h macros.h \
  lexer.h box.h debug.h
-extension.o: extension.c io.h tex_constant.h charset.h tex_types.h str.h \
+extension.o: extension.c charset.h tex_types.h io.h tex_constant.h str.h \
  global_const.h mem.h error.h print.h tex.h eqtb.h lexer.h dviout.h \
  fonts.h macros.h expand.h main_ctrl.h texmath.h page.h hyphen.h box.h \
  linebreak.h printout.h align.h mmode.h scan.h pack.h hash.h extension.h
-lexer.o: lexer.c print.h charset.h tex_types.h tex.h global_const.h \
+lexer.o: lexer.c charset.h tex_types.h print.h tex.h global_const.h \
  tex_constant.h eqtb.h str.h printout.h macros.h io.h expand.h error.h \
  hash.h fonts.h mem.h box.h texmath.h align.h lexer.h page.h
 fonts.o: fonts.c tex.h global_const.h tex_types.h tex_constant.h macros.h \
@@ -106,7 +106,7 @@ expand.o: expand.c charset.h tex_types.h tex.h global_const.h \
 scan.o: scan.c tex.h global_const.h tex_types.h tex_constant.h macros.h \
  expand.h lexer.h texmath.h fonts.h str.h charset.h printout.h error.h \
  eqtb.h mem.h box.h print.h pack.h page.h dviout.h scan.h
-error.o: error.c tex_types.h macros.h print.h charset.h tex.h \
+error.o: error.c tex_types.h charset.h macros.h print.h tex.h \
  global_const.h tex_constant.h eqtb.h str.h io.h debug.h lexer.h error.h
 mem.o: mem.c lexer.h tex.h global_const.h tex_types.h tex_constant.h \
  error.h str.h charset.h eqtb.h texmath.h print.h box.h mem.h align.h \
