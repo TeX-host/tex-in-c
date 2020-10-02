@@ -6,7 +6,7 @@
 #include "eqtb.h"
 #include "pack.h"
 #include "error.h"
-#include "texmath.h" // [macro] INF_BAD
+#include "texmath.h" // [macro] INF_BAD; [func] badness
 #include "hyphen.h"
 #include "extension.h" // [macor] advpast
 #include "linebreak.h"

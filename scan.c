@@ -4,7 +4,8 @@
 #include "expand.h" // [macro] STORE_NEW_TOKEN
 #include "lexer.h" // [macro] backlist
 
-#include "texmath.h"
+#include "texmath.h" // [macro] UNITY; [var] arith_error, tex_remainder; 
+    // [func] nx_plus_y, xn_over_d
 #include "fonts.h"
 #include "printout.h" // [func] printcmdchr
 #include "error.h"    // [func] error, int_error, print_err,

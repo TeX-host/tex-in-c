@@ -4,7 +4,7 @@
 #include "mem.h"
 #include "dviout.h"
 #include "eqtb.h"
-#include "texmath.h"
+#include "texmath.h" // [func] half, x_over_n
 #include "print.h"
 #include "error.h"
 #include "fonts.h"

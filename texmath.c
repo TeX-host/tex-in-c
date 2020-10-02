@@ -4,10 +4,6 @@
 /** @addtogroup S99x109_P38x41
  * @{
  */
-
-/// [#108]: infinitely bad value
-#define INF_BAD 10000
-
 /// [#104] has arithmetic overflow occurred recently?
 Boolean arith_error = false;
 /// [#104] amount subtracted to get an exact division

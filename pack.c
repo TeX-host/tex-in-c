@@ -1,6 +1,6 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
-#include "texmath.h"
+#include "texmath.h" // [func] print_scaled, badness
 #include "scan.h"
 #include "eqtb.h"
 #include "mem.h"

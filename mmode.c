@@ -2,7 +2,8 @@
 #include "mem.h"
 #include "pack.h"
 #include "print.h"
-#include "texmath.h"
+#include "texmath.h" // [var] tex_remainder; [func] nx_plus_y;
+    // [func] half, x_over_n, xn_over_d
 #include "eqtb.h"
 #include "fonts.h"
 #include "macros.h" // qo

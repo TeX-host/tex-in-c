@@ -2,7 +2,7 @@
 #include "tex_types.h"
 #include "tex_constant.h"
 #include "mem.h" // [var] mem
-#include "texmath.h"  // [func] print_scaled
+#include "texmath.h" // [macro] UNITY; [func] print_scaled
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext
 #include "mmode.h"

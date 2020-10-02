@@ -39,7 +39,7 @@ extern Boolean arith_error;
 extern Scaled tex_remainder;
 
 extern Integer half(Integer x);
-extern Scaled round_decimals(SmallNumber k, char digs[]);
+extern Scaled round_decimals(SmallNumber k, char digs[]); // _note_use_
 extern void print_scaled(Scaled s);
 // only used in [macro] nx_plus_y, mult_integers
 extern Scaled mult_and_add(Integer n, Scaled x, Scaled y, Scaled max_ans);

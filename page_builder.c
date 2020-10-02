@@ -7,7 +7,7 @@
 #include "print.h"
 #include "error.h"
 #include "expand.h" // [macro] botmark, firstmark, topmark
-#include "texmath.h" // [macro] INF_BAD
+#include "texmath.h" // [macro] INF_BAD; [func] print_scaled, x_over_n, badness
 #include "mmode.h"
 #include "dviout.h"
 #include "main_ctrl.h"

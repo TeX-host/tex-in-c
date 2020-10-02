@@ -6,7 +6,7 @@
 #include "print.h"
 #include "error.h"
 #include "expand.h" // [macro] splitbotmark, splitfirstmark
-#include "texmath.h" // [macro] INF_BAD
+#include "texmath.h" // [macro] INF_BAD; [func] badness
 #include "mmode.h"
 #include "page.h"
 
