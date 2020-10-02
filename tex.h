@@ -8,18 +8,6 @@
 #include "tex_constant.h"
 
 
-// [p148#382]
-#define topmarkcode         0
-#define firstmarkcode       1
-#define botmarkcode         2
-#define splitfirstmarkcode  3
-#define splitbotmarkcode    4
-
-// [p179#480]
-#define closed          2
-#define justopen        1
-
-
 // [p229#619]
 #define movepast        13
 #define finrule         14

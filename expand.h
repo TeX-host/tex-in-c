@@ -34,13 +34,24 @@
     } while (0)
 // end #define FAST_STORE_NEW_TOKEN(p, x)
 /// [p148#382]
-#define topmark         curmark[topmarkcode - topmarkcode]
-#define firstmark       curmark[firstmarkcode - topmarkcode]
-#define botmark         curmark[botmarkcode - topmarkcode]
-#define splitfirstmark  curmark[splitfirstmarkcode - topmarkcode]
-#define splitbotmark    curmark[splitbotmarkcode - topmarkcode]
+#define topmarkcode         0
+#define firstmarkcode       1
+#define botmarkcode         2
+#define splitfirstmarkcode  3
+#define splitbotmarkcode    4
+#define topmark             curmark[topmarkcode - topmarkcode]
+#define firstmark           curmark[firstmarkcode - topmarkcode]
+#define botmark             curmark[botmarkcode - topmarkcode]
+#define splitfirstmark      curmark[splitfirstmarkcode - topmarkcode]
+#define splitbotmark        curmark[splitbotmarkcode - topmarkcode]
 /** @} end group S366x401_P144x154 */
-
+/** @addtogroup S464x486_P174x180
+ * @{
+ */
+// [p179#480]
+#define closed          2
+#define justopen        1
+/** @} end group S464x486_P174x180 */
 /** @addtogroup S487x510_P181x187
  * @{
  */

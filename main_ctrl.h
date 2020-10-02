@@ -17,7 +17,7 @@
 #include "error.h"
 #include "hyphen.h"
 #include "macros.h"
-#include "expand.h" // [var] readfile, readopen
+#include "expand.h" // [var] readfile, readopen; [const] closed, justopen
 #include "linebreak.h"
 #include "printout.h"
 #include "align.h"
