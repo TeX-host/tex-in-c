@@ -563,12 +563,83 @@ void xtoken(void) {
 /** @addtogroup S464x486_P174x180
  * @{
  */
-/// [#481]
-void build_token_init() {
-    for (size_t k = 0; k <= 16; k++) {
-        readopen[k] = closed;
+
+Static Pointer tex_global_p;
+
+Static void strtoks_helper(ASCIICode t) {
+    long tt = t;
+    Pointer p = tex_global_p;
+    if (tt == ' ')
+        tt = spacetoken;
+    else
+        tt += othertoken;
+    FAST_STORE_NEW_TOKEN(p, tt);
+    tex_global_p = p;
+}
+
+Static HalfWord strtoks(StrPoolPtr b) {
+    Pointer p;
+    str_room(1);
+    p = temphead;
+    link(p) = 0;
+    tex_global_p = p;
+    str_map_from_mark(b, strtoks_helper);
+    p = tex_global_p;
+    return p;
+}
+/*:464*/
+
+/*465:*/
+HalfWord thetoks(void) {
+    Selector old_setting;
+    Pointer p, r;
+
+    get_x_token();
+    scan_something_internal(TOK_VAL, false);
+    if (cur_val_level >= IDENT_VAL) { /*466:*/
+        p = temphead;
+        link(p) = 0;
+        if (cur_val_level == IDENT_VAL) {
+            STORE_NEW_TOKEN(p, CS_TOKEN_FLAG + cur_val);
+            return p;
+        }
+        if (cur_val == 0) return p;
+        r = link(cur_val);
+        while (r != 0) {
+            FAST_STORE_NEW_TOKEN(p, info(r));
+            r = link(r);
+        }
+        return p;
+    } else {
+        StrPoolPtr b = str_mark();
+        old_setting = selector;
+        selector = NEW_STRING;
+        switch (cur_val_level) {
+
+            case INT_VAL: print_int(cur_val); break;
+
+            case DIMEN_VAL:
+                print_scaled(cur_val);
+                print(S(459));
+                break;
+
+            case GLUE_VAL:
+                printspec(cur_val, S(459));
+                delete_glue_ref(cur_val);
+                break;
+
+            case MU_VAL:
+                printspec(cur_val, S(390));
+                delete_glue_ref(cur_val);
+                break;
+        }
+        selector = old_setting;
+        /*	fprintf(stderr,"(%d %d)",bb-b,pool_ptr-b); */
+        return (strtoks(b));
     }
-} /* build_token_init */
+    /*:466*/
+}
+/*:465*/
 
 /// [#467] Here’s part of the expand subroutine 
 //// that we are now ready to complete.
@@ -641,6 +712,257 @@ static void convtoks(void) {
     link(garbage) = strtoks(b);
     inslist(link(temphead));
 } // [#470] convtoks
+
+/*473:*/
+HalfWord scantoks(Boolean macrodef, Boolean xpand) {
+    HalfWord t, s, unbalance, hashbrace;
+    Pointer p;
+
+    if (macrodef) {
+        scanner_status = DEFINING;
+    } else {
+        scanner_status = ABSORBING;
+    }
+
+    warning_index = curcs;
+    defref = get_avail();
+    tokenrefcount(defref) = 0;
+    p = defref;
+    hashbrace = 0;
+    t = ZERO_TOKEN;
+
+    if (macrodef) { /*474:*/
+        while (true) {
+            gettoken();
+            if (curtok < rightbracelimit) goto _Ldone1;
+            if (curcmd == MAC_PARAM) { /*476:*/
+                s = matchtoken + curchr;
+                gettoken();
+                if (curcmd == LEFT_BRACE) {
+                    hashbrace = curtok;
+                    STORE_NEW_TOKEN(p, curtok);
+                    STORE_NEW_TOKEN(p, endmatchtoken);
+                    goto _Ldone;
+                }
+                if (t == ZERO_TOKEN + 9) {
+                    print_err(S(643)); // "You already have nine parameters"
+                    // "I'm going to ignore the # sign you just used."
+                    help1(S(644));
+                    error();
+                } else {
+                    t++;
+                    if (curtok != t) {
+                        // "Parameters must be numbered consecutively"
+                        print_err(S(645));
+                        // "I've inserted the digit you should have used after the #."
+                        // "Type `1' to delete what you did use."
+                        help2(S(646), S(647));
+                        backerror();
+                    }
+                    curtok = s;
+                }
+            }
+            /*:476*/
+            STORE_NEW_TOKEN(p, curtok);
+        }
+
+    _Ldone1:
+        STORE_NEW_TOKEN(p, endmatchtoken);
+        if (curcmd == RIGHT_BRACE) { /*475:*/
+            print_err(S(566)); // "Missing { inserted"
+            align_state++;
+            // "Where was the left brace? You said something like `\\def\\a}'"
+            // "which I'm going to interpret as `\\def\\a{}'."
+            help2(S(648), S(649));
+            error();
+            goto _Lfound;
+        } /*:475*/
+
+    _Ldone:;
+    } else {
+        scan_left_brace();
+    } /*:474*/
+
+    /*477:*/
+    unbalance = 1;
+    while (true) {   /*:477*/
+        if (xpand) { /*478:*/
+            while (true) {
+                getnext();
+                if (curcmd <= MAX_COMMAND) goto _Ldone2;
+                if (curcmd != THE) {
+                    expand();
+                } else {
+                    Pointer q = thetoks();
+                    if (link(temphead) != 0) {
+                        link(p) = link(temphead);
+                        p = q;
+                    }
+                }
+            }
+
+        _Ldone2:
+            xtoken();
+        } else {
+            gettoken();
+        }
+
+        /*:478*/
+        if (curtok < rightbracelimit) {
+            if (curcmd < RIGHT_BRACE) {
+                unbalance++;
+            } else {
+                unbalance--;
+                if (unbalance == 0) goto _Lfound;
+            }
+        } else if (curcmd == MAC_PARAM) {
+            if (macrodef) { /*479:*/
+                s = curtok;
+                if (xpand) {
+                    get_x_token();
+                } else {
+                    gettoken();
+                }
+                if (curcmd != MAC_PARAM) {
+                    if (curtok <= ZERO_TOKEN || curtok > t) {
+                        // "Illegal parameter number in definition of "
+                        print_err(S(650));
+                        sprint_cs(warning_index);
+                        /*
+                         * "You meant to type ## instead of # right?"
+                         * "Or maybe a } was forgotten somewhere earlier and things"
+                         * "are all screwed up? I'm going to assume that you meant ##."
+                         */
+                        help3(S(651), S(652), S(653));
+                        backerror();
+                        curtok = s;
+                    } else {
+                        curtok = outparamtoken - '0' + curchr;
+                    }
+                }
+            } /*:479*/
+        }
+        STORE_NEW_TOKEN(p, curtok);
+    }
+
+_Lfound:
+    scanner_status = NORMAL;
+    if (hashbrace != 0) {
+        STORE_NEW_TOKEN(p, hashbrace);
+    }
+
+    return p;
+} /*:473*/
+
+/// [#481]
+void build_token_init() {
+    for (size_t k = 0; k <= 16; k++) {
+        readopen[k] = closed;
+    }
+} /* build_token_init */
+
+/// [#482] constructs a token list like that for any macro definition,
+///     and makes cur val point to it.
+/// Parameter r points to the control sequence 
+///     that will receive this token list.
+void readtoks(long n, HalfWord r) {
+    Pointer p; // tail of the token list
+    long s;    // saved value of align_state
+    /* SmallNumber */ int m; // stream number
+
+    scanner_status = DEFINING;
+    warning_index = r;
+    defref = get_avail();
+    tokenrefcount(defref) = 0;
+    p = defref; // the reference count
+    STORE_NEW_TOKEN(p, endmatchtoken);
+
+    // OLD: `if ((unsigned long)n > 15)`
+    if (n < 0 || n > 15) {
+        m = 16;
+    } else {
+        m = n;
+    }
+
+    s = align_state;
+    align_state = 1000000L; // disable tab marks, etc.
+
+    do { /// [#483] Input and store tokens from the next line of the file
+        beginfilereading();
+        NAME = m + 1;
+        if (readopen[m] == closed) {
+            /// [#484] Input for \read from the terminal.
+            if (interaction > NON_STOP_MODE) {
+                if (n < 0) {
+                    print(S(385)); // ""
+                    term_input();
+                } else {
+                    println();
+                    sprint_cs(r);
+                    print('=');
+                    term_input();
+                    n = -1;
+                }
+            } else {
+                // "*** (cannot \read from terminal in nonstop modes)"
+                fatalerror(S(654));
+            } // if (interaction <=> NON_STOP_MODE)
+        } else if (readopen[m] == justopen) {
+            /// [#485] Input the first line of read_file[m].
+            if (inputln(readfile[m], false)) {
+                readopen[m] = NORMAL;
+            } else {
+                aclose(&readfile[m]);
+                readopen[m] = closed;
+            }
+        } else {
+            /// [#486] Input the next line of read_file[m].
+            if (!inputln(readfile[m], true)) {
+                aclose(&readfile[m]);
+                readopen[m] = closed;
+                if (align_state != 1000000L) {
+                    runaway();
+                    print_err(S(655)); // "File ended within "
+                    print_esc(S(656)); // "read"
+                    help1(S(657));     // "This \\read has unbalanced braces."
+                    align_state = 1000000L;
+                    error();
+                }
+            }
+        } // if (readopen[m] <=>)
+
+        LIMIT = last;
+        if (end_line_char_inactive) {
+            LIMIT--;
+        } else {
+            buffer[LIMIT] = end_line_char;
+        }
+        first = LIMIT + 1;
+        LOC = START;
+        STATE = NEW_LINE;
+    
+        while (true) {
+            gettoken();
+            // cur_cmd = cur_chr = 0 will occur at the end of the line
+            if (curtok == 0) goto _Ldone;
+            if (align_state < 1000000L) { // unmatched ‘}’ aborts the line
+                do {
+                    gettoken();
+                } while (curtok != 0);
+                align_state = 1000000L;
+                goto _Ldone;
+            }
+            STORE_NEW_TOKEN(p, curtok);
+        } // while (true)
+
+    _Ldone: /*:483*/    
+        endfilereading();
+    } while (align_state != 1000000L);
+
+    cur_val = defref;
+    scanner_status = NORMAL;
+    align_state = s;
+} /* [#482] readtoks */
 /** @} */ // end group S464x486_P174x180
 
 

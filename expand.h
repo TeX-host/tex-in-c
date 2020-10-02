@@ -92,6 +92,9 @@ extern Integer skipline;
 extern char longstate;
 extern Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
+extern HalfWord thetoks(void);
+extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
+extern void readtoks(long n, HalfWord r);
 extern void expand_init();
 extern void build_token_init();
 extern void cond_process_init();
