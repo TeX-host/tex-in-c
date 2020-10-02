@@ -5,7 +5,7 @@
  */
 #define INC_IO_H
 #include "tex_constant.h"
-#include "charset.h" // [type] ASCIICode
+#include "charset.h" // [var] xord; [type] ASCIICode
 #include "str.h"
 
 /** @addtogroup S25x37_P13x18

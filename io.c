@@ -1,8 +1,7 @@
 #include <stdio.h> // FILE, EOF, stderr
-#include "charset.h"
 #include "tex.h"   // [type] Boolean, [macro] true, false, BUF_SIZE
     // [var] buffer, last, first, max_buf_stack
-    //  _JMP_global__final_end, format_ident, cur_input, xord
+    //  _JMP_global__final_end, format_ident, cur_input
 #include "lexer.h"   // [var] cur_input
 #include "error.h"   // [func] overflow,
 #include "dump.h"    // [var] format_ident

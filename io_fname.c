@@ -1,5 +1,5 @@
 #include <string.h> // [func] memcpy
-#include "charset.h"
+#include "charset.h" // [var] xord, xchr
 #include "str.h"
 #include "print.h"  // [type] Selector [var] selector
 #include "eqtb.h"   // [var] day, month, year, tex_time

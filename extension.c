@@ -1,4 +1,5 @@
 #include <stdlib.h> // labs
+#include "charset.h" // [type] ASCIICode
 #include "io.h"
 #include "mem.h"
 #include "error.h"

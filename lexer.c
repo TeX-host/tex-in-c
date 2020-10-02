@@ -1,5 +1,6 @@
 #include <stdlib.h>   // labs
 #include <math.h>     // abs
+#include "charset.h"  // [type] ASCIICode
 #include "print.h"      // [var] tally, term_input
 // pagetail
 #include "printout.h"   // [func] printcmdchr,
