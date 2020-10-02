@@ -105,7 +105,7 @@ var searchData=
   ['fonts_5fundump_663',['fonts_undump',['../group___s539x582___p196x213.html#ga6475f91a663c2b2ac67d1781b54c9b09',1,'fonts_undump(FILE *fmtfile, FILE *_not_use_):&#160;fonts.c'],['../group___s539x582___p196x213.html#ga6475f91a663c2b2ac67d1781b54c9b09',1,'fonts_undump(FILE *fmtfile, FILE *_not_use_):&#160;fonts.c']]],
   ['fontsize_664',['fontsize',['../group___s539x582___p196x213.html#ga7246a0f3ea8da46833b0314a7928bb19',1,'fonts.c']]],
   ['fontused_665',['fontused',['../group___s539x582___p196x213.html#gaa543b8a7d77c218ff34845191f71772c',1,'fontused():&#160;fonts.c'],['../group___s539x582___p196x213.html#gaa543b8a7d77c218ff34845191f71772c',1,'fontused():&#160;fonts.c']]],
-  ['force_5feof_666',['force_eof',['../group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4',1,'force_eof():&#160;tex_header.h'],['../group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4',1,'force_eof():&#160;tex_header.h']]],
+  ['force_5feof_666',['force_eof',['../group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4',1,'force_eof():&#160;lexer.c'],['../group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4',1,'force_eof():&#160;lexer.c']]],
   ['format_5fdefault_5flength_667',['FORMAT_DEFAULT_LENGTH',['../group___s511x538___p188x195.html#ga26b0aeab1775b0089d64dbe100f5e945',1,'io.h']]],
   ['format_5fident_668',['format_ident',['../group___s1299x1329___p455x464.html#gaffd05a4c3de4f2fb8a16dd957fb4c869',1,'format_ident():&#160;dump.c'],['../group___s1299x1329___p455x464.html#gaffd05a4c3de4f2fb8a16dd957fb4c869',1,'format_ident():&#160;dump.c']]],
   ['format_5fname_669',['format_name',['../io__unix_8c.html#a096d86c167323f81f1e40e1d9c399fcb',1,'io_unix.c']]],

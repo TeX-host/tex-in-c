@@ -50,5 +50,7 @@ var expand_8h =
     [ "iflimit", "group___s487x510___p181x187.html#ga06008faaaa193d7d30359ac50fbb7967", null ],
     [ "ifline", "group___s487x510___p181x187.html#ga62ad5ce7f58d90ba3fc7f9820ff88439", null ],
     [ "longstate", "expand_8h.html#aecf5ff41ebe4704021f9f90aa5ac8dae", null ],
+    [ "readfile", "group___s464x486___p174x180.html#ga127bf7f825febf86dc92a7d3b45619a6", null ],
+    [ "readopen", "group___s464x486___p174x180.html#gab349d96eb29fa53025fb70f959229076", null ],
     [ "skipline", "group___s487x510___p181x187.html#ga878369a73d46e27f1ada1a910f20f1da", null ]
 ];

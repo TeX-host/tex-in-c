@@ -106,6 +106,7 @@ var lexer_8h =
     [ "curcs", "group___s297x299___p119x120.html#gafcdda781f745f4718c2e20a07044b435", null ],
     [ "curtok", "group___s297x299___p119x120.html#ga3dd6d9ad2180a65f6079e819cb3421b7", null ],
     [ "defref", "group___s300x320___p121x130.html#gaa792b81ca8301ee78fcf4175c739c10e", null ],
+    [ "force_eof", "group___s332x365___p134x143.html#ga7ec32e0b35241b4ccb25572afb5a56c4", null ],
     [ "inputfile", "group___s300x320___p121x130.html#ga53ee464a5722ff8fe4e457986c035ee4", null ],
     [ "inputptr", "group___s300x320___p121x130.html#gab71a50a5cdc9b6c116a71c0142b2b8ce", null ],
     [ "inputstack", "group___s300x320___p121x130.html#ga8707e627be2e42416c466913ee604859", null ],
@@ -117,6 +118,8 @@ var lexer_8h =
     [ "openparens", "group___s300x320___p121x130.html#ga65665e248ec39eae47d82b3b4998684e", null ],
     [ "paramptr", "group___s300x320___p121x130.html#ga2b216386ea78e64ad9d5c4ef8f72796a", null ],
     [ "paramstack", "group___s300x320___p121x130.html#ga301aa787750d7bf87d85eba0eebab71b", null ],
+    [ "parloc", "group___s332x365___p134x143.html#gae5f4201507b96a830de3a62544f0c886", null ],
+    [ "partoken", "group___s332x365___p134x143.html#ga658446384b1c25fc427879b271f270c4", null ],
     [ "scanner_status", "group___s300x320___p121x130.html#ga3d756efb168f679a7fbb40de545b2c0a", null ],
     [ "warning_index", "group___s300x320___p121x130.html#gaeb75df5f70c3ab15631b2e21446eac94", null ]
 ];
