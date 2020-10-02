@@ -6,21 +6,6 @@
  * 
  */
 
-/** @addtogroup S72x98_P30x37
- * @{
- */
-
-/*
- * Error handling procedures
- * 
- * xref[4]: 81, 93, 94, 95, 1304
- */
-
-
-
-/** @}*/ // end group S72x98_P30x37
-
-
 /** @addtogroup S464x486_P174x180
  * @{
  */
