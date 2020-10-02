@@ -4,7 +4,6 @@
 #include "mem.h"
 #include "print.h"
 #include "error.h"
-#include "texfunc.h"
 #include "expand.h"
 #include "scan.h" // scan_left_brace
 #include "hyphen.h"

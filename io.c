@@ -4,7 +4,6 @@
 #include "global.h"
     // [var] buffer, last, first, max_buf_stack
     //  _JMP_global__final_end, format_ident, cur_input, xord
-#include "texfunc.h" // [func] overflow
 #include "lexer.h"   // [var] cur_input
 #include "error.h"   // [func] overflow,
 #include "dump.h"    // [var] format_ident

@@ -5,7 +5,6 @@
 #include "mem.h"
 #include "eqtb.h"
 #include "print.h"
-#include "texfunc.h"
 #include "printout.h"
 #include "fonts.h" // fontinfo
 #include "lexer.h" // showtokenlist

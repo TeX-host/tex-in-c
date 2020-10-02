@@ -2,8 +2,6 @@
 #include "tex_types.h"
 #include "tex_constant.h"
 #include "mem.h" // [var] mem
-#include "texfunc.h" // [func] print_char, printsubsidiarydata,
-    // printdelimiter, printfamandchar
 #include "texmath.h"  // [func] print_scaled
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext

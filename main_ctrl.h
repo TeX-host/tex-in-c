@@ -5,7 +5,6 @@
 #include <math.h>
 #include "tex_types.h"
 #include "tex_constant.h"
-#include "texfunc.h"
 #include "fonts.h" // [macro] NON_CHAR
 #include "io.h"
 #include "str.h"

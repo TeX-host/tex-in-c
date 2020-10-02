@@ -2,7 +2,6 @@
 #include "str.h" // [func] slow_print
 #include "fonts.h" 
     // [func] get_fontsize, get_fontdsize, get_fontname
-#include "texfunc.h"  // [func] print_*
 #include "texmath.h"  // [func] print_scaled
 #include "expand.h" // [macro] IF_EOF_CODE, splitbotmark, splitfirstmark, botmark
 #include "scan.h"     // [macro] INT_VAL

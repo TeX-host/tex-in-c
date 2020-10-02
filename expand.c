@@ -3,7 +3,6 @@
 #include "tex.h"
 #include "macros.h" // [macro] help1, help2, help3, help4,
 #include "global.h"
-#include "texfunc.h"
 #include "lexer.h"    // [var] warning_index, [macro] inslist
 #include "printout.h" // [func] printcmdchr
 #include "print.h"    // [var] selector

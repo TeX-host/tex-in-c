@@ -43,7 +43,6 @@
 #include "main_ctrl.h"
 #include "dump.h"
 #include "extension.h"
-#include "texfunc.h"    // [export]
 
 
 /*

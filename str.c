@@ -4,7 +4,6 @@
 #include "tex.h"    // [macro] S
     // [type] Boolean, false, MemoryWord, ASCIICode
 #include "macros.h" // [macro] pget, pput
-#include "texfunc.h" // [func] print_char
 #include "error.h"   // [func] overflow,
 #include "hash.h"    // [func] idlookup_p
 #include "print.h"   // [func] print, print_char

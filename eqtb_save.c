@@ -5,7 +5,6 @@
 #include "print.h" // [func] print_char, print, print_err, print_int
     // printnl
 #include "macros.h" // [macro] help1
-#include "texfunc.h" // [func] set_help
 #include "eqtb.h"
 
 

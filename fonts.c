@@ -9,7 +9,6 @@
 #include "lexer.h"  // curcmd
 #include "global.h" // eqtb
 #include "fonts.h"  // [export]
-#include "texfunc.h"
     // [func] print_*,
     //  packfilename, error,
 #include "texmath.h"

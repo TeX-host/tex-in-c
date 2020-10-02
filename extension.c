@@ -6,7 +6,6 @@
 #include "lexer.h" // [macro] inslist
 #include "dviout.h"
 #include "expand.h"
-#include "texfunc.h"
 #include "main_ctrl.h"
 #include "extension.h"
 

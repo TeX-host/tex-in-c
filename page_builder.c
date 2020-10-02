@@ -7,7 +7,6 @@
 #include "print.h"
 #include "error.h"
 #include "expand.h" // [macro] botmark, firstmark, topmark
-#include "texfunc.h"
 #include "texmath.h" // [macro] INF_BAD
 #include "mmode.h"
 #include "dviout.h"

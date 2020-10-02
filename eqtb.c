@@ -4,7 +4,6 @@
 #include "global.h" // mem, depth_threshold, breadth_max
 #include "hash.h"   // [func] sprint_cs, fontidtext
 #include "printout.h" // [func] printcmdchr, printparam, printlengthparam
-#include "texfunc.h"  // [func] printspec, shownodelist
 #include "texmath.h"  // [func] print_scaled
 #include "box.h"      // gluerefcount
 #include "error.h"    // [func] history

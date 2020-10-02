@@ -3,7 +3,6 @@
 #include "global.h"
 #include "mem.h"
 #include "macros.h"
-#include "texfunc.h"
 #include "print.h"
 #include "eqtb.h"
 #include "pack.h"

@@ -8,7 +8,6 @@
 #include "print.h"
 #include "error.h"
 #include "fonts.h"
-#include "texfunc.h"
 #include "mmode.h"
 
 

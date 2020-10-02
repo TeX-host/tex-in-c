@@ -3,8 +3,6 @@
 #include "print.h"      // [var] tally, term_input
 #include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
 // pagetail
-#include "texfunc.h"    // [func] begindiagnostic, print_mode, enddiagnostic
-// delete_token_ref, set_help, openlogfile
 #include "printout.h"   // [func] printcmdchr,
 #include "macros.h"     // [macro] help4, help3, help2
 #include "io.h"         // [func] inputln, initterminal, aclose
