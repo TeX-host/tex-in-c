@@ -2,7 +2,6 @@
 #include "global_const.h"
 #include "charset.h"
 #include "print.h"
-#include "global.h" // [func] xchr, eqtb, write_file, 
     // last, first, buffer[]
 #include "io.h" // [func] inputln
 #include "error.h"  // [func] fatalerror

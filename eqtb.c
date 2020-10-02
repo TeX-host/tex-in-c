@@ -1,7 +1,6 @@
 #include <time.h> // tm_struct, time, localtime
 #include "charset.h" // [macro] NULL_CODE, CARRIAGE_RETURN, INVALID_CODE
 #include "print.h" // MAX_SELECTOR
-#include "global.h" // mem, depth_threshold, breadth_max
 #include "hash.h"   // [func] sprint_cs, fontidtext
 #include "printout.h" // [func] printcmdchr, printparam, printlengthparam
 #include "texmath.h"  // [func] print_scaled

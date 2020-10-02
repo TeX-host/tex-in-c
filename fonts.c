@@ -7,7 +7,6 @@
 #include "str.h"    // [type] StrNumber
 #include "error.h"  // [func] error, print_err,
 #include "lexer.h"  // curcmd
-#include "global.h" // eqtb
 #include "fonts.h"  // [export]
     // [func] print_*,
     //  packfilename, error,

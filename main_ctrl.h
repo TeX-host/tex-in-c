@@ -14,7 +14,6 @@
 #include "page.h"
 #include "lexer.h" // [macro] inslist, [var] partoken
 #include "error.h"
-#include "global.h"
 #include "hyphen.h"
 #include "macros.h"
 #include "expand.h" // [var] readfile, readopen

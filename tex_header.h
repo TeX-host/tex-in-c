@@ -39,8 +39,6 @@
 
 #include "str.h" // [func] get_strings_started
 
-#include "global.h" // [export]
-
 
 /*
  * [ #13: Global variables ]

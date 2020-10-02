@@ -1,6 +1,5 @@
 #include <stdarg.h>    // va_start, va_arg, va_end,
 #include "tex_types.h" // [types] StrNumber, Integer
-#include "global.h"
 #include "macros.h" // [macro] help4,
 #include "print.h"  // term_input
 #include "io.h"     // [func] update_terminal

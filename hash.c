@@ -1,4 +1,3 @@
-#include "global.h" // [var] eqtb
 #include "scan.h"   // [var] cur_val
 #include "error.h"  // [func] overflow
 #include "print.h"  // [func] print_esc, print_char, print

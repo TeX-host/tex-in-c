@@ -1,7 +1,6 @@
 #include <stdlib.h>   // labs
 #include <math.h>     // abs
 #include "print.h"      // [var] tally, term_input
-#include "global.h"     // [var] mem, lo_mem_max, hi_mem_min, mem_end,
 // pagetail
 #include "printout.h"   // [func] printcmdchr,
 #include "macros.h"     // [macro] help4, help3, help2

@@ -3,7 +3,6 @@
 #define INC_MEM_H
 #include "tex_types.h"
 #include "tex_constant.h"
-#include "global.h"
 
 
 /** @addtogroup S115x132_P44x49

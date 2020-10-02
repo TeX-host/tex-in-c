@@ -1,7 +1,6 @@
 #include <string.h> // [func] memcpy
 #include "charset.h"
 #include "str.h"
-#include "global.h" // [var] xchr
 #include "print.h"  // [type] Selector [var] selector
 #include "eqtb.h"   // [var] day, month, year, tex_time
 #include "expand.h" // [func] get_x_token

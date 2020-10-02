@@ -1,7 +1,6 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
 #include "texmath.h"
-#include "global.h"
 #include "scan.h"
 #include "eqtb.h"
 #include "mem.h"

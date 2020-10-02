@@ -1,5 +1,4 @@
 #include "tex.h"
-#include "global.h"
 #include "mem.h"
 #include "macros.h"
 #include "print.h"

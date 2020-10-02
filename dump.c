@@ -1,6 +1,5 @@
 #include "global_const.h"
 #include "tex_types.h"
-#include "global.h"
 #include "str.h"
 #include "mem.h"
 #include "eqtb.h"
