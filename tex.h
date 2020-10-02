@@ -8,9 +8,7 @@
 #include "tex_constant.h"
 
 
-#define badfmt          6666
-#define breakpoint      888
-
+#define breakpoint 888
 
 // inputln, [tex]
 extern jmp_buf _JMP_global__end_of_TEX;
