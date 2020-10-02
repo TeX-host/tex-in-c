@@ -8,6 +8,7 @@
 #include "error.h"
 #include "expand.h"
 #include "main_ctrl.h"
+#include "lexer.h" // [macro] ignoredepth
 #include "align.h"
 
 

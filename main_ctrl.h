@@ -13,7 +13,7 @@
     // [func] nx_plus_y, mult_integers, half, print_scaled, x_over_n, xn_over_d
 #include "eqtb.h"
 #include "page.h"
-#include "lexer.h" // [macro] inslist, [var] partoken
+#include "lexer.h" // [macro] inslist, ignoredepth, [var] partoken
 #include "error.h"
 #include "hyphen.h"
 #include "macros.h"

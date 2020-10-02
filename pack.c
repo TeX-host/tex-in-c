@@ -9,6 +9,7 @@
 #include "error.h"
 #include "fonts.h"
 #include "page.h"
+#include "lexer.h" // [macro] ignoredepth
 #include "pack.h"
 
 

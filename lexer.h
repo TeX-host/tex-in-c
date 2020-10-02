@@ -30,6 +30,9 @@
 #define H_MODE          (V_MODE + MAX_COMMAND + 1) // horizontal mode
 #define M_MODE          (H_MODE + MAX_COMMAND + 1) // math mode
 
+/// [#212] prev_depth value that is ignored
+#define ignoredepth     (-65536000L)
+
 /** [#212]: ListStateRecord(366) .
  *
  *  field:

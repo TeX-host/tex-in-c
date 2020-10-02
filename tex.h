@@ -8,9 +8,6 @@
 #include "tex_constant.h"
 
 
-#define ignoredepth     (-65536000L)
-
-
 // [p136#341]
 #define switch_         25
 #define startcs         26

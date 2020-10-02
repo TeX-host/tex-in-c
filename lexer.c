@@ -18,7 +18,7 @@
 #include "texmath.h" // print_scaled, x_over_n
 #include "align.h"
 #include "page.h"
-#include "lexer.h"
+#include "lexer.h" // [macro] ignoredepth
 
 
 /** @addtogroup S211x219_P77x80
