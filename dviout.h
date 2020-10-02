@@ -12,6 +12,11 @@
 /** @addtogroup S592x643_P220x238
  * @{
  */
+/// [p229#619] label _not_use_
+// #define movepast        13
+// #define finrule         14
+// #define nextp           15
+
 #define synchh()                    \
     do {                            \
         dvih = synch_h(curh, dvih); \

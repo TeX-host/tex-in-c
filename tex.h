@@ -8,10 +8,7 @@
 #include "tex_constant.h"
 
 
-// [p229#619]
-#define movepast        13
-#define finrule         14
-#define nextp           15
+
 
 
 
