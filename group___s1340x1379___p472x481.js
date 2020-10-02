@@ -21,6 +21,7 @@ var group___s1340x1379___p472x481 =
     [ "writetokens", "group___s1340x1379___p472x481.html#gac41879a7954d295be3e94c80eea84f55", null ],
     [ "doextension", "group___s1340x1379___p472x481.html#ga13357a9c897542203e9f176b6c4f5732", null ],
     [ "extension_init", "group___s1340x1379___p472x481.html#ga5c5422064dedeb100cb905bd8ae3da68", null ],
+    [ "extension_init_once", "group___s1340x1379___p472x481.html#ga6823b187b1249b08b4fd2d72997daeb2", null ],
     [ "fixlanguage", "group___s1340x1379___p472x481.html#ga39e37bbc1f7b39834d32379428bd0614", null ],
     [ "newwhatsit", "group___s1340x1379___p472x481.html#ga7d5cf697819ee7d5a92baeb17690c88d", null ],
     [ "newwritewhatsit", "group___s1340x1379___p472x481.html#ga803f6f95fa4f1dd32e7c63388a771f2c", null ],
