@@ -12,7 +12,7 @@
 #include "mmode.h"
 #include "align.h"
 #include "extension.h"
-#include "main_ctrl.h" // [const] boxcode
+#include "main_ctrl.h" // [const] boxcode, atopcode, atopcode, delimitedcode
 #include "printout.h" // [export]
 
 /// #247: 

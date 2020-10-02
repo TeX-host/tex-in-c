@@ -29,7 +29,13 @@
 #include "scan.h" // [func] skip_spaces, MAX_DIMEN
 #include "extension.h"
 
-
+/** @addtogroup S1029x1054_P383x394
+ * @{
+ */
+/// [p384#1030] jmp label _not_use_
+// #define bigswitch            60
+// #define appendnormalspace    120
+/** @}*/ // end group S1029x1054_P383x394
 /** @addtogroup S1055x1135_P395x416
  * @{
  */
@@ -45,6 +51,35 @@
 #define vsplitcode      3
 #define vtopcode        4
 /** @}*/ // end group S1055x1135_P395x416
+/** @addtogroup S1136x1207_P417x434
+ * @{
+ */
+/// [#1178]
+#define abovecode       0
+#define overcode        1
+#define atopcode        2
+#define delimitedcode   3
+/** @}*/ // end group S1136x1207_P417x434
+/** @addtogroup S1208x1298_P435x454
+ * @{
+ */
+/// [p438#1222]
+// enum ShortHandDef {};
+#define chardefcode     0
+#define mathchardefcode  1
+#define countdefcode    2
+#define dimendefcode    3
+#define skipdefcode     4
+#define muskipdefcode   5
+#define toksdefcode     6
+
+/// [p452#1291]
+#define showcode        0
+#define showboxcode     1
+#define showthecode     2
+#define showlists       3
+/** @}*/ // end group S1208x1298_P435x454
+
 
 /// [p420#1151]
 #define faminrange ((curfam >= 0) && (curfam < 16))

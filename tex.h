@@ -8,33 +8,6 @@
 #include "tex_constant.h"
 
 
-// [p384#1030] jmp label
-// #define bigswitch            60
-// #define appendnormalspace    120
-
-
-// #1178
-#define abovecode       0
-#define overcode        1
-#define atopcode        2
-#define delimitedcode   3
-
-// #1222
-// enum ShortHandDef {};
-#define chardefcode     0
-#define mathchardefcode  1
-#define countdefcode    2
-#define dimendefcode    3
-#define skipdefcode     4
-#define muskipdefcode   5
-#define toksdefcode     6
-
-// #1291
-#define showcode        0
-#define showboxcode     1
-#define showthecode     2
-#define showlists       3
-
 #define badfmt          6666
 #define breakpoint      888
 
