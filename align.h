@@ -2,8 +2,12 @@
 #ifndef INC_ALGIN_H
 /// 
 #define INC_ALGIN_H
-#include "lexer.h" // [const] CS_TOKEN_FLAG
-#include "eqtb.h"  // [const] FROZEN_END_TEMPLATE
+#include "mem.h"       // [var] mem; [macro] info, link
+#include "box.h" // [const] heightoffset, depthoffset, listoffset, alignhead
+#include "lexer.h"     // [const] CS_TOKEN_FLAG
+#include "eqtb.h"      // [const] FROZEN_END_TEMPLATE
+#include "tex_types.h" // [type] Pointer, Boolean
+
 
 /** @addtogroup S768x812_P285x301
  * @{
@@ -33,9 +37,9 @@
 extern Pointer curalign;
 
 extern void align_init();
-extern void initalign(void);
-extern Boolean fincol(void);
-extern void finrow(void);
-extern void alignpeek(void);
+extern void initalign();
+extern Boolean fincol();
+extern void finrow();
+extern void alignpeek();
 
 #endif /* INC_ALGIN_H */
