@@ -30,12 +30,21 @@
 #include "extension.h"
 
 
-/** @addtogroup S1029x1054_P383x394
+/** @addtogroup S1055x1135_P395x416
  * @{
  */
+/// [p400#1071] context code for `\setbox0`.
+#define boxflag         1073741824L
+#define shipoutflag    (boxflag + 512)
+#define leaderflag     (boxflag + 513)
 
-
-/** @}*/ // end group S1029x1054_P383x394
+// enum ChrCode {};
+#define boxcode         0
+#define copycode        1
+#define lastboxcode     2
+#define vsplitcode      3
+#define vtopcode        4
+/** @}*/ // end group S1055x1135_P395x416
 
 /// [p420#1151]
 #define faminrange ((curfam >= 0) && (curfam < 16))

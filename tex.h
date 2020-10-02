@@ -8,7 +8,6 @@
 #include "tex_constant.h"
 
 
-#define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 
 
@@ -49,17 +48,7 @@
 // #define bigswitch            60
 // #define appendnormalspace    120
 
-/// [p400#1071]
-#define shipoutflag     (boxflag + 512)
-#define leaderflag      (boxflag + 513)
 
-// #1291
-// enum ChrCode {};
-#define boxcode         0
-#define copycode        1
-#define lastboxcode     2
-#define vsplitcode      3
-#define vtopcode        4
 // #1178
 #define abovecode       0
 #define overcode        1

@@ -18,7 +18,7 @@ str.o: str.c global_const.h tex.h tex_types.h tex_constant.h macros.h \
 printout.o: printout.c tex.h global_const.h tex_types.h tex_constant.h \
  str.h charset.h fonts.h macros.h texmath.h expand.h scan.h lexer.h \
  print.h eqtb.h box.h mem.h error.h mmode.h align.h extension.h hyphen.h \
- printout.h
+ main_ctrl.h io.h page.h linebreak.h printout.h dviout.h pack.h hash.h
 print.o: print.c global_const.h charset.h tex_types.h print.h tex.h \
  tex_constant.h eqtb.h str.h io.h error.h extension.h lexer.h hyphen.h \
  mem.h box.h texmath.h macros.h fonts.h dump.h
