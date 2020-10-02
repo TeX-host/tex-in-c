@@ -2,7 +2,7 @@
 #ifndef INC_ERROR_H
 /// 
 #define INC_ERROR_H
-
+#include "str.h"
 
 /** @addtogroup S72x98_P30x37
  * @{

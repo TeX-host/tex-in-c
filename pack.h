@@ -1,6 +1,7 @@
 #ifndef INC_PACK_H
 /// 
 #define INC_PACK_H
+#include "box.h" // [enum] FILLL, NORMAL
 
 /** @addtogroup S644x679_P239x248
  * @{

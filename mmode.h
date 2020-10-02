@@ -5,6 +5,7 @@
 #include "charset.h" // [type] ASCIICode
 #include "fonts.h"
 #include "scan.h" // MAX_DIMEN
+#include "box.h"  // [enum] UNSET_NODE
 
 /** @addtogroup S680x698_P249x257
  * @{

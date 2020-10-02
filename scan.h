@@ -6,7 +6,7 @@
  */
 #define INC_SCAN_H
 #include "lexer.h" // [macro] othertoken; [var] curcmd,
-
+#include "str.h"   // [type] widthoffset
 
 /** @addtogroup S402x463_P155x173
  * @{

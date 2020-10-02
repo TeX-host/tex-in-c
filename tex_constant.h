@@ -8,7 +8,7 @@
  * 
  */
 #define INC_TEX_CONSTANT
-#include "box.h" // [enum] NodeType
+
 
 /** @addtogroup S1x16_P3x9
  * @{

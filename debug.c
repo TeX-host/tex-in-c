@@ -9,6 +9,7 @@
 #include "printout.h"
 #include "fonts.h" // fontinfo
 #include "lexer.h" // showtokenlist
+#include "box.h"   // [func] showbox
 #include "debug.h"
 
 

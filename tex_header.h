@@ -38,6 +38,7 @@
 #include "extension.h"
 
 #include "str.h" // [func] get_strings_started
+#include "box.h" // [macro] subtype, widthoffset; [func] delete_token_ref
 
 
 /*

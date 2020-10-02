@@ -5,6 +5,7 @@
 #include "print.h" // [func] print_char, print, print_err, print_int
     // printnl
 #include "macros.h" // [macro] help1
+#include "box.h"    // [func] delete_token_ref
 #include "eqtb.h"
 
 
