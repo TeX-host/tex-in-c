@@ -1,4 +1,3 @@
-#include "tex_types.h"
 #include "mem.h"
 #include "eqtb.h"
 #include "linebreak.h"

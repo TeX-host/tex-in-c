@@ -7,6 +7,7 @@
 #include "str.h"
 #include "fonts.h" // InternalFontNumber
 #include "eqtb.h"  // UNDEFINED_CONTROL_SEQUENCE, HASH_BASE
+#include "tex_types.h"
 
 extern TwoHalves hash[UNDEFINED_CONTROL_SEQUENCE - HASH_BASE];
 extern Pointer hash_used;

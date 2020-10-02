@@ -7,6 +7,7 @@
 #include "tex_constant.h"
 #include "str.h"
 #include "macros.h" // qo
+#include "tex_types.h"
 // [fonts], dviout, tex
 
 

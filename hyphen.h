@@ -3,11 +3,14 @@
 ///
 #define INC_HYPHEN_H
 #include "global_const.h"
-#include "charset.h" // [type] ASCIICode
-#include "tex.h"
+#include "mem.h" // [macro] link; [func] get_avail, free_node
+#include "box.h" // [macro] font, character, subtype, ligptr, smallnodesize;
+    // [func] newligature
+#include "macros.h" // [macro] qi
 #include "fonts.h" // [type] InternalFontNumber, [macro] NON_CHAR
 #include "eqtb.h" // [macro] language
-#include "box.h"
+#include "charset.h" // [type] ASCIICode
+#include "tex_types.h"
 
 /** @addtogroup S891x899_P330x333
  * @{

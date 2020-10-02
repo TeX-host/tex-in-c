@@ -5,6 +5,7 @@
 #include "lexer.h" // [macro] CS_TOKEN_FLAG
 #include "eqtb.h"  // [macro] END_WRITE
 #include "hyphen.h" // [var] curlang, lhyf, rhyf
+#include "tex_types.h"
 
 /** @addtogroup S1340x1379_P472x481
  * @{

@@ -1,5 +1,4 @@
 #include "global_const.h"
-#include "tex_types.h"
 #include "eqtb.h" // vsize
 #include "mem.h"
 #include "linebreak.h"

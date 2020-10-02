@@ -1,7 +1,4 @@
-#include "tex_types.h"
 #include "linebreak.h"
-#include "mem.h"
-#include "macros.h"
 #include "error.h"
 #include "hyphen.h"
 

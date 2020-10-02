@@ -6,6 +6,7 @@
 #include "fonts.h"
 #include "scan.h" // MAX_DIMEN
 #include "box.h"  // [enum] UNSET_NODE
+#include "tex_types.h"
 
 /** @addtogroup S680x698_P249x257
  * @{

@@ -2,6 +2,7 @@
 /// 
 #define INC_PACK_H
 #include "box.h" // [enum] FILLL, NORMAL
+#include "tex_types.h"
 
 /** @addtogroup S644x679_P239x248
  * @{

@@ -8,6 +8,7 @@
  */
 #define INC_EXPAND_H
 #include "tex.h" // splitbotmarkcode
+#include "tex_types.h"
 
 /** @addtogroup S366x401_P144x154
  * @{

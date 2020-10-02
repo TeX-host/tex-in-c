@@ -7,6 +7,7 @@
 #include "tex_constant.h"
 #include "charset.h" // [var] xord; [type] ASCIICode
 #include "str.h"
+#include "tex_types.h"
 
 /** @addtogroup S25x37_P13x18
  * @{

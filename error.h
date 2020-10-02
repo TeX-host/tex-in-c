@@ -2,7 +2,8 @@
 #ifndef INC_ERROR_H
 /// 
 #define INC_ERROR_H
-#include "str.h"
+#include "str.h"       // [type] StrNumber
+#include "tex_types.h" // [type] Integer
 
 /** @addtogroup S72x98_P30x37
  * @{

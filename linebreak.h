@@ -2,6 +2,7 @@
 #ifndef INC_LINEBREAK_H
 ///
 #define INC_LINEBREAK_H
+#include "tex_types.h"
 
 /** @addtogroup S813x861_P302x318
  * @{

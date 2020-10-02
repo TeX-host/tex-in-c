@@ -12,6 +12,7 @@
 #define INC_LEXER_H
 #include <stdio.h>
 #include "tex.h" // [macro] dwa_do_8
+#include "tex_types.h"
 
 
 /** @addtogroup S25x37_P13x18

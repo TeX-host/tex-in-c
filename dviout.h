@@ -4,6 +4,7 @@
 #define DIV_OUT_H
 #include "charset.h" // [type] ASCIICode
 #include "fonts.h"  // [type] InternalFontNumber
+#include "tex_types.h"
 
 /// [#11]: size of the output buffer; must be a multiple of 8
 #define DVI_BUF_SIZE 800
