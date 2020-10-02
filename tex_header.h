@@ -4,45 +4,42 @@
 // 导入库、其他模块，声明 tex.c 的内部静态变量
 #define INC_TEX_HEADER
 
-#include <stdio.h>  // FILE
-#include <stdlib.h> // labs, abs, exit, EXIT_SUCCESS
-#include <string.h> // memcpy
+#include <stdlib.h> // exit, EXIT_SUCCESS
 #include <setjmp.h> // jmp_buf
-#include <math.h>   // fabs
 
-#include "global_const.h"
-#include "charset.h"
-#include "texmath.h"
-#include "tex.h" // [export]
-#include "str.h"
+#include "tex.h"
 #include "macros.h"
-#include "global.h"
-#include "printout.h"
-#include "fonts.h"
-#include "dviout.h"
-#include "print.h"      // 打印函数 term_input
-// 模块导入
-#include "lexer.h"      // lexer
-#include "expand.h"     // [macro] STORE_NEW_TOKEN
-#include "scan.h"       // scan mod;
+
+#include "charset.h"
 #include "error.h"
     // [func] normalize_selector, succumb, fatalerror,
     // overflow, confusion, print_err,
     // [macro] checkinterrupt,
-#include "hash.h"       // [func] sprint_cs
-#include "eqtb.h"
 #include "mem.h"
-#include "box.h"
+#include "lexer.h"      // lexer
+
+#include "eqtb.h"
+#include "hash.h"       // [func] sprint_cs
+#include "expand.h"     // [macro] STORE_NEW_TOKEN
+#include "scan.h"       // scan mod;
+
 #include "io.h" // [func] inputln
+#include "fonts.h"
+#include "dviout.h"
+
 #include "pack.h"
 #include "mmode.h"
 #include "align.h"
-#include "linebreak.h"
 #include "hyphen.h"
 #include "page.h"
+
 #include "main_ctrl.h"
 #include "dump.h"
 #include "extension.h"
+
+#include "str.h" // [func] get_strings_started
+
+#include "global.h" // [export]
 
 
 /*

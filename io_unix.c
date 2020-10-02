@@ -5,6 +5,7 @@
 #include "str.h"    // [type] StrNumber
 #include "global.h" // [var] buffer, last, first, name_of_file
 #include "global_const.h" // [macro] update_terminal
+#include "eqtb.h"         // [var] use_independence_date
 #include "io.h"           // [macro] TERM_ERR
 
 

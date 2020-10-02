@@ -534,4 +534,6 @@ extern void saveforafter(HalfWord t);
 extern void unsave(void);
 extern void preparemag(void);
 
+extern Boolean use_independence_date;
+
 #endif /* INC_EQTB_H */
