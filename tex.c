@@ -1050,9 +1050,6 @@ Static void initialize(void) {
         font_init();
         dviout_init();
         pack_init();
-
-        /*662:*/
-        packbeginline = 0; /*:662*/
         mmode_init();
         align_init();
         hyphen_init();

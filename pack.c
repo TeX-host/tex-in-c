@@ -30,11 +30,15 @@ Integer packbeginline;
 /*:661*/
 
 
-/// [#648]
+/// [#648,#662]
 void pack_init() {
+    // #648
     adjusttail = 0;
     lastbadness = 0;
-}
+
+    // #662
+    packbeginline = 0;
+} /* [#648,#662] pack_init */
 
 // ##645
 void scanspec(GroupCode c, Boolean threecodes) {
