@@ -45,23 +45,24 @@ Boolean outputactive;
 
 /// [#991] page builder init
 static void _new_cur_page() {
-    // #991
     pagecontents = EMPTY;
     pagetail = pagehead;
-    link(pagehead) = 0;
+    link(pagehead) = null;
     lastglue = MAX_HALF_WORD;
     lastpenalty = 0;
     lastkern = 0;
     pagedepth = 0;
     pagemaxdepth = 0;
-}
+} /* _new_cur_page */
 
-// [#990, #991]
+/// [#990, #991]
 void page_builder_init() {
+    /// [#990]
     outputactive = false;
     insertpenalties = 0;
+    /// [#991]
     _new_cur_page();
-}
+} /* page_builder_init */
 
 /// [#981, #988]
 void page_builder_init_once() {

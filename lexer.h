@@ -264,6 +264,7 @@ extern UChar get_maxinstack();
 
 
 // [#211] semantic
+
 extern void lexer_semantic_init();
 extern void print_mode(Integer m);
 extern void pushnest(void);

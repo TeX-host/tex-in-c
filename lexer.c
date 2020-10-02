@@ -127,7 +127,11 @@ void lexer_semantic_init() {
     modeline = 0;
     prevgraf = 0;
     shown_mode = 0;
-}
+
+    /** [#991] Start a new current page
+     * move to #page_builder_init
+     */
+} /* lexer_semantic_init */
 
 // #211: prints the mode represented by m
 void print_mode(Integer m) {

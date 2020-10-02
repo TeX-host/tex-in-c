@@ -1027,9 +1027,9 @@ Static void initialize(void) {
     /** [p11#21] Set initial values of key variables
      * 
      * ## xref
-     *  [21, 23, 24], [74, 77, 80, 97], 
-     *  [166], 215, 254, 257, 272, 287, 383, 439, 481, 490, 
-     *  521, 551, 556, 593, 596, 606, 648, 662, 685, 771, 928, 990, 
+     *  [21, 23, 24], [74, 77, 80, 97], [166], [215], 
+     *  254, 257, 272, 287, 383, 439, 481, 490, 
+     *  521, 551, 556, 593, 596, 606, 648, 662, 685, 771, 928, [990], 
      *  1033, 1267, 1282, 1300, and 1343.
     */
     charset_init();
@@ -1037,6 +1037,7 @@ Static void initialize(void) {
     mem_var_init();
     lexer_semantic_init();
     page_builder_init();
+
     eqtb_init();
     hash_var_init();
     eqtb_save_init();
