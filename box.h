@@ -6,8 +6,10 @@
  * 
  */
 #define INC_BOX_H
-#include "str.h" // [type] StrNumber
+#include "mem.h" // [var] mem, hi_mem_min; [macro] link, type, subtype
 #include "texmath.h" // [macro] INF_BAD
+#include "str.h" // [type] StrNumber
+#include "tex_types.h" // [type] Integer, Pointer, QuarterWord, Scaled, SmallNumber, HalfWord
 
 /** @addtogroup S133x161_P50x57
  * @{

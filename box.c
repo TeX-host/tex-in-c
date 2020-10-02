@@ -1,6 +1,4 @@
-#include "tex_types.h"
 #include "tex_constant.h"
-#include "mem.h" // [var] mem
 #include "eqtb.h" // glue_par
 #include "box.h"
 
