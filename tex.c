@@ -15,12 +15,73 @@
  *
  */
 
+/// [#4]: this procedure gets things started properly.
+Static void initialize(void) {
+    /** [p11#21] Set initial values of key variables
+     *
+     * ## xref
+     *  [21, 23, 24], [74, 77, 80, 97], [166], [215],
+     *  [254], [257], [272, 287], [383], [439],
+     *  [481], [490], [521], [551, 556], [593, 596, 606],
+     *  [648, 662], [685], [771], [928], [990],
+     *  [1033], [1267, 1282], [1300], [1343].
+     */
+    charset_init();
+    error_init();
+    mem_var_init();
+    lexer_semantic_init();
+
+    eqtb_init();
+    hash_var_init();
+    eqtb_save_init();
+    expand_init();
+    scan_init();
+
+    build_token_init();
+    cond_process_init();
+    fname_init();
+    font_init();
+    dviout_init();
+
+    pack_init();
+    mmode_init();
+    align_init();
+    hyphen_init();
+    page_builder_init();
+
+    main_ctrl_init();
+    mode_indep_init();
+    dump_init();
+    extension_init();
+    /** end block [p11#21] */
+
+/** [p59#164]: Initialize table entries (done by INITEX only).
+ *
+ * ## xref
+ *  [164], [222, 228, 232, 240, 250], [258], [552],
+ *  [946, 951], [1216], [1301], [1369].
+ */
+#ifdef tt_INIT
+    mem_init_once();
+    eqtb_init_once();
+    hash_init_once();
+    fonts_init_once();
+
+    hyphen_init_once();
+    mode_indep_init_once();
+    dump_init_once();
+    extension_init_once();
+#endif // #164: tt_INIT
+} /* [#4]: initialize */
+
 // #1303: call open_fmt@func.c
 Static Boolean open_fmt_file(void) { return open_fmt(&fmtfile); }
 
-// #37: initterminal @lexer.c
 
-// #1333
+/** @addtogroup S1330x1337_P465x469
+ * @{
+ */
+/// [#1333]
 Static void close_files_and_terminate(void) {
     Integer k; // all-purpose index
 
@@ -132,7 +193,7 @@ Static void close_files_and_terminate(void) {
     println();
 } // #1333: void close_files_and_terminate(void)
 
-/// p468#1335: Last-minute procedures
+/// [p468#1335]: Last-minute procedures
 Static void final_cleanup(void) {
     SmallNumber c;
 
@@ -592,65 +653,7 @@ Static void init_prim(void) {
     primitive(S(382), EXTENSION, setlanguagecode); /*:1344*/
 } // #1336: init_prim
 #endif // #1336: tt_INIT
-
-/// [#4]: this procedure gets things started properly.
-Static void initialize(void) {
-    /** [p11#21] Set initial values of key variables
-     * 
-     * ## xref
-     *  [21, 23, 24], [74, 77, 80, 97], [166], [215], 
-     *  [254], [257], [272, 287], [383], [439], 
-     *  [481], [490], [521], [551, 556], [593, 596, 606], 
-     *  [648, 662], [685], [771], [928], [990], 
-     *  [1033], [1267, 1282], [1300], [1343].
-    */
-    charset_init();
-    error_init();
-    mem_var_init();
-    lexer_semantic_init();
-
-    eqtb_init();
-    hash_var_init();
-    eqtb_save_init();
-    expand_init();
-    scan_init();
-
-    build_token_init();
-    cond_process_init();
-    fname_init();
-    font_init();
-    dviout_init();
-
-    pack_init();
-    mmode_init();
-    align_init();
-    hyphen_init();
-    page_builder_init();
-
-    main_ctrl_init();
-    mode_indep_init();
-    dump_init();
-    extension_init();
-    /** end block [p11#21] */
-
-/** [p59#164]: Initialize table entries (done by INITEX only).
- *
- * ## xref
- *  [164], [222, 228, 232, 240, 250], [258], [552], 
- *  [946, 951], [1216], [1301], [1369].
- */
-#ifdef tt_INIT
-    mem_init_once();
-    eqtb_init_once();
-    hash_init_once();
-    fonts_init_once();
-
-    hyphen_init_once();
-    mode_indep_init_once();
-    dump_init_once();
-    extension_init_once();
-#endif // #164: tt_INIT
-} /* [#4]: initialize */
+/** @}*/ // end group S1330x1337_P465x469
 
 
 /* ----------------------------------------------------------------------------
@@ -727,6 +730,10 @@ static void S55_Initialize_the_output_routines(void) {
     output_file_name = 0;
 } // S55_Initialize_the_output_routines
 
+
+/** @addtogroup S1330x1337_P465x469
+ * @{
+ */
 // [p469#1337]: Get the first line of input and prepare to START
 // return has_error?
 static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
@@ -824,6 +831,7 @@ _LN_main__end_of_TEX:
 _LN_main__final_end:
     ready_already = 0;
     exit(EXIT_SUCCESS);
-} // main
+} /* main */
+/** @}*/ // end group S1330x1337_P465x469
 
 /* End. */
