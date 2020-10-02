@@ -180,7 +180,12 @@ enum StyleNodeSubtype {
  * @{
  */
 /// [p267#725]the translation of an mlist
-#define newhlist(x)     mem[nucleus(x)].int_
+#define newhlist(x)         mem[nucleus(x)].int_
+/// [p267#726] label _not_use_
+// #define donewithnoad        80
+// #define donewithnode        81
+// #define checkdimensions     82
+// #define deleteq             83
 /** @}*/ // end group S719x767_P265x284
 
 extern TwoHalves emptyfield;

@@ -8,17 +8,6 @@
 #include "tex_constant.h"
 
 
-
-
-
-
-// [p267#725]
-#define donewithnoad        80
-#define donewithnode        81
-#define checkdimensions     82
-#define deleteq             83
-
-
 // [p384#1030] jmp label
 // #define bigswitch            60
 // #define appendnormalspace    120
