@@ -15,9 +15,6 @@ extern void giveerrhelp(void);
 
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 
-// debug
-extern void printword(MemoryWord w);
-
 // indep
 extern void readtoks(long n, HalfWord r);
 
