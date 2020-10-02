@@ -5,9 +5,10 @@
 #define INC_TEX_HEADER
 
 #include <stdlib.h> // exit, EXIT_SUCCESS
-#include <setjmp.h> // jmp_buf
 
+#include "global_const.h"
 #include "tex.h"
+#include "tex_types.h"
 #include "macros.h"
 
 #include "charset.h"

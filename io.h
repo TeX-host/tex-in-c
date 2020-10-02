@@ -4,6 +4,7 @@
  *
  */
 #define INC_IO_H
+#include <stdio.h> // FILE
 #include "tex_constant.h"
 #include "charset.h" // [var] xord; [type] ASCIICode
 #include "str.h"

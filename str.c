@@ -1,4 +1,3 @@
-#include <stdio.h>  // FILE
 #include <string.h> // memcmp, strlen
 #include "global_const.h"
 #include "tex.h"    // [macro] S

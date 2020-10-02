@@ -2,6 +2,7 @@
 #ifndef INC_DUMP_H
 //
 #define INC_DUMP_H
+#include <stdio.h>     // FILE
 #include "tex_types.h" // [type] Boolean
 
 /** @addtogroup S1299x1329_P455x464

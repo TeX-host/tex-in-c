@@ -1,4 +1,3 @@
-#include <stdio.h>  // FILE
 #include <string.h> // memcpy, strlen, strcpy, strchr, strcmp, strcat, strncmp 
 #include <stdlib.h> // malloc, exit, getenv,
 #include "tex.h"    // [macro] BUF_SIZE, FILE_NAME_SIZE

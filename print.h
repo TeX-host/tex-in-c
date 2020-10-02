@@ -4,6 +4,7 @@
  *
  */
 #define INC_PRINT
+#include <stdio.h>     // FILE
 #include "charset.h"   // [type] ASCIICode
 #include "tex_types.h" // Integer, UChar
 #include "tex.h"       // MAX_PRINT_LINE

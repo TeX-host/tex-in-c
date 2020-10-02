@@ -3,8 +3,6 @@
 // 待整理的常量。应合并到 tex_constant.h
 #define TEX_H
 #include <setjmp.h> // setjmp
-#include "global_const.h"
-#include "tex_types.h"
 #include "tex_constant.h"
 
 

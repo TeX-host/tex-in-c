@@ -7,6 +7,7 @@
  * + @ref S487x510_P181x187 "PART 28: CONDITIONAL PROCESSING"
  */
 #define INC_EXPAND_H
+#include <stdio.h> // FILE
 #include "tex.h" // splitbotmarkcode
 #include "tex_types.h"
 

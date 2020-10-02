@@ -2,6 +2,7 @@
 #ifndef INC_EXTENSION_H
 ///
 #define INC_EXTENSION_H
+#include <stdio.h> // FILE
 #include "lexer.h" // [macro] CS_TOKEN_FLAG
 #include "eqtb.h"  // [macro] END_WRITE
 #include "hyphen.h" // [var] curlang, lhyf, rhyf

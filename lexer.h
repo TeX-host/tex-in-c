@@ -10,7 +10,7 @@
  *  + @ref S332x365_P134x143 "PART 24: GETTING THE NEXT TOKEN"
  */
 #define INC_LEXER_H
-#include <stdio.h>
+#include <stdio.h> // FILE
 #include "tex.h" // [macro] dwa_do_8
 #include "tex_types.h"
 

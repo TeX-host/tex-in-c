@@ -1,4 +1,3 @@
-#include <stdio.h> // FILE, EOF, stderr
 #include "tex.h"   // [type] Boolean, [macro] true, false, BUF_SIZE
     // [var] buffer, last, first, max_buf_stack
     //  _JMP_global__final_end, format_ident, cur_input
