@@ -204,6 +204,12 @@ enum TokenType {
 /** @addtogroup S332x365_P134x143
  *  @{
  */
+/// [p136#341] label _not_use_
+// #define switch_ 25
+// #define startcs 26
+// [p141#358]
+#define noexpandflag    257
+
 /// [p138#352]
 #define ishex(x) \
     ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))

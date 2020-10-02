@@ -8,13 +8,6 @@
 #include "tex_constant.h"
 
 
-// [p136#341]
-#define switch_         25
-#define startcs         26
-
-// [p141#358]
-#define noexpandflag    257
-
 // [p148#382]
 #define topmarkcode         0
 #define firstmarkcode       1
