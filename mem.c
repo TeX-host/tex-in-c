@@ -519,12 +519,14 @@ void mem_init_once() {
     dyn_used = himemstatusage; // initialize statistics
 }
 
-/// [p#95: 166]
+/// [p59#166]
 void mem_var_init() {
-    // indicate that everything was previously free
+#ifdef tt_DEBUG
+    /// indicate that everything was previously free.
     was_mem_end = MEM_MIN;
     was_lo_max = MEM_MIN;
     was_hi_min = MEM_MAX;
     panicking = false;
-}
+#endif // [#166]: tt_DEBUG
+} /* mem_var_init */
 /** @}*/ // end group S162x172_P58x61
