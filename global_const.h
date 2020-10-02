@@ -5,6 +5,9 @@
 #include <assert.h>
 #include <stdio.h> // EOF
 
+/// 使用 TeX82 的参数
+// #define tt_USE_TEX82
+
 /// 取无符号类型的最大值
 #define UMAXOF(t) ((t) ~(t)0)
 
