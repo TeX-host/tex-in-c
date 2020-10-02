@@ -18,6 +18,14 @@
 #include "expand.h"
 
 
+/** @addtogroup S464x486_P174x180
+ * @{
+ */
+/// [#480]
+FILE* readfile[16];
+char readopen[17];
+/** @}*/ // end group S464x486_P174x180
+
 /** @addtogroup S487x510_P181x187
  * @{
  */

@@ -17,7 +17,7 @@
 #include "global.h"
 #include "hyphen.h"
 #include "macros.h"
-#include "expand.h"
+#include "expand.h" // [var] readfile, readopen
 #include "linebreak.h"
 #include "printout.h"
 #include "align.h"

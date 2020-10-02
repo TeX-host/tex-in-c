@@ -80,6 +80,8 @@ enum IfCode {
 #define iflinefield(x)  mem[x + 1].int_
 /** @} */ // end group S487x510_P181x187
 
+extern FILE* readfile[16];
+extern char readopen[17];
 
 extern Pointer condptr;
 // init only

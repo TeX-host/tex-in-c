@@ -69,16 +69,6 @@
  *  404 not found: 39-str*, 50-poolfile,
  */
 
-
-/** @addtogroup S464x486_P174x180
- * [ #464~486: PART 27: BUILDING TOKEN LISTS ]
- * @{
- */
-/// [#480]
-FILE* readfile[16];
-char readopen[17];
-/** @}*/ // end group S464x486_P174x180
-
 jmp_buf _JMP_global__end_of_TEX;
 jmp_buf _JMP_global__final_end;
 
