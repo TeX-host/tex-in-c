@@ -9,7 +9,7 @@
 #include "hash.h"    // [func] fontidtext
 #include "mmode.h"
 #include "io.h" // print_file_name
-#include "extension.h" // [const] opennode, [macro] openname
+#include "extension.h" // [const] opennode, [macro] openname. [func] print_write_whatsit
 #include "box.h"
 
 

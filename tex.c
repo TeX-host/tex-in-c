@@ -20,19 +20,6 @@
 // [Basic printing procedures]
 
 
-/// #1355
-void print_write_whatsit(StrNumber s, Pointer p) {
-    print_esc(s);
-    if (writestream(p) < 16) {
-        print_int(writestream(p));
-    } else if (writestream(p) == 16) {
-        print_char('*');
-    } else { // writestream(p) > 16
-        print_char('-');
-    } // if (writestream(p) <> 16)
-} // #1355: print_write_whatsit
-
-
 // #1284
 void giveerrhelp(void) { tokenshow(errhelp); }
 

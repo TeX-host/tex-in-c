@@ -56,6 +56,7 @@ extern Pointer writeloc;
 extern void extension_init();
 extern void extension_init_once();
 extern void doextension(void);
+extern void print_write_whatsit(StrNumber s, Pointer p);
 extern void fixlanguage(void);
 extern void outwhat(HalfWord p);
 

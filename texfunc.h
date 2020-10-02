@@ -13,9 +13,6 @@ extern HalfWord thetoks(void);
 extern void jumpout(void);
 extern void giveerrhelp(void);
 
-// tex, box
-extern void print_write_whatsit(StrNumber s, Pointer p);
-
 extern HalfWord scantoks(Boolean macrodef, Boolean xpand);
 
 // debug
