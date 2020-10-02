@@ -12,7 +12,7 @@
 #include "texmath.h"
 #include "eqtb.h"
 #include "page.h"
-#include "lexer.h" // [macro] inslist
+#include "lexer.h" // [macro] inslist, [var] partoken
 #include "error.h"
 #include "global.h"
 #include "hyphen.h"

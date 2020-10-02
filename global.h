@@ -10,11 +10,6 @@
 extern jmp_buf _JMP_global__end_of_TEX;
 extern jmp_buf _JMP_global__final_end;
 
-// [tex] 仅在 lexer 中使用
-extern Pointer parloc;
-extern HalfWord partoken;
-extern Boolean force_eof;
-
 extern char readopen[17];
 
 // eqtb

@@ -105,6 +105,18 @@ Integer align_state;
 UChar baseptr;
 /** @}*/ // end group S300x320_P121x130
 
+/** @addtogroup S332x365_P134x143
+ * [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
+ * @{
+ */
+// [#333] location of ‘\par’ in eqtb
+Pointer parloc;
+// [#333] token representing ‘\par’
+HalfWord partoken;
+// [#361] should the next \input be aborted early?
+Boolean force_eof;
+/** @}*/ // end group S332x365_P134x143
+
 
 // 辅助函数
 UChar get_maxinstack() { return maxinstack; }

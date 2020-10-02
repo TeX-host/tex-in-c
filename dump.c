@@ -12,6 +12,7 @@
 #include "str.h"
 #include "macros.h" // [macor] pput. pget
 #include "extension.h"
+#include "lexer.h" // [var] parloc, partoken
 #include "dump.h"
 
 

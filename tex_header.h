@@ -70,19 +70,6 @@
  */
 
 
-/** @addtogroup S332x365_P134x143
- * [ #332~365：PART 24: GETTING THE NEXT TOKEN ]
- * @{
- */
-// [#333] location of ‘\par’ in eqtb
-Pointer parloc;
-// [#333] token representing ‘\par’
-HalfWord partoken;
-// [#361] should the next \input be aborted early?
-Boolean force_eof;
-/** @}*/ // end group S332x365_P134x143
-
-
 /** @addtogroup S464x486_P174x180
  * [ #464~486: PART 27: BUILDING TOKEN LISTS ]
  * @{

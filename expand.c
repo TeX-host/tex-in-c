@@ -3,7 +3,7 @@
 #include "tex.h"
 #include "macros.h" // [macro] help1, help2, help3, help4,
 #include "global.h"
-#include "lexer.h"    // [var] warning_index, [macro] inslist
+#include "lexer.h" // [var] warning_index, partoken, force_eof [macro] inslist
 #include "printout.h" // [func] printcmdchr
 #include "print.h"    // [var] selector
 #include "fonts.h"    // [func] get_fontname, get_fontsize

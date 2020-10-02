@@ -206,6 +206,7 @@ enum TokenType {
 
 /// [#360]: \endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
+
 /** @}*/ // end group S332x365_P134x143
 
 
@@ -236,6 +237,10 @@ extern int paramptr;
 extern Integer maxparamstack;
 extern Integer align_state;
 extern UChar baseptr;
+
+extern Pointer parloc;
+extern HalfWord partoken;
+extern Boolean force_eof;
 
 
 extern void showtokenlist(Integer p, Integer q, Integer l);
