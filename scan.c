@@ -64,11 +64,10 @@ GlueOrd cur_order;
 
 /// [#439]
 void scan_init() {
-    /*439:*/
     cur_val = 0;
     cur_val_level = INT_VAL;
     radix = 0;
-    cur_order = 0;
+    cur_order = NORMAL;
 } /* scan_init */
 
 /// [#406] Get the next non-blank non-call token.

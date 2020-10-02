@@ -27,9 +27,7 @@ FILE* fmtfile = NULL;
 /*:1305*/
 
 /// [#1300]
-void dump_init() {
-    format_ident = 0;
-}
+void dump_init() { format_ident = 0; } /* dump_init */
 
 /// [#1301]
 void dump_init_once() {

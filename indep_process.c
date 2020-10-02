@@ -14,9 +14,11 @@ Static Boolean longhelpseen;
 
 /// [#1267, #1282]
 void mode_indep_init() {
+    /// [#1267]
     aftertoken = 0;
+    /// [#1282]
     longhelpseen = false;
-}
+} /* mode_indep_init */
 
 /// [#1216]
 void mode_indep_init_once() {

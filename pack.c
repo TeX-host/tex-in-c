@@ -32,11 +32,11 @@ Integer packbeginline;
 
 /// [#648,#662]
 void pack_init() {
-    // #648
-    adjusttail = 0;
+    /// [#648]
+    adjusttail = null;
     lastbadness = 0;
 
-    // #662
+    /// [#662]
     packbeginline = 0;
 } /* [#648,#662] pack_init */
 

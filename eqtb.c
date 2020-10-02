@@ -146,7 +146,6 @@ void eqtb_init_once() {
 
 /// [#254]
 void eqtb_init() {
-    /*254:*/
     for (size_t k = INT_BASE; k <= EQTB_SIZE; k++) {
         xeqlevel[k - INT_BASE] = LEVEL_ONE;
     }

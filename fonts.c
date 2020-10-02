@@ -113,16 +113,18 @@ Scaled charkern(InternalFontNumber x, FourQuarters y) {
 
 /// [#551, #556]
 void font_init() {
-    /*551:*/
-    for (int k = 0; k <= FONT_MAX; k++) {
+    /// [#551]
+    for (int k = FONT_BASE; k <= FONT_MAX; k++) {
+        k -= FONT_BASE;
         fontused[k] = false;
     }
-    /*556:*/
+
+    /// [#556]
     nullcharacter.b0 = MIN_QUARTER_WORD;
     nullcharacter.b1 = MIN_QUARTER_WORD;
     nullcharacter.b2 = MIN_QUARTER_WORD;
     nullcharacter.b3 = MIN_QUARTER_WORD;
-}
+} /* font_init */
 
 
 /// [#552]

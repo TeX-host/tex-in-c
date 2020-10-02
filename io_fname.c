@@ -21,8 +21,9 @@ StrNumber curname, curarea, curext;
 /*513:*/
 StrNumber extdelimiter;
 /*:513*/
-/*520:*/
-Char TEXformatdefault[FORMAT_DEFAULT_LENGTH]; /*:520*/
+
+/// [#520] _not_use_
+Char TEXformatdefault[FORMAT_DEFAULT_LENGTH];
 
 /// [#527] is a file name being scanned?
 /// xref: scanfilename, newfont, expand

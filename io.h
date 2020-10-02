@@ -34,10 +34,12 @@
 /** @addtogroup S511x538_P188x195
  * @{
  */
-/// [p190#520] `.fmt`, the extension, as a constant.
+/// [#520] length of the TEX format default string.
+/// +1 for string end `\0`.
 #define FORMAT_DEFAULT_LENGTH   20
 #define formatarealength        11
 #define formatextlength         4
+/// [p190#520] `.fmt`, the extension, as a constant.
 #define formatextension         S(256)
 /** @}*/ // end group S511x538_P188x195
 

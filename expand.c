@@ -63,11 +63,11 @@ Pointer curmark[splitbotmarkcode - topmarkcode + 1];
 
 /// [#383]
 void expand_init() {
-    topmark = 0;
-    firstmark = 0;
-    botmark = 0;
-    splitfirstmark = 0;
-    splitbotmark = 0;
+    topmark = null;
+    firstmark = null;
+    botmark = null;
+    splitfirstmark = null;
+    splitbotmark = null;
 } /* expand_init */
 
 /// [#396] If `longstate == outer_call`, 
@@ -568,7 +568,7 @@ void build_token_init() {
     for (size_t k = 0; k <= 16; k++) {
         readopen[k] = closed;
     }
-}
+} /* build_token_init */
 
 /// [#467] Here’s part of the expand subroutine 
 //// that we are now ready to complete.
@@ -654,7 +654,7 @@ static void convtoks(void) {
  */
 /// [#490]
 void cond_process_init() {
-    condptr = 0;
+    condptr = null;
     iflimit = NORMAL;
     curif = 0;
     ifline = 0;

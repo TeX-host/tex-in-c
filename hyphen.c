@@ -25,14 +25,14 @@ HyphPointer hyphcount;
 /*:926*/
 
 
-/// [#p346#928
+/// [p346#928]
 void hyphen_init() {
     for (size_t z = 0; z <= HYPH_SIZE; z++) {
         hyphword[z] = 0;
-        hyphlist[z] = 0;
+        hyphlist[z] = null;
     }
     hyphcount = 0;
-}
+} /* hyphen_init */
 
 /// [#934] enters new exceptions.
 void newhyphexceptions(void) {

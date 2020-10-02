@@ -21,12 +21,12 @@ FourQuarters nulldelimiter;
 /// [#685]
 void mmode_init() {
     emptyfield.rh = EMPTY;
-    emptyfield.UU.lh = 0;
+    emptyfield.UU.lh = null;
     nulldelimiter.b0 = 0;
     nulldelimiter.b1 = MIN_QUARTER_WORD;
     nulldelimiter.b2 = 0;
     nulldelimiter.b3 = MIN_QUARTER_WORD;
-}
+} /* mmode_init */
 
 // #686
 HalfWord newnoad(void) {

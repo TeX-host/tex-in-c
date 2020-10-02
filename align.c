@@ -30,13 +30,13 @@ Pointer curhead, curtail;
 
 /// [#771]
 void align_init() {
-    alignptr = 0;
-    curalign = 0;
-    curspan = 0;
-    curloop = 0;
-    curhead = 0;
-    curtail = 0;
-}
+    alignptr = null;
+    curalign = null;
+    curspan = null;
+    curloop = null;
+    curhead = null;
+    curtail = null;
+} /* align_init */
 
 long tex_round(double d) { return (long)(floor(d + 0.5)); }
 

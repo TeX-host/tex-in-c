@@ -117,9 +117,9 @@ Integer curs; // current depth of output box nesting, initially −1
  * 
  */
 
-/// [#593, 596, 606] 初始化 dviout 内部变量
+/// [#593, #596, #606] 初始化 dviout 内部变量
 void dviout_init(void) {
-    // #593
+    /// [#593]
     totalpages = 0;
     maxv = 0;
     maxh = 0;
@@ -128,16 +128,18 @@ void dviout_init(void) {
     doingleaders = false;
     deadcycles = 0;
     curs = -1;
-    // #596
+
+    /// [#596]
     half_buf = DVI_BUF_SIZE / 2;
     dvi_limit = DVI_BUF_SIZE;
     dvi_ptr = 0;
     dvi_offset = 0;
     dvigone = 0;
-    // #606
+
+    /// [#606]
     down_ptr = NULL;
     right_ptr = NULL;
-} // dviout_init
+} /* dviout_init */
 
 /// [#597]: The actual output of dvi_buf[a，b] to dvi file.
 static void write_dvi(DVI_Index a, DVI_Index b) {

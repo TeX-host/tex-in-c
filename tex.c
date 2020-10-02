@@ -1028,31 +1028,34 @@ Static void initialize(void) {
      * 
      * ## xref
      *  [21, 23, 24], [74, 77, 80, 97], [166], [215], 
-     *  254, 257, 272, 287, 383, 439, 481, 490, 
-     *  521, 551, 556, 593, 596, 606, 648, 662, 685, 771, 928, [990], 
-     *  1033, 1267, 1282, 1300, and 1343.
+     *  [254], [257], [272, 287], [383], [439], 
+     *  [481], [490], [521], [551, 556], [593, 596, 606], 
+     *  [648, 662], [685], [771], [928], [990], 
+     *  [1033], [1267, 1282], [1300], [1343].
     */
     charset_init();
     error_init();
     mem_var_init();
     lexer_semantic_init();
-    page_builder_init();
 
     eqtb_init();
     hash_var_init();
     eqtb_save_init();
     expand_init();
     scan_init();
+
     build_token_init();
     cond_process_init();
     fname_init();
     font_init();
     dviout_init();
+
     pack_init();
     mmode_init();
     align_init();
     hyphen_init();
-    /* [#990] see upper `page_builder_init` */
+    page_builder_init();
+
     main_ctrl_init();
     mode_indep_init();
     dump_init();

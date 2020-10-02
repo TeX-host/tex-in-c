@@ -31,7 +31,7 @@ void extension_init() {
     for (size_t k = 0; k <= 17; k++) { 
         write_open[k] = false;
     }
-}
+} /* extension_init */
 
 /// [#1369]
 void extension_init_once() {

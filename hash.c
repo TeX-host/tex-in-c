@@ -30,7 +30,7 @@ void hash_var_init() {
     for (size_t k = HASH_BASE + 1; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
         hash[k - HASH_BASE] = hash[0];
     }
-}
+} /* hash_var_init */
 
 /// [#258]
 void hash_init_once() {

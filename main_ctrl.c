@@ -108,7 +108,7 @@ void main_ctrl_init() {
     lfthit = false;
     rthit = false;
     insdisc = false;
-}
+} /* main_ctrl_init */
 
 // [#1030]: governs T E X’s activities
 // xref[17]:
