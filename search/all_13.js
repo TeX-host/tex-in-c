@@ -1,7 +1,7 @@
 var searchData=
 [
   ['s_1655',['S',['../global__const_8h.html#ac4a3ed3432929804c708f7760fb79e28',1,'global_const.h']]],
-  ['s1337_5fget_5fthe_5ffirst_5fline_5fof_5finput_5fand_5fprepare_5fto_5fstart_1656',['S1337_Get_the_first_line_of_input_and_prepare_to_start',['../tex_8c.html#a7ff7e9e3fd33cb14c4301aa146082ac9',1,'tex.c']]],
+  ['s1337_5fget_5fthe_5ffirst_5fline_5fof_5finput_5fand_5fprepare_5fto_5fstart_1656',['S1337_Get_the_first_line_of_input_and_prepare_to_start',['../group___s1330x1337___p465x469.html#ga7ff7e9e3fd33cb14c4301aa146082ac9',1,'tex.c']]],
   ['s14_5fcheck_5fthe_5fconstant_5fvalues_5ffor_5fconsistency_1657',['S14_Check_the_constant_values_for_consistency',['../tex_8c.html#a4dc3df07e126994867b99e738277502c',1,'tex.c']]],
   ['s55_5finitialize_5fthe_5foutput_5froutines_1658',['S55_Initialize_the_output_routines',['../tex_8c.html#ac395383024faed1222135739e5dc2924',1,'tex.c']]],
   ['save_5fsize_1659',['SAVE_SIZE',['../group___s1x16___p3x9.html#ga3ef531cbe1242a15cd087b7542356808',1,'tex_constant.h']]],

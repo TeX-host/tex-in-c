@@ -50,7 +50,7 @@ var modules =
     [ "PART 48: Building math lists", "group___s1136x1207___p417x434.html", "group___s1136x1207___p417x434" ],
     [ "PART 49: Mode-independent processing", "group___s1208x1298___p435x454.html", "group___s1208x1298___p435x454" ],
     [ "PART 50: Dumping and undumping the tables", "group___s1299x1329___p455x464.html", "group___s1299x1329___p455x464" ],
-    [ "PART 51: The main program", "group___s1330x1337___p465x469.html", null ],
+    [ "PART 51: The main program", "group___s1330x1337___p465x469.html", "group___s1330x1337___p465x469" ],
     [ "PART 52: Debugging", "group___s1338x1339___p470x471.html", "group___s1338x1339___p470x471" ],
     [ "PART 53: Extensions", "group___s1340x1379___p472x481.html", "group___s1340x1379___p472x481" ]
 ];

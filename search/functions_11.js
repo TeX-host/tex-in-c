@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['s1337_5fget_5fthe_5ffirst_5fline_5fof_5finput_5fand_5fprepare_5fto_5fstart_2633',['S1337_Get_the_first_line_of_input_and_prepare_to_start',['../tex_8c.html#a7ff7e9e3fd33cb14c4301aa146082ac9',1,'tex.c']]],
+  ['s1337_5fget_5fthe_5ffirst_5fline_5fof_5finput_5fand_5fprepare_5fto_5fstart_2633',['S1337_Get_the_first_line_of_input_and_prepare_to_start',['../group___s1330x1337___p465x469.html#ga7ff7e9e3fd33cb14c4301aa146082ac9',1,'tex.c']]],
   ['s14_5fcheck_5fthe_5fconstant_5fvalues_5ffor_5fconsistency_2634',['S14_Check_the_constant_values_for_consistency',['../tex_8c.html#a4dc3df07e126994867b99e738277502c',1,'tex.c']]],
   ['s55_5finitialize_5fthe_5foutput_5froutines_2635',['S55_Initialize_the_output_routines',['../tex_8c.html#ac395383024faed1222135739e5dc2924',1,'tex.c']]],
   ['saveforafter_2636',['saveforafter',['../group___s268x288___p109x114.html#gaf1bdcb5182e11d7563b4d913f33bdaa9',1,'saveforafter(HalfWord t):&#160;eqtb_save.c'],['../group___s268x288___p109x114.html#gaf1bdcb5182e11d7563b4d913f33bdaa9',1,'saveforafter(HalfWord t):&#160;eqtb_save.c']]],

@@ -4,7 +4,7 @@ var searchData=
   ['f_5fpool_5fhelper_2395',['f_pool_helper',['../str_8c.html#ac559e2ef641248f85885c76f4cbef12f',1,'str.c']]],
   ['fatalerror_2396',['fatalerror',['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;error.c'],['../group___s72x98___p30x37.html#ga68f6ed9ff2ca06742110d0b4339eab4b',1,'fatalerror(StrNumber s):&#160;error.c']]],
   ['fetch_2397',['fetch',['../group___s719x767___p265x284.html#ga3f4160655289128626c81f61884bb18e',1,'math_formula.c']]],
-  ['final_5fcleanup_2398',['final_cleanup',['../tex_8c.html#aefe6d87ea761374ada27cd86842e3da6',1,'tex.c']]],
+  ['final_5fcleanup_2398',['final_cleanup',['../group___s1330x1337___p465x469.html#gaefe6d87ea761374ada27cd86842e3da6',1,'tex.c']]],
   ['finalign_2399',['finalign',['../group___s768x812___p285x301.html#gab913cca5f19aa49b0a6806e93106cd89',1,'align.c']]],
   ['fincol_2400',['fincol',['../group___s768x812___p285x301.html#gab1c55df3dc030fb5f8d27efc16f24b04',1,'fincol(void):&#160;align.c'],['../group___s768x812___p285x301.html#gab1c55df3dc030fb5f8d27efc16f24b04',1,'fincol(void):&#160;align.c']]],
   ['findfontdimen_2401',['findfontdimen',['../group___s539x582___p196x213.html#gaaee833ff1142e547d8014054bbb9a9b4',1,'findfontdimen(Boolean writing):&#160;fonts.c'],['../group___s539x582___p196x213.html#gaaee833ff1142e547d8014054bbb9a9b4',1,'findfontdimen(Boolean writing):&#160;fonts.c']]],

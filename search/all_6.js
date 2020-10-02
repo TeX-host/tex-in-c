@@ -26,7 +26,7 @@ var searchData=
   ['fillglue_584',['fillglue',['../group___s162x172___p58x61.html#ga0c65443f60e183b87ce585080b88f682',1,'mem.h']]],
   ['filll_585',['FILLL',['../group___s133x161___p50x57.html#gga2cad1bc7b42b016cc06580acc3c0be4eacaf4c99a18708a5f1c86de22d56a0953',1,'box.h']]],
   ['filnegglue_586',['filnegglue',['../group___s162x172___p58x61.html#gae7144fd8484172ef526a8e57d6a42b76',1,'mem.h']]],
-  ['final_5fcleanup_587',['final_cleanup',['../tex_8c.html#aefe6d87ea761374ada27cd86842e3da6',1,'tex.c']]],
+  ['final_5fcleanup_587',['final_cleanup',['../group___s1330x1337___p465x469.html#gaefe6d87ea761374ada27cd86842e3da6',1,'tex.c']]],
   ['finalhyphendemerits_588',['finalhyphendemerits',['../group___s220x255___p81x101.html#gacaf8a2d0b01b0dd02d619a8dbe23d9c6',1,'eqtb.h']]],
   ['finalhyphendemeritscode_589',['finalhyphendemeritscode',['../group___s220x255___p81x101.html#gga852dd81f66f39df1acf86bba9146d56da57a685f55f04cd24d18719f2fe37bbf0',1,'eqtb.h']]],
   ['finalign_590',['finalign',['../group___s768x812___p285x301.html#gab913cca5f19aa49b0a6806e93106cd89',1,'align.c']]],

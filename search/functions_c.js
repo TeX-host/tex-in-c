@@ -1,7 +1,7 @@
 var searchData=
 [
   ['macrocall_2487',['macrocall',['../group___s366x401___p144x154.html#gae67eefadc446559f915b60cef8ff73fc',1,'expand.c']]],
-  ['main_2488',['main',['../tex_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'tex.c']]],
+  ['main_2488',['main',['../group___s1330x1337___p465x469.html#ga0ddf1224851353fc92bfbff6f499fa97',1,'tex.c']]],
   ['main_5fcontrol_2489',['main_control',['../group___s1029x1054___p383x394.html#gaee3802a0122ca4b4463626de589fe9af',1,'main_control(void):&#160;main_ctrl.c'],['../group___s1029x1054___p383x394.html#gaee3802a0122ca4b4463626de589fe9af',1,'main_control(void):&#160;main_ctrl.c']]],
   ['main_5fctrl_5finit_2490',['main_ctrl_init',['../group___s1029x1054___p383x394.html#ga4175cec7a50c6ea38eb59a2c7b37fc37',1,'main_ctrl_init():&#160;main_ctrl.c'],['../group___s1029x1054___p383x394.html#ga4175cec7a50c6ea38eb59a2c7b37fc37',1,'main_ctrl_init():&#160;main_ctrl.c']]],
   ['makeaccent_2491',['makeaccent',['../group___s1055x1135___p395x416.html#ga73af5b938a9ef086ac006e237d6e7d7f',1,'build_box.c']]],
