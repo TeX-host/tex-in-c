@@ -3,7 +3,7 @@
 // #include "texmath.h" // [macro] UNITY; [func] print_scaled
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext
-#include "mmode.h"
+#include "mmode.h"   // [const] defaultcode
 #include "io.h" // print_file_name
 #include "extension.h" // [const] opennode, [macro] openname. [func] print_write_whatsit
 #include "box.h"

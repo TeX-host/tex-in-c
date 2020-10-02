@@ -8,8 +8,6 @@
 #include "tex_constant.h"
 
 
-#define defaultcode     1073741824L
-
 #define boxflag         1073741824L
 #define ignoredepth     (-65536000L)
 

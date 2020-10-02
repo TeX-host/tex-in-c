@@ -22,7 +22,7 @@
 #include "printout.h"
 #include "align.h"
 #include "dviout.h"
-#include "mmode.h"
+#include "mmode.h" // [const] defaultcode
 #include "pack.h"
 #include "print.h"
 #include "hash.h"

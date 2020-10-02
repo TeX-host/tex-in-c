@@ -107,6 +107,7 @@ enum StyleNodeSubtype {
 #define largefam(x)     mem[x].qqqq.b2 /* |fam| for ``large'' delimiter}*/
 #define largechar(x)    mem[x].qqqq.b3 /* |character| for ``large'' delimiter}*/
 #define thickness(x)   (mem[nucleus(x)-MEM_MIN].sc) /* |thickness| field in a fraction noad}*/
+#define defaultcode     1073741824L // denotes default_rule_thickness
 #define numerator       supscr /* |numerator| field in a fraction noad}*/
 #define denominator     subscr /* |denominator| field in a fraction noad}*/
 /// [p253#687]
