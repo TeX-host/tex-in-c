@@ -154,20 +154,17 @@ void print_cs(long p) {
 
 /// [#263]: prints a control sequence.
 void sprint_cs(Pointer p) {
-    if (p >= HASH_BASE) {
-        print_esc(text(p));
-        return;
-    }
-    if (p < ACTIVE_BASE) {
-        print(p - ACTIVE_BASE);
-        return;
-    }
-
-    if (p < NULL_CS) {
+    if (p < HASH_BASE) {
+        if (p < SINGLE_BASE) {
+            print(p - ACTIVE_BASE);
+        } else if (p < NULL_CS) {
+            print_esc(p - SINGLE_BASE);
+        } else {
+            print_esc(S(262)); // "csname"
+            print_esc(S(263)); // "endcsname"
+        }
+    } else { // p >= HASH_BASE
         print_esc(p - ACTIVE_BASE);
-    } else {
-        print_esc(S(262)); // "csname"
-        print_esc(S(263)); // "endcsname"
     }
 } /* [#263]: sprint_cs */
 
