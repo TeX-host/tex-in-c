@@ -1,0 +1,23 @@
+% \show name longer than 2; there is a bug.
+\nonstopmode
+\let\a=1
+\show\a
+
+\let\ab=2
+\show\ab
+
+\let\abc=3
+\show\abc
+\end
+
+% (./bug-show.tex
+% > \a=the character 1.
+% l.4 \show\a
+%
+% > \ab=the character 2.
+% l.7 \show\ab
+%
+% > \abc=the character 3.
+% l.10 \show\abc
+%
+%  )
