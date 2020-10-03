@@ -6,7 +6,7 @@
 #include "mem.h" // [macro] link; [func] get_avail, free_node
 #include "box.h" // [macro] font, character, subtype, ligptr, smallnodesize;
     // [func] newligature
-#include "macros.h" // [macro] qi
+#include "global_macros.h" // [macro] qi
 #include "fonts.h" // [type] InternalFontNumber, [macro] NON_CHAR
 #include "eqtb.h" // [macro] language
 #include "charset.h" // [type] ASCIICode

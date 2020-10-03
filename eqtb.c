@@ -1,5 +1,5 @@
 #include <time.h> // tm_struct, time, localtime
-#include "macros.h" // [const] UMAXOF, static_assert
+#include "global_macros.h" // [const] UMAXOF, static_assert
 #include "charset.h" // [macro] NULL_CODE, CARRIAGE_RETURN, INVALID_CODE
 #include "print.h" // MAX_SELECTOR
 #include "hash.h"   // [func] sprint_cs, fontidtext

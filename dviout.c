@@ -3,7 +3,7 @@
 #include <stdlib.h> // malloc, exit, labs, free
 #include "tex_constant.h" // [const] FONT_BASE
 #include "global_const.h"
-#include "macros.h"       // [const] UMAXOF, static_assert
+#include "global_macros.h"       // [const] UMAXOF, static_assert
 
 #include "str.h"
     // [type] StrNumber
