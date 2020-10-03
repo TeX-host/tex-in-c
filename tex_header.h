@@ -6,9 +6,10 @@
 #include <stdlib.h> // exit, EXIT_SUCCESS
 
 #include "global_const.h"
-#include "tex.h"
-#include "tex_types.h"
 #include "tex_constant.h"
+#include "tex_types.h"
+#include "tex.h"
+
 
 #include "charset.h"
 #include "error.h"

@@ -1,6 +1,5 @@
 #include <stdlib.h> // [func] labs
 #include "tex_constant.h" // [const] MIN_QUARTER_WORD
-#include "tex.h"
 #include "texmath.h" // [func] print_scaled, badness
 #include "scan.h"
 #include "eqtb.h"

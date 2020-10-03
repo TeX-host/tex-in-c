@@ -1,7 +1,5 @@
 #include <string.h> // memcmp, strlen
 #include "global_const.h"
-#include "tex.h"    // [macro] S
-    // [type] Boolean, false, MemoryWord, ASCIICode
 #include "macros.h" // [macro] pget, pput
 #include "error.h"   // [func] overflow,
 #include "hash.h"    // [func] idlookup_p

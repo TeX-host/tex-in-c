@@ -1,9 +1,6 @@
 #include <math.h> // floor
 #include <stdio.h>  // FILE
 #include <stdlib.h> // malloc, exit, labs, free
-#include "tex.h"
-    // [type] EightBits, FourQuarters, EightBits, SmallNumber
-    // true
 #include "tex_constant.h" // [const] FONT_BASE
 #include "str.h"
     // [type] StrNumber

@@ -1,5 +1,5 @@
 #include <stdarg.h>    // va_start, va_arg, va_end,
-#include "tex.h"       // [var] _JMP_global__end_of_TEX
+#include "tex.h"       // [label] _JMP_global__end_of_TEX
 #include "charset.h"   // [type] ASCIICode
 #include "print.h"  // term_input
 #include "io.h"     // [func] update_terminal

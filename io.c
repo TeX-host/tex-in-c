@@ -1,4 +1,4 @@
-#include "tex.h"    // _JMP_global__final_end
+#include "tex.h"    // [label] _JMP_global__final_end
 #include "lexer.h"  // [var] cur_input
 #include "error.h"  // [func] overflow,
 #include "dump.h"   // [var] format_ident

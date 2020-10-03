@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "tex.h"
 #include "tex_constant.h" // [const] MEM_MIN
 #include "pack.h"
 #include "mem.h"

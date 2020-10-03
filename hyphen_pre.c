@@ -1,4 +1,3 @@
-#include "tex.h"
 #include "mem.h"
 #include "print.h"
 #include "eqtb.h"

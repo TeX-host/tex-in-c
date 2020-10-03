@@ -1,4 +1,3 @@
-#include "tex.h"
 #include "tex_constant.h" // [enum] CatCode, TexCommandCode, CmdCode, hvSkipDiff
 #include "str.h" // [func] slow_print
 #include "fonts.h" 

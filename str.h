@@ -3,7 +3,7 @@
 // 字符串相关操作
 #define STR_H
 // Need:
-// [type] Boolean@tex.h
+// [type] Boolean@tex_types
 #include <stdio.h> // FILE
 #include <stdint.h> // int_fast32_t
 #include "global_const.h"

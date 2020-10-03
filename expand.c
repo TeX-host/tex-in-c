@@ -1,6 +1,5 @@
 #include <stdlib.h> // [func] labs
 #include "charset.h" // [type] ASCIICode
-#include "tex.h"
 #include "tex_constant.h" // [const] BUF_SIZE, PARAM_SIZE
 // [enum] TexCommandCode, CmdCode
 #include "lexer.h" // [var] warning_index, partoken, force_eof [macro] inslist, noexpandflag

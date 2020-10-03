@@ -1,5 +1,4 @@
 #include <stdlib.h> // [func] labs
-#include "tex.h"
 #include "tex_constant.h" // [const] MEM_MIN, EMPTY, MAX_HALF_WORD
 #include "expand.h" // [macro] STORE_NEW_TOKEN
 #include "lexer.h" // [macro] backlist

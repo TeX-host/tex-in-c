@@ -1,4 +1,3 @@
-#include "tex.h"
 #include "mem.h"
 #include "pack.h"
 #include "print.h"

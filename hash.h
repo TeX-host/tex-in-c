@@ -3,7 +3,6 @@
 //
 #define INC_HASH_H
 #include "charset.h" // [type] ASCIICode
-#include "tex.h"
 #include "str.h"
 #include "fonts.h" // InternalFontNumber
 #include "eqtb.h"  // UNDEFINED_CONTROL_SEQUENCE, HASH_BASE
