@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['abovecode_3626',['abovecode',['../tex_8h.html#afb3ca659053c767e9a62e65383d262f0',1,'tex.h']]],
-  ['atopcode_3627',['atopcode',['../tex_8h.html#a3bfeb6ec317f2b806a93e19ad56f56e5',1,'tex.h']]]
+  ['big_5fcharnode_3615',['BIG_CHARNODE',['../global__macros_8h.html#a41105d8096bbce2f9bcaa58b59499037',1,'global_macros.h']]],
+  ['big_5fnoad_3616',['BIG_NOAD',['../global__macros_8h.html#a171d0cf1db8d76d7f268969f5711374b',1,'global_macros.h']]]
 ];

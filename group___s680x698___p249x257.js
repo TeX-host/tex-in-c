@@ -4,6 +4,7 @@ var group___s680x698___p249x257 =
     [ "accentnoadsize", "group___s680x698___p249x257.html#ga5c21e3afd58c2e0246b82d2d329d1018", null ],
     [ "choicenode", "group___s680x698___p249x257.html#ga43c842d0ce5d7f8a98b256a0ac4ab7b5", null ],
     [ "cramped", "group___s680x698___p249x257.html#ga234ee9d8e03639d7b8fb705cb7387cf2", null ],
+    [ "defaultcode", "group___s680x698___p249x257.html#gaf0133c456ba07df11b57dfb0ace59e4a", null ],
     [ "delimiter", "group___s680x698___p249x257.html#gaabd48b83d8ea7bed681765a9ccadf37a", null ],
     [ "denominator", "group___s680x698___p249x257.html#ga9ebf2ffbbb0672781e791953fa526827", null ],
     [ "displaymlist", "group___s680x698___p249x257.html#ga5ce6b0cac6782279afb1763cf29a6859", null ],

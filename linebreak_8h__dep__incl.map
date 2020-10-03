@@ -1,18 +1,19 @@
 <map id="linebreak.h" name="linebreak.h">
-<area shape="rect" id="node1" title=" " alt="" coords="548,5,648,35"/>
-<area shape="rect" id="node2" href="$hyphen__post_8c.html" title=" " alt="" coords="89,83,216,112"/>
-<area shape="rect" id="node3" href="$hyphen__pre_8c.html" title=" " alt="" coords="240,83,359,112"/>
-<area shape="rect" id="node4" href="$linebreak_8c.html" title=" " alt="" coords="383,83,482,112"/>
-<area shape="rect" id="node5" href="$main__ctrl_8h.html" title=" " alt="" coords="506,83,605,112"/>
-<area shape="rect" id="node12" href="$page__builder_8c.html" title=" " alt="" coords="703,160,829,189"/>
-<area shape="rect" id="node13" href="$tex__header_8h.html" title=" " alt="" coords="854,160,969,189"/>
-<area shape="rect" id="node15" href="$mem_8c.html" title=" " alt="" coords="730,83,799,112"/>
-<area shape="rect" id="node16" href="$pagebreak_8c.html" title=" " alt="" coords="824,83,935,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="485,5,585,35"/>
+<area shape="rect" id="node2" href="$hyphen__post_8c.html" title=" " alt="" coords="69,83,196,112"/>
+<area shape="rect" id="node3" href="$hyphen__pre_8c.html" title=" " alt="" coords="220,83,339,112"/>
+<area shape="rect" id="node4" href="$linebreak_8c.html" title=" " alt="" coords="363,83,462,112"/>
+<area shape="rect" id="node5" href="$main__ctrl_8h.html" title=" " alt="" coords="486,83,585,112"/>
+<area shape="rect" id="node12" href="$page__builder_8c.html" title=" " alt="" coords="953,160,1080,189"/>
+<area shape="rect" id="node16" href="$mem_8c.html" title=" " alt="" coords="659,83,729,112"/>
+<area shape="rect" id="node17" href="$pagebreak_8c.html" title=" " alt="" coords="753,83,864,112"/>
 <area shape="rect" id="node6" href="$align_8c.html" title=" " alt="" coords="5,160,73,189"/>
-<area shape="rect" id="node7" href="$build__box_8c.html" title=" " alt="" coords="149,160,252,189"/>
-<area shape="rect" id="node8" href="$main__ctrl_8c.html" title=" " alt="" coords="218,237,317,267"/>
-<area shape="rect" id="node9" href="$build__math_8c.html" title=" " alt="" coords="277,160,389,189"/>
-<area shape="rect" id="node10" href="$extension_8c.html" title=" " alt="" coords="576,160,679,189"/>
-<area shape="rect" id="node11" href="$indep__process_8c.html" title=" " alt="" coords="413,160,551,189"/>
-<area shape="rect" id="node14" href="$tex_8c.html" title=" " alt="" coords="884,237,939,267"/>
+<area shape="rect" id="node7" href="$build__box_8c.html" title=" " alt="" coords="97,160,200,189"/>
+<area shape="rect" id="node8" href="$main__ctrl_8c.html" title=" " alt="" coords="235,237,334,267"/>
+<area shape="rect" id="node9" href="$build__math_8c.html" title=" " alt="" coords="275,160,387,189"/>
+<area shape="rect" id="node10" href="$extension_8c.html" title=" " alt="" coords="412,160,515,189"/>
+<area shape="rect" id="node11" href="$indep__process_8c.html" title=" " alt="" coords="539,160,678,189"/>
+<area shape="rect" id="node13" href="$printout_8c.html" title=" " alt="" coords="703,160,789,189"/>
+<area shape="rect" id="node14" href="$tex__header_8h.html" title=" " alt="" coords="814,160,929,189"/>
+<area shape="rect" id="node15" href="$tex_8c.html" title=" " alt="" coords="844,237,899,267"/>
 </map>

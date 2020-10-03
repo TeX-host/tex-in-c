@@ -2,7 +2,6 @@ var group___s99x109___p38x41 =
 [
     [ "INC_TEX_MATH", "group___s99x109___p38x41.html#ga4f4558a7d468e4d0cc9a99a8ab21168f", null ],
     [ "INF_BAD", "group___s99x109___p38x41.html#ga539a2643ee8399d71d80da3fff4e2e70", null ],
-    [ "INF_BAD", "group___s99x109___p38x41.html#ga539a2643ee8399d71d80da3fff4e2e70", null ],
     [ "mult_integers", "group___s99x109___p38x41.html#ga760113805e0674644aed3bd4972cb997", null ],
     [ "nx_plus_y", "group___s99x109___p38x41.html#ga660acb7aecae0e7a286c8387d46eac02", null ],
     [ "TWO", "group___s99x109___p38x41.html#ga888e15353eb3d330c743dbdeb47117e2", null ],

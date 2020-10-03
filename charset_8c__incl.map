@@ -1,7 +1,11 @@
 <map id="charset.c" name="charset.c">
-<area shape="rect" id="node1" title=" " alt="" coords="57,5,144,35"/>
-<area shape="rect" id="node2" href="$charset_8h.html" title=" " alt="" coords="57,83,144,112"/>
-<area shape="rect" id="node3" href="$tex__types_8h.html" title=" " alt="" coords="49,160,152,189"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,237,92,267"/>
-<area shape="rect" id="node5" title=" " alt="" coords="116,237,189,267"/>
+<area shape="rect" id="node1" title=" " alt="" coords="187,5,274,35"/>
+<area shape="rect" id="node2" href="$charset_8h.html" title=" " alt="" coords="187,83,274,112"/>
+<area shape="rect" id="node3" href="$global_8h.html" title=" " alt="" coords="192,160,269,189"/>
+<area shape="rect" id="node4" href="$global__macros_8h.html" title=" " alt="" coords="5,237,144,267"/>
+<area shape="rect" id="node6" href="$global__const_8h.html" title=" " alt="" coords="169,237,293,267"/>
+<area shape="rect" id="node7" href="$tex__types_8h.html" title=" " alt="" coords="317,237,419,267"/>
+<area shape="rect" id="node5" title=" " alt="" coords="35,315,114,344"/>
+<area shape="rect" id="node8" title=" " alt="" coords="273,315,359,344"/>
+<area shape="rect" id="node9" title=" " alt="" coords="383,315,457,344"/>
 </map>

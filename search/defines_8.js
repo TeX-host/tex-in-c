@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['justopen_3684',['justopen',['../tex_8h.html#af71c657c952a505abaf4fb815d607449',1,'tex.h']]]
+  ['qi_3655',['qi',['../global__macros_8h.html#abae400e50b69b17da6d81dad32458ca6',1,'global_macros.h']]],
+  ['qo_3656',['qo',['../global__macros_8h.html#ae74924237cddaf371a74a3c4cbaf0a3b',1,'global_macros.h']]]
 ];

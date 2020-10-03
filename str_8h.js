@@ -5,6 +5,7 @@ var str_8h =
     [ "POOL_SIZE", "group___s1x16___p3x9.html#gaa2ac54564b3514084afd2c5dafe9d232", null ],
     [ "POOL_TOP", "group___s38x53___p19x23.html#ga158e9203fe11b0854dfeaaa384dca8a1", null ],
     [ "POOLPOINTER_IS_POINTER", "group___s38x53___p19x23.html#ga3a3e1a47d94c456e975fbae727075c4c", null ],
+    [ "S", "group___s38x53___p19x23.html#gac4a3ed3432929804c708f7760fb79e28", null ],
     [ "STR_H", "str_8h.html#a8652fec210d1ca270182e37e4c2f67da", null ],
     [ "STRING_VACANCIES", "group___s1x16___p3x9.html#ga68c4128ce58b9b87220d89080327aa30", null ],
     [ "PoolPtr", "group___s38x53___p19x23.html#gaa1a7d9c05ade2f46952e99c061943621", null ],

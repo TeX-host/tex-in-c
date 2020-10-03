@@ -1,24 +1,23 @@
 <map id="str.c" name="str.c">
-<area shape="rect" id="node1" title=" " alt="" coords="412,5,463,35"/>
-<area shape="rect" id="node2" title=" " alt="" coords="344,547,414,576"/>
-<area shape="rect" id="node3" title=" " alt="" coords="44,83,119,112"/>
-<area shape="rect" id="node4" href="$global__const_8h.html" title=" " alt="" coords="442,469,566,499"/>
-<area shape="rect" id="node6" href="$tex_8h.html" title=" " alt="" coords="815,160,871,189"/>
-<area shape="rect" id="node12" href="$str_8h.html" title=" " alt="" coords="501,392,553,421"/>
-<area shape="rect" id="node15" href="$macros_8h.html" title=" " alt="" coords="178,237,265,267"/>
-<area shape="rect" id="node16" href="$error_8h.html" title=" " alt="" coords="476,83,544,112"/>
-<area shape="rect" id="node17" href="$hash_8h.html" title=" " alt="" coords="610,83,681,112"/>
-<area shape="rect" id="node20" href="$print_8h.html" title=" " alt="" coords="810,83,876,112"/>
-<area shape="rect" id="node21" href="$io_8h.html" title=" " alt="" coords="572,160,620,189"/>
-<area shape="rect" id="node22" href="$str__pool__init_8h.html" title=" " alt="" coords="901,83,1022,112"/>
-<area shape="rect" id="node5" title=" " alt="" coords="465,547,544,576"/>
-<area shape="rect" id="node7" href="$tex__types_8h.html" title=" " alt="" coords="753,547,856,576"/>
-<area shape="rect" id="node10" href="$tex__constant_8h.html" title=" " alt="" coords="594,237,719,267"/>
-<area shape="rect" id="node8" title=" " alt="" coords="761,624,848,653"/>
-<area shape="rect" id="node9" title=" " alt="" coords="617,624,690,653"/>
-<area shape="rect" id="node11" href="$box_8h.html" title=" " alt="" coords="594,315,655,344"/>
-<area shape="rect" id="node14" href="$texmath_8h.html" title=" " alt="" coords="578,392,668,421"/>
-<area shape="rect" id="node13" href="$charset_8h.html" title=" " alt="" coords="761,469,848,499"/>
-<area shape="rect" id="node18" href="$fonts_8h.html" title=" " alt="" coords="384,160,454,189"/>
-<area shape="rect" id="node19" href="$eqtb_8h.html" title=" " alt="" coords="724,160,791,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="534,5,585,35"/>
+<area shape="rect" id="node2" title=" " alt="" coords="287,83,362,112"/>
+<area shape="rect" id="node3" href="$error_8h.html" title=" " alt="" coords="897,160,965,189"/>
+<area shape="rect" id="node11" href="$str_8h.html" title=" " alt="" coords="575,237,627,267"/>
+<area shape="rect" id="node14" href="$hash_8h.html" title=" " alt="" coords="488,83,559,112"/>
+<area shape="rect" id="node17" href="$dump_8h.html" title=" " alt="" coords="753,237,827,267"/>
+<area shape="rect" id="node19" href="$print_8h.html" title=" " alt="" coords="149,160,215,189"/>
+<area shape="rect" id="node20" href="$io_8h.html" title=" " alt="" coords="419,160,467,189"/>
+<area shape="rect" id="node21" href="$str__pool__init_8h.html" title=" " alt="" coords="829,83,951,112"/>
+<area shape="rect" id="node4" href="$global_8h.html" title=" " alt="" coords="651,392,729,421"/>
+<area shape="rect" id="node5" href="$global__macros_8h.html" title=" " alt="" coords="817,469,955,499"/>
+<area shape="rect" id="node7" href="$global__const_8h.html" title=" " alt="" coords="541,469,665,499"/>
+<area shape="rect" id="node8" href="$tex__types_8h.html" title=" " alt="" coords="689,469,792,499"/>
+<area shape="rect" id="node6" title=" " alt="" coords="847,547,925,576"/>
+<area shape="rect" id="node9" title=" " alt="" coords="697,547,784,576"/>
+<area shape="rect" id="node10" title=" " alt="" coords="533,547,607,576"/>
+<area shape="rect" id="node12" title=" " alt="" coords="558,315,627,344"/>
+<area shape="rect" id="node13" href="$charset_8h.html" title=" " alt="" coords="311,315,397,344"/>
+<area shape="rect" id="node15" href="$fonts_8h.html" title=" " alt="" coords="634,160,703,189"/>
+<area shape="rect" id="node18" href="$eqtb_8h.html" title=" " alt="" coords="27,237,94,267"/>
+<area shape="rect" id="node16" href="$tex__constant_8h.html" title=" " alt="" coords="145,315,270,344"/>
 </map>

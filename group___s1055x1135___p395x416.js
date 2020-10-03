@@ -1,5 +1,13 @@
 var group___s1055x1135___p395x416 =
 [
+    [ "boxcode", "group___s1055x1135___p395x416.html#ga911e098bc55f7edda76d922de522b5ac", null ],
+    [ "boxflag", "group___s1055x1135___p395x416.html#ga77ea41d34ccb6d9fca4f33cfe6b7c303", null ],
+    [ "copycode", "group___s1055x1135___p395x416.html#ga9c631be846c1d9bdf04d21ca97051c45", null ],
+    [ "lastboxcode", "group___s1055x1135___p395x416.html#ga1ced34a251b4f96c7eaaa6f4f99d61c2", null ],
+    [ "leaderflag", "group___s1055x1135___p395x416.html#ga1dc05c079bda7d103ca1cd19e36753b3", null ],
+    [ "shipoutflag", "group___s1055x1135___p395x416.html#ga8cb0a1c482b904093521f34322054084", null ],
+    [ "vsplitcode", "group___s1055x1135___p395x416.html#ga9ace444c4ad95253e5d9b6f03c201531", null ],
+    [ "vtopcode", "group___s1055x1135___p395x416.html#gafcfa812930eb791c865ac881403662fe", null ],
     [ "alignerror", "group___s1055x1135___p395x416.html#ga96f36a6afe751cbfd07b095782045b7d", null ],
     [ "appenddiscretionary", "group___s1055x1135___p395x416.html#gab72cb4f585d452f1586ddc819a11a373", null ],
     [ "appendglue", "group___s1055x1135___p395x416.html#gac2d4cd53223f578f84f88274403f30a1", null ],

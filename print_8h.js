@@ -1,7 +1,6 @@
 var print_8h =
 [
     [ "INC_PRINT", "print_8h.html#a2ed6900a702f3615d9bd56e9dadbbbcc", null ],
-    [ "Str", "print_8h.html#ac7539ac92592b93c069bfbc1ce37ae4a", null ],
     [ "Selector", "group___s54x71___p24x29.html#ga4da995632f9196a87e0f5a39a55fe0a8", [
       [ "NO_PRINT", "group___s54x71___p24x29.html#gga4da995632f9196a87e0f5a39a55fe0a8a811008a9866377aa10643ae72ec144da", null ],
       [ "TERM_ONLY", "group___s54x71___p24x29.html#gga4da995632f9196a87e0f5a39a55fe0a8a9f5e6f38c6f12f7abf85be3a507c8477", null ],

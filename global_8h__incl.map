@@ -1,8 +1,9 @@
 <map id="global.h" name="global.h">
-<area shape="rect" id="node1" title=" " alt="" coords="101,5,179,35"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,83,75,112"/>
-<area shape="rect" id="node3" title=" " alt="" coords="99,83,181,112"/>
-<area shape="rect" id="node4" href="$tex__types_8h.html" title=" " alt="" coords="206,83,309,112"/>
-<area shape="rect" id="node5" title=" " alt="" coords="162,160,249,189"/>
-<area shape="rect" id="node6" title=" " alt="" coords="273,160,346,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="192,5,269,35"/>
+<area shape="rect" id="node2" href="$global__macros_8h.html" title=" " alt="" coords="5,83,144,112"/>
+<area shape="rect" id="node4" href="$global__const_8h.html" title=" " alt="" coords="169,83,293,112"/>
+<area shape="rect" id="node5" href="$tex__types_8h.html" title=" " alt="" coords="317,83,419,112"/>
+<area shape="rect" id="node3" title=" " alt="" coords="35,160,114,189"/>
+<area shape="rect" id="node6" title=" " alt="" coords="273,160,359,189"/>
+<area shape="rect" id="node7" title=" " alt="" coords="383,160,457,189"/>
 </map>

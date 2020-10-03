@@ -1,6 +1,5 @@
 var texmath_8c =
 [
-    [ "INF_BAD", "group___s99x109___p38x41.html#ga539a2643ee8399d71d80da3fff4e2e70", null ],
     [ "badness", "group___s99x109___p38x41.html#gadb0743119eba9fc49e4f03b586ae1bf7", null ],
     [ "half", "group___s99x109___p38x41.html#ga6c2ac4c8f4613a28ebc7b86cc561293d", null ],
     [ "mult_and_add", "group___s99x109___p38x41.html#gadea6ca6cc579592807c52802b8820c39", null ],

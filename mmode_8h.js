@@ -11,6 +11,7 @@ var mmode_8h =
     [ "choicenode", "group___s680x698___p249x257.html#ga43c842d0ce5d7f8a98b256a0ac4ab7b5", null ],
     [ "cramped", "group___s680x698___p249x257.html#ga234ee9d8e03639d7b8fb705cb7387cf2", null ],
     [ "crampedstyle", "group___s699x718___p258x264.html#ga20966c7d58dd8d489edc43a6d25531f8", null ],
+    [ "defaultcode", "group___s680x698___p249x257.html#gaf0133c456ba07df11b57dfb0ace59e4a", null ],
     [ "defaultrulethickness", "group___s699x718___p258x264.html#ga8d0ea456ea8670475faca7c60d5c9987", null ],
     [ "delim1", "group___s699x718___p258x264.html#ga6f4636f53a9a6adc9696f8583fe25f6d", null ],
     [ "delim2", "group___s699x718___p258x264.html#ga7c93e25a51f0602c03efd740b25d843c", null ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TeX in C: macros.h 源文件</title>
+<title>TeX in C: global_macros.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-$(document).ready(function(){initNavTree('macros_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('global__macros_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -90,27 +90,32 @@ $(document).ready(function(){initNavTree('macros_8h_source.html',''); initResiza
 
 <div class="header">
   <div class="headertitle">
-<div class="title">macros.h</div>  </div>
+<div class="title">global_macros.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="macros_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<a href="global__macros_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef MACROS_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define MACROS_H</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// fonts, str, tex</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="macros_8h.html#aeab5df1e30bdc8ca08e6b9b3450db0a4">    7</a></span>&#160;<span class="preprocessor">#define pget(x) fread(&amp;x, 8, 1, fmtfile)</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="macros_8h.html#aedd65168720a93139164bccf7ab1ad9e">    8</a></span>&#160;<span class="preprocessor">#define pput(x) fwrite(&amp;x, 8, 1, fmtfile)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="macros_8h.html#abae400e50b69b17da6d81dad32458ca6">   11</a></span>&#160;<span class="preprocessor">#define qi(x) (x)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="macros_8h.html#ae74924237cddaf371a74a3c4cbaf0a3b">   12</a></span>&#160;<span class="preprocessor">#define qo(x) (x)</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#endif // #ifndef MACROS_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;assert.h&gt;</span> <span class="comment">// static_assert</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="global__macros_8h.html#a0b214f24d057045ee6b4f4b664f4fc1e">    9</a></span>&#160;<span class="preprocessor">#define UMAXOF(t) ((t) ~(t)0)</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="global__macros_8h.html#a2a4899201bee368bebee21be9daa02aa">   11</a></span>&#160;<span class="preprocessor">#define charnodetype 0xfff</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#undef BIG_CHARNODE</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="global__macros_8h.html#a41105d8096bbce2f9bcaa58b59499037">   13</a></span>&#160;<span class="preprocessor">#define BIG_CHARNODE</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="global__macros_8h.html#a171d0cf1db8d76d7f268969f5711374b">   14</a></span>&#160;<span class="preprocessor">#define BIG_NOAD</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="global__macros_8h.html#abae400e50b69b17da6d81dad32458ca6">   17</a></span>&#160;<span class="preprocessor">#define qi(x) (x)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="global__macros_8h.html#ae74924237cddaf371a74a3c4cbaf0a3b">   18</a></span>&#160;<span class="preprocessor">#define qo(x) (x)</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif // #ifndef MACROS_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="macros_8h.html">macros.h</a></li>
+    <li class="navelem"><a class="el" href="global__macros_8h.html">global_macros.h</a></li>
     <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>

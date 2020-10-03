@@ -1,5 +1,7 @@
 var group___s464x486___p174x180 =
 [
+    [ "closed", "group___s464x486___p174x180.html#ga8ba70cf67f46523d1c764c9e61e83ca7", null ],
+    [ "justopen", "group___s464x486___p174x180.html#gaf71c657c952a505abaf4fb815d607449", null ],
     [ "build_token_init", "group___s464x486___p174x180.html#gaf143c3af76972a1de324a6f99ec9a083", null ],
     [ "convtoks", "group___s464x486___p174x180.html#gadb0765dfd784b93097c4a85e56f6fd7c", null ],
     [ "insthetoks", "group___s464x486___p174x180.html#ga9282cdd7774771a5c89c3e7766fba959", null ],

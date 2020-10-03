@@ -1,27 +1,6 @@
 var searchData=
 [
-  ['ignoredepth_3660',['ignoredepth',['../tex_8h.html#a839ef7fcc3e9063517d03ed29cff575a',1,'tex.h']]],
-  ['inc_5falgin_5fh_3661',['INC_ALGIN_H',['../align_8h.html#a4f93f6e812f00b0f46e7101ef9c93b4c',1,'align.h']]],
-  ['inc_5fbox_5fh_3662',['INC_BOX_H',['../box_8h.html#aabcb03122c3b4422de03679cb42cf4d1',1,'box.h']]],
-  ['inc_5fcharset_5fh_3663',['INC_CHARSET_H',['../charset_8h.html#ad25d2bbffc241336a33437b829e5ff45',1,'charset.h']]],
-  ['inc_5fdebug_5fh_3664',['INC_DEBUG_H',['../debug_8h.html#a0e76c1a9fee860b65bdf67ba6ceedbb5',1,'debug.h']]],
-  ['inc_5fdump_5fh_3665',['INC_DUMP_H',['../dump_8h.html#a265c9c3cdba93ee9e371c5f6ad9961c9',1,'dump.h']]],
-  ['inc_5fdvi_5fcmd_3666',['INC_DVI_CMD',['../dvicmd_8h.html#aa96878bf1df9954108593773186c6b4d',1,'dvicmd.h']]],
-  ['inc_5feqtb_5fh_3667',['INC_EQTB_H',['../eqtb_8h.html#aa44aedcf160e556637c2655f6ea7cb2d',1,'eqtb.h']]],
-  ['inc_5ferror_5fh_3668',['INC_ERROR_H',['../error_8h.html#a0e8dc41bcb8d50d4ce2e0e26eb7c2ece',1,'error.h']]],
-  ['inc_5fexpand_5fh_3669',['INC_EXPAND_H',['../expand_8h.html#aacc74ac4de15bf8e8bdbb4ef1ef1a612',1,'expand.h']]],
-  ['inc_5fextension_5fh_3670',['INC_EXTENSION_H',['../extension_8h.html#aeabdb6e98fb2f32983ef3541d64a1fc4',1,'extension.h']]],
-  ['inc_5fhash_5fh_3671',['INC_HASH_H',['../hash_8h.html#af9e9a267fe2a59c53913d30cc846147a',1,'hash.h']]],
-  ['inc_5fhyphen_5fh_3672',['INC_HYPHEN_H',['../hyphen_8h.html#ac4a775b6eed8db25aeeee2e477a6e1bf',1,'hyphen.h']]],
-  ['inc_5fio_5fh_3673',['INC_IO_H',['../io_8h.html#aa23f2eda25b1304fee2bc32d88e7b76a',1,'io.h']]],
-  ['inc_5flexer_5fh_3674',['INC_LEXER_H',['../lexer_8h.html#a240d9bae7cfe29496bea6c78c598d26f',1,'lexer.h']]],
-  ['inc_5flinebreak_5fh_3675',['INC_LINEBREAK_H',['../linebreak_8h.html#aea3bc2abb3a9734721cfe8c883ea9e7b',1,'linebreak.h']]],
-  ['inc_5fmmode_5fh_3676',['INC_MMODE_H',['../mmode_8h.html#af01fd8f33b7615b4b752dd66546640e6',1,'mmode.h']]],
-  ['inc_5fpack_5fh_3677',['INC_PACK_H',['../pack_8h.html#a6f21e0e35c7ced0bccce1c659dedb98f',1,'pack.h']]],
-  ['inc_5fpage_5fh_3678',['INC_PAGE_H',['../page_8h.html#aeef7b19c89f7983d87d990bc50cc19d4',1,'page.h']]],
-  ['inc_5fprint_3679',['INC_PRINT',['../print_8h.html#a2ed6900a702f3615d9bd56e9dadbbbcc',1,'print.h']]],
-  ['inc_5fscan_5fh_3680',['INC_SCAN_H',['../scan_8h.html#a53b375822b230d0de3f45cf15ae59d55',1,'scan.h']]],
-  ['inc_5ftex_5fconstant_3681',['INC_TEX_CONSTANT',['../tex__constant_8h.html#a52e828f14a4521cf0c92fd9c848d162b',1,'tex_constant.h']]],
-  ['inc_5ftex_5fheader_3682',['INC_TEX_HEADER',['../tex__header_8h.html#af56fcbe0488de1936c6c57094321899f',1,'tex_header.h']]],
-  ['inc_5ftex_5ftypes_3683',['INC_TEX_TYPES',['../tex__types_8h.html#aed14a6c2a0bd00ce3c078900cd800eb2',1,'tex_types.h']]]
+  ['p_5fclrbits_5fb_3652',['P_clrbits_B',['../mem_8h.html#a68181d3fe901f7aafc5fbda791f1a23a',1,'mem.h']]],
+  ['p_5fgetbits_5fub_3653',['P_getbits_UB',['../mem_8h.html#a9f5c1a9cea61b9827f34376862bdb40b',1,'mem.h']]],
+  ['p_5fputbits_5fub_3654',['P_putbits_UB',['../mem_8h.html#a7d0e78555fbdc203da62e204de5c4dfd',1,'mem.h']]]
 ];

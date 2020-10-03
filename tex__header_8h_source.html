@@ -95,79 +95,49 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="contents">
 <a href="tex__header_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_TEX_HEADER</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// 存放 tex.c 的头部。</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// 导入库、其他模块，声明 tex.c 的内部静态变量</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="tex__header_8h.html#af56fcbe0488de1936c6c57094321899f">    5</a></span>&#160;<span class="preprocessor">#define INC_TEX_HEADER</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span>  <span class="comment">// FILE</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span> <span class="comment">// labs, abs, exit, EXIT_SUCCESS</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span> <span class="comment">// memcpy</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;setjmp.h&gt;</span> <span class="comment">// jmp_buf</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span>   <span class="comment">// fabs</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define INC_TEX_HEADER</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span> <span class="comment">// exit, EXIT_SUCCESS</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex__constant_8h.html">tex_constant.h</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex_8h.html">tex.h</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global__const_8h.html">global_const.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="charset_8h.html">charset.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="texmath_8h.html">texmath.h</a>&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="tex_8h.html">tex.h</a>&quot;</span> <span class="comment">// [export]</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="str_8h.html">str.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="macros_8h.html">macros.h</a>&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="printout_8h.html">printout.h</a>&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dviout_8h.html">dviout.h</a>&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="print_8h.html">print.h</a>&quot;</span>      <span class="comment">// 打印函数 term_input</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// 模块导入</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span>      <span class="comment">// lexer</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="expand_8h.html">expand.h</a>&quot;</span>     <span class="comment">// [macro] STORE_NEW_TOKEN</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scan_8h.html">scan.h</a>&quot;</span>       <span class="comment">// scan mod;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="error_8h.html">error.h</a>&quot;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// [func] normalize_selector, succumb, fatalerror,</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">// overflow, confusion, print_err,</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// [macro] checkinterrupt,</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hash_8h.html">hash.h</a>&quot;</span>       <span class="comment">// [func] sprint_cs</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="box_8h.html">box.h</a>&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="io_8h.html">io.h</a>&quot;</span> <span class="comment">// [func] inputln</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pack_8h.html">pack.h</a>&quot;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mmode_8h.html">mmode.h</a>&quot;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="align_8h.html">align.h</a>&quot;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="linebreak_8h.html">linebreak.h</a>&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hyphen_8h.html">hyphen.h</a>&quot;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="page_8h.html">page.h</a>&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="main__ctrl_8h.html">main_ctrl.h</a>&quot;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dump_8h.html">dump.h</a>&quot;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="extension_8h.html">extension.h</a>&quot;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * [ #13: Global variables ]</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * 真正的 global 放在 global.h 中。</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * 以下变量一般为 tex.h 中的全局变量。</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * 已更改为函数内局部变量的用 [00] 标出。</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> * 共 97 个</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> *  [13],  20,  26,  30,  32, [39], [50],  54,  73,  76,</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> *   79,  96, 104, 115, 116, 117, 118, 124, 165, 173,</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> *  181, 213, 246, 253, 256, 271, 286, 297, 301, 304,</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> *  305, 308, 309, 310, 333, 361, 382, 387, 388, 410,</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *  438, 447, 480, 489, 493, 512, 513, 520, 527, 532,</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> *  539, 549, 550, 555, 592, 595, 605, 616, 646, 647,</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> *  661, 684, 719, 724, 764, 770, 814, 821, 823, 825,</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> *  828, 833, 839, 847, 872, 892, 900, 905, 907, 921,</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> *  926, 943, 947, 950, 971, 980, 982, 989, 1032, 1074,</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> *  1266, 1281, 1299, 1305, 1331, 1342, 1345</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * Notes:</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> *  locals: 13-bad,</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> *  404 not found: 39-str*, 50-poolfile,</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">   72</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a1418d3425674966942988251611e7822">   73</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif // INC_TEX_HEADER</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="charset_8h.html">charset.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="error_8h.html">error.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// [func] normalize_selector, succumb, fatalerror,</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// overflow, confusion, print_err,</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">// [macro] checkinterrupt,</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span>      <span class="comment">// lexer</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hash_8h.html">hash.h</a>&quot;</span>       <span class="comment">// [func] sprint_cs</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="expand_8h.html">expand.h</a>&quot;</span>     <span class="comment">// [macro] STORE_NEW_TOKEN</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scan_8h.html">scan.h</a>&quot;</span>       <span class="comment">// scan mod;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="io_8h.html">io.h</a>&quot;</span> <span class="comment">// [func] inputln</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dviout_8h.html">dviout.h</a>&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pack_8h.html">pack.h</a>&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mmode_8h.html">mmode.h</a>&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="align_8h.html">align.h</a>&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="hyphen_8h.html">hyphen.h</a>&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="page_8h.html">page.h</a>&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="main__ctrl_8h.html">main_ctrl.h</a>&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="dump_8h.html">dump.h</a>&quot;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="extension_8h.html">extension.h</a>&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="str_8h.html">str.h</a>&quot;</span> <span class="comment">// [func] get_strings_started</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="box_8h.html">box.h</a>&quot;</span> <span class="comment">// [macro] subtype, widthoffset; [func] delete_token_ref</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">   45</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="tex__header_8h.html#a1418d3425674966942988251611e7822">   47</a></span>&#160;jmp_buf <a class="code" href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif // INC_TEX_HEADER</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aglobal_8h_html"><div class="ttname"><a href="global_8h.html">global.h</a></div></div>
@@ -176,14 +146,13 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="ttc" id="aalign_8h_html"><div class="ttname"><a href="align_8h.html">align.h</a></div></div>
 <div class="ttc" id="apack_8h_html"><div class="ttname"><a href="pack_8h.html">pack.h</a></div></div>
 <div class="ttc" id="adump_8h_html"><div class="ttname"><a href="dump_8h.html">dump.h</a></div></div>
-<div class="ttc" id="amacros_8h_html"><div class="ttname"><a href="macros_8h.html">macros.h</a></div></div>
-<div class="ttc" id="atex__header_8h_html_a1418d3425674966942988251611e7822"><div class="ttname"><a href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a></div><div class="ttdeci">jmp_buf _JMP_global__final_end</div><div class="ttdef"><b>Definition:</b> tex_header.h:73</div></div>
+<div class="ttc" id="atex__header_8h_html_a1418d3425674966942988251611e7822"><div class="ttname"><a href="tex__header_8h.html#a1418d3425674966942988251611e7822">_JMP_global__final_end</a></div><div class="ttdeci">jmp_buf _JMP_global__final_end</div><div class="ttdoc">[#1332] long jmp label</div><div class="ttdef"><b>Definition:</b> tex_header.h:47</div></div>
 <div class="ttc" id="abox_8h_html"><div class="ttname"><a href="box_8h.html">box.h</a></div></div>
 <div class="ttc" id="adviout_8h_html"><div class="ttname"><a href="dviout_8h.html">dviout.h</a></div></div>
 <div class="ttc" id="aextension_8h_html"><div class="ttname"><a href="extension_8h.html">extension.h</a></div></div>
 <div class="ttc" id="aerror_8h_html"><div class="ttname"><a href="error_8h.html">error.h</a></div></div>
-<div class="ttc" id="atex__header_8h_html_a7c20a1017be9fbd5980ab188a3c2e615"><div class="ttname"><a href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a></div><div class="ttdeci">jmp_buf _JMP_global__end_of_TEX</div><div class="ttdef"><b>Definition:</b> tex_header.h:72</div></div>
-<div class="ttc" id="aprint_8h_html"><div class="ttname"><a href="print_8h.html">print.h</a></div></div>
+<div class="ttc" id="atex__header_8h_html_a7c20a1017be9fbd5980ab188a3c2e615"><div class="ttname"><a href="tex__header_8h.html#a7c20a1017be9fbd5980ab188a3c2e615">_JMP_global__end_of_TEX</a></div><div class="ttdeci">jmp_buf _JMP_global__end_of_TEX</div><div class="ttdoc">[#1332] long jmp label</div><div class="ttdef"><b>Definition:</b> tex_header.h:45</div></div>
+<div class="ttc" id="atex__constant_8h_html"><div class="ttname"><a href="tex__constant_8h.html">tex_constant.h</a></div></div>
 <div class="ttc" id="ammode_8h_html"><div class="ttname"><a href="mmode_8h.html">mmode.h</a></div></div>
 <div class="ttc" id="aexpand_8h_html"><div class="ttname"><a href="expand_8h.html">expand.h</a></div></div>
 <div class="ttc" id="amain__ctrl_8h_html"><div class="ttname"><a href="main__ctrl_8h.html">main_ctrl.h</a></div></div>
@@ -192,15 +161,11 @@ $(document).ready(function(){initNavTree('tex__header_8h_source.html',''); initR
 <div class="ttc" id="apage_8h_html"><div class="ttname"><a href="page_8h.html">page.h</a></div></div>
 <div class="ttc" id="atex_8h_html"><div class="ttname"><a href="tex_8h.html">tex.h</a></div></div>
 <div class="ttc" id="ahyphen_8h_html"><div class="ttname"><a href="hyphen_8h.html">hyphen.h</a></div></div>
-<div class="ttc" id="atexmath_8h_html"><div class="ttname"><a href="texmath_8h.html">texmath.h</a></div></div>
 <div class="ttc" id="aio_8h_html"><div class="ttname"><a href="io_8h.html">io.h</a></div></div>
 <div class="ttc" id="aeqtb_8h_html"><div class="ttname"><a href="eqtb_8h.html">eqtb.h</a></div></div>
-<div class="ttc" id="aprintout_8h_html"><div class="ttname"><a href="printout_8h.html">printout.h</a></div></div>
 <div class="ttc" id="ahash_8h_html"><div class="ttname"><a href="hash_8h.html">hash.h</a></div></div>
 <div class="ttc" id="afonts_8h_html"><div class="ttname"><a href="fonts_8h.html">fonts.h</a></div></div>
 <div class="ttc" id="amem_8h_html"><div class="ttname"><a href="mem_8h.html">mem.h</a></div></div>
-<div class="ttc" id="alinebreak_8h_html"><div class="ttname"><a href="linebreak_8h.html">linebreak.h</a></div></div>
-<div class="ttc" id="aglobal__const_8h_html"><div class="ttname"><a href="global__const_8h.html">global_const.h</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

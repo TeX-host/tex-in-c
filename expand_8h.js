@@ -1,15 +1,22 @@
 var expand_8h =
 [
     [ "botmark", "group___s366x401___p144x154.html#gaa7fcff3e8068cc87b18345537502f8a6", null ],
+    [ "botmarkcode", "group___s366x401___p144x154.html#gafb337b92dde146ae5c4a9cc84693628b", null ],
+    [ "closed", "group___s464x486___p174x180.html#ga8ba70cf67f46523d1c764c9e61e83ca7", null ],
     [ "FAST_STORE_NEW_TOKEN", "group___s366x401___p144x154.html#gaaaeb0aae883995b2f24c20b28b2854af", null ],
     [ "firstmark", "group___s366x401___p144x154.html#gaf462a18e778513582bdde4a4319c884d", null ],
+    [ "firstmarkcode", "group___s366x401___p144x154.html#ga63bbf69ce0b4767b16a7fc0c5448427a", null ],
     [ "iflinefield", "group___s487x510___p181x187.html#gafc29d464b8a8b2e609b3d35c46596b1b", null ],
     [ "ifnodesize", "group___s487x510___p181x187.html#gad8a7335e64893bdaaf5bbda1ac29b89a", null ],
     [ "INC_EXPAND_H", "expand_8h.html#aacc74ac4de15bf8e8bdbb4ef1ef1a612", null ],
+    [ "justopen", "group___s464x486___p174x180.html#gaf71c657c952a505abaf4fb815d607449", null ],
     [ "splitbotmark", "group___s366x401___p144x154.html#ga17735f096c1af0249726fdf9ef50bfbd", null ],
+    [ "splitbotmarkcode", "group___s366x401___p144x154.html#gaf79d3b9fcef12ef630bb300c2835b2ed", null ],
     [ "splitfirstmark", "group___s366x401___p144x154.html#ga176c2e200736a385304d732887c37bd6", null ],
+    [ "splitfirstmarkcode", "group___s366x401___p144x154.html#gad29385fea6041c522ac27534e4f3ae03", null ],
     [ "STORE_NEW_TOKEN", "group___s366x401___p144x154.html#ga130cf00e6f6bdf658188a11e7d889e87", null ],
     [ "topmark", "group___s366x401___p144x154.html#gaee77b5b570c5ca3dcc4134ff7f7534c3", null ],
+    [ "topmarkcode", "group___s366x401___p144x154.html#ga3ed37caad9012173d6435e90982ad16c", null ],
     [ "ConditionPrimitives", "group___s487x510___p181x187.html#ga3dbefe2dcd01e7607e10d1b9219543a7", [
       [ "IF_CHAR_CODE", "group___s487x510___p181x187.html#gga3dbefe2dcd01e7607e10d1b9219543a7aef7d4afba70c04f7374bf715bc7a7ead", null ],
       [ "IF_CAT_CODE", "group___s487x510___p181x187.html#gga3dbefe2dcd01e7607e10d1b9219543a7ab3ae3b0711d849e17bad7448372b945e", null ],

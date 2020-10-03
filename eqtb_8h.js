@@ -341,5 +341,6 @@ var eqtb_8h =
     [ "maxsavestack", "group___s268x288___p109x114.html#ga4123f67a7f03729fa8ef092f1a1cb34e", null ],
     [ "saveptr", "group___s268x288___p109x114.html#ga3d861a882da9c9a12db008cbbb69dc89", null ],
     [ "savestack", "group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2", null ],
+    [ "use_independence_date", "group___s220x255___p81x101.html#gaded2829a9552aa2804634cb3a9a2b673", null ],
     [ "xeqlevel", "group___s220x255___p81x101.html#ga64139cecb0bee7b98111c5ddc698bdcc", null ]
 ];
