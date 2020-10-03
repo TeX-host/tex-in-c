@@ -33,6 +33,17 @@
 /// [50#134] the character code in a `charnode`.
 #define character(x)    subtype(x)
 
+#ifdef BIG_CHARNODE
+#define CHAR_NODE_SIZE 2
+#define font_ligchar(x) type(ligchar(x))
+#define character_ligchar(x) subtype(ligchar(x))
+#else
+#define CHAR_NODE_SIZE 1
+#define font_ligchar(x) font(ligchar(x))
+#define character_ligchar(x) character(ligchar(x))
+#endif // #ifdef BIG_CHARNODE
+
+
 enum NodeType {
     HLIST_NODE,  ///< #135: type of hlist nodes
     VLIST_NODE,  ///< #137: type of vlist nodes
