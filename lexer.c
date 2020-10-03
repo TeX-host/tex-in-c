@@ -28,7 +28,7 @@ ListStateRecord nest[NEST_SIZE + 1]; // [0, NEST_SIZE=40]
 UChar nest_ptr;             // first unused location of nest
 UChar max_nest_stack;       // maximum of nest_ptr when pushing
 ListStateRecord cur_list;   // the "top" semantic state
-UInt16 shown_mode;          // most recent mode shown by \tracingcommands
+Int16 shown_mode;          // most recent mode shown by \tracingcommands
 /** @}*/ // end group S211x219_P77x80
 
 /** @addtogroup S297x299_P119x120
