@@ -7,6 +7,7 @@
 #include "scan.h" // MAX_DIMEN
 #include "box.h"  // [enum] UNSET_NODE
 #include "tex_types.h"
+#include "tex_constant.h" // [const] MEM_MIN, EMPTY, MIN_QUARTER_WORD
 
 /** @addtogroup S680x698_P249x257
  * @{

@@ -1,4 +1,5 @@
 #include "global_const.h"
+#include "tex_constant.h" // [const] MEM_MIN, TRIE_SIZE, TRIE_OP_SIZE, MEM_BOT, MEM_TOP, HASH_PRIME, HYPH_SIZE, MIN_QUARTER_WORD, MAX_QUARTER_WORD, MAX_HALF_WORD
 #include "str.h"
 #include "mem.h"
 #include "eqtb.h"

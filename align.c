@@ -1,4 +1,6 @@
 #include <math.h> // floor
+#include "tex_constant.h" // [const] MEM_MIN, MIN_QUARTER_WORD, MAX_QUARTER_WORD
+// [enum] CatCode, TexCommandCode
 #include "mem.h"
 #include "dviout.h"
 #include "scan.h" // [func] skip_spaces

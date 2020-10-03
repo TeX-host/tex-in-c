@@ -1,4 +1,4 @@
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] MEM_MIN, MIN_QUARTER_WORD
 #include "eqtb.h" // glue_par
 #include "box.h"
 

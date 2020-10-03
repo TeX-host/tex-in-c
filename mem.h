@@ -2,7 +2,7 @@
 
 #define INC_MEM_H
 #include "tex_types.h"
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] MEM_MAX, MEM_MIN, MEM_BOT, MEM_TOP, HYPH_SIZE, MAX_QUARTER_WORD, MAX_HALF_WORD
 
 
 /** @addtogroup S115x132_P44x49

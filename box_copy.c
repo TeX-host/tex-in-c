@@ -1,4 +1,4 @@
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] MEM_MIN
 #include "error.h" // confusion
 #include "extension.h" // [const] opennode, [macro] writetokens
 #include "box.h"

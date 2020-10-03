@@ -1,5 +1,6 @@
 #include <stdlib.h> // labs
 #include "tex.h"
+#include "tex_constant.h" // [const] MEM_MIN, MIN_QUARTER_WORD, MAX_HALF_WORD
 #include "mem.h"
 #include "print.h"
 #include "eqtb.h"

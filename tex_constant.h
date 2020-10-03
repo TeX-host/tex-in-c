@@ -104,6 +104,7 @@
 #define FILE_NAME_SIZE  240
 /** [#11] string of length #FILE_NAME_SIZE;
  *  tells where the string pool appears
+ * _not_use_
  */
 #define POOL_NAME       "TeXformats:TEX.POOL                     "
 

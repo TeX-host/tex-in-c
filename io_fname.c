@@ -1,4 +1,5 @@
 #include <string.h> // [func] memcpy
+#include "tex_constant.h" // [const] TEX_BANNER
 #include "charset.h" // [var] xord, xchr
 #include "str.h"
 #include "print.h"  // [type] Selector [var] selector

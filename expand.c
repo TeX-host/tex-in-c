@@ -1,6 +1,8 @@
 #include <stdlib.h> // [func] labs
 #include "charset.h" // [type] ASCIICode
 #include "tex.h"
+#include "tex_constant.h" // [const] BUF_SIZE, PARAM_SIZE
+// [enum] TexCommandCode, CmdCode
 #include "lexer.h" // [var] warning_index, partoken, force_eof [macro] inslist, noexpandflag
 #include "printout.h" // [func] printcmdchr
 #include "print.h"    // [var] selector
@@ -10,7 +12,7 @@
 #include "error.h"    // [func] error, overflow, confusion, print_err,
 #include "hash.h"     // [func] idlookup_p, sprint_cs, print_cs
 #include "mem.h" // [macro] FREE_AVAIL, FAST_GET_AVAIL,
-    // [func] popligstack, get_node, flush_list, get_avail
+// [func] popligstack, get_node, flush_list, get_avail
 #include "box.h" // NORMAL, subtype
 #include "io.h"  // [func] startinput, openlogfile
 #include "expand.h"

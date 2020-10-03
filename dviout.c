@@ -4,6 +4,7 @@
 #include "tex.h"
     // [type] EightBits, FourQuarters, EightBits, SmallNumber
     // true
+#include "tex_constant.h" // [const] FONT_BASE
 #include "str.h"
     // [type] StrNumber
     // [func] str_map, str_length

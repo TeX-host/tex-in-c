@@ -4,7 +4,7 @@
 #define FONTS_H
 #include <stdio.h> // FILE
 #include "global_const.h"
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] FONT_MAX, FONT_MEM_SIZE, FONT_BASE, MIN_QUARTER_WORD, MAX_HALF_WORD
 #include "str.h"
 #include "macros.h" // [macro] qi, qo, pput, pget
 #include "tex_types.h"

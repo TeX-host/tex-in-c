@@ -5,7 +5,7 @@
  */
 #define INC_IO_H
 #include <stdio.h> // FILE
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] BUF_SIZE, ERROR_LINE, FILE_NAME_SIZE
 #include "charset.h" // [var] xord; [type] ASCIICode
 #include "str.h"
 #include "tex_types.h"

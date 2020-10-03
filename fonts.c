@@ -2,7 +2,7 @@
 #include "tex.h"
     // [type] MemoryWord, EightBits, Pointer, Boolean, 
     //  Scaled FourQuarters, HalfWord
-    // [macro] FONT_MEM_SIZE, FONT_MAX, NULL_FONT, nonaddress, kernbaseoffset
+    // [macro] NULL_FONT, nonaddress, kernbaseoffset
 #include "str.h"    // [type] StrNumber
 #include "error.h"  // [func] error, print_err,
 #include "lexer.h"  // curcmd

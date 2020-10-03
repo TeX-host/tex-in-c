@@ -3,7 +3,6 @@
 /// tex.c, tex_header 中需要导出的符号。
 #define TEX_H
 #include <setjmp.h> // [type] jmp_buf; [func] setjmp
-#include "tex_constant.h"
 
 /*
  * [ #13: Global variables ]

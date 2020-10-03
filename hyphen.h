@@ -11,6 +11,7 @@
 #include "eqtb.h" // [macro] language
 #include "charset.h" // [type] ASCIICode
 #include "tex_types.h"
+#include "tex_constant.h" // [const] TRIE_SIZE, TRIE_OP_SIZE, HYPH_SIZE, MIN_QUARTER_WORD, MAX_QUARTER_WORD
 
 /** @addtogroup S891x899_P330x333
  * @{

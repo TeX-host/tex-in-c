@@ -1,5 +1,5 @@
 #include <math.h> // fabs
-#include "tex_constant.h"
+#include "tex_constant.h" // [const] MEM_MIN, MAX_PRINT_LINE, FONT_MAX, MIN_QUARTER_WORD
 // #include "texmath.h" // [macro] UNITY; [func] print_scaled
 #include "print.h"   // [func] print_esc, print
 #include "hash.h"    // [func] fontidtext
