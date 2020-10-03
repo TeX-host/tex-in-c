@@ -367,15 +367,16 @@ void print_roman_int(Integer n) {
     } // while (true)
 } // #69: print_roman_int
 
-/// [#70] print_current_string in #str.c .
+/// [#70] print_current_string in str.c .
 
 /** [#71]: gets a line from the terminal.
  *
  *
- *  @param[in]  last    [global]
- *  @param[in]  first   [global]
- *  @param[out] term_offset [global]
- *  @param[out] selector    [global]
+ * ## 全局变量
+ *  + [in]  last
+ *  + [in]  first
+ *  + [out] term_offset
+ *  + [out] selector
  *
  */
 void term_input(void) {

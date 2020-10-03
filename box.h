@@ -214,7 +214,7 @@ enum InfinityOrder {
 /** @addtogroup S173x198_P62x68
  * @{
  */
-/// [p64#180] str_room need not be checked; see #show_box
+/// [p64#180] str_room need not be checked; see #showbox
 #define nodelistdisplay(x) (append_char('.'), shownodelist(x), flush_char())
 /** @}*/ // end group S173x198_P62x68
 

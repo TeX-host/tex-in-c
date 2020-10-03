@@ -13,9 +13,9 @@
 /** @addtogroup S768x812_P285x301
  * @{
  */
-/// [p286#769] pointer to <uj> token list.
+/// [p286#769] pointer to `<uj>` token list.
 #define upart(x)        mem[x + heightoffset].int_
-/// [p286#769] pointer to <vj> token list.
+/// [p286#769] pointer to `<vj>` token list.
 #define vpart(x)        mem[x + depthoffset].int_
 /// [p286#769] info to remember during template.
 #define extrainfo(x)    info(x + listoffset)

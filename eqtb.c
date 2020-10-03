@@ -150,10 +150,10 @@ void eqtb_init() {
 } /* eqtb_init */
 
 /** [#225]: 打印 `glue` 参数的名称
- * 
- * \param[in] n
+ *
+ * \param[in] code
  * \return void 无返回值
- * 
+ *
  * 函数会打印参数对应的字符串。
  * 如果没有对应的字符串，则打印 `"[unknown glue parameter!]"`
  */

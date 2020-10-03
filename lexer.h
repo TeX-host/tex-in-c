@@ -214,7 +214,7 @@ enum TokenType {
 #define ishex(x) \
     ((((x) >= '0') && ((x) <= '9')) || (((x) >= 'a') && ((x) <= 'f')))
 
-/// [#360]: \endlinechar 行终止符无效，不添加换行符
+/// [#360]: \\endlinechar 行终止符无效，不添加换行符
 #define end_line_char_inactive ((end_line_char < 0) || (end_line_char > 255))
 
 /** @}*/ // end group S332x365_P134x143

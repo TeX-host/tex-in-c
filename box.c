@@ -10,7 +10,7 @@
  *
  * The #newnullbox function returns a pointer to an hlist_node
  *  in which all subfields have the values corresponding
- *  to ‘\hbox{}’.
+ *  to ‘\\hbox{}’.
  * The subtype field is set to #MIN_QUARTER_WORD,
  *  since that’s the desired span count value
  *  if this hlist_node is changed to an unset_node.
@@ -99,7 +99,7 @@ Pointer newdisc(void) {
  * The subtype field is before before the formula and 
  *  after after it. 
  * There is a width field, which represents the amount of
- *  surrounding space inserted by \mathsurround.
+ *  surrounding space inserted by \\mathsurround.
 */
 Pointer newmath(Scaled w, SmallNumber s) {
     Pointer p;

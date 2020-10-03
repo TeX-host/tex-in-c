@@ -897,7 +897,7 @@ void readtoks(long n, HalfWord r) {
         beginfilereading();
         NAME = m + 1;
         if (readopen[m] == closed) {
-            /// [#484] Input for \read from the terminal.
+            /// [#484] Input for `\\read` from the terminal.
             if (interaction > NON_STOP_MODE) {
                 if (n < 0) {
                     print(S(385)); // ""
