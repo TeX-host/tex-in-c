@@ -69,6 +69,9 @@ typedef struct {
     PoolPtr val; // 暂存 pool_ptr::PoolPtr
 } StrPoolPtr;
 // dviout, fonts, global.h, str, tex
+
+/// 标记字符串序号
+#define S(x) (x)
 typedef uint_fast32_t StrNumber; // [0, MAX_STRINGS=300000]
 static_assert(UMAXOF(StrNumber) >= MAX_STRINGS,
               "StrNumber = [0, MAX_STRINGS=300000]");

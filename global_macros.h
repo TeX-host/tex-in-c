@@ -13,9 +13,6 @@
 #define BIG_CHARNODE
 #define BIG_NOAD
 
-// 标记字符串序号
-#define S(x) (x)
-
 /// [p43#112]
 #define qi(x) (x)
 #define qo(x) (x)
