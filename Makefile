@@ -41,7 +41,9 @@ r: debug
 	cd _test && ./${EXEC_NAME} plain
 
 trip: debug
-	cd test/trip && ./${EXEC_NAME} trip
+	cd test/trip && ./${EXEC_NAME} --indep "\input trip"
+	cd test/trip && mv trip.log tripin.log
+	cd test/trip && ./${EXEC_NAME} --indep "&trip" trip
 
 test t: debug
 	cd test && ./${EXEC_NAME} E560
@@ -60,6 +62,7 @@ clean:
 
 clean_test: clean
 	-rm -f test/${EXEC_NAME} test/*.dvi test/*.log
+	-rm -f test/trip/${EXEC_NAME} test/trip/*.dvi test/trip/*.log
 	-rm -f _test/${EXEC_NAME} _test/*.dvi _test/*.log
 
 
