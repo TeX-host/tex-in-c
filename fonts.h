@@ -6,7 +6,7 @@
 #include "global_const.h"
 #include "tex_constant.h"
 #include "str.h"
-#include "macros.h" // qo
+#include "macros.h" // [macro] qi, qo, pput, pget
 #include "tex_types.h"
 // [fonts], dviout, tex
 

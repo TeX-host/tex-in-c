@@ -6,7 +6,6 @@
     // [func] half, x_over_n, xn_over_d
 #include "eqtb.h"
 #include "fonts.h"
-#include "macros.h" // qo
 #include "mmode.h"
 
 

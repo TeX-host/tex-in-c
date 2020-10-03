@@ -1,6 +1,5 @@
 #include <stdlib.h> // [func] labs
 #include "tex.h"
-#include "macros.h" // [macro] help4,
 #include "expand.h" // [macro] STORE_NEW_TOKEN
 #include "lexer.h" // [macro] backlist
 

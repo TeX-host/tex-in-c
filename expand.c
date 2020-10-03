@@ -1,7 +1,6 @@
 #include <stdlib.h> // [func] labs
 #include "charset.h" // [type] ASCIICode
 #include "tex.h"
-#include "macros.h" // [macro] help1, help2, help3, help4,
 #include "lexer.h" // [var] warning_index, partoken, force_eof [macro] inslist, noexpandflag
 #include "printout.h" // [func] printcmdchr
 #include "print.h"    // [var] selector

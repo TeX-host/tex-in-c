@@ -1,7 +1,6 @@
 #include <stdlib.h> // labs
 #include "tex.h"
 #include "mem.h"
-#include "macros.h"
 #include "print.h"
 #include "eqtb.h"
 #include "pack.h"

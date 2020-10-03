@@ -8,7 +8,6 @@
 // #include "lexer.h"
 // #include "error.h"
 // // #include "hyphen.h"
-// #include "macros.h"
 // #include "expand.h"
 // #include "linebreak.h"
 #include "main_ctrl.h"

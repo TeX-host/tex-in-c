@@ -4,7 +4,6 @@
 #include "print.h"      // [var] tally, term_input
 // pagetail
 #include "printout.h"   // [func] printcmdchr,
-#include "macros.h"     // [macro] help4, help3, help2
 #include "io.h"         // [func] inputln, initterminal, aclose
 #include "expand.h"     // [var] longstate
 #include "error.h"

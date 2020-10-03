@@ -16,7 +16,6 @@
 #include "lexer.h" // [macro] inslist, ignoredepth, [var] partoken
 #include "error.h"
 #include "hyphen.h"
-#include "macros.h"
 #include "expand.h" // [var] readfile, readopen; [const] closed, justopen
 #include "linebreak.h"
 #include "printout.h"

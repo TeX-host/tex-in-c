@@ -9,7 +9,6 @@
 #include "global_const.h"
 #include "tex.h"
 #include "tex_types.h"
-#include "macros.h"
 
 #include "charset.h"
 #include "error.h"
