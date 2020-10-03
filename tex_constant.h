@@ -10,7 +10,8 @@
 #define INC_TEX_CONSTANT
 
 
-/** @addtogroup S1x16_P3x9
+/** 第一章：TeX 相关的常量.
+ * @addtogroup S1x16_P3x9
  * @{
  */
 
