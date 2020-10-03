@@ -1,7 +1,7 @@
 #pragma once
 #ifndef INC_TEX_MATH
-// PART 7: ARITHMETIC WITH SCALED DIMENSIONS.
-/** @addtogroup S99x109_P38x41 
+/** 第七章：定点数算数. 
+ * @addtogroup S99x109_P38x41
  *
  * export:
  *  + Boolean #arith_error
@@ -17,12 +17,13 @@
  *  - void print_scaled(Scaled s)
  * @{
  */
+/// PART 7: ARITHMETIC WITH SCALED DIMENSIONS.  
 #define INC_TEX_MATH
 #include "global.h"
 
 
-#define UNITY   65536L      ///< [#101] 2^16, rep 1.00000
-#define TWO     131072L     ///< [#101] 2^17, rep 2.00000
+#define UNITY   65536L      ///< [#101] 2^{16}, rep 1.00000
+#define TWO     131072L     ///< [#101] 2^{17}, rep 2.00000
 /// [#108]: infinitely bad value
 #define INF_BAD 10000
 

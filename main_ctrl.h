@@ -32,7 +32,7 @@
 /** @addtogroup S1029x1054_P383x394
  * @{
  */
-/// [p384#1030] jmp label _not_use_
+// [p384#1030] jmp label _not_use_ .
 // #define bigswitch            60
 // #define appendnormalspace    120
 /** @}*/ // end group S1029x1054_P383x394
