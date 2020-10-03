@@ -6,6 +6,9 @@
 /// 使用 TeX82 的参数
 // #define tt_USE_TEX82
 
+// TRIP TEST 使用的参数
+#define TEX_TRIP_TEST
+
 // #7
 //  MSVC debug mode || not in (GCC -O3 mode)
 #if defined(_DEBUG) || !defined(__OPTIMIZE__)

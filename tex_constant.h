@@ -8,7 +8,7 @@
  * 
  */
 #define INC_TEX_CONSTANT
-
+#include "global_const.h"
 
 /** 第一章：TeX 相关的常量.
  * @addtogroup S1x16_P3x9
@@ -49,6 +49,8 @@
  * [500=>5000]
  */
 #define BUF_SIZE        5000
+
+#ifndef TEX_TRIP_TEST
 /** [#11] width of context lines on terminal error messages.
  */
 #define ERROR_LINE      72
@@ -62,6 +64,12 @@
  * should be [60, ...]
  */
 #define MAX_PRINT_LINE  79
+#else
+#define ERROR_LINE      64
+#define HALF_ERROR_LINE 32
+#define MAX_PRINT_LINE  72
+#endif /* TEX_TRIP_TEST */
+
 /** [#11] maximum number of simultaneous input sources.
  */
 #define STACK_SIZE      200
