@@ -2,14 +2,9 @@
 #ifndef _INC_GLOBAL_CONST
 /// 全局常量
 #define _INC_GLOBAL_CONST
-#include <assert.h>
-#include <stdio.h> // EOF
 
 /// 使用 TeX82 的参数
 // #define tt_USE_TEX82
-
-/// 取无符号类型的最大值
-#define UMAXOF(t) ((t) ~(t)0)
 
 // #7
 //  MSVC debug mode || not in (GCC -O3 mode)
@@ -45,32 +40,14 @@
 
 #define Static static
 
-
-#define charnodetype 0xfff
-#undef BIG_CHARNODE
-#define BIG_CHARNODE
-#define BIG_NOAD
-
-#ifdef BIG_CHARNODE
-#define CHAR_NODE_SIZE 2
-#define font_ligchar(x) type(ligchar(x))
-#define character_ligchar(x) subtype(ligchar(x))
-#else
-#define CHAR_NODE_SIZE 1
-#define font_ligchar(x) font(ligchar(x))
-#define character_ligchar(x) character(ligchar(x))
-#endif // #ifdef BIG_CHARNODE
-
-// 标记字符串序号
-#define S(x)        (x)
-#define dwa_do_8    ((int)16 * 1024 * 1024)
-
-
 /// 辅助宏定义, 用于拆分模块是使用.
 #define USE_SPLIT_MOD
 
 /// 直接使用字符串，而不是 StrNumber
 #define USE_REAL_STR
+
+
+#define dwa_do_8    ((int)16 * 1024 * 1024)
 
 #endif // _INC_GLOBAL_CONST
 

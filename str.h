@@ -7,6 +7,7 @@
 #include <stdio.h> // FILE
 #include <stdint.h> // int_fast32_t
 #include "global_const.h"
+#include "macros.h" // [const] UMAXOF, static_assert
 #include "charset.h" // [type] ASCIICode
 #include "tex_types.h"
 

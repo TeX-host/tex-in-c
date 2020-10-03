@@ -2,6 +2,9 @@
 #include <stdio.h>  // FILE
 #include <stdlib.h> // malloc, exit, labs, free
 #include "tex_constant.h" // [const] FONT_BASE
+#include "global_const.h"
+#include "macros.h"       // [const] UMAXOF, static_assert
+
 #include "str.h"
     // [type] StrNumber
     // [func] str_map, str_length
@@ -10,12 +13,11 @@
     // [var] fontptr, fontused,
     // [func] get_fontsize, get_fontdsize, get_fontname
 #include "dvicmd.h" // [enum] DVICommands
-#include "global_const.h" // [macro] assert, UMAXOF
-#include "io.h"           // [macro] TERM_ERR [func] a_open_out
+#include "io.h"     // [macro] TERM_ERR [func] a_open_out
 #include "eqtb.h"
 #include "mem.h"    // [var] temp_ptr
 #include "print.h"
-#include "error.h"   // [func] print_err
+#include "error.h"  // [func] print_err
 #include "extension.h"
 #include "scan.h"   // MAX_DIMEN
 #include "dviout.h" // [export]
