@@ -103,7 +103,7 @@ expand.o: expand.c charset.h tex_types.h tex.h tex_constant.h lexer.h \
 scan.o: scan.c tex.h tex_constant.h expand.h tex_types.h lexer.h \
  texmath.h fonts.h global_const.h str.h charset.h macros.h printout.h \
  error.h eqtb.h mem.h box.h print.h pack.h page.h dviout.h scan.h
-error.o: error.c charset.h tex_types.h print.h tex.h tex_constant.h \
+error.o: error.c tex.h tex_constant.h charset.h tex_types.h print.h \
  eqtb.h str.h global_const.h io.h debug.h lexer.h error.h
 mem.o: mem.c lexer.h tex.h tex_constant.h tex_types.h error.h str.h \
  global_const.h charset.h eqtb.h texmath.h print.h box.h mem.h align.h \

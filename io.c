@@ -1,9 +1,7 @@
-#include "tex.h"   // [type] Boolean, [macro] true, false, BUF_SIZE
-    // [var] buffer, last, first, max_buf_stack
-    //  _JMP_global__final_end, format_ident, cur_input
-#include "lexer.h"   // [var] cur_input
-#include "error.h"   // [func] overflow,
-#include "dump.h"    // [var] format_ident
+#include "tex.h"    // _JMP_global__final_end
+#include "lexer.h"  // [var] cur_input
+#include "error.h"  // [func] overflow,
+#include "dump.h"   // [var] format_ident
 #include "io.h"     // [macro] TERM_ERR
 
 
