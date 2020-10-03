@@ -1,5 +1,4 @@
 #include <stdlib.h> // abs
-#include "global_const.h"
 #include "lexer.h"
 #include "mem.h"
 #include "print.h"

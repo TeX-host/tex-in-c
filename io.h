@@ -5,10 +5,10 @@
  */
 #define INC_IO_H
 #include <stdio.h> // FILE
+#include "global.h"
 #include "tex_constant.h" // [const] BUF_SIZE, ERROR_LINE, FILE_NAME_SIZE
 #include "charset.h" // [var] xord; [type] ASCIICode
 #include "str.h"
-#include "tex_types.h"
 
 /** @addtogroup S25x37_P13x18
  * @{

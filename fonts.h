@@ -3,11 +3,9 @@
 /// 字体相关函数
 #define FONTS_H
 #include <stdio.h> // FILE
-#include "global_const.h"
-#include "global_macros.h" // [macro] qi, qo; [const] UMAXOF, static_assert
+#include "global.h"       // [macro] qi, qo; [const] UMAXOF, static_assert
 #include "tex_constant.h" // [const] FONT_MAX, FONT_MEM_SIZE, FONT_BASE, MIN_QUARTER_WORD, MAX_HALF_WORD
 #include "str.h"
-#include "tex_types.h"
 #include "dump.h" // [macro] pput, pget
 // [fonts], dviout, tex
 

@@ -1,15 +1,3 @@
-// #include <stdlib.h>
-// #include "tex_types.h"
-// #include "tex_constant.h"
-// #include "fonts.h"
-// #include "mem.h"
-// #include "eqtb.h"
-// #include "page.h"
-// #include "lexer.h"
-// #include "error.h"
-// // #include "hyphen.h"
-// #include "expand.h"
-// #include "linebreak.h"
 #include "main_ctrl.h"
 
 // build box and list

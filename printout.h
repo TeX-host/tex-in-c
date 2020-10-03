@@ -1,5 +1,5 @@
 #pragma once
-#include "tex_types.h"
+#include "global.h"
 
 // printout only
 #define chrcmd(x) (print(x), print(chrcode))

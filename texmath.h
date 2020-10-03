@@ -18,7 +18,7 @@
  * @{
  */
 #define INC_TEX_MATH
-#include "tex_types.h"
+#include "global.h"
 
 
 #define UNITY   65536L      ///< [#101] 2^16, rep 1.00000

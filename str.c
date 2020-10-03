@@ -1,6 +1,4 @@
 #include <string.h> // memcmp, strlen
-#include "global_const.h"
-#include "global_macros.h" // [macro] pget, pput
 #include "error.h"   // [func] overflow,
 #include "hash.h"    // [func] idlookup_p
 #include "print.h"   // [func] print, print_char

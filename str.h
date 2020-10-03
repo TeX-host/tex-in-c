@@ -6,10 +6,8 @@
 // [type] Boolean@tex_types
 #include <stdio.h> // FILE
 #include <stdint.h> // int_fast32_t
-#include "global_const.h"
-#include "global_macros.h" // [const] UMAXOF, static_assert
+#include "global.h" // [const] UMAXOF, static_assert
 #include "charset.h" // [type] ASCIICode
-#include "tex_types.h"
 
 
 /** @addtogroup S1x16_P3x9

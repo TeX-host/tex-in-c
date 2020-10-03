@@ -1,9 +1,7 @@
 #include <math.h> // floor
 #include <stdio.h>  // FILE
 #include <stdlib.h> // malloc, exit, labs, free
-#include "tex_constant.h" // [const] FONT_BASE
-#include "global_const.h"
-#include "global_macros.h"       // [const] UMAXOF, static_assert
+#include "tex_constant.h" // [const] FONT_BASE    
 
 #include "str.h"
     // [type] StrNumber

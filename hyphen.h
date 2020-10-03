@@ -2,15 +2,13 @@
 #ifndef INC_HYPHEN_H
 ///
 #define INC_HYPHEN_H
-#include "global_const.h"
+#include "global.h" // [macro] qi
 #include "mem.h" // [macro] link; [func] get_avail, free_node
 #include "box.h" // [macro] font, character, subtype, ligptr, smallnodesize;
     // [func] newligature
-#include "global_macros.h" // [macro] qi
 #include "fonts.h" // [type] InternalFontNumber, [macro] NON_CHAR
 #include "eqtb.h" // [macro] language
 #include "charset.h" // [type] ASCIICode
-#include "tex_types.h"
 #include "tex_constant.h" // [const] TRIE_SIZE, TRIE_OP_SIZE, HYPH_SIZE, MIN_QUARTER_WORD, MAX_QUARTER_WORD
 
 /** @addtogroup S891x899_P330x333

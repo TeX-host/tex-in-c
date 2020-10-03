@@ -2,9 +2,8 @@
 #include <stdlib.h> // malloc, exit, getenv,
 #include "tex_constant.h" // [const] BUF_SIZE, FILE_NAME_SIZE
 #include "str.h"    // [type] StrNumber
-#include "global_const.h" // [macro] update_terminal
-#include "eqtb.h"         // [var] use_independence_date
-#include "io.h"           // [macro] TERM_ERR
+#include "eqtb.h"   // [var] use_independence_date
+#include "io.h"     // [macro] TERM_ERR
 
 
 static int pos = 0; 

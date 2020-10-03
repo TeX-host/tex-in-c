@@ -5,13 +5,14 @@
  */
 #define INC_PRINT
 #include <stdio.h>     // FILE
+#include "global.h"
+    // [type] Integer, UChar
+    // [const] UMAXOF, static_assert
 #include "charset.h"   // [type] ASCIICode
-#include "tex_types.h" // Integer, UChar
 #include "tex_constant.h" // [const] TEX_BANNER, ERROR_LINE, HALF_ERROR_LINE, MAX_PRINT_LINE,
 #include "eqtb.h"      // [macro] newlinechar
 #include "str.h"       // StrNumber, str_adjust_to_room
 
-typedef char* Str;
 
 /** @addtogroup S54x71_P24x29
  * @{

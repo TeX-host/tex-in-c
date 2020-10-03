@@ -8,7 +8,7 @@
  */
 #define INC_EXPAND_H
 #include <stdio.h> // FILE
-#include "tex_types.h"
+#include "global.h"
 
 /** @addtogroup S366x401_P144x154
  * @{

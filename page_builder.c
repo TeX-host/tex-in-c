@@ -1,4 +1,3 @@
-#include "global_const.h"
 #include "tex_constant.h" // [const] EMPTY, MIN_QUARTER_WORD, MAX_HALF_WORD
 #include "eqtb.h" // vsize
 #include "mem.h"

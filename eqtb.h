@@ -2,7 +2,7 @@
 #ifndef INC_EQTB_H
 //
 #define INC_EQTB_H
-#include "tex_types.h"
+#include "global.h"       // [const] UMAXOF, static_assert
 #include "tex_constant.h" // [const] SAVE_SIZE, FONT_BASE, HASH_SIZE, MIN_QUARTER_WORD, MAX_QUARTER_WORD
 // [enum] CatCode
 

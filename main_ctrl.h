@@ -3,7 +3,7 @@
 #define INC_MAIN_CTRL_H
 #include <stdlib.h>
 #include <math.h>
-#include "tex_types.h"
+#include "global.h"
 #include "tex_constant.h" // [const] MEM_MIN, EMPTY, MIN_QUARTER_WORD, MAX_QUARTER_WORD, MAX_HALF_WORD
 // [enum] CatCode, TexCommandCode, hvSkipDiff
 #include "fonts.h" // [macro] NON_CHAR

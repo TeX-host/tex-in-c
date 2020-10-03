@@ -2,11 +2,12 @@
 #ifndef INC_ALGIN_H
 /// 
 #define INC_ALGIN_H
+#include "global.h"
+    // [type] Pointer, Boolean
 #include "mem.h"       // [var] mem; [macro] info, link
 #include "box.h" // [const] heightoffset, depthoffset, listoffset, alignhead
 #include "lexer.h"     // [const] CS_TOKEN_FLAG
 #include "eqtb.h"      // [const] FROZEN_END_TEMPLATE
-#include "tex_types.h" // [type] Pointer, Boolean
 
 
 /** @addtogroup S768x812_P285x301

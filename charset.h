@@ -2,7 +2,7 @@
 #ifndef INC_CHARSET_H
 ///
 #define INC_CHARSET_H
-#include "tex_types.h" // [type] UChar
+#include "global.h" // [type] UChar
 
 /** @addtogroup S17x24_P10x12
  * @{

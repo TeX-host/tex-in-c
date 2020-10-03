@@ -11,7 +11,7 @@
  */
 #define INC_LEXER_H
 #include <stdio.h> // FILE
-#include "tex_types.h"
+#include "global.h"
 #include "tex_constant.h" // [const] BUF_SIZE, HALF_ERROR_LINE, STACK_SIZE, MAX_IN_OPEN, PARAM_SIZE, NEST_SIZE, EMPTY, MIN_QUARTER_WORD
 // [enum] CatCode
 

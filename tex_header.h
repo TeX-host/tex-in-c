@@ -4,10 +4,9 @@
 /// 导入库、其他模块，声明 tex.c 内部的变量
 #define INC_TEX_HEADER
 #include <stdlib.h> // exit, EXIT_SUCCESS
+#include "global.h"
 
-#include "global_const.h"
 #include "tex_constant.h"
-#include "tex_types.h"
 #include "tex.h"
 
 

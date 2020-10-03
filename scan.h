@@ -5,9 +5,9 @@
  *  + @ref S402x463_P155x173 "PART 26: BASIC SCANNING SUBROUTINES"
  */
 #define INC_SCAN_H
+#include "global.h"
 #include "lexer.h" // [macro] othertoken; [var] curcmd,
 #include "str.h"   // [type] widthoffset
-#include "tex_types.h"
 
 /** @addtogroup S402x463_P155x173
  * @{

@@ -2,9 +2,9 @@
 #ifndef DIV_OUT_H
 /// DVI 格式输出
 #define DIV_OUT_H
+#include "global.h" // [const] UMAXOF, static_assert
 #include "charset.h" // [type] ASCIICode
 #include "fonts.h"  // [type] InternalFontNumber
-#include "tex_types.h"
 
 /// [#11]: size of the output buffer; must be a multiple of 8
 #define DVI_BUF_SIZE 800

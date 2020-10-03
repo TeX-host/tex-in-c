@@ -2,8 +2,8 @@
 #ifndef INC_PAGE_H
 //
 #define INC_PAGE_H
+#include "global.h"
 #include "lexer.h" // [var] nest; [macro] ignoredepth
-#include "tex_types.h"
 
 /** @addtogroup S967x979_P360x365
  * @{

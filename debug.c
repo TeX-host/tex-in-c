@@ -1,6 +1,5 @@
 #include <math.h>
-#include "global_const.h"
-#include "tex_types.h"
+#include "global.h"
 #include "tex_constant.h" // [const] MEM_MIN
 #include "texmath.h" // [macro] UNITY; [func] print_scaled
 #include "io.h"

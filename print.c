@@ -1,6 +1,4 @@
 #include <stdlib.h> // [func] labs, 
-#include "global_const.h"
-#include "global_macros.h" // [const] UMAXOF, static_assert
 #include "charset.h" // [var] xchr
 #include "print.h"
     // last, first, buffer[]

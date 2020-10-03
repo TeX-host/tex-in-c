@@ -3,7 +3,7 @@
 //
 #define INC_DUMP_H
 #include <stdio.h>     // FILE, fread, fwrite
-#include "tex_types.h" // [type] Boolean
+#include "global.h"    // [type] Boolean; // [macor] pput. pget
 
 /** @addtogroup S1299x1329_P455x464
  * @{
