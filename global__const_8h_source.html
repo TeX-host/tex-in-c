@@ -99,37 +99,40 @@ $(document).ready(function(){initNavTree('global__const_8h_source.html',''); ini
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// #define tt_USE_TEX82</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// #7</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//  MSVC debug mode || not in (GCC -O3 mode)</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#if defined(_DEBUG) || !defined(__OPTIMIZE__)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// debug mode</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="global__const_8h.html#af267a06209fb39e2c6edc9837b0a6760">   18</a></span>&#160;<span class="preprocessor">#define tt_DEBUG</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#define tt_STAT</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define tt_INIT</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// release mode</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#undef tt_DEBUG</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#undef tt_STAT</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#undef tt_INIT</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#define NDEBUG // no assertsion</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="global__const_8h.html#ae61eb61d35d2c2babb793b5b0544977a">   41</a></span>&#160;<span class="preprocessor">#define Static static</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30">   44</a></span>&#160;<span class="preprocessor">#define USE_SPLIT_MOD</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// TRIP TEST 使用的参数</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="global__const_8h.html#a4a354820cfb855669537d0f031710933">   10</a></span>&#160;<span class="preprocessor">#define TEX_TRIP_TEST</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// #7</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">//  MSVC debug mode || not in (GCC -O3 mode)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#if defined(_DEBUG) || !defined(__OPTIMIZE__)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// debug mode</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="global__const_8h.html#af267a06209fb39e2c6edc9837b0a6760">   21</a></span>&#160;<span class="preprocessor">#define tt_DEBUG</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#define tt_STAT</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define tt_INIT</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// release mode</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#undef tt_DEBUG</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#undef tt_STAT</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#undef tt_INIT</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define NDEBUG // no assertsion</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="global__const_8h.html#ae61eb61d35d2c2babb793b5b0544977a">   44</a></span>&#160;<span class="preprocessor">#define Static static</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="global__const_8h.html#a0c2a3337a49ec0cb25d10239facd2b7b">   47</a></span>&#160;<span class="preprocessor">#define USE_REAL_STR</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="global__const_8h.html#adf69c4ce5615ef886359f4725bd0cc30">   47</a></span>&#160;<span class="preprocessor">#define USE_SPLIT_MOD</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="global__const_8h.html#a5106ac2b3de7b15e93d9962bbd0d9d23">   50</a></span>&#160;<span class="preprocessor">#define dwa_do_8    ((int)16 * 1024 * 1024)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="global__const_8h.html#a0c2a3337a49ec0cb25d10239facd2b7b">   50</a></span>&#160;<span class="preprocessor">#define USE_REAL_STR</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif // _INC_GLOBAL_CONST</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="global__const_8h.html#a5106ac2b3de7b15e93d9962bbd0d9d23">   53</a></span>&#160;<span class="preprocessor">#define dwa_do_8    ((int)16 * 1024 * 1024)</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// 预定义分组，固定排序。</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#endif // _INC_GLOBAL_CONST</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">// 预定义分组，固定排序。</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

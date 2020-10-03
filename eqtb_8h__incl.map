@@ -1,11 +1,11 @@
 <map id="eqtb.h" name="eqtb.h">
-<area shape="rect" id="node1" title=" " alt="" coords="260,5,327,35"/>
-<area shape="rect" id="node2" href="$global_8h.html" title=" " alt="" coords="192,83,269,112"/>
-<area shape="rect" id="node9" href="$tex__constant_8h.html" title=" " alt="" coords="293,83,419,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="255,5,321,35"/>
+<area shape="rect" id="node2" href="$global_8h.html" title=" " alt="" coords="187,83,264,112"/>
+<area shape="rect" id="node9" href="$tex__constant_8h.html" title=" " alt="" coords="291,83,416,112"/>
 <area shape="rect" id="node3" href="$global__macros_8h.html" title=" " alt="" coords="5,160,144,189"/>
-<area shape="rect" id="node5" href="$global__const_8h.html" title=" " alt="" coords="169,160,293,189"/>
-<area shape="rect" id="node6" href="$tex__types_8h.html" title=" " alt="" coords="317,160,419,189"/>
+<area shape="rect" id="node5" href="$global__const_8h.html" title=" " alt="" coords="295,160,419,189"/>
+<area shape="rect" id="node6" href="$tex__types_8h.html" title=" " alt="" coords="169,160,271,189"/>
 <area shape="rect" id="node4" title=" " alt="" coords="35,237,114,267"/>
-<area shape="rect" id="node7" title=" " alt="" coords="273,237,359,267"/>
-<area shape="rect" id="node8" title=" " alt="" coords="383,237,457,267"/>
+<area shape="rect" id="node7" title=" " alt="" coords="157,237,243,267"/>
+<area shape="rect" id="node8" title=" " alt="" coords="267,237,341,267"/>
 </map>
