@@ -197,7 +197,7 @@ void showactivities(void) {
     printnl(S(385)); // ""
     println();
 
-    for (Pointer p = nest_ptr; p >= 0; p--) {
+    for (Integer p = nest_ptr; p >= 0; p--) {
         m = nest[p].modefield;
         a = nest[p].auxfield;
 
