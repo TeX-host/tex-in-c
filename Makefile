@@ -33,11 +33,15 @@ ${EXEC_NAME}: deps ${OBJS}
 ## 测试与运行
 debug: clean_test ${EXEC_NAME}
 	cp ${EXEC_NAME} test
+	cp ${EXEC_NAME} test/trip
 	cp ${EXEC_NAME} _test
 
 # clean && run && load plainTeX
 r: debug
 	cd _test && ./${EXEC_NAME} plain
+
+trip: debug
+	cd test/trip && ./${EXEC_NAME} trip
 
 test t: debug
 	cd test && ./${EXEC_NAME} E560
