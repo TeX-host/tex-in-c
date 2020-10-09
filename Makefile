@@ -1,6 +1,6 @@
 CFLAGS = -g -O0 -I. -std=c11
 CFLAGS += -pedantic -Wall -Wno-unused-result
-# CFLAGS += --coverage -ftest-coverage -fprofile-arcs
+CFLAGS += --coverage -ftest-coverage -fprofile-arcs
 LDFLAGS = -lm
 
 SRCS  = tex
