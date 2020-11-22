@@ -3,7 +3,7 @@
 /// [#1299] Dumping and undumping the tables.
 #define INC_DUMP_H
 #include <stdio.h>     // FILE, fread, fwrite
-#include "global.h"    // [type] Boolean; // [macor] pput. pget
+#include "global.h"    // [type] Boolean; // [macor] pget
 
 /** @addtogroup S1299x1329_P455x464
  * @{
@@ -14,7 +14,6 @@
 /// [#1305]
 // fonts, str, tex
 #define pget(x) fread(&x, 8, 1, fmt_file)
-#define pput(x) fwrite(&x, 8, 1, fmt_file)
 /** @}*/ // end group S1299x1329_P455x464
 
 

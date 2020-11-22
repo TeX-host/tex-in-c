@@ -4,7 +4,7 @@
 #include "print.h"   // [func] print, print_char
 #include "io.h"      // [macro] TERM_ERR
 #include "str_pool_init.h" // [var] pool_strs
-#include "dump.h"          // [macro] pput, pget
+#include "dump.h"          // [macro] pget
 #include "str.h"    // [export]
 
 #define str_end(x) (str_start[(x) + 1])

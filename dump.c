@@ -25,22 +25,22 @@ FILE* fmt_file = NULL;
 /// [#1305]
 void dump_wd(MemoryWord wd) {
     MemoryWord fmt_var = wd;
-    pput(fmt_var);
+    fwrite(&fmt_var, 8, 1, fmt_file);
 }
 void dump_int(Integer int_) {
     MemoryWord fmt_var;
     fmt_var.int_ = int_;
-    pput(fmt_var);
+    fwrite(&fmt_var, 8, 1, fmt_file);
 }
 void dump_hh(TwoHalves hh) {
     MemoryWord fmt_var;
     fmt_var.hh = hh;
-    pput(fmt_var);
+    fwrite(&fmt_var, 8, 1, fmt_file);
 }
 void dump_qqqq(FourQuarters qqqq) {
     MemoryWord fmt_var;
     fmt_var.qqqq = qqqq;
-    pput(fmt_var);
+    fwrite(&fmt_var, 8, 1, fmt_file);
 }
 
 
