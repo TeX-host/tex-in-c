@@ -159,7 +159,6 @@ void fonts_init_once(void) {
 
 /// [#1320] Dump the font information.
 void fonts_dump(FILE* fmt_file) {
-    MemoryWord pppfmtfile;
     long k;
 
     /// [#1320] Dump the font information.

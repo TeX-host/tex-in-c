@@ -58,7 +58,6 @@ void dump_init_once() {
 void store_fmt_file(void) { /*1304:*/
     long j, k, l, x;
     Pointer p, q;
-    MemoryWord pppfmtfile;
 
     /** [#1304] If dumping is not allowed, abort. */
     if (saveptr != 0) {
