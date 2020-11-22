@@ -75,7 +75,7 @@ Static void initialize(void) {
 } /* [#4]: initialize */
 
 // #1303: call open_fmt@func.c
-Static Boolean open_fmt_file(void) { return open_fmt(&fmtfile); }
+Static Boolean open_fmt_file(void) { return open_fmt(&fmt_file); }
 
 
 /** @addtogroup S1330x1337_P465x469
@@ -751,10 +751,10 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
         if (format_ident != 0) initialize(); // erase preloaded format
         if (!open_fmt_file()) return HAS_ERROR;
         if (!load_fmt_file()) {
-            w_close(&fmtfile);
+            w_close(&fmt_file);
             return HAS_ERROR;
         }
-        w_close(&fmtfile);
+        w_close(&fmt_file);
         while ((LOC < LIMIT) && (buffer[LOC] == ' '))
             LOC++;
     }

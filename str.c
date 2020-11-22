@@ -251,7 +251,7 @@ void str_print_stats(FILE* f_log_file) {
             (long)(POOL_TOP - init_pool_ptr));
 }
 
-int str_undump(FILE* fmtfile, FILE* _not_use_) {
+int str_undump(FILE* fmt_file, FILE* _not_use_) {
     MemoryWord pppfmtfile;
     long x;
     /*:1308*/
@@ -271,8 +271,8 @@ int str_undump(FILE* fmtfile, FILE* _not_use_) {
         goto _Lbadfmt_;
     }
     str_ptr = x;
-    fread(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmtfile);
-    fread(str_pool, 1, sizeof(str_pool[0]) * (long)pool_ptr, fmtfile);
+    fread(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmt_file);
+    fread(str_pool, 1, sizeof(str_pool[0]) * (long)pool_ptr, fmt_file);
     init_str_ptr = str_ptr;
 #if POOLPOINTER_IS_POINTER
     for (x = 0; x <= str_ptr; x++) {
@@ -286,7 +286,7 @@ _Lbadfmt_:
     return 0;
 }
 
-void str_dump(FILE* fmtfile) {
+void str_dump(FILE* fmt_file) {
     MemoryWord pppfmtfile;
     long poolused;
 #if POOLPOINTER_IS_POINTER
@@ -304,8 +304,8 @@ void str_dump(FILE* fmtfile) {
     pput(pppfmtfile);
     pppfmtfile.int_ = str_ptr;
     pput(pppfmtfile);
-    fwrite(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmtfile);
-    fwrite(str_pool, 1, sizeof(str_pool[0]) * poolused, fmtfile);
+    fwrite(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmt_file);
+    fwrite(str_pool, 1, sizeof(str_pool[0]) * poolused, fmt_file);
 #if POOLPOINTER_IS_POINTER
     /* Pool is still in use, need to convert back */
     for (x = 0; x <= str_ptr; x++) {

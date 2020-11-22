@@ -157,7 +157,7 @@ void fonts_init_once(void) {
     }
 } /* #552: fonts_init_once */
 
-void fonts_dump(FILE* fmtfile) {
+void fonts_dump(FILE* fmt_file) {
     MemoryWord pppfmtfile;
     long k;
     /*1320:*/
@@ -240,7 +240,7 @@ void fonts_dump(FILE* fmtfile) {
         print_char('s');
 }
 
-int fonts_undump(FILE* fmtfile, FILE* _not_use_) {
+int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
     MemoryWord pppfmtfile;
     long k, x;
 

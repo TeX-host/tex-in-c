@@ -13,13 +13,13 @@
 
 /// [#1305]
 // fonts, str, tex
-#define pget(x) fread(&x, 8, 1, fmtfile)
-#define pput(x) fwrite(&x, 8, 1, fmtfile)
+#define pget(x) fread(&x, 8, 1, fmt_file)
+#define pput(x) fwrite(&x, 8, 1, fmt_file)
 /** @}*/ // end group S1299x1329_P455x464
 
 
 extern StrNumber format_ident;
-extern FILE* fmtfile;
+extern FILE* fmt_file;
 
 extern void dump_init();
 extern void dump_init_once();

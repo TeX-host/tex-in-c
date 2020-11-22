@@ -117,8 +117,8 @@ extern Scaled charkern(InternalFontNumber x, FourQuarters y);
 extern FourQuarters get_fontcheck(InternalFontNumber x);
 extern void fonts_init_once(void);
 
-extern int fonts_undump(FILE* fmtfile, FILE* _not_use_);
-extern void fonts_dump(FILE* fmtfile);
+extern int fonts_undump(FILE* fmt_file, FILE* _not_use_);
+extern void fonts_dump(FILE* fmt_file);
 extern Integer get_hyphenchar(InternalFontNumber x);
 extern void set_hyphenchar(InternalFontNumber x, Integer c);
 extern Integer get_skewchar(InternalFontNumber x);

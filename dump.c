@@ -21,7 +21,7 @@
 StrNumber format_ident;
 
 /// [#1305] for input or output of format information.
-FILE* fmtfile = NULL;
+FILE* fmt_file = NULL;
 
 /// [#1300]
 void dump_init() { format_ident = 0; } /* dump_init */
@@ -38,13 +38,17 @@ void store_fmt_file(void) { /*1304:*/
     long j, k, l, x;
     Pointer p, q;
     MemoryWord pppfmtfile;
+
+    /** [#1304] If dumping is not allowed, abort. */
     if (saveptr != 0) {
         print_err(S(988)); // "You can't dump inside a group"
         help1(S(989)); // "`{...\\dump}' is a no-no."
         succumb();
     }
-    /*:1304*/
-    /*1328:*/
+
+    /** [#1328] Create the format ident, open the format file, 
+     *  and inform the user that dumping has begun.
+     */
     selector = NEW_STRING;
     print(S(990)); // " (preloaded format="
     print(job_name);
@@ -55,14 +59,17 @@ void store_fmt_file(void) { /*1304:*/
     print_char('.');
     print_int(day);
     print_char(')');
-    if (interaction == BATCH_MODE)
+
+    if (interaction == BATCH_MODE) {
         selector = LOG_ONLY;
-    else
+    } else {
         selector = TERM_AND_LOG;
+    }
+
     str_room(1);
     format_ident = makestring();
     packjobname(formatextension);
-    while (!wopenout(&fmtfile)) {
+    while (!wopenout(&fmt_file)) {
         // "format file name"
         promptfilename(S(991), formatextension);
     }
@@ -70,9 +77,9 @@ void store_fmt_file(void) { /*1304:*/
     slow_print(wmakenamestring());
     flush_string();
     printnl(S(385)); // ""
-    /*:1328*/
+    slow_print(format_ident);
 
-    slow_print(format_ident); /*1307:*/
+    /** [#1307] Dump constants for consistency check. */
     pppfmtfile.int_ = 371982687L;
     pput(pppfmtfile);
     pppfmtfile.int_ = MEM_BOT;
@@ -85,7 +92,7 @@ void store_fmt_file(void) { /*1304:*/
     pput(pppfmtfile);
     pppfmtfile.int_ = HYPH_SIZE;
     pput(pppfmtfile); /*:1307*/
-    str_dump(fmtfile);
+    str_dump(fmt_file);
 
     sort_avail(); // #131
 
@@ -228,7 +235,7 @@ _Ldone2:
     print_int(cs_count); /*:1318*/
     /*:1313*/
     print(S(994)); // " multiletter control sequences"
-    fonts_dump(fmtfile);
+    fonts_dump(fmt_file);
     /*1324:*/
     pppfmtfile.int_ = hyphcount;
     pput(pppfmtfile);
@@ -292,7 +299,7 @@ _Ldone2:
     tracingstats = 0; /*:1326*/
     /*1329:*/
     /*:1329*/
-    w_close(&fmtfile);
+    w_close(&fmt_file);
 } // store_fmt_file
 #endif // #1302: tt_INIT
 
@@ -322,7 +329,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     x = pppfmtfile.int_;
     if (x != HYPH_SIZE) /*1310:*/
         goto _Lbadfmt_;
-    if (!str_undump(fmtfile, TERM_OUT)) goto _Lbadfmt_;
+    if (!str_undump(fmt_file, TERM_OUT)) goto _Lbadfmt_;
     /*1312:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -426,7 +433,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     pget(pppfmtfile);
     cs_count = pppfmtfile.int_; /*:1319*/
     /*:1314*/
-    if (!fonts_undump(fmtfile, TERM_OUT)) goto _Lbadfmt_;
+    if (!fonts_undump(fmt_file, TERM_OUT)) goto _Lbadfmt_;
     /*1325:*/
     pget(pppfmtfile);
     x = pppfmtfile.int_;
@@ -521,7 +528,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     format_ident = x;
     pget(pppfmtfile);
     x = pppfmtfile.int_;
-    if ((x != 69069L) | feof(fmtfile)) goto _Lbadfmt_; /*:1327*/
+    if ((x != 69069L) | feof(fmt_file)) goto _Lbadfmt_; /*:1327*/
     Result = true;
     goto _Lexit;
 
