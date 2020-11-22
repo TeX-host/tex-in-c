@@ -322,19 +322,12 @@ Boolean load_fmt_file(void) { /*1308:*/
     /* FourQuarters w; */
 
     /// [#1308] Undump constants for consistency check.
-    x = undump_int();
-    if (x != 371982687L) goto _LN_badfmt;
-    x = undump_int();
-    if (x != MEM_BOT) goto _LN_badfmt;
-    x = undump_int();
-    if (x != MEM_TOP) goto _LN_badfmt;
-    x = undump_int();
-    if (x != EQTB_SIZE) goto _LN_badfmt;
-    x = undump_int();
-    if (x != HASH_PRIME) goto _LN_badfmt;
-    x = undump_int();
-    if (x != HYPH_SIZE) /*1310:*/
-        goto _LN_badfmt;
+    if (undump_int() != 371982687L) goto _LN_badfmt;
+    if (undump_int() != MEM_BOT) goto _LN_badfmt;
+    if (undump_int() != MEM_TOP) goto _LN_badfmt;
+    if (undump_int() != EQTB_SIZE) goto _LN_badfmt;
+    if (undump_int() != HASH_PRIME) goto _LN_badfmt;
+    if (undump_int() != HYPH_SIZE) goto _LN_badfmt;
     if (!str_undump(fmt_file, TERM_OUT)) goto _LN_badfmt;
     /*1312:*/
     x = undump_int();
