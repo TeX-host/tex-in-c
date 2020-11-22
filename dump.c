@@ -225,14 +225,12 @@ _Ldone2:
     for (p = HASH_BASE; p <= hash_used; p++) {
         if (get_text(p) != 0) {
             dump_int(p);
-            pppfmtfile.hh = hash[p - HASH_BASE];
-            pput(pppfmtfile);
+            dump_hh(hash[p - HASH_BASE]);
             cs_count++;
         }
     }
     for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
-        pppfmtfile.hh = hash[p - HASH_BASE];
-        pput(pppfmtfile);
+        dump_hh(hash[p - HASH_BASE]);
     }
     dump_int(cs_count);
     println();
@@ -259,8 +257,7 @@ _Ldone2:
     if (trie_not_ready) inittrie();
     dump_int(triemax);
     for (k = 0; k <= triemax; k++) {
-        pppfmtfile.hh = trie[k];
-        pput(pppfmtfile);
+        dump_hh(trie[k]);
     }
     dump_int(trieopptr);
     for (k = 0; k < trieopptr; k++) {

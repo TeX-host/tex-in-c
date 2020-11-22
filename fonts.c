@@ -171,8 +171,7 @@ void fonts_dump(FILE* fmt_file) {
 
     for (k = NULL_FONT; k <= fontptr; k++) {
         /** [#1322] Dump the array info for internal font number k. */
-        pppfmtfile.qqqq = fontcheck[k];
-        pput(pppfmtfile);
+        dump_qqqq(fontcheck[k]);
         dump_int(fontsize[k]);
         dump_int(fontdsize[k]);
         dump_int(fontparams[k]);
