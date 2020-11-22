@@ -243,8 +243,7 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
     }
     fontptr = x;
     for (k = NULL_FONT; k <= fontptr; k++) { /*1323:*/
-        pget(pppfmtfile);
-        fontcheck[k] = pppfmtfile.qqqq;
+        fontcheck[k] = undump_qqqq();
         fontsize[k] = undump_int();
         fontdsize[k] = undump_int();
         x = undump_int();
