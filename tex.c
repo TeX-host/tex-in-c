@@ -251,7 +251,7 @@ Static void final_cleanup(void) {
             for (int i = topmarkcode; i <= splitbotmarkcode; i++) {
                 if (curmark[i] != 0) delete_token_ref(curmark[i]);
             }
-            storefmtfile();
+            store_fmt_file();
     #endif // #1335: tt_INIT
     }
 } // #1335: final_cleanup

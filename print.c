@@ -80,7 +80,7 @@ Integer first_count;
  *  [534]openlogfile, [537]startinput,
  *  [638]shipout, [649]hpack, [668]vpackage, [692]printsubsidiarydata, 
  *  [1265]newinteraction, [1279]issuemessage, 
- *  [1302/1309,1311,1320,1324]storefmtfile,
+ *  [1302/1309,1311,1320,1324]store_fmt_file,
  *  [1333]close_files_and_terminate,
  *  [1370]writeout
  */

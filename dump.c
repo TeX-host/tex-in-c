@@ -20,9 +20,8 @@
 // format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
 StrNumber format_ident;
 
-/*1305:*/
+/// [#1305] for input or output of format information.
 FILE* fmtfile = NULL;
-/*:1305*/
 
 /// [#1300]
 void dump_init() { format_ident = 0; } /* dump_init */
@@ -35,7 +34,7 @@ void dump_init_once() {
 
 #ifdef tt_INIT
 /// 455#1302: Declare action procedures for use by main control
-void storefmtfile(void) { /*1304:*/
+void store_fmt_file(void) { /*1304:*/
     long j, k, l, x;
     Pointer p, q;
     MemoryWord pppfmtfile;
@@ -294,7 +293,7 @@ _Ldone2:
     /*1329:*/
     /*:1329*/
     w_close(&fmtfile);
-} // storefmtfile
+} // store_fmt_file
 #endif // #1302: tt_INIT
 
 

@@ -1,6 +1,6 @@
 #pragma once
 #ifndef INC_DUMP_H
-//
+/// [#1299] Dumping and undumping the tables.
 #define INC_DUMP_H
 #include <stdio.h>     // FILE, fread, fwrite
 #include "global.h"    // [type] Boolean; // [macor] pput. pget
@@ -23,7 +23,7 @@ extern FILE* fmtfile;
 
 extern void dump_init();
 extern void dump_init_once();
-extern void storefmtfile(void);
+extern void store_fmt_file(void);
 extern Boolean load_fmt_file(void);
 
 #endif /* INC_PAGE_H */
