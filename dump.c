@@ -415,12 +415,10 @@ Boolean load_fmt_file(void) { /*1308:*/
         x = undump_int();
         if (x <= p || x > hash_used) goto _Lbadfmt_;
         p = x;
-        pget(pppfmtfile);
-        hash[p - HASH_BASE] = pppfmtfile.hh;
+        hash[p - HASH_BASE] = undump_hh();
     } while (p != hash_used);
     for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
-        pget(pppfmtfile);
-        hash[p - HASH_BASE] = pppfmtfile.hh;
+        hash[p - HASH_BASE] = undump_hh();
     }
     cs_count = undump_int(); /*:1319*/
     /*:1314*/
@@ -451,8 +449,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         triemax = j;
     #endif // #1325.1: tt_INIT
     for (k = 0; k <= j; k++) {
-        pget(pppfmtfile);
-        trie[k] = pppfmtfile.hh;
+        trie[k] = undump_hh();
     }
     x = undump_int();
     if (x < 0) goto _Lbadfmt_;
