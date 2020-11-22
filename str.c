@@ -255,16 +255,14 @@ int str_undump(FILE* fmt_file, FILE* _not_use_) {
     MemoryWord pppfmtfile;
     long x;
     /*:1308*/
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x > POOL_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the string pool size\n");
         goto _Lbadfmt_;
     }
     pool_ptr = (PoolPtr)x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x > MAX_STRINGS) {
         fprintf(TERM_OUT, "---! Must increase the max strings\n");

@@ -19,9 +19,18 @@
 // #1299: a string that is printed right after the banner
 // format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
 StrNumber format_ident;
-
 /// [#1305] [G_var] for input or output of format information.
 FILE* fmt_file = NULL;
+
+
+/// [#1300]
+void dump_init() { format_ident = 0; } /* dump_init */
+
+/// [#1301]
+void dump_init_once() {
+    format_ident = S(259); // " (INITEX)"
+} /* dump_init_once */
+
 /// [#1305]
 void dump_wd(MemoryWord wd) {
     MemoryWord fmt_var = wd;
@@ -43,15 +52,27 @@ void dump_qqqq(FourQuarters qqqq) {
     fwrite(&fmt_var, 8, 1, fmt_file);
 }
 
-
-/// [#1300]
-void dump_init() { format_ident = 0; } /* dump_init */
-
-/// [#1301]
-void dump_init_once() {
-    format_ident = S(259); // " (INITEX)"
-} /* dump_init_once */
-
+/// [#1306]
+MemoryWord undump_wd() {
+    MemoryWord fmt_var;
+    fread(&fmt_var, 8, 1, fmt_file);
+    return fmt_var;
+}
+Integer undump_int() {
+    MemoryWord fmt_var;
+    fread(&fmt_var, 8, 1, fmt_file);
+    return fmt_var.int_;
+}
+TwoHalves undump_hh() {
+    MemoryWord fmt_var;
+    fread(&fmt_var, 8, 1, fmt_file);
+    return fmt_var.hh;
+}
+FourQuarters undump_qqqq() {
+    MemoryWord fmt_var;
+    fread(&fmt_var, 8, 1, fmt_file);
+    return fmt_var.qqqq;
+}
 
 #ifdef tt_INIT
 /// 455#1302: Declare action procedures for use by main control
@@ -301,33 +322,27 @@ Boolean load_fmt_file(void) { /*1308:*/
     Pointer p, q;
     /* FourQuarters w; */
     MemoryWord pppfmtfile;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+
+    /// [#1308] Undump constants for consistency check.
+    x = undump_int();
     if (x != 371982687L) goto _Lbadfmt_;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x != MEM_BOT) goto _Lbadfmt_;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x != MEM_TOP) goto _Lbadfmt_;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x != EQTB_SIZE) goto _Lbadfmt_;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x != HASH_PRIME) goto _Lbadfmt_;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x != HYPH_SIZE) /*1310:*/
         goto _Lbadfmt_;
     if (!str_undump(fmt_file, TERM_OUT)) goto _Lbadfmt_;
     /*1312:*/
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < lomemstatmax + 1000 || x >= himemstatmin) goto _Lbadfmt_;
     lo_mem_max = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x <= lomemstatmax || x > lo_mem_max) goto _Lbadfmt_;
     rover = x;
     p = MEM_BOT;
@@ -358,12 +373,10 @@ Boolean load_fmt_file(void) { /*1308:*/
         link(q) = empty_flag;
         node_size(q) = MEM_BOT - q;
     }
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x <= lo_mem_max || x > himemstatmin) goto _Lbadfmt_;
     hi_mem_min = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if ((unsigned long)x > MEM_TOP) goto _Lbadfmt_;
     avail = x;
     mem_end = MEM_TOP;
@@ -379,39 +392,33 @@ Boolean load_fmt_file(void) { /*1308:*/
     /*1317:*/
     k = ACTIVE_BASE;
     do {
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (x < 1 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++) {
             pget(pppfmtfile);
             eqtb[j - ACTIVE_BASE] = pppfmtfile;
         }
         k += x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (x < 0 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++)
             eqtb[j - ACTIVE_BASE] = eqtb[k - ACTIVE_BASE - 1];
         k += x; /*:1317*/
     } while (k <= EQTB_SIZE);
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _Lbadfmt_;
     parloc = x;
     partoken = CS_TOKEN_FLAG + parloc;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) /*1319:*/
         goto _Lbadfmt_;
     writeloc = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _Lbadfmt_;
     hash_used = x;
     p = HASH_BASE - 1;
     do {
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (x <= p || x > hash_used) goto _Lbadfmt_;
         p = x;
         pget(pppfmtfile);
@@ -426,26 +433,21 @@ Boolean load_fmt_file(void) { /*1308:*/
     /*:1314*/
     if (!fonts_undump(fmt_file, TERM_OUT)) goto _Lbadfmt_;
     /*1325:*/
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if ((unsigned long)x > HYPH_SIZE) goto _Lbadfmt_;
     hyphcount = x;
     for (k = 1; k <= hyphcount; k++) {
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > HYPH_SIZE) goto _Lbadfmt_;
         j = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (!str_valid(x)) goto _Lbadfmt_;
         hyphword[j] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > MAX_HALF_WORD) goto _Lbadfmt_;
         hyphlist[j] = x;
     }
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x >TRIE_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the trie size\n");
@@ -459,8 +461,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         pget(pppfmtfile);
         trie[k] = pppfmtfile.hh;
     }
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x > TRIE_OP_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the trie op size\n");
@@ -471,16 +472,13 @@ Boolean load_fmt_file(void) { /*1308:*/
         trieopptr = j;
     #endif // #1325.2: tt_INIT
     for (k = 1; k <= j; k++) {
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > 63) goto _Lbadfmt_;
         hyfdistance[k - 1] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > 63) goto _Lbadfmt_;
         hyfnum[k - 1] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > MAX_QUARTER_WORD) goto _Lbadfmt_;
         hyfnext[k - 1] = x;
     }
@@ -490,12 +488,10 @@ Boolean load_fmt_file(void) { /*1308:*/
     #endif // #1325.3: tt_INIT
     k = 256;
     while (j > 0) {
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (x >= k) goto _Lbadfmt_;
         k = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (x < 1 || x > j) goto _Lbadfmt_;
         #ifdef tt_INIT
             trieused[k] = x;
@@ -509,16 +505,13 @@ Boolean load_fmt_file(void) { /*1308:*/
        /*:1325*/
 
     /*1327:*/
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if ((unsigned long)x > ERROR_STOP_MODE) goto _Lbadfmt_;
     interaction = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (!str_valid(x)) goto _Lbadfmt_;
     format_ident = x;
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if ((x != 69069L) | feof(fmt_file)) goto _Lbadfmt_; /*:1327*/
     Result = true;
     goto _Lexit;

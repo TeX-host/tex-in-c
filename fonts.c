@@ -225,8 +225,7 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
     long k, x;
 
     /*1321:*/
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 7) goto _Lbadfmt_;
     if (x > FONT_MEM_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the font mem size\n");
@@ -237,8 +236,7 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
         pget(pppfmtfile);
         fontinfo[k] = pppfmtfile;
     }
-    pget(pppfmtfile);
-    x = pppfmtfile.int_;
+    x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x > FONT_MAX) {
         fprintf(TERM_OUT, "---! Must increase the font max\n");
@@ -252,28 +250,23 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
         fontsize[k] = pppfmtfile.int_;
         pget(pppfmtfile);
         fontdsize[k] = pppfmtfile.int_;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > MAX_HALF_WORD) goto _Lbadfmt_;
         fontparams[k] = x;
         pget(pppfmtfile);
         hyphenchar[k] = pppfmtfile.int_;
         pget(pppfmtfile);
         skewchar[k] = pppfmtfile.int_;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (!str_valid(x)) goto _Lbadfmt_;
         fontname[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if (!str_valid(x)) goto _Lbadfmt_;
         fontarea[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > 255) goto _Lbadfmt_;
         fontbc[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > 255) goto _Lbadfmt_;
         fontec[k] = x;
         pget(pppfmtfile);
@@ -294,20 +287,16 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
         extenbase[k] = pppfmtfile.int_;
         pget(pppfmtfile);
         parambase[k] = pppfmtfile.int_;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((long)x > get_lo_mem_max()) goto _Lbadfmt_;
         fontglue[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((long)x >= fmemptr) goto _Lbadfmt_;
         bcharlabel[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
         fontbchar[k] = x;
-        pget(pppfmtfile);
-        x = pppfmtfile.int_;
+        x = undump_int();
         if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
         fontfalsebchar[k] = x;
     }
