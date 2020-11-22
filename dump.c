@@ -349,8 +349,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     q = rover;
     do {
         for (k = p; k <= q + 1; k++) {
-            pget(pppfmtfile);
-            mem[k - MEM_MIN] = pppfmtfile;
+            mem[k - MEM_MIN] = undump_wd();
         }
         p = q + node_size(q);
         if ((p > lo_mem_max) | ((q >= rlink(q)) & (rlink(q) != rover)))
@@ -358,8 +357,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         q = rlink(q);
     } while (q != rover);
     for (k = p; k <= lo_mem_max; k++) {
-        pget(pppfmtfile);
-        mem[k - MEM_MIN] = pppfmtfile;
+        mem[k - MEM_MIN] = undump_wd();
     }
     if (MEM_MIN < MEM_BOT - 2) {
         p = llink(rover);
@@ -381,8 +379,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     avail = x;
     mem_end = MEM_TOP;
     for (k = hi_mem_min; k <= mem_end; k++) {
-        pget(pppfmtfile);
-        mem[k - MEM_MIN] = pppfmtfile;
+        mem[k - MEM_MIN] = undump_wd();
     }
     pget(pppfmtfile);
     var_used = pppfmtfile.int_;
@@ -395,8 +392,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         x = undump_int();
         if (x < 1 || k + x > EQTB_SIZE + 1) goto _Lbadfmt_;
         for (j = k; j < k + x; j++) {
-            pget(pppfmtfile);
-            eqtb[j - ACTIVE_BASE] = pppfmtfile;
+            eqtb[j - ACTIVE_BASE] = undump_wd();
         }
         k += x;
         x = undump_int();

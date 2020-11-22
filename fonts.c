@@ -233,8 +233,7 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
     }
     fmemptr = x;
     for (k = 0; k < fmemptr; k++) {
-        pget(pppfmtfile);
-        fontinfo[k] = pppfmtfile;
+        fontinfo[k] = undump_wd();
     }
     x = undump_int();
     if (x < 0) goto _Lbadfmt_;
