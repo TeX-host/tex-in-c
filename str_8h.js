@@ -24,7 +24,7 @@ var str_8h =
     [ "str_bcmp", "str_8h.html#a24f861d1283938060a9958db41bbb054", null ],
     [ "str_cmp", "group___s38x53___p19x23.html#gac0b5ed41251f3598633000ea519c47a0", null ],
     [ "str_cur_map", "str_8h.html#a88121bc5ee5bfd7ba03e73e04a9cb9ca", null ],
-    [ "str_dump", "str_8h.html#ad5ebefdd3a20760c675a2e98cb2451b1", null ],
+    [ "str_dump", "str_8h.html#ac4b2b440738f9b77a7bf2c303ece334b", null ],
     [ "str_eq_str", "group___s38x53___p19x23.html#gaf5154128050b273866e3f18cb3ce7848", null ],
     [ "str_getc", "str_8h.html#a90ad04d9eb9a1ca9435e147a003636e1", null ],
     [ "str_ins", "str_8h.html#afa6d70d071490bedeaa35a7b75fe51c0", null ],
@@ -39,6 +39,6 @@ var str_8h =
     [ "str_room", "group___s38x53___p19x23.html#ga7a2999ae21371a5ddba7edfd27383027", null ],
     [ "str_scmp", "str_8h.html#af4538e3fed329b86bcf530340d84433d", null ],
     [ "str_set_init_ptrs", "str_8h.html#a1ca7453a64987bbd517da1f89e2a74d8", null ],
-    [ "str_undump", "str_8h.html#a7bb239d357f1aa59a8f47eab64540a61", null ],
+    [ "str_undump", "str_8h.html#a1abc1f177dba44a8d666d13660a6d96b", null ],
     [ "str_valid", "str_8h.html#a014c3cfdf95e47010534c518b6efe13c", null ]
 ];
