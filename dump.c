@@ -321,7 +321,6 @@ Boolean load_fmt_file(void) { /*1308:*/
     long j, k, x;
     Pointer p, q;
     /* FourQuarters w; */
-    MemoryWord pppfmtfile;
 
     /// [#1308] Undump constants for consistency check.
     x = undump_int();

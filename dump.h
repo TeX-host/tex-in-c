@@ -3,18 +3,7 @@
 /// [#1299] Dumping and undumping the tables.
 #define INC_DUMP_H
 #include <stdio.h>     // FILE, fread, fwrite
-#include "global.h"    // [type] Boolean; // [macor] pget
-
-/** @addtogroup S1299x1329_P455x464
- * @{
- */
-/// [#1303] lable _not_use_
-// #define badfmt 6666
-
-/// [#1305]
-// fonts, str, tex
-#define pget(x) fread(&x, 8, 1, fmt_file)
-/** @}*/ // end group S1299x1329_P455x464
+#include "global.h"    // [type] Boolean;
 
 
 extern StrNumber format_ident;
@@ -29,5 +18,9 @@ extern void dump_wd(MemoryWord wd);
 extern void dump_int(Integer int_);
 extern void dump_hh(TwoHalves hh);
 extern void dump_qqqq(FourQuarters qqqq);
+extern MemoryWord undump_wd();
+extern Integer undump_int();
+extern TwoHalves undump_hh();
+extern FourQuarters undump_qqqq();
 
 #endif /* INC_PAGE_H */

@@ -221,7 +221,6 @@ void fonts_dump(FILE* fmt_file) {
 } /* [#1320] fonts_dump */
 
 int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
-    MemoryWord pppfmtfile;
     long k, x;
 
     /*1321:*/

@@ -4,7 +4,7 @@
 #include "print.h"   // [func] print, print_char
 #include "io.h"      // [macro] TERM_ERR
 #include "str_pool_init.h" // [var] pool_strs
-#include "dump.h"          // [macro] pget
+#include "dump.h"          // [macro]
 #include "str.h"    // [export]
 
 #define str_end(x) (str_start[(x) + 1])
@@ -252,7 +252,6 @@ void str_print_stats(FILE* f_log_file) {
 }
 
 int str_undump(FILE* fmt_file, FILE* _not_use_) {
-    MemoryWord pppfmtfile;
     long x;
     /*:1308*/
     x = undump_int();
@@ -285,7 +284,6 @@ _Lbadfmt_:
 }
 
 void str_dump(FILE* fmt_file) {
-    MemoryWord pppfmtfile;
     long poolused;
 #if POOLPOINTER_IS_POINTER
     /* Convert for dumping */

@@ -6,7 +6,7 @@
 #include "global.h"       // [macro] qi, qo; [const] UMAXOF, static_assert
 #include "tex_constant.h" // [const] FONT_MAX, FONT_MEM_SIZE, FONT_BASE, MIN_QUARTER_WORD, MAX_HALF_WORD
 #include "str.h"
-#include "dump.h" // [macro] pget
+#include "dump.h" // [macro]
 // [fonts], dviout, tex
 
 
