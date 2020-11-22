@@ -317,7 +317,6 @@ _Ldone2:
 
 
 Boolean load_fmt_file(void) { /*1308:*/
-    Boolean Result;
     long j, k, x;
     Pointer p, q;
     /* FourQuarters w; */
@@ -502,15 +501,11 @@ Boolean load_fmt_file(void) { /*1308:*/
     format_ident = x;
     x = undump_int();
     if ((x != 69069L) | feof(fmt_file)) goto _Lbadfmt_; /*:1327*/
-    Result = true;
-    goto _Lexit;
+    return true;
 
 _Lbadfmt_:
     fprintf(TERM_OUT, "(Fatal format file error; I'm stymied)\n");
-    Result = false;
-
-_Lexit:
-    return Result;
+    return false;
 } // #1303: load_fmt_file
 
 /** @}*/ // end group S1299x1329_P455x464
