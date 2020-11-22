@@ -165,8 +165,7 @@ void fonts_dump(FILE* fmt_file) {
     /// [#1320] Dump the font information.
     dump_int(fmemptr);
     for (k = 0; k < fmemptr; k++) {
-        pppfmtfile = fontinfo[k];
-        pput(pppfmtfile);
+        dump_wd(fontinfo[k]);
     }
     dump_int(fontptr);
 

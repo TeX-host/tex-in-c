@@ -122,8 +122,7 @@ void store_fmt_file(void) { /*1304:*/
 
     do {
         for (k = p; k <= q + 1; k++) {
-            pppfmtfile = mem[k - MEM_MIN];
-            pput(pppfmtfile);
+            dump_wd(mem[k - MEM_MIN]);
         }
         x += q - p + 2;
         var_used += q - p;
@@ -134,15 +133,13 @@ void store_fmt_file(void) { /*1304:*/
     var_used += lo_mem_max - p;
     dyn_used = mem_end - hi_mem_min + 1;
     for (k = p; k <= lo_mem_max; k++) {
-        pppfmtfile = mem[k - MEM_MIN];
-        pput(pppfmtfile);
+        dump_wd(mem[k - MEM_MIN]);
     }
     x += lo_mem_max - p + 1;
     dump_int(hi_mem_min);
     dump_int(avail);
     for (k = hi_mem_min; k <= mem_end; k++) {
-        pppfmtfile = mem[k - MEM_MIN];
-        pput(pppfmtfile);
+        dump_wd(mem[k - MEM_MIN]);
     }
     x += mem_end - hi_mem_min + 1;
     p = avail;
@@ -184,8 +181,7 @@ _Lfound1:
 _Ldone1:
         dump_int(l - k);
         while (k < l) {
-            pppfmtfile = eqtb[k - ACTIVE_BASE];
-            pput(pppfmtfile);
+            dump_wd(eqtb[k - ACTIVE_BASE]);
             k++;
         }
         k = j + 1;
@@ -213,8 +209,7 @@ _Lfound2:
 _Ldone2:
         dump_int(l - k);
         while (k < l) {
-            pppfmtfile = eqtb[k - ACTIVE_BASE];
-            pput(pppfmtfile);
+            dump_wd(eqtb[k - ACTIVE_BASE]);
             k++;
         }
         k = j + 1;
