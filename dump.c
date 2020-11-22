@@ -381,10 +381,8 @@ Boolean load_fmt_file(void) { /*1308:*/
     for (k = hi_mem_min; k <= mem_end; k++) {
         mem[k - MEM_MIN] = undump_wd();
     }
-    pget(pppfmtfile);
-    var_used = pppfmtfile.int_;
-    pget(pppfmtfile);
-    dyn_used = pppfmtfile.int_; /*:1312*/
+    var_used = undump_int();
+    dyn_used = undump_int(); /*:1312*/
     /*1314:*/
     /*1317:*/
     k = ACTIVE_BASE;
@@ -424,8 +422,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         pget(pppfmtfile);
         hash[p - HASH_BASE] = pppfmtfile.hh;
     }
-    pget(pppfmtfile);
-    cs_count = pppfmtfile.int_; /*:1319*/
+    cs_count = undump_int(); /*:1319*/
     /*:1314*/
     if (!fonts_undump(fmt_file, TERM_OUT)) goto _Lbadfmt_;
     /*1325:*/
