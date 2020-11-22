@@ -300,10 +300,8 @@ void str_dump(FILE* fmt_file) {
     poolused = pool_ptr;
 #endif
 
-    pppfmtfile.int_ = poolused;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = str_ptr;
-    pput(pppfmtfile);
+    dump_int(poolused);
+    dump_int(str_ptr);
     fwrite(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmt_file);
     fwrite(str_pool, 1, sizeof(str_pool[0]) * poolused, fmt_file);
 #if POOLPOINTER_IS_POINTER

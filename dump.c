@@ -20,8 +20,29 @@
 // format ident: 35, 61, 536, [1299], 1300, 1301, 1326, 1327, 1328, 1337
 StrNumber format_ident;
 
-/// [#1305] for input or output of format information.
+/// [#1305] [G_var] for input or output of format information.
 FILE* fmt_file = NULL;
+/// [#1305]
+void dump_wd(MemoryWord wd) {
+    MemoryWord fmt_var = wd;
+    pput(fmt_var);
+}
+void dump_int(Integer int_) {
+    MemoryWord fmt_var;
+    fmt_var.int_ = int_;
+    pput(fmt_var);
+}
+void dump_hh(TwoHalves hh) {
+    MemoryWord fmt_var;
+    fmt_var.hh = hh;
+    pput(fmt_var);
+}
+void dump_qqqq(FourQuarters qqqq) {
+    MemoryWord fmt_var;
+    fmt_var.qqqq = qqqq;
+    pput(fmt_var);
+}
+
 
 /// [#1300]
 void dump_init() { format_ident = 0; } /* dump_init */
@@ -80,30 +101,25 @@ void store_fmt_file(void) { /*1304:*/
     slow_print(format_ident);
 
     /** [#1307] Dump constants for consistency check. */
-    pppfmtfile.int_ = 371982687L;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = MEM_BOT;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = MEM_TOP;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = EQTB_SIZE;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = HASH_PRIME;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = HYPH_SIZE;
-    pput(pppfmtfile); /*:1307*/
+    dump_int(371982687L);
+    dump_int(MEM_BOT);
+    dump_int(MEM_TOP);
+    dump_int(EQTB_SIZE);
+    dump_int(HASH_PRIME);
+    dump_int(HYPH_SIZE);
+
+    /// [#1309] Dump the string pool.
     str_dump(fmt_file);
 
-    sort_avail(); // #131
-
+    /// [#1311] Dump the dynamic memory.
+    sort_avail();
     var_used = 0;
-    pppfmtfile.int_ = lo_mem_max;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = rover;
-    pput(pppfmtfile);
+    dump_int(lo_mem_max);
+    dump_int(rover);
     p = MEM_BOT;
     q = rover;
     x = 0;
+
     do {
         for (k = p; k <= q + 1; k++) {
             pppfmtfile = mem[k - MEM_MIN];
@@ -114,6 +130,7 @@ void store_fmt_file(void) { /*1304:*/
         p = q + node_size(q);
         q = rlink(q);
     } while (q != rover);
+
     var_used += lo_mem_max - p;
     dyn_used = mem_end - hi_mem_min + 1;
     for (k = p; k <= lo_mem_max; k++) {
@@ -121,10 +138,8 @@ void store_fmt_file(void) { /*1304:*/
         pput(pppfmtfile);
     }
     x += lo_mem_max - p + 1;
-    pppfmtfile.int_ = hi_mem_min;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = avail;
-    pput(pppfmtfile);
+    dump_int(hi_mem_min);
+    dump_int(avail);
     for (k = hi_mem_min; k <= mem_end; k++) {
         pppfmtfile = mem[k - MEM_MIN];
         pput(pppfmtfile);
@@ -135,19 +150,18 @@ void store_fmt_file(void) { /*1304:*/
         dyn_used -= CHAR_NODE_SIZE;
         p = link(p);
     }
-    pppfmtfile.int_ = var_used;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = dyn_used;
-    pput(pppfmtfile);
+    dump_int(var_used);
+    dump_int(dyn_used);
     println();
     print_int(x);
     print(S(993)); // " memory locations dumped; current usage is "
     print_int(var_used);
     print_char('&');    /*:1311*/
-    print_int(dyn_used); /*1313:*/
-    /*1315:*/
-    k = ACTIVE_BASE;
+    print_int(dyn_used); 
 
+    /*1313:*/
+    /** [#1315] Dump regions 1 to 4 of eqtb */
+    k = ACTIVE_BASE;
     do { /*1316:*/
         j = k;
         while (j < INT_BASE - 1) {
@@ -168,17 +182,17 @@ _Lfound1:
             j++;
         }
 _Ldone1:
-        pppfmtfile.int_ = l - k;
-        pput(pppfmtfile);
+        dump_int(l - k);
         while (k < l) {
             pppfmtfile = eqtb[k - ACTIVE_BASE];
             pput(pppfmtfile);
             k++;
         }
         k = j + 1;
-        pppfmtfile.int_ = k - l;
-        pput(pppfmtfile); /*:1315*/
+        dump_int(k - l); /*:1315*/
     } while (k != INT_BASE);
+
+    /** [#1316] Dump regions 5 and 6 of eqtb. */
     do {
         j = k;
         while (j < EQTB_SIZE) {
@@ -197,29 +211,25 @@ _Lfound2:
             j++;
         }
 _Ldone2:
-        pppfmtfile.int_ = l - k;
-        pput(pppfmtfile);
+        dump_int(l - k);
         while (k < l) {
             pppfmtfile = eqtb[k - ACTIVE_BASE];
             pput(pppfmtfile);
             k++;
         }
         k = j + 1;
-        pppfmtfile.int_ = k - l;
-        pput(pppfmtfile); /*:1316*/
+        dump_int(k - l); /*:1316*/
     } while (k <= EQTB_SIZE);
 
-    pppfmtfile.int_ = parloc;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = writeloc;
-    pput(pppfmtfile); /*1318:*/
-    pppfmtfile.int_ = hash_used;
-    pput(pppfmtfile);
+    dump_int(parloc);
+    dump_int(writeloc);
+
+    /** [#1318] Dump the hash table */
+    dump_int(hash_used);
     cs_count = FROZEN_CONTROL_SEQUENCE - hash_used - 1;
     for (p = HASH_BASE; p <= hash_used; p++) {
         if (get_text(p) != 0) {
-            pppfmtfile.int_ = p;
-            pput(pppfmtfile);
+            dump_int(p);
             pppfmtfile.hh = hash[p - HASH_BASE];
             pput(pppfmtfile);
             cs_count++;
@@ -229,24 +239,22 @@ _Ldone2:
         pppfmtfile.hh = hash[p - HASH_BASE];
         pput(pppfmtfile);
     }
-    pppfmtfile.int_ = cs_count;
-    pput(pppfmtfile);
+    dump_int(cs_count);
     println();
     print_int(cs_count); /*:1318*/
     /*:1313*/
     print(S(994)); // " multiletter control sequences"
+
+    /// [#1320] Dump the font information.
     fonts_dump(fmt_file);
-    /*1324:*/
-    pppfmtfile.int_ = hyphcount;
-    pput(pppfmtfile);
+
+    /** [#1324] Dump the hyphenation tables. */
+    dump_int(hyphcount);
     for (k = 0; k <= HYPH_SIZE; k++) {
         if (hyphword[k] != 0) {
-            pppfmtfile.int_ = k;
-            pput(pppfmtfile);
-            pppfmtfile.int_ = hyphword[k];
-            pput(pppfmtfile);
-            pppfmtfile.int_ = hyphlist[k];
-            pput(pppfmtfile);
+            dump_int(k);
+            dump_int(hyphword[k]);
+            dump_int(hyphlist[k]);
         }
     }
     println();
@@ -254,21 +262,16 @@ _Ldone2:
     print(S(995)); // " hyphenation exception"
     if (hyphcount != 1) print_char('s');
     if (trie_not_ready) inittrie();
-    pppfmtfile.int_ = triemax;
-    pput(pppfmtfile);
+    dump_int(triemax);
     for (k = 0; k <= triemax; k++) {
         pppfmtfile.hh = trie[k];
         pput(pppfmtfile);
     }
-    pppfmtfile.int_ = trieopptr;
-    pput(pppfmtfile);
+    dump_int(trieopptr);
     for (k = 0; k < trieopptr; k++) {
-        pppfmtfile.int_ = hyfdistance[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = hyfnum[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = hyfnext[k];
-        pput(pppfmtfile);
+        dump_int(hyfdistance[k]);
+        dump_int(hyfnum[k]);
+        dump_int(hyfnext[k]);
     }
     printnl(S(996)); // "Hyphenation trie of length "
     print_int(triemax);
@@ -284,21 +287,18 @@ _Ldone2:
             print_int(trieused[k] - MIN_QUARTER_WORD);
             print(S(1000)); // " for language "
             print_int(k);
-            pppfmtfile.int_ = k;
-            pput(pppfmtfile);
-            pppfmtfile.int_ = trieused[k] - MIN_QUARTER_WORD;
-            pput(pppfmtfile);
+            dump_int(k);
+            dump_int(trieused[k] - MIN_QUARTER_WORD);
         }
     }
-    pppfmtfile.int_ = interaction;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = format_ident;
-    pput(pppfmtfile);
-    pppfmtfile.int_ = 69069L;
-    pput(pppfmtfile);
-    tracingstats = 0; /*:1326*/
-    /*1329:*/
-    /*:1329*/
+
+    /** [1326] Dump a couple more things and the closing check word. */
+    dump_int(interaction);
+    dump_int(format_ident);
+    dump_int(69069L);
+    tracingstats = 0;
+
+    /** [#1329] Close the format file. */
     w_close(&fmt_file);
 } // store_fmt_file
 #endif // #1302: tt_INIT

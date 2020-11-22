@@ -157,70 +157,52 @@ void fonts_init_once(void) {
     }
 } /* #552: fonts_init_once */
 
+/// [#1320] Dump the font information.
 void fonts_dump(FILE* fmt_file) {
     MemoryWord pppfmtfile;
     long k;
-    /*1320:*/
-    pppfmtfile.int_ = fmemptr;
-    pput(pppfmtfile);
+
+    /// [#1320] Dump the font information.
+    dump_int(fmemptr);
     for (k = 0; k < fmemptr; k++) {
         pppfmtfile = fontinfo[k];
         pput(pppfmtfile);
     }
-    pppfmtfile.int_ = fontptr;
-    pput(pppfmtfile);
-    for (k = NULL_FONT; k <= fontptr; k++) { /*1322:*/
+    dump_int(fontptr);
+
+    for (k = NULL_FONT; k <= fontptr; k++) {
+        /** [#1322] Dump the array info for internal font number k. */
         pppfmtfile.qqqq = fontcheck[k];
         pput(pppfmtfile);
-        pppfmtfile.int_ = fontsize[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontdsize[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontparams[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = hyphenchar[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = skewchar[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontname[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontarea[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontbc[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontec[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = charbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = widthbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = heightbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = depthbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = italicbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = ligkernbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = kernbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = extenbase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = parambase[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontglue[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = bcharlabel[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontbchar[k];
-        pput(pppfmtfile);
-        pppfmtfile.int_ = fontfalsebchar[k];
-        pput(pppfmtfile);
+        dump_int(fontsize[k]);
+        dump_int(fontdsize[k]);
+        dump_int(fontparams[k]);
+        dump_int(hyphenchar[k]);
+        dump_int(skewchar[k]);
+        dump_int(fontname[k]);
+        dump_int(fontarea[k]);
+        dump_int(fontbc[k]);
+        dump_int(fontec[k]);
+        dump_int(charbase[k]);
+        dump_int(widthbase[k]);
+        dump_int(heightbase[k]);
+        dump_int(depthbase[k]);
+        dump_int(italicbase[k]);
+        dump_int(ligkernbase[k]);
+        dump_int(kernbase[k]);
+        dump_int(extenbase[k]);
+        dump_int(parambase[k]);
+        dump_int(fontglue[k]);
+        dump_int(bcharlabel[k]);
+        dump_int(fontbchar[k]);
+        dump_int(fontfalsebchar[k]);
+
     #ifndef USE_REAL_STR
         printnl(S(1278)); // "\\font"
     #else
         printnl_str("\\font");
-    #endif // USE_REAL_STR  
+    #endif // USE_REAL_STR
+
         print_esc(fontidtext(k));
         print_char('=');
         print_file_name(fontname[k], fontarea[k], S(385));
@@ -230,15 +212,16 @@ void fonts_dump(FILE* fmt_file) {
             print(S(459));
         }
     }
-    /*:1322*/
+
     println();
     print_int(fmemptr - 7);
     print(S(1279));
     print_int(fontptr);
     print(S(1280));
-    if (fontptr != 1) /*:1320*/
+    if (fontptr != 1) {
         print_char('s');
-}
+    }
+} /* [#1320] fonts_dump */
 
 int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
     MemoryWord pppfmtfile;

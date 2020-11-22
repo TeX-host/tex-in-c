@@ -26,4 +26,9 @@ extern void dump_init_once();
 extern void store_fmt_file(void);
 extern Boolean load_fmt_file(void);
 
+extern void dump_wd(MemoryWord wd);
+extern void dump_int(Integer int_);
+extern void dump_hh(TwoHalves hh);
+extern void dump_qqqq(FourQuarters qqqq);
+
 #endif /* INC_PAGE_H */
