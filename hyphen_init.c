@@ -48,7 +48,7 @@ TriePointer triemin[256];
 TriePointer triemax;
 // is the trie still in linked form?
 // xref: 891, [950], 951, 960, 966, 1324, 1325
-Boolean trie_not_ready;
+Static Boolean trie_not_ready;
 #endif // #943,947,950: tt_INIT
 
 
@@ -393,6 +393,8 @@ void inittrie(void) { /*952:*/
     TriePointer r, s;
     TwoHalves h;
 
+    if (!trie_not_ready) return;
+
     /*945:*/
     opstart[0] = -MIN_QUARTER_WORD;
     for (j = 1; j <= 255; j++)
@@ -472,7 +474,7 @@ void hypen_dump() {
     print(S(995)); // " hyphenation exception"
     if (hyphcount != 1) print_char('s');
 
-    if (trie_not_ready) inittrie();
+    inittrie();
     dump_int(triemax);
     for (k = 0; k <= triemax; k++) {
         dump_hh(trie[k]);

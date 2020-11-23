@@ -163,7 +163,6 @@ extern QuarterWord trieused[256];
 extern UInt16 trieopptr;
 
 extern TriePointer triemax;
-extern Boolean trie_not_ready;
 
 extern void hyphen_init_once();
 extern void newpatterns(void);

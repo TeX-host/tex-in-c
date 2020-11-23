@@ -158,9 +158,9 @@ void linebreak(long finalwidowpenalty) {
     while (true) {
         if (threshold > INF_BAD) threshold = INF_BAD;
         if (secondpass) { /*891:*/
-#ifdef tt_INIT
-            if (trie_not_ready) inittrie();
-#endif // #891: tt_INIT
+        #ifdef tt_INIT
+            inittrie();
+        #endif // #891: tt_INIT
             curlang = initcurlang;
             lhyf = initlhyf;
             rhyf = initrhyf;
