@@ -75,10 +75,11 @@ FourQuarters undump_qqqq() {
 }
 
 #ifdef tt_INIT
-/// 455#1302: Declare action procedures for use by main control
-void store_fmt_file(void) { /*1304:*/
-    long j, k, l, x;
-    Pointer p, q;
+/// [455#1302]: Declare action procedures for use by main control
+void store_fmt_file(void) {
+    Integer j, k, l; // all-purpose indices
+    Pointer p, q;    // all-purpose pointers
+    Integer x;       // something to dump
 
     /** [#1304] If dumping is not allowed, abort. */
     if (saveptr != 0) {
@@ -128,17 +129,18 @@ void store_fmt_file(void) { /*1304:*/
     dump_int(HASH_PRIME);
     dump_int(HYPH_SIZE);
 
-    /// [#1309] Dump the string pool.
+    /** [#1309] Dump the string pool. */
     str_dump(fmt_file);
 
     /// [#1311] Dump the dynamic memory.
+    /// ## dump [MEM_BOT, lo_mem_max]
     sort_avail();
     var_used = 0;
     dump_int(lo_mem_max);
     dump_int(rover);
-    p = MEM_BOT;
-    q = rover;
-    x = 0;
+    p = MEM_BOT; // begin
+    q = rover; // end
+    x = 0; // temp var; memory locations
 
     do {
         for (k = p; k <= q + 1; k++) {
@@ -149,19 +151,21 @@ void store_fmt_file(void) { /*1304:*/
         p = q + node_size(q);
         q = rlink(q);
     } while (q != rover);
-
     var_used += lo_mem_max - p;
     dyn_used = mem_end - hi_mem_min + 1;
     for (k = p; k <= lo_mem_max; k++) {
         dump_wd(mem[k - MEM_MIN]);
     }
     x += lo_mem_max - p + 1;
+
+    /// ## dump [hi_mem_min, mem_end]
     dump_int(hi_mem_min);
     dump_int(avail);
     for (k = hi_mem_min; k <= mem_end; k++) {
         dump_wd(mem[k - MEM_MIN]);
     }
     x += mem_end - hi_mem_min + 1;
+
     p = avail;
     while (p != 0) {
         dyn_used -= CHAR_NODE_SIZE;
@@ -169,46 +173,56 @@ void store_fmt_file(void) { /*1304:*/
     }
     dump_int(var_used);
     dump_int(dyn_used);
+
     println();
     print_int(x);
     print(S(993)); // " memory locations dumped; current usage is "
     print_int(var_used);
-    print_char('&');    /*:1311*/
-    print_int(dyn_used); 
+    print_char('&');
+    print_int(dyn_used);
 
-    /*1313:*/
-    /** [#1315] Dump regions 1 to 4 of eqtb */
+    /** [#1313] Dump the table of equivalents.
+     *
+     *  1. [#1315] Dump regions 1 to 4 of eqtb.
+     *  2. [#1316] Dump regions 5 and 6 of eqtb.
+     *  3. [#1318] Dump the hash table.
+     */
+    /// 1. [#1315] Dump regions 1 to 4 of eqtb.
     k = ACTIVE_BASE;
-    do { /*1316:*/
+    do {
         j = k;
         while (j < INT_BASE - 1) {
-            if ((equiv(j) == equiv(j + 1)) & (eq_type(j) == eq_type(j + 1)) &
-                (eq_level(j) == eq_level(j + 1)))
+            if ((equiv(j) == equiv(j + 1)) 
+                & (eq_type(j) == eq_type(j + 1)) 
+                & (eq_level(j) == eq_level(j + 1)))
                 goto _Lfound1;
             j++;
         }
         l = INT_BASE;
-        goto _Ldone1;
-_Lfound1:
+        goto _Ldone1; // j = INT_BASE − 1
+
+    _Lfound1:
         j++;
         l = j;
         while (j < INT_BASE - 1) {
-            if ((equiv(j) != equiv(j + 1)) | (eq_type(j) != eq_type(j + 1)) |
-                (eq_level(j) != eq_level(j + 1)))
+            if ((equiv(j) != equiv(j + 1)) 
+                | (eq_type(j) != eq_type(j + 1)) 
+                | (eq_level(j) != eq_level(j + 1)))
                 goto _Ldone1;
             j++;
         }
-_Ldone1:
+
+    _Ldone1:
         dump_int(l - k);
         while (k < l) {
             dump_wd(eqtb[k - ACTIVE_BASE]);
             k++;
         }
         k = j + 1;
-        dump_int(k - l); /*:1315*/
+        dump_int(k - l);
     } while (k != INT_BASE);
 
-    /** [#1316] Dump regions 5 and 6 of eqtb. */
+    /** 2. [#1316] Dump regions 5 and 6 of eqtb. */
     do {
         j = k;
         while (j < EQTB_SIZE) {
@@ -218,7 +232,8 @@ _Ldone1:
         }
         l = EQTB_SIZE + 1;
         goto _Ldone2;
-_Lfound2:
+
+    _Lfound2:
         j++;
         l = j;
         while (j < EQTB_SIZE) {
@@ -226,7 +241,8 @@ _Lfound2:
                 goto _Ldone2;
             j++;
         }
-_Ldone2:
+
+    _Ldone2:
         dump_int(l - k);
         while (k < l) {
             dump_wd(eqtb[k - ACTIVE_BASE]);
@@ -239,7 +255,7 @@ _Ldone2:
     dump_int(parloc);
     dump_int(writeloc);
 
-    /** [#1318] Dump the hash table */
+    /** 3. [#1318] Dump the hash table */
     dump_int(hash_used);
     cs_count = FROZEN_CONTROL_SEQUENCE - hash_used - 1;
     for (p = HASH_BASE; p <= hash_used; p++) {
@@ -254,11 +270,10 @@ _Ldone2:
     }
     dump_int(cs_count);
     println();
-    print_int(cs_count); /*:1318*/
-    /*:1313*/
+    print_int(cs_count); 
     print(S(994)); // " multiletter control sequences"
 
-    /// [#1320] Dump the font information.
+    /** [#1320] Dump the font information. */
     fonts_dump(fmt_file);
 
     /** [#1324] Dump the hyphenation tables. */
@@ -274,6 +289,7 @@ _Ldone2:
     print_int(hyphcount);
     print(S(995)); // " hyphenation exception"
     if (hyphcount != 1) print_char('s');
+
     if (trie_not_ready) inittrie();
     dump_int(triemax);
     for (k = 0; k <= triemax; k++) {
@@ -285,6 +301,7 @@ _Ldone2:
         dump_int(hyfnum[k]);
         dump_int(hyfnext[k]);
     }
+
     printnl(S(996)); // "Hyphenation trie of length "
     print_int(triemax);
     print(S(997)); // " has "
@@ -293,8 +310,8 @@ _Ldone2:
     if (trieopptr != 1) print_char('s');
     print(S(999)); // " out of "
     print_int(TRIE_OP_SIZE);
-    for (k = 255; k >= 0; k--) {            /*1326:*/
-        if (trieused[k] > MIN_QUARTER_WORD) { /*:1324*/
+    for (k = 255; k >= 0; k--) {
+        if (trieused[k] > MIN_QUARTER_WORD) {
             printnl(S(675));                  // "  "
             print_int(trieused[k] - MIN_QUARTER_WORD);
             print(S(1000)); // " for language "
@@ -316,19 +333,26 @@ _Ldone2:
 #endif // #1302: tt_INIT
 
 
-Boolean load_fmt_file(void) { /*1308:*/
-    long j, k, x;
-    Pointer p, q;
-    /* FourQuarters w; */
+/** [#1303] Read dumps in.
+ *
+ *  [#524] Declare the function called open fmt file.
+ */
+Boolean load_fmt_file(void) {
+    Integer j, k; // all-purpose indices
+    Pointer p, q; // all-purpose pointers
+    Integer x;    // something to dump
 
-    /// [#1308] Undump constants for consistency check.
+    /** [#1308] Undump constants for consistency check. */
     if (undump_int() != 371982687L) goto _LN_badfmt;
     if (undump_int() != MEM_BOT) goto _LN_badfmt;
     if (undump_int() != MEM_TOP) goto _LN_badfmt;
     if (undump_int() != EQTB_SIZE) goto _LN_badfmt;
     if (undump_int() != HASH_PRIME) goto _LN_badfmt;
     if (undump_int() != HYPH_SIZE) goto _LN_badfmt;
+
+    /** [#1310] Undump the string pool. */
     if (!str_undump(fmt_file, TERM_OUT)) goto _LN_badfmt;
+
     /*1312:*/
     x = undump_int();
     if (x < lomemstatmax + 1000 || x >= himemstatmin) goto _LN_badfmt;
@@ -336,6 +360,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     x = undump_int();
     if (x <= lomemstatmax || x > lo_mem_max) goto _LN_badfmt;
     rover = x;
+
     p = MEM_BOT;
     q = rover;
     do {
@@ -350,6 +375,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     for (k = p; k <= lo_mem_max; k++) {
         mem[k - MEM_MIN] = undump_wd();
     }
+
     if (MEM_MIN < MEM_BOT - 2) {
         p = llink(rover);
         q = MEM_MIN + 1;
@@ -362,6 +388,7 @@ Boolean load_fmt_file(void) { /*1308:*/
         link(q) = empty_flag;
         node_size(q) = MEM_BOT - q;
     }
+
     x = undump_int();
     if (x <= lo_mem_max || x > himemstatmin) goto _LN_badfmt;
     hi_mem_min = x;
@@ -373,9 +400,14 @@ Boolean load_fmt_file(void) { /*1308:*/
         mem[k - MEM_MIN] = undump_wd();
     }
     var_used = undump_int();
-    dyn_used = undump_int(); /*:1312*/
-    /*1314:*/
-    /*1317:*/
+    dyn_used = undump_int();
+
+    /** [#1314] Undump the table of equivalents.
+     *
+     *  1. [#1317] Undump regions 1 to 6 of eqtb.
+     *  2. [#1319] Undump the hash table.
+     */
+    /// 1. [#1317] Undump regions 1 to 6 of eqtb.
     k = ACTIVE_BASE;
     do {
         x = undump_int();
@@ -388,19 +420,22 @@ Boolean load_fmt_file(void) { /*1308:*/
         if (x < 0 || k + x > EQTB_SIZE + 1) goto _LN_badfmt;
         for (j = k; j < k + x; j++)
             eqtb[j - ACTIVE_BASE] = eqtb[k - ACTIVE_BASE - 1];
-        k += x; /*:1317*/
+        k += x;
     } while (k <= EQTB_SIZE);
+    
     x = undump_int();
     if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _LN_badfmt;
     parloc = x;
     partoken = CS_TOKEN_FLAG + parloc;
     x = undump_int();
-    if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) /*1319:*/
-        goto _LN_badfmt;
+    if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _LN_badfmt;
     writeloc = x;
+
+    /// 2. [#1319] Undump the hash table.
     x = undump_int();
     if (x < HASH_BASE || x > FROZEN_CONTROL_SEQUENCE) goto _LN_badfmt;
     hash_used = x;
+
     p = HASH_BASE - 1;
     do {
         x = undump_int();
@@ -411,10 +446,12 @@ Boolean load_fmt_file(void) { /*1308:*/
     for (p = hash_used + 1; p < UNDEFINED_CONTROL_SEQUENCE; p++) {
         hash[p - HASH_BASE] = undump_hh();
     }
-    cs_count = undump_int(); /*:1319*/
-    /*:1314*/
+    cs_count = undump_int();
+
+    /** [#1321] Undump the font information. */
     if (!fonts_undump(fmt_file, TERM_OUT)) goto _LN_badfmt;
-    /*1325:*/
+
+    /** [#1325] Undump the hyphenation tables. */
     x = undump_int();
     if ((unsigned long)x > HYPH_SIZE) goto _LN_badfmt;
     hyphcount = x;
@@ -429,9 +466,10 @@ Boolean load_fmt_file(void) { /*1308:*/
         if ((unsigned long)x > MAX_HALF_WORD) goto _LN_badfmt;
         hyphlist[j] = x;
     }
+
     x = undump_int();
     if (x < 0) goto _LN_badfmt;
-    if (x >TRIE_SIZE) {
+    if (x > TRIE_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the trie size\n");
         goto _LN_badfmt;
     }
@@ -442,6 +480,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     for (k = 0; k <= j; k++) {
         trie[k] = undump_hh();
     }
+
     x = undump_int();
     if (x < 0) goto _LN_badfmt;
     if (x > TRIE_OP_SIZE) {
@@ -455,7 +494,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     for (k = 1; k <= j; k++) {
         x = undump_int();
         if ((unsigned long)x > 63) goto _LN_badfmt;
-        hyfdistance[k - 1] = x;
+        hyfdistance[k - 1] = x; // a small number
         x = undump_int();
         if ((unsigned long)x > 63) goto _LN_badfmt;
         hyfnum[k - 1] = x;
@@ -463,9 +502,11 @@ Boolean load_fmt_file(void) { /*1308:*/
         if ((unsigned long)x > MAX_QUARTER_WORD) goto _LN_badfmt;
         hyfnext[k - 1] = x;
     }
+
     #ifdef tt_INIT
-        for (k = 0; k <= 255; k++)
+        for (k = 0; k <= 255; k++) {
             trieused[k] = MIN_QUARTER_WORD;
+        }
     #endif // #1325.3: tt_INIT
     k = 256;
     while (j > 0) {
@@ -483,9 +524,8 @@ Boolean load_fmt_file(void) { /*1308:*/
     #ifdef tt_INIT
         trie_not_ready = false;
     #endif // #1325.5: tt_INIT
-       /*:1325*/
 
-    /*1327:*/
+    /** [#1327] Undump a couple more things and the closing check word. */
     x = undump_int();
     if ((unsigned long)x > ERROR_STOP_MODE) goto _LN_badfmt;
     interaction = x;
@@ -493,7 +533,7 @@ Boolean load_fmt_file(void) { /*1308:*/
     if (!str_valid(x)) goto _LN_badfmt;
     format_ident = x;
     x = undump_int();
-    if ((x != 69069L) | feof(fmt_file)) goto _LN_badfmt; /*:1327*/
+    if ((x != 69069L) | feof(fmt_file)) goto _LN_badfmt;
     return true;
 
 _LN_badfmt:
