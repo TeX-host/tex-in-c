@@ -159,11 +159,6 @@ extern void newhyphexceptions(void);
 
 
 // hyphen-init
-extern QuarterWord trieused[256];
-extern UInt16 trieopptr;
-
-extern TriePointer triemax;
-
 extern void hyphen_init_once();
 extern void newpatterns(void);
 extern void inittrie(void);

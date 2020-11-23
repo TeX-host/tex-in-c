@@ -15,37 +15,37 @@
 #ifdef tt_INIT
 /// #943
 // trie op codes for quadruples
-short trieophash[TRIE_OP_SIZE + TRIE_OP_SIZE + 1];
+Static short trieophash[TRIE_OP_SIZE + TRIE_OP_SIZE + 1];
 // largest opcode used so far for this language
-QuarterWord trieused[256];
+Static QuarterWord trieused[256];
 // language part of a hashed quadruple
-ASCIICode trieoplang[TRIE_OP_SIZE];
+Static ASCIICode trieoplang[TRIE_OP_SIZE];
 // opcode corresponding to a hashed quadruple
-QuarterWord trieopval[TRIE_OP_SIZE];
+Static QuarterWord trieopval[TRIE_OP_SIZE];
 // number of stored ops so far
-UInt16 trieopptr;
+Static UInt16 trieopptr;
 
 /// #947
 // characters to match
-PackedASCIICode triec[TRIE_SIZE + 1];
+Static PackedASCIICode triec[TRIE_SIZE + 1];
 // operations to perform
-QuarterWord trieo[TRIE_SIZE + 1];
+Static QuarterWord trieo[TRIE_SIZE + 1];
 // left subtrie links
-TriePointer triel[TRIE_SIZE + 1];
+Static TriePointer triel[TRIE_SIZE + 1];
 // right subtrie links
-TriePointer trier[TRIE_SIZE + 1];
+Static TriePointer trier[TRIE_SIZE + 1];
 // the number of nodes in the trie
-TriePointer trieptr;
+Static TriePointer trieptr;
 // used to identify equivalent subtries
-TriePointer triehash[TRIE_SIZE + 1];
+Static TriePointer triehash[TRIE_SIZE + 1];
 
 /// #950
 // does a family START here?
-UChar trietaken[(TRIE_SIZE + 7) / 8];
+Static UChar trietaken[(TRIE_SIZE + 7) / 8];
 // the first possible slot for each character
-TriePointer triemin[256];
+Static TriePointer triemin[256];
 // largest location used in trie
-TriePointer triemax;
+Static TriePointer triemax;
 // is the trie still in linked form?
 // xref: 891, [950], 951, 960, 966, 1324, 1325
 Static Boolean trie_not_ready;
