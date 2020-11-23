@@ -164,7 +164,7 @@ void sprint_cs(Pointer p) {
             print_esc(S(263)); // "endcsname"
         }
     } else { // p >= HASH_BASE
-        print_esc(p - ACTIVE_BASE);
+        print_esc(text(p));
     }
 } /* [#263]: sprint_cs */
 
