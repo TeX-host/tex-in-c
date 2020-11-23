@@ -12,8 +12,10 @@ var hyphen_8h =
     [ "trieop", "group___s919x941___p344x349.html#gae4c844cac3884be28358c0cb1aefd138", null ],
     [ "trieroot", "group___s942x966___p350x359.html#ga015390f60b8fbebcf85638a3d6954ac7", null ],
     [ "wraplig", "group___s900x918___p334x343.html#gafcd1f831a7a72edcbdf38a3ef4644db9", null ],
+    [ "hypen_dump", "group___s942x966___p350x359.html#ga14aa95793b8c892f42ad4d05429156e5", null ],
     [ "hyphen_init", "group___s919x941___p344x349.html#gac9e8d2a0961811df578eeb307f417c68", null ],
     [ "hyphen_init_once", "group___s942x966___p350x359.html#gab5131263f21a3651f1d743c2bc09bf9d", null ],
+    [ "hyphen_undump", "group___s942x966___p350x359.html#gae2b0451f4c72c0fbb15e257ddc78427b", null ],
     [ "hyphenate", "group___s891x899___p330x333.html#gad2ec39c3db4249f202c32daca895f4da", null ],
     [ "inittrie", "group___s942x966___p350x359.html#ga4953f312f016c82145ae48b0d39341bd", null ],
     [ "newhyphexceptions", "group___s919x941___p344x349.html#gac6fac5c7230a3401019812b6144560bb", null ],
@@ -47,9 +49,5 @@ var hyphen_8h =
     [ "opstart", "group___s919x941___p344x349.html#ga6b8aaceaf2d7d19798738a3cfc60994a", null ],
     [ "rhyf", "hyphen_8h.html#a686f19345488b98050d0d376abc04e96", null ],
     [ "rthit", "hyphen_8h.html#a09f48a6716e61c2a98c7541a9aadc33a", null ],
-    [ "trie", "group___s919x941___p344x349.html#ga17002c925c885701d83b683a57f87078", null ],
-    [ "trie_not_ready", "hyphen_8h.html#ae12fd775719ef2052059c76221284eba", null ],
-    [ "triemax", "hyphen_8h.html#aa882b43a4689a9656465a05b81afe98a", null ],
-    [ "trieopptr", "hyphen_8h.html#a6e076a69741119421782af2c481759bc", null ],
-    [ "trieused", "hyphen_8h.html#a4c1425ec2e15a685fa5e74800e7b26fc", null ]
+    [ "trie", "group___s919x941___p344x349.html#ga17002c925c885701d83b683a57f87078", null ]
 ];
