@@ -274,7 +274,7 @@ void store_fmt_file(void) {
     print(S(994)); // " multiletter control sequences"
 
     /** [#1320] Dump the font information. */
-    fonts_dump(fmt_file);
+    fonts_dump();
 
     /** [#1324] Dump the hyphenation tables. */
     dump_int(hyphcount);
@@ -449,7 +449,7 @@ Boolean load_fmt_file(void) {
     cs_count = undump_int();
 
     /** [#1321] Undump the font information. */
-    if (!fonts_undump(fmt_file, TERM_OUT)) goto _LN_badfmt;
+    if (!fonts_undump()) goto _LN_badfmt;
 
     /** [#1325] Undump the hyphenation tables. */
     x = undump_int();

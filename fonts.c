@@ -158,7 +158,7 @@ void fonts_init_once(void) {
 } /* #552: fonts_init_once */
 
 /// [#1320] Dump the font information.
-void fonts_dump(FILE* fmt_file) {
+void fonts_dump() {
     Integer k;
 
     dump_int(fmemptr);
@@ -226,7 +226,7 @@ void fonts_dump(FILE* fmt_file) {
 /** [#1321] Undump the font information.
  *
  */
-int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
+int fonts_undump() {
     Integer k, x;
 
     x = undump_int();
