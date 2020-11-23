@@ -159,9 +159,8 @@ void fonts_init_once(void) {
 
 /// [#1320] Dump the font information.
 void fonts_dump(FILE* fmt_file) {
-    long k;
+    Integer k;
 
-    /// [#1320] Dump the font information.
     dump_int(fmemptr);
     for (k = 0; k < fmemptr; k++) {
         dump_wd(fontinfo[k]);
@@ -173,13 +172,16 @@ void fonts_dump(FILE* fmt_file) {
         dump_qqqq(fontcheck[k]);
         dump_int(fontsize[k]);
         dump_int(fontdsize[k]);
+    
         dump_int(fontparams[k]);
         dump_int(hyphenchar[k]);
         dump_int(skewchar[k]);
+
         dump_int(fontname[k]);
         dump_int(fontarea[k]);
         dump_int(fontbc[k]);
         dump_int(fontec[k]);
+
         dump_int(charbase[k]);
         dump_int(widthbase[k]);
         dump_int(heightbase[k]);
@@ -188,6 +190,7 @@ void fonts_dump(FILE* fmt_file) {
         dump_int(ligkernbase[k]);
         dump_int(kernbase[k]);
         dump_int(extenbase[k]);
+
         dump_int(parambase[k]);
         dump_int(fontglue[k]);
         dump_int(bcharlabel[k]);
@@ -220,48 +223,58 @@ void fonts_dump(FILE* fmt_file) {
     }
 } /* [#1320] fonts_dump */
 
+/** [#1321] Undump the font information.
+ *
+ */
 int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
-    long k, x;
+    Integer k, x;
 
-    /*1321:*/
     x = undump_int();
-    if (x < 7) goto _Lbadfmt_;
+    if (x < 7) goto _LN_badfmt;
     if (x > FONT_MEM_SIZE) {
         fprintf(TERM_OUT, "---! Must increase the font mem size\n");
-        goto _Lbadfmt_;
+        goto _LN_badfmt;
     }
     fmemptr = x;
+
+    /// undump fontinfo[]
     for (k = 0; k < fmemptr; k++) {
         fontinfo[k] = undump_wd();
     }
+
     x = undump_int();
-    if (x < 0) goto _Lbadfmt_;
+    if (x < 0) goto _LN_badfmt;
     if (x > FONT_MAX) {
         fprintf(TERM_OUT, "---! Must increase the font max\n");
-        goto _Lbadfmt_;
+        goto _LN_badfmt;
     }
     fontptr = x;
-    for (k = NULL_FONT; k <= fontptr; k++) { /*1323:*/
+
+    for (k = NULL_FONT; k <= fontptr; k++) {
+        /** [#1323] Undump the array info for internal font number k. */
         fontcheck[k] = undump_qqqq();
         fontsize[k] = undump_int();
         fontdsize[k] = undump_int();
+    
         x = undump_int();
-        if ((unsigned long)x > MAX_HALF_WORD) goto _Lbadfmt_;
+        if ((unsigned long)x > MAX_HALF_WORD) goto _LN_badfmt;
         fontparams[k] = x;
         hyphenchar[k] = undump_int();
         skewchar[k] = undump_int();
+
         x = undump_int();
-        if (!str_valid(x)) goto _Lbadfmt_;
+        if (!str_valid(x)) goto _LN_badfmt;
         fontname[k] = x;
         x = undump_int();
-        if (!str_valid(x)) goto _Lbadfmt_;
+        if (!str_valid(x)) goto _LN_badfmt;
         fontarea[k] = x;
         x = undump_int();
-        if ((unsigned long)x > 255) goto _Lbadfmt_;
+        if ((unsigned long)x > 255) goto _LN_badfmt;
         fontbc[k] = x;
         x = undump_int();
-        if ((unsigned long)x > 255) goto _Lbadfmt_;
+        if ((unsigned long)x > 255) goto _LN_badfmt;
         fontec[k] = x;
+
         charbase[k] = undump_int();
         widthbase[k] = undump_int();
         heightbase[k] = undump_int();
@@ -270,25 +283,26 @@ int fonts_undump(FILE* fmt_file, FILE* _not_use_) {
         ligkernbase[k] = undump_int();
         kernbase[k] = undump_int();
         extenbase[k] = undump_int();
+
         parambase[k] = undump_int();
         x = undump_int();
-        if ((long)x > get_lo_mem_max()) goto _Lbadfmt_;
+        if ((long)x > get_lo_mem_max()) goto _LN_badfmt;
         fontglue[k] = x;
         x = undump_int();
-        if ((long)x >= fmemptr) goto _Lbadfmt_;
+        if ((long)x >= fmemptr) goto _LN_badfmt;
         bcharlabel[k] = x;
         x = undump_int();
-        if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
+        if ((unsigned long)x > NON_CHAR) goto _LN_badfmt;
         fontbchar[k] = x;
         x = undump_int();
-        if ((unsigned long)x > NON_CHAR) goto _Lbadfmt_;
+        if ((unsigned long)x > NON_CHAR) goto _LN_badfmt;
         fontfalsebchar[k] = x;
     }
-    /*:1323*/
-    return 1;
-_Lbadfmt_:
-    return 0;
-}
+    return true;
+
+_LN_badfmt:
+    return false;
+} /* [#1321] fonts_undump */
 
 /// [p205#560]: input a TFM file.
 InternalFontNumber
