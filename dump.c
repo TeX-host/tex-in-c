@@ -277,49 +277,7 @@ void store_fmt_file(void) {
     fonts_dump();
 
     /** [#1324] Dump the hyphenation tables. */
-    dump_int(hyphcount);
-    for (k = 0; k <= HYPH_SIZE; k++) {
-        if (hyphword[k] != 0) {
-            dump_int(k);
-            dump_int(hyphword[k]);
-            dump_int(hyphlist[k]);
-        }
-    }
-    println();
-    print_int(hyphcount);
-    print(S(995)); // " hyphenation exception"
-    if (hyphcount != 1) print_char('s');
-
-    if (trie_not_ready) inittrie();
-    dump_int(triemax);
-    for (k = 0; k <= triemax; k++) {
-        dump_hh(trie[k]);
-    }
-    dump_int(trieopptr);
-    for (k = 0; k < trieopptr; k++) {
-        dump_int(hyfdistance[k]);
-        dump_int(hyfnum[k]);
-        dump_int(hyfnext[k]);
-    }
-
-    printnl(S(996)); // "Hyphenation trie of length "
-    print_int(triemax);
-    print(S(997)); // " has "
-    print_int(trieopptr);
-    print(S(998)); // " op"
-    if (trieopptr != 1) print_char('s');
-    print(S(999)); // " out of "
-    print_int(TRIE_OP_SIZE);
-    for (k = 255; k >= 0; k--) {
-        if (trieused[k] > MIN_QUARTER_WORD) {
-            printnl(S(675));                  // "  "
-            print_int(trieused[k] - MIN_QUARTER_WORD);
-            print(S(1000)); // " for language "
-            print_int(k);
-            dump_int(k);
-            dump_int(trieused[k] - MIN_QUARTER_WORD);
-        }
-    }
+    hypen_dump();
 
     /** [1326] Dump a couple more things and the closing check word. */
     dump_int(interaction);
@@ -452,78 +410,7 @@ Boolean load_fmt_file(void) {
     if (!fonts_undump()) goto _LN_badfmt;
 
     /** [#1325] Undump the hyphenation tables. */
-    x = undump_int();
-    if ((unsigned long)x > HYPH_SIZE) goto _LN_badfmt;
-    hyphcount = x;
-    for (k = 1; k <= hyphcount; k++) {
-        x = undump_int();
-        if ((unsigned long)x > HYPH_SIZE) goto _LN_badfmt;
-        j = x;
-        x = undump_int();
-        if (!str_valid(x)) goto _LN_badfmt;
-        hyphword[j] = x;
-        x = undump_int();
-        if ((unsigned long)x > MAX_HALF_WORD) goto _LN_badfmt;
-        hyphlist[j] = x;
-    }
-
-    x = undump_int();
-    if (x < 0) goto _LN_badfmt;
-    if (x > TRIE_SIZE) {
-        fprintf(TERM_OUT, "---! Must increase the trie size\n");
-        goto _LN_badfmt;
-    }
-    j = x;
-    #ifdef tt_INIT
-        triemax = j;
-    #endif // #1325.1: tt_INIT
-    for (k = 0; k <= j; k++) {
-        trie[k] = undump_hh();
-    }
-
-    x = undump_int();
-    if (x < 0) goto _LN_badfmt;
-    if (x > TRIE_OP_SIZE) {
-        fprintf(TERM_OUT, "---! Must increase the trie op size\n");
-        goto _LN_badfmt;
-    }
-    j = x;
-    #ifdef tt_INIT
-        trieopptr = j;
-    #endif // #1325.2: tt_INIT
-    for (k = 1; k <= j; k++) {
-        x = undump_int();
-        if ((unsigned long)x > 63) goto _LN_badfmt;
-        hyfdistance[k - 1] = x; // a small number
-        x = undump_int();
-        if ((unsigned long)x > 63) goto _LN_badfmt;
-        hyfnum[k - 1] = x;
-        x = undump_int();
-        if ((unsigned long)x > MAX_QUARTER_WORD) goto _LN_badfmt;
-        hyfnext[k - 1] = x;
-    }
-
-    #ifdef tt_INIT
-        for (k = 0; k <= 255; k++) {
-            trieused[k] = MIN_QUARTER_WORD;
-        }
-    #endif // #1325.3: tt_INIT
-    k = 256;
-    while (j > 0) {
-        x = undump_int();
-        if (x >= k) goto _LN_badfmt;
-        k = x;
-        x = undump_int();
-        if (x < 1 || x > j) goto _LN_badfmt;
-        #ifdef tt_INIT
-            trieused[k] = x;
-        #endif // #1325.4: tt_INIT
-        j -= x;
-        opstart[k] = j - MIN_QUARTER_WORD;
-    }
-    #ifdef tt_INIT
-        trie_not_ready = false;
-    #endif // #1325.5: tt_INIT
+    if (!hyphen_undump()) goto _LN_badfmt;
 
     /** [#1327] Undump a couple more things and the closing check word. */
     x = undump_int();

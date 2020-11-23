@@ -17,11 +17,11 @@ extern Boolean load_fmt_file(void);
 
 extern void dump_wd(MemoryWord wd);
 extern void dump_int(Integer int_);
-// extern void dump_hh(TwoHalves hh); // _not_use_outside
+extern void dump_hh(TwoHalves hh);
 extern void dump_qqqq(FourQuarters qqqq);
 extern MemoryWord undump_wd();
 extern Integer undump_int();
-// extern TwoHalves undump_hh(); // _not_use_outside
+extern TwoHalves undump_hh();
 extern FourQuarters undump_qqqq();
 
 #endif /* INC_PAGE_H */

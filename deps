@@ -74,7 +74,8 @@ hyphen.o: hyphen.c str.h global.h global_macros.h global_const.h \
  error.h scan.h lexer.h hyphen.h box.h texmath.h fonts.h dump.h
 hyphen_init.o: hyphen_init.c lexer.h global.h global_macros.h \
  global_const.h tex_types.h tex_constant.h mem.h print.h charset.h eqtb.h \
- str.h error.h expand.h scan.h hyphen.h box.h texmath.h fonts.h dump.h
+ str.h error.h expand.h scan.h io.h dump.h hyphen.h box.h texmath.h \
+ fonts.h
 pagebreak.o: pagebreak.c mem.h global.h global_macros.h global_const.h \
  tex_types.h tex_constant.h eqtb.h linebreak.h pack.h box.h texmath.h \
  str.h charset.h print.h error.h expand.h mmode.h fonts.h dump.h scan.h \

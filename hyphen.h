@@ -169,4 +169,7 @@ extern void hyphen_init_once();
 extern void newpatterns(void);
 extern void inittrie(void);
 
+extern void hypen_dump();
+extern Boolean hyphen_undump();
+
 #endif /* INC_HYPHEN_H */
