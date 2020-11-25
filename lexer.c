@@ -414,10 +414,10 @@ void showtokenlist(Integer p, Integer q, Integer l) {
     }
 } // #292: showtokenlist
 
-/// [#295] display a token list,  given a pointer to its reference count.
-    if (p != 0) showtokenlist(link(p), 0, 10000000L);
-} // #295 : tokenshow
+/// [p118#295] display a token list, given a pointer to its reference count.
 void token_show(Pointer p) {
+    if (p != null) showtokenlist(link(p), 0, 10000000L);
+} // #295 : token_show
 
 /// [p118#296] displays cur cmd and cur chr in symbolic form, 
 ///     including the expansion of a macro or mark.
