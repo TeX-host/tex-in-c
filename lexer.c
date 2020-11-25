@@ -415,8 +415,8 @@ void showtokenlist(Integer p, Integer q, Integer l) {
 } // #292: showtokenlist
 
 /// [#295] display a token list,  given a pointer to its reference count.
-void tokenshow(HalfWord p) {
     if (p != 0) showtokenlist(link(p), 0, 10000000L);
+void tokenshow(Pointer p) {
 } // #295 : tokenshow
 
 /// [p118#296] displays cur cmd and cur chr in symbolic form, 
