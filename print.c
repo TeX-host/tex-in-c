@@ -75,7 +75,7 @@ Integer first_count;
  *  [114]printword, [182]shownodelist, [198]showbox, 
  *  [218]showactivities, [245]begin_diagnostic, [296]printmeaning, 
  *  [306]runaway, [330]clearforerrorprompt, [331]showcontext, 
- *  [341]getnext_worker, [363]firm_up_the_line, [389]macrocall,
+ *  [341]_get_next_helper, [363]firm_up_the_line, [389]macrocall,
  *  [482]readtoks, 
  *  [534]openlogfile, [537]startinput,
  *  [638]shipout, [649]hpack, [668]vpackage, [692]printsubsidiarydata, 

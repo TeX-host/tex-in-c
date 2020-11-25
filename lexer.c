@@ -858,7 +858,7 @@ Boolean init_lexer(void) {
 /** @addtogroup S332x365_P134x143
  *
  * + #check_outer_validity
- * + #getnext_worker
+ * + #_get_next_helper
  * + #getnext
  * + #firm_up_the_line
  * + #gettoken
@@ -986,14 +986,14 @@ static int hex_to_cur_chr(int c, int cc) {
     return res;
 }
 
-/// [#341]: getnext_worker
-static void getnext_worker(Boolean no_new_control_sequence) {
+/// [#341]: _get_next_helper
+static void _get_next_helper(Boolean no_new_control_sequence) {
     UInt16 k;            // an index into buffer; [0, BUF_SIZE=5000]
     UChar cat;           // cat_code(cur chr), usually
     ASCIICode c, cc = 0; // constituents of a possible expanded code
     UChar d;             // number of excess characters in an expanded code
 
-    // getnext_worker 内部变量
+    // _get_next_helper 内部变量
     int cur_cs, cur_chr, cur_cmd;
 
 // go here to: get the next input token
@@ -1407,7 +1407,7 @@ _getnext_worker__exit:;
     curcmd = cur_cmd;
     curchr = cur_chr;
     curcs = cur_cs;
-} // #341: getnext_worker
+} // #341: _get_next_helper
 
 // [#341] : sets #curcmd, #curchr, #curcs to next token.
 //
@@ -1417,7 +1417,7 @@ _getnext_worker__exit:;
 //  366, 369, 380, 381, 387,
 //  389, 478, 494, 507, 644,
 //  1038, 1126
-void getnext(void) { getnext_worker(true); }
+void getnext(void) { _get_next_helper(true); }
 
 /// [#363] If the user has set the pausing parameter to some positive value, and
 /// if nonstop mode has not beenselected.
@@ -1450,7 +1450,7 @@ void firm_up_the_line(void) {
 
 /// [#365] 
 void gettoken(void) {
-    getnext_worker(false);
+    _get_next_helper(false);
     curtok = pack_tok(curcs, curcmd, curchr);
 } // [#365] gettoken
 /** @}*/ // end group S332x365_P134x143
