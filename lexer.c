@@ -1455,10 +1455,10 @@ void get_token(void) {
 /** @}*/ // end group S332x365_P134x143
 
 /// [#365] 辅助函数
-int _pack_tok(int cs, int cmd, int chr) {
-    if (cs == 0) {
-        return (cmd * dwa_do_8) + chr;
+HalfWord _pack_tok(Pointer _cs, EightBits _cmd, HalfWord _chr) {
+    if (_cs == 0) {
+        return (_cmd * dwa_do_8) + _chr;
     } else {
-        return CS_TOKEN_FLAG + cs;
+        return CS_TOKEN_FLAG + _cs;
     }
 }

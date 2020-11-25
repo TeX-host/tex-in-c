@@ -274,7 +274,7 @@ extern void get_next(void);
 extern void firm_up_the_line(void);
 extern void get_token(void);
 
-extern int _pack_tok(int cs, int cmd, int chr);
+extern HalfWord _pack_tok(Pointer _cs, EightBits _cmd, HalfWord _chr);
 extern UChar get_maxinstack();
 
 
