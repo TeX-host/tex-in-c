@@ -250,12 +250,12 @@ typedef enum _TokenListLoc {
 /// [p92#236] [region 5] 256 delimiter code mappings.
 #define DEL_CODE_BASE   (COUNT_BASE + 256)
 
-/** [#236] Region 5 of `eqtb` contains
+/** [#236] [Region 5] of `eqtb` contains
  * the integer parameters and registers defined here,
  * as well as the del code table.
  * 
  */
-enum DelimiterCodesTable {
+typedef enum _DelimiterCodesTable {
     pretolerancecode = 0, ///< badness tolerance before hyphenation
     tolerancecode,        ///< badness tolerance after hyphenation
     linepenaltycode,      ///< added to the badness of every line
@@ -326,12 +326,13 @@ enum DelimiterCodesTable {
     errorcontextlinescode, ///< maximum intermediate line pairs shown
 
     INT_PARS = 55, ///< total number of integer parameters
-}; // [#236] enum DelimiterCodesTable
+} DelimiterCodesTable; // [#236] enum DelimiterCodesTable
 
-/// [p92]
+/// [p92#236] -> Integer;
 #define del_code(x)     eqtb[DEL_CODE_BASE + x - ACTIVE_BASE].int_
+/// [p92#236] -> Integer;
 #define count(x)        eqtb[COUNT_BASE + x - ACTIVE_BASE].int_
-/// [p92] Integer parameters
+/// [p92#236] -> Integer; Integer parameters
 #define int_par(x)      eqtb[INT_BASE + x - ACTIVE_BASE].int_
 
 #define pretolerance            int_par(pretolerancecode)
