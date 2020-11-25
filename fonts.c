@@ -969,13 +969,13 @@ void findfontdimen(Boolean writing) {
 /// [#581]
 void charwarning(InternalFontNumber f, EightBits c) {
     if (tracinglostchars <= 0) return;
-    begindiagnostic();
+    begin_diagnostic();
     printnl(S(678));
     print(c);
     print(S(679));
     slow_print(get_fontname(f));
     print_char('!');
-    enddiagnostic(false);
+    end_diagnostic(false);
 } // [#581] charwarning
 
 /// [#582]

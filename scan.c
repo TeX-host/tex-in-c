@@ -876,7 +876,7 @@ _Lnotfound:
 
     if (scankeyword(S(621))) { //  true"
         // [#457] Adjust for the magnification ratio.
-        preparemag();
+        prepare_mag();
         if (mag != 1000) {
             cur_val = xn_over_d(cur_val, 1000, mag);
             f = (f * 1000 + tex_remainder * 65536L) / mag;

@@ -36,7 +36,7 @@ void eqtb_save_init() {
 }
 
 /*274:*/
-void newsavelevel(GroupCode c) {
+void new_save_level(GroupCode c) {
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
         // "save size"
@@ -57,7 +57,7 @@ void newsavelevel(GroupCode c) {
 /*:274*/
 
 /*275:*/
-void eqdestroy(MemoryWord w) {
+void eq_destroy(MemoryWord w) {
     Pointer q;
 
     switch (eq_type_field(w)) {
@@ -79,7 +79,7 @@ void eqdestroy(MemoryWord w) {
 /*:275*/
 
 /*276:*/
-void eqsave(HalfWord p, QuarterWord l) {
+void eq_save(HalfWord p, QuarterWord l) {
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
         // "save size"
@@ -99,11 +99,11 @@ void eqsave(HalfWord p, QuarterWord l) {
 /*:276*/
 
 /*277:*/
-void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
+void eq_define(HalfWord p, QuarterWord t, HalfWord e) {
     if (eq_level(p) == curlevel)
-        eqdestroy(eqtb[p]);
+        eq_destroy(eqtb[p]);
     else if (curlevel > LEVEL_ONE)
-        eqsave(p, eq_level(p));
+        eq_save(p, eq_level(p));
     eq_level(p) = curlevel;
     eq_type(p) = t;
     equiv(p) = e;
@@ -111,9 +111,9 @@ void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
 /*:277*/
 
 /*278:*/
-void eqworddefine(HalfWord p, long w) {
+void eq_word_define(HalfWord p, long w) {
     if (xeqlevel[p - INT_BASE] != curlevel) {
-        eqsave(p, xeqlevel[p - INT_BASE]);
+        eq_save(p, xeqlevel[p - INT_BASE]);
         xeqlevel[p - INT_BASE] = curlevel;
     }
     eqtb[p].int_ = w;
@@ -121,22 +121,21 @@ void eqworddefine(HalfWord p, long w) {
 /*:278*/
 
 /*279:*/
-void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
-    eqdestroy(eqtb[p]);
+void geq_define(HalfWord p, QuarterWord t, HalfWord e) {
+    eq_destroy(eqtb[p]);
     eq_level(p) = LEVEL_ONE;
     eq_type(p) = t;
     equiv(p) = e;
 }
 
-
-void geqworddefine(HalfWord p, long w) {
+void geq_word_define(HalfWord p, long w) {
     eqtb[p].int_ = w;
     xeqlevel[p - INT_BASE] = LEVEL_ONE;
 }
 /*:279*/
 
 /*280:*/
-void saveforafter(HalfWord t) {
+void save_for_after(HalfWord t) {
     if (curlevel <= LEVEL_ONE) return;
     if (saveptr > maxsavestack) {
         maxsavestack = saveptr;
@@ -153,14 +152,14 @@ void saveforafter(HalfWord t) {
 /*281:*/
 #ifdef tt_STAT
 /// #284
-void restoretrace(HalfWord p, StrNumber s) {
-    begindiagnostic();
+void restore_trace(HalfWord p, StrNumber s) {
+    begin_diagnostic();
     print_char('{');
     print(s);
     print_char(' ');
-    showeqtb(p);
+    show_eqtb(p);
     print_char('}');
-    enddiagnostic(false);
+    end_diagnostic(false);
 }
 #endif // #284: tt_STAT
 
@@ -193,15 +192,15 @@ void unsave(void) {
         }
         if (p < INT_BASE) {
             if (eq_level(p) == LEVEL_ONE) {
-                eqdestroy(savestack[saveptr]);
+                eq_destroy(savestack[saveptr]);
                 #ifdef tt_STAT
-                    if (tracingrestores > 0) restoretrace(p, S(479));
+                    if (tracingrestores > 0) restore_trace(p, S(479));
                 #endif // #283.1: tt_STAT
             } else {
-                eqdestroy(eqtb[p]);
+                eq_destroy(eqtb[p]);
                 eqtb[p] = savestack[saveptr];
                 #ifdef tt_STAT
-                    if (tracingrestores > 0) restoretrace(p, S(480));
+                    if (tracingrestores > 0) restore_trace(p, S(480));
                 #endif // #283.2: tt_STAT
             }
             continue;
@@ -210,12 +209,12 @@ void unsave(void) {
             eqtb[p] = savestack[saveptr];
             xeqlevel[p - INT_BASE] = l; 
             #ifdef tt_STAT
-                if (tracingrestores > 0) restoretrace(p, S(480));
+                if (tracingrestores > 0) restore_trace(p, S(480));
             #endif // #283.3: tt_STAT
                 /*:283*/
         } else {                            
             #ifdef tt_STAT
-                if (tracingrestores > 0) restoretrace(p, S(479));
+                if (tracingrestores > 0) restore_trace(p, S(479));
             #endif // #283.4: tt_STAT
         }
     } // while (true)
@@ -226,7 +225,7 @@ void unsave(void) {
 /*:281*/
 
 /*288:*/
-void preparemag(void) {
+void prepare_mag(void) {
     if (magset > 0 && mag != magset) {
         print_err(S(481)); // "Incompatible magnification ("
         print_int(mag);
@@ -236,7 +235,7 @@ void preparemag(void) {
         // "reverted to the magnification you used earlier on this run."
         help2(S(484), S(485));
         int_error(magset);
-        geqworddefine(INT_BASE + magcode, magset);
+        geq_word_define(INT_BASE + magcode, magset);
     }
 
     if (mag <= 0 || mag > 32768L) {
@@ -244,7 +243,7 @@ void preparemag(void) {
         // "The magnification ratio must be between 1 and 32768."
         help1(S(487));
         int_error(mag);
-        geqworddefine(INT_BASE + magcode, 1000);
+        geq_word_define(INT_BASE + magcode, 1000);
     }
     magset = mag;
 }

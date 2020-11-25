@@ -73,7 +73,7 @@ Integer first_count;
  *  [58]print_char, [59]print, [61]S55_Initialize_the_output_routines,
  *  [62]printnl, [71]term_input, [82]error,
  *  [114]printword, [182]shownodelist, [198]showbox, 
- *  [218]showactivities, [245]begindiagnostic, [296]printmeaning, 
+ *  [218]showactivities, [245]begin_diagnostic, [296]printmeaning, 
  *  [306]runaway, [330]clearforerrorprompt, [331]showcontext, 
  *  [341]getnext_worker, [363]firm_up_the_line, [389]macrocall,
  *  [482]readtoks, 

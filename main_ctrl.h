@@ -87,9 +87,9 @@
 /// [p437#1214]
 /// 1218, 1241
 #define define(x, y, z) \
-    ((a >= 4) ? geqdefine((x), (y), (z)) : eqdefine((x), (y), (z)))
+    ((a >= 4) ? geq_define((x), (y), (z)) : eq_define((x), (y), (z)))
 #define worddefine(x, y) \
-    ((a >= 4) ? geqworddefine((x), (y)) : eqworddefine((x), (y)))
+    ((a >= 4) ? geq_word_define((x), (y)) : eq_word_define((x), (y)))
 
 
 extern FontIndex maink;

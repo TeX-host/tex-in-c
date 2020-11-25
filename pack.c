@@ -64,7 +64,7 @@ _Lfound:
     saved(0) = speccode;
     saved(1) = cur_val;
     saveptr += 2;
-    newsavelevel(c);
+    new_save_level(c);
     scan_left_brace();
 } // #645: scanspec
 
@@ -295,9 +295,9 @@ _Lcommonending: /*663:*/
     font_in_short_display = NULL_FONT;
     shortdisplay(listptr(r));
     println();
-    begindiagnostic();
+    begin_diagnostic();
     showbox(r); /*:663*/
-    enddiagnostic(true);
+    end_diagnostic(true);
 _Lexit:
     return r;
 
@@ -479,9 +479,9 @@ _Lcommonending: /*675:*/
         print_int(line);
         println();
     }
-    begindiagnostic();
+    begin_diagnostic();
     showbox(r); /*:675*/
-    enddiagnostic(true);
+    end_diagnostic(true);
 _Lexit:
     return r;
 

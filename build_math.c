@@ -11,7 +11,7 @@ Static void pushmath(GroupCode c)
   pushnest();
   mode = -M_MODE;
   incompleatnoad = 0;
-  newsavelevel(c);
+  new_save_level(c);
 }
 /*:1136*/
 
@@ -128,10 +128,10 @@ _Ldone: ;   /*:1146*/
     }
     pushmath(mathshiftgroup);
     mode = M_MODE;
-    eqworddefine(INT_BASE + curfamcode, -1);
-    eqworddefine(DIMEN_BASE + predisplaysizecode, w);
-    eqworddefine(DIMEN_BASE + displaywidthcode, l);
-    eqworddefine(DIMEN_BASE + displayindentcode, s);
+    eq_word_define(INT_BASE + curfamcode, -1);
+    eq_word_define(DIMEN_BASE + predisplaysizecode, w);
+    eq_word_define(DIMEN_BASE + displaywidthcode, l);
+    eq_word_define(DIMEN_BASE + displayindentcode, s);
     if (everydisplay != 0)
       begintokenlist(everydisplay, EVERY_DISPLAY_TEXT);
     if (nest_ptr == 1)
@@ -141,7 +141,7 @@ _Ldone: ;   /*:1146*/
   /*:1145*/
   backinput();   /*1139:*/
   pushmath(mathshiftgroup);
-  eqworddefine(INT_BASE + curfamcode, -1);
+  eq_word_define(INT_BASE + curfamcode, -1);
   if (everymath != 0)   /*:1139*/
     begintokenlist(everymath, EVERY_MATH_TEXT);
 }
@@ -152,7 +152,7 @@ void starteqno(void) {
     saved(0) = curchr;
     saveptr++; /*1139:*/
     pushmath(mathshiftgroup);
-    eqworddefine(INT_BASE + curfamcode, -1);
+    eq_word_define(INT_BASE + curfamcode, -1);
     if (everymath != 0) /*:1139*/
         begintokenlist(everymath, EVERY_MATH_TEXT);
 }

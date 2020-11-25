@@ -925,13 +925,13 @@ void shiftcase(void) {
 void showwhatever(void) {
     switch (curchr) {
         case showlists:
-            begindiagnostic();
+            begin_diagnostic();
             showactivities();
             break;
 
         case showboxcode: /*1296:*/
             scan_eight_bit_int();
-            begindiagnostic();
+            begin_diagnostic();
             printnl(S(979));
             print_int(cur_val);
             print_char('=');
@@ -964,7 +964,7 @@ void showwhatever(void) {
             break;
     } /*1298:*/
 
-    enddiagnostic(true);
+    end_diagnostic(true);
     print_err(S(981)); // "OK"
     if (selector == TERM_AND_LOG) {
         if (tracingonline <= 0) { /*:1298*/

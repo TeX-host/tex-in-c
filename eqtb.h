@@ -536,23 +536,23 @@ extern GroupCode curgroup;
 extern void eqtb_init();
 extern void eqtb_init_once();
 extern void print_skip_param(Integer n);
-extern void begindiagnostic(void);
-extern void enddiagnostic(Boolean blankline);
-extern void showeqtb(HalfWord n);
+extern void begin_diagnostic(void);
+extern void end_diagnostic(Boolean blankline);
+extern void show_eqtb(HalfWord n);
 
 // fonts only
 extern Integer get_defaultskewchar(void);
 extern Integer get_defaulthyphenchar(void);
 
 extern void eqtb_save_init();
-extern void newsavelevel(GroupCode c);
-extern void eqdefine(HalfWord p, QuarterWord t, HalfWord e);
-extern void eqworddefine(HalfWord p, long w);
-extern void geqdefine(HalfWord p, QuarterWord t, HalfWord e);
-extern void geqworddefine(HalfWord p, long w);
-extern void saveforafter(HalfWord t);
+extern void new_save_level(GroupCode c);
+extern void eq_define(HalfWord p, QuarterWord t, HalfWord e);
+extern void eq_word_define(HalfWord p, long w);
+extern void geq_define(HalfWord p, QuarterWord t, HalfWord e);
+extern void geq_word_define(HalfWord p, long w);
+extern void save_for_after(HalfWord t);
 extern void unsave(void);
-extern void preparemag(void);
+extern void prepare_mag(void);
 
 extern Boolean use_independence_date;
 

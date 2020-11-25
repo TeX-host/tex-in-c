@@ -325,10 +325,10 @@ void extrarightbrace(void) {
 
 /*1070:*/
 void normalparagraph(void) {
-    if (looseness   != 0) eqworddefine(INT_BASE   + loosenesscode,  0);
-    if (hangindent  != 0) eqworddefine(DIMEN_BASE + hangindentcode, 0);
-    if (hangafter   != 1) eqworddefine(INT_BASE   + hangaftercode,  1);
-    if (parshapeptr != 0) eqdefine(PAR_SHAPE_LOC, SHAPE_REF, 0);
+    if (looseness   != 0) eq_word_define(INT_BASE   + loosenesscode,  0);
+    if (hangindent  != 0) eq_word_define(DIMEN_BASE + hangindentcode, 0);
+    if (hangafter   != 1) eq_word_define(INT_BASE   + hangaftercode,  1);
+    if (parshapeptr != 0) eq_define(PAR_SHAPE_LOC, SHAPE_REF, 0);
 } /*:1070*/
 
 /*1075:*/
@@ -364,9 +364,9 @@ Static void boxend(long boxcontext) {
     }                               /*:1076*/
     if (boxcontext < shipoutflag) { /*1077:*/
         if (boxcontext < boxflag + 256)
-            eqdefine(BOX_BASE - boxflag + boxcontext, BOX_REF, curbox);
+            eq_define(BOX_BASE - boxflag + boxcontext, BOX_REF, curbox);
         else /*:1077*/
-            geqdefine(BOX_BASE - boxflag + boxcontext - 256, BOX_REF, curbox);
+            geq_define(BOX_BASE - boxflag + boxcontext - 256, BOX_REF, curbox);
         return;
     }
     if (curbox == 0) return;
@@ -672,7 +672,7 @@ void begininsertoradjust(void)
   }
   saved(0) = cur_val;
   saveptr++;
-  newsavelevel(insertgroup);
+  new_save_level(insertgroup);
   scan_left_brace();
   normalparagraph();
   pushnest();
@@ -825,7 +825,7 @@ void appenddiscretionary(void)
   }
   saveptr++;
   saved(-1) = 0;
-  newsavelevel(discgroup);
+  new_save_level(discgroup);
   scan_left_brace();
   pushnest();
   mode = -H_MODE;
@@ -852,11 +852,11 @@ void builddiscretionary(void) {
                         // "Discretionary lists must contain only boxes and kerns."
                         help1(S(877)); 
                         error();
-                        begindiagnostic();
+                        begin_diagnostic();
                         // "The following discretionary sublist has been deleted:"
                         printnl(S(878));
                         showbox(p);
-                        enddiagnostic(true);
+                        end_diagnostic(true);
                         flush_node_list(p);
                         link(q) = 0;
                         break;
@@ -910,7 +910,7 @@ void builddiscretionary(void) {
             /*:1120*/
     }
     (saved(-1))++;
-    newsavelevel(discgroup);
+    new_save_level(discgroup);
     scan_left_brace();
     pushnest();
     mode = -H_MODE;

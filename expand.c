@@ -122,11 +122,11 @@ void macrocall(Pointer refcount) {
     r = link(refcount);
     n = 0;
     if (tracingmacros > 0) { /*401:*/
-        begindiagnostic();
+        begin_diagnostic();
         println();
         print_cs(warning_index);
         tokenshow(refcount);
-        enddiagnostic(false);
+        end_diagnostic(false);
     }
     /*:401*/
     if (info(r) != endmatchtoken) { /*391:*/
@@ -287,12 +287,12 @@ void macrocall(Pointer refcount) {
                     pstack[n] = link(temphead);
                 n++;
                 if (tracingmacros > 0) {
-                    begindiagnostic();
+                    begin_diagnostic();
                     printnl(matchchr);
                     print_int(n);
                     print(S(552));
                     showtokenlist(pstack[n - 1], 0, 1000);
-                    enddiagnostic(false);
+                    end_diagnostic(false);
                 }
             }
             /*:400*/
@@ -439,7 +439,7 @@ void expand(void) {
                 else
                     curcs = ACTIVE_BASE + buffer[first]; /*:374*/
                 flush_list(r);
-                if (eq_type(curcs) == UNDEFINED_CS) eqdefine(curcs, RELAX, 256);
+                if (eq_type(curcs) == UNDEFINED_CS) eq_define(curcs, RELAX, 256);
                 curtok = curcs + CS_TOKEN_FLAG;
                 backinput();
                 break;
@@ -1188,11 +1188,11 @@ static void conditional(void) { /*495:*/
             scan_int();
             n = cur_val;
             if (tracingcommands > 1) {
-                begindiagnostic();
+                begin_diagnostic();
                 print(S(661)); // "{case "
                 print_int(n);
                 print_char('}');
-                enddiagnostic(false);
+                end_diagnostic(false);
             }
             while (n != 0) {
                 passtext();
@@ -1217,12 +1217,12 @@ static void conditional(void) { /*495:*/
             /*:509*/
     }
     if (tracingcommands > 1) { /*502:*/
-        begindiagnostic();
+        begin_diagnostic();
         if (b)
             print(S(662)); // "{true}"
         else
             print(S(663)); // "{false}"
-        enddiagnostic(false);
+        end_diagnostic(false);
     }
     /*:502*/
     if (b) {

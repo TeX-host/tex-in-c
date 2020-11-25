@@ -445,7 +445,7 @@ void printmeaning(int cur_chr, int cur_cmd) {
 
 /// [p120#299] displays the current command.
 void showcurcmdchr(void) {
-    begindiagnostic();
+    begin_diagnostic();
     printnl('{');
     if (mode != shown_mode) {
         print_mode(mode);
@@ -454,7 +454,7 @@ void showcurcmdchr(void) {
     }
     printcmdchr(curcmd, curchr);
     print_char('}');
-    enddiagnostic(false);
+    end_diagnostic(false);
 } // [#299] showcurcmdchr
 /** @}*/ // end group S297x299_P119x120
 
@@ -690,7 +690,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
     LOC = link(p);
     if (tracingmacros <= 1) return;
 
-    begindiagnostic();
+    begin_diagnostic();
     printnl(S(385)); // ""
     switch (t) {
         case MARK_TEXT: print_esc(S(402)); break;  // "mark"
@@ -701,7 +701,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
     }
     print(S(310)); // "−>"
     tokenshow(p);
-    enddiagnostic(false);
+    end_diagnostic(false);
 } // #323: begintokenlist
 
 /// [#324] leave a token-list input level

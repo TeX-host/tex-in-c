@@ -120,12 +120,12 @@ void freezepagespecs(SmallNumber s) {
     #ifdef tt_STAT
         if (tracingpages <= 0) return;
     #endif // #987: tt_STAT
-    begindiagnostic();
+    begin_diagnostic();
     printnl(S(804));
     print_scaled(pagegoal);
     print(S(805));
     print_scaled(pagemaxdepth);
-    enddiagnostic(false);
+    end_diagnostic(false);
 } /*:987*/
 
 
@@ -133,10 +133,10 @@ void freezepagespecs(SmallNumber s) {
 void boxerror(EightBits n)
 {
   error();
-  begindiagnostic();
+  begin_diagnostic();
   printnl(S(690));
   showbox(box(n));
-  enddiagnostic(true);
+  end_diagnostic(true);
   flush_node_list(box(n));
   box(n) = 0;
 }
@@ -169,10 +169,10 @@ void fireup(HalfWord c)
   Scaled savevfuzz;
 
   if (type(bestpagebreak) == PENALTY_NODE) {
-    geqworddefine(INT_BASE + outputpenaltycode, penalty(bestpagebreak));
+    geq_word_define(INT_BASE + outputpenaltycode, penalty(bestpagebreak));
     penalty(bestpagebreak) = INF_PENALTY;
   } else   /*:1013*/
-    geqworddefine(INT_BASE + outputpenaltycode, INF_PENALTY);
+    geq_word_define(INT_BASE + outputpenaltycode, INF_PENALTY);
   if (botmark != 0) {   /*1014:*/
     if (topmark != 0)
       delete_token_ref(topmark);
@@ -329,7 +329,7 @@ void fireup(HalfWord c)
       prevdepth = ignoredepth;
       modeline = -line;
       begintokenlist(outputroutine, OUTPUT_TEXT);
-      newsavelevel(outputgroup);
+      new_save_level(outputgroup);
       normalparagraph();
       scan_left_brace();
       goto _Lexit;
@@ -509,7 +509,7 @@ void buildpage(void) {
                         #ifdef tt_STAT
                             if (tracingpages > 0) {
                                 /*1011:*/
-                                begindiagnostic();
+                                begin_diagnostic();
                                 printnl(S(820)); // "% split"
                                 print_int(n);
                                 print(S(821)); // " to "
@@ -523,7 +523,7 @@ void buildpage(void) {
                                     print_int(penalty(q));
                                 else
                                     print_char('0');
-                                enddiagnostic(false);
+                                end_diagnostic(false);
                             } /*:1011*/
                         #endif // #1010: tt_STAT
 
@@ -575,7 +575,7 @@ void buildpage(void) {
 
             #ifdef tt_STAT
                 if (tracingpages > 0) { /*1006:*/
-                    begindiagnostic();
+                    begin_diagnostic();
                     printnl('%');
                     print(S(758)); // " t="
                     printtotals();
@@ -594,7 +594,7 @@ void buildpage(void) {
                     else
                         print_int(c);
                     if (c <= leastpagecost) print_char('#');
-                    enddiagnostic(false);
+                    end_diagnostic(false);
                 }
             #endif // #1005: tt_STAT
             /*:1006*/

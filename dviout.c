@@ -819,9 +819,9 @@ void shipout(Pointer p) {
 
     if (tracingoutput > 0) {
         print_char(']');
-        begindiagnostic();
+        begin_diagnostic();
         showbox(p);
-        enddiagnostic(true);
+        end_diagnostic(true);
     }
 
     /// [ #640 ]: Ship box p out
@@ -837,10 +837,10 @@ void shipout(Pointer p) {
         help2(S(688), S(689));
         error();
         if (tracingoutput <= 0) {
-            begindiagnostic();
+            begin_diagnostic();
             printnl(S(690)); // "The following box has been deleted:"
             showbox(p);
-            enddiagnostic(true);
+            end_diagnostic(true);
         }
         goto _L_shipout_done;
     }
@@ -874,7 +874,7 @@ void shipout(Pointer p) {
         dvi_four(25400000L);
         dvi_four(473628672L);
         // magnification factor is frozen
-        preparemag();
+        prepare_mag();
         dvi_four(mag);
         
         old_setting = selector;

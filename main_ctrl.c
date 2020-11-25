@@ -266,13 +266,13 @@ _LN_main_control__reswitch:
 
         case V_MODE + LEFT_BRACE:
         case H_MODE + LEFT_BRACE:
-            newsavelevel(simplegroup);
+            new_save_level(simplegroup);
             break;
 
         case V_MODE + BEGIN_GROUP:
         case H_MODE + BEGIN_GROUP:
         case M_MODE + BEGIN_GROUP:
-            newsavelevel(semisimplegroup);
+            new_save_level(semisimplegroup);
             break;
 
         case V_MODE + END_GROUP:
@@ -704,7 +704,7 @@ _LN_main_control__reswitch:
         case H_MODE + AFTER_GROUP:
         case M_MODE + AFTER_GROUP: /*:1271*/
             gettoken();
-            saveforafter(curtok);
+            save_for_after(curtok);
             break;
             /*1274:*/
 

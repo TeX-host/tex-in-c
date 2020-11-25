@@ -157,7 +157,7 @@ Static void close_files_and_terminate(void) {
         dvi_four(25400000L);
         dvi_four(473628672L);
         // magnification factor
-        preparemag();
+        prepare_mag();
         dvi_four(mag);
         dvi_four(maxv);
         dvi_four(maxh);

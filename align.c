@@ -95,9 +95,9 @@ _Lrestart:
     scan_optional_equals();
     scan_glue(GLUE_VAL);
     if (globaldefs > 0)
-        geqdefine(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
+        geq_define(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
     else
-        eqdefine(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
+        eq_define(GLUE_BASE + TAB_SKIP_CODE, GLUE_REF, cur_val);
     goto _Lrestart;
 }
 /*:782*/
@@ -256,7 +256,7 @@ void initalign(void) {
 _Ldone:
     scanner_status = NORMAL; // end [#777]
 
-    newsavelevel(aligngroup);
+    new_save_level(aligngroup);
     if (everycr != 0) begintokenlist(everycr, EVERY_CR_TEXT);
     alignpeek(); //  look for `\noalign` or `\omit`
 } /* [#774] initalign */
@@ -372,7 +372,7 @@ Boolean fincol(void) {
 
     if (extrainfo(curalign) != spancode) {
         unsave();
-        newsavelevel(aligngroup);
+        new_save_level(aligngroup);
 
         /// [#796] Package an unset box for the current column 
         /// and record its width
@@ -786,7 +786,7 @@ _Lrestart:
     skip_spaces();
     if (curcmd == NO_ALIGN) {
         scan_left_brace();
-        newsavelevel(noaligngroup);
+        new_save_level(noaligngroup);
         if (mode == -V_MODE) normalparagraph();
         return;
     }

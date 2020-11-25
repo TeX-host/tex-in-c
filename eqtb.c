@@ -231,7 +231,7 @@ void fix_date_and_time(Integer* p_time, Integer* p_day, Integer* p_month,
 } /* fix_date_and_time */
 
 /// [#245] prepare to do some tracing.
-void begindiagnostic(void) {
+void begin_diagnostic(void) {
     diag_oldsetting = selector;
     if (tracingonline > 0 || selector != TERM_AND_LOG) return;
 
@@ -240,7 +240,7 @@ void begindiagnostic(void) {
 }
 
 /// [#245] restore proper conditions after tracing.
-void enddiagnostic(Boolean blankline) {
+void end_diagnostic(Boolean blankline) {
     printnl(S(385)); // ""
     if (blankline) println();
     selector = diag_oldsetting;
@@ -248,7 +248,7 @@ void enddiagnostic(Boolean blankline) {
 
 #ifdef tt_STAT
 /// #252:
-void showeqtb(HalfWord n) {
+void show_eqtb(HalfWord n) {
     if (n < ACTIVE_BASE) {
         print_char('?');
         return; // this can’t happen
@@ -418,7 +418,7 @@ void showeqtb(HalfWord n) {
     /** n > EQTB_SIZE */
     print_char('?'); // this can’t happen either
     return;
-} // #252: showeqtb
+} // #252: show_eqtb
 #endif // #252: tt_STAT
 
 /** @}*/ // end group S220x255_P81x101

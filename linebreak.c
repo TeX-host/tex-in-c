@@ -141,7 +141,7 @@ void linebreak(long finalwidowpenalty) {
     if (threshold >= 0) {           
         #ifdef tt_STAT
             if (tracingparagraphs > 0) {
-                begindiagnostic();
+                begin_diagnostic();
                 printnl(S(777));
             }
         #endif // #863.1: tt_STAT
@@ -152,7 +152,7 @@ void linebreak(long finalwidowpenalty) {
         secondpass = true;
         finalpass = (emergencystretch <= 0);
         #ifdef tt_STAT
-            if (tracingparagraphs > 0) begindiagnostic();
+            if (tracingparagraphs > 0) begin_diagnostic();
         #endif // #863.2: tt_STAT
     }
     while (true) {
@@ -535,7 +535,7 @@ void linebreak(long finalwidowpenalty) {
 _Ldone:
     #ifdef tt_STAT
         if (tracingparagraphs > 0) {
-            enddiagnostic(true);
+            end_diagnostic(true);
             normalize_selector();
         }
     #endif // #863.5: tt_STAT
