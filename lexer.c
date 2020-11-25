@@ -963,7 +963,7 @@ static int check_outer_validity(int local_curcs) {
     do {                                       \
         curchr = cur_chr;                      \
         curcmd = cur_cmd;                      \
-        cur_cs = check_outer_validity(cur_cs); \
+        _cur_cs = check_outer_validity(_cur_cs); \
         cur_cmd = curcmd;                      \
         cur_chr = curchr;                      \
     } while (0)
@@ -973,8 +973,8 @@ static int check_outer_validity(int local_curcs) {
 
 #define Process_cs                \
     {                             \
-        cur_cmd = eq_type(cur_cs); \
-        cur_chr = equiv(cur_cs);  \
+        cur_cmd = eq_type(_cur_cs); \
+        cur_chr = equiv(_cur_cs);  \
         process_cmd               \
     }
 
@@ -994,11 +994,11 @@ static void _get_next_helper(Boolean no_new_control_sequence) {
     UChar d;             // number of excess characters in an expanded code
 
     // _get_next_helper 内部变量
-    int cur_cs, cur_chr, cur_cmd;
+    int _cur_cs, cur_chr, cur_cmd;
 
 // go here to: get the next input token
 _getnext_LN__restart:
-    cur_cs = 0;
+    _cur_cs = 0;
     if (STATE != TOKEN_LIST) {
         // [#343] Input from external file,
         // goto _restart if no input found
@@ -1028,7 +1028,7 @@ _getnext_LN__restart:
                     update_terminal(); // show user that file has been read
                     force_eof = false;
                     endfilereading();
-                    cur_cs = check_outer_validity(cur_cs);
+                    _cur_cs = check_outer_validity(_cur_cs);
                     goto _getnext_LN__restart;
                 }
                 if (end_line_char_inactive) {
@@ -1116,7 +1116,7 @@ _getnext_LN__restart:
                 // [#354] Scan a control sequence
                 //  and set state ← `SKIP_BLANKS` or `MID_LINE`
                 if (LOC > LIMIT) {
-                    cur_cs = NULL_CS; // state is irrelevant in this case
+                    _cur_cs = NULL_CS; // state is irrelevant in this case
                 } else {             // LOC <= LIMIT
                 // go here to: start looking for a control sequence
                 _getnext_LN__startcs_:
@@ -1175,7 +1175,7 @@ _getnext_LN__restart:
                         }
                         if (k > LOC + 1) {
                             // multiletter control sequence has been scanned
-                            cur_cs = idlookup_p(buffer + LOC, k - LOC,
+                            _cur_cs = idlookup_p(buffer + LOC, k - LOC,
                                                 no_new_control_sequence);
                             LOC = k;
                             goto _getnext_LN__found;
@@ -1210,7 +1210,7 @@ _getnext_LN__restart:
                         } // #355: if-set
                     }     // if (cat == LETTER && k <= LIMIT)
 
-                    cur_cs = ACTIVE_BASE + buffer[LOC];
+                    _cur_cs = ACTIVE_BASE + buffer[LOC];
                     LOC++;
                 } // if (LOC <> LIMIT)
 
@@ -1226,7 +1226,7 @@ _getnext_LN__restart:
                 // [#353]: Process an active-character control sequence
                 // and set state ← mid line
                 STATE = MID_LINE;
-                cur_cs = cur_chr + ACTIVE_BASE;
+                _cur_cs = cur_chr + ACTIVE_BASE;
                 Process_cs;
                 break; // [#353]
 
@@ -1297,7 +1297,7 @@ _getnext_LN__restart:
             case NEW_LINE + CAR_RET:
                 // [#351] Finish line, emit a \par
                 LOC = LIMIT + 1;
-                cur_cs = parloc;
+                _cur_cs = parloc;
                 Process_cs;
                 break;
 
@@ -1348,16 +1348,16 @@ _getnext_LN__restart:
         t = info(LOC);
         LOC = link(LOC);          // move to next
         if (t >= CS_TOKEN_FLAG) { // a control sequence token
-            cur_cs = t - CS_TOKEN_FLAG;
-            cur_cmd = eq_type(cur_cs);
-            cur_chr = equiv(cur_cs);
+            _cur_cs = t - CS_TOKEN_FLAG;
+            cur_cmd = eq_type(_cur_cs);
+            cur_chr = equiv(_cur_cs);
             if (cur_cmd >= OUTER_CALL) {
                 if (cur_cmd == DONT_EXPAND) {
                     // [#358] Get the next token, suppressing expansion
-                    cur_cs = info(LOC) - CS_TOKEN_FLAG;
+                    _cur_cs = info(LOC) - CS_TOKEN_FLAG;
                     LOC = 0;
-                    cur_cmd = eq_type(cur_cs);
-                    cur_chr = equiv(cur_cs);
+                    cur_cmd = eq_type(_cur_cs);
+                    cur_chr = equiv(_cur_cs);
                     if (cur_cmd > MAX_COMMAND) {
                         cur_cmd = RELAX;
                         cur_chr = noexpandflag;
@@ -1406,7 +1406,7 @@ _getnext_LN__restart:
 _getnext_LN__exit:;
     curcmd = cur_cmd;
     curchr = cur_chr;
-    curcs = cur_cs;
+    curcs = _cur_cs;
 } // #341: _get_next_helper
 
 // [#341] : sets #curcmd, #curchr, #curcs to next token.
