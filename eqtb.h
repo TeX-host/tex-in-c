@@ -19,7 +19,7 @@
 /// [p82#222] equivalents of one-character control sequences.
 #define SINGLE_BASE     (ACTIVE_BASE + 256)
 /// [p82#222] equivalent of \\csname\\endcsname
-#define NULL_CS         (ACTIVE_BASE + 256)
+#define NULL_CS         (SINGLE_BASE + 256)
 
 /// [p81#221]
 #define eq_level_field(x)   x.hh.UU.U2.b1
