@@ -535,7 +535,7 @@ void expand(void) {
 //  1375
 void get_x_token(void) {
     while (true) {
-        getnext();
+        get_next();
         if (curcmd <= MAX_COMMAND) break;
         if (curcmd >= CALL) {
             if (curcmd < END_TEMPLATE) {
@@ -554,11 +554,11 @@ void get_x_token(void) {
     curtok = pack_tok(curcs, curcmd, curchr);
 } // #380: get_x_token
 
-/// [#381] #get_x_token without the initial #getnext
+/// [#381] #get_x_token without the initial #get_next
 void xtoken(void) {
     while (curcmd > MAX_COMMAND) {
         expand();
-        getnext();
+        get_next();
     }
     curtok = pack_tok(curcs, curcmd, curchr);
 } // [#381]
@@ -794,7 +794,7 @@ HalfWord scantoks(Boolean macrodef, Boolean xpand) {
     while (true) {   /*:477*/
         if (xpand) { /*478:*/
             while (true) {
-                getnext();
+                get_next();
                 if (curcmd <= MAX_COMMAND) goto _Ldone2;
                 if (curcmd != THE) {
                     expand();
@@ -999,7 +999,7 @@ static void passtext(void) {
     l = 0;
     skipline = line;
     while (true) {
-        getnext();
+        get_next();
         if (curcmd == FI_OR_ELSE) {
             if (l == 0) break;
             if (curchr == ficode) l--;
@@ -1146,11 +1146,11 @@ static void conditional(void) { /*495:*/
         case IF_X_CODE: /*507:*/
             savescannerstatus = scanner_status;
             scanner_status = NORMAL;
-            getnext();
+            get_next();
             n = curcs;
             p = curcmd;
             q = curchr;
-            getnext();
+            get_next();
             if (curcmd != p)
                 b = false;
             else if (curcmd < CALL)

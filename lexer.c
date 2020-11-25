@@ -858,7 +858,7 @@ Boolean init_lexer(void) {
  *
  * + #check_outer_validity
  * + #_get_next_helper
- * + #getnext
+ * + #get_next
  * + #firm_up_the_line
  * + #get_token
  *
@@ -1416,7 +1416,7 @@ _getnext_LN__exit:;
 //  366, 369, 380, 381, 387,
 //  389, 478, 494, 507, 644,
 //  1038, 1126
-void getnext(void) { _get_next_helper(true); }
+void get_next(void) { _get_next_helper(true); }
 
 /// [#363] If the user has set the pausing parameter to some positive value, and
 /// if nonstop mode has not beenselected.

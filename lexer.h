@@ -270,7 +270,7 @@ extern void beginfilereading(void);
 extern void endfilereading(void);
 extern void clearforerrorprompt(void);
 
-extern void getnext(void);
+extern void get_next(void);
 extern void firm_up_the_line(void);
 extern void get_token(void);
 

@@ -802,7 +802,7 @@ _Lmainloopmove2:
     tailappend(ligstack); /*:1036*/
 
 _Lmainlooplookahead:      /*1038:*/
-    getnext();
+    get_next();
     if (curcmd == LETTER) goto _Lmainlooplookahead1;
     if (curcmd == OTHER_CHAR) goto _Lmainlooplookahead1;
     if (curcmd == CHAR_GIVEN) goto _Lmainlooplookahead1;
