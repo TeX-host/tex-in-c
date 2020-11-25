@@ -551,7 +551,7 @@ void get_x_token(void) {
         } // if (curcmd <> call)
     }     // while (true)
 
-    curtok = pack_tok(curcs, curcmd, curchr);
+    curtok = _pack_tok(curcs, curcmd, curchr);
 } // #380: get_x_token
 
 /// [#381] #get_x_token without the initial #get_next
@@ -560,7 +560,7 @@ void xtoken(void) {
         expand();
         get_next();
     }
-    curtok = pack_tok(curcs, curcmd, curchr);
+    curtok = _pack_tok(curcs, curcmd, curchr);
 } // [#381]
 
 /** @} */ // end group S366x401_P144x154

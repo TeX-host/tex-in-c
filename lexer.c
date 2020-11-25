@@ -1450,12 +1450,12 @@ void firm_up_the_line(void) {
 /// [#365] 
 void get_token(void) {
     _get_next_helper(false);
-    curtok = pack_tok(curcs, curcmd, curchr);
+    curtok = _pack_tok(curcs, curcmd, curchr);
 } // [#365] get_token
 /** @}*/ // end group S332x365_P134x143
 
 /// [#365] 辅助函数
-int pack_tok(int cs, int cmd, int chr) {
+int _pack_tok(int cs, int cmd, int chr) {
     if (cs == 0) {
         return (cmd * dwa_do_8) + chr;
     } else {
