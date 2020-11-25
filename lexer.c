@@ -958,23 +958,23 @@ static int check_outer_validity(int local_curcs) {
 } // [P134#336]: check_outer_validity
 
 
-#define CHECK_OUTER                            \
-    do {                                       \
-        curchr = cur_chr;                      \
-        curcmd = _cur_cmd;                      \
+#define CHECK_OUTER                              \
+    do {                                         \
+        curchr = cur_chr;                        \
+        curcmd = _cur_cmd;                       \
         _cur_cs = check_outer_validity(_cur_cs); \
-        _cur_cmd = curcmd;                      \
-        cur_chr = curchr;                      \
+        _cur_cmd = curcmd;                       \
+        cur_chr = curchr;                        \
     } while (0)
 
 #define process_cmd \
     if (_cur_cmd >= OUTER_CALL) CHECK_OUTER;
 
-#define Process_cs                \
-    {                             \
+#define Process_cs                   \
+    {                                \
         _cur_cmd = eq_type(_cur_cs); \
-        cur_chr = equiv(_cur_cs);  \
-        process_cmd               \
+        cur_chr = equiv(_cur_cs);    \
+        process_cmd                  \
     }
 
 
