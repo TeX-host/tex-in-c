@@ -337,7 +337,7 @@ var eqtb_8h =
     [ "unsave", "group___s268x288___p109x114.html#ga107d881e47e06a5ebd5fd6332f972bcc", null ],
     [ "curgroup", "group___s268x288___p109x114.html#gaa7e227409c6c7e63888474c70c8a2495", null ],
     [ "curlevel", "group___s268x288___p109x114.html#ga7318db403c0da9a7312c5818709a40e8", null ],
-    [ "eqtb", "group___s220x255___p81x101.html#gac32bbafff04684bfe1bb8fc84381d006", null ],
+    [ "eqtb", "group___s220x255___p81x101.html#ga0d473bad74faf82c1a1d581e1e2f481d", null ],
     [ "maxsavestack", "group___s268x288___p109x114.html#ga4123f67a7f03729fa8ef092f1a1cb34e", null ],
     [ "saveptr", "group___s268x288___p109x114.html#ga3d861a882da9c9a12db008cbbb69dc89", null ],
     [ "savestack", "group___s268x288___p109x114.html#ga6f1dd8875dcc2486aa325024e2147cb2", null ],
