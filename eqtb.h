@@ -469,6 +469,7 @@ typedef enum _DimensionRegisters {
 #define emergencystretch        dimen_par(emergencystretchcode)
 /** @}*/ // end group S220x255_P81x101
 
+
 /** @addtogroup S268x288_P109x114
  * @{
  */
@@ -518,6 +519,7 @@ enum GroupCode {
     MAX_GROUP_CODE = 16,
 }; // [#269] GroupCode
 /** @}*/ // end group S268x288_P109x114
+
 
 // eqtb
 extern MemoryWord eqtb[EQTB_SIZE + 1];
