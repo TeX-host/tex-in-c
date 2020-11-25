@@ -15,23 +15,23 @@
 /** @addtogroup S133x161_P50x57
  * @{
  */
-/// [p50#133] identifies what kind of node this is.
+/// [p50#133] -> QuarterWord; identifies what kind of node this is.
 #define type(x)         (mem[(x)].hh.UU.U2.b0)
-/// [p50#133] secondary identification in some cases.
+/// [p50#133] -> QuarterWord; secondary identification in some cases.
 #define subtype(x)      (mem[(x)].hh.UU.U2.b1)
 
 /// [p50#134] does the argument point to a char node?
 #define is_char_node(x)   ((x) >= hi_mem_min)
 
 #ifdef BIG_CHARNODE
-/// [50#134] the font code in a `charnode`.
+/// [50#134] -> HalfWord; the font code in a `charnode`.
 #define font(x)         link(x + 1)
 /* #define font(x)	info(x+1) */
 #else
 #define font(x)         type(x)
 #endif // #ifdef BIG_CHARNODE
 
-/// [50#134] the character code in a `charnode`.
+/// [50#134] -> QuarterWord; the character code in a `charnode`.
 #define character(x)    subtype(x)
 
 #ifdef BIG_CHARNODE
