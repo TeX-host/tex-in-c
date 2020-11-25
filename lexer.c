@@ -427,12 +427,11 @@ void print_meaning(int _chr, int _cmd) {
         print_char(':');
         println();
         tokenshow(_chr);
-        return;
-    }
-    if (_cmd != TOP_BOT_MARK) return;
-    print_char(':');
-    println();
-    tokenshow(curmark[_chr - topmarkcode]);
+    } else if (_cmd == TOP_BOT_MARK) {
+        print_char(':');
+        println();
+        tokenshow(curmark[_chr - topmarkcode]);
+    } 
 } // [#296] print_meaning
 /** @}*/ // end group S289x296_P115x118
 
