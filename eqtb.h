@@ -473,15 +473,15 @@ typedef enum _DimensionRegisters {
 /** @addtogroup S268x288_P109x114
  * @{
  */
-/// [p109#268] classifies a |savestack| entry
-#define savetype(x)     savestack[x].hh.UU.U2.b0
+/// [p109#268] classifies a |save_stack| entry
+#define savetype(x)     save_stack[x].hh.UU.U2.b0
 /// [p109#268] saved level for regions 5 and 6, or group code
-#define savelevel(x)    savestack[x].hh.UU.U2.b1
-/// [p109#268] |eqtb| location or |savestack| location
-#define saveindex(x)    savestack[x].hh.rh
+#define savelevel(x)    save_stack[x].hh.UU.U2.b1
+/// [p109#268] |eqtb| location or |save_stack| location
+#define saveindex(x)    save_stack[x].hh.rh
 
 /// [p111#274]
-#define saved(x)        savestack[saveptr + x].int_
+#define saved(x)        save_stack[save_ptr + x].int_
 
 /// [#268]
 enum SaveType {
@@ -526,11 +526,11 @@ extern MemoryWord eqtb[EQTB_SIZE + 1];
 extern QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 
 // eqtv_save
-extern MemoryWord savestack[SAVE_SIZE + 1];
-extern UInt16 saveptr;
-extern UInt16 maxsavestack;
-extern QuarterWord curlevel;
-extern GroupCode curgroup;
+extern MemoryWord save_stack[SAVE_SIZE + 1];
+extern UInt16 save_ptr;
+extern UInt16 max_save_stack;
+extern QuarterWord cur_level;
+extern GroupCode cur_group;
 
 
 extern void eqtb_init();

@@ -82,7 +82,7 @@ void store_fmt_file(void) {
     Integer x;       // something to dump
 
     /** [#1304] If dumping is not allowed, abort. */
-    if (saveptr != 0) {
+    if (save_ptr != 0) {
         print_err(S(988)); // "You can't dump inside a group"
         help1(S(989)); // "`{...\\dump}' is a no-no."
         succumb();

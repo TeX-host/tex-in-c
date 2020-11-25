@@ -13,46 +13,46 @@
  */
 /// [ #268~288: SAVING AND RESTORING EQUIVALENTS ]
 /// [#271]
-MemoryWord savestack[SAVE_SIZE + 1];
-UInt16 saveptr;              // first unused entry on save stack
-UInt16 maxsavestack;  // maximum usage of save stack
-QuarterWord curlevel; // current nesting level for groups
-GroupCode curgroup;   // current group type
-UInt16 curboundary;   // where the current level begins
+MemoryWord save_stack[SAVE_SIZE + 1];
+UInt16 save_ptr;              // first unused entry on save stack
+UInt16 max_save_stack;  // maximum usage of save stack
+QuarterWord cur_level; // current nesting level for groups
+GroupCode cur_group;   // current group type
+UInt16 cur_boundary;   // where the current level begins
 // [#286] if nonzero,
 // this magnification should be used henceforth
-Integer magset;
+Integer mag_set;
 
 /// [#272, #287]
 void eqtb_save_init() {
     /// [#272]
-    saveptr = 0;
-    curlevel = LEVEL_ONE;
-    curgroup = bottomlevel;
-    curboundary = 0;
-    maxsavestack = 0;
+    save_ptr = 0;
+    cur_level = LEVEL_ONE;
+    cur_group = bottomlevel;
+    cur_boundary = 0;
+    max_save_stack = 0;
     /// [#287]
-    magset = 0;
+    mag_set = 0;
 }
 
 /*274:*/
 void new_save_level(GroupCode c) {
-    if (saveptr > maxsavestack) {
-        maxsavestack = saveptr;
+    if (save_ptr > max_save_stack) {
+        max_save_stack = save_ptr;
         // "save size"
-        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+        if (max_save_stack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
-    savetype(saveptr) = levelboundary;
-    savelevel(saveptr) = curgroup;
-    saveindex(saveptr) = curboundary;
-    if (curlevel == MAX_QUARTER_WORD) {
+    savetype(save_ptr) = levelboundary;
+    savelevel(save_ptr) = cur_group;
+    saveindex(save_ptr) = cur_boundary;
+    if (cur_level == MAX_QUARTER_WORD) {
         // "grouping levels"
         overflow(S(477), MAX_QUARTER_WORD - MIN_QUARTER_WORD);
     }
-    curboundary = saveptr;
-    curlevel++;
-    saveptr++;
-    curgroup = c;
+    cur_boundary = save_ptr;
+    cur_level++;
+    save_ptr++;
+    cur_group = c;
 }
 /*:274*/
 
@@ -80,31 +80,31 @@ void eq_destroy(MemoryWord w) {
 
 /*276:*/
 void eq_save(HalfWord p, QuarterWord l) {
-    if (saveptr > maxsavestack) {
-        maxsavestack = saveptr;
+    if (save_ptr > max_save_stack) {
+        max_save_stack = save_ptr;
         // "save size"
-        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+        if (max_save_stack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
     if (l == LEVEL_ZERO) {
-        savetype(saveptr) = restorezero;
+        savetype(save_ptr) = restorezero;
     } else {
-        savestack[saveptr] = eqtb[p];
-        saveptr++;
-        savetype(saveptr) = restoreoldvalue;
+        save_stack[save_ptr] = eqtb[p];
+        save_ptr++;
+        savetype(save_ptr) = restoreoldvalue;
     }
-    savelevel(saveptr) = l;
-    saveindex(saveptr) = p;
-    saveptr++;
+    savelevel(save_ptr) = l;
+    saveindex(save_ptr) = p;
+    save_ptr++;
 }
 /*:276*/
 
 /*277:*/
 void eq_define(HalfWord p, QuarterWord t, HalfWord e) {
-    if (eq_level(p) == curlevel)
+    if (eq_level(p) == cur_level)
         eq_destroy(eqtb[p]);
-    else if (curlevel > LEVEL_ONE)
+    else if (cur_level > LEVEL_ONE)
         eq_save(p, eq_level(p));
-    eq_level(p) = curlevel;
+    eq_level(p) = cur_level;
     eq_type(p) = t;
     equiv(p) = e;
 }
@@ -112,9 +112,9 @@ void eq_define(HalfWord p, QuarterWord t, HalfWord e) {
 
 /*278:*/
 void eq_word_define(HalfWord p, long w) {
-    if (xeqlevel[p - INT_BASE] != curlevel) {
+    if (xeqlevel[p - INT_BASE] != cur_level) {
         eq_save(p, xeqlevel[p - INT_BASE]);
-        xeqlevel[p - INT_BASE] = curlevel;
+        xeqlevel[p - INT_BASE] = cur_level;
     }
     eqtb[p].int_ = w;
 }
@@ -136,16 +136,16 @@ void geq_word_define(HalfWord p, long w) {
 
 /*280:*/
 void save_for_after(HalfWord t) {
-    if (curlevel <= LEVEL_ONE) return;
-    if (saveptr > maxsavestack) {
-        maxsavestack = saveptr;
+    if (cur_level <= LEVEL_ONE) return;
+    if (save_ptr > max_save_stack) {
+        max_save_stack = save_ptr;
         // "save size"
-        if (maxsavestack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
+        if (max_save_stack > SAVE_SIZE - 6) overflow(S(476), SAVE_SIZE);
     }
-    savetype(saveptr) = inserttoken;
-    savelevel(saveptr) = LEVEL_ZERO;
-    saveindex(saveptr) = t;
-    saveptr++;
+    savetype(save_ptr) = inserttoken;
+    savelevel(save_ptr) = LEVEL_ZERO;
+    saveindex(save_ptr) = t;
+    save_ptr++;
 }
 /*:280*/
 
@@ -168,37 +168,37 @@ void unsave(void) {
     Pointer p;
     QuarterWord l = 0 /* XXXX */;
 
-    if (curlevel <= LEVEL_ONE) {
-        confusion(S(478)); // "curlevel"
+    if (cur_level <= LEVEL_ONE) {
+        confusion(S(478)); // "cur_level"
         return;
     }
-    curlevel--; /*282:*/
+    cur_level--; /*282:*/
     while (true) {
-        saveptr--;
-        if (savetype(saveptr) == levelboundary) break;
-        p = saveindex(saveptr);
-        if (savetype(saveptr) == inserttoken) { /*326:*/
+        save_ptr--;
+        if (savetype(save_ptr) == levelboundary) break;
+        p = saveindex(save_ptr);
+        if (savetype(save_ptr) == inserttoken) { /*326:*/
             HalfWord t = curtok;
             curtok = p;
             backinput();
             curtok = t;
             continue;
         }                                           /*:326*/
-        if (savetype(saveptr) == restoreoldvalue) { /*283:*/
-            l = savelevel(saveptr);
-            saveptr--;
+        if (savetype(save_ptr) == restoreoldvalue) { /*283:*/
+            l = savelevel(save_ptr);
+            save_ptr--;
         } else {
-            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
+            save_stack[save_ptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
         }
         if (p < INT_BASE) {
             if (eq_level(p) == LEVEL_ONE) {
-                eq_destroy(savestack[saveptr]);
+                eq_destroy(save_stack[save_ptr]);
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restore_trace(p, S(479));
                 #endif // #283.1: tt_STAT
             } else {
                 eq_destroy(eqtb[p]);
-                eqtb[p] = savestack[saveptr];
+                eqtb[p] = save_stack[save_ptr];
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restore_trace(p, S(480));
                 #endif // #283.2: tt_STAT
@@ -206,7 +206,7 @@ void unsave(void) {
             continue;
         }
         if (xeqlevel[p - INT_BASE] != LEVEL_ONE) {
-            eqtb[p] = savestack[saveptr];
+            eqtb[p] = save_stack[save_ptr];
             xeqlevel[p - INT_BASE] = l; 
             #ifdef tt_STAT
                 if (tracingrestores > 0) restore_trace(p, S(480));
@@ -219,14 +219,14 @@ void unsave(void) {
         }
     } // while (true)
 
-    curgroup = savelevel(saveptr);
-    curboundary = saveindex(saveptr); /*:282*/
+    cur_group = savelevel(save_ptr);
+    cur_boundary = saveindex(save_ptr); /*:282*/
 }
 /*:281*/
 
 /*288:*/
 void prepare_mag(void) {
-    if (magset > 0 && mag != magset) {
+    if (mag_set > 0 && mag != mag_set) {
         print_err(S(481)); // "Incompatible magnification ("
         print_int(mag);
         print(S(482)); // ");"
@@ -234,8 +234,8 @@ void prepare_mag(void) {
         // "I can handle only one magnification ratio per job. So I've"
         // "reverted to the magnification you used earlier on this run."
         help2(S(484), S(485));
-        int_error(magset);
-        geq_word_define(INT_BASE + magcode, magset);
+        int_error(mag_set);
+        geq_word_define(INT_BASE + magcode, mag_set);
     }
 
     if (mag <= 0 || mag > 32768L) {
@@ -245,7 +245,7 @@ void prepare_mag(void) {
         int_error(mag);
         geq_word_define(INT_BASE + magcode, 1000);
     }
-    magset = mag;
+    mag_set = mag;
 }
 /*:288*/
 

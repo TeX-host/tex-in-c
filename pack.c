@@ -59,11 +59,11 @@ void scanspec(GroupCode c, Boolean threecodes) {
 _Lfound:
     if (threecodes) {
         saved(0) = s;
-        saveptr++;
+        save_ptr++;
     }
     saved(0) = speccode;
     saved(1) = cur_val;
-    saveptr += 2;
+    save_ptr += 2;
     new_save_level(c);
     scan_left_brace();
 } // #645: scanspec

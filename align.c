@@ -503,9 +503,9 @@ void finalign(void) {
     HalfWord n;
     MemoryWord auxsave;
 
-    if (curgroup != aligngroup) confusion(S(742)); // "align1"
+    if (cur_group != aligngroup) confusion(S(742)); // "align1"
     unsave();
-    if (curgroup != aligngroup) confusion(S(743)); // "align0"
+    if (cur_group != aligngroup) confusion(S(743)); // "align0"
     unsave();
     if (nest[nest_ptr - 1].modefield == M_MODE)
         o = displayindent;
@@ -564,7 +564,7 @@ void finalign(void) {
         glueshrink(q) = 0;
         q = p; /*:801*/
     } while (q != 0);
-    saveptr -= 2;
+    save_ptr -= 2;
     packbeginline = -modeline;
     if (mode == -V_MODE) {
         rulesave = overfullrule;

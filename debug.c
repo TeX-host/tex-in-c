@@ -78,7 +78,7 @@ void debughelp(void) {
             case 3: print_int(link(n)); break;
             case 4: printword(eqtb[n]); break;
             case 5: printword(fontinfo[n]); break;
-            case 6: printword(savestack[n]); break;
+            case 6: printword(save_stack[n]); break;
             // show a box, abbreviated by show box depth and show box breadth
             case 7: showbox(n); break;
             case 8: {

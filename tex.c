@@ -127,7 +127,7 @@ Static void close_files_and_terminate(void) {
                     max_nest_stack,
                     maxparamstack,
                     max_buf_stack + 1,
-                    maxsavestack + 6,
+                    max_save_stack + 6,
                     (long)STACK_SIZE,
                     (long)NEST_SIZE,
                     (long)PARAM_SIZE,
@@ -209,7 +209,7 @@ Static void final_cleanup(void) {
         print(S(1019));
         openparens--;
     }
-    if (curlevel > LEVEL_ONE) {
+    if (cur_level > LEVEL_ONE) {
         printnl('(');
     #ifndef USE_REAL_STR
         print_esc(S(1020)); // "end occurred "
@@ -218,7 +218,7 @@ Static void final_cleanup(void) {
         print_esc_str("end occurred ");
         print_str("inside a group at level ");
     #endif // USE_REAL_STR
-        print_int(curlevel - LEVEL_ONE);
+        print_int(cur_level - LEVEL_ONE);
         print_char(')');
     }
     while (condptr != 0) {

@@ -150,7 +150,7 @@ _Ldone: ;   /*:1146*/
 /*1142:*/
 void starteqno(void) {
     saved(0) = curchr;
-    saveptr++; /*1139:*/
+    save_ptr++; /*1139:*/
     pushmath(mathshiftgroup);
     eq_word_define(INT_BASE + curfamcode, -1);
     if (everymath != 0) /*:1139*/
@@ -206,7 +206,7 @@ _LN_scanmath__reswitch:
             backinput();
             scan_left_brace();
             saved(0) = p;
-            saveptr++;
+            save_ptr++;
             pushmath(mathgroup);
             goto _Lexit;
             /*:1153*/
@@ -359,7 +359,7 @@ void mathac(void) {
 void appendchoices(void)
 {
   tailappend(newchoice());
-  saveptr++;
+  save_ptr++;
   saved(-1) = 0;
   pushmath(mathchoicegroup);
   scan_left_brace();
@@ -404,7 +404,7 @@ void buildchoices(void) {
         case 2: scriptmlist(tail) = p; break;
         case 3:
             scriptscriptmlist(tail) = p;
-            saveptr--;
+            save_ptr--;
             return;
             break;
     }
@@ -512,8 +512,8 @@ void mathleftright(void) {
 
     t = curchr;
     /*1192:*/
-    if (t == rightnoad && curgroup != mathleftgroup) {
-        if (curgroup != mathshiftgroup) {
+    if (t == rightnoad && cur_group != mathleftgroup) {
+        if (cur_group != mathshiftgroup) {
             offsave();
             return;
         }
@@ -598,7 +598,7 @@ void aftermath(void) {
         mlisttohlist();
         a = hpack(link(temphead), 0, additional);
         unsave();
-        saveptr--;
+        save_ptr--;
         if (saved(0) == 1) l = true;
         danger = false; /*1195:*/
 
@@ -769,7 +769,7 @@ void aftermath(void) {
 /*1200:*/
 void resumeafterdisplay(void) {
     // "display"
-    if (curgroup != mathshiftgroup) confusion(S(934));
+    if (cur_group != mathshiftgroup) confusion(S(934));
 
     unsave();
     prevgraf += 3;

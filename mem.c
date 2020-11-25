@@ -430,9 +430,9 @@ void search_mem(Pointer p) {
         }
     }
     /// [#285] Search save stack for equivalents that point to p
-    if (saveptr > 0) {
-        for (q = 0; q < saveptr; q++) {
-            if (equiv_field(savestack[q]) == p) {
+    if (save_ptr > 0) {
+        for (q = 0; q < save_ptr; q++) {
+            if (equiv_field(save_stack[q]) == p) {
                 printnl(S(326)); // "SAVE("
                 print_int(q);
                 print_char(')');

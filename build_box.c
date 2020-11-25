@@ -46,7 +46,7 @@ void appendkern(void) {
 void offsave(void) {
     Pointer p;
 
-    if (curgroup == bottomlevel) { /*1066:*/
+    if (cur_group == bottomlevel) { /*1066:*/
         print_err(S(558)); // "Extra "
         printcmdchr(curcmd, curchr);
         // "Things are pretty mixed up but I think the worst is over."
@@ -60,7 +60,7 @@ void offsave(void) {
     link(temphead) = p;
     print_err(S(554)); // "Missing "
     /*1065:*/
-    switch (curgroup) { /*:1065*/
+    switch (cur_group) { /*:1065*/
         case semisimplegroup:
             info(p) = CS_TOKEN_FLAG + FROZEN_END_GROUP;
             print_esc(S(836)); // "endgroup"
@@ -103,7 +103,7 @@ void handlerightbrace(void) {
     Scaled d;
     long f;
 
-    switch (curgroup) {
+    switch (cur_group) {
         case simplegroup:
             unsave();
             break;
@@ -150,7 +150,7 @@ void handlerightbrace(void) {
             d = splitmaxdepth;
             f = floatingpenalty;
             unsave();
-            saveptr--;
+            save_ptr--;
             p = vpack(link(head), 0, additional);
             popnest();
             if (saved(0) < 255) {
@@ -245,7 +245,7 @@ void handlerightbrace(void) {
         case vcentergroup: /*:1168*/
             endgraf();
             unsave();
-            saveptr -= 2;
+            save_ptr -= 2;
             p = vpack(link(head), saved(1), saved(0));
             popnest();
             tailappend(newnoad());
@@ -262,7 +262,7 @@ void handlerightbrace(void) {
 
         case mathgroup:
             unsave();
-            saveptr--;
+            save_ptr--;
             mathtype(saved(0)) = submlist;
             p = finmlist(0);
             info(saved(0)) = p;
@@ -306,7 +306,7 @@ void handlerightbrace(void) {
 // [#1069]:
 void extrarightbrace(void) {
     print_err(S(843)); // "Extra } or forgotten "
-    switch (curgroup) {
+    switch (cur_group) {
         case semisimplegroup: print_esc(S(836)); break; // "endgroup"
         case mathshiftgroup: print_char('$'); break;
         case mathleftgroup: print_esc(S(419)); break; // "right"
@@ -538,7 +538,7 @@ void package(SmallNumber c)
 
   d = boxmaxdepth;
   unsave();
-  saveptr -= 3;
+  save_ptr -= 3;
   if (mode == -H_MODE)
     curbox = hpack(link(head), saved(2), saved(1));
   else {
@@ -671,7 +671,7 @@ void begininsertoradjust(void)
     }
   }
   saved(0) = cur_val;
-  saveptr++;
+  save_ptr++;
   new_save_level(insertgroup);
   scan_left_brace();
   normalparagraph();
@@ -823,7 +823,7 @@ void appenddiscretionary(void)
     }
     return;
   }
-  saveptr++;
+  save_ptr++;
   saved(-1) = 0;
   new_save_level(discgroup);
   scan_left_brace();
@@ -904,7 +904,7 @@ void builddiscretionary(void) {
                 error();
             }
             if (n > 0) tail = q;
-            saveptr--;
+            save_ptr--;
             goto _Lexit;
             break;
             /*:1120*/
@@ -1046,7 +1046,7 @@ void omiterror(void) {
 /*1131:*/
 void doendv(void)
 {
-  if (curgroup != aligngroup) {
+  if (cur_group != aligngroup) {
     offsave();
     return;
   }

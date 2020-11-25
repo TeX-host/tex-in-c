@@ -278,7 +278,7 @@ _LN_main_control__reswitch:
         case V_MODE + END_GROUP:
         case H_MODE + END_GROUP:
         case M_MODE + END_GROUP: /*:1063*/
-            if (curgroup == semisimplegroup)
+            if (cur_group == semisimplegroup)
                 unsave();
             else
                 offsave();
@@ -454,7 +454,7 @@ _LN_main_control__reswitch:
 
         case M_MODE + HALIGN:
             if (privileged()) {
-                if (curgroup == mathshiftgroup)
+                if (cur_group == mathshiftgroup)
                     initalign();
                 else
                     offsave();
@@ -481,7 +481,7 @@ _LN_main_control__reswitch:
 
         case M_MODE + EQ_NO: /*:1140*/
             if (privileged()) {
-                if (curgroup == mathshiftgroup)
+                if (cur_group == mathshiftgroup)
                     starteqno();
                 else
                     offsave();
@@ -590,7 +590,7 @@ _LN_main_control__reswitch:
         /*:1190*/
         /*1193:*/
         case M_MODE + MATH_SHIFT:
-            if (curgroup == mathshiftgroup)
+            if (cur_group == mathshiftgroup)
                 aftermath();
             else
                 offsave();
