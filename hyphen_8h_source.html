@@ -99,7 +99,7 @@ $(document).ready(function(){initNavTree('hyphen_8h_source.html',''); initResiza
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span> <span class="comment">// [macro] qi</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span> <span class="comment">// [macro] link; [func] get_avail, free_node</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="box_8h.html">box.h</a>&quot;</span> <span class="comment">// [macro] font, character, subtype, ligptr, smallnodesize;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="comment">// [func] newligature</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="comment">// [func] new_ligature</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="fonts_8h.html">fonts.h</a>&quot;</span> <span class="comment">// [type] InternalFontNumber, [macro] NON_CHAR</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span> <span class="comment">// [macro] language</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="charset_8h.html">charset.h</a>&quot;</span> <span class="comment">// [type] ASCIICode</span></div>
@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('hyphen_8h_source.html',''); initResiza
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="group___s900x918___p334x343.html#gafcd1f831a7a72edcbdf38a3ef4644db9">   48</a></span>&#160;<span class="preprocessor">#define wraplig(x)                             \</span></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">    if (ligaturepresent) {                     \</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">        p = newligature(hf, curl, link(curq)); \</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">        p = new_ligature(hf, curl, link(curq)); \</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">        if (lfthit) {                          \</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">            subtype(p) = 2;                    \</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">            lfthit = false;                    \</span></div>

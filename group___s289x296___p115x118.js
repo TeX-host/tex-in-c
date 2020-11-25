@@ -13,7 +13,7 @@ var group___s289x296___p115x118 =
     [ "rightbracetoken", "group___s289x296___p115x118.html#gab4c650681fcd35fcf64d0bc96026e0d3", null ],
     [ "spacetoken", "group___s289x296___p115x118.html#gaac2d7b88a5b699874ff2d5afe3829487", null ],
     [ "tabtoken", "group___s289x296___p115x118.html#ga8598aef6d8b3febc93caddcfde57d3c1", null ],
-    [ "printmeaning", "group___s289x296___p115x118.html#ga01a356c4dd8fa8c8c4498995c6336b0a", null ],
+    [ "print_meaning", "group___s289x296___p115x118.html#ga3914e54700a108b005a63cbec066127b", null ],
     [ "showtokenlist", "group___s289x296___p115x118.html#ga61620c3a3b3e1b1d2e768309702c7f2c", null ],
-    [ "tokenshow", "group___s289x296___p115x118.html#gad9aabc8fcac50f25367c22342331240f", null ]
+    [ "token_show", "group___s289x296___p115x118.html#gac9cfc81df0b1275f1f68f995edfea864", null ]
 ];

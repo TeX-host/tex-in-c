@@ -1,15 +1,15 @@
 var box_8c =
 [
-    [ "newdisc", "group___s133x161___p50x57.html#ga3e3bcc6e8b9bd92b11e52853ddc4d922", null ],
-    [ "newglue", "group___s133x161___p50x57.html#ga53aadca0f95ea8dd1306deb08f4fa203", null ],
-    [ "newkern", "group___s133x161___p50x57.html#ga1f413e5c0a0f9562d80aa28e6b84f5bd", null ],
-    [ "newligature", "group___s133x161___p50x57.html#ga46b2a2e41c9934e2bd20be9428553ab5", null ],
-    [ "newligitem", "group___s133x161___p50x57.html#ga268fca8e20523b7c09f0c57ec1a5d2c1", null ],
-    [ "newmath", "group___s133x161___p50x57.html#ga968f50a19af905d483283df4a8d164fe", null ],
-    [ "newnullbox", "group___s133x161___p50x57.html#gacbaa2ea4359492a20269f71315222372", null ],
-    [ "newparamglue", "group___s133x161___p50x57.html#gab18d14163038121c1b9eac665ea68bf0", null ],
-    [ "newpenalty", "group___s133x161___p50x57.html#gab2b725de976f9fdfe6ad918f4a0c66d3", null ],
-    [ "newrule", "group___s133x161___p50x57.html#gace4d687fe4f688a33dbc224062de27f1", null ],
-    [ "newskipparam", "group___s133x161___p50x57.html#ga4671888f3f901f3b493a19b91ccc27e3", null ],
-    [ "newspec", "group___s133x161___p50x57.html#gacfaffbf54a0652f156ae976b973dee07", null ]
+    [ "new_disc", "group___s133x161___p50x57.html#ga61b3d30c893fdc0dda2f9a154ec6a4fe", null ],
+    [ "new_glue", "group___s133x161___p50x57.html#ga31b5e7ffca0736bf65717ed36d34699e", null ],
+    [ "new_kern", "group___s133x161___p50x57.html#ga181ad387067e04d00fdb2f1e42ba9048", null ],
+    [ "new_lig_item", "group___s133x161___p50x57.html#ga459698390d81e322bbd458d1bcf2c47e", null ],
+    [ "new_ligature", "group___s133x161___p50x57.html#gafc1cc15c5ce8c8a14fd156ea873863c6", null ],
+    [ "new_math", "group___s133x161___p50x57.html#gaf3e949ccaa16c1392f2d22dc8ca609c2", null ],
+    [ "new_null_box", "group___s133x161___p50x57.html#gaaaba007db79f864da26e1112872e1baa", null ],
+    [ "new_param_glue", "group___s133x161___p50x57.html#gaf54219d7e3bc687e49f365cc58680303", null ],
+    [ "new_penalty", "group___s133x161___p50x57.html#gabe4e6af9cecd667df1d20ab99d13ec83", null ],
+    [ "new_rule", "group___s133x161___p50x57.html#ga34a1491d093a3f0ccedeb2b8292cae6a", null ],
+    [ "new_skip_param", "group___s133x161___p50x57.html#ga0d571b8e9f50944f209022b5b26f832e", null ],
+    [ "new_spec", "group___s133x161___p50x57.html#ga9f6edfaf31a04da3809327321acdb20b", null ]
 ];
