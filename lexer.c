@@ -311,7 +311,7 @@ void showactivities(void) {
 /** @addtogroup S289x296_P115x118
  *
  * + #showtokenlist
- * + #tokenshow
+ * + #token_show
  * + #print_meaning
  *
  *  @{
@@ -416,8 +416,8 @@ void showtokenlist(Integer p, Integer q, Integer l) {
 
 /// [#295] display a token list,  given a pointer to its reference count.
     if (p != 0) showtokenlist(link(p), 0, 10000000L);
-void tokenshow(Pointer p) {
 } // #295 : tokenshow
+void token_show(Pointer p) {
 
 /// [p118#296] displays cur cmd and cur chr in symbolic form, 
 ///     including the expansion of a macro or mark.
@@ -426,11 +426,11 @@ void print_meaning(EightBits _cmd, HalfWord _chr) {
     if (_cmd >= CALL) {
         print_char(':');
         println();
-        tokenshow(_chr);
+        token_show(_chr);
     } else if (_cmd == TOP_BOT_MARK) {
         print_char(':');
         println();
-        tokenshow(curmark[_chr - topmarkcode]);
+        token_show(curmark[_chr - topmarkcode]);
     }
 } // [#296] print_meaning
 /** @}*/ // end group S289x296_P115x118
@@ -699,7 +699,7 @@ void begintokenlist(HalfWord p, QuarterWord t) {
             break;
     }
     print(S(310)); // "−>"
-    tokenshow(p);
+    token_show(p);
     end_diagnostic(false);
 } // #323: begintokenlist
 

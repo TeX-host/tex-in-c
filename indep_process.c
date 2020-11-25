@@ -864,7 +864,7 @@ void issuemessage(void) {
     link(garbage) = scantoks(false, true);
     old_setting = selector;
     selector = NEW_STRING;
-    tokenshow(defref);
+    token_show(defref);
     selector = old_setting;
     flush_list(defref);
     str_room(1);
@@ -958,7 +958,7 @@ void showwhatever(void) {
         default:
             (void)thetoks();
             printnl(S(980));
-            tokenshow(temphead);
+            token_show(temphead);
             flush_list(link(temphead));
             goto _Lcommonending; /*:1297*/
             break;

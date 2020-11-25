@@ -13,7 +13,7 @@
  * @{
  */
 /// [#1284]
-void giveerrhelp(void) { tokenshow(errhelp); }
+void giveerrhelp(void) { token_show(errhelp); }
 /** @}*/ // end group S1208x1298_P435x454
 
 

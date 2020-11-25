@@ -125,7 +125,7 @@ void macrocall(Pointer refcount) {
         begin_diagnostic();
         println();
         print_cs(warning_index);
-        tokenshow(refcount);
+        token_show(refcount);
         end_diagnostic(false);
     }
     /*:401*/

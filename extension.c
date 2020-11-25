@@ -246,7 +246,7 @@ void writeout(HalfWord p) { /*1371:*/
         if (j == 17 && selector == TERM_AND_LOG) selector = LOG_ONLY;
         printnl(S(385)); // ""
     }
-    tokenshow(defref);
+    token_show(defref);
     println();
     flush_list(defref);
     selector = old_setting;
