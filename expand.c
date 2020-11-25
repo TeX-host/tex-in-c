@@ -701,7 +701,7 @@ static void convtoks(void) {
                 print_char(curchr);
             break;
 
-        case meaningcode: printmeaning(curchr, curcmd); break;
+        case meaningcode: print_meaning(curchr, curcmd); break;
 
         case fontnamecode:
             print(get_fontname(cur_val));
