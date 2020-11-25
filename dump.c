@@ -215,7 +215,7 @@ void store_fmt_file(void) {
     _Ldone1:
         dump_int(l - k);
         while (k < l) {
-            dump_wd(eqtb[k - ACTIVE_BASE]);
+            dump_wd(eqtb[k]);
             k++;
         }
         k = j + 1;
@@ -226,7 +226,7 @@ void store_fmt_file(void) {
     do {
         j = k;
         while (j < EQTB_SIZE) {
-            if (eqtb[j - ACTIVE_BASE].int_ == eqtb[j - ACTIVE_BASE + 1].int_)
+            if (eqtb[j].int_ == eqtb[j + 1].int_)
                 goto _Lfound2;
             j++;
         }
@@ -237,7 +237,7 @@ void store_fmt_file(void) {
         j++;
         l = j;
         while (j < EQTB_SIZE) {
-            if (eqtb[j - ACTIVE_BASE].int_ != eqtb[j - ACTIVE_BASE + 1].int_)
+            if (eqtb[j].int_ != eqtb[j + 1].int_)
                 goto _Ldone2;
             j++;
         }
@@ -245,7 +245,7 @@ void store_fmt_file(void) {
     _Ldone2:
         dump_int(l - k);
         while (k < l) {
-            dump_wd(eqtb[k - ACTIVE_BASE]);
+            dump_wd(eqtb[k]);
             k++;
         }
         k = j + 1;
@@ -371,13 +371,13 @@ Boolean load_fmt_file(void) {
         x = undump_int();
         if (x < 1 || k + x > EQTB_SIZE + 1) goto _LN_badfmt;
         for (j = k; j < k + x; j++) {
-            eqtb[j - ACTIVE_BASE] = undump_wd();
+            eqtb[j] = undump_wd();
         }
         k += x;
         x = undump_int();
         if (x < 0 || k + x > EQTB_SIZE + 1) goto _LN_badfmt;
         for (j = k; j < k + x; j++)
-            eqtb[j - ACTIVE_BASE] = eqtb[k - ACTIVE_BASE - 1];
+            eqtb[j] = eqtb[k - 1];
         k += x;
     } while (k <= EQTB_SIZE);
     

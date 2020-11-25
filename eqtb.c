@@ -20,7 +20,7 @@ static_assert(UMAXOF(UChar) >= MAX_SELECTOR,
               "diag_oldsetting = [0, MAX_SELECTOR=21]");
 
 /// #253
-MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1]; // equivalents table
+MemoryWord eqtb[EQTB_SIZE + 1]; // equivalents table
 // store the eq level information
 QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 
@@ -39,7 +39,7 @@ void eqtb_init_once() {
     for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
         /// TODO: need check
         /// eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
-        eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
+        eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
     }
 
     /** [p85#228] */
@@ -47,7 +47,7 @@ void eqtb_init_once() {
     eq_level(GLUE_BASE) = LEVEL_ONE;
     eq_type(GLUE_BASE) = GLUE_REF;
     for (k = GLUE_BASE + 1; k < LOCAL_BASE; k++) {
-        eqtb[k - ACTIVE_BASE] = eqtb[GLUE_BASE - ACTIVE_BASE];
+        eqtb[k] = eqtb[GLUE_BASE];
     }
     gluerefcount(zeroglue) += LOCAL_BASE - GLUE_BASE;
 
@@ -56,28 +56,28 @@ void eqtb_init_once() {
     eq_type(PAR_SHAPE_LOC) = SHAPE_REF;
     eq_level(PAR_SHAPE_LOC) = LEVEL_ONE;
     for (k = OUTPUT_ROUTINE_LOC; k <= TOKS_BASE + 255; k++) {
-        eqtb[k - ACTIVE_BASE] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
+        eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
     }
 
     box(0) = 0;
     eq_type(BOX_BASE) = BOX_REF;
     eq_level(BOX_BASE) = LEVEL_ONE;
     for (k = BOX_BASE + 1; k <= BOX_BASE + 255; k++) {
-        eqtb[k - ACTIVE_BASE] = eqtb[BOX_BASE - ACTIVE_BASE];
+        eqtb[k] = eqtb[BOX_BASE];
     }
 
     cur_font = NULL_FONT;
     eq_type(CUR_FONT_LOC) = DATA;
     eq_level(CUR_FONT_LOC) = LEVEL_ONE;
     for (k = MATH_FONT_BASE; k <= MATH_FONT_BASE + 47; k++) {
-        eqtb[k - ACTIVE_BASE] = eqtb[CUR_FONT_LOC - ACTIVE_BASE];
+        eqtb[k] = eqtb[CUR_FONT_LOC];
     }
 
     equiv(CAT_CODE_BASE) = 0;
     eq_type(CAT_CODE_BASE) = DATA;
     eq_level(CAT_CODE_BASE) = LEVEL_ONE;
     for (k = CAT_CODE_BASE + 1; k < INT_BASE; k++) {
-        eqtb[k - ACTIVE_BASE] = eqtb[CAT_CODE_BASE - ACTIVE_BASE];
+        eqtb[k] = eqtb[CAT_CODE_BASE];
     }
 
     // CatCode init
@@ -122,7 +122,7 @@ void eqtb_init_once() {
 
     /** [p97#240] */
     for (k = INT_BASE; k < DEL_CODE_BASE; k++) {
-        eqtb[k - ACTIVE_BASE].int_ = 0;
+        eqtb[k].int_ = 0;
     }
     mag = 1000;
     tolerance = 10000;
@@ -138,7 +138,7 @@ void eqtb_init_once() {
 
     /** [p101#250] */
     for (k = DIMEN_BASE; k <= EQTB_SIZE; k++) {
-        eqtb[k - ACTIVE_BASE].sc = 0;
+        eqtb[k].sc = 0;
     }
 } /* eqtb_init_once */
 
@@ -379,7 +379,7 @@ void showeqtb(HalfWord n) {
             print_int(n - DEL_CODE_BASE);
         }
         print_char('=');
-        print_int(eqtb[n - ACTIVE_BASE].int_);
+        print_int(eqtb[n].int_);
         return;
     }                   /*:242*/
     if (n > EQTB_SIZE) { /*251:*/
@@ -394,7 +394,7 @@ void showeqtb(HalfWord n) {
         print_int(n - SCALED_BASE);
     }
     print_char('=');
-    print_scaled(eqtb[n - ACTIVE_BASE].sc);
+    print_scaled(eqtb[n].sc);
     print(S(459));
 
     /*:229*/

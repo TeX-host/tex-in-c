@@ -385,7 +385,7 @@ Static void init_prim(void) {
     primitive(S(263), END_CS_NAME, 0);
     primitive(S(836), END_GROUP, 0);
     set_text(FROZEN_END_GROUP, S(836));
-    eqtb[FROZEN_END_GROUP - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    eqtb[FROZEN_END_GROUP] = eqtb[cur_val];
     primitive(S(1117), EXPAND_AFTER, 0);
     primitive(S(1118), DEF_FONT, 0);
     primitive(S(1119), ASSIGN_FONT_DIMEN, 0);
@@ -410,7 +410,7 @@ Static void init_prim(void) {
     primitive(S(656), READ_TO_CS, 0);
     primitive(S(1125), RELAX, 256);
     set_text(FROZEN_RELAX, S(1125));
-    eqtb[FROZEN_RELAX - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    eqtb[FROZEN_RELAX] = eqtb[cur_val];
     primitive(S(970), SET_BOX, 0);
     primitive(S(604), THE, 0);
     primitive(S(463), TOKS_REGISTER, 0);
@@ -477,25 +477,25 @@ Static void init_prim(void) {
     /*491:*/
     primitive(S(1169), FI_OR_ELSE, ficode);
     set_text(FROZEN_FI, S(1169));
-    eqtb[FROZEN_FI - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    eqtb[FROZEN_FI] = eqtb[cur_val];
     primitive(S(664), FI_OR_ELSE, orcode);
     primitive(S(1170), FI_OR_ELSE, elsecode); /*:491*/
     /*553:*/
     primitive(S(1171), SET_FONT, NULL_FONT);
     set_text(FROZEN_NULL_FONT, S(1171));
-    eqtb[FROZEN_NULL_FONT - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:553*/
+    eqtb[FROZEN_NULL_FONT] = eqtb[cur_val]; /*:553*/
     /*780:*/
     primitive(S(1172), TAB_MARK, spancode);
     primitive(S(737), CAR_RET, crcode);
     set_text(FROZEN_CR, S(737));
-    eqtb[FROZEN_CR - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE];
+    eqtb[FROZEN_CR] = eqtb[cur_val];
     primitive(S(1173), CAR_RET, crcrcode);
     set_text(FROZEN_END_TEMPLATE, S(1174));
     set_text(FROZEN_ENDV, S(1174));
     eq_type(FROZEN_ENDV) = ENDV;
     equiv(FROZEN_ENDV) = nulllist;
     eq_level(FROZEN_ENDV) = LEVEL_ONE;
-    eqtb[FROZEN_END_TEMPLATE - ACTIVE_BASE] = eqtb[FROZEN_ENDV - ACTIVE_BASE];
+    eqtb[FROZEN_END_TEMPLATE] = eqtb[FROZEN_ENDV];
     eq_type(FROZEN_END_TEMPLATE) = END_TEMPLATE; /*:780*/
     /*983:*/
     primitive(S(1175), SET_PAGE_DIMEN, 0);
@@ -586,7 +586,7 @@ Static void init_prim(void) {
     primitive(S(418), LEFT_RIGHT, leftnoad);
     primitive(S(419), LEFT_RIGHT, rightnoad);
     set_text(FROZEN_RIGHT, S(419));
-    eqtb[FROZEN_RIGHT - ACTIVE_BASE] = eqtb[cur_val - ACTIVE_BASE]; /*:1188*/
+    eqtb[FROZEN_RIGHT] = eqtb[cur_val]; /*:1188*/
     /*1208:*/
     primitive(S(959), PREFIX, 1);
     primitive(S(961), PREFIX, 2);

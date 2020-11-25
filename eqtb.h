@@ -30,9 +30,9 @@
 #define equiv_field(x)      x.hh.rh
 
 /// [p81#221] -> QuarterWord = #EqLevel; level of definition.
-#define eq_level(x) eq_level_field(eqtb[x - ACTIVE_BASE])
+#define eq_level(x) eq_level_field(eqtb[x])
 /// [p81#221] -> QuarterWord = #TexCommandCode; command code for equivalent.
-#define eq_type(x)  eq_type_field(eqtb[x - ACTIVE_BASE])
+#define eq_type(x)  eq_type_field(eqtb[x])
 /** [p81#221] -> HalfWord; equivalent value.
  *
  * may be
@@ -40,7 +40,7 @@
  *  + a pointer into mem,
  *  + a variety of other things
  */
-#define equiv(x)    equiv_field(eqtb[x - ACTIVE_BASE])
+#define equiv(x)    equiv_field(eqtb[x])
 /** [p81#221] level of grouping at which this equivalent was defined.
  *
  * ## EqLevel enum
@@ -329,11 +329,11 @@ typedef enum _DelimiterCodesTable {
 } DelimiterCodesTable; // [#236] enum DelimiterCodesTable
 
 /// [p92#236] -> Integer;
-#define del_code(x)     eqtb[DEL_CODE_BASE + x - ACTIVE_BASE].int_
+#define del_code(x)     eqtb[DEL_CODE_BASE + x].int_
 /// [p92#236] -> Integer;
-#define count(x)        eqtb[COUNT_BASE + x - ACTIVE_BASE].int_
+#define count(x)        eqtb[COUNT_BASE + x].int_
 /// [p92#236] -> Integer; Integer parameters
-#define int_par(x)      eqtb[INT_BASE + x - ACTIVE_BASE].int_
+#define int_par(x)      eqtb[INT_BASE + x].int_
 
 #define pretolerance            int_par(pretolerancecode)
 #define tolerance               int_par(tolerancecode)
@@ -442,9 +442,9 @@ typedef enum _DimensionRegisters {
 } DimensionRegisters; // [p99#247] enum DimensionRegisters
 
 /// [p99#247] -> Scaled; Dimen pars
-#define dimen(x)                eqtb[SCALED_BASE + x - ACTIVE_BASE].sc
+#define dimen(x)                eqtb[SCALED_BASE + x].sc
 /// [p99#247] -> Scaled; a scaled quantity
-#define dimen_par(x)            eqtb[DIMEN_BASE + x - ACTIVE_BASE].sc
+#define dimen_par(x)            eqtb[DIMEN_BASE + x].sc
 
 #define parindent               dimen_par(parindentcode)
 #define mathsurround            dimen_par(mathsurroundcode)
@@ -520,7 +520,7 @@ enum GroupCode {
 /** @}*/ // end group S268x288_P109x114
 
 // eqtb
-extern MemoryWord eqtb[EQTB_SIZE - ACTIVE_BASE + 1];
+extern MemoryWord eqtb[EQTB_SIZE + 1];
 extern QuarterWord xeqlevel[EQTB_SIZE - INT_BASE + 1];
 
 // eqtv_save

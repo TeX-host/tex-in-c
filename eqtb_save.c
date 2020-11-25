@@ -88,7 +88,7 @@ void eqsave(HalfWord p, QuarterWord l) {
     if (l == LEVEL_ZERO) {
         savetype(saveptr) = restorezero;
     } else {
-        savestack[saveptr] = eqtb[p - ACTIVE_BASE];
+        savestack[saveptr] = eqtb[p];
         saveptr++;
         savetype(saveptr) = restoreoldvalue;
     }
@@ -101,7 +101,7 @@ void eqsave(HalfWord p, QuarterWord l) {
 /*277:*/
 void eqdefine(HalfWord p, QuarterWord t, HalfWord e) {
     if (eq_level(p) == curlevel)
-        eqdestroy(eqtb[p - ACTIVE_BASE]);
+        eqdestroy(eqtb[p]);
     else if (curlevel > LEVEL_ONE)
         eqsave(p, eq_level(p));
     eq_level(p) = curlevel;
@@ -116,13 +116,13 @@ void eqworddefine(HalfWord p, long w) {
         eqsave(p, xeqlevel[p - INT_BASE]);
         xeqlevel[p - INT_BASE] = curlevel;
     }
-    eqtb[p - ACTIVE_BASE].int_ = w;
+    eqtb[p].int_ = w;
 }
 /*:278*/
 
 /*279:*/
 void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
-    eqdestroy(eqtb[p - ACTIVE_BASE]);
+    eqdestroy(eqtb[p]);
     eq_level(p) = LEVEL_ONE;
     eq_type(p) = t;
     equiv(p) = e;
@@ -130,7 +130,7 @@ void geqdefine(HalfWord p, QuarterWord t, HalfWord e) {
 
 
 void geqworddefine(HalfWord p, long w) {
-    eqtb[p - ACTIVE_BASE].int_ = w;
+    eqtb[p].int_ = w;
     xeqlevel[p - INT_BASE] = LEVEL_ONE;
 }
 /*:279*/
@@ -189,7 +189,7 @@ void unsave(void) {
             l = savelevel(saveptr);
             saveptr--;
         } else {
-            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE - ACTIVE_BASE];
+            savestack[saveptr] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
         }
         if (p < INT_BASE) {
             if (eq_level(p) == LEVEL_ONE) {
@@ -198,8 +198,8 @@ void unsave(void) {
                     if (tracingrestores > 0) restoretrace(p, S(479));
                 #endif // #283.1: tt_STAT
             } else {
-                eqdestroy(eqtb[p - ACTIVE_BASE]);
-                eqtb[p - ACTIVE_BASE] = savestack[saveptr];
+                eqdestroy(eqtb[p]);
+                eqtb[p] = savestack[saveptr];
                 #ifdef tt_STAT
                     if (tracingrestores > 0) restoretrace(p, S(480));
                 #endif // #283.2: tt_STAT
@@ -207,7 +207,7 @@ void unsave(void) {
             continue;
         }
         if (xeqlevel[p - INT_BASE] != LEVEL_ONE) {
-            eqtb[p - ACTIVE_BASE] = savestack[saveptr];
+            eqtb[p] = savestack[saveptr];
             xeqlevel[p - INT_BASE] = l; 
             #ifdef tt_STAT
                 if (tracingrestores > 0) restoretrace(p, S(480));

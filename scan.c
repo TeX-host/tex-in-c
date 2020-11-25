@@ -219,7 +219,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
                 cur_val = equiv(m + cur_val);
                 cur_val_level = INT_VAL;
             } else {
-                cur_val = eqtb[m + cur_val - ACTIVE_BASE].int_;
+                cur_val = eqtb[m + cur_val].int_;
                 cur_val_level = INT_VAL;
             }
             break;
@@ -257,12 +257,12 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
             break;
 
         case ASSIGN_INT:
-            cur_val = eqtb[m - ACTIVE_BASE].int_;
+            cur_val = eqtb[m].int_;
             cur_val_level = INT_VAL;
             break;
 
         case ASSIGN_DIMEN:
-            cur_val = eqtb[m - ACTIVE_BASE].sc;
+            cur_val = eqtb[m].sc;
             cur_val_level = DIMEN_VAL;
             break;
 

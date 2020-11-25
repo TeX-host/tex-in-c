@@ -76,7 +76,7 @@ void debughelp(void) {
             case 1: printword(mem[n - MEM_MIN]); break;
             case 2: print_int(info(n)); break;
             case 3: print_int(link(n)); break;
-            case 4: printword(eqtb[n - ACTIVE_BASE]); break;
+            case 4: printword(eqtb[n]); break;
             case 5: printword(fontinfo[n]); break;
             case 6: printword(savestack[n]); break;
             // show a box, abbreviated by show box depth and show box breadth

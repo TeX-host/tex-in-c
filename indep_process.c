@@ -122,7 +122,7 @@ _Lfound: /*:1237*/
             } else {
                 SCAN_NORMAL_DIMEN();
             }
-            if (q == ADVANCE) cur_val += eqtb[l - ACTIVE_BASE].int_;
+            if (q == ADVANCE) cur_val += eqtb[l].int_;
         } else {
             scan_glue(p);
             if (q == ADVANCE) {
@@ -163,7 +163,7 @@ _Lfound: /*:1237*/
                     cur_val = nx_plus_y(eqtb[l-ACTIVE_BASE].int_, cur_val, 0);
                 }
             } else {
-                cur_val = x_over_n(eqtb[l - ACTIVE_BASE].int_, cur_val);
+                cur_val = x_over_n(eqtb[l].int_, cur_val);
             }
         } else {
             s = equiv(l);
@@ -374,7 +374,7 @@ Static void newfont(SmallNumber a) {
 
 _Lcommonending:
     equiv(u) = f;
-    eqtb[FONT_ID_BASE + f - ACTIVE_BASE] = eqtb[u - ACTIVE_BASE];
+    eqtb[FONT_ID_BASE + f] = eqtb[u];
     set_fontidtext(f, t);
 } // #1257: newfont
 
