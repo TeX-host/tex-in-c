@@ -16,9 +16,9 @@
  */
 /// [p82#222] beginning of [region 1], for active character equivalents.
 #define ACTIVE_BASE     1
-/// [p82#222] equivalents of one-character control sequences.
+/// [p82#222] [region 1] equivalents of one-character control sequences.
 #define SINGLE_BASE     (ACTIVE_BASE + 256)
-/// [p82#222] equivalent of \\csname\\endcsname
+/// [p82#222] [region 1] equivalent of \\csname\\endcsname
 #define NULL_CS         (SINGLE_BASE + 256)
 
 /// [p81#221]
@@ -72,20 +72,20 @@ typedef enum _FrozenControlSeq {
     FROZEN_NULL_FONT,   ///< permanent ‘\\nullfont’.
 } FrozenControlSeq;
 
-/// begins table of 257 permanent font identifiers.
+/// [region 2] begins table of 257 permanent font identifiers.
 #define FONT_ID_BASE                (FROZEN_NULL_FONT - FONT_BASE)
-/// dummy location.
+/// [region 2] dummy location.
 #define UNDEFINED_CONTROL_SEQUENCE  (FROZEN_NULL_FONT + 257)
 
 
 /** [p83#224] [region 3] eqtb[HASH_BASE, (GLUE_BASE - 1)] holds 
  *  current equivalents of glue parameters like the current baselineskip.
  */
-/// [p82#222] beginning of region 3
+/// [p82#222] beginning of [region 3]; glue parameters
 #define GLUE_BASE       (UNDEFINED_CONTROL_SEQUENCE + 1)
-/// [p83#224] table of 256 “skip” registers
+/// [p83#224] [region 3] table of 256 “skip” registers
 #define SKIP_BASE       (GLUE_BASE + GLUE_PARS)
-/// [p83#224] table of 256 “muskip” registers.
+/// [p83#224] [region 3] table of 256 “muskip” registers.
 #define MU_SKIP_BASE    (SKIP_BASE + 256)
 
 /** [p83#224] Region 3 of `eqtb` contains the 256 `\skip` registers
@@ -176,21 +176,21 @@ typedef enum _TokenListLoc {
     TOKS_BASE,
 } TokenListLoc;
 
-/// [p87#230] table of 256 box registers.
+/// [p87#230] [region 4] table of 256 box registers.
 #define BOX_BASE        (TOKS_BASE + 256)
-/// [p87#230] internal font number outside math mode.
+/// [p87#230] [region 4] internal font number outside math mode.
 #define CUR_FONT_LOC    (BOX_BASE + 256)
-/// [p87#230] table of 48 math font numbers.
+/// [p87#230] [region 4] table of 48 math font numbers.
 #define MATH_FONT_BASE  (CUR_FONT_LOC + 1)
-/// [p87#230]  table of 256 command codes (the “catcodes”).
+/// [p87#230] [region 4]  table of 256 command codes (the “catcodes”).
 #define CAT_CODE_BASE   (MATH_FONT_BASE + 48)
-/// [p87#230] table of 256 lowercase mappings.
+/// [p87#230] [region 4] table of 256 lowercase mappings.
 #define LC_CODE_BASE    (CAT_CODE_BASE + 256)
-/// [p87#230] table of 256 uppercase mappings.
+/// [p87#230] [region 4] table of 256 uppercase mappings.
 #define UC_CODE_BASE    (LC_CODE_BASE + 256)
-/// [p87#230] table of 256 spacefactor mappings.
+/// [p87#230] [region 4] table of 256 spacefactor mappings.
 #define SF_CODE_BASE    (UC_CODE_BASE + 256)
-/// [p87#230] table of 256 math mode mappings.
+/// [p87#230] [region 4] table of 256 math mode mappings.
 #define MATH_CODE_BASE  (SF_CODE_BASE + 256)
 
 // [p87#230]
@@ -227,11 +227,11 @@ typedef enum _TokenListLoc {
  *  current equivalents of fullword integer parameters like
  *  the current hyphenation penalty.
  */
-/// [p87#230] beginning of [region 5].
+/// [p87#230] [region 5] beginning of [region 5].
 #define INT_BASE        (MATH_CODE_BASE + 256)
-/// [p92#236] 256 user \\count registers.
+/// [p92#236] [region 5] 256 user \\count registers.
 #define COUNT_BASE      (INT_BASE + INT_PARS)
-/// [p92#236] 256 delimiter code mappings.
+/// [p92#236] [region 5] 256 delimiter code mappings.
 #define DEL_CODE_BASE   (COUNT_BASE + 256)
 
 /** [#236] Region 5 of `eqtb` contains
@@ -383,9 +383,9 @@ enum DelimiterCodesTable {
  *  current equivalents of fullword dimension parameters like
  *  the current hsize or amount of hanging indentation.
  */
-/// [p92#236] beginning of region 6.
+/// [p92#236] [region 6] beginning of region 6.
 #define DIMEN_BASE      (DEL_CODE_BASE + 256)
-/// [#247]
+/// [#247]  [region 6] 256 user-defined \\dimen registers.
 #define SCALED_BASE     (DIMEN_BASE + dimenpars)
 #define EQTB_SIZE       (SCALED_BASE + 255)
 
