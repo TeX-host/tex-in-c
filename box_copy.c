@@ -18,7 +18,7 @@ HalfWord copynodelist(HalfWord p) {
     while (p != 0) {
         /// [#205] Make a copy of node p in node r.
         words = 1; // this setting occurs in more branches than any other
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             r = get_avail();
         #ifdef BIG_CHARNODE
             words = CHAR_NODE_SIZE;
@@ -125,7 +125,7 @@ HalfWord copynodelist(HalfWord p) {
                     confusion(S(430)); // "copying"
                     break;
             } // switch (type(p)
-        } // if (<=>ischarnode(p))
+        } // if (<=>is_char_node(p))
 
         while (words > 0) {
             words--;

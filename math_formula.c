@@ -61,19 +61,19 @@ HalfWord cleanbox(HalfWord p, SmallNumber s) {
         cursize = (curstyle - textstyle) / 2 * 16;
     curmu = x_over_n(mathquad(cursize), 18); /*:703*/
 _Lfound:
-    if (ischarnode(q) || q == 0) /*721:*/
+    if (is_char_node(q) || q == 0) /*721:*/
         x = hpack(q, 0, additional);
     else if ((link(q) == 0) & (type(q) <= VLIST_NODE) & (shiftamount(q) == 0))
         x = q;
     else
         x = hpack(q, 0, additional);
     q = listptr(x);
-    if (!ischarnode(q)) /*:721*/
+    if (!is_char_node(q)) /*:721*/
         return x;
     r = link(q);
     if (r == 0) return x;
     if (link(r) != 0) return x;
-    if (ischarnode(r)) return x;
+    if (is_char_node(r)) return x;
     if (type(r) == KERN_NODE) {
         free_node(r, smallnodesize);
         link(q) = 0;
@@ -564,7 +564,7 @@ void makescripts(HalfWord q, long delta) {
     SmallNumber t;
 
     p = newhlist(q);
-    if (ischarnode(p)) {
+    if (is_char_node(p)) {
         shiftup = 0;
         shiftdown = 0;
     } else {

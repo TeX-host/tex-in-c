@@ -63,7 +63,7 @@ void linebreak(long finalwidowpenalty) {
 
     packbeginline = modeline; /*816:*/
     link(temphead) = link(head);
-    if (ischarnode(tail)) {
+    if (is_char_node(tail)) {
         tailappend(new_penalty(INF_PENALTY));
     } else if (type(tail) != GLUE_NODE) {
         tailappend(new_penalty(INF_PENALTY));
@@ -189,13 +189,13 @@ void linebreak(long finalwidowpenalty) {
         autobreaking = true;
         prevp = curp;
         while ((curp != 0) & (link(active) != lastactive)) { /*866:*/
-            if (ischarnode(curp)) {                          /*867:*/
+            if (is_char_node(curp)) {                          /*867:*/
                 prevp = curp;
                 do {
                     f = font(curp);
                     actwidth += charwidth(f, charinfo(f, character(curp)));
                     curp = link(curp);
-                } while (ischarnode(curp));
+                } while (is_char_node(curp));
             }
             /*:867*/
             switch (type(curp)) {
@@ -212,7 +212,7 @@ void linebreak(long finalwidowpenalty) {
 
                 case GLUE_NODE: /*868:*/
                     if (autobreaking) {
-                        if (ischarnode(prevp))
+                        if (is_char_node(prevp))
                             trybreak(0, unhyphenated);
                         else if (precedesbreak(prevp)) {
                             trybreak(0, unhyphenated);
@@ -230,7 +230,7 @@ void linebreak(long finalwidowpenalty) {
                         s = link(prevs);
                         if (s != 0) { /*896:*/
                             while (true) {
-                                if (ischarnode(s)) {
+                                if (is_char_node(s)) {
                                     c = character(s) - MIN_QUARTER_WORD;
                                     hf = font(s);
                                 } else if (type(s) == LIGATURE_NODE) {
@@ -265,7 +265,7 @@ void linebreak(long finalwidowpenalty) {
                                 goto _Ldone1;
                             hn = 0;
                             while (true) {
-                                if (ischarnode(s)) {
+                                if (is_char_node(s)) {
                                     if (font(s) != hf) goto _Ldone3;
                                     hyfbchar = character(s);
                                     c = hyfbchar - MIN_QUARTER_WORD;
@@ -310,7 +310,7 @@ void linebreak(long finalwidowpenalty) {
                             /*899:*/
                             if (hn < lhyf + rhyf) goto _Ldone1;
                             while (true) {
-                                if (!ischarnode(s)) {
+                                if (!is_char_node(s)) {
                                     switch (type(s)) {
 
                                         case LIGATURE_NODE:
@@ -366,7 +366,7 @@ void linebreak(long finalwidowpenalty) {
                         trybreak(exhyphenpenalty, hyphenated);
                     else {
                         do { /*870:*/
-                            if (ischarnode(s)) {
+                            if (is_char_node(s)) {
                                 f = font(s);
                                 discwidth +=
                                     charwidth(f, charinfo(f, character(s)));
@@ -401,7 +401,7 @@ void linebreak(long finalwidowpenalty) {
                     r = replacecount(curp);
                     s = link(curp);
                     while (r > 0) { /*871:*/
-                        if (ischarnode(s)) {
+                        if (is_char_node(s)) {
                             f = font(s);
                             actwidth += charwidth(f, charinfo(f, character(s)));
                         } else {
@@ -659,7 +659,7 @@ void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                             while (t > 0) {
                                 t--;
                                 v = link(v); /*841:*/
-                                if (ischarnode(v)) {
+                                if (is_char_node(v)) {
                                     f = font(v);
                                     breakwidth[0] -=
                                         charwidth(f, charinfo(f, character(v)));
@@ -687,7 +687,7 @@ void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                                 }
                             }
                             while (s != 0) { /*842:*/
-                                if (ischarnode(s)) {
+                                if (is_char_node(s)) {
                                     f = font(s);
                                     breakwidth[0] +=
                                         charwidth(f, charinfo(f, character(s)));
@@ -722,7 +722,7 @@ void trybreak(long pi, SmallNumber breaktype) { /*831:*/
                         /*:840*/
                     }
                     while (s != 0) {
-                        if (ischarnode(s)) goto _Ldone;
+                        if (is_char_node(s)) goto _Ldone;
                         switch (type(s)) {
 
                             case GLUE_NODE: /*838:*/
@@ -1219,7 +1219,7 @@ void postlinebreak(long finalwidowpenalty) { /*878:*/
                 while (true) {
                     q = link(r);
                     if (q == curbreak(curp)) goto _Ldone1;
-                    if (ischarnode(q)) goto _Ldone1;
+                    if (is_char_node(q)) goto _Ldone1;
                     if (nondiscardable(q)) {
                         goto _Ldone1;
                     }

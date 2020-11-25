@@ -447,7 +447,7 @@ void hlistout(void) {
         // Output node p for hlist out and move to the next node, 
         // maintaining the condition cur v = base line
     _LN_hlistout__reswitch:
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             synchh();
             synchv();
             do {
@@ -461,7 +461,7 @@ void hlistout(void) {
                 dvi_set_char(c);
                 curh += charwidth(f, charinfo(f, c));
                 p = link(p);
-            } while (ischarnode(p));
+            } while (is_char_node(p));
             dvih = curh;
             continue; // ???
         }
@@ -647,7 +647,7 @@ void vlistout(void) {
         // 630: 
         // Output node p for vlist out and move to the next node, 
         // maintaining the condition cur h = left edge
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             confusion(S(685)); // "vlistout"
         } else {
             // #631: Output the non-char node p for vlist out
@@ -783,7 +783,7 @@ void vlistout(void) {
 
         _Lmovepast_:
             curv += ruleht;
-        } // if (ischarnode(p)) - else
+        } // if (is_char_node(p)) - else
     _Lnextp_:
         p = link(p);
     } // while (p != 0)

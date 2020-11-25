@@ -591,7 +591,7 @@ void finalign(void) {
     q = link(head);
     s = head;
     while (q != 0) { /*:805*/
-        if (!ischarnode(q)) {
+        if (!is_char_node(q)) {
             if (type(q) == UNSET_NODE) { /*807:*/
                 if (mode == -V_MODE) {
                     type(q) = HLIST_NODE;

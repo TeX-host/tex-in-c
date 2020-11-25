@@ -84,7 +84,7 @@
 /// [p321#866]
 #define kernbreak()                                                       \
     {                                                                     \
-        if (!ischarnode(link(curp)) && (autobreaking)) {                  \
+        if (!is_char_node(link(curp)) && (autobreaking)) {                  \
             if (type(link(curp)) == GLUE_NODE) trybreak(0, unhyphenated); \
         }                                                                 \
         actwidth += width(curp);                                          \

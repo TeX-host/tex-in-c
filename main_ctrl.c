@@ -785,7 +785,7 @@ _Lmainloopmove:    /*1036:*/
     curl = character(ligstack);
 
 _Lmainloopmove1:
-    if (!ischarnode(ligstack)) goto _Lmainloopmovelig;
+    if (!is_char_node(ligstack)) goto _Lmainloopmovelig;
 
 _Lmainloopmove2:
     if (curchr < fontbc[mainf] || curchr > fontec[mainf]) {
@@ -868,7 +868,7 @@ _Lmainligloop2:
                     if (ligstack == 0) {
                         ligstack = new_lig_item(curr);
                         bchar = NON_CHAR;
-                    } else if (ischarnode(ligstack)) {
+                    } else if (is_char_node(ligstack)) {
                         mainp = ligstack;
                         ligstack = new_lig_item(curr);
                         ligptr(ligstack) = mainp;

@@ -38,7 +38,7 @@ void flush_node_list(HalfWord p) {
 
     while (p != 0) {
         q = link(p);
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             FREE_AVAIL(p);
         } else {
             switch (type(p)) {
@@ -184,7 +184,7 @@ void flush_node_list(HalfWord p) {
             } // switch (type(p))
             free_node(p, smallnodesize);
         _Ldone:;
-        } // if (ischarnode(p)) - else
+        } // if (is_char_node(p)) - else
         p = q;
     } // while (p != 0)
 } // [#202] flush_node_list

@@ -409,7 +409,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
                 else
                     cur_val = 0;
                 cur_val_level = curchr;
-                if (!ischarnode(tail) && mode != 0) {
+                if (!is_char_node(tail) && mode != 0) {
                     switch (curchr) {
 
                         case INT_VAL:

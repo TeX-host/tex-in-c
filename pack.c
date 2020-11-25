@@ -95,7 +95,7 @@ HalfWord hpack(HalfWord p, long w, SmallNumber m) {
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*651:*/
     _LN_hpack__reswitch:
-        while (ischarnode(p)) { /*654:*/
+        while (is_char_node(p)) { /*654:*/
             InternalFontNumber f = font(p);
             FourQuarters i = charinfo(f, character(p));
             hd = heightdepth(i);
@@ -328,7 +328,7 @@ HalfWord vpackage(HalfWord p, long h, SmallNumber m, long l) {
     totalstretch[FILLL - NORMAL] = 0;
     totalshrink[FILLL - NORMAL] = 0; /*:650*/
     while (p != 0) {                 /*669:*/
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             confusion(S(710)); // "mathclose"
         } else {
             switch (type(p)) {

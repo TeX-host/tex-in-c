@@ -35,7 +35,7 @@ void initmath(void)
       p = listptr(justbox);
       while (p != 0) {  /*1147:*/
 _LN_initmath__reswitch:
-	if (ischarnode(p)) {
+	if (is_char_node(p)) {
 	  f = font(p);
 	  d = charwidth(f, charinfo(f, character(p)));
 	  goto _Lfound;
@@ -705,7 +705,7 @@ void aftermath(void) {
     if (e > 0 && d < e * 2) { /*:1202*/
         d = half(z - w - e);
         if (p != 0) {
-            if (!ischarnode(p)) {
+            if (!is_char_node(p)) {
                 if (type(p) == GLUE_NODE) d = 0;
             }
         }

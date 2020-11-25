@@ -351,7 +351,7 @@ HalfWord rebox(HalfWord b, long w) {
     if ((width(b) != w) & (listptr(b) != 0)) {
         if (type(b) == VLIST_NODE) b = hpack(b, 0, additional);
         p = listptr(b);
-        if (ischarnode(p) & (link(p) == 0)) {
+        if (is_char_node(p) & (link(p) == 0)) {
             f = font(p);
             v = charwidth(f, charinfo(f, character(p)));
             if (v != width(b)) link(p) = new_kern(width(b) - v);

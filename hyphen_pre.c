@@ -118,7 +118,7 @@ _Lfound1: /*:902*/
     r = link(ha);
     link(ha) = 0;
     bchar = hyfbchar;
-    if (ischarnode(ha)) {
+    if (is_char_node(ha)) {
         if (font(ha) != hf) goto _Lfound2;
         initlist = ha;
         initlig = false;
@@ -139,7 +139,7 @@ _Lfound1: /*:902*/
         }
         free_node(ha, smallnodesize);
     } else {
-        if (!ischarnode(r)) {
+        if (!is_char_node(r)) {
             if (type(r) == LIGATURE_NODE) {
                 if (subtype(r) > 1) goto _Lfound2;
             }

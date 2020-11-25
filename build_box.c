@@ -426,13 +426,13 @@ void beginbox(long boxcontext) {
             help2(S(854), S(855));
             error();
         } else {
-            if (!ischarnode(tail)) {
+            if (!is_char_node(tail)) {
                 if ((type(tail) == HLIST_NODE) |
                     (type(tail) == VLIST_NODE)) { /*1081:*/
                     q = head;
                     do {
                         p = q;
-                        if (!ischarnode(q)) {
+                        if (!is_char_node(q)) {
                             if (type(q) == DISC_NODE) {
                                 QuarterWord FORLIM = replacecount(q);
                                 for (m = 1; m <= FORLIM; m++)
@@ -723,12 +723,12 @@ void deletelast(void) {
     }
     } /*:1106*/
     else {
-        if (!ischarnode(tail)) {
+        if (!is_char_node(tail)) {
         if (type(tail) == curchr) {
             q = head;
             do {
                 p = q;
-                if (!ischarnode(q)) {
+                if (!is_char_node(q)) {
                 if (type(q) == DISC_NODE) {
                     QuarterWord FORLIM = replacecount(q);
                     QuarterWord m;
@@ -788,7 +788,7 @@ void appenditaliccorrection(void) {
     int c;
 
     if (tail != head) {
-        if (ischarnode(tail)) {
+        if (is_char_node(tail)) {
             p = tail;
             f = font(p);
             c = character(p);
@@ -844,7 +844,7 @@ void builddiscretionary(void) {
     n = 0;
 
     while (p != 0) {
-        if (!ischarnode(p)) {
+        if (!is_char_node(p)) {
             if (type(p) > RULE_NODE) {
                 if (type(p) != KERN_NODE) {
                     if (type(p) != LIGATURE_NODE) {

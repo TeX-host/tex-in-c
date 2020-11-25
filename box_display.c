@@ -26,7 +26,7 @@ void shortdisplay(Pointer p) {
     Integer n;
 
     while (p > MEM_MIN) {
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             if (p <= mem_end) {
                 if (font(p) != font_in_short_display) {
                     /// TODO: why ?
@@ -84,7 +84,7 @@ void shortdisplay(Pointer p) {
                     /* do nothing */
                     break;
             } // switch (type(p))
-        } // if (ischarnode(p)) - else
+        } // if (is_char_node(p)) - else
         p = link(p);
     } // while (p > MEM_MIN)
 } /* shortdisplay */
@@ -193,7 +193,7 @@ void shownodelist(Integer p) {
         }
 
         /// [#183] Display node p.
-        if (ischarnode(p)) {
+        if (is_char_node(p)) {
             printfontandchar(p);
         } else {
             switch (type(p)) {
@@ -564,7 +564,7 @@ void shownodelist(Integer p) {
                     print(S(426)); // "Unknown node type!"
                     break;
             } // switch (type(p))
-        } // if (ischarnode(p)) - else
+        } // if (is_char_node(p)) - else
         p = link(p);
     } // while (p > MEM_MIN)
 } /* shownodelist */

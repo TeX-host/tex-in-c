@@ -21,7 +21,7 @@
 #define subtype(x)      (mem[(x)].hh.UU.U2.b1)
 
 /// [p50#134] does the argument point to a char node?
-#define ischarnode(x)   ((x) >= hi_mem_min)
+#define is_char_node(x)   ((x) >= hi_mem_min)
 
 #ifdef BIG_CHARNODE
 /// [50#134] the font code in a `charnode`.
