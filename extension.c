@@ -224,7 +224,7 @@ void writeout(HalfWord p) { /*1371:*/
     mode = 0;
     curcs = writeloc;
     q = scantoks(false, true);
-    gettoken();
+    get_token();
     if (curtok != endwritetoken) { /*1372:*/
         print_err(S(680)); // "Unbalanced write command"
         // "On this page there's a \\write with fewer real {'s than }'s."
@@ -232,7 +232,7 @@ void writeout(HalfWord p) { /*1371:*/
         help2(S(681), S(682));
         error();
         do {
-            gettoken();
+            get_token();
         } while (curtok != endwritetoken);
     }
     /*:1372*/

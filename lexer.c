@@ -860,7 +860,7 @@ Boolean init_lexer(void) {
  * + #_get_next_helper
  * + #getnext
  * + #firm_up_the_line
- * + #gettoken
+ * + #get_token
  *
  * @{
  */
@@ -1448,10 +1448,10 @@ void firm_up_the_line(void) {
 } // #363: firm_up_the_line
 
 /// [#365] 
-void gettoken(void) {
+void get_token(void) {
     _get_next_helper(false);
     curtok = pack_tok(curcs, curcmd, curchr);
-} // [#365] gettoken
+} // [#365] get_token
 /** @}*/ // end group S332x365_P134x143
 
 /// [#365] 辅助函数

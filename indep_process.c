@@ -38,7 +38,7 @@ void mode_indep_init_once() {
 Static void getrtoken(void) {
 _Lrestart:
     do {
-        gettoken();
+        get_token();
     } while (curtok == spacetoken);
     if (curcs != 0 && curcs <= FROZEN_CONTROL_SEQUENCE) return;
 
@@ -473,17 +473,17 @@ void prefixedcommand(void) {
             p = curcs;
             if (n == NORMAL) {
                 do {
-                    gettoken();
+                    get_token();
                 } while (curcmd == SPACER);
                 if (curtok == othertoken + '=') {
-                    gettoken();
-                    if (curcmd == SPACER) gettoken();
+                    get_token();
+                    if (curcmd == SPACER) get_token();
                 }
             } else {
                 // look ahead, then back up
-                gettoken();
+                get_token();
                 q = curtok;
-                gettoken();
+                get_token();
                 backinput();
                 curtok = q;
                 backinput();
@@ -943,7 +943,7 @@ void showwhatever(void) {
             /*:1296*/
 
         case showcode: /*1294:*/
-            gettoken();
+            get_token();
             printnl(S(980));
             if (curcs != 0) {
                 sprint_cs(curcs);

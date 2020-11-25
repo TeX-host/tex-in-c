@@ -81,12 +81,12 @@ void popalignment(void) {
 /*782:*/
 void getpreambletoken(void) {
 _Lrestart:
-    gettoken();
+    get_token();
     while (curchr == spancode && curcmd == TAB_MARK) {
-        gettoken();
+        get_token();
         if (curcmd > MAX_COMMAND) {
             expand();
-            gettoken();
+            get_token();
         }
     }
     // "(interwoven alignment preambles are not allowed)"

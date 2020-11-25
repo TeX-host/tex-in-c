@@ -148,7 +148,7 @@ void macrocall(Pointer refcount) {
                 m = 0;
             }
         _Llabcontinue:
-            gettoken();
+            get_token();
             if (curtok == info(r)) { /*394:*/
                 r = link(r);
                 if ((info(r) >= matchtoken) & (info(r) <= endmatchtoken)) {
@@ -217,7 +217,7 @@ void macrocall(Pointer refcount) {
                     unbalance = 1;
                     while (true) {
                         FAST_STORE_NEW_TOKEN(p, curtok);
-                        gettoken();
+                        get_token();
                         if (curtok == partoken) {
                             if (longstate != LONG_CALL) {
                                 report_argument(unbalance, n, pstack);
@@ -361,9 +361,9 @@ void expand(void) {
                 /*:386*/
 
             case EXPAND_AFTER: /*368:*/
-                gettoken();
+                get_token();
                 t = curtok;
-                gettoken();
+                get_token();
                 if (curcmd > MAX_COMMAND)
                     expand();
                 else
@@ -376,7 +376,7 @@ void expand(void) {
             case NO_EXPAND: /*369:*/
                 savescannerstatus = scanner_status;
                 scanner_status = NORMAL;
-                gettoken();
+                get_token();
                 scanner_status = savescannerstatus;
                 t = curtok;
                 backinput();
@@ -674,7 +674,7 @@ static void convtoks(void) {
         case meaningcode:
             savescannerstatus = scanner_status;
             scanner_status = NORMAL;
-            gettoken();
+            get_token();
             scanner_status = savescannerstatus;
             break;
 
@@ -739,11 +739,11 @@ HalfWord scantoks(Boolean macrodef, Boolean xpand) {
 
     if (macrodef) { /*474:*/
         while (true) {
-            gettoken();
+            get_token();
             if (curtok < rightbracelimit) goto _Ldone1;
             if (curcmd == MAC_PARAM) { /*476:*/
                 s = matchtoken + curchr;
-                gettoken();
+                get_token();
                 if (curcmd == LEFT_BRACE) {
                     hashbrace = curtok;
                     STORE_NEW_TOKEN(p, curtok);
@@ -810,7 +810,7 @@ HalfWord scantoks(Boolean macrodef, Boolean xpand) {
         _Ldone2:
             xtoken();
         } else {
-            gettoken();
+            get_token();
         }
 
         /*:478*/
@@ -827,7 +827,7 @@ HalfWord scantoks(Boolean macrodef, Boolean xpand) {
                 if (xpand) {
                     get_x_token();
                 } else {
-                    gettoken();
+                    get_token();
                 }
                 if (curcmd != MAC_PARAM) {
                     if (curtok <= ZERO_TOKEN || curtok > t) {
@@ -948,12 +948,12 @@ void readtoks(long n, HalfWord r) {
         STATE = NEW_LINE;
     
         while (true) {
-            gettoken();
+            get_token();
             // cur_cmd = cur_chr = 0 will occur at the end of the line
             if (curtok == 0) goto _Ldone;
             if (align_state < 1000000L) { // unmatched ‘}’ aborts the line
                 do {
-                    gettoken();
+                    get_token();
                 } while (curtok != 0);
                 align_state = 1000000L;
                 goto _Ldone;

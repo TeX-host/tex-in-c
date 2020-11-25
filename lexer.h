@@ -272,7 +272,7 @@ extern void clearforerrorprompt(void);
 
 extern void getnext(void);
 extern void firm_up_the_line(void);
-extern void gettoken(void);
+extern void get_token(void);
 
 extern int pack_tok(int cs, int cmd, int chr);
 extern UChar get_maxinstack();

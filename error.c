@@ -26,7 +26,7 @@ void giveerrhelp(void) { token_show(errhelp); }
 /// [REPORTING ERRORS]
 UChar interaction;
 
-/// [#76] is it safe for #error to call #gettoken?
+/// [#76] is it safe for #error to call #get_token?
 Boolean deletions_allowed;
 /// [#76] is it safe to do a `\setbox` assignment?
 Boolean set_box_allowed;
@@ -156,7 +156,7 @@ void error(void) {
                         c = c - '0';
                     }
                     while (c > 0) {
-                        gettoken();
+                        get_token();
                         c--;
                     }
 

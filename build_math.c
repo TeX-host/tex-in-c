@@ -23,7 +23,7 @@ void initmath(void)
   InternalFontNumber f;
   long n;
 
-  gettoken();
+  get_token();
   if (curcmd == MATH_SHIFT && mode > 0) {   /*1145:*/
     if (head == tail) {
       popnest();

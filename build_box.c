@@ -182,7 +182,7 @@ void handlerightbrace(void) {
                 help2(S(1006), S(682));
                 error();
                 do {
-                    gettoken();
+                    get_token();
                 } while (LOC != 0);
             }
             endtokenlist();

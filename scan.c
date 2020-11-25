@@ -603,7 +603,7 @@ void scan_int(void) {
 
     // [#442] Scan an alphabetic character code into #cur_val.
     if (curtok == ALPHA_TOKEN) { /*442:*/
-        gettoken();
+        get_token();
         if (curtok < CS_TOKEN_FLAG) {
             cur_val = curchr;
             if (curcmd <= RIGHT_BRACE) {
@@ -759,7 +759,7 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
                 /// [#452] 
                 k = 0;
                 p = 0;
-                gettoken();
+                get_token();
                 while (true) {
                     get_x_token();
                     if (curtok > ZERO_TOKEN + 9 || curtok < ZERO_TOKEN) {

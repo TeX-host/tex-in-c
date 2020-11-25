@@ -695,7 +695,7 @@ _LN_main_control__reswitch:
         case V_MODE + AFTER_ASSIGNMENT:
         case H_MODE + AFTER_ASSIGNMENT:
         case M_MODE + AFTER_ASSIGNMENT: /*:1268*/
-            gettoken();
+            get_token();
             aftertoken = curtok;
             break;
             /*1271:*/
@@ -703,7 +703,7 @@ _LN_main_control__reswitch:
         case V_MODE + AFTER_GROUP:
         case H_MODE + AFTER_GROUP:
         case M_MODE + AFTER_GROUP: /*:1271*/
-            gettoken();
+            get_token();
             save_for_after(curtok);
             break;
             /*1274:*/
