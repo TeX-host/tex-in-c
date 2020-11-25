@@ -997,14 +997,14 @@ static void _get_next_helper(Boolean no_new_control_sequence) {
     int cur_cs, cur_chr, cur_cmd;
 
 // go here to: get the next input token
-_getnext_worker__restart:
+_getnext_LN__restart:
     cur_cs = 0;
     if (STATE != TOKEN_LIST) {
         // [#343] Input from external file,
         // goto _restart if no input found
 
     // go here to: eat the next character from a file
-    _getnext_worker__switch:
+    _getnext_LN__switch:
         if (LOC > LIMIT) {
             STATE = NEW_LINE;
             // [#360] Move to next line of file,
@@ -1029,7 +1029,7 @@ _getnext_worker__restart:
                     force_eof = false;
                     endfilereading();
                     cur_cs = check_outer_validity(cur_cs);
-                    goto _getnext_worker__restart;
+                    goto _getnext_LN__restart;
                 }
                 if (end_line_char_inactive) {
                     LIMIT--;
@@ -1044,12 +1044,12 @@ _getnext_worker__restart:
                 if (!terminal_input) {
                     cur_cmd = 0;
                     cur_chr = 0;
-                    goto _getnext_worker__exit;
+                    goto _getnext_LN__exit;
                 }
                 // text was inserted during error recovery
                 if (inputptr > 0) {
                     endfilereading();
-                    goto _getnext_worker__restart; // resume previous level
+                    goto _getnext_LN__restart; // resume previous level
                 }
 
                 // selector in [NO_PRINT, TERM_ONLY]
@@ -1085,14 +1085,14 @@ _getnext_worker__restart:
                 } // if (interaction <> NON_STOP_MODE)
             }     // if (NAME <> 17)
             checkinterrupt();
-            goto _getnext_worker__switch;
+            goto _getnext_LN__switch;
         } // if (LOC > LIMIT)
         // else: if (LOC <= LIMIT)
         cur_chr = buffer[LOC];
         LOC++;
 
     // go here to: digest it again
-    _getnext_worker__reswitch:
+    _getnext_LN__reswitch:
         cur_cmd = cat_code(cur_chr);
 
         // #344 Change state if necessary,
@@ -1106,7 +1106,7 @@ _getnext_worker__restart:
             case SKIP_BLANKS + SPACER:
             case NEW_LINE + SPACER:
                 // [#345]: Cases where character is ignored
-                goto _getnext_worker__switch;
+                goto _getnext_LN__switch;
                 break;
 
             // any state plus(escape)
@@ -1119,7 +1119,7 @@ _getnext_worker__restart:
                     cur_cs = NULL_CS; // state is irrelevant in this case
                 } else {             // LOC <= LIMIT
                 // go here to: start looking for a control sequence
-                _getnext_worker__startcs_:
+                _getnext_LN__startcs_:
                     k = LOC;
                     cur_chr = buffer[k];
                     cat = cat_code(cur_chr);
@@ -1167,7 +1167,7 @@ _getnext_worker__restart:
                                 buffer[k] = buffer[k + d];
                                 k++;
                             }
-                            goto _getnext_worker__startcs_;
+                            goto _getnext_LN__startcs_;
                         } // #355: if-set
 
                         if (cat != LETTER) {
@@ -1178,7 +1178,7 @@ _getnext_worker__restart:
                             cur_cs = idlookup_p(buffer + LOC, k - LOC,
                                                 no_new_control_sequence);
                             LOC = k;
-                            goto _getnext_worker__found;
+                            goto _getnext_LN__found;
                         }
                     } else {
                         // [#355] If an expanded code is present,
@@ -1206,7 +1206,7 @@ _getnext_worker__restart:
                                 buffer[k] = buffer[k + d];
                                 k++;
                             }
-                            goto _getnext_worker__startcs_;
+                            goto _getnext_LN__startcs_;
                         } // #355: if-set
                     }     // if (cat == LETTER && k <= LIMIT)
 
@@ -1215,7 +1215,7 @@ _getnext_worker__restart:
                 } // if (LOC <> LIMIT)
 
             // go here: when a control sequence has been found
-            _getnext_worker__found:
+            _getnext_LN__found:
                 Process_cs;
                 break; // [#354]
 
@@ -1242,14 +1242,14 @@ _getnext_worker__restart:
                     if (ishex(c) && LOC <= LIMIT && ishex(cc)) {
                         LOC++;
                         cur_chr = hex_to_cur_chr(c, cc);
-                        goto _getnext_worker__reswitch;
+                        goto _getnext_LN__reswitch;
                     } // if - set
                     if (c < 64) {
                         cur_chr = c + 64;
                     } else {
                         cur_chr = c - 64;
                     } // if (c <> 64)
-                    goto _getnext_worker__reswitch;
+                    goto _getnext_LN__reswitch;
                 } // if - set
                 STATE = MID_LINE;
                 break; // [#352]
@@ -1266,7 +1266,7 @@ _getnext_worker__restart:
                 deletions_allowed = false;
                 error();
                 deletions_allowed = true;
-                goto _getnext_worker__restart;
+                goto _getnext_LN__restart;
                 break; // [#346]
 
             // [#347] Handle situations involving spaces, braces, changes of
@@ -1291,7 +1291,7 @@ _getnext_worker__restart:
             case NEW_LINE + COMMENT:
                 // [#350] Finish line, goto switch
                 LOC = LIMIT + 1;
-                goto _getnext_worker__switch;
+                goto _getnext_LN__switch;
                 break;
 
             case NEW_LINE + CAR_RET:
@@ -1342,7 +1342,7 @@ _getnext_worker__restart:
         HalfWord t;
         if (LOC == 0) { // we are done with this token list
             endtokenlist();
-            goto _getnext_worker__restart; // resume previous level
+            goto _getnext_LN__restart; // resume previous level
         }
         // assert(LOC != 0)
         t = info(LOC);
@@ -1375,7 +1375,7 @@ _getnext_worker__restart:
                 case OUT_PARAM:
                     begintokenlist(paramstack[param_start + cur_chr - 1],
                                    PARAMETER);
-                    goto _getnext_worker__restart;
+                    goto _getnext_LN__restart;
                     break;
             } // switch (cur_cmd)
         }     // if (t <> CS_TOKEN_FLAG)
@@ -1398,12 +1398,12 @@ _getnext_worker__restart:
             begintokenlist(vpart(curalign), V_TEMPLATE);
         }
         align_state = 1000000L;
-        goto _getnext_worker__restart;
+        goto _getnext_LN__restart;
     } // #342: if (cur_cmd <= CAR_RET)
 
 // [#341]: go here: when the next input token has been got
 // xref[1]: #360
-_getnext_worker__exit:;
+_getnext_LN__exit:;
     curcmd = cur_cmd;
     curchr = cur_chr;
     curcs = cur_cs;
