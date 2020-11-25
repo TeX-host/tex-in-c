@@ -33,19 +33,17 @@ void eqtb_init_once() {
     size_t k;
 
     /** [p82#222] */
-    eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
     equiv(UNDEFINED_CONTROL_SEQUENCE) = null;
+    eq_type(UNDEFINED_CONTROL_SEQUENCE) = UNDEFINED_CS;
     eq_level(UNDEFINED_CONTROL_SEQUENCE) = LEVEL_ZERO;
     for (k = ACTIVE_BASE; k < UNDEFINED_CONTROL_SEQUENCE; k++) {
-        /// TODO: need check
-        /// eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
         eqtb[k] = eqtb[UNDEFINED_CONTROL_SEQUENCE];
     }
 
     /** [p85#228] */
     equiv(GLUE_BASE) = zeroglue;
-    eq_level(GLUE_BASE) = LEVEL_ONE;
     eq_type(GLUE_BASE) = GLUE_REF;
+    eq_level(GLUE_BASE) = LEVEL_ONE;
     for (k = GLUE_BASE + 1; k < LOCAL_BASE; k++) {
         eqtb[k] = eqtb[GLUE_BASE];
     }
@@ -253,10 +251,11 @@ void enddiagnostic(Boolean blankline) {
 void showeqtb(HalfWord n) {
     if (n < ACTIVE_BASE) {
         print_char('?');
-        return;
-    }
-    /// [#223] displays the current meaning of an eqtb entry in region 1 or 2.
-    if (n < GLUE_BASE) {
+        return; // this can’t happen
+    } /* if (n < ACTIVE_BASE) */
+
+    /// [#223] Show equivalent n, in region 1 or 2.
+    if (n < GLUE_BASE) { // [ACTIVE_BASE, GLUE_BASE)
         sprint_cs(n);
         print_char('=');
         printcmdchr(eq_type(n), equiv(n));
@@ -265,60 +264,72 @@ void showeqtb(HalfWord n) {
             showtokenlist(link(equiv(n)), 0, 32);
         }
         return;
-    }
+    } /* n in [ACTIVE_BASE, GLUE_BASE) */
 
-    if (n < LOCAL_BASE) { /*229:*/
-        if (n < SKIP_BASE) {
+    /// [#229] Show equivalent n, in region 3.
+    if (n < LOCAL_BASE) { // [GLUE_BASE, LOCAL_BASE)
+        if (n < SKIP_BASE) { // [GLUE_BASE, SKIP_BASE)
             print_skip_param(n - GLUE_BASE);
             print_char('=');
-            if (n < GLUE_BASE + THIN_MU_SKIP_CODE)
-                printspec(equiv(n), S(459));
-            else
-                printspec(equiv(n), S(390));
+            if (n < (GLUE_BASE + THIN_MU_SKIP_CODE)) {
+                printspec(equiv(n), S(459)); // "pt"
+            } else {
+                printspec(equiv(n), S(390)); // "mu"
+            }
             return;
         }
+
+        // [SKIP_BASE, MU_SKIP_BASE): \skip0 ~ \skip255
         if (n < MU_SKIP_BASE) {
-            print_esc(S(460));
-            print_int(n - SKIP_BASE);
+            print_esc(S(460));  // "skip"
+            print_int(n - SKIP_BASE); // [0, 255]
             print_char('=');
-            printspec(equiv(n), S(459));
+            printspec(equiv(n), S(459)); // "pt"
             return;
         }
-        print_esc(S(461));
-        print_int(n - MU_SKIP_BASE);
+
+        /* [MU_SKIP_BASE, LOCAL_BASE): \muskip0 ~ \muskip255 */
+        print_esc(S(461)); // "muskip"
+        print_int(n - MU_SKIP_BASE); // [0, 255]
         print_char('=');
-        printspec(equiv(n), S(390));
+        printspec(equiv(n), S(390)); // "mu"
         return;
-    }
-    if (n < INT_BASE) { /*233:*/
+    } /* n in [GLUE_BASE, LOCAL_BASE) */
+
+    /// [#223] Show equivalent n, in region 4.
+    if (n < INT_BASE) { // [LOCAL_BASE, INT_BASE)
         if (n == PAR_SHAPE_LOC) {
-            print_esc(S(462));
+            print_esc(S(462)); // "parshape"
             print_char('=');
-            if (parshapeptr == 0)
+            if (parshapeptr == 0) {
                 print_char('0');
-            else
+            } else {
                 print_int(info(parshapeptr));
+            }
             return;
         }
-        if (n < TOKS_BASE) {
+
+        if (n < TOKS_BASE) { // (PAR_SHAPE_LOC, TOKS_BASE)
             printcmdchr(ASSIGN_TOKS, n);
             print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
-        if (n < BOX_BASE) {
-            print_esc(S(463));
-            print_int(n - TOKS_BASE);
+
+        if (n < BOX_BASE) { // [TOKS_BASE, BOX_BASE)
+            print_esc(S(463)); // "toks"
+            print_int(n - TOKS_BASE); // [0, 255)
             print_char('=');
             if (equiv(n) != 0) showtokenlist(link(equiv(n)), 0, 32);
             return;
         }
-        if (n < CUR_FONT_LOC) {
-            print_esc(S(464));
-            print_int(n - BOX_BASE);
+
+        if (n < CUR_FONT_LOC) { // [BOX_BASE, CUR_FONT_LOC)
+            print_esc(S(464));  // "box"
+            print_int(n - BOX_BASE); // [0, 255)
             print_char('=');
             if (equiv(n) == 0) {
-                print(S(465));
+                print(S(465)); // "void"
                 return;
             }
             depth_threshold = 0;
@@ -326,81 +337,87 @@ void showeqtb(HalfWord n) {
             shownodelist(equiv(n));
             return;
         }
-        if (n < CAT_CODE_BASE) { /*234:*/
-            if (n == CUR_FONT_LOC)
-                print(S(466));
-            else if (n < MATH_FONT_BASE + 16) {
-                print_esc(S(266));
+
+        /// [#234] Show the font identifier in eqtb[n]
+        if (n < CAT_CODE_BASE) { // [CUR_FONT_LOC, CAT_CODE_BASE)
+            if (n == CUR_FONT_LOC) {
+                print(S(466)); // "current font""
+            } else if (n < MATH_FONT_BASE + 16) {
+                print_esc(S(266)); // "textfont"
                 print_int(n - MATH_FONT_BASE);
             } else if (n < MATH_FONT_BASE + 32) {
-                print_esc(S(267));
+                print_esc(S(267)); // "scriptfont"
                 print_int(n - MATH_FONT_BASE - 16);
             } else {
-                print_esc(S(268));
+                print_esc(S(268)); // "scriptscriptfont"
                 print_int(n - MATH_FONT_BASE - 32);
             }
             print_char('=');
             print_esc(fontidtext(equiv(n)));
             return;
         }
-        /*:234*/
+
+        /* [#235] Show the halfword code in eqtb[n]. */
         if (n < MATH_CODE_BASE) {
             if (n < LC_CODE_BASE) {
-                print_esc(S(467));
+                print_esc(S(467)); // "catcode"
                 print_int(n - CAT_CODE_BASE);
             } else if (n < UC_CODE_BASE) {
-                print_esc(S(468));
+                print_esc(S(468)); // "lccode"
                 print_int(n - LC_CODE_BASE);
             } else if (n < SF_CODE_BASE) {
-                print_esc(S(469));
+                print_esc(S(469)); // "uccode"
                 print_int(n - UC_CODE_BASE);
             } else {
-                print_esc(S(470));
+                print_esc(S(470)); // "sfcode"
                 print_int(n - SF_CODE_BASE);
             }
             print_char('=');
             print_int(equiv(n));
             return;
         }
-        print_esc(S(471));
+
+        /* [#235] [MATH_CODE_BASE, INT_BASE) */
+        print_esc(S(471)); // "mathcode"
         print_int(n - MATH_CODE_BASE);
         print_char('=');
         print_int(equiv(n));
         return;
-    }
-    if (n < DIMEN_BASE) { /*242:*/
+    } /* n in [LOCAL_BASE, INT_BASE) */
+
+    /// [#242] Show equivalent n, in region 5
+    if (n < DIMEN_BASE) { // [INT_BASE, DIMEN_BASE)
         if (n < COUNT_BASE)
             printparam(n - INT_BASE);
         else if (n < DEL_CODE_BASE) {
-            print_esc(S(472));
+            print_esc(S(472)); // "count"
             print_int(n - COUNT_BASE);
         } else {
-            print_esc(S(473));
+            print_esc(S(473)); // "delcode"
             print_int(n - DEL_CODE_BASE);
         }
         print_char('=');
         print_int(eqtb[n].int_);
         return;
-    }                   /*:242*/
-    if (n > EQTB_SIZE) { /*251:*/
-        print_char('?');
-        return;
-    }
-    /*:251*/
-    if (n < SCALED_BASE)
-        printlengthparam(n - DIMEN_BASE);
-    else {
-        print_esc(S(474));
-        print_int(n - SCALED_BASE);
-    }
-    print_char('=');
-    print_scaled(eqtb[n].sc);
-    print(S(459));
+    } /* n in [INT_BASE, DIMEN_BASE) */
 
-    /*:229*/
-    /*235:*/
-    /*:235*/
-    /*:233*/
+    /// [#251] Show equivalent n, in region 6
+    if (n <= EQTB_SIZE) { // [DIMEN_BASE, EQTB_SIZE]
+        if (n < SCALED_BASE) {
+            printlengthparam(n - DIMEN_BASE);
+        } else {
+            print_esc(S(474)); // "dimen"
+            print_int(n - SCALED_BASE);
+        }
+        print_char('=');
+        print_scaled(eqtb[n].sc);
+        print(S(459)); // "pt"
+        return;
+    } /* n in [DIMEN_BASE, EQTB_SIZE] */
+
+    /** n > EQTB_SIZE */
+    print_char('?'); // this can’t happen either
+    return;
 } // #252: showeqtb
 #endif // #252: tt_STAT
 
