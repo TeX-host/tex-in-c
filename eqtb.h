@@ -21,16 +21,19 @@
 /// [p82#222] [region 1] equivalent of \\csname\\endcsname
 #define NULL_CS         (SINGLE_BASE + 256)
 
-/// [p81#221]
+
+/// [p81#221] MemoryWord -> QuarterWord
 #define eq_level_field(x)   x.hh.UU.U2.b1
+/// [p81#221] MemoryWord -> QuarterWord
 #define eq_type_field(x)    x.hh.UU.U2.b0
+/// [p81#221] MemoryWord -> QuarterWord
 #define equiv_field(x)      x.hh.rh
 
-/// ::QuarterWord = EqLevel, level of definition.
+/// [p81#221] -> QuarterWord = #EqLevel; level of definition.
 #define eq_level(x) eq_level_field(eqtb[x - ACTIVE_BASE])
-/// ::QuarterWord = TexCommandCode, command code for equivalent.
+/// [p81#221] -> QuarterWord = #TexCommandCode; command code for equivalent.
 #define eq_type(x)  eq_type_field(eqtb[x - ACTIVE_BASE])
-/** [p81#221] equiv::HalfWord, equivalent value.
+/** [p81#221] -> HalfWord; equivalent value.
  *
  * may be
  *  + a font number,
@@ -38,7 +41,17 @@
  *  + a variety of other things
  */
 #define equiv(x)    equiv_field(eqtb[x - ACTIVE_BASE])
-// [#221]
+/** [p81#221] level of grouping at which this equivalent was defined.
+ *
+ * ## EqLevel enum
+ *  + LEVEL_ZERO:  equivalent has never been defined
+ *  + LEVEL_ONE:  the outer level (outside of allgroups),
+ *      and this level is also used for global definitions that never go away.
+ *  + Higher levels:  will disappear at the end of their group
+ *
+ * ## See
+ *  #eq_level, #eq_level_field
+ */
 typedef enum _EqLevel {
     /// level for undefined quantities.
     LEVEL_ZERO = MIN_QUARTER_WORD,
