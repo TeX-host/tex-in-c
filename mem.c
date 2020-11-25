@@ -32,7 +32,7 @@ Pointer rover; ///< [#124] points to some node in the list of empties.
 Pointer get_lo_mem_max(void) { return lo_mem_max; }
 
 
-/// [p46#120]: single-word node allocation.
+/// [p45#120]: single-word node allocation.
 Pointer get_avail(void) {
     Pointer p; // the new node being got.
 
@@ -70,8 +70,9 @@ Pointer get_avail(void) {
 void flush_list(HalfWord p) {
     Pointer q, r;
 
-    if (p == 0) return;
+    if (p == null) return;
 
+    /* assert(p != null); */
     r = p;
     do {
         q = r;
@@ -90,7 +91,7 @@ void flush_list(HalfWord p) {
 HalfWord get_node(Integer s) {
     Pointer p; // the node currently under inspection
     Pointer q; // the node physically after node p
-    Integer r; //  the newly allocated node, or a candidate for this honor
+    Integer r; // the newly allocated node, or a candidate for this honor
     Integer t; // temporary register
 
 
