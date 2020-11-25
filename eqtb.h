@@ -405,12 +405,11 @@ enum DelimiterCodesTable {
 #define SCALED_BASE     (DIMEN_BASE + dimenpars)
 #define EQTB_SIZE       (SCALED_BASE + 255)
 
-/** [p99#247]: final region of `eqtb`
+/** [p99#247]: final region [region 6] of `eqtb`
  * contains the dimension parameters defined here,
  * and the 256 `\dimen` registers.
- * 
  */
-enum DimensionRegisters {
+typedef enum _DimensionRegisters {
     parindentcode = 0, ///< indentation of paragraphs
     mathsurroundcode,  ///< space around math in text
     lineskiplimitcode, ///< threshold for line skip instead of baseline skip
@@ -439,11 +438,12 @@ enum DimensionRegisters {
     /// reduces badnesses on final pass of line-breaking
     emergencystretchcode = 20,
     dimenpars, ///< total number of dimension parameters
-}; // [p99#247] enum DimensionRegisters
+} DimensionRegisters; // [p99#247] enum DimensionRegisters
 
-// [p99#247] Dimen pars
+/// [p99#247] -> Scaled; Dimen pars
 #define dimen(x)                eqtb[SCALED_BASE + x - ACTIVE_BASE].sc
-#define dimen_par(x)            eqtb[DIMEN_BASE + x - ACTIVE_BASE].int_
+/// [p99#247] -> Scaled; a scaled quantity
+#define dimen_par(x)            eqtb[DIMEN_BASE + x - ACTIVE_BASE].sc
 
 #define parindent               dimen_par(parindentcode)
 #define mathsurround            dimen_par(mathsurroundcode)
