@@ -255,7 +255,7 @@ extern Boolean force_eof;
 
 extern void showtokenlist(Integer p, Integer q, Integer l);
 extern void tokenshow(HalfWord p);
-extern void print_meaning(int cur_chr, int cur_cmd);
+extern void print_meaning(int _cmd, int _chr);
 extern void showcurcmdchr(void);
 extern void runaway(void);
 extern void showcontext(void);

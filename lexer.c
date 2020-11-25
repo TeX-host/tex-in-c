@@ -421,7 +421,7 @@ void tokenshow(HalfWord p) {
 
 /// [p118#296] displays cur cmd and cur chr in symbolic form, 
 ///     including the expansion of a macro or mark.
-void print_meaning(int _chr, int _cmd) {
+void print_meaning(int _cmd, int _chr) {
     printcmdchr(_cmd, _chr);
     if (_cmd >= CALL) {
         print_char(':');
@@ -431,7 +431,7 @@ void print_meaning(int _chr, int _cmd) {
         print_char(':');
         println();
         tokenshow(curmark[_chr - topmarkcode]);
-    } 
+    }
 } // [#296] print_meaning
 /** @}*/ // end group S289x296_P115x118
 

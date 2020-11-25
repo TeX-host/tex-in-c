@@ -949,7 +949,7 @@ void showwhatever(void) {
                 sprint_cs(curcs);
                 print_char('=');
             }
-            print_meaning(curchr, curcmd);
+            print_meaning(curcmd, curchr);
             goto _Lcommonending;
             break;
             /*:1294*/
