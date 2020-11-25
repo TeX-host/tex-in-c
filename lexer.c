@@ -421,7 +421,7 @@ void tokenshow(HalfWord p) {
 
 /// [p118#296] displays cur cmd and cur chr in symbolic form, 
 ///     including the expansion of a macro or mark.
-void print_meaning(int _cmd, int _chr) {
+void print_meaning(EightBits _cmd, HalfWord _chr) {
     printcmdchr(_cmd, _chr);
     if (_cmd >= CALL) {
         print_char(':');
