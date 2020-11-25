@@ -45,7 +45,7 @@ HalfWord cleanbox(HalfWord p, SmallNumber s) {
         case submlist: curmlist = info(p); break;
 
         default:
-            q = newnullbox();
+            q = new_null_box();
             goto _Lfound;
             break;
     }
@@ -141,7 +141,7 @@ void makeunder(HalfWord q) {
     Scaled delta;
 
     x = cleanbox(nucleus(q), curstyle);
-    p = newkern(defaultrulethickness * 3);
+    p = new_kern(defaultrulethickness * 3);
     link(x) = p;
     link(p) = fractionrule(defaultrulethickness);
     y = vpack(x, 0, additional);
@@ -264,13 +264,13 @@ _Ldone: /*:740*/
     y = charbox(f, c);
     shiftamount(y) = s + half(w - width(y));
     width(y) = 0;
-    p = newkern(-delta);
+    p = new_kern(-delta);
     link(p) = x;
     link(y) = p;
     y = vpack(y, 0, additional);
     width(y) = width(x);
     if (height(y) < h) { /*739:*/
-        p = newkern(h - height(y));
+        p = new_kern(h - height(y));
         link(p) = listptr(y);
         listptr(y) = p;
         height(y) = h;
@@ -325,20 +325,20 @@ void makefraction(HalfWord q) {
     }
     /*:745*/
     /*747:*/
-    v = newnullbox();
+    v = new_null_box();
     type(v) = VLIST_NODE;
     height(v) = shiftup + height(x);
     depth(v) = depth(z) + shiftdown;
     width(v) = width(x);
     if (thickness(q) == 0) {
-        p = newkern(shiftup - depth(x) - height(z) + shiftdown);
+        p = new_kern(shiftup - depth(x) - height(z) + shiftdown);
         link(p) = z;
     } else {
         y = fractionrule(thickness(q));
-        p = newkern(axisheight(cursize) - delta - height(z) + shiftdown);
+        p = new_kern(axisheight(cursize) - delta - height(z) + shiftdown);
         link(y) = p;
         link(p) = z;
-        p = newkern(shiftup - depth(x) - axisheight(cursize) - delta);
+        p = new_kern(shiftup - depth(x) - axisheight(cursize) - delta);
         link(p) = y;
     }
     link(x) = p;
@@ -389,7 +389,7 @@ Integer makeop(HalfWord q) {
     x = cleanbox(supscr(q), supstyle(curstyle));
     y = cleanbox(nucleus(q), curstyle);
     z = cleanbox(subscr(q), substyle(curstyle));
-    v = newnullbox();
+    v = new_null_box();
     type(v) = VLIST_NODE;
     width(v) = width(y);
     if (width(x) > width(v)) width(v) = width(x);
@@ -407,10 +407,10 @@ Integer makeop(HalfWord q) {
     } else {
         shiftup = bigopspacing3 - depth(x);
         if (shiftup < bigopspacing1) shiftup = bigopspacing1;
-        p = newkern(shiftup);
+        p = new_kern(shiftup);
         link(p) = y;
         link(x) = p;
-        p = newkern(bigopspacing5);
+        p = new_kern(bigopspacing5);
         link(p) = x;
         listptr(v) = p;
         height(v) += bigopspacing5 + height(x) + depth(x) + shiftup;
@@ -420,10 +420,10 @@ Integer makeop(HalfWord q) {
     else { /*:751*/
         shiftdown = bigopspacing4 - height(z);
         if (shiftdown < bigopspacing2) shiftdown = bigopspacing2;
-        p = newkern(shiftdown);
+        p = new_kern(shiftdown);
         link(y) = p;
         link(p) = z;
-        p = newkern(bigopspacing5);
+        p = new_kern(bigopspacing5);
         link(z) = p;
         depth(v) += bigopspacing5 + height(z) + depth(z) + shiftdown;
     }
@@ -459,7 +459,7 @@ _Lrestart:
                                         if (nextchar(curi) == curc) {
                                             if (skipbyte(curi) <= stopflag) {
                                                 if (opbyte(curi) >= kernflag) {
-                                                    p = newkern(
+                                                    p = new_kern(
                                                         charkern(curf, curi));
                                                     link(p) = link(q);
                                                     link(q) = p;
@@ -614,7 +614,7 @@ void makescripts(HalfWord q, long delta) {
                 }
             }
             shiftamount(x) = delta;
-            p = newkern(shiftup - depth(x) - height(y) + shiftdown);
+            p = new_kern(shiftup - depth(x) - height(y) + shiftdown);
             link(x) = p;
             link(p) = y;
             x = vpack(x, 0, additional);
@@ -847,7 +847,7 @@ void mlisttohlist(void) {
                         (space(curf) != 0))
                         delta = 0;
                     if (mathtype(subscr(q)) == EMPTY && delta != 0) {
-                        link(p) = newkern(delta);
+                        link(p) = new_kern(delta);
                         delta = 0;
                     }
                 } else
@@ -1017,7 +1017,7 @@ void mlisttohlist(void) {
             }
             if (x != 0) {
                 y = mathglue(glue_par(x), curmu);
-                z = newglue(y);
+                z = new_glue(y);
                 gluerefcount(y) = 0;
                 link(p) = z;
                 p = z;
@@ -1037,7 +1037,7 @@ void mlisttohlist(void) {
                     rtype = type(link(q));
                     if (rtype != PENALTY_NODE) {
                         if (rtype != relnoad) {
-                            z = newpenalty(pen);
+                            z = new_penalty(pen);
                             link(p) = z;
                             p = z;
                         }

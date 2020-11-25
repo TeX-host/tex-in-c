@@ -160,7 +160,7 @@ void initalign(void) {
 
     while (true) {
         // [#778] Append the current tabskip glue to the preamble list
-        link(curalign) = newparamglue(TAB_SKIP_CODE);
+        link(curalign) = new_param_glue(TAB_SKIP_CODE);
         curalign = link(curalign);
 
         // `\cr` ends the preamble
@@ -208,7 +208,7 @@ void initalign(void) {
         /// end [#783]
 
         // a new alignrecord
-        link(curalign) = newnullbox();
+        link(curalign) = new_null_box();
         curalign = link(curalign);
 
         info(curalign) = endspan;
@@ -282,7 +282,7 @@ void initrow(void) {
         spacefactor = 0;
     else
         prevdepth = 0;
-    tailappend(newglue(glueptr(preamble)));
+    tailappend(new_glue(glueptr(preamble)));
     subtype(tail) = TAB_SKIP_CODE + 1;
     curalign = link(preamble);
     curtail = curhead;
@@ -325,7 +325,7 @@ Boolean fincol(void) {
     if ((p == 0) & (extrainfo(curalign) < crcode)) {
         if (curloop != 0) {
             /// [#793] Lengthen the preamble periodically
-            link(q) = newnullbox();
+            link(q) = new_null_box();
             p = link(q);
             info(p) = endspan;
             width(p) = nullflag;
@@ -356,7 +356,7 @@ Boolean fincol(void) {
             /// end [#794]
 
             curloop = link(curloop);
-            link(p) = newglue(glueptr(curloop));
+            link(p) = new_glue(glueptr(curloop));
             /// end [#793]
         } else {
             print_err(S(736)); // "Extra alignment tab has been changed to "
@@ -449,7 +449,7 @@ Boolean fincol(void) {
         /// end [#796]
 
         /// [#795] Copy the tabskip glue between columns.
-        tailappend(newglue(glueptr(link(curalign))));
+        tailappend(new_glue(glueptr(link(curalign))));
         subtype(tail) = TAB_SKIP_CODE + 1;
 
         if (extrainfo(curalign) >= crcode) {
@@ -616,7 +616,7 @@ void finalign(void) {
                         /*809:*/
                         s = link(s);
                         v = glueptr(s);
-                        link(u) = newglue(v);
+                        link(u) = new_glue(v);
                         u = link(u);
                         subtype(u) = TAB_SKIP_CODE + 1;
                         t += width(v);
@@ -630,7 +630,7 @@ void finalign(void) {
                                     tex_round(((double)glueset(p)) * shrink(v));
                         }
                         s = link(s);
-                        link(u) = newnullbox();
+                        link(u) = new_null_box();
                         u = link(u);
                         t += width(s);
                         if (mode == -V_MODE)
@@ -758,12 +758,12 @@ void finalign(void) {
 
         /*:1207*/
         popnest();
-        tailappend(newpenalty(predisplaypenalty));
-        tailappend(newparamglue(ABOVE_DISPLAY_SKIP_CODE));
+        tailappend(new_penalty(predisplaypenalty));
+        tailappend(new_param_glue(ABOVE_DISPLAY_SKIP_CODE));
         link(tail) = p;
         if (p != 0) tail = q;
-        tailappend(newpenalty(postdisplaypenalty));
-        tailappend(newparamglue(BELOW_DISPLAY_SKIP_CODE));
+        tailappend(new_penalty(postdisplaypenalty));
+        tailappend(new_param_glue(BELOW_DISPLAY_SKIP_CODE));
         prevdepth = auxsave.sc;
         resumeafterdisplay();
         return;

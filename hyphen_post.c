@@ -106,7 +106,7 @@ _Llabcontinue: /*909:*/
                                 if (ligstack > 0)
                                     character(ligstack) = curr;
                                 else {
-                                    ligstack = newligitem(curr);
+                                    ligstack = new_lig_item(curr);
                                     if (j == n)
                                         bchar = NON_CHAR;
                                     else {
@@ -121,7 +121,7 @@ _Llabcontinue: /*909:*/
                             case MIN_QUARTER_WORD + 3:
                                 curr = rembyte(q);
                                 p = ligstack;
-                                ligstack = newligitem(curr);
+                                ligstack = new_lig_item(curr);
                                 link(ligstack) = p;
                                 break;
 
@@ -173,7 +173,7 @@ _Ldone: /*:909*/
     /*910:*/
     wraplig(rthit);
     if (w != 0) {
-        link(t) = newkern(w);
+        link(t) = new_kern(w);
         t = link(t);
         w = 0;
     }

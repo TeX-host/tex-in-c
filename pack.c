@@ -253,7 +253,7 @@ HalfWord hpack(HalfWord p, long w, SmallNumber m) {
                 if (overfullrule > 0 && -x - totalshrink[0] > hfuzz) {
                     while (link(q) != 0)
                         q = link(q);
-                    link(q) = newrule();
+                    link(q) = new_rule();
                     width(link(q)) = overfullrule;
                 }
                 println();
@@ -496,9 +496,9 @@ void appendtovlist(HalfWord b) {
     if (prevdepth > ignoredepth) {
         d = width(baselineskip) - prevdepth - height(b);
         if (d < lineskiplimit)
-            p = newparamglue(LINE_SKIP_CODE);
+            p = new_param_glue(LINE_SKIP_CODE);
         else {
-            p = newskipparam(BASELINE_SKIP_CODE);
+            p = new_skip_param(BASELINE_SKIP_CODE);
             width(temp_ptr) = d;
         }
         link(tail) = p;

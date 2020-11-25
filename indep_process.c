@@ -127,7 +127,7 @@ _Lfound: /*:1237*/
             scan_glue(p);
             if (q == ADVANCE) {
                 /// [#1239] Compute the sum of two glue specs.
-                q = newspec(cur_val);
+                q = new_spec(cur_val);
                 r = equiv(l);
                 delete_glue_ref(cur_val);
                 width(q) += width(r);
@@ -167,7 +167,7 @@ _Lfound: /*:1237*/
             }
         } else {
             s = equiv(l);
-            r = newspec(s);
+            r = new_spec(s);
             if (q == MULTIPLY) {
                 width(r)   = nx_plus_y(width(s), cur_val, 0);
                 stretch(r) = nx_plus_y(stretch(s), cur_val, 0);

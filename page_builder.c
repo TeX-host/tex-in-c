@@ -199,7 +199,7 @@ void fireup(HalfWord c)
 	n = subtype(r) - MIN_QUARTER_WORD;
 	ensurevbox(n);
 	if (box(n) == 0)
-	  box(n) = newnullbox();
+	  box(n) = new_null_box();
 	p = box(n) + listoffset;
 	while (link(p) != 0)
 	  p = link(p);
@@ -395,7 +395,7 @@ void buildpage(void) {
                         freezepagespecs(boxthere);
                     else
                         pagecontents = boxthere;
-                    q = newskipparam(TOP_SKIP_CODE);
+                    q = new_skip_param(TOP_SKIP_CODE);
                     if (width(temp_ptr) > height(p))
                         width(temp_ptr) -= height(p);
                     else
@@ -634,7 +634,7 @@ void buildpage(void) {
                  */
                 help4(S(826), S(795), S(796), S(753));
                 error();
-                r = newspec(q);
+                r = new_spec(q);
                 shrinkorder(r) = NORMAL;
                 delete_glue_ref(q);
                 glueptr(p) = r;

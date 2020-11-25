@@ -167,7 +167,7 @@ void print_size(Integer s) {
 HalfWord fractionrule(long t) {
     Pointer p;
 
-    p = newrule();
+    p = new_rule();
     height(p) = t;
     depth(p) = 0;
     return p;
@@ -178,11 +178,11 @@ HalfWord fractionrule(long t) {
 HalfWord overbar(HalfWord b, long k, long t) {
     Pointer p, q;
 
-    p = newkern(k);
+    p = new_kern(k);
     link(p) = b;
     q = fractionrule(t);
     link(q) = p;
-    p = newkern(t);
+    p = new_kern(t);
     link(p) = q;
     return (vpack(p, 0, additional));
 }
@@ -197,7 +197,7 @@ HalfWord charbox(InternalFontNumber f, QuarterWord c) {
 
     q = charinfo(f, c);
     hd = heightdepth(q);
-    b = newnullbox();
+    b = new_null_box();
     width(b) = charwidth(f, q) + charitalic(f, q);
     height(b) = charheight(f, hd);
     depth(b) = chardepth(f, hd);
@@ -292,7 +292,7 @@ HalfWord vardelimiter(HalfWord d, SmallNumber s, long v) {
 _Lfound:
     if (f != NULL_FONT) {             /*710:*/
         if (chartag(q) == EXT_TAG) { /*713:*/
-            b = newnullbox();
+            b = new_null_box();
             type(b) = VLIST_NODE;
             r = fontinfo[extenbase[(f)] + rembyte(q)].qqqq;
             /*714:*/
@@ -334,7 +334,7 @@ _Lfound:
             b = charbox(f, c); /*:710*/
                                /*:713*/
     } else {
-        b = newnullbox();
+        b = new_null_box();
         width(b) = nulldelimiterspace;
     }
     shiftamount(b) = half(height(b) - depth(b)) - axisheight(s);
@@ -354,14 +354,14 @@ HalfWord rebox(HalfWord b, long w) {
         if (ischarnode(p) & (link(p) == 0)) {
             f = font(p);
             v = charwidth(f, charinfo(f, character(p)));
-            if (v != width(b)) link(p) = newkern(width(b) - v);
+            if (v != width(b)) link(p) = new_kern(width(b) - v);
         }
         free_node(b, boxnodesize);
-        b = newglue(ssglue);
+        b = new_glue(ssglue);
         link(b) = p;
         while (link(p) != 0)
             p = link(p);
-        link(p) = newglue(ssglue);
+        link(p) = new_glue(ssglue);
         return (hpack(b, w, exactly));
     } else {
         width(b) = w;

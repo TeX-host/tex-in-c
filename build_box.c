@@ -25,7 +25,7 @@ void appendglue(void) {
         case SKIP_CODE:     scan_glue(GLUE_VAL); break;
         case MSKIP_CODE:    scan_glue(MU_VAL); break;
     }
-    tailappend(newglue(cur_val));
+    tailappend(new_glue(cur_val));
     if (s < SKIP_CODE) return;
 
     (gluerefcount(cur_val))--;
@@ -38,7 +38,7 @@ void appendkern(void) {
 
     s = curchr;
     scan_dimen(s == muglue, false, false);
-    tailappend(newkern(cur_val));
+    tailappend(new_kern(cur_val));
     subtype(tail) = s;
 } // #1061: appendkern
 
@@ -575,7 +575,7 @@ void newgraf(Boolean indented)
 {
   prevgraf = 0;
   if (mode == V_MODE || head != tail) {
-    tailappend(newparamglue(PAR_SKIP_CODE));
+    tailappend(new_param_glue(PAR_SKIP_CODE));
   }
   pushnest();
   mode = H_MODE;
@@ -585,7 +585,7 @@ void newgraf(Boolean indented)
   prevgraf = (normmin(lefthyphenmin) * 64 + normmin(righthyphenmin)) * 65536L +
 	     curlang;
   if (indented) {
-    tail = newnullbox();
+    tail = new_null_box();
     link(head) = tail;
     width(tail) = parindent;
   }
@@ -603,7 +603,7 @@ void indentinhmode(void)
 
   if (curchr <= 0)
     return;
-  p = newnullbox();
+  p = new_null_box();
   width(p) = parindent;
   if (labs(mode) == H_MODE)
     spacefactor = 1000;
@@ -701,7 +701,7 @@ void makemark(void)
 void appendpenalty(void)
 {
   scan_int();
-  tailappend(newpenalty(cur_val));
+  tailappend(new_penalty(cur_val));
   if (mode == V_MODE)
     buildpage();
 }
@@ -801,9 +801,9 @@ void appenditaliccorrection(void) {
         }
         /*   
             f = font(p);
-            tailappend(newkern(charitalic(f, charinfo(f, character(p)))));
+            tailappend(new_kern(charitalic(f, charinfo(f, character(p)))));
         */
-        tailappend(newkern(charitalic(f, charinfo(f, c))));
+        tailappend(new_kern(charitalic(f, charinfo(f, c))));
         subtype(tail) = explicit;
     }
 }
@@ -814,7 +814,7 @@ void appenddiscretionary(void)
 {
   long c;
 
-  tailappend(newdisc());
+  tailappend(new_disc());
   if (curchr == 1) {
     c = get_hyphenchar(cur_font);
     if (c >= 0) {
@@ -956,11 +956,11 @@ void makeaccent(void)
       shiftamount(p) = x - h;
     }
     delta = (long)floor((w - a) / 2.0 + h * t - x * s + 0.5);
-    r = newkern(delta);
+    r = new_kern(delta);
     subtype(r) = acckern;
     link(tail) = r;
     link(r) = p;
-    tail = newkern(-a - delta);
+    tail = new_kern(-a - delta);
     subtype(tail) = acckern;
     link(p) = tail;
     p = q;

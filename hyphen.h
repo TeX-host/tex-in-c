@@ -5,7 +5,7 @@
 #include "global.h" // [macro] qi
 #include "mem.h" // [macro] link; [func] get_avail, free_node
 #include "box.h" // [macro] font, character, subtype, ligptr, smallnodesize;
-    // [func] newligature
+    // [func] new_ligature
 #include "fonts.h" // [type] InternalFontNumber, [macro] NON_CHAR
 #include "eqtb.h" // [macro] language
 #include "charset.h" // [type] ASCIICode
@@ -47,7 +47,7 @@
 /// [p339#910]
 #define wraplig(x)                             \
     if (ligaturepresent) {                     \
-        p = newligature(hf, curl, link(curq)); \
+        p = new_ligature(hf, curl, link(curq)); \
         if (lfthit) {                          \
             subtype(p) = 2;                    \
             lfthit = false;                    \

@@ -27,7 +27,7 @@ HalfWord prunepagetop(HalfWord p) {
             case HLIST_NODE:
             case VLIST_NODE:
             case RULE_NODE: /*969:*/
-                q = newskipparam(SPLIT_TOP_SKIP_CODE);
+                q = new_skip_param(SPLIT_TOP_SKIP_CODE);
                 link(prevp) = q;
                 link(q) = p;
                 if (width(temp_ptr) > height(p))
@@ -175,7 +175,7 @@ HalfWord vertbreak(HalfWord p, long h, long d) {
                  */
                 help4(S(794), S(795), S(796), S(753));
                 error();
-                r = newspec(q);
+                r = new_spec(q);
                 shrinkorder(r) = NORMAL;
                 delete_glue_ref(q);
                 glueptr(p) = r;

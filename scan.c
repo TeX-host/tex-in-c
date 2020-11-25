@@ -481,7 +481,7 @@ void scan_something_internal(SmallNumber level, Boolean negative) {
         cur_val = -cur_val;
         return;
     }
-    cur_val = newspec(cur_val); /*431:*/
+    cur_val = new_spec(cur_val); /*431:*/
     width(cur_val) = -width(cur_val);
     stretch(cur_val) = -stretch(cur_val);
     shrink(cur_val) = -shrink(cur_val); /*:431*/
@@ -1000,7 +1000,7 @@ void scan_glue(SmallNumber level) {
         if (negative) cur_val = -cur_val;
     }
 
-    q = newspec(zeroglue);
+    q = new_spec(zeroglue);
     width(q) = cur_val;
 
     if (scankeyword(S(637))) { // "plus"
@@ -1031,7 +1031,7 @@ _Lexit:;
 HalfWord scan_rule_spec(void) {
     Pointer q;
 
-    q = newrule();
+    q = new_rule();
     if (curcmd == VRULE)
         width(q) = DEFAULT_RULE;
     else {

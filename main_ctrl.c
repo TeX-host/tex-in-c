@@ -54,7 +54,7 @@ Boolean cancelboundary, insdisc;
 /// [p387#1035] the PARAMETER is either |rthit| or |false|
 #define packlig(x)                                    \
     {                                                 \
-        mainp = newligature(mainf, curl, link(curq)); \
+        mainp = new_ligature(mainf, curl, link(curq)); \
         if (lfthit) {                                 \
             subtype(mainp) = 2;                       \
             lfthit = false;                           \
@@ -80,7 +80,7 @@ Boolean cancelboundary, insdisc;
         if (insdisc) {                                  \
             insdisc = false;                            \
             if (mode > 0) {                             \
-                tailappend(newdisc());                  \
+                tailappend(new_disc());                  \
             }                                           \
         }                                               \
     }
@@ -409,7 +409,7 @@ _LN_main_control__reswitch:
             break;
 
         case M_MODE + ITAL_CORR: /*:1112*/
-            tailappend(newkern(0));
+            tailappend(new_kern(0));
             break;
             /*1116:*/
 
@@ -561,7 +561,7 @@ _LN_main_control__reswitch:
             break;
 
         case M_MODE + NON_SCRIPT:
-            tailappend(newglue(zeroglue));
+            tailappend(new_glue(zeroglue));
             subtype(tail) = condmathglue;
             break;
 
@@ -845,7 +845,7 @@ _Lmainligloop2:
         if (skipbyte(mainj) <= stopflag) { /*1040:*/
             if (opbyte(mainj) >= kernflag) {
                 wrapup(rthit);
-                tailappend(newkern(charkern(mainf, mainj)));
+                tailappend(new_kern(charkern(mainf, mainj)));
                 goto _Lmainloopmove;
             }
             if (curl == NON_CHAR)
@@ -866,11 +866,11 @@ _Lmainligloop2:
                 case MIN_QUARTER_WORD + 6:
                     curr = rembyte(mainj);
                     if (ligstack == 0) {
-                        ligstack = newligitem(curr);
+                        ligstack = new_lig_item(curr);
                         bchar = NON_CHAR;
                     } else if (ischarnode(ligstack)) {
                         mainp = ligstack;
-                        ligstack = newligitem(curr);
+                        ligstack = new_lig_item(curr);
                         ligptr(ligstack) = mainp;
                     } else
                         character(ligstack) = curr;
@@ -879,7 +879,7 @@ _Lmainligloop2:
                 case MIN_QUARTER_WORD + 3:
                     curr = rembyte(mainj);
                     mainp = ligstack;
-                    ligstack = newligitem(curr);
+                    ligstack = new_lig_item(curr);
                     link(ligstack) = mainp;
                     break;
 
@@ -944,7 +944,7 @@ _Lappendnormalspace_:
         mainp = fontglue[cur_font];
         if (mainp == 0) { /*:1042*/
             FontIndex mmaink;
-            mainp = newspec(zeroglue);
+            mainp = new_spec(zeroglue);
             mmaink = parambase[cur_font] + SPACE_CODE;
     #if 1
             maink = mmaink;
@@ -954,9 +954,9 @@ _Lappendnormalspace_:
             shrink(mainp) = fontinfo[mmaink + 2].sc;
             fontglue[cur_font] = mainp;
         }
-        temp_ptr = newglue(mainp);
+        temp_ptr = new_glue(mainp);
     } else
-        temp_ptr = newparamglue(SPACE_SKIP_CODE);
+        temp_ptr = new_param_glue(SPACE_SKIP_CODE);
     link(tail) = temp_ptr;
     tail = temp_ptr;
     goto _LN_main_control__big_switch;
@@ -988,7 +988,7 @@ void appspace(void) {
     Pointer q;
 
     if (spacefactor >= 2000 && xspaceskip != zeroglue) {
-        q = newparamglue(XSPACE_SKIP_CODE);
+        q = new_param_glue(XSPACE_SKIP_CODE);
     } else {
         if (spaceskip != zeroglue) {
             mainp = spaceskip;
@@ -996,7 +996,7 @@ void appspace(void) {
             mainp = fontglue[cur_font];
             if (mainp == 0) {
                 FontIndex mmaink;
-                mainp = newspec(zeroglue);
+                mainp = new_spec(zeroglue);
                 mmaink = parambase[cur_font] + SPACE_CODE;
 #if 1
                 maink = mmaink;
@@ -1007,12 +1007,12 @@ void appspace(void) {
                 fontglue[cur_font] = mainp;
             }
         }
-        mainp = newspec(mainp); /*1044:*/
+        mainp = new_spec(mainp); /*1044:*/
         if (spacefactor >= 2000) width(mainp) += extraspace(cur_font);
         stretch(mainp) = xn_over_d(stretch(mainp), spacefactor, 1000);
         shrink(mainp) = xn_over_d(shrink(mainp), 1000, spacefactor);
         /*:1044*/
-        q = newglue(mainp);
+        q = new_glue(mainp);
         gluerefcount(mainp) = 0;
     }
     link(tail) = q;
@@ -1070,10 +1070,10 @@ Boolean itsallover(void) {
             return true;
         }
         backinput();
-        tailappend(newnullbox());
+        tailappend(new_null_box());
         width(tail) = hsize;
-        tailappend(newglue(fillglue));
-        tailappend(newpenalty(-1073741824L));
+        tailappend(new_glue(fillglue));
+        tailappend(new_penalty(-1073741824L));
         buildpage();
     }
 

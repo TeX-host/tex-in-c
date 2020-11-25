@@ -633,7 +633,7 @@ void aftermath(void) {
     }
 
     if (m < 0) { /*1196:*/
-        tailappend(newmath(mathsurround, before));
+        tailappend(new_math(mathsurround, before));
         curmlist = p;
         curstyle = textstyle;
         mlistpenalties = (mode > 0);
@@ -641,7 +641,7 @@ void aftermath(void) {
         link(tail) = link(temphead);
         while (link(tail) != 0)
             tail = link(tail);
-        tailappend(newmath(mathsurround, after));
+        tailappend(new_math(mathsurround, after));
         spacefactor = 1000;
         unsave();
         return;
@@ -712,7 +712,7 @@ void aftermath(void) {
     }
 
     /*1203:*/
-    tailappend(newpenalty(predisplaypenalty));
+    tailappend(new_penalty(predisplaypenalty));
     if (d + s <= predisplaysize || l) {
         g1 = ABOVE_DISPLAY_SKIP_CODE;
         g2 = BELOW_DISPLAY_SKIP_CODE;
@@ -724,13 +724,13 @@ void aftermath(void) {
     if (l && e == 0) { /*1204:*/
         shiftamount(a) = s;
         appendtovlist(a);
-        tailappend(newpenalty(INF_PENALTY));
+        tailappend(new_penalty(INF_PENALTY));
     } else {
-        tailappend(newparamglue(g1)); /*:1203*/
+        tailappend(new_param_glue(g1)); /*:1203*/
     }
 
     if (e != 0) {
-        r = newkern(z - w - e - d);
+        r = new_kern(z - w - e - d);
         if (l) {
             link(a) = r;
             link(r) = b;
@@ -746,7 +746,7 @@ void aftermath(void) {
     shiftamount(b) = s + d; /*:1204*/
     appendtovlist(b);       /*1205:*/
     if (a != 0 && e == 0 && !l) {
-        tailappend(newpenalty(INF_PENALTY));
+        tailappend(new_penalty(INF_PENALTY));
         shiftamount(a) = s + z - width(a);
         appendtovlist(a);
         g2 = 0;
@@ -755,9 +755,9 @@ void aftermath(void) {
         link(tail) = link(adjusthead);
         tail = t;
     }
-    tailappend(newpenalty(postdisplaypenalty));
+    tailappend(new_penalty(postdisplaypenalty));
     if (g2 > 0) {                     /*:1199*/
-        tailappend(newparamglue(g2)); /*:1205*/
+        tailappend(new_param_glue(g2)); /*:1205*/
     }
     resumeafterdisplay();
 

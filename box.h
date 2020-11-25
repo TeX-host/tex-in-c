@@ -242,18 +242,18 @@ extern Integer depth_threshold;
 extern Integer breadth_max;
 
 // [box], tex, scan
-extern Pointer newnullbox(void);
-extern Pointer newrule(void);
-extern Pointer newligature(QuarterWord f, QuarterWord c, Pointer q);
-extern Pointer newligitem(QuarterWord c);
-extern Pointer newdisc(void);
-extern Pointer newmath(Scaled w, SmallNumber s);
-extern Pointer newspec(Pointer p);
-extern Pointer newparamglue(SmallNumber n);
-extern Pointer newglue(Pointer q);
-extern Pointer newskipparam(SmallNumber n);
-extern Pointer newkern(long w);
-extern Pointer newpenalty(long m);
+extern Pointer new_null_box(void);
+extern Pointer new_rule(void);
+extern Pointer new_ligature(QuarterWord f, QuarterWord c, Pointer q);
+extern Pointer new_lig_item(QuarterWord c);
+extern Pointer new_disc(void);
+extern Pointer new_math(Scaled w, SmallNumber s);
+extern Pointer new_spec(Pointer p);
+extern Pointer new_param_glue(SmallNumber n);
+extern Pointer new_glue(Pointer q);
+extern Pointer new_skip_param(SmallNumber n);
+extern Pointer new_kern(long w);
+extern Pointer new_penalty(long m);
 
 // box_display
 extern void shortdisplay(Pointer p);

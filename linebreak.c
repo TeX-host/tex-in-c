@@ -64,16 +64,16 @@ void linebreak(long finalwidowpenalty) {
     packbeginline = modeline; /*816:*/
     link(temphead) = link(head);
     if (ischarnode(tail)) {
-        tailappend(newpenalty(INF_PENALTY));
+        tailappend(new_penalty(INF_PENALTY));
     } else if (type(tail) != GLUE_NODE) {
-        tailappend(newpenalty(INF_PENALTY));
+        tailappend(new_penalty(INF_PENALTY));
     } else {
         type(tail) = PENALTY_NODE;
         delete_glue_ref(glueptr(tail));
         flush_node_list(leaderptr(tail));
         penalty(tail) = INF_PENALTY;
     }
-    link(tail) = newparamglue(PAR_FILL_SKIP_CODE);
+    link(tail) = new_param_glue(PAR_FILL_SKIP_CODE);
     initcurlang = prevgraf % 65536L;
     initlhyf = prevgraf / 4194304L;
     initrhyf = (prevgraf / 65536L) & 63;
@@ -583,7 +583,7 @@ HalfWord finiteshrink(HalfWord p) {
         help5(S(749), S(750), S(751), S(752), S(753));
         error();
     }
-    q = newspec(p);
+    q = new_spec(p);
     shrinkorder(q) = NORMAL;
     delete_glue_ref(p);
     return q;
@@ -1162,7 +1162,7 @@ void postlinebreak(long finalwidowpenalty) { /*878:*/
                 q = link(q);
         }
         /*886:*/
-        r = newparamglue(RIGHT_SKIP_CODE);
+        r = new_param_glue(RIGHT_SKIP_CODE);
         link(r) = link(q);
         link(q) = r;
         q = r; /*:886*/
@@ -1173,7 +1173,7 @@ void postlinebreak(long finalwidowpenalty) { /*878:*/
         q = link(temphead);
         link(temphead) = r;
         if (leftskip != zeroglue) { /*:887*/
-            r = newparamglue(LEFT_SKIP_CODE);
+            r = new_param_glue(LEFT_SKIP_CODE);
             link(r) = q;
             q = r;
         }
@@ -1205,7 +1205,7 @@ void postlinebreak(long finalwidowpenalty) { /*878:*/
             if (curline + 2 == bestline) pen += finalwidowpenalty;
             if (discbreak) pen += brokenpenalty;
             if (pen != 0) {
-                r = newpenalty(pen);
+                r = new_penalty(pen);
                 link(tail) = r;
                 tail = r;
             }
