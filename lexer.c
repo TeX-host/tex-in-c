@@ -1454,9 +1454,10 @@ void get_token(void) {
 } // [#365] get_token
 /** @}*/ // end group S332x365_P134x143
 
-/// [#365] 辅助函数
+/// [p143#365] 辅助函数
 HalfWord _pack_tok(Pointer _cs, EightBits _cmd, HalfWord _chr) {
     if (_cs == 0) {
+        /* return (_cmd * 256) + _chr; */
         return (_cmd * dwa_do_8) + _chr;
     } else {
         return CS_TOKEN_FLAG + _cs;
