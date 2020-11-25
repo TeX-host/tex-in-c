@@ -66,6 +66,9 @@ typedef enum _EqLevel {
 /// [p82#222] beginning of [region 2], for the hash table.
 #define HASH_BASE   (NULL_CS + 1)
 
+/** [p82#222] [region 2] for control sequences that are perpetually defined
+ *  (since they are used in error recovery)
+ */
 typedef enum _FrozenControlSeq {
     /// for error recovery.
     FROZEN_CONTROL_SEQUENCE = (HASH_BASE + HASH_SIZE),
@@ -101,7 +104,7 @@ typedef enum _FrozenControlSeq {
 /// [p83#224] [region 3] table of 256 “muskip” registers.
 #define MU_SKIP_BASE    (SKIP_BASE + 256)
 
-/** [p83#224] Region 3 of `eqtb` contains the 256 `\skip` registers
+/** [p83#224] [Region 3] of `eqtb` contains the 256 `\skip` registers
  * 
  * 值得注意的点: `muskip` 比其他参数大
  */
@@ -132,9 +135,9 @@ enum SkipRegisters {
     GLUE_PARS               ///< total number of glue parameters
 }; // [p83#224] enum SkipRegisters
 
-/// [p83#224] |mem| location of glue specification.
+/// [p83#224] mem location of glue specification.
 #define skip(x)     equiv(SKIP_BASE + x)
-/// [p83#224] |mem| location of math glue spec.
+/// [p83#224] mem location of math glue spec.
 #define muskip(x)   equiv(MU_SKIP_BASE + x)
 /// [p83#224] mem location of glue specification.
 #define glue_par(x) equiv(GLUE_BASE + x)
