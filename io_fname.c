@@ -54,52 +54,62 @@ void fname_init() {
     memcpy(TEX_format_default, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
 }
 
-/*515:*/
-void begin_name(void) { ext_delimiter = 0; }
-/*:515*/
+/// [#515]
+void begin_name(void) {
+    area_delimiter = 0;
+    ext_delimiter = 0;
+}
 
-/*516:*/
+/// [#516]
 Boolean more_name(ASCIICode c) {
     if (c == ' ') {
         return false;
     } else {
         str_room(1);
-        if (c == '.' && ext_delimiter == 0) {
+        append_char(c); // contribute c to the current string
+        if (c == '.' || c == ':') {
+            area_delimiter = makestring();
+            ext_delimiter = 0;
+        } else if (c == '.' && ext_delimiter == 0) {
             ext_delimiter = makestring();
         }
-        append_char(c);
         return true;
     }
-}
-/*:516*/
+} /* more_name */
 
-/*517:*/
+/// [#517]
 void end_name(void) {
-    cur_area = S(385);
+    if (area_delimiter == 0) {
+        cur_area = S(385); // ""
+    } else {
+        /// TODO: check
+    }
+    
     if (ext_delimiter == 0) {
-        cur_ext = S(385);
+        cur_ext = S(385); // ""
         cur_name = makestring();
     } else {
         cur_name = ext_delimiter;
         cur_ext = makestring();
     }
-}
+} /* end_name */
+
+/// [#518]
+void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
+    slow_print(a);
+    slow_print(n);
+    slow_print(e);
+} // #518: print_file_name
+
 
 Static Integer _tmp_fname_len;
+/// [#519]
 void append_to_name(ASCIICode x) {
     _tmp_fname_len++;
     if (_tmp_fname_len <= FILE_NAME_SIZE) {
         name_of_file[_tmp_fname_len - 1] = xchr[x];
     }
 }
-/*:517*/
-
-/// #518
-void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
-    slow_print(a);
-    slow_print(n);
-    slow_print(e);
-} // #518: print_file_name
 
 /// [#519] 打包文件名.
 /// @param[in] fname    文件名
@@ -140,7 +150,7 @@ StrNumber a_make_name_string() { return make_name_string(); }
 StrNumber b_make_name_string() { return make_name_string(); }
 StrNumber w_make_name_string() { return make_name_string(); }
 
-/*526:*/
+/// [#526]
 void scan_file_name(void) {
     name_in_progress = true;
     begin_name();
@@ -156,16 +166,15 @@ void scan_file_name(void) {
     end_name();
     name_in_progress = false;
 }
-/*:526*/
 
-/*529:*/
+
+/// [#529] s = ".log" , ".dvi" , or format extension.
 void pack_job_name(StrNumber s) {
     cur_area = S(385); // ""
     cur_ext = s;
     cur_name = job_name;
     pack_file_name(cur_name, cur_area, cur_ext);
 }
-/*:529*/
 
 /// [#530]
 void prompt_file_name(StrNumber s, StrNumber e) {
@@ -208,7 +217,7 @@ void prompt_file_name(StrNumber s, StrNumber e) {
     pack_file_name(cur_name, cur_area, cur_ext);
 } /* [#530] prompt_file_name */
 
-/*534:*/
+/// [#534]
 void open_log_file(void) {
     Selector old_setting;
     short k;
@@ -258,7 +267,6 @@ void open_log_file(void) {
 
     selector = old_setting + 2;
 }
-/*:534*/
 
 /// [#p195#537] TeX will \\input something.
 void start_input(void) {
