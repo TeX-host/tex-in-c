@@ -24,6 +24,7 @@ VS2019/
 
 # User-specific files
 *.user
+cpp.hint
 
 # Files built by Visual Studio
 *.exe

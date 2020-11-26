@@ -62,7 +62,7 @@ void debug_help(void) {
         printnl(S(1253)); // "debug # (−1 to exit):"
         update_terminal();
 
-        fscanf(TERM_IN, " %ld", &m);
+        fscanf(TERM_IN, " %lld", &m);
         if (m < 0) {
             return;
         } else if (m == 0) {
@@ -75,7 +75,7 @@ void debug_help(void) {
         }
 
         /* assert(m >= 0); */
-        fscanf(TERM_IN, " %ld", &n);
+        fscanf(TERM_IN, " %lld", &n);
         switch (m) {
             /** [#1339] Numbered cases for debug help. */
             // display mem[n] in all forms
@@ -100,7 +100,7 @@ void debug_help(void) {
             // look for pointers to n
             case 12: search_mem(n); break;
             case 13: {
-                fscanf(TERM_IN, " %ld", &l);
+                fscanf(TERM_IN, " %lld", &l);
                 printcmdchr(n, l);
                 break;
             }

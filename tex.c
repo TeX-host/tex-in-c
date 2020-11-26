@@ -101,7 +101,7 @@ Static void close_files_and_terminate(void) {
                     lo_mem_max - MEM_MIN + mem_end - hi_mem_min + 2L,
                     mem_end - MEM_MIN + 1L);
             fprintf(log_file,
-                    " %ld multiletter control sequences out of %ld\n",
+                    " %lld multiletter control sequences out of %ld\n",
                     cs_count,
                     (long)HASH_SIZE);
             fprintf(log_file,
@@ -114,14 +114,14 @@ Static void close_files_and_terminate(void) {
             fprintf(log_file,
                     ", out of %ld for %ld\n",
                     (long)FONT_MEM_SIZE,
-                    (long)(FONT_MAX));
+                    (long)FONT_MAX);
             fprintf(log_file, " %d hyphenation exception", hyphcount);
             if (hyphcount != 1) {
                 fprintf(log_file, "s");
             }
             fprintf(log_file, " out of %ld\n", (long)HYPH_SIZE);
             fprintf(log_file,
-                    " %di,%dn,%ldp,%db,%ds stack positions out of "
+                    " %di,%dn,%lldp,%db,%ds stack positions out of "
                     "%ldi,%ldn,%ldp,%ldb,%lds\n",
                     get_maxinstack(),
                     max_nest_stack,
