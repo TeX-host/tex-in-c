@@ -19,7 +19,7 @@
 
 /// p43#114
 #ifdef tt_DEBUG
-void printword(MemoryWord w) {
+void print_word(MemoryWord w) {
     print_int(w.int_);
     print_char(' ');
     print_scaled(w.sc);
@@ -75,12 +75,12 @@ void debug_help(void) {
         switch (m) {
             /** [#1339] Numbered cases for debug help. */
             // display mem[n] in all forms
-            case 1: printword(mem[n - MEM_MIN]); break;
+            case 1: print_word(mem[n - MEM_MIN]); break;
             case 2: print_int(info(n)); break;
             case 3: print_int(link(n)); break;
-            case 4: printword(eqtb[n]); break;
-            case 5: printword(fontinfo[n]); break;
-            case 6: printword(save_stack[n]); break;
+            case 4: print_word(eqtb[n]); break;
+            case 5: print_word(fontinfo[n]); break;
+            case 6: print_word(save_stack[n]); break;
             // show a box, abbreviated by show box depth and show box breadth
             case 7: showbox(n); break;
             case 8: { // show a box in its entirety
