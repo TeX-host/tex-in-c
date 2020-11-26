@@ -22,6 +22,8 @@ StrNumber curarea;
 /// [#512] file extension just scanned, or "".
 StrNumber curext;
 
+/// [#513] the most recent ‘>’ or ‘:’, if any.
+StrNumber areadelimiter;
 /// [#513] the relevant ‘.’, if any.
 StrNumber extdelimiter;
 
