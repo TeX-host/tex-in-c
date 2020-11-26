@@ -13,6 +13,7 @@ deps.1
 *.log
 *.dvi
 *.pdf
+*.fmt
 
 # ide
 .vscode/

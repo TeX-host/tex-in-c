@@ -36,7 +36,11 @@ debug: clean_test ${EXEC_NAME}
 
 # clean && run && load plainTeX
 r: debug
-	cd _test && ./${EXEC_NAME} plain
+	cd _test && ./${EXEC_NAME} '&plain'
+
+plain.fmt:
+	cd _test && ./${EXEC_NAME} plain '\dump'
+	cp plain.fmt ..
 
 ## Testset ======================================
 basic-test: RUN_DIR := test/basic-test
