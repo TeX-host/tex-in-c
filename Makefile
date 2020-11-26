@@ -35,6 +35,12 @@ debug: clean_test ${EXEC_NAME}
 	cp ${EXEC_NAME} test/trip
 	cp ${EXEC_NAME} _test
 
+basic-test: RUN_DIR := test/basic-test
+basic-test: clean_test ${EXEC_NAME}
+	cp ${EXEC_NAME} ${RUN_DIR}
+	cd ${RUN_DIR} && ./${EXEC_NAME} end
+	cd ${RUN_DIR} && ./${EXEC_NAME} helloworld
+
 # clean && run && load plainTeX
 r: debug
 	cd _test && ./${EXEC_NAME} plain
