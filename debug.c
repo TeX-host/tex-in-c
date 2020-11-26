@@ -50,9 +50,9 @@ void printword(MemoryWord w) {
  */
 #ifdef tt_DEBUG
 // 交互式 debug 环境
-/// p470#1338
+/// [p470#1338] routine to display various things.
 void debug_help(void) {
-    long k, l, m, n;
+    Integer k, l, m, n;
 
     while (true) {
         printnl(S(1253)); // "debug # (−1 to exit):"
@@ -61,17 +61,19 @@ void debug_help(void) {
         fscanf(TERM_IN, " %ld", &m);
         if (m < 0) {
             return;
-        }
-        if (m == 0) {
+        } else if (m == 0) {
             goto _Lbreakpoint_;
+
+        /// a location where you can set a breakpoint.
         _Lbreakpoint_:
             m = 0;
             continue;
         }
 
+        /* assert(m >= 0); */
         fscanf(TERM_IN, " %ld", &n);
         switch (m) {
-            /// #1339
+            /** [#1339] Numbered cases for debug help. */
             // display mem[n] in all forms
             case 1: printword(mem[n - MEM_MIN]); break;
             case 2: print_int(info(n)); break;
@@ -81,13 +83,13 @@ void debug_help(void) {
             case 6: printword(save_stack[n]); break;
             // show a box, abbreviated by show box depth and show box breadth
             case 7: showbox(n); break;
-            case 8: {
+            case 8: { // show a box in its entirety
                 breadth_max = 10000;
                 depth_threshold = str_adjust_to_room(POOL_SIZE) - 10;
                 shownodelist(n);
                 break;
             }
-            case 9: showtokenlist(n, 0, 1000); break;
+            case 9: showtokenlist(n, null, 1000); break;
             case 10: slow_print(n); break;
             // check wellformedness; print new busy locations if n > 0
             case 11: check_mem(n > 0); break;
@@ -99,8 +101,9 @@ void debug_help(void) {
                 break;
             }
             case 14: {
-                for (k = 0; k <= n; k++)
+                for (k = 0; k <= n; k++) {
                     print(buffer[k]);
+                }
                 break;
             }
             case 15: {
@@ -112,7 +115,7 @@ void debug_help(void) {
 
             default: print('?'); break;
         } // switch (m)
-    }     // while (true)
+    } // while (true)
 } // #1338: debug_help
 #endif // #1338: tt_DEBUG
 
