@@ -188,7 +188,7 @@ Static void close_files_and_terminate(void) {
     selector -= 2;
     if (selector != TERM_ONLY) return;
     printnl(S(1018));
-    slow_print(logname);
+    slow_print(log_name);
     print_char('.');
     println();
 } // #1333: void close_files_and_terminate(void)

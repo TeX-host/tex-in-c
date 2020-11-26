@@ -79,13 +79,11 @@ extern void w_close(FILE** f);
 
 
 // io_fname
-extern StrNumber curname, curarea, curext;
-extern StrNumber extdelimiter;
-extern Char TEXformatdefault[FORMAT_DEFAULT_LENGTH];
+extern StrNumber cur_name, cur_area, cur_ext;
 extern Boolean name_in_progress;
 extern StrNumber job_name;
 extern Boolean log_opened;
-extern StrNumber output_file_name, logname;
+extern StrNumber output_file_name, log_name;
 
 extern void fname_init();
 extern StrNumber b_make_name_string();

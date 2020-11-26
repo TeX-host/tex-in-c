@@ -353,13 +353,13 @@ Static void newfont(SmallNumber a) {
         flushablestring = str_ptr - 1;
     #endif
     for (f = 1; f <= fontptr; f++) {
-        if (str_eq_str(get_fontname(f), curname) /* &
-	        str_eq_str(fontarea[f ], curarea) */ ) {
+        if (str_eq_str(get_fontname(f), cur_name) /* &
+	        str_eq_str(fontarea[f ], cur_area) */ ) {
             /*:1260*/
             #if 0
-                if (curname == flushablestring) {
+                if (cur_name == flushablestring) {
                     flush_string();
-                    curname = fontname[f ];
+                    cur_name = fontname[f ];
                 }
             #endif
             if (s > 0) {
@@ -370,7 +370,7 @@ Static void newfont(SmallNumber a) {
             }
         } // if(str_eq_str(...))
     }     // for (f = 1; f <= fontptr; f++)
-    f = readfontinfo(u, curname, curarea, s);
+    f = readfontinfo(u, cur_name, cur_area, s);
 
 _Lcommonending:
     equiv(u) = f;
@@ -848,8 +848,8 @@ void openorclosein(void) {
     if (c == 0) return;
     scan_optional_equals();
     scanfilename();
-    if (curext == S(385)) curext = S(669);
-    packfilename(curname, S(677), curext);
+    if (cur_ext == S(385)) cur_ext = S(669);
+    packfilename(cur_name, S(677), cur_ext);
     if (a_open_in(&readfile[n])) readopen[n] = justopen;
 }
 /*:1275*/

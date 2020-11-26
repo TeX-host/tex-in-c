@@ -79,9 +79,9 @@ void doextension(void) {
             newwritewhatsit(opennodesize);
             scan_optional_equals();
             scanfilename();
-            openname(tail) = curname;
-            openarea(tail) = curarea;
-            openext(tail) = curext;
+            openname(tail) = cur_name;
+            openarea(tail) = cur_area;
+            openext(tail) = cur_ext;
             break;
             /*:1351*/
 
@@ -270,11 +270,11 @@ void outwhat(HalfWord p) {
                     if (subtype(p) == closenode) {
                         write_open[j] = false;
                     } else if (j < 16) {
-                        curname = openname(p);
-                        curarea = openarea(p);
-                        curext = openext(p);
-                        if (curext == S(385)) curext = S(669);
-                        packfilename(curname, curarea, curext);
+                        cur_name = openname(p);
+                        cur_area = openarea(p);
+                        cur_ext = openext(p);
+                        if (cur_ext == S(385)) cur_ext = S(669);
+                        packfilename(cur_name, cur_area, cur_ext);
                         while (!a_open_out(&write_file[j]))
                             promptfilename(S(683), S(669));
                         write_open[j] = true;

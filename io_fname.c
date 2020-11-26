@@ -16,19 +16,19 @@
  * @{
  */
 /// [#512] name of file just scanned.
-StrNumber curname;
+StrNumber cur_name;
 /// [#512] file area just scanned, or "".
-StrNumber curarea;
+StrNumber cur_area;
 /// [#512] file extension just scanned, or "".
-StrNumber curext;
+StrNumber cur_ext;
 
 /// [#513] the most recent ‘>’ or ‘:’, if any.
-StrNumber areadelimiter;
+StrNumber area_delimiter;
 /// [#513] the relevant ‘.’, if any.
-StrNumber extdelimiter;
+StrNumber ext_delimiter;
 
 /// [#520] _not_use_
-Char TEXformatdefault[FORMAT_DEFAULT_LENGTH];
+Char TEX_format_default[FORMAT_DEFAULT_LENGTH];
 
 /// [#527] is a file name being scanned?
 /// xref: scanfilename, newfont, expand
@@ -44,18 +44,18 @@ Boolean log_opened;
 /// [#532] full name of the output file.
 StrNumber output_file_name;
 /// [#532] full name of the log file.
-StrNumber logname;
+StrNumber log_name;
 
 
 /// [ #511. File names. ] 
 
 /// [#521]
 void fname_init() {
-    memcpy(TEXformatdefault, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
+    memcpy(TEX_format_default, "TeXformats:plain.fmt", FORMAT_DEFAULT_LENGTH);
 }
 
 /*515:*/
-void beginname(void) { extdelimiter = 0; }
+void beginname(void) { ext_delimiter = 0; }
 /*:515*/
 
 /*516:*/
@@ -64,8 +64,8 @@ Boolean morename(ASCIICode c) {
         return false;
     } else {
         str_room(1);
-        if (c == '.' && extdelimiter == 0) {
-            extdelimiter = makestring();
+        if (c == '.' && ext_delimiter == 0) {
+            ext_delimiter = makestring();
         }
         append_char(c);
         return true;
@@ -75,17 +75,17 @@ Boolean morename(ASCIICode c) {
 
 /*517:*/
 void endname(void) {
-    curarea = S(385);
-    if (extdelimiter == 0) {
-        curext = S(385);
-        curname = makestring();
+    cur_area = S(385);
+    if (ext_delimiter == 0) {
+        cur_ext = S(385);
+        cur_name = makestring();
     } else {
-        curname = extdelimiter;
-        curext = makestring();
+        cur_name = ext_delimiter;
+        cur_ext = makestring();
     }
 }
 
-Integer _tmp_fname_len;
+Static Integer _tmp_fname_len;
 void appendtoname(ASCIICode x) {
     _tmp_fname_len++;
     if (_tmp_fname_len <= FILE_NAME_SIZE) {
@@ -160,10 +160,10 @@ void scanfilename(void) {
 
 /*529:*/
 void packjobname(StrNumber s) {
-    curarea = S(385); // ""
-    curext = s;
-    curname = job_name;
-    packfilename(curname, curarea, curext);
+    cur_area = S(385); // ""
+    cur_ext = s;
+    cur_name = job_name;
+    packfilename(cur_name, cur_area, cur_ext);
 }
 /*:529*/
 
@@ -177,7 +177,7 @@ void promptfilename(StrNumber s, StrNumber e) {
         print_err(S(667)); // "I can't write on file `"
     }
 
-    print_file_name(curname, curarea, curext);
+    print_file_name(cur_name, cur_area, cur_ext);
     print(S(668)); // "'."
 
     // ".tex"
@@ -204,8 +204,8 @@ void promptfilename(StrNumber s, StrNumber e) {
     endname();
 
     // ""
-    if (curext == S(385)) curext = e;
-    packfilename(curname, curarea, curext);
+    if (cur_ext == S(385)) cur_ext = e;
+    packfilename(cur_name, cur_area, cur_ext);
 } /* [#530] promptfilename */
 
 /*534:*/
@@ -225,7 +225,7 @@ void openlogfile(void) {
         promptfilename(S(674), S(673));
     }
     /*:535*/
-    logname = a_make_name_string();
+    log_name = a_make_name_string();
     selector = LOG_ONLY;
     log_opened = true;
 
@@ -265,16 +265,16 @@ void start_input(void) {
     scanfilename(); //  set cur_name to desired file name
 
     //            ""               ".tex"
-    if (curext == S(385)) curext = S(669);
-    packfilename(curname, curarea, curext);
+    if (cur_ext == S(385)) cur_ext = S(669);
+    packfilename(cur_name, cur_area, cur_ext);
 
     while (true) {
         // set up cur_file and new level of input
         beginfilereading();
         if (a_open_in(&curfile)) break;
-        if (curarea == S(385)) { // ""
+        if (cur_area == S(385)) { // ""
             // 
-            packfilename(curname, S(677), curext);
+            packfilename(cur_name, S(677), cur_ext);
             if (a_open_in(&curfile)) break;
         }
         // remove the level that didn’t work
@@ -285,7 +285,7 @@ void start_input(void) {
 
     NAME = a_make_name_string();
     if (job_name == 0) {
-        job_name = curname;
+        job_name = cur_name;
         openlogfile();
     }
 
@@ -300,10 +300,10 @@ void start_input(void) {
 #if 0
     if (NAME == str_ptr - 1) {
         flush_string();
-        NAME = curname;
+        NAME = cur_name;
     }
 #else
-    NAME = curname;
+    NAME = cur_name;
 #endif
 
     /** [#538] Read the first line of the new file. */
