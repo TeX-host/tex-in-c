@@ -35,10 +35,10 @@ debug: clean_test ${EXEC_NAME}
 	cp ${EXEC_NAME} _test
 
 # clean && run && load plainTeX
-r: debug
+r: plain.fmt
 	cd _test && ./${EXEC_NAME} '&plain'
 
-plain.fmt:
+plain.fmt: debug
 	cd _test && ./${EXEC_NAME} plain '\dump'
 	cp plain.fmt ..
 
