@@ -19,19 +19,22 @@
 
 /// p43#114
 #ifdef tt_DEBUG
-void print_word(MemoryWord w) {
+Static void print_word(MemoryWord w) {
     print_int(w.int_);
     print_char(' ');
     print_scaled(w.sc);
     print_char(' ');
+    /*                  round(UNITY * w.gr) */
     print_scaled( (long)floor(UNITY * w.gr + 0.5) );
     println();
+
     print_int(w.hh.UU.lh);
     print_char('=');
     print_int(w.hh.UU.U2.b0);
     print_char(':');
     print_int(w.hh.UU.U2.b1);
     print_char(';');
+
     print_int(w.hh.rh);
     print_char(' ');
     print_int(w.qqqq.b0);
@@ -41,7 +44,7 @@ void print_word(MemoryWord w) {
     print_int(w.qqqq.b2);
     print_char(':');
     print_int(w.qqqq.b3);
-}
+} // print_word
 #endif // #114: tt_DEBUG
 /** @}*/ // end group S110x114_P42x43
 
