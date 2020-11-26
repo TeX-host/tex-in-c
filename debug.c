@@ -51,7 +51,7 @@ void printword(MemoryWord w) {
 #ifdef tt_DEBUG
 // 交互式 debug 环境
 /// p470#1338
-void debughelp(void) {
+void debug_help(void) {
     long k, l, m, n;
 
     while (true) {
@@ -113,7 +113,7 @@ void debughelp(void) {
             default: print('?'); break;
         } // switch (m)
     }     // while (true)
-} // #1338: debughelp
+} // #1338: debug_help
 #endif // #1338: tt_DEBUG
 
 /** @}*/ // end group S1338x1339_P470x471

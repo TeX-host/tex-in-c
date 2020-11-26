@@ -174,7 +174,7 @@ void error(void) {
 
                 case 'D':
                     #ifdef tt_DEBUG
-                        debughelp();
+                        debug_help();
                         continue;
                     #endif // #84: tt_DEBUG
                     break; // case: [D]
@@ -395,7 +395,7 @@ void succumb(void) {
     if (interaction == ERROR_STOP_MODE) interaction = SCROLL_MODE;
     if (log_opened) error();
 #ifdef tt_DEBUG
-    if (interaction > BATCH_MODE) debughelp();
+    if (interaction > BATCH_MODE) debug_help();
 #endif // #93: tt_DEBUG
     history = FATAL_ERROR_STOP;
     jumpout(); // irrecoverable error

@@ -11,6 +11,6 @@
 /** @}*/ // end group S1338x1339_P470x471
 
 
-extern void debughelp(void);
+extern void debug_help(void);
 
 #endif /* INC_DEBUG_H */
