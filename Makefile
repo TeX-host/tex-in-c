@@ -43,13 +43,13 @@ basic-test: RUN_DIR := test/basic-test
 basic-test: clean_test ${EXEC_NAME}
 	./${EXEC_NAME} ${RUN_DIR}/end
 	./${EXEC_NAME} ${RUN_DIR}/helloworld
-	@echo "---------- basic-test end ----------
+	@echo "---------- basic-test end ----------"
 
 other-test: RUN_DIR := test
 other-test: clean_test ${EXEC_NAME}
 	./${EXEC_NAME} ${RUN_DIR}/E560
 	./${EXEC_NAME} ${RUN_DIR}/bug-show
-	@echo "---------- other-test end ----------
+	@echo "---------- other-test end ----------"
 
 trip: debug
 	cd test/trip && ./${EXEC_NAME} --indep "\input trip"
@@ -60,8 +60,7 @@ test t: debug basic-test other-test
 
 # Use Target-specific Variable: set CFLAGS
 codecov: CFLAGS := ${CFLAGS} --coverage -ftest-coverage -fprofile-arcs
-codecov: clean ${EXEC_NAME}
-	./${EXEC_NAME} test/helloworld
+codecov: clean ${EXEC_NAME} test
 	gcov tex.c
 
 
