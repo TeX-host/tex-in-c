@@ -88,7 +88,6 @@ extern Boolean log_opened;
 extern StrNumber output_file_name, logname;
 
 extern void fname_init();
-extern StrNumber make_name_string();
 extern StrNumber b_make_name_string();
 extern StrNumber w_make_name_string();
 extern void scanfilename(void);

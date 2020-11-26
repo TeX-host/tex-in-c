@@ -124,13 +124,12 @@ void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
 } /* [#519] packfilename */
 
 /// [#525]
-StrNumber make_name_string() {
-    int k;
-    for (k = 0; k < namelength; k++) {
+Static StrNumber make_name_string() {
+    for (int k = 0; k < namelength; k++) {
         append_char(xord[name_of_file[k]]);
     }
-    return (makestring());
-}
+    return makestring();
+} /* make_name_string */
 StrNumber a_make_name_string() { return make_name_string(); }
 StrNumber b_make_name_string() { return make_name_string(); }
 StrNumber w_make_name_string() { return make_name_string(); }
