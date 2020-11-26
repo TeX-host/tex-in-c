@@ -4,7 +4,7 @@
 #include "lexer.h"  // curcmd
 #include "fonts.h"  // [export]
     // [func] print_*,
-    //  packfilename, error,
+    //  pack_file_name, error,
 #include "texmath.h"
     // [macro] UNITY
     // [func] print_scaled, xn_over_d,
@@ -370,9 +370,9 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
     fileopened = false;
     if (aire == S(385)) { // ""
         //                "TeXfonts:"
-        packfilename(nom, S(1281), S(1282)); // ".tfm"
+        pack_file_name(nom, S(1281), S(1282)); // ".tfm"
     } else {
-        packfilename(nom, aire, S(1282)); // ".tfm"
+        pack_file_name(nom, aire, S(1282)); // ".tfm"
     }
     if (!a_open_in(&tfmfile)) goto _L_bad_TFM;
     fileopened = true;

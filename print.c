@@ -77,7 +77,7 @@ Integer first_count;
  *  [306]runaway, [330]clearforerrorprompt, [331]showcontext, 
  *  [341]_get_next_helper, [363]firm_up_the_line, [389]macrocall,
  *  [482]readtoks, 
- *  [534]openlogfile, [537]start_input,
+ *  [534]open_log_file, [537]start_input,
  *  [638]shipout, [649]hpack, [668]vpackage, [692]printsubsidiarydata, 
  *  [1265]newinteraction, [1279]issuemessage, 
  *  [1302/1309,1311,1320,1324]store_fmt_file,

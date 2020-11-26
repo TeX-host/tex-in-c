@@ -198,7 +198,7 @@ Static void final_cleanup(void) {
     SmallNumber c;
 
     c = curchr;
-    if (job_name == 0) openlogfile();
+    if (job_name == 0) open_log_file();
     while (inputptr > 0) {
         if (STATE == TOKEN_LIST)
             endtokenlist();

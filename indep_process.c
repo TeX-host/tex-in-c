@@ -292,7 +292,7 @@ Static void newfont(SmallNumber a) {
     Selector old_setting;
     /* XXXX  StrNumber flushablestring; */
 
-    if (job_name == 0) openlogfile();
+    if (job_name == 0) open_log_file();
     getrtoken();
     u = curcs;
     if (u >= HASH_BASE) {
@@ -313,7 +313,7 @@ Static void newfont(SmallNumber a) {
     }
     define(u, SET_FONT, NULL_FONT);
     scan_optional_equals();
-    scanfilename(); /*1258:*/
+    scan_file_name(); /*1258:*/
 
     name_in_progress = true;
     if (scankeyword(S(951))) { // "at"
@@ -847,9 +847,9 @@ void openorclosein(void) {
     }
     if (c == 0) return;
     scan_optional_equals();
-    scanfilename();
+    scan_file_name();
     if (cur_ext == S(385)) cur_ext = S(669);
-    packfilename(cur_name, S(677), cur_ext);
+    pack_file_name(cur_name, S(677), cur_ext);
     if (a_open_in(&readfile[n])) readopen[n] = justopen;
 }
 /*:1275*/

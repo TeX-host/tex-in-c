@@ -31,7 +31,7 @@ StrNumber ext_delimiter;
 Char TEX_format_default[FORMAT_DEFAULT_LENGTH];
 
 /// [#527] is a file name being scanned?
-/// xref: scanfilename, newfont, expand
+/// xref: scan_file_name, newfont, expand
 Boolean name_in_progress;
 /// [#527] principal file name.
 /// contains the file name that was first `\\input` by the user.
@@ -55,11 +55,11 @@ void fname_init() {
 }
 
 /*515:*/
-void beginname(void) { ext_delimiter = 0; }
+void begin_name(void) { ext_delimiter = 0; }
 /*:515*/
 
 /*516:*/
-Boolean morename(ASCIICode c) {
+Boolean more_name(ASCIICode c) {
     if (c == ' ') {
         return false;
     } else {
@@ -74,7 +74,7 @@ Boolean morename(ASCIICode c) {
 /*:516*/
 
 /*517:*/
-void endname(void) {
+void end_name(void) {
     cur_area = S(385);
     if (ext_delimiter == 0) {
         cur_ext = S(385);
@@ -86,7 +86,7 @@ void endname(void) {
 }
 
 Static Integer _tmp_fname_len;
-void appendtoname(ASCIICode x) {
+void append_to_name(ASCIICode x) {
     _tmp_fname_len++;
     if (_tmp_fname_len <= FILE_NAME_SIZE) {
         name_of_file[_tmp_fname_len - 1] = xchr[x];
@@ -105,15 +105,15 @@ void print_file_name(StrNumber n, StrNumber a, StrNumber e) {
 /// @param[in] fname    文件名
 /// @param[in] prefix   前缀
 /// @param[in] ext      后缀
-void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
+void pack_file_name(StrNumber fname, StrNumber prefix, StrNumber ext) {
     Integer k;
 
     k = 0;
     _tmp_fname_len = 0;
     /// TODO: 让 str_map 返回打印的字符个数。消除 _tmp_fname_len
-    str_map(prefix, appendtoname);
-    str_map(fname, appendtoname);
-    str_map(ext, appendtoname);
+    str_map(prefix, append_to_name);
+    str_map(fname, append_to_name);
+    str_map(ext, append_to_name);
 
     k = _tmp_fname_len;
     if (k <= FILE_NAME_SIZE) {
@@ -127,7 +127,7 @@ void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
     // for (k = namelength; k < FILE_NAME_SIZE; k++) {
     //     name_of_file[k] = ' ';
     // }
-} /* [#519] packfilename */
+} /* [#519] pack_file_name */
 
 /// [#525]
 Static StrNumber make_name_string() {
@@ -141,34 +141,34 @@ StrNumber b_make_name_string() { return make_name_string(); }
 StrNumber w_make_name_string() { return make_name_string(); }
 
 /*526:*/
-void scanfilename(void) {
+void scan_file_name(void) {
     name_in_progress = true;
-    beginname();
+    begin_name();
     skip_spaces();
     while (true) {
         if (curcmd > OTHER_CHAR || curchr > 255) {
             backinput();
             break;
         }
-        if (!morename(curchr)) break;
+        if (!more_name(curchr)) break;
         get_x_token();
     }
-    endname();
+    end_name();
     name_in_progress = false;
 }
 /*:526*/
 
 /*529:*/
-void packjobname(StrNumber s) {
+void pack_job_name(StrNumber s) {
     cur_area = S(385); // ""
     cur_ext = s;
     cur_name = job_name;
-    packfilename(cur_name, cur_area, cur_ext);
+    pack_file_name(cur_name, cur_area, cur_ext);
 }
 /*:529*/
 
 /// [#530]
-void promptfilename(StrNumber s, StrNumber e) {
+void prompt_file_name(StrNumber s, StrNumber e) {
     short k; ///< index into buffer.
 
     if (s == S(665)) { // "input file name"
@@ -192,24 +192,24 @@ void promptfilename(StrNumber s, StrNumber e) {
     term_input();
 
     /// [#531] Scan file name in the buffer.
-    beginname();
+    begin_name();
     k = first;
     while (buffer[k] == ' ' && k < last) k++;
 
     while (true) {
         if (k == last) break;
-        if (!morename(buffer[k])) break;
+        if (!more_name(buffer[k])) break;
         k++;
     }
-    endname();
+    end_name();
 
     // ""
     if (cur_ext == S(385)) cur_ext = e;
-    packfilename(cur_name, cur_area, cur_ext);
-} /* [#530] promptfilename */
+    pack_file_name(cur_name, cur_area, cur_ext);
+} /* [#530] prompt_file_name */
 
 /*534:*/
-void openlogfile(void) {
+void open_log_file(void) {
     Selector old_setting;
     short k;
     short l;
@@ -218,11 +218,11 @@ void openlogfile(void) {
 
     old_setting = selector;
     if (job_name == 0) job_name = S(672); // "texput"
-    packjobname(S(673)); // ".log"
+    pack_job_name(S(673)); // ".log"
     while (!a_open_out(&log_file)) { /*535:*/
         selector = TERM_ONLY;
         // "transcript file name" ".log"
-        promptfilename(S(674), S(673));
+        prompt_file_name(S(674), S(673));
     }
     /*:535*/
     log_name = a_make_name_string();
@@ -262,11 +262,11 @@ void openlogfile(void) {
 
 /// [#p195#537] TeX will \\input something.
 void start_input(void) {
-    scanfilename(); //  set cur_name to desired file name
+    scan_file_name(); //  set cur_name to desired file name
 
     //            ""               ".tex"
     if (cur_ext == S(385)) cur_ext = S(669);
-    packfilename(cur_name, cur_area, cur_ext);
+    pack_file_name(cur_name, cur_area, cur_ext);
 
     while (true) {
         // set up cur_file and new level of input
@@ -274,19 +274,19 @@ void start_input(void) {
         if (a_open_in(&curfile)) break;
         if (cur_area == S(385)) { // ""
             // 
-            packfilename(cur_name, S(677), cur_ext);
+            pack_file_name(cur_name, S(677), cur_ext);
             if (a_open_in(&curfile)) break;
         }
         // remove the level that didn’t work
         endfilereading();
         //             "input file name" ".tex"
-        promptfilename(S(665), S(669));
+        prompt_file_name(S(665), S(669));
     } // end inf loop
 
     NAME = a_make_name_string();
     if (job_name == 0) {
         job_name = cur_name;
-        openlogfile();
+        open_log_file();
     }
 
     newline_or_space(str_length(NAME));

@@ -856,12 +856,12 @@ void shipout(Pointer p) {
     dvif = NULL_FONT;
     // ensure dvi open
     if (output_file_name == 0) {
-        if (job_name == 0) openlogfile();
-        packjobname(S(691)); // ".dvi"
+        if (job_name == 0) open_log_file();
+        pack_job_name(S(691)); // ".dvi"
         while (!dvi_openout()) {
             // "file name for output"
             // " TeX output "
-            promptfilename(S(692), S(691));
+            prompt_file_name(S(692), S(691));
         }
         output_file_name = b_make_name_string();
     }

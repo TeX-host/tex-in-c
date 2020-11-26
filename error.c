@@ -381,7 +381,7 @@ void normalize_selector(void) {
     }
 
     // not open log file
-    if (job_name == 0) openlogfile();
+    if (job_name == 0) open_log_file();
 
     // NO terminal output
     //  TERM_ONLY => NO_PRINT

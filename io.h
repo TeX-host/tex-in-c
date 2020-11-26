@@ -29,7 +29,7 @@
 /// [#34] empty the terminal output buffer.
 #define update_terminal() fflush(TERM_OUT)
 /// [#34] clear the terminal input buffer.
-/// xref: 330(#clearforerrorprompt), 530(#promptfilename).
+/// xref: 330(#clearforerrorprompt), 530(#prompt_file_name).
 #define clear_terminal()
 /** @}*/ // end group S25x37_P13x18
 
@@ -88,12 +88,12 @@ extern StrNumber output_file_name, log_name;
 extern void fname_init();
 extern StrNumber b_make_name_string();
 extern StrNumber w_make_name_string();
-extern void scanfilename(void);
+extern void scan_file_name(void);
 extern void print_file_name(StrNumber n, StrNumber a, StrNumber e);
-extern void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext);
-extern void packjobname(StrNumber s);
-extern void promptfilename(StrNumber s, StrNumber e);
-extern void openlogfile(void);
+extern void pack_file_name(StrNumber fname, StrNumber prefix, StrNumber ext);
+extern void pack_job_name(StrNumber s);
+extern void prompt_file_name(StrNumber s, StrNumber e);
+extern void open_log_file(void);
 extern void start_input(void);
 
 #endif /* INC_IO_H */

@@ -683,7 +683,7 @@ static void convtoks(void) {
             break;
 
         case jobnamecode:
-            if (job_name == 0) openlogfile();
+            if (job_name == 0) open_log_file();
             break;
     }
     old_setting = selector;

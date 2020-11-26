@@ -56,19 +56,19 @@ HalfWord curtok;
 /// [#301]:
 ///
 /// xref[2]: only tex.c
-///     #error, #openlogfile
+///     #error, #open_log_file
 InStateRecord inputstack[STACK_SIZE + 1];
 /// [#301]: first unused location of input stack.
 ///
 /// xref[3, only tex.c]:
-///     #openlogfile, #final_cleanup,
+///     #open_log_file, #final_cleanup,
 ///     #S1337_Get_the_first_line_of_input_and_prepare_to_start
 UChar inputptr;
 /// [#301]: largest value of input ptr when pushing.
 static UChar maxinstack;
 /// [#301]: the "top" input state, according to convention.
 /// xref[]: 35, 36, 87, 301, 302, 311, 321, 322, 534, 1131,
-///     #error, #openlogfile
+///     #error, #open_log_file
 InStateRecord cur_input;
 
 /// [#304] the number of lines in the buffer, less one
@@ -1052,7 +1052,7 @@ _getnext_LN__restart:
                 }
 
                 // selector in [NO_PRINT, TERM_ONLY]
-                if (selector < LOG_ONLY) openlogfile();
+                if (selector < LOG_ONLY) open_log_file();
                 if (interaction > NON_STOP_MODE) {
                     if (end_line_char_inactive) {
                         LIMIT++;
