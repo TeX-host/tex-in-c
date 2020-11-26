@@ -313,11 +313,11 @@ void str_dump(FILE* fmt_file) {
     /*:1309*/
 }
 
-long str_adjust_to_room(long l) {
-    if (pool_ptr + l > POOL_TOP) {
+Integer str_adjust_to_room(Integer len) {
+    if ((pool_ptr + len) > POOL_TOP) {
         return POOL_TOP - pool_ptr;
     } else {
-        return l;
+        return len;
     }
 }
 

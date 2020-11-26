@@ -95,7 +95,7 @@ extern int str_length(StrNumber s);
 extern void slow_print(StrNumber s);
 
 // [str], inipool, tex
-extern long str_adjust_to_room(long l);
+extern Integer str_adjust_to_room(Integer len);
 extern StrNumber makestring(void);
 
 // [str], tex
