@@ -97,6 +97,6 @@ extern void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext);
 extern void packjobname(StrNumber s);
 extern void promptfilename(StrNumber s, StrNumber e);
 extern void openlogfile(void);
-extern void startinput(void);
+extern void start_input(void);
 
 #endif /* INC_IO_H */

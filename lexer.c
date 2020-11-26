@@ -74,10 +74,10 @@ InStateRecord cur_input;
 /// [#304] the number of lines in the buffer, less one
 static UChar inopen;
 /// the number of open text files
-/// xref[2, only tex.c]: #startinput, #final_cleanup
+/// xref[2, only tex.c]: #start_input, #final_cleanup
 char openparens;
 Integer line; ///< current line number in the current source file.
-/// xref[]: #startinput
+/// xref[]: #start_input
 FILE* inputfile[MAX_IN_OPEN];
 static Integer linestack[MAX_IN_OPEN];
 

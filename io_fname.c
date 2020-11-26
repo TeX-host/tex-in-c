@@ -258,7 +258,7 @@ void openlogfile(void) {
 /*:534*/
 
 /*537:*/
-void startinput(void) {
+void start_input(void) {
     scanfilename();
     if (curext == S(385)) curext = S(669);
     packfilename(curname, curarea, curext);

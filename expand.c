@@ -60,7 +60,7 @@ static void insthetoks(void);
  * + #xtoken
  * + #macrocall
  *
- * + #startinput
+ * + #start_input
  *
  * @{
  */
@@ -485,7 +485,7 @@ void expand(void) {
                 else if (name_in_progress)
                     insertrelax();
                 else
-                    startinput();
+                    start_input();
                 break;
                 /*370:*/
 

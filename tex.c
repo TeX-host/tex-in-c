@@ -8,7 +8,7 @@
  *  + S1337_Get_the_first_line_of_input_and_prepare_to_start
  *      + open_fmt_file
  *      + load_fmt_file
- *      ++ startinput
+ *      ++ start_input
  *  + main_control
  *  + final_cleanup
  *  + close_files_and_terminate
@@ -773,7 +773,7 @@ static Boolean S1337_Get_the_first_line_of_input_and_prepare_to_start(void) {
 
     /// [#1337]
     if ((LOC < LIMIT) && (cat_code(buffer[LOC]) != ESCAPE)) {
-        startinput(); // \input assumed
+        start_input(); // \input assumed
     }
 
     return NO_ERROR;

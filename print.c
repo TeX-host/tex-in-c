@@ -77,7 +77,7 @@ Integer first_count;
  *  [306]runaway, [330]clearforerrorprompt, [331]showcontext, 
  *  [341]_get_next_helper, [363]firm_up_the_line, [389]macrocall,
  *  [482]readtoks, 
- *  [534]openlogfile, [537]startinput,
+ *  [534]openlogfile, [537]start_input,
  *  [638]shipout, [649]hpack, [668]vpackage, [692]printsubsidiarydata, 
  *  [1265]newinteraction, [1279]issuemessage, 
  *  [1302/1309,1311,1320,1324]store_fmt_file,
@@ -422,7 +422,7 @@ void print_mod_init() {
 /** Choose add newline or space based on the length to be printed.
  *
  * ## used by:
- *  + [p195#537] startinput;
+ *  + [p195#537] start_input;
  *  + [p236#638] shipout;
  *  + [p451#1279/1280] issuemessage;
  */
