@@ -1,5 +1,6 @@
 # TeX in C
 
+![Build Status](https://github.com/TeX-host/tex-in-c/workflows/C/C++%20CI/badge.svg)
 ![Doxygen Build](https://github.com/TeX-host/tex-in-c/workflows/Doxygen%20Action/badge.svg)
 [![codecov](https://codecov.io/gh/TeX-host/tex-in-c/branch/master/graph/badge.svg)](https://codecov.io/gh/TeX-host/tex-in-c)
 

@@ -48,7 +48,7 @@ trip: debug
 test t: debug
 	cd test && ./${EXEC_NAME} E560
 
-codecov:
+codecov: ${EXEC_NAME}
 	./${EXEC_NAME} test/helloworld
 	gcov tex.c
 
