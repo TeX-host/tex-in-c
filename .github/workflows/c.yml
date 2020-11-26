@@ -22,8 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: gen report
-      env:
-        CFLAGS: "-g -O0 -I. -std=c11 -pedantic -Wall -Wno-unused-result --coverage -ftest-coverage -fprofile-arcs"
       run: make codecov
     - name: upload report
       run: bash <(curl -s https://codecov.io/bash)

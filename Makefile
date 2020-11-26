@@ -1,6 +1,5 @@
 CFLAGS = -g -O0 -I. -std=c11
 CFLAGS += -pedantic -Wall -Wno-unused-result
-# CFLAGS += --coverage -ftest-coverage -fprofile-arcs
 LDFLAGS = -lm
 
 SRCS  = tex
@@ -48,7 +47,9 @@ trip: debug
 test t: debug
 	cd test && ./${EXEC_NAME} E560
 
-codecov: ${EXEC_NAME}
+# Use Target-specific Variable: set CFLAGS
+codecov: CFLAGS := ${CFLAGS} --coverage -ftest-coverage -fprofile-arcs
+codecov: clean ${EXEC_NAME}
 	./${EXEC_NAME} test/helloworld
 	gcov tex.c
 
