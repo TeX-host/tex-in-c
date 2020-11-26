@@ -13,7 +13,7 @@ var str_8c =
     [ "makestring", "group___s38x53___p19x23.html#gab1f5b7f90f4bbb9b53b431afbae4b65a", null ],
     [ "printcurrentstring", "str_8c.html#a5a0425c4eae7c260660d39a0806e78c8", null ],
     [ "slow_print", "str_8c.html#a430568bca849d64793d4e48cdde12ed9", null ],
-    [ "str_adjust_to_room", "str_8c.html#ab74b464503ab9e9265cbf5ec1a16f392", null ],
+    [ "str_adjust_to_room", "str_8c.html#a93c6a006641f9ed9e2c33dc403d6c7c8", null ],
     [ "str_bcmp", "str_8c.html#a24f861d1283938060a9958db41bbb054", null ],
     [ "str_cmp", "group___s38x53___p19x23.html#gac0b5ed41251f3598633000ea519c47a0", null ],
     [ "str_cur_map", "str_8c.html#a88121bc5ee5bfd7ba03e73e04a9cb9ca", null ],
