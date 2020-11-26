@@ -116,7 +116,7 @@ void store_fmt_file(void) {
         promptfilename(S(991), formatextension);
     }
     printnl(S(992)); // "Beginning to dump on file "
-    slow_print(wmakenamestring());
+    slow_print(w_make_name_string());
     flush_string();
     printnl(S(385)); // ""
     slow_print(format_ident);

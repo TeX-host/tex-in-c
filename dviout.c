@@ -863,7 +863,7 @@ void shipout(Pointer p) {
             // " TeX output "
             promptfilename(S(692), S(691));
         }
-        output_file_name = bmakenamestring();
+        output_file_name = b_make_name_string();
     }
 
     if (totalpages == 0) {

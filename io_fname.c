@@ -123,19 +123,17 @@ void packfilename(StrNumber fname, StrNumber prefix, StrNumber ext) {
     // }
 } /* [#519] packfilename */
 
-/*525:*/
-StrNumber makenamestring(void) {
+/// [#525]
+StrNumber make_name_string() {
     int k;
     for (k = 0; k < namelength; k++) {
         append_char(xord[name_of_file[k]]);
     }
     return (makestring());
 }
-
-StrNumber amakenamestring(void) { return (makenamestring()); }
-StrNumber bmakenamestring(void) { return (makenamestring()); }
-StrNumber wmakenamestring(void) { return (makenamestring()); }
-/*:525*/
+StrNumber a_make_name_string() { return make_name_string(); }
+StrNumber b_make_name_string() { return make_name_string(); }
+StrNumber w_make_name_string() { return make_name_string(); }
 
 /*526:*/
 void scanfilename(void) {
@@ -222,7 +220,7 @@ void openlogfile(void) {
         promptfilename(S(674), S(673));
     }
     /*:535*/
-    logname = amakenamestring();
+    logname = a_make_name_string();
     selector = LOG_ONLY;
     log_opened = true;
 
@@ -280,7 +278,7 @@ void start_input(void) {
         promptfilename(S(665), S(669));
     } // end inf loop
 
-    NAME = amakenamestring();
+    NAME = a_make_name_string();
     if (job_name == 0) {
         job_name = curname;
         openlogfile();
