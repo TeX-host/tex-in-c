@@ -61,7 +61,7 @@ test t: debug basic-test other-test
 # Use Target-specific Variable: set CFLAGS
 codecov: CFLAGS := ${CFLAGS} --coverage -ftest-coverage -fprofile-arcs
 codecov: clean ${EXEC_NAME} test
-	gcov tex.c
+	gcov -o . *.c
 
 
 ## 清理
