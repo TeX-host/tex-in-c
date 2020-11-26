@@ -257,21 +257,28 @@ void openlogfile(void) {
 }
 /*:534*/
 
-/*537:*/
+/// [#p195#537] TeX will \\input something.
 void start_input(void) {
-    scanfilename();
+    scanfilename(); //  set cur_name to desired file name
+
+    //            ""               ".tex"
     if (curext == S(385)) curext = S(669);
     packfilename(curname, curarea, curext);
+
     while (true) {
+        // set up cur_file and new level of input
         beginfilereading();
         if (a_open_in(&curfile)) break;
-        if (curarea == S(385)) {
+        if (curarea == S(385)) { // ""
+            // 
             packfilename(curname, S(677), curext);
             if (a_open_in(&curfile)) break;
         }
+        // remove the level that didn’t work
         endfilereading();
+        //             "input file name" ".tex"
         promptfilename(S(665), S(669));
-    }
+    } // end inf loop
 
     NAME = amakenamestring();
     if (job_name == 0) {
@@ -288,14 +295,15 @@ void start_input(void) {
     STATE = NEW_LINE;
 
 #if 0
-  if (NAME == str_ptr - 1) {   /*538:*/
-    flush_string();
-    NAME = curname;
-  }
+    if (NAME == str_ptr - 1) {
+        flush_string();
+        NAME = curname;
+    }
 #else
     NAME = curname;
 #endif
 
+    /** [#538] Read the first line of the new file. */
     line = 1;
     inputln(curfile, false);
     firm_up_the_line();
@@ -305,7 +313,7 @@ void start_input(void) {
         buffer[LIMIT] = end_line_char;
     }
     first = LIMIT + 1;
-    LOC = START; /*:538*/
-}
-/*:537*/
+    LOC = START;
+} /* start_input*/
+
 /** @}*/ // end group S511x538_P188x195
