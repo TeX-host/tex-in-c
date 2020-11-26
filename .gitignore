@@ -18,6 +18,18 @@ deps.1
 # ide
 .vscode/
 
+# VS2019 --------------------
+.vs/
+VS2019/
+
+# User-specific files
+*.user
+
+# Files built by Visual Studio
+*.exe
+*.ilk
+*.pdb
+
 # local test
 # load plain.tex, *.tmf
 _test/

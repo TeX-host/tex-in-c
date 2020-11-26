@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{2D90D54E-515F-4810-AF4C-631CFBF74754}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)</OutDir>
+    <IntDir>VS2019\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)VS2019\$(Configuration)\</OutDir>
+    <IntDir>VS2019\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)VS2019\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>VS2019\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)VS2019\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>VS2019\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <CompileAs>CompileAsC</CompileAs>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="align.c" />
+    <ClCompile Include="box.c" />
+    <ClCompile Include="box_copy.c" />
+    <ClCompile Include="box_destroy.c" />
+    <ClCompile Include="box_display.c" />
+    <ClCompile Include="charset.c" />
+    <ClCompile Include="debug.c" />
+    <ClCompile Include="dump.c" />
+    <ClCompile Include="dviout.c" />
+    <ClCompile Include="eqtb.c" />
+    <ClCompile Include="eqtb_save.c" />
+    <ClCompile Include="error.c" />
+    <ClCompile Include="expand.c" />
+    <ClCompile Include="extension.c" />
+    <ClCompile Include="fonts.c" />
+    <ClCompile Include="hash.c" />
+    <ClCompile Include="hyphen.c" />
+    <ClCompile Include="hyphen_init.c" />
+    <ClCompile Include="hyphen_post.c" />
+    <ClCompile Include="hyphen_pre.c" />
+    <ClCompile Include="io.c" />
+    <ClCompile Include="io_fname.c" />
+    <ClCompile Include="io_unix.c" />
+    <ClCompile Include="lexer.c" />
+    <ClCompile Include="linebreak.c" />
+    <ClCompile Include="main_ctrl.c" />
+    <ClCompile Include="math_formula.c" />
+    <ClCompile Include="mem.c" />
+    <ClCompile Include="mmode.c" />
+    <ClCompile Include="pack.c" />
+    <ClCompile Include="pagebreak.c" />
+    <ClCompile Include="page_builder.c" />
+    <ClCompile Include="print.c" />
+    <ClCompile Include="printout.c" />
+    <ClCompile Include="scan.c" />
+    <ClCompile Include="str.c" />
+    <ClCompile Include="tex.c" />
+    <ClCompile Include="texmath.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="align.h" />
+    <ClInclude Include="box.h" />
+    <ClInclude Include="charset.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="dump.h" />
+    <ClInclude Include="dvicmd.h" />
+    <ClInclude Include="dviout.h" />
+    <ClInclude Include="eqtb.h" />
+    <ClInclude Include="error.h" />
+    <ClInclude Include="expand.h" />
+    <ClInclude Include="extension.h" />
+    <ClInclude Include="fonts.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="global_const.h" />
+    <ClInclude Include="global_macros.h" />
+    <ClInclude Include="hash.h" />
+    <ClInclude Include="hyphen.h" />
+    <ClInclude Include="io.h" />
+    <ClInclude Include="lexer.h" />
+    <ClInclude Include="linebreak.h" />
+    <ClInclude Include="main_ctrl.h" />
+    <ClInclude Include="mem.h" />
+    <ClInclude Include="mmode.h" />
+    <ClInclude Include="pack.h" />
+    <ClInclude Include="page.h" />
+    <ClInclude Include="print.h" />
+    <ClInclude Include="printout.h" />
+    <ClInclude Include="scan.h" />
+    <ClInclude Include="str.h" />
+    <ClInclude Include="str_pool_init.h" />
+    <ClInclude Include="tex.h" />
+    <ClInclude Include="texmath.h" />
+    <ClInclude Include="tex_constant.h" />
+    <ClInclude Include="tex_header.h" />
+    <ClInclude Include="tex_types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".clang-format" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="cpp.hint" />
+    <None Include="deps" />
+    <None Include="Makefile" />
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
