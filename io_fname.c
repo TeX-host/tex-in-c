@@ -15,12 +15,15 @@
 /** @addtogroup S511x538_P188x195
  * @{
  */
-/*512:*/
-StrNumber curname, curarea, curext;
-/*:512*/
-/*513:*/
+/// [#512] name of file just scanned.
+StrNumber curname;
+/// [#512] file area just scanned, or "".
+StrNumber curarea;
+/// [#512] file extension just scanned, or "".
+StrNumber curext;
+
+/// [#513] the relevant ‘.’, if any.
 StrNumber extdelimiter;
-/*:513*/
 
 /// [#520] _not_use_
 Char TEXformatdefault[FORMAT_DEFAULT_LENGTH];
@@ -36,9 +39,10 @@ StrNumber job_name;
 /// [#527] has the transcript file been opened?
 Boolean log_opened;
 
-/*532:*/
-StrNumber output_file_name, logname;
-/*:532*/
+/// [#532] full name of the output file.
+StrNumber output_file_name;
+/// [#532] full name of the log file.
+StrNumber logname;
 
 
 /// [ #511. File names. ] 
