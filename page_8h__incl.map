@@ -1,13 +1,14 @@
 <map id="page.h" name="page.h">
-<area shape="rect" id="node1" title=" " alt="" coords="211,5,282,35"/>
-<area shape="rect" id="node2" href="$global_8h.html" title=" " alt="" coords="160,160,237,189"/>
-<area shape="rect" id="node9" href="$lexer_8h.html" title=" " alt="" coords="255,83,324,112"/>
-<area shape="rect" id="node3" href="$global__macros_8h.html" title=" " alt="" coords="5,237,144,267"/>
-<area shape="rect" id="node5" href="$global__const_8h.html" title=" " alt="" coords="335,237,459,267"/>
-<area shape="rect" id="node6" href="$tex__types_8h.html" title=" " alt="" coords="169,237,271,267"/>
-<area shape="rect" id="node4" title=" " alt="" coords="35,315,114,344"/>
-<area shape="rect" id="node7" title=" " alt="" coords="157,315,243,344"/>
-<area shape="rect" id="node8" title=" " alt="" coords="267,315,341,344"/>
-<area shape="rect" id="node10" title=" " alt="" coords="261,160,331,189"/>
-<area shape="rect" id="node11" href="$tex__constant_8h.html" title=" " alt="" coords="355,160,480,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="229,5,300,35"/>
+<area shape="rect" id="node2" href="$global_8h.html" title=" " alt="" coords="178,160,255,189"/>
+<area shape="rect" id="node10" href="$lexer_8h.html" title=" " alt="" coords="273,83,342,112"/>
+<area shape="rect" id="node3" href="$global__macros_8h.html" title=" " alt="" coords="7,237,146,267"/>
+<area shape="rect" id="node5" href="$global__const_8h.html" title=" " alt="" coords="353,237,477,267"/>
+<area shape="rect" id="node6" href="$tex__types_8h.html" title=" " alt="" coords="187,237,289,267"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,315,84,344"/>
+<area shape="rect" id="node7" title=" " alt="" coords="108,315,195,344"/>
+<area shape="rect" id="node8" title=" " alt="" coords="219,315,292,344"/>
+<area shape="rect" id="node9" title=" " alt="" coords="316,315,395,344"/>
+<area shape="rect" id="node11" title=" " alt="" coords="279,160,349,189"/>
+<area shape="rect" id="node12" href="$tex__constant_8h.html" title=" " alt="" coords="373,160,498,189"/>
 </map>
