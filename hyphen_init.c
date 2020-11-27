@@ -66,7 +66,7 @@ Static Boolean trie_not_ready;
 
 /// [#946, #951]
 void hyphen_init_once() {
-    size_t k;
+    int k;
 
     /// [#946]
     for (k = -TRIE_OP_SIZE; k <= TRIE_OP_SIZE; k++) {
