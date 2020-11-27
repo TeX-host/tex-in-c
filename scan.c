@@ -704,11 +704,11 @@ void scan_dimen(Boolean mu, Boolean inf, Boolean shortcut) {
     Integer f;        ///<  numerator of a fraction whose denominator is 2^16.
 
     /// [#450] Local variables for dimension calculations
-    long num, denom; // conversion ratio for the scanned units
+    Integer num, denom;          // conversion ratio for the scanned units
     /* SmallNumber */ int k, kk; // number of digits in a decimal fraction
     Pointer p, q; // top of decimal digit stack
     Scaled v; // an internal dimension
-    long savecurval; // temporary storage of cur_val
+    Integer savecurval; // temporary storage of cur_val
 
     char digs[23];
 

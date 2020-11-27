@@ -913,7 +913,7 @@ void scanfontident(void) {
 ///     if the calling program intends to change the parameter value.
 void findfontdimen(Boolean writing) {
     InternalFontNumber f;
-    long n;
+    Integer n;
 
     scan_int();
     n = cur_val;

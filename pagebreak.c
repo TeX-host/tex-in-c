@@ -67,7 +67,7 @@ HalfWord prunepagetop(HalfWord p) {
 /*970:*/
 HalfWord vertbreak(HalfWord p, long h, long d) {
     Pointer prevp, q, r, bestplace = p /* XXXX */;
-    long pi = 0 /* XXXX */, b, leastcost;
+    Integer pi = 0 /* XXXX */, b, leastcost;
     Scaled prevdp;
     SmallNumber t;
 

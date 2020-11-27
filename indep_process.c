@@ -400,7 +400,7 @@ void prefixedcommand(void) {
     Integer j; ///< index into a \\parshape specification.
     FontIndex k; ///< index into font_info.
     Pointer p, q; ///< for temporary short-term use.
-    long n; ///< ditto.
+    Integer n;    ///< ditto.
     Boolean e; ///< should a definition be expanded? or was \\let not done?
 
     a = 0;
@@ -835,8 +835,8 @@ void doassignments(void) {
 
 /*1275:*/
 void openorclosein(void) {
-    int c;
-    int n;
+    Integer c;
+    Integer n;
 
     c = curchr;
     scan_four_bit_int();

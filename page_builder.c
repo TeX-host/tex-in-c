@@ -165,7 +165,7 @@ void fireup(HalfWord c)
   Pointer p, q, r, s, prevp, savesplittopskip;
   UChar n;
   Boolean wait;
-  long savevbadness;
+  Integer savevbadness;
   Scaled savevfuzz;
 
   if (type(bestpagebreak) == PENALTY_NODE) {
@@ -364,7 +364,7 @@ _Lexit: ;
 
 void buildpage(void) {
     Pointer p, q, r;
-    long b, c, pi = 0 /* XXXX */;
+    Integer b, c, pi = 0 /* XXXX */;
     UChar n;
     Scaled delta, h, w;
 

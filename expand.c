@@ -339,7 +339,7 @@ void expand(void) {
     HalfWord t;
     Pointer p, r, backupbackup;
     short j;
-    long cvbackup;
+    Integer cvbackup;
     SmallNumber cvlbackup, radixbackup, cobackup, savescannerstatus;
 
     cvbackup = cur_val;
@@ -872,7 +872,7 @@ void build_token_init() {
 ///     that will receive this token list.
 void readtoks(long n, HalfWord r) {
     Pointer p; // tail of the token list
-    long s;    // saved value of align_state
+    Integer s;               // saved value of align_state
     /* SmallNumber */ int m; // stream number
 
     scanner_status = DEFINING;
@@ -1038,8 +1038,8 @@ static void changeiflimit(SmallNumber l, HalfWord p) {
 /// [#498] when the expand procedure encounters an if test command.
 static void conditional(void) { /*495:*/
     Boolean b = false /* XXXX */;
-    long r;
-    long m, n;
+    Integer r;
+    Integer m, n;
     Pointer p, q, savecondptr;
     SmallNumber savescannerstatus, thisif;
 

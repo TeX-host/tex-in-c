@@ -604,7 +604,7 @@ void trybreak(long pi, SmallNumber breaktype) { /*831:*/
     Scaled linewidth = 0 /* XXXX */, shortfall; /*:830*/
     char fitclass;
     HalfWord b;
-    long d;
+    Integer d;
     Boolean artificialdemerits;
 
     if (labs(pi) >= INF_PENALTY) {
@@ -1093,7 +1093,7 @@ void postlinebreak(long finalwidowpenalty) { /*878:*/
     Boolean discbreak, postdiscbreak;
     Scaled curwidth, curindent;
     QuarterWord t;
-    long pen;
+    Integer pen;
     HalfWord curline;
 
     q = breaknode(bestbet);

@@ -55,7 +55,7 @@ void newhyphexceptions(void) {
     p = 0;
 
     while (true) { /*:935*/
-        int cur_chr;
+        Integer cur_chr;
         get_x_token();
         cur_chr = curchr;
 

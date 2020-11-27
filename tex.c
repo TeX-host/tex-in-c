@@ -785,7 +785,7 @@ int main(int argc, char* argv[]) {
     // #13: a sacrifice of purity for economy
     // TODO: remove this
     Integer ready_already = 0;
-    int bad = 0;
+    Integer bad = 0;
     Boolean has_error = false;
 
     // 附加的初始化

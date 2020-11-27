@@ -160,7 +160,7 @@ void starteqno(void) {
 
 /*1151:*/
 void scanmath(HalfWord p) {
-    long c;
+    Integer c;
 
 _Lrestart:
     skip_spaces_or_relax();

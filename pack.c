@@ -42,7 +42,7 @@ void pack_init() {
 
 // ##645
 void scanspec(GroupCode c, Boolean threecodes) {
-    long s = 0 /* XXXX */;
+    Integer s = 0 /* XXXX */;
     char speccode;
 
     if (threecodes) s = saved(0);

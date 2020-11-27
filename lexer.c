@@ -501,14 +501,14 @@ void runaway(void) {
 /// [#311] prints where the scanner is.
 void showcontext(void) { /*:315*/
     Selector old_setting;
-    long nn;
+    Integer nn;
     Boolean bottomline; /*315:*/
     short i;
     short j;
     char l;
-    long m;
+    Integer m;
     char n;
-    long p, q;
+    Integer p, q;
 
     baseptr = inputptr;
     inputstack[baseptr] = cur_input;

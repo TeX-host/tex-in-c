@@ -190,7 +190,7 @@ void makeradical(HalfWord q) {
 // #738: makemathaccent
 void makemathaccent(HalfWord q) {
     Pointer p, x, y;
-    long a;
+    Integer a;
     QuarterWord c;
     InternalFontNumber f;
     FourQuarters i;
@@ -433,7 +433,7 @@ Integer makeop(HalfWord q) {
 
 // #752
 void makeord(HalfWord q) {
-    long a;
+    Integer a;
     Pointer p, r;
 
 _Lrestart:
@@ -660,7 +660,7 @@ void mlisttohlist(void) {
     Pointer mlist, q, r, p = 0 /* XXXX */, x = 0 /* XXXX */, y, z;
     Boolean penalties;
     SmallNumber style, savestyle, rtype, t;
-    long pen;
+    Integer pen;
     SmallNumber s;
     Scaled maxh, maxd, delta;
 

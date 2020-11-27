@@ -197,7 +197,7 @@ void print_char(ASCIICode c) {
  *  + [in]  #eqtb       由 #newlinechar 间接引用
  */
 void print(StrNumber s) {
-    long nl; // new-line character to restore
+    Integer nl; // new-line character to restore
 
     if (0 <= s && s <= 255) {
         if (selector > PSEUDO) { // == NEW_STRING

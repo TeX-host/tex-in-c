@@ -25,7 +25,7 @@ HalfWord hyfbchar;
 
 void hyphenate(void) { /*:929*/ /*923:*/
                                 /*901:*/
-    /* char */ int i, j, l; /* INT */
+    /* char */ Integer i, j, l; /* INT */
     Pointer q, r, s;
     HalfWord bchar;
     /*:901*/
@@ -33,11 +33,11 @@ void hyphenate(void) { /*:929*/ /*923:*/
     Pointer majortail, minortail, hyfnode;
     ASCIICode c = 0 /* XXXX */;
     /* char */ int cloc; /* INT */
-    long rcount;
+    Integer rcount;
     /*:912*/
     /*922:*/
     TriePointer z;
-    long v;
+    Integer v;
     /*:922*/
     /*929:*/
     HyphPointer h;

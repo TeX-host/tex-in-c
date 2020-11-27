@@ -101,7 +101,7 @@ void offsave(void) {
 void handlerightbrace(void) {
     Pointer p, q;
     Scaled d;
-    long f;
+    Integer f;
 
     switch (cur_group) {
         case simplegroup:
@@ -812,7 +812,7 @@ void appenditaliccorrection(void) {
 /*1117:*/
 void appenddiscretionary(void)
 {
-  long c;
+    Integer c;
 
   tailappend(new_disc());
   if (curchr == 1) {

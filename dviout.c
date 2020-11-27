@@ -59,8 +59,8 @@ typedef struct move* MovePtr;
 #undef HalfWord
 struct move {
     MovePtr linkf;
-    long widthf;
-    long locationf;
+    Integer widthf;
+    Integer locationf;
     char infof;
 };
 
@@ -894,7 +894,7 @@ void shipout(Pointer p) {
         str_cur_map(dviout_helper);
     }
     {
-        long cp[10];
+        Integer cp[10];
         for (k = 0; k <= 9; k++) {
             cp[k] = count(k);
         }
