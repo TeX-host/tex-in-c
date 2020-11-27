@@ -257,7 +257,7 @@ extern Pointer new_penalty(long m);
 
 // box_display
 extern void shortdisplay(Pointer p);
-extern void printspec(long p, StrNumber s);
+extern void printspec(Integer p, StrNumber s);
 extern void shownodelist(Integer p);
 extern void showbox(HalfWord p);
 

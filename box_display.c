@@ -146,8 +146,8 @@ void printglue(Scaled d, Integer order, StrNumber s) {
 } /* printglue */
 
 /// [#178] prints a glue specification.
-void printspec(long p, StrNumber s) {
-    if (/* p < MEM_MIN || */ p >= lo_mem_max) {
+void printspec(Integer p, StrNumber s) {
+    if (/* p < MEM_MIN || */ p >= (Integer)lo_mem_max) {
         print_char('*');
         return;
     }

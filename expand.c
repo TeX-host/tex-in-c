@@ -32,7 +32,7 @@ char readopen[17];
 /// [#489] top of the condition stack.
 Pointer condptr;
 /// [#489] upper bound on `fi_or_else` codes
-char iflimit;
+UChar iflimit;
 /// [#489] type of conditional being worked on
 SmallNumber curif;
 /// [#489] line where that conditional began
@@ -79,8 +79,6 @@ void expand_init() {
 /// [#396] If `longstate == outer_call`, 
 /// a runaway argument has already been reported.
 void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
-    HalfWord m;
-
     if (longstate == CALL) {
         runaway();
     #ifndef USE_REAL_STR
@@ -101,8 +99,8 @@ void report_argument(HalfWord unbalance, int n, Pointer* pstack) {
 
     pstack[n] = link(temphead);
     align_state -= unbalance;
-    for (m = 0; m <= n; m++) {
-        flush_list(pstack[m]);
+    for (int i = 0; i <= n; i++) {
+        flush_list(pstack[i]);
     }
 } // [#396] report_argument
 
@@ -312,8 +310,9 @@ void macrocall(Pointer refcount) {
             // "parameter stack size"
             if (maxparamstack > PARAM_SIZE) overflow(S(553), PARAM_SIZE);
         }
-        for (m = 0; m < n; m++)
-            paramstack[paramptr + m] = pstack[m];
+        for (int i = 0; i < n; i++) {
+            paramstack[paramptr + i] = pstack[i];
+        }
         paramptr += n;
     }
 _Lexit:

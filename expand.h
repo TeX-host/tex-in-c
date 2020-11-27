@@ -97,7 +97,7 @@ extern char readopen[17];
 
 extern Pointer condptr;
 // init only
-extern char iflimit;
+extern UChar iflimit;
 // init + final cleanup
 extern SmallNumber curif;
 extern Integer ifline;

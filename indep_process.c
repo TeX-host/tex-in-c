@@ -397,7 +397,7 @@ Static void newinteraction(void) {
 void prefixedcommand(void) {
     SmallNumber a; ///< accumulated prefix codes so far.
     InternalFontNumber f; ///< identifies a font.
-    HalfWord j; ///< index into a \\parshape specification.
+    Integer j; ///< index into a \\parshape specification.
     FontIndex k; ///< index into font_info.
     Pointer p, q; ///< for temporary short-term use.
     long n; ///< ditto.

@@ -648,8 +648,9 @@ void scan_int(void) {
         
         // [#445] Accumulate the constant until cur tok is not a suitable digit.
         while (true) {
-            if (curtok < ZERO_TOKEN + radix && curtok >= ZERO_TOKEN &&
-                curtok <= ZERO_TOKEN + 9)
+            if (   (int)curtok <  (ZERO_TOKEN + radix) 
+                && (int)curtok >=  ZERO_TOKEN 
+                && (int)curtok <= (ZERO_TOKEN + 9))
                 d = curtok - ZERO_TOKEN;
             else if (radix == 16) {
                 if (curtok <= A_TOKEN + 5 && curtok >= A_TOKEN)

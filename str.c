@@ -252,7 +252,8 @@ void str_print_stats(FILE* f_log_file) {
 }
 
 int str_undump(FILE* fmt_file, FILE* _not_use_) {
-    long x;
+    Integer x;
+
     /*:1308*/
     x = undump_int();
     if (x < 0) goto _Lbadfmt_;
@@ -261,6 +262,7 @@ int str_undump(FILE* fmt_file, FILE* _not_use_) {
         goto _Lbadfmt_;
     }
     pool_ptr = (PoolPtr)x;
+
     x = undump_int();
     if (x < 0) goto _Lbadfmt_;
     if (x > MAX_STRINGS) {
@@ -268,26 +270,29 @@ int str_undump(FILE* fmt_file, FILE* _not_use_) {
         goto _Lbadfmt_;
     }
     str_ptr = x;
+
     fread(str_start, 1, sizeof(str_start[0]) * (str_ptr + 1), fmt_file);
     fread(str_pool, 1, sizeof(str_pool[0]) * (long)pool_ptr, fmt_file);
     init_str_ptr = str_ptr;
 #if POOLPOINTER_IS_POINTER
-    for (x = 0; x <= str_ptr; x++) {
-        str_start[x] = str_pool + (long)str_start[x];
+    for (size_t i = 0; i <= str_ptr; i++) {
+        str_start[i] = str_pool + (long)str_start[i];
     }
     pool_ptr = str_pool + (long)pool_ptr;
 #endif
     init_pool_ptr = pool_ptr; /*:1310*/
     return 1;
+
 _Lbadfmt_:
     return 0;
 }
 
 void str_dump(FILE* fmt_file) {
     long poolused;
+    Pointer x;
+
 #if POOLPOINTER_IS_POINTER
     /* Convert for dumping */
-    long x;
     for (x = 0; x <= str_ptr; x++) {
         str_start[x] = (PoolPtr)(str_start[x] - str_pool);
     }

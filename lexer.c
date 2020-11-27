@@ -711,7 +711,7 @@ void endtokenlist(void) {
         } else {
             delete_token_ref(START);
             if (token_type == MACRO) {
-                while (paramptr > param_start) {
+                while (paramptr > (int)param_start) {
                     paramptr--;
                     flush_list(paramstack[paramptr]);
                 }
@@ -1149,7 +1149,7 @@ _getnext_LN__restart:
                             && (c = buffer[k + 1]) < 128) {
                             d = 2;
 
-                            if (ishex(c) && (k + 2) <= LIMIT) {
+                            if (ishex(c) && (k + 2) <= (int)LIMIT) {
                                 cc = buffer[k + 2];
                                 if (ishex(cc)) d++;
                             }
@@ -1189,7 +1189,7 @@ _getnext_LN__restart:
                             d = 2;
 
                             cc = buffer[k + 2];
-                            if (ishex(c) && (k + 2) <= LIMIT && ishex(cc)) {
+                            if (ishex(c) && (k + 2) <= (int)LIMIT && ishex(cc)) {
                                 d++;
                             }
                             if (d > 2) {
@@ -1421,7 +1421,7 @@ void get_next(void) { _get_next_helper(true); }
 /// [#363] If the user has set the pausing parameter to some positive value, and
 /// if nonstop mode has not beenselected.
 void firm_up_the_line(void) {
-    short k;
+    Pointer k;
     // #363:
     // 340, 362, [363], 538
 

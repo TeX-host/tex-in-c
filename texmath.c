@@ -127,7 +127,7 @@ Scaled xn_over_d(Scaled x, Integer n, Integer d) {
     t = (x % HALF) * n;
     u = (x / HALF) * n + (t / HALF);
     v = (u % d) * HALF + (t % HALF);
-    if ((u / d) >= HALF) {
+    if (((Integer)u / d) >= HALF) {
         arith_error = true;
     } else {
         u = (u / d) * HALF + (v / d);

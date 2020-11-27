@@ -344,7 +344,7 @@ void print_roman_int(Integer n) {
     j = 0;
     v = 1000;
     while (true) {
-        while (n >= v) {
+        while (n >= (Integer)v) {
             print_char(romstr[j]);
             n -= v;
         }

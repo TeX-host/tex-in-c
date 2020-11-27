@@ -286,16 +286,16 @@ int fonts_undump() {
 
         parambase[k] = undump_int();
         x = undump_int();
-        if ((long)x > get_lo_mem_max()) goto _LN_badfmt;
+        if (x > (Integer)get_lo_mem_max()) goto _LN_badfmt;
         fontglue[k] = x;
         x = undump_int();
-        if ((long)x >= fmemptr) goto _LN_badfmt;
+        if (x >= (Integer)fmemptr) goto _LN_badfmt;
         bcharlabel[k] = x;
         x = undump_int();
-        if ((unsigned long)x > NON_CHAR) goto _LN_badfmt;
+        if (x > (Integer)NON_CHAR) goto _LN_badfmt;
         fontbchar[k] = x;
         x = undump_int();
-        if ((unsigned long)x > NON_CHAR) goto _LN_badfmt;
+        if (x > (Integer)NON_CHAR) goto _LN_badfmt;
         fontfalsebchar[k] = x;
     }
     return true;
@@ -610,7 +610,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
             case LIST_TAG: 
                 // #570: Check for charlist cycle
                 if (d < bc || d > ec) goto _L_bad_TFM;
-                while (d < (k + bc - fmemptr)) {
+                while (d < (int)(k + bc - fmemptr)) {
                     // N.B.: not qi(d), 
                     // since char base[f] hasn't been adjusted yet
                     qw = charinfo(f, d);
@@ -762,7 +762,7 @@ readfontinfo(Pointer u, StrNumber nom, StrNumber aire, Scaled s) {
 
 
     /// #575: Read font parameters
-    for (k = 1; k <= np; k++) {
+    for (k = 1; (int)k <= np; k++) {
         if (k == 1) {
             sw = getc(tfmfile);
             if (sw > 127) sw -= 256;
@@ -930,7 +930,7 @@ void findfontdimen(Boolean writing) {
             fontglue[f] = 0;
         }
 
-        if (n > fontparams[f]) {
+        if (n > (long)fontparams[f]) {
             if (f < fontptr) {
                 cur_val = fmemptr;
             } else { 
