@@ -802,7 +802,7 @@ int main(int argc, char* argv[]) {
     if (bad > 0) {
         fprintf(
             TERM_OUT,
-            "Ouch---my internal constants have been clobbered!---case %d\n",
+            "Ouch---my internal constants have been clobbered!---case %lld\n",
             bad);
         goto _LN_main__final_end;
     }
