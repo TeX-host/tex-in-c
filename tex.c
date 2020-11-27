@@ -105,7 +105,7 @@ Static void close_files_and_terminate(void) {
                     cs_count,
                     (long)HASH_SIZE);
             fprintf(log_file,
-                    " %d words of font info for %d font",
+                    " %ld words of font info for %d font",
                     fmemptr,
                     fontptr);
             if (fontptr != 1) {
@@ -115,7 +115,7 @@ Static void close_files_and_terminate(void) {
                     ", out of %ld for %ld\n",
                     (long)FONT_MEM_SIZE,
                     (long)FONT_MAX);
-            fprintf(log_file, " %d hyphenation exception", hyphcount);
+            fprintf(log_file, " %ld hyphenation exception", hyphcount);
             if (hyphcount != 1) {
                 fprintf(log_file, "s");
             }
