@@ -113,7 +113,7 @@ _Lrestart:
         }
         r = q - s;
         // [#128] Allocate from the top of node p and goto found
-        if (r > (p + 1)) {
+        if (r > (Integer)(p + 1)) {
             // store the remaining size
             node_size(p) = r - p;
             // start searching here next time
@@ -122,7 +122,7 @@ _Lrestart:
         }
 
         // [##129] Allocate entire node p and goto found
-        if (r == p && rlink(p) != p) {
+        if (r == (Integer)p && rlink(p) != p) {
             rover = rlink(p);
             t = llink(p);
             llink(rover) = t;
