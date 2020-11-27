@@ -488,7 +488,7 @@ _Ldone:;
             normalparagraph();
         }
         pushnest();
-        mode = -k;
+        mode = -1 * k;
         if (k == V_MODE) {
             prevdepth = ignoredepth;
             if (everyvbox != 0) begintokenlist(everyvbox, EVERY_VBOX_TEXT);

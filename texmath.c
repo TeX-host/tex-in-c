@@ -137,8 +137,9 @@ Scaled xn_over_d(Scaled x, Integer n, Integer d) {
         quotient = u;
         tex_remainder = (v % d);
     } else {
-        quotient = -u;
-        tex_remainder = -(v % d);
+        // use "-1 * var" fix warn C4146.
+        quotient = -1 * u;
+        tex_remainder = -1 * (v % d);
     }
     return quotient;
 } // #107: xn_over_d
