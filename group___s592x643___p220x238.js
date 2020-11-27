@@ -3,8 +3,8 @@ var group___s592x643___p220x238 =
     [ "MovePtr", "structmove.html", [
       [ "infof", "structmove.html#a79c01095825a05f9323d71012ce46a3e", null ],
       [ "linkf", "structmove.html#a1533d2f03c545e07443c6295c192253a", null ],
-      [ "locationf", "structmove.html#a5ec34278e3fa7f89415d00d0c78eadaa", null ],
-      [ "widthf", "structmove.html#a266f8d26cf6b5109aa85d738cea73df9", null ]
+      [ "locationf", "structmove.html#a19fe74a80307cc1989061b458284ea60", null ],
+      [ "widthf", "structmove.html#aaffd6be61a85b6e2a0c6c0225302c44f", null ]
     ] ],
     [ "FREE_NODE", "group___s592x643___p220x238.html#gaa528c48a3474cb1bdb282816f7826598", null ],
     [ "ID_BYTE", "group___s592x643___p220x238.html#gafb3730cc4d3cb24974fc9d2b2274679c", null ],
@@ -31,7 +31,7 @@ var group___s592x643___p220x238 =
       [ "Z_SEEN", "group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb", null ]
     ] ],
     [ "_dvi_lastbop", "group___s592x643___p220x238.html#gad9296e21fea6252b2d1c9c392e227ad3", null ],
-    [ "_dvibop", "group___s592x643___p220x238.html#gab043719c412e39d11e805cc720fd45ad", null ],
+    [ "_dvibop", "group___s592x643___p220x238.html#ga72227225f6d28b1ebf58d201878503b5", null ],
     [ "dvi_font_def", "group___s592x643___p220x238.html#ga7d4c09eed90e56fd4cce1caf0252aadd", null ],
     [ "dvi_four", "group___s592x643___p220x238.html#ga85e142366e0344dab160b89a36ed2c8c", null ],
     [ "dvi_openout", "group___s592x643___p220x238.html#ga165559d2a5c3f9cf509f53bfafe6e917", null ],

@@ -21,7 +21,7 @@ var searchData=
   ['widowpenaltycode_2127',['widowpenaltycode',['../group___s220x255___p81x101.html#gga852dd81f66f39df1acf86bba9146d56dace6ba26bfcc041d843949a58ace0c8d6',1,'eqtb.h']]],
   ['width_2128',['width',['../group___s133x161___p50x57.html#ga3ce0f2deca56c201d8a649ee0ea0efa2',1,'width():&#160;box.h'],['../group___s592x643___p220x238.html#ga9978c9be0f4161638ec49b4eda697d42',1,'WIDTH():&#160;dviout.c']]],
   ['widthbase_2129',['widthbase',['../group___s539x582___p196x213.html#ga3ebfaadef569e7ef35d6d3c34fe266c1',1,'fonts.c']]],
-  ['widthf_2130',['widthf',['../structmove.html#a266f8d26cf6b5109aa85d738cea73df9',1,'move']]],
+  ['widthf_2130',['widthf',['../structmove.html#aaffd6be61a85b6e2a0c6c0225302c44f',1,'move']]],
   ['widthoffset_2131',['widthoffset',['../group___s133x161___p50x57.html#ga4b4d9555968516e85aba7241d3d40810',1,'box.h']]],
   ['wopenout_2132',['wopenout',['../group___s25x37___p13x18.html#ga4736780b3641ccec01c0262c859d6345',1,'io.h']]],
   ['worddefine_2133',['worddefine',['../main__ctrl_8h.html#a91fad6fa007f046d167fdedfa30f08be',1,'main_ctrl.h']]],

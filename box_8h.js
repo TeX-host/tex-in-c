@@ -107,7 +107,7 @@ var box_8h =
     [ "new_rule", "group___s133x161___p50x57.html#ga34a1491d093a3f0ccedeb2b8292cae6a", null ],
     [ "new_skip_param", "group___s133x161___p50x57.html#ga0d571b8e9f50944f209022b5b26f832e", null ],
     [ "new_spec", "group___s133x161___p50x57.html#ga9f6edfaf31a04da3809327321acdb20b", null ],
-    [ "printspec", "group___s173x198___p62x68.html#ga0d6199228e47c6685f4aaa1637287d6d", null ],
+    [ "printspec", "group___s173x198___p62x68.html#ga7ccac49b4943b33d7923b59e2d5ec07b", null ],
     [ "shortdisplay", "group___s173x198___p62x68.html#gaf454c271e970571a10036b79e8b2819a", null ],
     [ "showbox", "group___s173x198___p62x68.html#ga04f61371be3d9d487f8fe99248a68d65", null ],
     [ "shownodelist", "group___s173x198___p62x68.html#gadbdb78792fd420f03f561aa28c06f9fd", null ],

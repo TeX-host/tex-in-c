@@ -15,7 +15,7 @@ var io_8h =
     [ "a_open_out", "io_8h.html#ad799676c859f77ee4169bd73ede2deff", null ],
     [ "aclose", "group___s25x37___p13x18.html#ga9f154f2dfeb0b8da49f2cf43144bc00b", null ],
     [ "b_make_name_string", "group___s511x538___p188x195.html#gaf2150d12e26f718cd0876b034e4cab32", null ],
-    [ "fix_date_and_time", "io_8h.html#a859f35e60fecb88783843d2dd4501cc5", null ],
+    [ "fix_date_and_time", "group___s220x255___p81x101.html#ga0615a7b731bf1e98831e5317be7440e1", null ],
     [ "fname_init", "group___s511x538___p188x195.html#gad3a60f3655b7e3b87e11e9e5ddb6ee43", null ],
     [ "initinc", "io_8h.html#aadec5fbb8dd724bd9330dc00a72ec565", null ],
     [ "initterminal", "group___s25x37___p13x18.html#ga1f1073c5dd81f5b251fe464195214a19", null ],

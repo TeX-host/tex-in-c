@@ -23,7 +23,7 @@ var dviout_8c =
       [ "Z_SEEN", "group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb", null ]
     ] ],
     [ "_dvi_lastbop", "group___s592x643___p220x238.html#gad9296e21fea6252b2d1c9c392e227ad3", null ],
-    [ "_dvibop", "group___s592x643___p220x238.html#gab043719c412e39d11e805cc720fd45ad", null ],
+    [ "_dvibop", "group___s592x643___p220x238.html#ga72227225f6d28b1ebf58d201878503b5", null ],
     [ "dvi_font_def", "group___s592x643___p220x238.html#ga7d4c09eed90e56fd4cce1caf0252aadd", null ],
     [ "dvi_four", "group___s592x643___p220x238.html#ga85e142366e0344dab160b89a36ed2c8c", null ],
     [ "dvi_openout", "group___s592x643___p220x238.html#ga165559d2a5c3f9cf509f53bfafe6e917", null ],
