@@ -962,9 +962,10 @@ long get_dvi_mark(void) { return dvi_offset + dvi_ptr; }
 Boolean dvi_openout(void) { return a_open_out(&dvifile); }
 
 /// used in [p236#638]: shipout
-void _dvibop(long counts[]) {
+void _dvibop(Integer counts[]) {
     // page_loc: [638], 640
-    long pageloc = dvi_offset + dvi_ptr;
+    Integer pageloc = dvi_offset + dvi_ptr;
+
     dviout(BOP);
     for (int k = 0; k <= 9; k++) {
         dvi_four(counts[k]);

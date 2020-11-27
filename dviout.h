@@ -60,7 +60,7 @@ extern void dviout_XXX4(void);
 
 extern long get_dvi_mark(void);
 extern Boolean dvi_openout(void);
-extern void _dvibop(long counts[]);
+extern void _dvibop(Integer counts[]);
 extern void _dvi_lastbop(void);
 extern void dvi_set_font(int f);
 extern void dvi_set_char(long c);

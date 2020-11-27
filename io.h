@@ -64,8 +64,8 @@ extern Boolean initterminal(void);
 extern int PASCAL_MAIN(int argc, char** argv);
 extern Boolean initinc(int _not_use_);
 extern Boolean open_fmt(FILE** fmt);
-extern void fix_date_and_time(long* tex_time_p, long* day_p, long* month_p,
-                              long* year_p);
+extern void fix_date_and_time(Integer* p_time, Integer* p_day, Integer* p_month,
+                              Integer* p_year);
 extern Boolean need_to_load_format;
 
 // [funcs], fonts, tex
