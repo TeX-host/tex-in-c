@@ -4,7 +4,7 @@
 #define INC_TEX_TYPES
 #include <stdbool.h>
 #include <stdint.h>
-
+#include <stddef.h> // size_t
 
 #ifdef _STDBOOL
 // use <stdbool.h>
@@ -52,9 +52,9 @@ typedef unsigned char   UChar;      ///< `UChar(8)` = [0, 255]
 typedef UChar           Char;       ///< `Char(8)` = [0, 255]
 typedef signed char     SChar;      ///< `SChar(8)` = [−127, +127]
 
-typedef long            Integer;    ///< `Integer::long(32/64)`
-typedef unsigned long   UInteger;   ///< `Integer::ulong(32/64)`
-typedef unsigned int    Pointer;    ///< `Pointer::Uint(32)`
+typedef long long       Integer;    ///< `Integer::long(32/64)`
+typedef unsigned long long UInteger; ///< `Integer::ulong(32/64)`
+typedef size_t          Pointer;    ///< `Pointer::Uint(32)`
 
 typedef short           Int16;  ///< `Int16(16)` = @f$ [-2^{15}, 2^{15}) @f$
 typedef unsigned short  UInt16; ///< `UInt16(16)` = @f$ [0, 2^{16}) @f$ = [0, 65536)
@@ -127,8 +127,8 @@ typedef uint16_t QuarterWord; ///< [p43#113]: `QuarterWord(8=>16)` .
 typedef uint32_t HalfWord;    ///< [p43#113]: `HalfWord(16=>32)` .
 #else
 // fallback
-typedef unsigned short QuarterWord; ///< [p43#113]: `QuarterWord(8=>16)` .
-typedef int HalfWord;               ///< [p43#113]: `HalfWord(16=>32)` .
+typedef unsigned short  QuarterWord;    ///< [p43#113]: `QuarterWord(8=>16)` .
+typedef unsigned int    HalfWord;       ///< [p43#113]: `HalfWord(16=>32)` .
 #endif // _STDINT
 
 // _NOT_USE_
