@@ -74,7 +74,7 @@ enum DVICommands {
     FNT3,
     FNT4,
 
-    XXX1 = 239, ///< extension to DVI primitives
+    XXX1 = 235, ///< extension to DVI primitives
     XXX2,
     XXX3,
     XXX4,       ///< potentially long extension to DVI primitives.
