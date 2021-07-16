@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: PART 6: Reporting errors</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.20 -->
+<!-- 制作者 Doxygen 1.9.1 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -120,17 +120,17 @@ $(document).ready(function(){initNavTree('group___s72x98___p30x37.html',''); ini
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 枚举</h2></td></tr>
-<tr class="memitem:gacf712bc9fc9deb7b38a84a32339e06be"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s72x98___p30x37.html#gacf712bc9fc9deb7b38a84a32339e06be">UserInteractionMode</a> { <a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea4ca5f681398ece50290f5bdd58dc2da2">BATCH_MODE</a>, 
-<a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea07de5a56d977f232fd19633d5d0a7e2f">NON_STOP_MODE</a>, 
-<a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea2262cbb37b8cfc382b17f613781418fb">SCROLL_MODE</a>, 
-<a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06beaa4d7f0f8fa00cc9b877d974f716a748e">ERROR_STOP_MODE</a>
+<tr class="memitem:gacf712bc9fc9deb7b38a84a32339e06be"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s72x98___p30x37.html#gacf712bc9fc9deb7b38a84a32339e06be">UserInteractionMode</a> { <a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea4ca5f681398ece50290f5bdd58dc2da2">BATCH_MODE</a>
+, <a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea07de5a56d977f232fd19633d5d0a7e2f">NON_STOP_MODE</a>
+, <a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06bea2262cbb37b8cfc382b17f613781418fb">SCROLL_MODE</a>
+, <a class="el" href="group___s72x98___p30x37.html#ggacf712bc9fc9deb7b38a84a32339e06beaa4d7f0f8fa00cc9b877d974f716a748e">ERROR_STOP_MODE</a>
  }</td></tr>
 <tr class="memdesc:gacf712bc9fc9deb7b38a84a32339e06be"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p30#73]: four settings, representing increasing amounts of user interaction.  <a href="group___s72x98___p30x37.html#gacf712bc9fc9deb7b38a84a32339e06be">更多...</a><br /></td></tr>
 <tr class="separator:gacf712bc9fc9deb7b38a84a32339e06be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88f6d947bf467e369055535af5907aa1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s72x98___p30x37.html#ga88f6d947bf467e369055535af5907aa1">ErrorLevel</a> { <a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a2d685bce051b30dfa777412428e0040b">SPOTLESS</a> = 0, 
-<a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a852b5d2acdfbb6e2cfcdfb670aa63b95">WARNING_ISSUED</a>, 
-<a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1aca88c31c10493f1ae99e821bc6d83164">ERROR_MESSAGE_ISSUED</a>, 
-<a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a8ee7bd6f21612e266557c50617ef7cc3">FATAL_ERROR_STOP</a>
+<tr class="memitem:ga88f6d947bf467e369055535af5907aa1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s72x98___p30x37.html#ga88f6d947bf467e369055535af5907aa1">ErrorLevel</a> { <a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a2d685bce051b30dfa777412428e0040b">SPOTLESS</a> = 0
+, <a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a852b5d2acdfbb6e2cfcdfb670aa63b95">WARNING_ISSUED</a>
+, <a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1aca88c31c10493f1ae99e821bc6d83164">ERROR_MESSAGE_ISSUED</a>
+, <a class="el" href="group___s72x98___p30x37.html#gga88f6d947bf467e369055535af5907aa1a8ee7bd6f21612e266557c50617ef7cc3">FATAL_ERROR_STOP</a>
  }</td></tr>
 <tr class="memdesc:ga88f6d947bf467e369055535af5907aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p31#76]: four possible values for the worst level of error that has been detected.  <a href="group___s72x98___p30x37.html#ga88f6d947bf467e369055535af5907aa1">更多...</a><br /></td></tr>
 <tr class="separator:ga88f6d947bf467e369055535af5907aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -995,7 +995,7 @@ $(document).ready(function(){initNavTree('group___s72x98___p30x37.html',''); ini
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

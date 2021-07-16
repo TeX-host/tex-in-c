@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: align.h 源文件</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.20 -->
+<!-- 制作者 Doxygen 1.9.1 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('align_8h_source.html',''); initResizab
 <div class="contents">
 <a href="align_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#ifndef INC_ALGIN_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define INC_ALGIN_H</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="align_8h.html#a4f93f6e812f00b0f46e7101ef9c93b4c">    4</a></span>&#160;<span class="preprocessor">#define INC_ALGIN_H</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="global_8h.html">global.h</a>&quot;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">// [type] Pointer, Boolean</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="mem_8h.html">mem.h</a>&quot;</span>       <span class="comment">// [var] mem; [macro] info, link</span></div>
@@ -104,9 +104,9 @@ $(document).ready(function(){initNavTree('align_8h_source.html',''); initResizab
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="eqtb_8h.html">eqtb.h</a>&quot;</span>      <span class="comment">// [const] FROZEN_END_TEMPLATE</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define upart(x)        mem[x + heightoffset].int_</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#define vpart(x)        mem[x + depthoffset].int_</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#define extrainfo(x)    info(x + listoffset)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#ga3db9f3669b44c3d1699139f28db4fcda">   17</a></span>&#160;<span class="preprocessor">#define upart(x)        mem[x + heightoffset].int_</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#gaa0f37c54cd69cdd1d263f8842a28edaf">   19</a></span>&#160;<span class="preprocessor">#define vpart(x)        mem[x + depthoffset].int_</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#gaefc0165a86bdbdc124a948c423365f50">   21</a></span>&#160;<span class="preprocessor">#define extrainfo(x)    info(x + listoffset)</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#gae38b11c931b54b67578b7417bd33cf1b">   24</a></span>&#160;<span class="preprocessor">#define preamble        link(alignhead)</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
@@ -118,8 +118,7 @@ $(document).ready(function(){initNavTree('align_8h_source.html',''); initResizab
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#ga64156838ac0a67bc1e7921c720069fde">   31</a></span>&#160;<span class="preprocessor">#define crcrcode            (crcode + 1)</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#ga3bb2c41773c7a4dcaadee146d28773cf">   32</a></span>&#160;<span class="preprocessor">#define endtemplatetoken    (CS_TOKEN_FLAG + FROZEN_END_TEMPLATE)</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// [p294#797]</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#ga81ebcc9587c99992bb8ca0d5cbf92418">   34</a></span>&#160;<span class="preprocessor">#define spannodesize        2</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; <span class="comment">// end group S768x812_P285x301</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="group___s768x812___p285x301.html#ga81ebcc9587c99992bb8ca0d5cbf92418">   34</a></span>&#160;<span class="preprocessor">#define spannodesize        2</span> <span class="comment">// end group S768x812_P285x301</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">extern</span> <a class="code" href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a> <a class="code" href="group___s768x812___p285x301.html#ga78be80b447ba9f5fef0682a0faf4821e">curalign</a>;</div>
@@ -131,26 +130,26 @@ $(document).ready(function(){initNavTree('align_8h_source.html',''); initResizab
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___s768x812___p285x301.html#gabbfb7fd09994a199e27bf006b6708462">alignpeek</a>();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* INC_ALGIN_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="abox_8h_html"><div class="ttname"><a href="box_8h.html">box.h</a></div></div>
+<div class="ttc" id="aeqtb_8h_html"><div class="ttname"><a href="eqtb_8h.html">eqtb.h</a></div></div>
+<div class="ttc" id="aglobal_8h_html"><div class="ttname"><a href="global_8h.html">global.h</a></div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_ga0dfcdcfca243b8bc38a56bc5f8675d21"><div class="ttname"><a href="group___s768x812___p285x301.html#ga0dfcdcfca243b8bc38a56bc5f8675d21">finrow</a></div><div class="ttdeci">void finrow()</div><div class="ttdef"><b>Definition:</b> align.c:473</div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_ga494f190e7e77851bccf74a759090aaee"><div class="ttname"><a href="group___s768x812___p285x301.html#ga494f190e7e77851bccf74a759090aaee">align_init</a></div><div class="ttdeci">void align_init()</div><div class="ttdoc">[#771]</div><div class="ttdef"><b>Definition:</b> align.c:34</div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_ga78be80b447ba9f5fef0682a0faf4821e"><div class="ttname"><a href="group___s768x812___p285x301.html#ga78be80b447ba9f5fef0682a0faf4821e">curalign</a></div><div class="ttdeci">Pointer curalign</div><div class="ttdoc">[#770] current position in preamble list.</div><div class="ttdef"><b>Definition:</b> align.c:22</div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_gab1c55df3dc030fb5f8d27efc16f24b04"><div class="ttname"><a href="group___s768x812___p285x301.html#gab1c55df3dc030fb5f8d27efc16f24b04">fincol</a></div><div class="ttdeci">Boolean fincol()</div><div class="ttdoc">[#791]</div><div class="ttdef"><b>Definition:</b> align.c:306</div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_gabbfb7fd09994a199e27bf006b6708462"><div class="ttname"><a href="group___s768x812___p285x301.html#gabbfb7fd09994a199e27bf006b6708462">alignpeek</a></div><div class="ttdeci">void alignpeek()</div><div class="ttdef"><b>Definition:</b> align.c:783</div></div>
+<div class="ttc" id="agroup___s768x812___p285x301_html_gae240163ab5bd073e230cd1bcaa074aee"><div class="ttname"><a href="group___s768x812___p285x301.html#gae240163ab5bd073e230cd1bcaa074aee">initalign</a></div><div class="ttdeci">void initalign()</div><div class="ttdoc">[#774] When \halign or \valign has been scanned, get everything off to a good start.</div><div class="ttdef"><b>Definition:</b> align.c:110</div></div>
+<div class="ttc" id="alexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
+<div class="ttc" id="amem_8h_html"><div class="ttname"><a href="mem_8h.html">mem.h</a></div></div>
+<div class="ttc" id="atex__types_8h_html_a3597948313fb049b8a41160f601b7c78"><div class="ttname"><a href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></div><div class="ttdeci">size_t Pointer</div><div class="ttdoc">Pointer::size_t(64), a flag or a location in mem or eqtb.</div><div class="ttdef"><b>Definition:</b> tex_types.h:45</div></div>
+<div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aglobal_8h_html"><div class="ttname"><a href="global_8h.html">global.h</a></div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_ga78be80b447ba9f5fef0682a0faf4821e"><div class="ttname"><a href="group___s768x812___p285x301.html#ga78be80b447ba9f5fef0682a0faf4821e">curalign</a></div><div class="ttdeci">Pointer curalign</div><div class="ttdoc">[#770] current position in preamble list.</div><div class="ttdef"><b>Definition:</b> align.c:22</div></div>
-<div class="ttc" id="atex__types_8h_html_a3597948313fb049b8a41160f601b7c78"><div class="ttname"><a href="tex__types_8h.html#a3597948313fb049b8a41160f601b7c78">Pointer</a></div><div class="ttdeci">size_t Pointer</div><div class="ttdoc">Pointer::size_t(64), a flag or a location in mem or eqtb.</div><div class="ttdef"><b>Definition:</b> tex_types.h:45</div></div>
-<div class="ttc" id="abox_8h_html"><div class="ttname"><a href="box_8h.html">box.h</a></div></div>
-<div class="ttc" id="alexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_ga494f190e7e77851bccf74a759090aaee"><div class="ttname"><a href="group___s768x812___p285x301.html#ga494f190e7e77851bccf74a759090aaee">align_init</a></div><div class="ttdeci">void align_init()</div><div class="ttdoc">[#771]</div><div class="ttdef"><b>Definition:</b> align.c:34</div></div>
-<div class="ttc" id="atex__types_8h_html_a3790b6de8c45ebee9af548380c3fb8d2"><div class="ttname"><a href="tex__types_8h.html#a3790b6de8c45ebee9af548380c3fb8d2">Boolean</a></div><div class="ttdeci">bool Boolean</div><div class="ttdoc">布尔类型定义</div><div class="ttdef"><b>Definition:</b> tex_types.h:11</div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_gabbfb7fd09994a199e27bf006b6708462"><div class="ttname"><a href="group___s768x812___p285x301.html#gabbfb7fd09994a199e27bf006b6708462">alignpeek</a></div><div class="ttdeci">void alignpeek()</div><div class="ttdef"><b>Definition:</b> align.c:783</div></div>
-<div class="ttc" id="aeqtb_8h_html"><div class="ttname"><a href="eqtb_8h.html">eqtb.h</a></div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_ga0dfcdcfca243b8bc38a56bc5f8675d21"><div class="ttname"><a href="group___s768x812___p285x301.html#ga0dfcdcfca243b8bc38a56bc5f8675d21">finrow</a></div><div class="ttdeci">void finrow()</div><div class="ttdef"><b>Definition:</b> align.c:473</div></div>
-<div class="ttc" id="amem_8h_html"><div class="ttname"><a href="mem_8h.html">mem.h</a></div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_gae240163ab5bd073e230cd1bcaa074aee"><div class="ttname"><a href="group___s768x812___p285x301.html#gae240163ab5bd073e230cd1bcaa074aee">initalign</a></div><div class="ttdeci">void initalign()</div><div class="ttdoc">[#774] When \halign or \valign has been scanned, get everything off to a good start.</div><div class="ttdef"><b>Definition:</b> align.c:110</div></div>
-<div class="ttc" id="agroup___s768x812___p285x301_html_gab1c55df3dc030fb5f8d27efc16f24b04"><div class="ttname"><a href="group___s768x812___p285x301.html#gab1c55df3dc030fb5f8d27efc16f24b04">fincol</a></div><div class="ttdeci">Boolean fincol()</div><div class="ttdoc">[#791]</div><div class="ttdef"><b>Definition:</b> align.c:306</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="align_8h.html">align.h</a></li>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

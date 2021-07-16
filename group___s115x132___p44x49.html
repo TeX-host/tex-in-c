@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: PART 9: Dynamic memory allocation</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.20 -->
+<!-- 制作者 Doxygen 1.9.1 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -227,6 +227,11 @@ $(document).ready(function(){initNavTree('group___s115x132___p44x49.html',''); i
 <div class="line">            (x) = <a class="code" href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a>();          \</div>
 <div class="line">        }                               \</div>
 <div class="line">    } <span class="keywordflow">while</span> (0)</div>
+<div class="ttc" id="aglobal__macros_8h_html_a2a4899201bee368bebee21be9daa02aa"><div class="ttname"><a href="global__macros_8h.html#a2a4899201bee368bebee21be9daa02aa">charnodetype</a></div><div class="ttdeci">#define charnodetype</div><div class="ttdef"><b>Definition:</b> global_macros.h:11</div></div>
+<div class="ttc" id="agroup___s115x132___p44x49_html_ga982dbbf13554855c99a361ba283f30b9"><div class="ttname"><a href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a></div><div class="ttdeci">Pointer get_avail(void)</div><div class="ttdoc">[p45#120]: single-word node allocation.</div><div class="ttdef"><b>Definition:</b> mem.c:36</div></div>
+<div class="ttc" id="agroup___s115x132___p44x49_html_gab892ee525e4323e2a40eaca71a61a12d"><div class="ttname"><a href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a></div><div class="ttdeci">Pointer avail</div><div class="ttdoc">[#118] head of the list of available one-word nodes.</div><div class="ttdef"><b>Definition:</b> mem.c:27</div></div>
+<div class="ttc" id="agroup___s115x132___p44x49_html_gae54dbe23854a396dd642c99f01bc7a3e"><div class="ttname"><a href="group___s115x132___p44x49.html#gae54dbe23854a396dd642c99f01bc7a3e">link</a></div><div class="ttdeci">#define link(x)</div><div class="ttdoc">[p45#118] the link field of a memory word.</div><div class="ttdef"><b>Definition:</b> mem.h:16</div></div>
+<div class="ttc" id="agroup___s133x161___p50x57_html_ga2c6ae62bb0758231faf6069de17c711e"><div class="ttname"><a href="group___s133x161___p50x57.html#ga2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a></div><div class="ttdeci">#define CHAR_NODE_SIZE</div><div class="ttdef"><b>Definition:</b> box.h:38</div></div>
 </div><!-- fragment -->
 <p>[#122] avoid <a class="el" href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9" title="[p45#120]: single-word node allocation.">get_avail()</a> if possible, to save time. </p>
 
@@ -663,15 +668,10 @@ $(document).ready(function(){initNavTree('group___s115x132___p44x49.html',''); i
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aglobal__macros_8h_html_a2a4899201bee368bebee21be9daa02aa"><div class="ttname"><a href="global__macros_8h.html#a2a4899201bee368bebee21be9daa02aa">charnodetype</a></div><div class="ttdeci">#define charnodetype</div><div class="ttdef"><b>Definition:</b> global_macros.h:11</div></div>
-<div class="ttc" id="agroup___s133x161___p50x57_html_ga2c6ae62bb0758231faf6069de17c711e"><div class="ttname"><a href="group___s133x161___p50x57.html#ga2c6ae62bb0758231faf6069de17c711e">CHAR_NODE_SIZE</a></div><div class="ttdeci">#define CHAR_NODE_SIZE</div><div class="ttdef"><b>Definition:</b> box.h:38</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_ga982dbbf13554855c99a361ba283f30b9"><div class="ttname"><a href="group___s115x132___p44x49.html#ga982dbbf13554855c99a361ba283f30b9">get_avail</a></div><div class="ttdeci">Pointer get_avail(void)</div><div class="ttdoc">[p45#120]: single-word node allocation.</div><div class="ttdef"><b>Definition:</b> mem.c:36</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_gab892ee525e4323e2a40eaca71a61a12d"><div class="ttname"><a href="group___s115x132___p44x49.html#gab892ee525e4323e2a40eaca71a61a12d">avail</a></div><div class="ttdeci">Pointer avail</div><div class="ttdoc">[#118] head of the list of available one-word nodes.</div><div class="ttdef"><b>Definition:</b> mem.c:27</div></div>
-<div class="ttc" id="agroup___s115x132___p44x49_html_gae54dbe23854a396dd642c99f01bc7a3e"><div class="ttname"><a href="group___s115x132___p44x49.html#gae54dbe23854a396dd642c99f01bc7a3e">link</a></div><div class="ttdeci">#define link(x)</div><div class="ttdoc">[p45#118] the link field of a memory word.</div><div class="ttdef"><b>Definition:</b> mem.h:16</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

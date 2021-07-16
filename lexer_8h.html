@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: lexer.h 文件参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.20 -->
+<!-- 制作者 Doxygen 1.9.1 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -261,36 +261,36 @@ lexer.h 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 枚举</h2></td></tr>
 <tr class="memitem:gaaef195df981ef5801e8a98f7d559917d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaaef195df981ef5801e8a98f7d559917d">ScannerStatus</a> { <br />
-&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2">SKIPPING</a> = 1, 
-<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da638c27b7580307a0168713bcb4e9eb88">DEFINING</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da8675ba912c8e36b1fa6e12e54d39bbc9">MATCHING</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da14c8a1a916a2de0ea78a88f0a39b135f">ALIGNING</a>, 
-<br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917daf7ce7c07c6d756caf32ce81025f6dff2">SKIPPING</a> = 1
+, <a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da638c27b7580307a0168713bcb4e9eb88">DEFINING</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da8675ba912c8e36b1fa6e12e54d39bbc9">MATCHING</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da14c8a1a916a2de0ea78a88f0a39b135f">ALIGNING</a>
+, <br />
 &#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaaef195df981ef5801e8a98f7d559917da800b2b229a408c3f50bb165976d512c4">ABSORBING</a>
 <br />
  }</td></tr>
 <tr class="memdesc:gaaef195df981ef5801e8a98f7d559917d"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p124#305]: scanner status  <a href="group___s300x320___p121x130.html#gaaef195df981ef5801e8a98f7d559917d">更多...</a><br /></td></tr>
 <tr class="separator:gaaef195df981ef5801e8a98f7d559917d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa520fbf142ba1e7e659590c07da31921"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s300x320___p121x130.html#gaa520fbf142ba1e7e659590c07da31921">TokenType</a> { <br />
-&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a194cde856bd2d79eac8adb9741c55940">PARAMETER</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac02cbf9bd93b0eeb63301a25c2e4894f">U_TEMPLATE</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de">V_TEMPLATE</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7">BACKED_UP</a>, 
-<br />
-&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202">INSERTED</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3d1738a931468da77c233f1126436b81">MACRO</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3bb0dca181ca457a07bc8cbd1285ed89">OUTPUT_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a77a59c340556e777dee98be24a3a82e2">EVERY_PAR_TEXT</a>, 
-<br />
-&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921adbbfd800a60f8fdc891205568bfeb167">EVERY_MATH_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a22d72a40ff849916d4f0c8d33ddfa036">EVERY_DISPLAY_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac23adee5567df50548b842d8e0e60957">EVERY_HBOX_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921afb8a72ba0f9add48111ed42f07f02fc6">EVERY_VBOX_TEXT</a>, 
-<br />
-&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3065be20590bfae506f2dea28255987d">EVERY_JOB_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921af5f362a775e1ae0504555a9c15777191">EVERY_CR_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2">MARK_TEXT</a>, 
-<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313">WRITE_TEXT</a>
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a194cde856bd2d79eac8adb9741c55940">PARAMETER</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac02cbf9bd93b0eeb63301a25c2e4894f">U_TEMPLATE</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a61f08f4b8b212edf28ad8fe7f72818de">V_TEMPLATE</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac8f2ba9531f7f7ce612576fe6b70bcd7">BACKED_UP</a>
+, <br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a4e70b985250296ae77b3355708ea2202">INSERTED</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3d1738a931468da77c233f1126436b81">MACRO</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3bb0dca181ca457a07bc8cbd1285ed89">OUTPUT_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a77a59c340556e777dee98be24a3a82e2">EVERY_PAR_TEXT</a>
+, <br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921adbbfd800a60f8fdc891205568bfeb167">EVERY_MATH_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a22d72a40ff849916d4f0c8d33ddfa036">EVERY_DISPLAY_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921ac23adee5567df50548b842d8e0e60957">EVERY_HBOX_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921afb8a72ba0f9add48111ed42f07f02fc6">EVERY_VBOX_TEXT</a>
+, <br />
+&#160;&#160;<a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a3065be20590bfae506f2dea28255987d">EVERY_JOB_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921af5f362a775e1ae0504555a9c15777191">EVERY_CR_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a02e0f193c646b1b2745150b32684c5d2">MARK_TEXT</a>
+, <a class="el" href="group___s300x320___p121x130.html#ggaa520fbf142ba1e7e659590c07da31921a6b748e94b227c46bc23da47a23cbb313">WRITE_TEXT</a>
 <br />
  }</td></tr>
 <tr class="memdesc:gaa520fbf142ba1e7e659590c07da31921"><td class="mdescLeft">&#160;</td><td class="mdescRight">[p125#307]  <a href="group___s300x320___p121x130.html#gaa520fbf142ba1e7e659590c07da31921">更多...</a><br /></td></tr>
@@ -526,7 +526,7 @@ lexer.h 的引用(Include)关系图:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="lexer_8h.html">lexer.h</a></li>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['a_5fmake_5fname_5fstring_9',['a_make_name_string',['../group___s511x538___p188x195.html#gaa0e6f44129b87aa89510e0c0c08e02cc',1,'io_fname.c']]],
-  ['a_5fopen_5fin_10',['a_open_in',['../io_8h.html#a5e4ddc0fdcdd5309a467fd404cb97a33',1,'a_open_in(FILE **f):&#160;io_unix.c'],['../io__unix_8c.html#a5e4ddc0fdcdd5309a467fd404cb97a33',1,'a_open_in(FILE **f):&#160;io_unix.c']]],
+  ['a_5fopen_5fin_10',['a_open_in',['../io__unix_8c.html#a5e4ddc0fdcdd5309a467fd404cb97a33',1,'a_open_in(FILE **f):&#160;io_unix.c'],['../io_8h.html#a5e4ddc0fdcdd5309a467fd404cb97a33',1,'a_open_in(FILE **f):&#160;io_unix.c']]],
   ['a_5fopen_5fin1_11',['a_open_in1',['../io__unix_8c.html#acb3f53c21cb36b4092fd64d917647194',1,'io_unix.c']]],
   ['a_5fopen_5fout_12',['a_open_out',['../io_8h.html#ad799676c859f77ee4169bd73ede2deff',1,'a_open_out(FILE **f):&#160;io_unix.c'],['../io__unix_8c.html#ad799676c859f77ee4169bd73ede2deff',1,'a_open_out(FILE **f):&#160;io_unix.c']]],
   ['a_5ftoken_13',['A_TOKEN',['../group___s402x463___p155x173.html#gaa938155c6989125a7ea089589e38e1a3',1,'scan.c']]],

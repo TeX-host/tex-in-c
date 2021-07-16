@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.20"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>TeX in C: dviout.c 文件参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
@@ -41,10 +41,10 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- 制作者 Doxygen 1.8.20 -->
+<!-- 制作者 Doxygen 1.9.1 -->
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
-var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+var searchBox = new SearchBox("searchBox", "search",false,'搜索','.html');
 /* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
@@ -159,20 +159,20 @@ dviout.c 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 枚举</h2></td></tr>
 <tr class="memitem:ga81579d54c33287da8dfbbc424316db9c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#ga81579d54c33287da8dfbbc424316db9c">DVISetting</a> { <br />
-&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4c9de1c1d6074f604d6690a5cef568cf">Y_HERE</a> = 1, 
-<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4fdcc8d6aa9e9172d6d72efa083f3814">Z_HERE</a>, 
-<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca675d8288053a406dee73d000d6c47016">YZ_OK</a>, 
-<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca08faba1eb1dabf6cc9f51e855a528695">Y_OK</a>, 
-<br />
-&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9cac205528b8f025b1232f7c3fb6ddaf354">Z_OK</a>, 
-<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca91f33a3c062ca048301c7251e6a57d4e">D_FIXED</a>
+&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4c9de1c1d6074f604d6690a5cef568cf">Y_HERE</a> = 1
+, <a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca4fdcc8d6aa9e9172d6d72efa083f3814">Z_HERE</a>
+, <a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca675d8288053a406dee73d000d6c47016">YZ_OK</a>
+, <a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca08faba1eb1dabf6cc9f51e855a528695">Y_OK</a>
+, <br />
+&#160;&#160;<a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9cac205528b8f025b1232f7c3fb6ddaf354">Z_OK</a>
+, <a class="el" href="group___s592x643___p220x238.html#gga81579d54c33287da8dfbbc424316db9ca91f33a3c062ca048301c7251e6a57d4e">D_FIXED</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ga81579d54c33287da8dfbbc424316db9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">p224#608  <a href="group___s592x643___p220x238.html#ga81579d54c33287da8dfbbc424316db9c">更多...</a><br /></td></tr>
 <tr class="separator:ga81579d54c33287da8dfbbc424316db9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad2f66c8832d815fe00002d74e568a4e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gad2f66c8832d815fe00002d74e568a4e4">StackState</a> { <a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ae898a538a934415fd240487f18c38932">NONE_SEEN</a> = 0, 
-<a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ab0aa39c09b2f3521b296d88ccc4ebb94">Y_SEEN</a> = 6, 
-<a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb">Z_SEEN</a> = 12
+<tr class="memitem:gad2f66c8832d815fe00002d74e568a4e4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___s592x643___p220x238.html#gad2f66c8832d815fe00002d74e568a4e4">StackState</a> { <a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ae898a538a934415fd240487f18c38932">NONE_SEEN</a> = 0
+, <a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4ab0aa39c09b2f3521b296d88ccc4ebb94">Y_SEEN</a> = 6
+, <a class="el" href="group___s592x643___p220x238.html#ggad2f66c8832d815fe00002d74e568a4e4aa38bf144dca6e14d7c43e141ae274ddb">Z_SEEN</a> = 12
  }</td></tr>
 <tr class="memdesc:gad2f66c8832d815fe00002d74e568a4e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">P226#611  <a href="group___s592x643___p220x238.html#gad2f66c8832d815fe00002d74e568a4e4">更多...</a><br /></td></tr>
 <tr class="separator:gad2f66c8832d815fe00002d74e568a4e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -329,7 +329,7 @@ dviout.c 的引用(Include)关系图:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dviout_8c.html">dviout.c</a></li>
-    <li class="footer">制作者 <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>
